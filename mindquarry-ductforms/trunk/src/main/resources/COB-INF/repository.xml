@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<repository xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+	<url>${url}</url>
+	<entries>
+		<jx:forEach var="entry" items="${entries}">
+			<entry>
+				<name>${entry.name}</name>
+				<author>${entry.author}</author>
+				<revision>${entry.revision}</revision>
+			</entry>
+		</jx:forEach>
+	</entries>
+</repository>
