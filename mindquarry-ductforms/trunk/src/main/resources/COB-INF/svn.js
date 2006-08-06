@@ -1,5 +1,5 @@
 function showRepository() {
-	var svnBean = cocoon.getComponent("svn");
-	cocoon.sendPage("repository", { "url" : svnBean.repositoryUrl, 
+	var svnBean = cocoon.getComponent("svn-block");
+	cocoon.sendPage("repository-jx", { "url" : svnBean.repositoryUrl, 
 									"entries" : svnBean.repositoryEntries });
 }

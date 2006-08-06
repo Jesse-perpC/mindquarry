@@ -4,7 +4,7 @@
 	"http://www.springframework.org/dtd/spring-beans.dtd">
 
 <beans>
-	<bean id="svn"
+	<bean id="svn-block"
 		class="com.mindquarry.cocoon.subversion.SubversionBean"
 		singleton="true" />
 </beans>
