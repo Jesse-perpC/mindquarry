@@ -18,7 +18,10 @@
 		<div>
 			<ul>
 				<li>
-					<a href="svn">Subversion Block Example</a>
+					<a href="svn-block">Subversion Block Example</a>
+				</li>
+				<li>
+					<a href="svn-generator">Subversion Generator Example</a>
 				</li>
 			</ul>
 		</div>
