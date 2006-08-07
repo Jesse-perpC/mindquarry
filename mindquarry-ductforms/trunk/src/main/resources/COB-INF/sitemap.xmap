@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-	<map:generators>
-		<map:generator name="svnGenerator"
-			src="com.mindquarry.cocoon.subversion.generator.SubversionGenerator" />
-	</map:generators>
+	<map:components>
+		<map:generators>
+			<map:generator name="svnGenerator"
+				src="com.mindquarry.cocoon.subversion.generator.SubversionGenerator" />
+		</map:generators>
+	</map:components>
 
 	<map:flow language="javascript">
 		<map:script src="svn.js" />
@@ -29,7 +31,7 @@
 				<map:transform src="repository2html.xsl" />
 				<map:serialize type="xhtml" />
 			</map:match>
-			
+
 			<map:match pattern="svn-generator">
 				<map:generate type="svnGenerator" />
 				<map:transform src="repository2html.xsl" />
