@@ -1,0 +1,10 @@
+@CHARSET "UTF-8";
+
+body {
+	font-family: Tahoma, Verdana, Sans-Serif, sans, Arial, Helvetica;
+	font-size: 12px;
+}
+
+div {
+	margin-bottom: 12px;
+}
