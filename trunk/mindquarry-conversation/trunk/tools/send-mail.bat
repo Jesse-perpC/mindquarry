@@ -1,0 +1,1 @@
+MAILSEND -d example.org -smtp 127.0.0.1 -f test@test.domain.com -t test@localhost -sub "test mail" -m msg.txt
