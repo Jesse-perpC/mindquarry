@@ -16,5 +16,7 @@
   limitations under the License.
 -->
 <beans>
-	<bean id="demo" class="demo.MyBean" singleton="true"/>
+	<!-- 
+		<bean id="demo" class="demo.MyBean" singleton="true"/>
+	 -->
 </beans>
