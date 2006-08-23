@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<components>
+  <source-factories>
+    <!-- xmldb pseudo protocol -->
+    <component-instance class="org.apache.cocoon.components.source.impl.XMLDBSourceFactory" name="xmldb">
+      <driver class="org.apache.xindice.client.xmldb.DatabaseImpl" type="xindice-embed">
+        <managed>true</managed>
+      </driver>
+      <!-- this is for monetdb, which has no support for collection management -->
+      <!-- 
+      <driver class="nl.cwi.monetdb.xmldb.base.MonetDBDatabase" type="monetdb" user="monetdb" password="monetdb" />
+       -->
+      
+      <!-- embedded exist database -->
+      <driver class="org.exist.xmldb.DatabaseImpl" type="exist"/>
+      
+    </component-instance>
+  </source-factories>
+</components>
