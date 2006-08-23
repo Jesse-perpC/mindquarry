@@ -19,8 +19,14 @@
 		<map:transformers default="xslt">
 			<map:transformer name="xmldb"
 				src="org.apache.cocoon.transformation.XMLDBTransformer">
-				<!-- using embedded xindice database -->
-				<base>xmldb:xindice-embed:///db</base>
+				<!-- using monetdb database -->
+				<!-- 
+					<driver>nl.cwi.monetdb.xmldb.base.MonetDBDatabase</driver>
+					<user>monetdb</user>
+					<password>monetdb</password>
+				-->
+				<driver>org.exist.xmldb.DatabaseImpl</driver>
+				<base>xmldb:exist:///db</base>
 			</map:transformer>
 			<!-- the browser-update transformer is needed for AJAX -->
 			<map:transformer name="browser-update"
@@ -83,9 +89,9 @@
 				<map:select type="resource-exists">
 					<!-- if it exists, show the HTML -->
 					<map:when
-						test="xmldb:xindice-embed:///db/test/{1}.xml">
+						test="xmldb:exist:///db/test/{1}.xml">
 						<map:generate
-							src="xmldb:xindice-embed:///db/test/{1}.xml" />
+							src="xmldb:exist:///db/test/{1}.xml" />
 						<map:transform type="html">
 							<map:parameter name="tags"
 								value="description" />
@@ -100,7 +106,7 @@
 						<map:call function="handleForm">
 							<map:parameter name="function"
 								value="addJob" />
-							<map:parameter name="jobname" value="{1}"/>
+							<map:parameter name="jobname" value="{1}" />
 							<!-- in the original example this was configurable -->
 							<!-- <map:parameter name="renderMode" value="jx" /> -->
 							<map:parameter name="definitionURI"
@@ -114,10 +120,9 @@
 				<!-- test for existance of a database collection -->
 				<map:select type="resource-exists">
 					<!-- if it exists, show the list of jobs -->
-					<map:when
-						test="xmldb:xindice-embed:///db/test/">
+					<map:when test="xmldb:exist:///db/test/">
 						<map:generate
-							src="xmldb:xindice-embed:///db/test/" />
+							src="xmldb:exist:///db/test/" />
 						<map:transform
 							src="xslt/xmldb/collection2new.xsl" />
 						<map:transform
