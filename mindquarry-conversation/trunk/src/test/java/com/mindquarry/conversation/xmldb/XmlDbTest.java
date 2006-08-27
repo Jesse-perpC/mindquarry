@@ -1,4 +1,7 @@
-package com.mindquarry.conversation.mailets;
+/*
+ * Copyright (C) 2006, Mindquarry GmbH 
+ */
+package com.mindquarry.conversation.xmldb;
 
 import junit.framework.TestCase;
 
@@ -12,6 +15,9 @@ import org.xmldb.api.base.XMLDBException;
 import org.xmldb.api.modules.XMLResource;
 import org.xmldb.api.modules.XPathQueryService;
 
+/**
+ * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
+ */
 public class XmlDbTest extends TestCase {
 	private static final String URI = "xmldb:exist://localhost:8080/exist/xmlrpc/db";
 
@@ -39,11 +45,18 @@ public class XmlDbTest extends TestCase {
 				System.out.println(res.getContent());
 			}
 		} else {
-			XMLResource res = (XMLResource)col.getResource("/rss");
-	        if(res == null)
-	            System.out.println("document not found!");
-	        else
-	            System.out.println(res.getContent());
+			 XMLResource res = (XMLResource)col.getChildCollection("addresses");
+			 if(res == null)
+				 System.out.println("document not found!");
+			 else
+				 System.out.println(res.getContent());
+//			Collection root = DatabaseManager.getCollection(URI);
+//			CollectionManagementService mgtService = (CollectionManagementService) root
+//					.getService("CollectionManagementService", "1.0");
+//
+//			col = mgtService.createCollection("test");
+//			XMLResource document = (XMLResource) col.createResource(null,
+//					"XMLResource");
 		}
 		col.close();
 	}
