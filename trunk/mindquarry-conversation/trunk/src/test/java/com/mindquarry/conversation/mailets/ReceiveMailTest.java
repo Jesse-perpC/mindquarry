@@ -9,23 +9,22 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
-import javax.mail.Address;
+import javax.mail.Flags;
+import javax.mail.Folder;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Session;
-import javax.mail.Transport;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
+import javax.mail.Store;
 
 import junit.framework.TestCase;
 
 /**
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
-public class SendMailTest extends TestCase {
+public class ReceiveMailTest extends TestCase {
 	private static final String P_FILE_NAME = "src/test/resources/mail.properties";
 
-	public void testSendMail() throws IOException, MessagingException {
+	public void testReceiveMail() throws IOException, MessagingException {
 		File pFile = new File(P_FILE_NAME);
 		InputStream pis = new FileInputStream(pFile);
 
@@ -36,18 +35,27 @@ public class SendMailTest extends TestCase {
 		props.store(System.out, null);
 		System.out.println("\n");
 		
-		Address from = new InternetAddress("test@example.org", "Test User");
-		Address to = new InternetAddress("test@example.org", "Test User");
-
 		Session session = Session.getDefaultInstance(props, null);
-		MimeMessage msg = new MimeMessage(session);
+		Store store = session.getStore("pop3");
+		store.connect(props.getProperty("mail.pop.host"), props
+				.getProperty("login.name"), props.getProperty("login.pwd"));
 
-		msg.setFrom(from);
-		msg.addRecipient(Message.RecipientType.TO, to);
+		// Get folder
+		Folder folder = store.getFolder("INBOX");
+		folder.open(Folder.READ_WRITE);
 
-		msg.setSubject("test");
-		msg.setText("this is a test...");
-
-		Transport.send(msg);
+		// Get directory
+		Message messages[] = folder.getMessages();
+		for (Message message : messages) {
+			System.out.println(message.getFrom()[0] + "\t"
+					+ message.getSubject()+ "\t"
+					+ message.getContent());
+			
+			// delete the received msg
+			message.setFlag(Flags.Flag.DELETED, true);
+		}
+		// Close connection
+		folder.close(true);
+		store.close();
 	}
 }
