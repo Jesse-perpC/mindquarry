@@ -77,8 +77,13 @@
 		</dependency>
 		
 		<dependency>
-			<groupId>javax.jcr</groupId>
-			<artifactId>jcr</artifactId>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-core</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-jcr-rmi</artifactId>
 			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
