@@ -49,6 +49,7 @@
 			<version>1.2.13</version>
 			<scope>test</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>james</groupId>
 			<artifactId>mailet-api</artifactId>
@@ -61,6 +62,7 @@
 			<version>3.0</version>
 			<scope>provided</scope>
 		</dependency>
+		
 		<dependency>
 			<groupId>javax.mail</groupId>
 			<artifactId>mail</artifactId>
@@ -73,40 +75,11 @@
 			<version>1.1</version>
 			<scope>test</scope>
 		</dependency>
-		<!--dependency>
-			<groupId>xmldb</groupId>
-			<artifactId>xmldb-api</artifactId>
-			<version>20021118</version>
-		</dependency>
+		
 		<dependency>
-			<groupId>xmldb</groupId>
-			<artifactId>xmldb-api-sdk</artifactId>
-			<version>20021118</version>
-		</dependency>
-		<dependency>
-			<groupId>xmldb</groupId>
-			<artifactId>xmldb-common</artifactId>
-			<version>20021220</version>
-		</dependency>
-		<dependency>
-			<groupId>xmldb</groupId>
-			<artifactId>xmldb-xupdate</artifactId>
-			<version>20021220</version>
-		</dependency-->
-		<dependency>
-			<groupId>exist</groupId>
-			<artifactId>exist</artifactId>
-			<version>0.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>exist</groupId>
-			<artifactId>exist-xmldb</artifactId>
-			<version>0.9.2</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.ws.xmlrpc</groupId>
-			<artifactId>xmlrpc</artifactId>
-			<version>2.0.1</version>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+			<version>1.0.1</version>
 		</dependency>
 	</dependencies>
 
