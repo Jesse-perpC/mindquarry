@@ -1,7 +1,7 @@
 /*
  * Copyright (C) 2006, Mindquarry GmbH 
  */
-package com.mindquarry.conversation.matcher;
+package com.mindquarry.conversation.matchers;
 
 import java.util.Collection;
 
