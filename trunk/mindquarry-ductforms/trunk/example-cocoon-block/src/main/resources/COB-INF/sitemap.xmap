@@ -17,11 +17,11 @@
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 	<map:components>
 		<map:transformers default="xslt">
-			<map:transformers>
 				<map:transformer logger="sitemap.transformer.xmldb" name="xmldb" src="org.apache.cocoon.transformation.XMLDBTransformer">
 					<driver>org.apache.xindice.client.xmldb.embed.DatabaseImpl</driver>
 					<base>xmldb:xindice-embed:///db</base>
 				</map:transformer>
+				
 			<!-- the browser-update transformer is needed for AJAX -->
 				<map:transformer name="browser-update"
 						src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
@@ -184,7 +184,7 @@
 			<!-- Continue a scenario. The continuation id is passed as a request
 				parameter (typically used for POST request) -->
 				<map:match pattern="continue">
-					<map:call />
+					<map:call continuation="{1}" />
 				</map:match>
 		
 			</map:pipeline>
