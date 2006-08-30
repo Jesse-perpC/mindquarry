@@ -18,9 +18,9 @@
 
 	<jcr-repository class="org.apache.cocoon.jcr.JackrabbitRepository">
       <credentials login="expression" password="expression"/>
-      <home src="file://lars/repository"/>
-      <jaas src="context://COB-INF/jaas.config"/>
-      <configuration src="context://COB-INF/repository.xml"/>
+      <home src="file://home/lars/repository"/>
+      <jaas src="resource://COB-INF/jaas.config"/>
+      <configuration src="resource://COB-INF/repository.xml"/>
     </jcr-repository>
     <!-- 
     <component-instance exported="false" name="jcr-repository" class="org.apache.cocoon.components.flow.javascript.fom.FOM_JavaScriptInterpreter">
