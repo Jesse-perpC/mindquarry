@@ -18,7 +18,7 @@
 
 	<jcr-repository class="org.apache.cocoon.jcr.JackrabbitRepository">
       <credentials login="expression" password="expression"/>
-      <home src="file://home/lars/repository"/>
+      <home src="context://repository"/>
       <jaas src="resource://COB-INF/jaas.config"/>
       <configuration src="resource://COB-INF/repository.xml"/>
     </jcr-repository>
