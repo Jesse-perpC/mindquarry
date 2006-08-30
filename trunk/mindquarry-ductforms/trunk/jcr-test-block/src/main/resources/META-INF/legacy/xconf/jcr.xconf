@@ -1,0 +1,19 @@
+<components>
+  <include src="resource://org/apache/cocoon/jcr/jcr.roles"/>
+  
+  <source-factories>
+	<component-instance
+		class="org.apache.cocoon.jcr.source.JCRSourceFactory" name="jcr">
+		<folder-node type="rep:root" new-file="nt:file"
+			new-folder="nt:folder" />
+		<folder-node type="nt:folder" new-file="nt:file" />
+		<file-node type="nt:file" content-path="jcr:content"
+			content-type="nt:resource" />
+		<file-node type="nt:linkedFile" content-ref="jcr:content" />
+		<content-node type="nt:resource" content-prop="jcr:data"
+			mimetype-prop="jcr:mimeType" lastmodified-prop="jcr:lastModified"
+			validity-prop="jcr:lastModified" />
+	</component-instance>
+</source-factories>
+
+</components>
