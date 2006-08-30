@@ -2,7 +2,6 @@ package com.mindquarry.conversation.jcr;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
-import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
@@ -19,8 +18,6 @@ import javax.naming.NamingException;
 import junit.framework.TestCase;
 
 import org.apache.jackrabbit.core.TransientRepository;
-import org.apache.jackrabbit.rmi.remote.RemoteRepository;
-import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
 
 public class JackRabbitSetupTest extends TestCase {
 	private static List<String> projects;
