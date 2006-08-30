@@ -17,6 +17,6 @@ public class ConversationMailet extends GenericMailet {
 	 */
 	@Override
 	public void service(Mail mail) throws MessagingException {
-		System.out.println(mail.getMessage().getClass());
+		System.out.println("Subject: " + mail.getMessage().getSubject());
 	}
 }

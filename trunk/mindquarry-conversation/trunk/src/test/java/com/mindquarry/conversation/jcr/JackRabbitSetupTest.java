@@ -2,6 +2,7 @@ package com.mindquarry.conversation.jcr;
 
 import java.io.IOException;
 import java.rmi.NotBoundException;
+import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
 import java.util.List;
@@ -18,6 +19,8 @@ import javax.naming.NamingException;
 import junit.framework.TestCase;
 
 import org.apache.jackrabbit.core.TransientRepository;
+import org.apache.jackrabbit.rmi.remote.RemoteRepository;
+import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
 
 public class JackRabbitSetupTest extends TestCase {
 	private static List<String> projects;
@@ -59,20 +62,13 @@ public class JackRabbitSetupTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		// uncomment this to start the RMI server
-//		Repository serverRepo = new TransientRepository();
-//		ServerAdapterFactory factory = new ServerAdapterFactory();
-//		RemoteRepository remoteRepo = factory.getRemoteRepository(serverRepo);
-//		
-//		reg = LocateRegistry.createRegistry(1100);
-//		reg.rebind(REMOTE_REPO_NAME, remoteRepo);
-		
-		// uncomment this to use this RMI connection for the client
-//		 ClientRepositoryFactory factory = new ClientRepositoryFactory();
-//		 repo = factory.getRepository("rmi://localhost:1100/" + REMOTE_REPO_NAME);
-
-		// use embedded repository for testing purposes
 		repo = new TransientRepository();
+		ServerAdapterFactory factory = new ServerAdapterFactory();
+		RemoteRepository remoteRepo = factory.getRemoteRepository(repo);
+		
+		reg = LocateRegistry.createRegistry(1100);
+		reg.rebind(REMOTE_REPO_NAME, remoteRepo);
+
 		session = repo.login(new SimpleCredentials(LOGIN, PWD.toCharArray()),
 				WORKSPACE);
 	}
@@ -83,7 +79,7 @@ public class JackRabbitSetupTest extends TestCase {
 	@Override
 	protected void tearDown() throws Exception {
 		// uncomment this for shutting down RMI repository
-//		reg.unbind(REMOTE_REPO_NAME);
+		reg.unbind(REMOTE_REPO_NAME);
 	}
 
 	/**
@@ -125,13 +121,16 @@ public class JackRabbitSetupTest extends TestCase {
 				node.setProperty("name", project);
 				
 				// store tag data
-				Node tagsNode = root.addNode("tags");
+				Node tagsNode = node.addNode("tags");
 				for (String tag : tags) {
 					node = tagsNode.addNode("project");
 					node.setProperty("name", tag);
 				}
 			}
 			session.save();
+			
+			System.out.println("Please press <enter> to shutdown the server.");
+			System.in.read();
 		} finally {
 			session.logout();
 		}
