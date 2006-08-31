@@ -60,16 +60,31 @@
 
 	<map:pipelines>
 		<map:pipeline>
-			<!-- 
-				<map:match pattern="">
-				<map:generate src="xhtml/welcome.html" />
-				<map:transform src="xslt/html/html2html.xsl">
-				<map:parameter name="" value="" />
+
+			<map:match pattern="model.xml">
+				<map:generate src="model/model.xml" />
+				<map:transform type="xinclude" />
+				<map:serialize type="xml" />
+			</map:match>
+
+			<map:match pattern="*.xml.plain">
+				<map:generate
+					src="xmldb:xindice-embed:///db/test/{1}.xml" />
+				<map:serialize type="xml" />
+			</map:match>
+
+			<map:match pattern="*.xml.model">
+				<map:generate src="cocoon:/model.xml" />
+				<map:transform
+					src="xslt/ductforms/model2modelinclude.xsl">
+					<!-- the actual form instance -->
+					<map:parameter name="instance"
+						value="xmldb:xindice-embed:///db/test/{1}.xml">
+					</map:parameter>
 				</map:transform>
-				<map:serialize />
-				</map:match>
-				
-			-->
+<!-- 				<map:transform src="xslt/ductforms/modelincluded2form.xsl"/>-->
+				<map:serialize type="xml" />
+			</map:match>
 
 			<!-- populate the xml database -->
 			<map:match pattern="populate">
@@ -126,14 +141,16 @@
 						<map:transform
 							src="xslt/xmldb/collection2aggregate.xsl" />
 						<map:transform type="cinclude" />
-						<map:transform src="xslt/html/aggregate2html.xsl"/>
+						<map:transform
+							src="xslt/html/aggregate2html.xsl" />
 						<map:transform src="xslt/html/html2html.xsl" />
 						<map:serialize />
 					</map:when>
 					<map:otherwise>
 						<map:generate src="xmldb/populate.xml" />
 						<map:transform type="xmldb" />
-						<map:transform src="xslt/xmldb/populate2html.xsl"/>
+						<map:transform
+							src="xslt/xmldb/populate2html.xsl" />
 						<map:serialize />
 					</map:otherwise>
 				</map:select>
