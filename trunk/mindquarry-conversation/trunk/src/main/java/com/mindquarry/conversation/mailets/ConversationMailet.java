@@ -14,18 +14,45 @@ import javax.mail.internet.MimePart;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 import org.apache.mailet.GenericMailet;
 import org.apache.mailet.Mail;
+import org.apache.mailet.MailetException;
 
 /**
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
 public class ConversationMailet extends GenericMailet {
-	private static final String LOGIN = "alexander.saar";
+	private String login;
 
-	private static final String PWD = "mypwd";
+	private String password;
 
-	private static final String WORKSPACE = "default";
+	private String workspace;
 
-	private static final String REMOTE_REPO_NAME = "jackrabbit";
+	private String repository;
+
+	/**
+	 * Initialize the conversation mailet.
+	 * 
+	 * @throws MailetException
+	 *             Thrown if a required parameter is missing.
+	 */
+	@Override
+	public void init() throws MailetException {
+		login = getInitParameter("login");
+		if (login == null) {
+			throw new MailetException("login parameter is required");
+		}
+		password = getInitParameter("password");
+		if (password == null) {
+			throw new MailetException("password parameter is required");
+		}
+		workspace = getInitParameter("workspace");
+		if (workspace == null) {
+			throw new MailetException("workspace parameter is required");
+		}
+		repository = getInitParameter("repository");
+		if (repository == null) {
+			throw new MailetException("repository parameter is required");
+		}
+	}
 
 	/**
 	 * @see org.apache.mailet.GenericMailet#service(org.apache.mailet.Mail)
@@ -37,10 +64,9 @@ public class ConversationMailet extends GenericMailet {
 		Session session = null;
 		try {
 			ClientRepositoryFactory factory = new ClientRepositoryFactory();
-			Repository repo = factory.getRepository("rmi://localhost:1100/"
-					+ REMOTE_REPO_NAME);
-			session = repo.login(
-					new SimpleCredentials(LOGIN, PWD.toCharArray()), WORKSPACE);
+			Repository repo = factory.getRepository(repository);
+			session = repo.login(new SimpleCredentials(login, password
+					.toCharArray()), workspace);
 
 			// Node root = session.getRootNode();
 			attachFooter(mail);
@@ -63,10 +89,7 @@ public class ConversationMailet extends GenericMailet {
 	private void addToText(MimePart part) throws IOException,
 			MessagingException {
 		String content = part.getContent().toString();
-		if (!content.endsWith("\n")) {
-			content += "\r\n";
-		}
-		content += "Track this conversation at ...";
+		content += "\r\n\r\n" + getFooterText();
 		part.setText(content);
 	}
 
@@ -81,10 +104,14 @@ public class ConversationMailet extends GenericMailet {
 		int index = content.lastIndexOf("</body>");
 		if (index == -1)
 			index = content.lastIndexOf("</body>");
-		String footer = "<br/>" + "Track this conversation at ...";
+
+		String footer = "<br/><br/>" + getFooterText();
 		content = index == -1 ? content + footer : content.substring(0, index)
 				+ footer + content.substring(index);
-
 		part.setContent(content, part.getContentType());
+	}
+
+	private String getFooterText() {
+		return "Track this conversation at ...";
 	}
 }
