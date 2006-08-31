@@ -126,6 +126,8 @@ public class JackRabbitSetupTest extends TestCase {
 					node = tagsNode.addNode("project");
 					node.setProperty("name", tag);
 				}
+				// add conversations node
+				node.addNode("conversation");
 			}
 			session.save();
 			
