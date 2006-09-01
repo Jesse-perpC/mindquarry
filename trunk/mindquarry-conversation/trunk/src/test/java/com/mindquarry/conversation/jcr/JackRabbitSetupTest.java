@@ -5,6 +5,7 @@ import java.rmi.NotBoundException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.List;
 
 import javax.jcr.LoginException;
@@ -27,7 +28,7 @@ public class JackRabbitSetupTest extends TestCase {
 
 	private static List<String> tags;
 
-	private static List<String> users;
+	private static List<Hashtable<String, String>> users;
 
 	static {
 		projects = new ArrayList<String>();
@@ -38,21 +39,27 @@ public class JackRabbitSetupTest extends TestCase {
 		tags.add("dev");
 		tags.add("support");
 
-		users = new ArrayList<String>();
-		users.add("Alexander Saar");
-		users.add("Lars Trieloff");
+		users = new ArrayList<Hashtable<String, String>>();
+		Hashtable<String, String> user = new Hashtable<String, String>();
+		user.put("name", "Alexander Saar");
+		user.put("mail", "alexander.saar@localhost");
+		users.add(user);
+		user = new Hashtable<String, String>();
+		user.put("name", "Lars Trieloff");
+		user.put("mail", "lars.trieloff@localhost");
+		users.add(user);
 	}
 
 	private static final String LOGIN = "alexander.saar";
 
 	private static final String PWD = "mypwd";
-	
+
 	private static final String WORKSPACE = "default";
-	
+
 	private static final String REMOTE_REPO_NAME = "jackrabbit";
 
 	private Repository repo;
-	
+
 	private Registry reg;
 
 	private Session session;
@@ -65,7 +72,7 @@ public class JackRabbitSetupTest extends TestCase {
 		repo = new TransientRepository();
 		ServerAdapterFactory factory = new ServerAdapterFactory();
 		RemoteRepository remoteRepo = factory.getRemoteRepository(repo);
-		
+
 		reg = LocateRegistry.createRegistry(1100);
 		reg.rebind(REMOTE_REPO_NAME, remoteRepo);
 
@@ -95,42 +102,53 @@ public class JackRabbitSetupTest extends TestCase {
 					+ " repository.");
 
 			Node root = session.getRootNode();
-			
-			// check if there is already data in the repository and if so remove it
+
+			// check if there is already data in the repository and if so remove
+			// it
 			NodeIterator nit = root.getNodes();
-			while(nit.hasNext()) {
-				Node node = (Node)nit.next();
-				
+			while (nit.hasNext()) {
+				Node node = (Node) nit.next();
+
 				// remove only users and projects nodes
-				if((node.getName().equals("users")) || 
-						(node.getName().equals("projects"))) {
+				if ((node.getName().equals("users"))
+						|| (node.getName().equals("projects"))) {
 					node.remove();
 				}
 			}
-			
-			// store user data
-			Node membersNode = root.addNode("users");
-			for (String user : users) {
-				Node node = membersNode.addNode("user");
-				node.setProperty("name", user);
-			}
+			String tagReference = null;
+
 			// store project data
 			Node projectsNode = root.addNode("projects");
 			for (String project : projects) {
 				Node node = projectsNode.addNode("project");
 				node.setProperty("name", project);
-				
+
 				// store tag data
 				Node tagsNode = node.addNode("tags");
 				for (String tag : tags) {
-					node = tagsNode.addNode("project");
+					node = tagsNode.addNode("tag");
 					node.setProperty("name", tag);
+
+					if (tag.equals("dev")) {
+						tagReference = node.getUUID();
+					}
 				}
 				// add conversations node
-				node.addNode("conversation");
+				node.addNode("conversations");
+			}
+			// store user data
+			Node membersNode = root.addNode("users");
+			for (Hashtable<String, String> user : users) {
+				Node node = membersNode.addNode("user");
+				node.setProperty("name", user.get("name"));
+				node.setProperty("mail", user.get("mail"));
+
+				Node tags = node.addNode("tags");
+				Node tag = tags.addNode("tag");
+				tag.setProperty("link", root.getNode(tagReference));
 			}
 			session.save();
-			
+
 			System.out.println("Please press <enter> to shutdown the server.");
 			System.in.read();
 		} finally {
