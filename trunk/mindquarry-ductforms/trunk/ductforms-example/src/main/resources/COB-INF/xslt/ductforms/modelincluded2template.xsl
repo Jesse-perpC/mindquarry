@@ -42,7 +42,7 @@
 	<xsl:template match="df:instance">
 		<ft:form-template method="POST">
 			<xsl:attribute name="action">
-				#{$cocoon/continuation/id}.continue
+				<xsl:text>#{$cocoon/continuation/id}.continue</xsl:text>
 			</xsl:attribute>
 			<xsl:apply-templates select="*" />
 		</ft:form-template>
