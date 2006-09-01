@@ -1,7 +1,7 @@
-<model 
+<df:model 
 	xmlns:xi="http://www.w3.org/2001/XInclude"
-	xmlns="http://mindquarry.com/ns/xml/ductforms">
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<xi:include href="title.xml" />
 	<xi:include href="description.xml" />
 	<xi:include href="summary.xml" />
-</model>
+</df:model>

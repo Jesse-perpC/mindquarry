@@ -82,7 +82,18 @@
 						value="xmldb:xindice-embed:///db/test/{1}.xml">
 					</map:parameter>
 				</map:transform>
-<!-- 				<map:transform src="xslt/ductforms/modelincluded2form.xsl"/>-->
+				<map:serialize type="xml" />
+			</map:match>
+
+			<map:match pattern="*.xml.form">
+				<map:generate src="cocoon:/{1}.xml.model" />
+				<map:transform src="xslt/ductforms/modelincluded2form.xsl"/>
+				<map:serialize type="xml" />
+			</map:match>
+			
+			<map:match pattern="*.xml.template">
+				<map:generate src="cocoon:/{1}.xml.model" />
+				<map:transform src="xslt/ductforms/modelincluded2template.xsl"/>
 				<map:serialize type="xml" />
 			</map:match>
 
