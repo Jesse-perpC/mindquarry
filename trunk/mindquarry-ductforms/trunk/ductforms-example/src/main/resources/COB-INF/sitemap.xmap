@@ -58,7 +58,7 @@
 	</map:flow>
 
 	<map:pipelines>
-		<map:pipeline>
+		<map:pipeline type="noncaching">
 
 			<map:match pattern="model.xml">
 				<map:generate src="model/model.xml" />
@@ -67,17 +67,28 @@
 			</map:match>
 
 			<map:match pattern="*.xml.plain">
-				<map:generate
-					src="xmldb:xindice-embed:///db/test/{1}.xml" />
-				<!-- 				<map:transform src="xslt/ductforms/model2plain.xsl" />-->
-				<map:serialize type="xml" />
+				<map:select type="resource-exists">
+					<!-- if it exists, show the list of jobs -->
+					<map:when
+						test="xmldb:xindice-embed:///db/test/{1}.xml">
+						<map:generate
+							src="xmldb:xindice-embed:///db/test/{1}.xml" />
+						<map:transform src="xslt/ductforms/addfield.xsl"/>
+						<map:serialize type="xml" />
+					</map:when>
+					<map:otherwise>
+						<map:generate src="cocoon:/model.xml" />
+						<map:transform
+							src="xslt/ductforms/plainmodel.xsl" />
+						<map:serialize type="xml" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
 
 			<map:match pattern="*.xml.model">
 				<map:generate src="cocoon:/model.xml" />
 				<map:transform
 					src="xslt/ductforms/model2modelinclude.xsl">
-					<!-- the actual form instance -->
 					<map:parameter name="instance"
 						value="cocoon:/{1}.xml.plain">
 					</map:parameter>
@@ -122,12 +133,10 @@
 			</map:match>
 
 			<map:match pattern="*.xml">
-				<!-- test for existance of a job -->
 				<map:select type="resource-exists">
-					<!-- if it exists, show the HTML -->
+					<!-- if it exists, show the list of jobs -->
 					<map:when
 						test="xmldb:xindice-embed:///db/test/{1}.xml">
-
 						<map:call function="handleForm">
 							<map:parameter name="function"
 								value="showPage" />
@@ -136,12 +145,10 @@
 							<!-- <map:parameter name="renderMode" value="jx" /> -->
 							<map:parameter name="definitionURI"
 								value="cocoon:/{1}.xml.form" />
-								
 						</map:call>
-
 					</map:when>
 					<map:otherwise>
-						<map:redirect-to uri="cocoon:/{1}.xml.edit" />
+						<map:redirect-to uri="{1}.xml.edit" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
@@ -183,7 +190,7 @@
 				<!-- if you are not using XHTML as the base of the form template,
 					you should add a transformer here. -->
 				<map:transform src="xslt/ductforms/instance2html.xsl">
-					<map:parameter name="page" value="{1}"/>
+					<map:parameter name="page" value="{1}" />
 				</map:transform>
 
 					<map:transform src="xslt/forms/form2html.xsl">
