@@ -69,6 +69,7 @@
 			<map:match pattern="*.xml.plain">
 				<map:generate
 					src="xmldb:xindice-embed:///db/test/{1}.xml" />
+				<!-- 				<map:transform src="xslt/ductforms/model2plain.xsl" />-->
 				<map:serialize type="xml" />
 			</map:match>
 
@@ -78,9 +79,11 @@
 					src="xslt/ductforms/model2modelinclude.xsl">
 					<!-- the actual form instance -->
 					<map:parameter name="instance"
-						value="xmldb:xindice-embed:///db/test/{1}.xml">
+						value="cocoon:/{1}.xml.plain">
 					</map:parameter>
 				</map:transform>
+				<map:transform type="xinclude" />
+				<map:transform src="xslt/ductforms/cleanmodel.xsl" />
 				<map:serialize type="xml" />
 			</map:match>
 
@@ -124,20 +127,18 @@
 					<!-- if it exists, show the HTML -->
 					<map:when
 						test="xmldb:xindice-embed:///db/test/{1}.xml">
-						<map:generate
-							src="xmldb:xindice-embed:///db/test/{1}.xml" />
-						
-						<map:transform type="html">
-							<map:parameter name="tags"
-								value="description" />
-						</map:transform>
-						
-						<map:transform src="xslt/html/job2html.xsl">
-							<map:parameter name="page" value="{1}"></map:parameter>
-						</map:transform>
-						<map:transform src="xslt/html/html2html.xsl" />
-						<map:serialize type="html" />
-						
+
+						<map:call function="handleForm">
+							<map:parameter name="function"
+								value="showPage" />
+							<map:parameter name="page" value="{1}" />
+							<!-- in the original example this was configurable -->
+							<!-- <map:parameter name="renderMode" value="jx" /> -->
+							<map:parameter name="definitionURI"
+								value="cocoon:/{1}.xml.form" />
+								
+						</map:call>
+
 					</map:when>
 					<map:otherwise>
 						<map:redirect-to uri="cocoon:/{1}.xml.edit" />
@@ -181,12 +182,14 @@
 				</map:generate>
 				<!-- if you are not using XHTML as the base of the form template,
 					you should add a transformer here. -->
-				<map:transform src="xslt/ductforms/instance2html.xsl" />
-
-				<map:transform src="xslt/forms/form2html.xsl">
-					<map:parameter name="resources-uri"
-						value="{request:contextPath}/_cocoon/resources" />
+				<map:transform src="xslt/ductforms/instance2html.xsl">
+					<map:parameter name="page" value="{1}"/>
 				</map:transform>
+
+					<map:transform src="xslt/forms/form2html.xsl">
+					<map:parameter name="resources-uri"
+					value="{request:contextPath}/_cocoon/resources" />
+					</map:transform>
 
 				<map:serialize type="html" />
 			</map:match>

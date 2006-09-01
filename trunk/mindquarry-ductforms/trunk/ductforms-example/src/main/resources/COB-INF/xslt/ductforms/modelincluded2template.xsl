@@ -12,13 +12,12 @@
 		use="local-name(.)" />
 	<xsl:key name="datatypes" match="df:datatype" use="@id" />
 
+
 	<xsl:template match="/df:model">
 		<html:html>
 			<html:head>
 				<html:title>
-					Editing "
 					<xsl:value-of select="df:instance/title" />
-					"
 				</html:title>
 				<jx:import
 					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
@@ -39,12 +38,9 @@
 			<xsl:apply-templates select="*" />
 
 			<xsl:call-template name="extra">
-				<xsl:with-param name="suffix">add</xsl:with-param>
-			</xsl:call-template>
-
-			<xsl:call-template name="extra">
 				<xsl:with-param name="suffix">save</xsl:with-param>
 			</xsl:call-template>
+
 		</ft:form-template>
 	</xsl:template>
 
@@ -61,6 +57,9 @@
 			</ft:widget>
 		</html:div>
 	</xsl:template>
+
+	<xsl:template
+		match="ductforms_add[not(key('datatypes',local-name(.)))]" />
 
 	<xsl:template name="extra">
 		<xsl:param name="suffix" />
