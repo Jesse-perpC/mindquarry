@@ -15,7 +15,7 @@
 			<fd:label>Describe the offering here</fd:label>
 		</fd:field>
 
-		<fd:submit id="postjob" validate="true">
+		<fd:submit id="ductformssave" validate="true">
 			<fd:label>Post job.</fd:label>
 			<fd:help>This will post the job to the job board. And everyone can read it</fd:help>
 			<fd:hint>Post a job, dude.</fd:hint>
