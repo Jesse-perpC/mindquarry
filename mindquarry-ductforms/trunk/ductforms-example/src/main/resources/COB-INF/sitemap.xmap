@@ -73,7 +73,8 @@
 						test="xmldb:xindice-embed:///db/test/{1}.xml">
 						<map:generate
 							src="xmldb:xindice-embed:///db/test/{1}.xml" />
-						<map:transform src="xslt/ductforms/addfield.xsl"/>
+						<map:transform
+							src="xslt/ductforms/addfield.xsl" />
 						<map:serialize type="xml" />
 					</map:when>
 					<map:otherwise>
@@ -193,11 +194,16 @@
 					<map:parameter name="page" value="{1}" />
 				</map:transform>
 
-					<map:transform src="xslt/forms/form2html.xsl">
+				<map:transform src="xslt/forms/form2html.xsl">
 					<map:parameter name="resources-uri"
-					value="{request:contextPath}/_cocoon/resources" />
-					</map:transform>
+						value="{request:contextPath}/_cocoon/resources" />
+				</map:transform>
 
+				<map:transform type="nekohtml">
+					<map:parameter name="tags" value="htmllize" />
+				</map:transform>
+				
+				<map:transform src="xslt/forms/htmllize.xsl" />
 				<map:serialize type="html" />
 			</map:match>
 
