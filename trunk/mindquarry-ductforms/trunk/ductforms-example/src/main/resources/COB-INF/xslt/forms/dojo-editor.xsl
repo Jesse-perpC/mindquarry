@@ -31,7 +31,15 @@
   <!--+
       | fi:field with @type 'dojoarea'
       +-->
-  <xsl:template match="fi:field[fi:styling[@type='dojoarea']]">
+  <xsl:template match="fi:field[@state='output'][./fi:styling[@type='dojoarea']]" priority="2">
+  	<div>
+  	  <htmllize>
+	      <xsl:apply-templates select="fi:value/node()" mode="dojoarea-copy"/>  	
+      </htmllize>
+  	</div>
+  </xsl:template>
+      
+  <xsl:template match="fi:field[fi:styling[@type='dojoarea']]" priority="1">
     <textarea dojoType="Editor" id="{@id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}"
       >
       <xsl:attribute name="items">

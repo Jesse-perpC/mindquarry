@@ -9,10 +9,10 @@
 	</fd:field>
 
 	<ft:widget>
-		<fi:styling type="textarea" cols="50" rows="20" />	
 		<!-- 
+		<fi:styling type="textarea" cols="50" rows="20" />	
+		 --> 
 		<fi:styling type="dojoarea"
-			dojo="textGroup;blockGroup;listGroup;linkGroup" cols="50" rows="50" />
-		 -->
+			dojo="listGroup;linkGroup" cols="50" rows="50" />
 	</ft:widget>
 </df:datatype>
