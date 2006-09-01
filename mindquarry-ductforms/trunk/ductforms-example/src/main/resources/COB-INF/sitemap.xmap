@@ -54,8 +54,7 @@
 	</map:components>
 
 	<map:flow language="javascript">
-		<map:script src="demo.js" />
-		<map:script src="post.js" />
+		<map:script src="ductforms.js" />
 	</map:flow>
 
 	<map:pipelines>
@@ -87,13 +86,15 @@
 
 			<map:match pattern="*.xml.form">
 				<map:generate src="cocoon:/{1}.xml.model" />
-				<map:transform src="xslt/ductforms/modelincluded2form.xsl"/>
+				<map:transform
+					src="xslt/ductforms/modelincluded2form.xsl" />
 				<map:serialize type="xml" />
 			</map:match>
-			
+
 			<map:match pattern="*.xml.template">
 				<map:generate src="cocoon:/{1}.xml.model" />
-				<map:transform src="xslt/ductforms/modelincluded2template.xsl"/>
+				<map:transform
+					src="xslt/ductforms/modelincluded2template.xsl" />
 				<map:serialize type="xml" />
 			</map:match>
 
@@ -106,7 +107,16 @@
 				<map:serialize />
 			</map:match>
 
-
+			<map:match pattern="*.xml.edit">
+				<map:call function="handleForm">
+					<map:parameter name="function" value="editPage" />
+					<map:parameter name="page" value="{1}" />
+					<!-- in the original example this was configurable -->
+					<!-- <map:parameter name="renderMode" value="jx" /> -->
+					<map:parameter name="definitionURI"
+						value="cocoon:/{1}.xml.form" />
+				</map:call>
+			</map:match>
 
 			<map:match pattern="*.xml">
 				<!-- test for existance of a job -->
@@ -116,26 +126,21 @@
 						test="xmldb:xindice-embed:///db/test/{1}.xml">
 						<map:generate
 							src="xmldb:xindice-embed:///db/test/{1}.xml" />
+						
 						<map:transform type="html">
 							<map:parameter name="tags"
 								value="description" />
 						</map:transform>
-						<map:transform src="xslt/html/job2html.xsl" />
-
+						
+						<map:transform src="xslt/html/job2html.xsl">
+							<map:parameter name="page" value="{1}"></map:parameter>
+						</map:transform>
 						<map:transform src="xslt/html/html2html.xsl" />
 						<map:serialize type="html" />
+						
 					</map:when>
-					<!-- if not, show a job posting form -->
 					<map:otherwise>
-						<map:call function="handleForm">
-							<map:parameter name="function"
-								value="addJob" />
-							<map:parameter name="jobname" value="{1}" />
-							<!-- in the original example this was configurable -->
-							<!-- <map:parameter name="renderMode" value="jx" /> -->
-							<map:parameter name="definitionURI"
-								value="forms/jobs.xml" />
-						</map:call>
+						<map:redirect-to uri="cocoon:/{1}.xml.edit" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
@@ -168,44 +173,24 @@
 			</map:match>
 
 
-
-			<!--
-				| Show a form, using the jx template macros
-			-->
-			<map:match pattern="forms/*">
-				<map:generate type="jx" src="forms/{1}_template.xml"
+			<map:match pattern="*.xml.instance">
+				<map:generate type="jx" src="cocoon:/{1}.xml.template"
 					label="content1">
 					<map:parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</map:generate>
-				<map:transform type="browser-update" />
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="en_US" />
-				</map:transform>
 				<!-- if you are not using XHTML as the base of the form template,
 					you should add a transformer here. -->
-				<map:transform src="xslt/html/html2html.xsl" />
+				<map:transform src="xslt/ductforms/instance2html.xsl" />
 
 				<map:transform src="xslt/forms/form2html.xsl">
 					<map:parameter name="resources-uri"
 						value="{request:contextPath}/_cocoon/resources" />
 				</map:transform>
 
-
-				<map:transform type="i18n">
-					<map:parameter name="locale" value="en_US" />
-				</map:transform>
-
-
-				<map:select type="ajax-request">
-					<map:when test="true">
-						<map:serialize type="xml" />
-					</map:when>
-					<map:otherwise>
-						<map:serialize type="html" />
-					</map:otherwise>
-				</map:select>
+				<map:serialize type="html" />
 			</map:match>
+
 
 			<map:match pattern="resources/*/**">
 				<map:read src="{1}/{2}" />

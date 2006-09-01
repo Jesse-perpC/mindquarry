@@ -3,6 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="xhtml">
+	<xsl:param name="page" />
+	
 	<xsl:template match="/*">
 		<html>
 			<head>
@@ -17,6 +19,10 @@
 					<li>
 						<a href="./">back</a>
 						to the list of posted jobs
+					</li>
+					<li>
+						<a href="{$page}.xml.edit">edit</a>
+						this page
 					</li>
 				</ul>
 			</body>
@@ -34,7 +40,4 @@
 			<xsl:apply-templates />
 		</pre>
 	</xsl:template>
-
-
-
 </xsl:stylesheet>
