@@ -23,9 +23,7 @@
 					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 			</html:head>
 			<html:body>
-
 				<xsl:apply-templates select="df:instance" />
-
 			</html:body>
 		</html:html>
 	</xsl:template>
@@ -59,7 +57,8 @@
 	</xsl:template>
 
 	<xsl:template
-		match="ductforms_add[not(key('datatypes',local-name(.)))]" />
+		match="ductforms_add[count(preceding-sibling::*)=count(//df:datatype)]" />
+
 
 	<xsl:template name="extra">
 		<xsl:param name="suffix" />
