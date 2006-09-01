@@ -42,7 +42,7 @@ public class CreateNewConversationTest extends TestCase {
 		msg.addRecipient(Message.RecipientType.TO, to);
 
 		msg.setSubject("new conversation");
-		msg.setText("this is a new conversation...");
+		msg.setText("a question to the developers...");
 
 		Transport.send(msg);
 	}

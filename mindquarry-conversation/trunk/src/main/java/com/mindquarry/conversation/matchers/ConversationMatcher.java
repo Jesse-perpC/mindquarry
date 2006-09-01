@@ -29,23 +29,14 @@ public class ConversationMatcher extends GenericMatcher {
 			MailAddress recipient = (MailAddress) object;
 			String name = recipient.getUser();
 
-			System.out.println("Checking recipient " + name + "...");
+			log("Checking recipient " + name + "...");
 			String[] parts = name.split("-");
 			if (parts.length != 2) {
-				log("Unsupported pattern detected.");
-				getMailetContext().bounce(mail, getUsage());
+				log("Unsupported conversation address pattern detected.");
 			} else {
 				targets.add(recipient);
 			}
 		}
 		return (targets);
-	}
-
-	/**
-	 * Returns a string describing how to use the conversation system.
-	 */
-	private String getUsage() {
-		// TODO finish usage description
-		return "Unsupported recipient pattern.";
 	}
 }

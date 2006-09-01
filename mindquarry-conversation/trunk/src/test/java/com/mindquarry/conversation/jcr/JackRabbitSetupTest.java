@@ -115,7 +115,7 @@ public class JackRabbitSetupTest extends TestCase {
 					node.remove();
 				}
 			}
-			String tagReference = null;
+			String tagRef = null;
 
 			// store project data
 			Node projectsNode = root.addNode("projects");
@@ -126,15 +126,16 @@ public class JackRabbitSetupTest extends TestCase {
 				// store tag data
 				Node tagsNode = node.addNode("tags");
 				for (String tag : tags) {
-					node = tagsNode.addNode("tag");
-					node.setProperty("name", tag);
+					Node tagNode = tagsNode.addNode("tag");
+					tagNode.setProperty("name", tag);
+					tagNode.addMixin("mix:referenceable");
 
 					if (tag.equals("dev")) {
-						tagReference = node.getUUID();
+						tagRef = tagNode.getUUID();
 					}
 				}
 				// add conversations node
-				node.addNode("conversations");
+				node.addNode("talk");
 			}
 			// store user data
 			Node membersNode = root.addNode("users");
@@ -145,7 +146,7 @@ public class JackRabbitSetupTest extends TestCase {
 
 				Node tags = node.addNode("tags");
 				Node tag = tags.addNode("tag");
-				tag.setProperty("link", root.getNode(tagReference));
+				tag.setProperty("link", session.getNodeByUUID(tagRef));
 			}
 			session.save();
 
