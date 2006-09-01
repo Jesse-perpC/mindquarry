@@ -1,8 +1,8 @@
-<datatype id="summary"
+<df:datatype id="summary"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
-	xmlns="http://mindquarry.com/ns/xml/ductforms">
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<fd:field>
 		<fd:datatype base="string" />
 		<fd:label>Summary</fd:label>
@@ -11,4 +11,4 @@
 	<ft:widget>
 		<fi:styling type="textarea" cols="50" rows="3" />
 	</ft:widget>
-</datatype>
+</df:datatype>
