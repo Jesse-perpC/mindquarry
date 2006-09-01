@@ -21,27 +21,26 @@ public class ConversationMatcher extends GenericMatcher {
 	 */
 	@Override
 	public Collection match(Mail mail) throws MessagingException {
-		System.out.println("Start processing of mail...");
+		log("Start processing of mail...");
 
 		Collection recipients = mail.getRecipients();
+		ArrayList<MailAddress> targets = new ArrayList<MailAddress>();
 		for (Object object : recipients) {
 			MailAddress recipient = (MailAddress) object;
 			String name = recipient.getUser();
 
 			System.out.println("Checking recipient " + name + "...");
-			if (name.indexOf("-") == -1) {
-				System.out.println("Unsupported pattern detected.");
-				getMailetContext().bounce(mail, getUsage());
-			}
 			String[] parts = name.split("-");
-			if(parts.length != 2) {
-				System.out.println("Unsupported pattern detected.");
+			if (parts.length != 2) {
+				log("Unsupported pattern detected.");
 				getMailetContext().bounce(mail, getUsage());
+			} else {
+				targets.add(recipient);
 			}
 		}
-		return (mail.getRecipients());
+		return (targets);
 	}
-	
+
 	/**
 	 * Returns a string describing how to use the conversation system.
 	 */
