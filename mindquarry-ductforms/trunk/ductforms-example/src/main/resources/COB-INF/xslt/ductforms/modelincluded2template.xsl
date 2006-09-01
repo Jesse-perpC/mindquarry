@@ -6,7 +6,7 @@
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
-	xmlns:html="www.w3.org/1999/xhtml">
+	xmlns:html="http://www.w3.org/1999/xhtml">
 
 	<xsl:key name="usedfields" match="df:instance/*"
 		use="local-name(.)" />
@@ -27,14 +27,6 @@
 
 				<xsl:apply-templates select="df:instance" />
 
-				<xsl:call-template name="extra">
-					<xsl:with-param name="suffix">add</xsl:with-param>
-				</xsl:call-template>
-				
-				<xsl:call-template name="extra">
-					<xsl:with-param name="suffix">save</xsl:with-param>
-				</xsl:call-template>
-
 			</html:body>
 		</html:html>
 	</xsl:template>
@@ -45,6 +37,14 @@
 				<xsl:text>#{$cocoon/continuation/id}.continue</xsl:text>
 			</xsl:attribute>
 			<xsl:apply-templates select="*" />
+
+			<xsl:call-template name="extra">
+				<xsl:with-param name="suffix">add</xsl:with-param>
+			</xsl:call-template>
+
+			<xsl:call-template name="extra">
+				<xsl:with-param name="suffix">save</xsl:with-param>
+			</xsl:call-template>
 		</ft:form-template>
 	</xsl:template>
 
