@@ -57,8 +57,16 @@
 					select="key('datatypes',local-name(.))/ft:widget/@*" />
 				<xsl:copy-of
 					select="key('datatypes',local-name(.))/ft:widget/node()" />
+					
+				<xsl:apply-templates select="." mode="styling"/>
 			</ft:widget>
 		</html:div>
+	</xsl:template>
+	
+	<xsl:template match="*" mode="styling"/>
+	
+	<xsl:template match="ductforms_add|ductforms_delete" mode="styling">
+ 		<fi:styling submit-on-change="true"/>
 	</xsl:template>
 
 	<xsl:template match="fd:hint">

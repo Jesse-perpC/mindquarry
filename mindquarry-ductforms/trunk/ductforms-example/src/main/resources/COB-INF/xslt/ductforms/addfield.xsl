@@ -26,10 +26,10 @@
 		<ductform>
 			<xsl:apply-templates />
 			<xsl:if test="not(ductforms_add)">
-				<ductforms_add />
+				<ductforms_add>ductforms_none</ductforms_add>
 			</xsl:if>
 			<xsl:if test="not(ductforms_delete)">
-				<ductforms_delete />
+				<ductforms_delete>ductforms_none</ductforms_delete>
 			</xsl:if>
 		</ductform>
 	</xsl:template>
