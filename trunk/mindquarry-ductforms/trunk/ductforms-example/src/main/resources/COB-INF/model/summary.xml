@@ -1,4 +1,4 @@
-<df:datatype id="summary" required="true"
+<df:datatype id="summary" required="false"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"

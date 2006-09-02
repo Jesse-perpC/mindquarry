@@ -55,7 +55,8 @@
 
 	<xsl:template match="ductforms/*" mode="add-missing">
 		<xsl:variable name="myname" select="normalize-space(.)" />
-		<xsl:if test="not(/ductform/*[local-name(.)=$myname])">
+		<!-- filter out existing and required -->
+		<xsl:if test="not(/ductform/*[local-name(.)=$myname]) and not($required/@id=$myname)">
 			<xsl:element name="{$myname}">
 				<xsl:attribute name="missing">true</xsl:attribute>
 			</xsl:element>
