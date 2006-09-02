@@ -39,7 +39,7 @@
 			<xsl:copy-of select="fd:field/*|fd:field/@*" />
 		</fd:field>
 	</xsl:template>
-	
+
 	<xsl:template match="df:datatype[fd:booleanfield]">
 		<fd:booleanfield id="{@id}">
 			<xsl:copy-of select="fd:booleanfield/*|fd:booleanfield/@*" />
@@ -63,6 +63,9 @@
 				<xsl:apply-templates select="df:datatype"
 					mode="ductforms_add" />
 			</fd:selection-list>
+			<fd:on-value-changed>
+				<fd:javascript>upd(event);</fd:javascript>
+			</fd:on-value-changed>
 			<fd:label>Add information</fd:label>
 		</fd:field>
 
@@ -76,6 +79,9 @@
 					mode="ductforms_delete" />
 			</fd:selection-list>
 			<fd:label>Remove information</fd:label>
+			<fd:on-value-changed>
+				<fd:javascript>upd(event);</fd:javascript>
+			</fd:on-value-changed>
 		</fd:field>
 	</xsl:template>
 
@@ -88,11 +94,11 @@
 		</xsl:if>
 	</xsl:template>
 
-	<xsl:template match="df:datatype[@required='true']" mode="ductforms_delete"/>
+	<xsl:template match="df:datatype[@required='true']"
+		mode="ductforms_delete" />
 
 	<xsl:template match="df:datatype" mode="ductforms_delete">
-		<xsl:if
-			test="key('usedfields',@id)">
+		<xsl:if test="key('usedfields',@id)">
 			<fd:item value="{@id}">
 				<xsl:copy-of select=".//fd:label[1]" />
 			</fd:item>

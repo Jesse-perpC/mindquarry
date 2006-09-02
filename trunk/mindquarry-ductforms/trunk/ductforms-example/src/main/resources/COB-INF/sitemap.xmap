@@ -71,7 +71,7 @@
 	</map:flow>
 
 	<map:pipelines>
-		<map:pipeline type="noncaching">
+		<map:pipeline type="caching-point">
 
 			<map:match pattern="model.xml">
 				<map:generate src="model/model.xml" />
