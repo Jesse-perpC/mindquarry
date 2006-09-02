@@ -29,5 +29,10 @@ function showPage(form) {
 }
 
 function upd(event) {
-	print(event.getNewValue());
+	if (myform&&mypage) {
+		print("updating form");
+		myform.saveXML("xmldb:xindice-embed:///db/test/" + mypage + ".xml");
+	}
+	print("exiting cocoon");
+	cocoon.exit();
 }

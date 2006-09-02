@@ -54,6 +54,9 @@
 			<fd:selection-list>
 				<xsl:apply-templates select="/df:model/df:datatype" mode="ductforms_add"/>
 			</fd:selection-list>
+			<fd:on-value-changed>
+				<fd:javascript>upd(event);</fd:javascript>
+			</fd:on-value-changed>
 		</fd:multivaluefield>
 	</xsl:template>
 
