@@ -34,11 +34,16 @@
 			select="key('datatypes', normalize-space(.))" />
 	</xsl:template>
 
-
-	<xsl:template match="df:datatype">
+	<xsl:template match="df:datatype[fd:field]">
 		<fd:field id="{@id}">
 			<xsl:copy-of select="fd:field/*|fd:field/@*" />
 		</fd:field>
+	</xsl:template>
+	
+	<xsl:template match="df:datatype[fd:booleanfield]">
+		<fd:booleanfield id="{@id}">
+			<xsl:copy-of select="fd:booleanfield/*|fd:booleanfield/@*" />
+		</fd:booleanfield>
 	</xsl:template>
 
 	<xsl:template name="extra">
@@ -58,14 +63,38 @@
 				<xsl:apply-templates select="df:datatype"
 					mode="ductforms_add" />
 			</fd:selection-list>
-			<fd:label>Additional information</fd:label>
+			<fd:label>Add information</fd:label>
+		</fd:field>
+
+		<fd:field id="ductforms_delete">
+			<fd:datatype base="string" />
+			<fd:selection-list>
+				<fd:item value="ductforms_none">
+					<fd:label>None</fd:label>
+				</fd:item>
+				<xsl:apply-templates select="df:datatype"
+					mode="ductforms_delete" />
+			</fd:selection-list>
+			<fd:label>Remove information</fd:label>
 		</fd:field>
 	</xsl:template>
 
 	<xsl:template match="df:datatype" mode="ductforms_add">
-		<xsl:if test="not(key('usedfields',@id) or normalize-space(/df:model/df:instance/ductforms_add)=@id)">
+		<xsl:if
+			test="not(key('usedfields',@id) or normalize-space(/df:model/df:instance/ductforms_add)=@id)">
 			<fd:item value="{@id}">
-				<xsl:copy-of select="./fd:field/fd:label" />
+				<xsl:copy-of select=".//fd:label[1]" />
+			</fd:item>
+		</xsl:if>
+	</xsl:template>
+
+	<xsl:template match="df:datatype[@required='true']" mode="ductforms_delete"/>
+
+	<xsl:template match="df:datatype" mode="ductforms_delete">
+		<xsl:if
+			test="key('usedfields',@id)">
+			<fd:item value="{@id}">
+				<xsl:copy-of select=".//fd:label[1]" />
 			</fd:item>
 		</xsl:if>
 	</xsl:template>

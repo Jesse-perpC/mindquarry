@@ -29,24 +29,29 @@
 	</xsl:template>
 
 	<xsl:template match="df:instance">
-		<ft:form-template method="POST">
+		<ft:form method="POST">
 			<xsl:attribute name="action">
 				<xsl:text>#{$cocoon/continuation/id}.continue</xsl:text>
 			</xsl:attribute>
+			
 			<xsl:apply-templates select="*" />
 
 			<xsl:call-template name="extra">
 				<xsl:with-param name="suffix">save</xsl:with-param>
 			</xsl:call-template>
-
-		</ft:form-template>
+		</ft:form>
 	</xsl:template>
 
 	<xsl:template match="*">
 		<html:div class="form_block">
-			<html:label for="{local-name(.)}:input">
+			<html:label for="ductform.{local-name(.)}">
+				<xsl:apply-templates select="key('datatypes',local-name(.))//fd:hint" />
+				
+				<xsl:apply-templates
+					select="key('datatypes',local-name(.))/fd:widget/fd:hint" />
 				<ft:widget-label id="{local-name(.)}" />
 			</html:label>
+			
 			<ft:widget id="{local-name(.)}">
 				<xsl:copy-of
 					select="key('datatypes',local-name(.))/ft:widget/@*" />
@@ -56,9 +61,11 @@
 		</html:div>
 	</xsl:template>
 
-	<xsl:template
-		match="ductforms_add[count(preceding-sibling::*)=count(//df:datatype)]" />
-
+	<xsl:template match="fd:hint">
+		<xsl:attribute name="title">
+			<xsl:value-of select="." />
+		</xsl:attribute>
+	</xsl:template>	
 
 	<xsl:template name="extra">
 		<xsl:param name="suffix" />

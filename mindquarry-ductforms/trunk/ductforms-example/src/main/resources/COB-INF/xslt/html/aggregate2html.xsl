@@ -8,7 +8,7 @@
 	<xsl:template match="/">
 		<html>
 			<head>
-				<title>The Job list</title>
+				<title>Saved Wiki Documents</title>
 			</head>
 			<body>
 				<ol>
@@ -16,13 +16,13 @@
 				</ol>
 				<ul>
 					<li>
-						<a href="./{//db:new/@name}.xml">post</a>
-						a job to the job board
+						<a href="./{//db:new/@name}.xml">create</a> a new document
 					</li>
 				</ul>
 			</body>
 		</html>
 	</xsl:template>
+	
 	<xsl:template match="included">
 		<li>
 			<a href="{@path}">
@@ -30,6 +30,8 @@
 			</a>
 		</li>
 	</xsl:template>
+	
+	<xsl:template match="included[.//archived='true']" />
 
 	<xsl:template match="*" mode="link">
 		<xsl:value-of select="title" />

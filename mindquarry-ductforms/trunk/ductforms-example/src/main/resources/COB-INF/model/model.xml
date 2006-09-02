@@ -4,4 +4,5 @@
 	<xi:include href="title.xml" />
 	<xi:include href="description.xml" />
 	<xi:include href="summary.xml" />
+	<xi:include href="archived.xml" />
 </df:model>

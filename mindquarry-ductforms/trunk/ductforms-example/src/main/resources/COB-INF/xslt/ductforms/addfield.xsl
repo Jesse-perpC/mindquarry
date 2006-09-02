@@ -12,10 +12,12 @@
 		</xsl:copy>
 	</xsl:template>
 
+	<xsl:template match="*[local-name(.)=normalize-space(/*/ductforms_delete)]" />
 
 	<xsl:template match="ductforms_add">
 		<xsl:if test="normalize-space(.)!='' and normalize-space(.)!='ductforms_none'">
-			<xsl:element name="{normalize-space(.)}" />
+			<xsl:element name="{normalize-space(.)}">
+			</xsl:element>
 		</xsl:if>
 		<ductforms_add/>
 	</xsl:template>
@@ -23,6 +25,12 @@
 	<xsl:template match="/*">
 		<ductform>
 			<xsl:apply-templates />
+			<xsl:if test="not(ductforms_add)">
+				<ductforms_add />
+			</xsl:if>
+			<xsl:if test="not(ductforms_delete)">
+				<ductforms_delete />
+			</xsl:if>
 		</ductform>
 	</xsl:template>
 
