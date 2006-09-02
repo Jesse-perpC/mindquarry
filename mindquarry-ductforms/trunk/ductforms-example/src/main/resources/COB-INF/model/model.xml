@@ -1,8 +1,9 @@
 <df:model xmlns:xi="http://www.w3.org/2001/XInclude"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<xi:include href="title.xml" />
-	<xi:include href="description.xml" />
 	<xi:include href="summary.xml" />
-	<xi:include href="archived.xml" />
+	<xi:include href="description.xml" />
+	<xi:include href="status.xml" />
 	<xi:include href="date.xml" />
+	<xi:include href="archived.xml" />
 </df:model>
