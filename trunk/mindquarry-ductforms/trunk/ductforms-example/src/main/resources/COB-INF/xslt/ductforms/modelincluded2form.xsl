@@ -14,7 +14,6 @@
 		<fd:form id="ductform">
 			<fd:widgets>
 				<xsl:apply-templates select="df:instance" />
-				<xsl:call-template name="addfield" />
 				<xsl:call-template name="extra" />
 			</fd:widgets>
 		</fd:form>
@@ -27,11 +26,6 @@
 	<xsl:template match="df:instance/*">
 		<xsl:apply-templates
 			select="key('datatypes', normalize-space(local-name(.)))" />
-	</xsl:template>
-
-	<xsl:template match="df:instance/ductforms_add">
-		<xsl:apply-templates
-			select="key('datatypes', normalize-space(.))" />
 	</xsl:template>
 
 	<xsl:template match="df:datatype[fd:field]">
@@ -53,56 +47,20 @@
 		</fd:submit>
 	</xsl:template>
 
-	<xsl:template name="addfield">
-		<fd:field id="ductforms_add">
+	<xsl:template match="df:instance/ductforms">
+		<fd:multivaluefield id="ductforms">
+			<fd:label>Fields</fd:label>
 			<fd:datatype base="string" />
 			<fd:selection-list>
-				<fd:item value="ductforms_none">
-					<fd:label>None</fd:label>
-				</fd:item>
-				<xsl:apply-templates select="df:datatype"
-					mode="ductforms_add" />
+				<xsl:apply-templates select="/df:model/df:datatype" mode="ductforms_add"/>
 			</fd:selection-list>
-			<fd:on-value-changed>
-				<fd:javascript>upd(event);</fd:javascript>
-			</fd:on-value-changed>
-			<fd:label>Add information</fd:label>
-		</fd:field>
-
-		<fd:field id="ductforms_delete">
-			<fd:datatype base="string" />
-			<fd:selection-list>
-				<fd:item value="ductforms_none">
-					<fd:label>None</fd:label>
-				</fd:item>
-				<xsl:apply-templates select="df:datatype"
-					mode="ductforms_delete" />
-			</fd:selection-list>
-			<fd:label>Remove information</fd:label>
-			<fd:on-value-changed>
-				<fd:javascript>upd(event);</fd:javascript>
-			</fd:on-value-changed>
-		</fd:field>
+		</fd:multivaluefield>
 	</xsl:template>
 
 	<xsl:template match="df:datatype" mode="ductforms_add">
-		<xsl:if
-			test="not(key('usedfields',@id) or normalize-space(/df:model/df:instance/ductforms_add)=@id)">
-			<fd:item value="{@id}">
-				<xsl:copy-of select=".//fd:label[1]" />
-			</fd:item>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template match="df:datatype[@required='true']"
-		mode="ductforms_delete" />
-
-	<xsl:template match="df:datatype" mode="ductforms_delete">
-		<xsl:if test="key('usedfields',@id)">
-			<fd:item value="{@id}">
-				<xsl:copy-of select=".//fd:label[1]" />
-			</fd:item>
-		</xsl:if>
+		<fd:item value="{@id}">
+			<xsl:copy-of select=".//fd:label[1]" />
+		</fd:item>
 	</xsl:template>
 
 </xsl:stylesheet>
