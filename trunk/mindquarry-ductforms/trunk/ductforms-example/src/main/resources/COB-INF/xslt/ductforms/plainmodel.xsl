@@ -10,6 +10,7 @@
 		<ductform>
 			<xsl:apply-templates select="df:datatype[@required='true']" />
 			<ductforms_add/>
+			<ductforms_delete />
 		</ductform>
 	</xsl:template>
 	

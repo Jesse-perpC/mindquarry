@@ -37,15 +37,15 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="html:div[@class='form_block'][fi:action[@state='output']]">
+
+	<xsl:template match="fi:action[@state='output']">
 	</xsl:template>
 	
-	<xsl:template match="fi:form-template[@state='output']">
-		<xsl:copy>
-			<xsl:apply-templates select="@*|node()" />
-			<a href="{$page}.xml.edit">edit</a>
-		</xsl:copy>	
+	
+	<xsl:template match="html:div[fi:action[@state='output' and @id='ductform.ductforms_save']]">
+		<ul>
+			<li><a href="{$page}.xml.edit">edit</a></li>
+			<li><a href="./">list</a></li>
+		</ul>
 	</xsl:template>
-
-
 </xsl:stylesheet>
