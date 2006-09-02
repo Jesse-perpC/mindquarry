@@ -38,7 +38,7 @@
       </htmllize>
   	</div>
   </xsl:template>
-      
+  
   <xsl:template match="fi:field[fi:styling[@type='dojoarea']]" priority="1">
     <textarea dojoType="Editor" id="{@id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}"
       >
@@ -52,7 +52,6 @@
       		</xsl:otherwise>
       	</xsl:choose>
       </xsl:attribute>
-      <!-- remove carriage-returns (occurs on certain versions of IE and doubles linebreaks at each submit) -->
       <xsl:apply-templates select="fi:value/node()" mode="dojoarea-copy"/>
     </textarea>
   </xsl:template>
