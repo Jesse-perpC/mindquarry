@@ -9,8 +9,7 @@
 	<xsl:template match="/df:model">
 		<ductform>
 			<xsl:apply-templates select="df:datatype[@required='true']" />
-			<ductforms_add/>
-			<ductforms_delete />
+			<ductforms/>
 		</ductform>
 	</xsl:template>
 	
