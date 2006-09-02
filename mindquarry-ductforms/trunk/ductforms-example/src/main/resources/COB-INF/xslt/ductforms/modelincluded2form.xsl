@@ -13,7 +13,8 @@
 	<xsl:template match="/df:model">
 		<fd:form id="ductform">
 			<fd:widgets>
-				<xsl:apply-templates select="df:instance" />
+				<xsl:apply-templates select="df:instance/ductforms" />
+				<xsl:apply-templates select="df:datatype" />
 				<xsl:call-template name="extra" />
 			</fd:widgets>
 		</fd:form>
