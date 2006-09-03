@@ -15,9 +15,6 @@ import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
-import javax.jcr.query.Query;
-import javax.jcr.query.QueryManager;
-import javax.jcr.query.QueryResult;
 import javax.mail.MessagingException;
 import javax.mail.internet.MimePart;
 
@@ -81,7 +78,7 @@ public class ConversationMailet extends GenericMailet {
 			session = repo.login(new SimpleCredentials(login, password
 					.toCharArray()), workspace);
 
-			// check if the specified project(s) exists
+			// check if the specified project(s) exist
 			List<String> projects = getProjects(mail);
 			if (projects.size() == 0) {
 				mail.setState(Mail.GHOST);
@@ -138,35 +135,65 @@ public class ConversationMailet extends GenericMailet {
 	}
 
 	private void processMail(String projectName, Mail mail)
-			throws PathNotFoundException, RepositoryException {
+			throws PathNotFoundException, RepositoryException,
+			MessagingException {
 		Collection allRecipients = mail.getRecipients();
 
 		// get recipients for the given project
 		List<String> recipients = new ArrayList<String>();
-		for (Object object : recipients) {
+		for (Object object : allRecipients) {
 			MailAddress recipient = (MailAddress) object;
 			String recipientName = recipient.getUser();
 			String tmpProjectName = recipientName.split("-")[0];
+
 			if (tmpProjectName.equals(projectName)) {
 				recipients.add(recipientName);
 			}
 		}
 		// processing project tags
+		List<Node> tags = new ArrayList<Node>();
+		List<String> newTags = new ArrayList<String>();
+
+		Node tagsNode = session.getRootNode().getNode(
+				"projects/" + projectName + "/tags");
+
 		for (String recipient : recipients) {
 			String tagName = recipient.split("-")[1];
 
-			Node tagsNode = session.getRootNode().getNode(
-					"projects/" + projectName + "/tags");
+			// TODO use query manager for finding tags
 
 			// check if the tag already exist
+			boolean found = false;
 			NodeIterator nit = tagsNode.getNodes();
 			while (nit.hasNext()) {
 				Node tagNode = (Node) nit.next();
 				if (tagNode.getProperty("name").equals(tagName)) {
-					
+					found = true;
+					tags.add(tagNode);
+					break;
 				}
 			}
+			// remember tags that can't be found for later processing
+			if (!found) {
+				newTags.add(tagName);
+			}
 		}
+		// check if there are tags that already exist, if not inform the sender
+		// that nobody has received the mail
+		if (tags.isEmpty()) {
+			getMailetContext().bounce(mail,
+					"Nobody has subscribed to the tags of your mail.");
+		}
+		// process new tags
+		for (String tagName : newTags) {
+			Node tagNode = tagsNode.addNode("tag");
+			tagNode.setProperty("name", tagName);
+			tagNode.addMixin("mix:referenceable");
+			tags.add(tagNode);
+		}
+		// TODO get subscriber
+		
+		// TODO send mail
 	}
 
 	private void attachFooter(Mail mail) throws MessagingException, IOException {
