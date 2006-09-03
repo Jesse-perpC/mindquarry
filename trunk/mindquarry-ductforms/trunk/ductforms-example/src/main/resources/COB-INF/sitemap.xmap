@@ -87,6 +87,12 @@
 				<map:serialize type="xml" />
 			</map:match>
 
+			<map:match pattern="*.xml.raw">
+				<map:generate
+					src="xmldb:xindice-embed:///db/test/{1}.xml" />
+				<map:serialize type="xml" />
+			</map:match>
+
 			<map:match pattern="*.xml.plain">
 				<map:select type="resource-exists">
 					<!-- if it exists, show the list of jobs -->
