@@ -36,7 +36,9 @@
 			<xsl:apply-templates select="ductforms/*"
 				mode="add-missing" />
 			<xsl:apply-templates select="ductforms" />
-
+			<xsl:if test="not(ductforms)">
+				<ductforms/>
+			</xsl:if>
 		</ductform>
 	</xsl:template>
 
