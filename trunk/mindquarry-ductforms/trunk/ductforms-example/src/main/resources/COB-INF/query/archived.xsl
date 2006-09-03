@@ -4,6 +4,18 @@
 	xmlns:i="http://apache.org/cocoon/include/1.0"
 	xmlns:db="http://apache.org/cocoon/xmldb/1.0"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
-	<df:title path="index">All Documents</df:title>
-	
+	<df:title path="index">Archived Documents</df:title>
+
+	<xsl:template match="included">
+		<li>
+			<a href="{@path}">
+				<xsl:apply-templates mode="link" />
+			</a>
+		</li>
+	</xsl:template>
+
+	<xsl:template match="*" mode="link">
+		<xsl:value-of select="title" />
+	</xsl:template>
+
 </xsl:stylesheet>

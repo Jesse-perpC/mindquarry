@@ -4,7 +4,7 @@
 	xmlns:i="http://apache.org/cocoon/include/1.0"
 	xmlns:db="http://apache.org/cocoon/xmldb/1.0"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
-	<df:title path="archived">Archived Documents</df:title>
+	<df:title path="archived">All Documents</df:title>
 	
 	<xsl:template match="included">
 		<li>
