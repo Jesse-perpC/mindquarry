@@ -74,7 +74,8 @@
 		<map:pipeline type="noncaching">
 
 			<map:match pattern="model.xml">
-				<map:generate src="model/model.xml" />
+				<map:generate src="model" type="directory" />
+				<map:transform src="xslt/ductforms/directory2model.xsl" />
 				<map:transform type="xinclude" />
 				<map:serialize type="xml" />
 			</map:match>
