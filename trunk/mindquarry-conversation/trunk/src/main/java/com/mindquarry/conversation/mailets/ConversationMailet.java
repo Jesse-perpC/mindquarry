@@ -4,233 +4,119 @@
 package com.mindquarry.conversation.mailets;
 
 import java.io.IOException;
+import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
+import javax.jcr.query.Query;
+import javax.jcr.query.QueryManager;
+import javax.jcr.query.QueryResult;
 import javax.mail.MessagingException;
+import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimePart;
 
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
-import org.apache.mailet.GenericMailet;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
-import org.apache.mailet.MailetException;
+
+import com.mindquarry.conversation.matchers.AbstractRepositoryMatcher;
 
 /**
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
-public class ConversationMailet extends GenericMailet {
-	private String login;
-
-	private String password;
-
-	private String workspace;
-
-	private String repository;
-
-	private Session session;
-
-	/**
-	 * Initialize the conversation mailet.
-	 * 
-	 * @throws MailetException
-	 *             Thrown if a required parameter is missing.
-	 */
-	@Override
-	public void init() throws MailetException {
-		login = getInitParameter("login");
-		if (login == null) {
-			throw new MailetException("login parameter is required");
-		}
-		password = getInitParameter("password");
-		if (password == null) {
-			throw new MailetException("password parameter is required");
-		}
-		workspace = getInitParameter("workspace");
-		if (workspace == null) {
-			throw new MailetException("workspace parameter is required");
-		}
-		repository = getInitParameter("repository");
-		if (repository == null) {
-			throw new MailetException("repository parameter is required");
-		}
-	}
-
+public class ConversationMailet extends AbstractConversationMailet {
 	/**
 	 * @see org.apache.mailet.GenericMailet#service(org.apache.mailet.Mail)
 	 */
 	@Override
 	public void service(Mail mail) throws MessagingException {
-		System.out.println("Start processing of received mail...");
-
 		try {
-			// get connection to JCR repository
-			ClientRepositoryFactory factory = new ClientRepositoryFactory();
-			Repository repo = factory.getRepository(repository);
-			session = repo.login(new SimpleCredentials(login, password
-					.toCharArray()), workspace);
-
-			// check if the specified project(s) exist
-			List<String> projects = getProjects(mail);
-			if (projects.size() == 0) {
-				mail.setState(Mail.GHOST);
-				return;
-			}
-			// process the mail for each project
-			for (String project : projects) {
-				processMail(project, mail);
-			}
-			attachFooter(mail);
+			processContribution(mail);
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.logout();
+			throw (new MessagingException(
+					"Error while processing contribution.", e));
 		}
 	}
 
-	private List<String> getProjects(Mail mail) throws RepositoryException,
-			MessagingException {
+	private void processContribution(Mail mail) throws RepositoryException,
+			MessagingException, IOException, ClassCastException,
+			NotBoundException {
 		Collection recipients = mail.getRecipients();
-		List<String> projectNames = new ArrayList<String>();
 		for (Object object : recipients) {
 			MailAddress recipient = (MailAddress) object;
 			String recipientName = recipient.getUser();
 
-			log("Checking recipient " + recipientName + "...");
-			String projectName = recipientName.split("-")[0];
+			log("Processing contribution for conversation '" + recipientName
+					+ "'...");
 
-			// TODO use query manager instead of direct access for searching
-			// projects
+			// FIXME dont know why we cant pas the session object via mail
+			// context to the mailet. this results to a ClassCastException
+			ClientRepositoryFactory factory = new ClientRepositoryFactory();
+			Repository repo = factory.getRepository(getMailetContext()
+					.getAttribute(AbstractRepositoryMatcher.REPOSITORY)
+					.toString());
+			Session session = repo.login(new SimpleCredentials(
+					getMailetContext().getAttribute(
+							AbstractRepositoryMatcher.LOGIN).toString(),
+					getMailetContext().getAttribute(
+							AbstractRepositoryMatcher.PASSWORD).toString()
+							.toCharArray()), getMailetContext().getAttribute(
+					AbstractRepositoryMatcher.WORKSPACE).toString());
 
-			// QueryManager qm = session.getWorkspace().getQueryManager();
-			// Query query = qm.createQuery("", Query.XPATH);
-			// QueryResult result = query.execute();
+			// query the repository for a conversation with the given identifier
+			QueryManager qm = session.getWorkspace().getQueryManager();
+			Query query = qm.createQuery(
+					"//projects/project/talk/conversation[@id='"
+							+ recipientName + "']", Query.XPATH);
+			QueryResult qResult = query.execute();
 
-			// check if the given project exists
-			boolean found = false;
-			Node projectsNode = session.getRootNode().getNode("projects");
-			NodeIterator nit = projectsNode.getNodes();
-			while (nit.hasNext()) {
-				Node projectNode = (Node) nit.next();
-				if (projectNode.getProperty("name").equals(projectName)) {
-					projectNames.add(projectNode.getName());
-					break;
+			// add contribution t the conversation
+			NodeIterator nit = qResult.getNodes();
+			if (nit.hasNext()) {
+				// get mail content
+				MimePart part = mail.getMessage();
+				String content = part.getContent().toString();
+
+				// add content to conversation
+				Node conversationNode = (Node) nit.next();
+				Node contributionNode = conversationNode
+						.addNode("contribution");
+				contributionNode.setProperty("content", content);
+				session.save();
+
+				// replace ReplyTo header
+				InternetAddress[] replyTo = (InternetAddress[]) mail
+						.getMessage().getReplyTo();
+				replyTo[0].setAddress(recipientName + "@localhost");
+
+				// retrieve subscribers and forward mail
+				Collection<MailAddress> subscriber = new ArrayList<MailAddress>();
+				NodeIterator subNit = conversationNode.getNodes("subscriber");
+				while (subNit.hasNext()) {
+					Node subscriberNode = (Node) subNit.next();
+					String reference = subscriberNode.getProperty("reference")
+							.getString();
+
+					Node userNode = session.getNodeByUUID(reference);
+					String mailAddr = userNode.getProperty("mail").getString();
+					subscriber.add(new MailAddress(mailAddr));
 				}
+				getMailetContext().sendMail(mail.getSender(), subscriber,
+						mail.getMessage());
+			} else {
+				log("Error: Conversation " + recipientName + "not found.");
+				getMailetContext().bounce(
+						mail,
+						"Error while processing contribution for conversation '"
+								+ recipientName + "'.");
 			}
-			// if a project was not found, inform the sender
-			if (!found) {
-				getMailetContext().bounce(mail,
-						"Project '" + projectName + "' does not exist.");
-			}
+			session.logout();
 		}
-		return (projectNames);
-	}
-
-	private void processMail(String projectName, Mail mail)
-			throws PathNotFoundException, RepositoryException,
-			MessagingException {
-		Collection allRecipients = mail.getRecipients();
-
-		// get recipients for the given project
-		List<String> recipients = new ArrayList<String>();
-		for (Object object : allRecipients) {
-			MailAddress recipient = (MailAddress) object;
-			String recipientName = recipient.getUser();
-			String tmpProjectName = recipientName.split("-")[0];
-
-			if (tmpProjectName.equals(projectName)) {
-				recipients.add(recipientName);
-			}
-		}
-		// processing project tags
-		List<Node> tags = new ArrayList<Node>();
-		List<String> newTags = new ArrayList<String>();
-
-		Node tagsNode = session.getRootNode().getNode(
-				"projects/" + projectName + "/tags");
-
-		for (String recipient : recipients) {
-			String tagName = recipient.split("-")[1];
-
-			// TODO use query manager for finding tags
-
-			// check if the tag already exist
-			boolean found = false;
-			NodeIterator nit = tagsNode.getNodes();
-			while (nit.hasNext()) {
-				Node tagNode = (Node) nit.next();
-				if (tagNode.getProperty("name").equals(tagName)) {
-					found = true;
-					tags.add(tagNode);
-					break;
-				}
-			}
-			// remember tags that can't be found for later processing
-			if (!found) {
-				newTags.add(tagName);
-			}
-		}
-		// check if there are tags that already exist, if not inform the sender
-		// that nobody has received the mail
-		if (tags.isEmpty()) {
-			getMailetContext().bounce(mail,
-					"Nobody has subscribed to the tags of your mail.");
-		}
-		// process new tags
-		for (String tagName : newTags) {
-			Node tagNode = tagsNode.addNode("tag");
-			tagNode.setProperty("name", tagName);
-			tagNode.addMixin("mix:referenceable");
-			tags.add(tagNode);
-		}
-		// TODO get subscriber
-		
-		// TODO send mail
-	}
-
-	private void attachFooter(Mail mail) throws MessagingException, IOException {
-		MimePart part = mail.getMessage();
-		if (part.isMimeType("text/plain")) {
-			addToText(part);
-		} else if (part.isMimeType("text/html")) {
-			addToHTML(part);
-		}
-	}
-
-	private void addToText(MimePart part) throws IOException,
-			MessagingException {
-		String content = part.getContent().toString();
-		content += "\r\n\r\n" + getFooterText();
-		part.setText(content);
-	}
-
-	private void addToHTML(MimePart part) throws MessagingException,
-			IOException {
-		String content = part.getContent().toString();
-
-		/*
-		 * This HTML part may have a closing <BODY> tag. If so, we want to
-		 * insert out footer immediately prior to that tag.
-		 */
-		int index = content.lastIndexOf("</body>");
-		if (index == -1)
-			index = content.lastIndexOf("</body>");
-
-		String footer = "<br/><br/>" + getFooterText();
-		content = index == -1 ? content + footer : content.substring(0, index)
-				+ footer + content.substring(index);
-		part.setContent(content, part.getContentType());
-	}
-
-	private String getFooterText() {
-		return "Track this conversation at ...";
 	}
 }

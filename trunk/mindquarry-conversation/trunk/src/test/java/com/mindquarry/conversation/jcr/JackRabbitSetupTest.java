@@ -42,7 +42,7 @@ public class JackRabbitSetupTest extends TestCase {
 		users = new ArrayList<Hashtable<String, String>>();
 		Hashtable<String, String> user = new Hashtable<String, String>();
 		user.put("name", "Alexander Saar");
-		user.put("mail", "alexander.saar@localhost");
+		user.put("mail", "alexander.saar@mindquarry.com");
 		users.add(user);
 		user = new Hashtable<String, String>();
 		user.put("name", "Lars Trieloff");
@@ -135,18 +135,32 @@ public class JackRabbitSetupTest extends TestCase {
 					}
 				}
 				// add conversations node
-				node.addNode("talk");
+				Node talkNode = node.addNode("talk");
+				Node convNode = talkNode.addNode("conversation");
+				convNode.setProperty("id", project + "-1");
+
+				Node tags = convNode.addNode("tags");
+				Node tag = tags.addNode("tag");
+				tag.setProperty("reference", session.getNodeByUUID(tagRef));
 			}
 			// store user data
 			Node membersNode = root.addNode("users");
 			for (Hashtable<String, String> user : users) {
-				Node node = membersNode.addNode("user");
-				node.setProperty("name", user.get("name"));
-				node.setProperty("mail", user.get("mail"));
+				Node memberNode = membersNode.addNode("user");
+				memberNode.setProperty("name", user.get("name"));
+				memberNode.setProperty("mail", user.get("mail"));
+				memberNode.addMixin("mix:referenceable");
 
-				Node tags = node.addNode("tags");
-				Node tag = tags.addNode("tag");
-				tag.setProperty("link", session.getNodeByUUID(tagRef));
+				Node tagsNode = memberNode.addNode("tags");
+				Node tagNode = tagsNode.addNode("tag");
+				tagNode.setProperty("reference", session.getNodeByUUID(tagRef));
+
+				if (user.get("name").equals("Alexander Saar")) {
+					Node convNode = session.getRootNode().getNode(
+							"projects/project[1]/talk/conversation[1]");
+					Node subscriberNode = convNode.addNode("subscriber");
+					subscriberNode.setProperty("reference", memberNode);
+				}
 			}
 			session.save();
 
