@@ -10,13 +10,9 @@ import java.util.List;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
-import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 import javax.mail.MessagingException;
 
-import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 import org.apache.mailet.MailetException;
@@ -25,16 +21,6 @@ import org.apache.mailet.MailetException;
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
 public class ConversationManagementMailet extends AbstractConversationMailet {
-	private String login;
-
-	private String password;
-
-	private String workspace;
-
-	private String repository;
-
-	private Session session;
-
 	/**
 	 * Initialize the conversation mailet.
 	 * 
@@ -42,23 +28,8 @@ public class ConversationManagementMailet extends AbstractConversationMailet {
 	 *             Thrown if a required parameter is missing.
 	 */
 	@Override
-	public void init() throws MailetException {
-		login = getInitParameter("login");
-		if (login == null) {
-			throw new MailetException("login parameter is required");
-		}
-		password = getInitParameter("password");
-		if (password == null) {
-			throw new MailetException("password parameter is required");
-		}
-		workspace = getInitParameter("workspace");
-		if (workspace == null) {
-			throw new MailetException("workspace parameter is required");
-		}
-		repository = getInitParameter("repository");
-		if (repository == null) {
-			throw new MailetException("repository parameter is required");
-		}
+	public void init() throws MessagingException {
+		super.init();
 	}
 
 	/**
@@ -69,12 +40,6 @@ public class ConversationManagementMailet extends AbstractConversationMailet {
 		System.out.println("Start processing of received mail...");
 
 		try {
-			// get connection to JCR repository
-			ClientRepositoryFactory factory = new ClientRepositoryFactory();
-			Repository repo = factory.getRepository(repository);
-			session = repo.login(new SimpleCredentials(login, password
-					.toCharArray()), workspace);
-
 			// check if the specified project(s) exist
 			List<String> projects = getProjects(mail);
 			if (projects.size() == 0) {
@@ -87,9 +52,7 @@ public class ConversationManagementMailet extends AbstractConversationMailet {
 			}
 			attachFooter(mail);
 		} catch (Exception e) {
-			e.printStackTrace();
-		} finally {
-			session.logout();
+			throw (new MessagingException());
 		}
 	}
 
@@ -113,7 +76,7 @@ public class ConversationManagementMailet extends AbstractConversationMailet {
 
 			// check if the given project exists
 			boolean found = false;
-			Node projectsNode = session.getRootNode().getNode("projects");
+			Node projectsNode = getSession().getRootNode().getNode("projects");
 			NodeIterator nit = projectsNode.getNodes();
 			while (nit.hasNext()) {
 				Node projectNode = (Node) nit.next();
@@ -151,7 +114,7 @@ public class ConversationManagementMailet extends AbstractConversationMailet {
 		List<Node> tags = new ArrayList<Node>();
 		List<String> newTags = new ArrayList<String>();
 
-		Node tagsNode = session.getRootNode().getNode(
+		Node tagsNode = getSession().getRootNode().getNode(
 				"projects/" + projectName + "/tags");
 
 		for (String recipient : recipients) {

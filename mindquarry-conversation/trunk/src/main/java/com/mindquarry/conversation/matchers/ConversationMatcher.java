@@ -29,7 +29,7 @@ public class ConversationMatcher extends AbstractRepositoryMatcher {
 	public void init() throws MessagingException {
 		super.init();
 	}
-	
+
 	/**
 	 * @see org.apache.mailet.GenericMatcher#destroy()
 	 */
@@ -72,8 +72,17 @@ public class ConversationMatcher extends AbstractRepositoryMatcher {
 			MailAddress recipient = (MailAddress) object;
 			String recipientName = recipient.getUser();
 
-			log("Checking conversation identifier " + recipientName + "...");
-
+			// check conversation address pattern
+			String[] parts = recipientName.split("-");
+			if (parts.length != 2) {
+				continue;
+			} else {
+				try {
+					Integer.valueOf(parts[1]);
+				} catch (NumberFormatException e) {
+					continue;
+				}
+			}
 			// query the repository for a conversation with the given identifier
 			QueryManager qm = getSession().getWorkspace().getQueryManager();
 			Query query = qm.createQuery(
