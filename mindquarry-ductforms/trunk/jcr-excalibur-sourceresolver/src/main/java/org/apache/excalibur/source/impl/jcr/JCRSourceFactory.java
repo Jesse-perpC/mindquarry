@@ -106,9 +106,21 @@ import org.apache.excalibur.source.SourceUtil;
  * has no validity and won't be cacheable. </li>
  * </ul>
  * <p>
- * The format of URIs for this source is a path in the repository, and it is
- * therefore currently limited to repository traversal. Further work will add
- * the ability to specify query strings.
+ * An URI for this source is either (i) a direct path in the repository or
+ * (ii) an enclosed JCR query. The path to the repository would be given simply as
+ * <code>jcr://root/folder/file</code>. For the queries, three different
+ * possibilities exist:
+ * <ul>
+ * <li>XPATH: <code>jcr://xpath!//folder/file</code> (which maps to the xpath query
+ * <code>//folder/file</code>)</li>
+ * <li>XPATH: <code>jcr://!//folder/file</code> (shorthand notation, same query as above)</li>
+ * <li>SQL: <code>jcr://sql!select * from nt:base where jcr:path = '/root/myfile'</code>
+ * (well, which maps to the sql query
+ * <code>SELECT * FROM nt:base WHERE jcr:path = '/root/myfile'</code>)</li>
+ * </ul>
+ * Note that this implementation does only support queries that return a content-node
+ * (with no children). If the result contains multiple nodes, the first one is used.
+ * See also the {@link #executeQuery(Session,String,String) executeQuery()} method.
  *
  * @version $Id: JCRSourceFactory.java 240329 2005-08-26 20:04:15Z vgritsenko $
  */
@@ -281,7 +293,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory, Configurable
      * wants to read (call getInputStream()) from a collection (or folder-type) node).
      * If the result contains multiple nodes, only the first one is returned.
      * 
-     * Subclasses that use an extended, XMLizable JCRNodeSource should override this
+     * <p>Subclasses that use an extended, XMLizable JCRNodeSource should override this
      * method and return all nodes in the result.
      * 
      * @param session the session
