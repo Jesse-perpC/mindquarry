@@ -8,6 +8,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.excalibur.source.impl.jcr.JCRNodeSource;
@@ -40,8 +42,14 @@ public class JCRXMLNodeSource extends JCRNodeSource implements XMLizable {
 	}
 
 	public void toSAX(ContentHandler handler) throws SAXException {
-		// TODO Auto-generated method stub
-		
+		// use the JCR export feature
+		try {
+			this.session.exportDocumentView(this.path, handler, false, false);
+		} catch (PathNotFoundException e) {
+            throw new SAXException("Source not found: " + this.getURI());
+        } catch (RepositoryException e) {
+            throw new SAXException("Cannot export repository path as document view sax events: " + this.path, e);
+		}
 	}
 
 	/* (non-Javadoc)
