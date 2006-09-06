@@ -22,7 +22,7 @@
 <html>
   <h2>Populating JCR with sample data</h2>
 
-  <h3>Import sitemap.xmap ...</h3>
+  <h3>Importing some XML into JCR...</h3>
   <textarea cols="75" rows="3">
     <s:write xmlns:s="http://apache.org/cocoon/source/1.0">
       <s:source>jcr://cocoon/sitemap</s:source>
@@ -33,6 +33,8 @@
   </textarea>
 
   <h3>Done</h3>
-  <p>Review results of all operations and go check other samples.</p>
-  <a href="./">Go Back</a>
+
+  <p>
+    <a href="./content.xml">Show the content added to the repository</a>
+  </p>
 </html>
