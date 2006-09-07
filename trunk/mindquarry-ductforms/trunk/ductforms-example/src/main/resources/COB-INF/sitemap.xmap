@@ -73,13 +73,14 @@
 	<map:pipelines>
 		<map:pipeline type="noncaching">
 
+			<!-- the aggregation of all datamodel desctiptions available in the system -->
 			<map:match pattern="model.xml">
 				<map:generate src="model" type="directory" />
 				<map:transform src="xslt/ductforms/directory2model.xsl" />
 				<map:transform type="xinclude" />
 				<map:serialize type="xml" />
 			</map:match>
-
+			<!-- the aggregation of all query model descriptions available -->
 			<map:match pattern="query.xml">
 				<map:generate src="query" type="directory" />
 				<map:transform src="xslt/ductforms/directory2model.xsl" />
@@ -87,12 +88,16 @@
 				<map:serialize type="xml" />
 			</map:match>
 
+			<!-- the raw content of the xml document, only for further processing and debugging -->
 			<map:match pattern="*.xml.raw">
 				<map:generate
 					src="xmldb:xindice-embed:///db/test/{1}.xml" />
 				<map:serialize type="xml" />
 			</map:match>
-
+			
+			<!--+ the true content of the model, here required fields have been added and
+				| redundant declaration of the fields included is added
+				+-->
 			<map:match pattern="*.xml.plain">
 				<map:select type="resource-exists">
 					<!-- if it exists, show the list of jobs -->
@@ -112,7 +117,11 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
-
+			
+			<!--+ the aggregation of the plain instance (data of the document)
+				| and the aggregated models. This includes everything that is
+				| and could be.
+			 	+-->
 			<map:match pattern="*.xml.model">
 				<map:generate src="cocoon:/model.xml" />
 				<map:transform
@@ -126,6 +135,7 @@
 				<map:serialize type="xml" />
 			</map:match>
 
+			<!--+ the generated form model including all possible fields  -->
 			<map:match pattern="*.xml.form">
 				<map:generate src="cocoon:/{1}.xml.model" />
 				<map:transform
@@ -133,6 +143,7 @@
 				<map:serialize type="xml" />
 			</map:match>
 
+			<!-- the generated form template including only the selected fields -->
 			<map:match pattern="*.xml.template">
 				<map:generate src="cocoon:/{1}.xml.model" />
 				<map:transform
@@ -140,6 +151,7 @@
 				<map:serialize type="xml" />
 			</map:match>
 
+			<!-- the form instance, or the document in edit mode -->
 			<map:match pattern="*.xml.edit">
 				<map:call function="handleForm">
 					<map:parameter name="function" value="editPage" />
@@ -150,7 +162,7 @@
 						value="cocoon:/{1}.xml.form" />
 				</map:call>
 			</map:match>
-
+			<!-- the document in presentation mode -->
 			<map:match pattern="*.xml">
 				<map:select type="resource-exists">
 					<!-- if it exists, show the list of jobs -->
