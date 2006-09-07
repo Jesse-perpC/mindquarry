@@ -29,6 +29,7 @@
 			select="key('datatypes', normalize-space(local-name(.)))" />
 	</xsl:template>
 
+	<!-- the three supported widget types (field, boolean, repeater) -->
 	<xsl:template match="df:datatype[fd:field]">
 		<fd:field id="{@id}">
 			<xsl:copy-of select="fd:field/*|fd:field/@*" />
@@ -40,6 +41,14 @@
 			<xsl:copy-of select="fd:booleanfield/*|fd:booleanfield/@*" />
 		</fd:booleanfield>
 	</xsl:template>
+	
+	 
+	<xsl:template match="df:datatype[fd:repeater]">
+		<fd:repeater id="{@id}">
+			<xsl:copy-of select="fd:repeater/*|fd:repeater/@*" />
+		</fd:repeater>
+	</xsl:template>
+	
 
 	<xsl:template name="extra">
 		<fd:submit id="ductforms_save" validate="true">
@@ -63,7 +72,7 @@
 
 	<xsl:template match="df:datatype" mode="ductforms_add">
 		<fd:item value="{@id}">
-			<xsl:copy-of select=".//fd:label[1]" />
+			<xsl:copy-of select="(.//fd:label)[1]" />
 		</fd:item>
 	</xsl:template>
 
