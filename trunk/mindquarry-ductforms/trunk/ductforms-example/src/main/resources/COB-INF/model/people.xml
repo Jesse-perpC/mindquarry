@@ -19,6 +19,10 @@
 				<fd:datatype base="string" />
 				<fd:label>Role</fd:label>
 			</fd:field>
+		<fd:row-action id="delete" command="delete">
+			<fd:label>Remove</fd:label>
+			<fd:hint>Remove a person that is no longer relevant to this document</fd:hint>
+		</fd:row-action>
 		</fd:widgets>
 	</fd:repeater>
 	<fd:repeater-action id="add" command="add-row">
@@ -43,11 +47,12 @@
 						</td>
 						<td>
 							<ft:widget id="peoplerole" />
+							<ft:widget id="delete"/>
 						</td>
 					</tr>
 				</ft:repeater-rows>
 			</tbody>
 		</table>
 	</ft:repeater>
-	
+	 
 </df:datatype>
