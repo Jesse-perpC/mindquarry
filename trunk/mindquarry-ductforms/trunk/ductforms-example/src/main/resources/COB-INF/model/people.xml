@@ -21,6 +21,10 @@
 			</fd:field>
 		</fd:widgets>
 	</fd:repeater>
+	<fd:repeater-action id="add" command="add-row">
+		<fd:label>Add Person</fd:label>
+	</fd:repeater-action>
+	
 	<ft:repeater>
 		<table>
 			<tbody>
@@ -35,14 +39,15 @@
 				<ft:repeater-rows>
 					<tr class="forms-row-${repeaterLoop.index % 2}">
 						<td>
-							<ft:widget id="field1" />
+							<ft:widget id="peopleperson" />
 						</td>
 						<td>
-							<ft:widget id="field2" />
+							<ft:widget id="peoplerole" />
 						</td>
 					</tr>
 				</ft:repeater-rows>
 			</tbody>
 		</table>
 	</ft:repeater>
+	
 </df:datatype>

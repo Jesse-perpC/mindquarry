@@ -33,7 +33,7 @@
 			<xsl:attribute name="action">
 				<xsl:text>#{$cocoon/continuation/id}.continue</xsl:text>
 			</xsl:attribute>
-			
+
 			<xsl:apply-templates select="*" />
 
 			<xsl:call-template name="extra">
@@ -43,34 +43,51 @@
 	</xsl:template>
 
 	<xsl:template match="*">
-		<html:div class="form_block" style="border:1px solid lightgreen;margin:2px;">
-			<html:label for="ductform.{local-name(.)}">
-				<xsl:apply-templates select="key('datatypes',local-name(.))//fd:hint[1]" />
-				<ft:widget-label id="{local-name(.)}" />
-			</html:label>
+		<xsl:variable name="name" select="local-name(.)" />
+		<xsl:variable name="datatype"
+			select="key('datatypes',$name)" />
+
+		<html:div class="form_block">
 			
-			<ft:widget id="{local-name(.)}">
-				<xsl:copy-of
-					select="key('datatypes',local-name(.))/ft:widget/@*" />
-				<xsl:copy-of
-					select="key('datatypes',local-name(.))/ft:widget/node()" />
-					
-				<xsl:apply-templates select="." mode="styling"/>
-			</ft:widget>
+			<html:label for="ductform.{$name}">
+				<xsl:apply-templates select="($datatype//fd:hint)[1]" />
+				<ft:widget-label id="{$name}" />
+			</html:label>
+
+			<xsl:choose>
+				<xsl:when test="$datatype/ft:repeater">
+					<ft:repeater id="{$name}">
+						<xsl:copy-of select="($datatype/ft:repeater)[1]/@*|($datatype/ft:repeater)[1]/node()" />
+					</ft:repeater>
+				</xsl:when>
+				<xsl:otherwise>
+					<ft:widget id="{$name}">
+						<xsl:copy-of select="($datatype/ft:widget)[1]/@*" />
+						<xsl:copy-of
+							select="($datatype/ft:widget)[1]/node()" />
+						<xsl:apply-templates select="." mode="styling" />
+					</ft:widget>
+				</xsl:otherwise>
+			</xsl:choose>
+			
+			<xsl:for-each select="$datatype/fd:repeater-action">
+				<ft:widget id="{$name}{@id}" />
+			</xsl:for-each>
 		</html:div>
 	</xsl:template>
-	
-	<xsl:template match="*" mode="styling"/>
-	
-	<xsl:template match="ductforms_add|ductforms_delete" mode="styling">
- 		<fi:styling submit-on-change="true"/>
+
+	<xsl:template match="*" mode="styling" />
+
+	<xsl:template match="ductforms_add|ductforms_delete"
+		mode="styling">
+		<fi:styling submit-on-change="true" />
 	</xsl:template>
 
 	<xsl:template match="fd:hint">
 		<xsl:attribute name="title">
 			<xsl:value-of select="." />
 		</xsl:attribute>
-	</xsl:template>	
+	</xsl:template>
 
 	<xsl:template name="extra">
 		<xsl:param name="suffix" />
