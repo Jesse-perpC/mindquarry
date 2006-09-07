@@ -9,7 +9,8 @@ function edit(form, page) {
 	form.showForm(page+".xml.instance");
 	//the form includes all possible fields, but only some of them are
 	//actually used. the best solution would be to strip out forms
-	form.saveXML("xmldb:xindice-embed:///db/test/" + page + ".xml","xslt/ductforms/addfield.xsl");
+	form.saveXML("xmldb:xindice-embed:///db/test/" + page + ".xml","xslt/ductforms/saveclean.xsl");
+	//form.saveXML("xmldb:xindice-embed:///db/test/" + page + ".xml");
 	myform = null;
 	mypage = null;
 	cocoon.redirectTo(page+".xml", false);
@@ -34,7 +35,7 @@ function showPage(form) {
 
 function upd(event) {
 	if (myform&&mypage) {
-		myform.saveXML("xmldb:xindice-embed:///db/test/" + mypage + ".xml","xslt/ductforms/addfield.xsl");
+		myform.saveXML("xmldb:xindice-embed:///db/test/" + mypage + ".xml","xslt/ductforms/saveclean.xsl");
 	}
 	cocoon.exit();
 }
