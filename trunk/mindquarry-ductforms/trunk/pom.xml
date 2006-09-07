@@ -19,6 +19,7 @@
 	<modules>
 		<module>subversion-block</module>
 		<module>cocoon-playground-webapp</module>
+		<module>ductforms-example</module>
 	</modules>
 
 	<build>
