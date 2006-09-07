@@ -43,12 +43,9 @@
 	</xsl:template>
 
 	<xsl:template match="*">
-		<html:div class="form_block">
+		<html:div class="form_block" style="border:1px solid lightgreen;margin:2px;">
 			<html:label for="ductform.{local-name(.)}">
-				<xsl:apply-templates select="key('datatypes',local-name(.))//fd:hint" />
-				
-				<xsl:apply-templates
-					select="key('datatypes',local-name(.))/fd:widget/fd:hint" />
+				<xsl:apply-templates select="key('datatypes',local-name(.))//fd:hint[1]" />
 				<ft:widget-label id="{local-name(.)}" />
 			</html:label>
 			

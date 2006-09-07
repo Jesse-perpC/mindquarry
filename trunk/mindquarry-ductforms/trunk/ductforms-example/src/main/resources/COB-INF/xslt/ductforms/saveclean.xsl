@@ -28,6 +28,4 @@
 	</xsl:template>
 
 	<xsl:template match="/ductform/ductforms" />
-	
-	<xsl:template match="/ductform/*[normalize-space(.)='']" />
 </xsl:stylesheet>
