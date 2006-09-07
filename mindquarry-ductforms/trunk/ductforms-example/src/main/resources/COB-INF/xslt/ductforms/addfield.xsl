@@ -20,7 +20,7 @@
 	<xsl:template match="/ductform">
 		<ductform>
 			<!-- existing fields first, but strip out deleted fields -->
-			<xsl:apply-templates select="*" mode="strip-deleted" />
+			<xsl:apply-templates select="*" />
 			<!-- required fields next -->
 			<xsl:for-each select="$required">
 				<xsl:variable name="myname" select="@id" />
@@ -33,57 +33,31 @@
 				</xsl:if>
 			</xsl:for-each>
 			<!-- other added fields last -->
-			<xsl:apply-templates select="ductforms/*"
-				mode="add-missing" />
-			<xsl:apply-templates select="ductforms" />
-			<xsl:if test="not(ductforms)">
-				<ductforms/>
-			</xsl:if>
+			<ductforms>
+				<xsl:apply-templates select="*" mode="ductforms-item" />
+				<xsl:for-each select="$required">
+					<xsl:variable name="myname" select="@id" />
+					<xsl:if
+						test="not($existing[local-name(.)=$myname])">
+						<item>
+							<xsl:attribute name="required">
+								true
+							</xsl:attribute>
+							<xsl:value-of select="$myname" />
+						</item>
+					</xsl:if>
+				</xsl:for-each>
+			</ductforms>
+
 		</ductform>
 	</xsl:template>
 
-	<xsl:template match="*" mode="strip-deleted">
-		<xsl:variable name="myname" select="local-name(.)" />
-		<!-- include all existing elements that are either listed in the
-			list of elements to be kept or that are required -->
-		<xsl:if
-			test="/ductform/ductforms/item[normalize-space(.)=$myname] or $required/@id=$myname">
-			<xsl:element name="{$myname}">
-				<xsl:attribute name="existing">true</xsl:attribute>
-				<xsl:apply-templates />
-			</xsl:element>
-		</xsl:if>
+	<xsl:template match="*" mode="ductforms-item">
+		<item>
+			<xsl:value-of select="local-name(.)" />
+		</item>
 	</xsl:template>
-
-	<xsl:template match="ductforms/*" mode="add-missing">
-		<xsl:variable name="myname" select="normalize-space(.)" />
-		<!-- filter out existing and required -->
-		<xsl:if test="not(/ductform/*[local-name(.)=$myname]) and not($required/@id=$myname)">
-			<xsl:element name="{$myname}">
-				<xsl:attribute name="missing">true</xsl:attribute>
-			</xsl:element>
-		</xsl:if>
-	</xsl:template>
-
-	<xsl:template match="ductforms">
-		<xsl:copy>
-			<xsl:for-each select="$required">
-				<item required="true">
-					<xsl:value-of select="@id" />
-				</item>
-			</xsl:for-each>
-			<xsl:apply-templates />
-		</xsl:copy>
-	</xsl:template>
-
-	<xsl:template match="ductforms/item">
-		<xsl:variable name="myname" select="normalize-space(.)" />
-		<!-- do not include item that are already required -->
-		<xsl:if test="not($required/@id=$myname)">
-			<item duct="true">
-				<xsl:apply-templates />
-			</item>
-		</xsl:if>
-	</xsl:template>
-
+	
+	<xsl:template match="ductforms"/>
+	<xsl:template match="ductforms" mode="ductforms-item"/>
 </xsl:stylesheet>
