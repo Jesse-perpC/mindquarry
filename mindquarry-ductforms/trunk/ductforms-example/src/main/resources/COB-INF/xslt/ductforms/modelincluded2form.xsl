@@ -44,9 +44,17 @@
 	
 	 
 	<xsl:template match="df:datatype[fd:repeater]">
+		<xsl:variable name="id" select="@id"/>
 		<fd:repeater id="{@id}">
 			<xsl:copy-of select="fd:repeater/*|fd:repeater/@*" />
 		</fd:repeater>
+		<xsl:for-each select="fd:repeater-action">
+			<xsl:copy>
+				<xsl:attribute name="id"><xsl:value-of select="$id" /><xsl:value-of select="@id" /></xsl:attribute>
+				<xsl:attribute name="repeater"><xsl:value-of select="$id" /></xsl:attribute>
+				<xsl:copy-of select="@*[not(local-name(.)='id' or local-name(.)='repeater')]|node()" />
+			</xsl:copy>
+		</xsl:for-each>
 	</xsl:template>
 	
 
