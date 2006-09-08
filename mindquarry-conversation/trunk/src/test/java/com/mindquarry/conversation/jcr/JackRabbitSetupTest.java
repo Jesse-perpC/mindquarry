@@ -142,6 +142,9 @@ public class JackRabbitSetupTest extends TestCase {
 				Node tags = convNode.addNode("tags");
 				Node tag = tags.addNode("tag");
 				tag.setProperty("reference", session.getNodeByUUID(tagRef));
+				
+				convNode.addNode("subscribers");
+				convNode.addNode("contributions");
 			}
 			// store user data
 			Node membersNode = root.addNode("users");
@@ -157,7 +160,7 @@ public class JackRabbitSetupTest extends TestCase {
 
 				if (user.get("name").equals("Alexander Saar")) {
 					Node convNode = session.getRootNode().getNode(
-							"projects/project[1]/talk/conversation[1]");
+							"projects/project[1]/talk/conversation[1]/subscribers");
 					Node subscriberNode = convNode.addNode("subscriber");
 					subscriberNode.setProperty("reference", memberNode);
 				}

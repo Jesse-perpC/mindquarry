@@ -71,24 +71,24 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 		session.logout();
 	}
 
-	protected void attachFooter(Mail mail) throws MessagingException,
+	protected void attachFooter(Mail mail, String text) throws MessagingException,
 			IOException {
 		MimePart part = mail.getMessage();
 		if (part.isMimeType("text/plain")) {
-			addToText(part);
+			addToText(part, text);
 		} else if (part.isMimeType("text/html")) {
-			addToHTML(part);
+			addToHTML(part, text);
 		}
 	}
 
-	private void addToText(MimePart part) throws IOException,
+	private void addToText(MimePart part, String text) throws IOException,
 			MessagingException {
 		String content = part.getContent().toString();
-		content += "\r\n\r\n" + getFooterText();
+		content += "\r\n\r\n" + text;
 		part.setText(content);
 	}
 
-	private void addToHTML(MimePart part) throws MessagingException,
+	private void addToHTML(MimePart part, String text) throws MessagingException,
 			IOException {
 		String content = part.getContent().toString();
 
@@ -100,14 +100,10 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 		if (index == -1)
 			index = content.lastIndexOf("</body>");
 
-		String footer = "<br/><br/>" + getFooterText();
+		String footer = "<br/><br/>" + text;
 		content = index == -1 ? content + footer : content.substring(0, index)
 				+ footer + content.substring(index);
 		part.setContent(content, part.getContentType());
-	}
-
-	private String getFooterText() {
-		return "Track this conversation at ...";
 	}
 
 	/**
@@ -115,7 +111,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @return the login
 	 */
-	public String getLogin() {
+	protected String getLogin() {
 		return login;
 	}
 
@@ -124,7 +120,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @param login the login to set
 	 */
-	public void setLogin(String login) {
+	protected void setLogin(String login) {
 		this.login = login;
 	}
 
@@ -133,7 +129,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @return the password
 	 */
-	public String getPassword() {
+	protected String getPassword() {
 		return password;
 	}
 
@@ -142,7 +138,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @param password the password to set
 	 */
-	public void setPassword(String password) {
+	protected void setPassword(String password) {
 		this.password = password;
 	}
 
@@ -151,7 +147,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @return the repository
 	 */
-	public String getRepository() {
+	protected String getRepository() {
 		return repository;
 	}
 
@@ -160,7 +156,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @param repository the repository to set
 	 */
-	public void setRepository(String repository) {
+	protected void setRepository(String repository) {
 		this.repository = repository;
 	}
 
@@ -169,7 +165,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @return the session
 	 */
-	public Session getSession() {
+	protected Session getSession() {
 		return session;
 	}
 
@@ -178,7 +174,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @param session the session to set
 	 */
-	public void setSession(Session session) {
+	protected void setSession(Session session) {
 		this.session = session;
 	}
 
@@ -187,7 +183,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @return the workspace
 	 */
-	public String getWorkspace() {
+	protected String getWorkspace() {
 		return workspace;
 	}
 
@@ -196,7 +192,7 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	 *
 	 * @param workspace the workspace to set
 	 */
-	public void setWorkspace(String workspace) {
+	protected void setWorkspace(String workspace) {
 		this.workspace = workspace;
 	}
 }
