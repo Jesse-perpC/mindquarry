@@ -33,7 +33,8 @@ public class ReplyToConversationTest extends TestCase {
 		props.load(pis);
 
 		Address from = new InternetAddress("test@example.org", "Test User");
-		Address to = new InternetAddress("Mindquarry-1@example.org");
+		Address to = new InternetAddress(
+				"Mindquarry-1@conversation.mindquarry.com");
 
 		Session session = Session.getDefaultInstance(props, null);
 		MimeMessage msg = new MimeMessage(session);
