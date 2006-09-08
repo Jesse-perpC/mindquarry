@@ -8,18 +8,13 @@ import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import javax.jcr.AccessDeniedException;
-import javax.jcr.InvalidItemStateException;
 import javax.jcr.ItemExistsException;
-import javax.jcr.ItemNotFoundException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
-import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
@@ -59,63 +54,108 @@ public class ConversationManager extends AbstractConversationMailet {
 	@Override
 	public void service(Mail mail) throws MessagingException {
 		try {
-			processContribution(mail);
+			processMail(mail);
 		} catch (Exception e) {
 			throw (new MessagingException(
 					"Error while processing contribution.", e));
 		}
 	}
 
-	private void processContribution(Mail mail) throws RepositoryException,
+	private void processMail(Mail mail) throws RepositoryException,
 			MessagingException, IOException, ClassCastException,
 			NotBoundException {
 		Collection recipients = mail.getRecipients();
 		for (Object object : recipients) {
-			MailAddress recipient = (MailAddress) object;
-			String conversationID = recipient.getUser();
+			MailAddress address = (MailAddress) object;
+			String id = address.getUser();
 
-			// query the repository for a conversation with the given identifier
-			QueryManager qm = getSession().getWorkspace().getQueryManager();
-			Query query = qm.createQuery(
-					"//projects/project/talk/conversation[@id='"
-							+ conversationID + "']", Query.XPATH);
-			QueryResult qResult = query.execute();
-
-			// add contribution to the conversation, if one was found
-			NodeIterator nit = qResult.getNodes();
-			if (nit.hasNext()) {
-				Collection<MailAddress> subscriber = processConversationContribution(
-						mail.getMessage(), conversationID, (Node) nit.next());
-
-				// replace ReplyTo header
-				InternetAddress replyTo = new InternetAddress(recipient
-						.toString());
-				mail.getMessage().setReplyTo(new InternetAddress[] { replyTo });
-
-				// set footer
-				attachFooter(mail, "Track this conversation at "
-						+ recipient.toString() + ".");
-
-				// send mail to subscribers
-				getMailetContext().sendMail(mail.getSender(), subscriber,
-						mail.getMessage());
-
-				// we send the mail, so further processing is not necessary
-				mail.setState(Mail.GHOST);
+			// check if the mail is a contribution to an existing conversation
+			Node conversationNode = checkConversationExists(id);
+			if (conversationNode != null) {
+				handleContribution(mail, address, conversationNode, id);
 			} else {
-				log("No conversation with the given name was found.");
+				// this mail is no contribution to an existing conversation or
+				// the conversatio does not exist. check if the pattern is
+				// correct or if we must create a new conversation
+				String[] parts = id.split("-");
+				if (parts.length == 2) {
+					Node tagNode = checkTagExistsInProject(parts[0], parts[1]);
+					if(tagNode != null) {
+						
+					}
+				} else {
+					getMailetContext().bounce(mail,
+							"Unsupported conversation address pattern.");
+				}
 			}
 		}
 	}
 
-	private Collection<MailAddress> processConversationContribution(
-			MimePart part, String conversationID, Node conversationNode)
-			throws MessagingException, IOException, ItemExistsException,
-			PathNotFoundException, VersionException,
-			ConstraintViolationException, LockException, RepositoryException,
-			ValueFormatException, AccessDeniedException,
-			InvalidItemStateException, NoSuchNodeTypeException,
-			AddressException, ItemNotFoundException, ParseException {
+	private Node checkTagExistsInProject(String projectName, String tagName)
+			throws RepositoryException {
+		// query the repository for a conversation with the given identifier
+		QueryManager qm = getSession().getWorkspace().getQueryManager();
+		Query query = qm.createQuery("//projects/project[@name='" + projectName
+				+ "']/tags/tag[@name='" + tagName + "']", Query.XPATH);
+		QueryResult qResult = query.execute();
+
+		// add contribution to the conversation, if one was found
+		NodeIterator nit = qResult.getNodes();
+		if (nit.hasNext()) {
+			return (Node) nit.next();
+		} else {
+			return null;
+		}
+	}
+
+	private Node checkConversationExists(String conversationID)
+			throws RepositoryException {
+		// query the repository for a conversation with the given identifier
+		QueryManager qm = getSession().getWorkspace().getQueryManager();
+		Query query = qm.createQuery(
+				"//projects/project/talk/conversation[@id='" + conversationID
+						+ "']", Query.XPATH);
+		QueryResult qResult = query.execute();
+
+		// add contribution to the conversation, if one was found
+		NodeIterator nit = qResult.getNodes();
+		if (nit.hasNext()) {
+			return (Node) nit.next();
+		} else {
+			return null;
+		}
+	}
+
+	private void handleContribution(Mail mail, MailAddress address,
+			Node conversationNode, String recipient)
+			throws RepositoryException, IOException, MessagingException,
+			ItemExistsException, PathNotFoundException, VersionException,
+			ConstraintViolationException, LockException, ParseException,
+			AddressException {
+		addContributionToConversation(mail.getMessage(), conversationNode);
+
+		Collection<MailAddress> subscriber = getSubscriber(conversationNode);
+
+		// replace ReplyTo header
+		InternetAddress replyTo = new InternetAddress(address.toString());
+		mail.getMessage().setReplyTo(new InternetAddress[] { replyTo });
+
+		// set footer
+		attachFooter(mail, "Track this conversation at " + address.toString()
+				+ ".");
+
+		// send mail to subscribers
+		getMailetContext().sendMail(mail.getSender(), subscriber,
+				mail.getMessage());
+
+		// we send the mail, so further processing is not necessary
+		mail.setState(Mail.GHOST);
+	}
+
+	private void addContributionToConversation(MimePart part,
+			Node conversationNode) throws IOException, MessagingException,
+			ItemExistsException, PathNotFoundException, VersionException,
+			ConstraintViolationException, LockException, RepositoryException {
 		String content = part.getContent().toString();
 
 		// add content to conversation
@@ -123,7 +163,10 @@ public class ConversationManager extends AbstractConversationMailet {
 				.addNode("contributions/contribution");
 		contributionNode.setProperty("content", content);
 		getSession().save();
+	}
 
+	private Collection<MailAddress> getSubscriber(Node conversationNode)
+			throws PathNotFoundException, RepositoryException, ParseException {
 		// retrieve subscribers and add them to the rsult list
 		Collection<MailAddress> subscriber = new ArrayList<MailAddress>();
 		Node subscribersNode = conversationNode.getNode("subscribers");
