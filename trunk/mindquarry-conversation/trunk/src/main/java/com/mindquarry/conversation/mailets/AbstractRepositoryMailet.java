@@ -19,7 +19,7 @@ import org.apache.mailet.MailetException;
 /**
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
-public abstract class AbstractConversationMailet extends GenericMailet {
+public abstract class AbstractRepositoryMailet extends GenericMailet {
 	private String login;
 
 	private String password;

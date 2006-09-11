@@ -35,9 +35,9 @@ import org.apache.mailet.MailAddress;
 /**
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
-public class ConversationManager extends AbstractConversationMailet {
+public class ConversationManager extends AbstractRepositoryMailet {
 	/**
-	 * @see com.mindquarry.conversation.mailets.AbstractConversationMailet#init()
+	 * @see com.mindquarry.conversation.mailets.AbstractRepositoryMailet#init()
 	 */
 	@Override
 	public void init() throws MessagingException {
@@ -45,7 +45,7 @@ public class ConversationManager extends AbstractConversationMailet {
 	}
 
 	/**
-	 * @see com.mindquarry.conversation.mailets.AbstractConversationMailet#destroy()
+	 * @see com.mindquarry.conversation.mailets.AbstractRepositoryMailet#destroy()
 	 */
 	@Override
 	public void destroy() {
@@ -88,7 +88,7 @@ public class ConversationManager extends AbstractConversationMailet {
 			}
 
 			// check if the mail is a contribution to an existing conversation
-			Node conversationNode = checkConversationExists(address.getUser());
+			Node conversationNode = getConversation(address.getUser());
 			if (conversationNode != null) {
 				// a conversation that matches the address pattern was found,
 				// thus we process the contribution and continue with the next
@@ -101,7 +101,7 @@ public class ConversationManager extends AbstractConversationMailet {
 			// matches the given address pattern
 			String projectName = tokenizer.nextToken();
 			String tagName = tokenizer.nextToken();
-			Node tagNode = checkTagExistsInProject(projectName, tagName);
+			Node tagNode = getTag(projectName, tagName);
 			if (tagNode != null) {
 				Collection<Node> entries = newConversations.get(projectName);
 				if(entries == null) {
@@ -134,7 +134,7 @@ public class ConversationManager extends AbstractConversationMailet {
 			Collection<Node> tags = items.get(projectName);
 			
 			// get project node
-			Node projectNode = checkProjectExist(projectName);
+			Node projectNode = getProject(projectName);
 			if(projectNode == null) {
 				continue;
 			}
@@ -209,7 +209,7 @@ public class ConversationManager extends AbstractConversationMailet {
 			VersionException, ConstraintViolationException, LockException,
 			ParseException, AddressException {
 		// check if the sender is a valid user
-		Node userNode = checkUserExists(mail.getSender().toString());
+		Node userNode = getUser(mail.getSender().toString());
 		if (userNode == null) {
 			getMailetContext().bounce(mail, "You are not a member and " + 
 				"thus you are not allowed to send mails to this list.");
@@ -219,7 +219,8 @@ public class ConversationManager extends AbstractConversationMailet {
 		addContributionToConversation(mail.getMessage(), conversationNode);
 		
 		// get subscriber and add the sender, if he is no subscriber
-		Collection<MailAddress> subscriber = getConversationSubscriber(conversationNode);
+		Collection<MailAddress> subscriber = 
+			getConversationSubscriber(conversationNode);
 		if(!subscriber.contains(mail.getSender())) {
 			addSubscriberToConversation(conversationNode, userNode);
 			
@@ -304,7 +305,7 @@ public class ConversationManager extends AbstractConversationMailet {
 	 * @return a node containing the tag if one exist, otherwise null
 	 * @throws RepositoryException
 	 */
-	private Node checkTagExistsInProject(String projectName, String tagName)
+	private Node getTag(String projectName, String tagName)
 			throws RepositoryException {
 		QueryManager qm = getSession().getWorkspace().getQueryManager();
 		Query query = qm.createQuery("//projects/project[@name='" + projectName
@@ -320,7 +321,7 @@ public class ConversationManager extends AbstractConversationMailet {
 	 * @return a node containing the project if one exist, otherwise null
 	 * @throws RepositoryException
 	 */
-	private Node checkProjectExist(String projectName) 
+	private Node getProject(String projectName) 
 		throws RepositoryException {
 		QueryManager qm = getSession().getWorkspace().getQueryManager();
 		Query query = qm.createQuery("//projects/project[@name='" + projectName
@@ -337,7 +338,7 @@ public class ConversationManager extends AbstractConversationMailet {
 	 * @throws RepositoryException
 	 *             thrown if something with the repository goes wrong
 	 */
-	private Node checkConversationExists(String conversationID)
+	private Node getConversation(String conversationID)
 			throws RepositoryException {
 		QueryManager qm = getSession().getWorkspace().getQueryManager();
 		Query query = qm.createQuery(
@@ -355,7 +356,7 @@ public class ConversationManager extends AbstractConversationMailet {
 	 * @throws RepositoryException
 	 *             thrown if something with the repository goes wrong
 	 */
-	private Node checkUserExists(String mailAddress) throws RepositoryException {
+	private Node getUser(String mailAddress) throws RepositoryException {
 		QueryManager qm = getSession().getWorkspace().getQueryManager();
 		Query query = qm.createQuery("//users/user[@mail='" + mailAddress
 				+ "']", Query.XPATH);
