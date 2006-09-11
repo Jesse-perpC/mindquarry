@@ -1,11 +1,13 @@
 <?xml version="1.0"?>
 <components>
+	<!-- 
 	<role-list>
 		<role name="org.tigris.subversion.javahl.SVNClientInterface"
 			shorthand="svn-client"
 			default-class="com.mindquarry.dma.javasvn.JavaSVNClientAdapter" />
 	</role-list>
-
+	 -->
+	 
 	<source-factories>
 		<!-- pseudo protocol for Subversion repositories -->
 		<component-instance name="dma"
