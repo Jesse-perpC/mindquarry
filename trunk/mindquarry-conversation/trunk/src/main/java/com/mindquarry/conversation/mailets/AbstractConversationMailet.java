@@ -107,92 +107,11 @@ public abstract class AbstractConversationMailet extends GenericMailet {
 	}
 
 	/**
-	 * Getter for login.
-	 *
-	 * @return the login
-	 */
-	protected String getLogin() {
-		return login;
-	}
-
-	/**
-	 * Setter for login.
-	 *
-	 * @param login the login to set
-	 */
-	protected void setLogin(String login) {
-		this.login = login;
-	}
-
-	/**
-	 * Getter for password.
-	 *
-	 * @return the password
-	 */
-	protected String getPassword() {
-		return password;
-	}
-
-	/**
-	 * Setter for password.
-	 *
-	 * @param password the password to set
-	 */
-	protected void setPassword(String password) {
-		this.password = password;
-	}
-
-	/**
-	 * Getter for repository.
-	 *
-	 * @return the repository
-	 */
-	protected String getRepository() {
-		return repository;
-	}
-
-	/**
-	 * Setter for repository.
-	 *
-	 * @param repository the repository to set
-	 */
-	protected void setRepository(String repository) {
-		this.repository = repository;
-	}
-
-	/**
-	 * Getter for session.
+	 * Getter for the JCR session.
 	 *
 	 * @return the session
 	 */
 	protected Session getSession() {
 		return session;
-	}
-
-	/**
-	 * Setter for session.
-	 *
-	 * @param session the session to set
-	 */
-	protected void setSession(Session session) {
-		this.session = session;
-	}
-
-	/**
-	 * Getter for workspace.
-	 *
-	 * @return the workspace
-	 */
-	protected String getWorkspace() {
-		return workspace;
-	}
-
-	/**
-	 * Setter for workspace.
-	 *
-	 * @param workspace the workspace to set
-	 */
-	protected void setWorkspace(String workspace) {
-		this.workspace = workspace;
 	}
 }

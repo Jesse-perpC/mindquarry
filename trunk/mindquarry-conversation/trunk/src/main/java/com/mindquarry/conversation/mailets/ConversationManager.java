@@ -7,6 +7,9 @@ import java.io.IOException;
 import java.rmi.NotBoundException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.StringTokenizer;
 
 import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
@@ -33,7 +36,7 @@ import org.apache.mailet.MailAddress;
  */
 public class ConversationManager extends AbstractConversationMailet {
 	/**
-	 * @see org.apache.mailet.GenericMailet#init()
+	 * @see com.mindquarry.conversation.mailets.AbstractConversationMailet#init()
 	 */
 	@Override
 	public void init() throws MessagingException {
@@ -41,7 +44,7 @@ public class ConversationManager extends AbstractConversationMailet {
 	}
 
 	/**
-	 * @see org.apache.mailet.GenericMailet#destroy()
+	 * @see com.mindquarry.conversation.mailets.AbstractConversationMailet#destroy()
 	 */
 	@Override
 	public void destroy() {
@@ -65,77 +68,210 @@ public class ConversationManager extends AbstractConversationMailet {
 			MessagingException, IOException, ClassCastException,
 			NotBoundException {
 		Collection recipients = mail.getRecipients();
+		Hashtable<String, Collection<Node>> newConversations = 
+			new Hashtable<String, Collection<Node>>();
+
+		// loop all recipients and process the mail according to them
 		for (Object object : recipients) {
 			MailAddress address = (MailAddress) object;
-			String id = address.getUser();
+
+			// check if the recipient pattern is correct, if not continue with
+			// the next one
+			StringTokenizer tokenizer = new StringTokenizer(address.getUser(),
+					"-");
+			if (tokenizer.countTokens() != 2) {
+				getMailetContext().bounce(mail, 
+						"Unsupported conversation address pattern: "
+								+ address.toString());
+				continue;
+			}
 
 			// check if the mail is a contribution to an existing conversation
-			Node conversationNode = checkConversationExists(id);
+			Node conversationNode = checkConversationExists(address.getUser());
 			if (conversationNode != null) {
-				handleContribution(mail, address, conversationNode, id);
-			} else {
-				// this mail is no contribution to an existing conversation or
-				// the conversatio does not exist. check if the pattern is
-				// correct or if we must create a new conversation
-				String[] parts = id.split("-");
-				if (parts.length == 2) {
-					Node tagNode = checkTagExistsInProject(parts[0], parts[1]);
-					if(tagNode != null) {
-						
-					}
-				} else {
-					getMailetContext().bounce(mail,
-							"Unsupported conversation address pattern.");
-				}
+				// a conversation that matches the address pattern was found,
+				// thus we process the contribution and continue with the next
+				// recipient
+				handleContribution(mail, address, conversationNode);
+				continue;
 			}
+			// this mail is no contribution to an existing conversation or
+			// the conversation does not exist, check if a tag exists that
+			// matches the given address pattern
+			Node tagNode = checkTagExistsInProject(tokenizer.nextToken(),
+					tokenizer.nextToken());
+			if (tagNode != null) {
+				String project = tokenizer.nextToken();
+				Collection<Node> entries = newConversations.get(project);
+				if(entries == null) {
+					entries = new ArrayList<Node>();
+				}
+				entries.add(tagNode);
+				newConversations.put(project, entries);
+				continue;
+			}
+			// if we reached this point no processing of the contribution was
+			// possible. thus inform the user and continue with the next
+			// recipient
+			getMailetContext().bounce(mail, "Cannot process contribution!! "
+							+ "Please check if the recipient exist.");
+		}
+		// if there are unprocessed contributions that are assigned to valid 
+		// projects and tags, process them now 
+		if(!newConversations.isEmpty()) {
+			handleNewContribution(newConversations, mail);
 		}
 	}
+	
+	private void handleNewContribution(Hashtable<String, Collection<Node>> items, 
+			Mail mail) throws RepositoryException, IOException, 
+			MessagingException {
+		Enumeration<String> keys = items.keys();
+		while(keys.hasMoreElements()) {
+			String projectName = keys.nextElement();
+			Collection<Node> tags = items.get(projectName);
+			
+			// get project node
+			Node projectNode = checkProjectExist(projectName);
+			if(projectNode == null) {
+				continue;
+			}
+			// create tagged conversation
+			Node talkNode = projectNode.getNode("talk");
+			
+			// get greatest conversation ID
+			Node conversationNode = createNewConversation(talkNode, tags, 
+					projectName);
+			addContributionToConversation(mail.getMessage(), conversationNode);
 
-	private Node checkTagExistsInProject(String projectName, String tagName)
-			throws RepositoryException {
-		// query the repository for a conversation with the given identifier
-		QueryManager qm = getSession().getWorkspace().getQueryManager();
-		Query query = qm.createQuery("//projects/project[@name='" + projectName
-				+ "']/tags/tag[@name='" + tagName + "']", Query.XPATH);
-		QueryResult qResult = query.execute();
-
-		// add contribution to the conversation, if one was found
-		NodeIterator nit = qResult.getNodes();
-		if (nit.hasNext()) {
-			return (Node) nit.next();
-		} else {
-			return null;
-		}
+			// get tag subscribers and add them as conversation subscriber
+			String queryString = "";
+			for (Node tagNode : tags) {
+				if(!queryString.equals("")) {
+					queryString += "|";
+				}
+				queryString += "//users/user[tags/tag/@reference='" 
+					+ tagNode.getUUID() + "']"; 
+			}
+			QueryManager qm = getSession().getWorkspace().getQueryManager();
+			Query query = qm.createQuery(queryString, Query.XPATH);
+			QueryResult qResult = query.execute();
+			NodeIterator nit = qResult.getNodes();
+			
+			Collection<MailAddress> subscriber = new ArrayList<MailAddress>();
+			while(nit.hasNext()) {
+				Node userNode = nit.nextNode();
+				
+				addSubscriber(conversationNode, userNode);
+				subscriber.add(new MailAddress(
+						userNode.getProperty("mail").getString()));
+			}
+			// send mail to subscriber
+			MailAddress conversationAddress = new MailAddress(
+					conversationNode.getProperty("id").getString() + "@" + 
+					mail.getSender().getHost());
+			forwardContribution(mail, conversationAddress, subscriber);
+		}	
 	}
-
-	private Node checkConversationExists(String conversationID)
-			throws RepositoryException {
-		// query the repository for a conversation with the given identifier
-		QueryManager qm = getSession().getWorkspace().getQueryManager();
-		Query query = qm.createQuery(
-				"//projects/project/talk/conversation[@id='" + conversationID
-						+ "']", Query.XPATH);
-		QueryResult qResult = query.execute();
-
-		// add contribution to the conversation, if one was found
-		NodeIterator nit = qResult.getNodes();
-		if (nit.hasNext()) {
-			return (Node) nit.next();
-		} else {
-			return null;
+	
+	private Node createNewConversation(Node talkNode, Collection<Node> tags, 
+			String projectName) throws RepositoryException {
+		int id = 0;
+		NodeIterator nit = talkNode.getNodes("converation");
+		while(nit.hasNext()) {
+			Node tmp = nit.nextNode();
+			int cid = Integer.valueOf(
+					tmp.getProperty("id").getString());
+			id=(cid >= id) ? cid : id;
 		}
+		Node conversationNode = talkNode.addNode("conversation");
+		conversationNode.setProperty("id", projectName + "-" + id);
+		conversationNode.addNode("subscribers");
+		conversationNode.addNode("contributions");
+		
+		Node tagsNode = conversationNode.addNode("tags");
+		for (Node tag : tags) {
+			Node tagRef = tagsNode.addNode("tag");
+			tagRef.setProperty("reference", tag);
+		}
+		return conversationNode;
 	}
 
 	private void handleContribution(Mail mail, MailAddress address,
-			Node conversationNode, String recipient)
-			throws RepositoryException, IOException, MessagingException,
-			ItemExistsException, PathNotFoundException, VersionException,
-			ConstraintViolationException, LockException, ParseException,
-			AddressException {
+			Node conversationNode) throws RepositoryException, IOException,
+			MessagingException, ItemExistsException, PathNotFoundException,
+			VersionException, ConstraintViolationException, LockException,
+			ParseException, AddressException {
+		// check if the sender is a valid user
+		Node userNode = checkUserExists(address.toString());
+		if (userNode == null) {
+			getMailetContext().bounce(mail, "You are not a member and " + 
+				"thus you are not allowed to send mails to this list.");
+			return;
+		}
+		// add contribution to conversation
 		addContributionToConversation(mail.getMessage(), conversationNode);
+		
+		// get subscriber and add the sender, if he is no subscriber
+		Collection<MailAddress> subscriber = getConversationSubscriber(conversationNode);
+		if(subscriber.contains(address)) {
+			addSubscriber(conversationNode, userNode);
+		}
+		forwardContribution(mail, address, subscriber);
+	}
 
-		Collection<MailAddress> subscriber = getSubscriber(conversationNode);
+	private void addContributionToConversation(MimePart part,
+			Node conversationNode) throws IOException, MessagingException,
+			ItemExistsException, PathNotFoundException, VersionException,
+			ConstraintViolationException, LockException, RepositoryException {
+		String content = part.getContent().toString();
 
+		// add content to conversation
+		Node contributionNode = conversationNode
+				.addNode("contributions/contribution");
+		contributionNode.setProperty("content", content);
+		getSession().save();
+	}
+
+	/**
+	 * Get all subscriber of the given conversation.
+	 * 
+	 * @param conversationNode the node containing the conversation
+	 * @return all users that are subscribers of the given conversation
+	 */
+	private Collection<MailAddress> getConversationSubscriber(
+			Node conversationNode) throws PathNotFoundException, 
+			RepositoryException, ParseException {
+		// retrieve subscribers and add them to the result list
+		Collection<MailAddress> subscriber = new ArrayList<MailAddress>();
+		Node subscribersNode = conversationNode.getNode("subscribers");
+		NodeIterator subNit = subscribersNode.getNodes("subscriber");
+
+		while (subNit.hasNext()) {
+			Node subscriberNode = subNit.nextNode();
+			String reference = subscriberNode.getProperty("reference")
+					.getString();
+
+			Node userNode = getSession().getNodeByUUID(reference);
+			String mailAddr = userNode.getProperty("mail").getString();
+			subscriber.add(new MailAddress(mailAddr));
+		}
+		return subscriber;
+	}
+
+	/**
+	 * Add user as subscriber to a conversation.
+	 */
+	private void addSubscriber(Node conversationNode, Node userNode) 
+		throws ItemExistsException, PathNotFoundException, VersionException, 
+		ConstraintViolationException, LockException, RepositoryException {
+		Node subscriberNode = conversationNode.addNode("subscriber");
+		subscriberNode.setProperty("reference", userNode);
+	}
+	
+	private void forwardContribution(Mail mail, MailAddress address, 
+			Collection<MailAddress> subscriber) throws AddressException, 
+			MessagingException, IOException {
 		// replace ReplyTo header
 		InternetAddress replyTo = new InternetAddress(address.toString());
 		mail.getMessage().setReplyTo(new InternetAddress[] { replyTo });
@@ -152,35 +288,85 @@ public class ConversationManager extends AbstractConversationMailet {
 		mail.setState(Mail.GHOST);
 	}
 
-	private void addContributionToConversation(MimePart part,
-			Node conversationNode) throws IOException, MessagingException,
-			ItemExistsException, PathNotFoundException, VersionException,
-			ConstraintViolationException, LockException, RepositoryException {
-		String content = part.getContent().toString();
-
-		// add content to conversation
-		Node contributionNode = conversationNode
-				.addNode("contributions/contribution");
-		contributionNode.setProperty("content", content);
-		getSession().save();
+	/**
+	 * Query the repository for a tag under the given project identifier.
+	 * 
+	 * @param projectName
+	 *            the name of the project to be searched
+	 * @param tagName
+	 *            the name of the tag to find
+	 * @return a node containing the tag if one exist, otherwise null
+	 * @throws RepositoryException
+	 */
+	private Node checkTagExistsInProject(String projectName, String tagName)
+			throws RepositoryException {
+		QueryManager qm = getSession().getWorkspace().getQueryManager();
+		Query query = qm.createQuery("//projects/project[@name='" + projectName
+				+ "']/tags/tag[@name='" + tagName + "']", Query.XPATH);
+		return executeQuery(query);
+	}
+	
+	/**
+	 * Query the repository for a project with the given project name.
+	 * 
+	 * @param projectName
+	 *            the name of the project to be searched
+	 * @return a node containing the project if one exist, otherwise null
+	 * @throws RepositoryException
+	 */
+	private Node checkProjectExist(String projectName) 
+		throws RepositoryException {
+		QueryManager qm = getSession().getWorkspace().getQueryManager();
+		Query query = qm.createQuery("//projects/project[@name='" + projectName
+				+ "']", Query.XPATH);
+		return executeQuery(query);
 	}
 
-	private Collection<MailAddress> getSubscriber(Node conversationNode)
-			throws PathNotFoundException, RepositoryException, ParseException {
-		// retrieve subscribers and add them to the rsult list
-		Collection<MailAddress> subscriber = new ArrayList<MailAddress>();
-		Node subscribersNode = conversationNode.getNode("subscribers");
-		NodeIterator subNit = subscribersNode.getNodes("subscriber");
+	/**
+	 * Query the repository for a conversation with the given identifier.
+	 * 
+	 * @param conversationID
+	 *            the ID of the conversation to find
+	 * @return a node containing the conversation if one exist, otherwise null
+	 * @throws RepositoryException
+	 *             thrown if something with the repository goes wrong
+	 */
+	private Node checkConversationExists(String conversationID)
+			throws RepositoryException {
+		QueryManager qm = getSession().getWorkspace().getQueryManager();
+		Query query = qm.createQuery(
+				"//projects/project/talk/conversation[@id='" + conversationID
+						+ "']", Query.XPATH);
+		return executeQuery(query);
+	}
 
-		while (subNit.hasNext()) {
-			Node subscriberNode = (Node) subNit.next();
-			String reference = subscriberNode.getProperty("reference")
-					.getString();
+	/**
+	 * Query the repository for a user with the given mail address.
+	 * 
+	 * @param mailAddress
+	 *            the mail address of the user to find
+	 * @return a node containing the user if one exist, otherwise null
+	 * @throws RepositoryException
+	 *             thrown if something with the repository goes wrong
+	 */
+	private Node checkUserExists(String mailAddress) throws RepositoryException {
+		QueryManager qm = getSession().getWorkspace().getQueryManager();
+		Query query = qm.createQuery("//users/user[@mail='" + mailAddress
+				+ "']", Query.XPATH);
+		return executeQuery(query);
+	}
 
-			Node userNode = getSession().getNodeByUUID(reference);
-			String mailAddr = userNode.getProperty("mail").getString();
-			subscriber.add(new MailAddress(mailAddr));
+	/**
+	 * Execute a query and return the resulting node, if one exist.
+	 */
+	private Node executeQuery(Query query) throws RepositoryException {
+		QueryResult qResult = query.execute();
+
+		NodeIterator nit = qResult.getNodes();
+		if (nit.hasNext()) {
+			return nit.nextNode();
+		} else {
+			return null;
 		}
-		return subscriber;
 	}
 }
