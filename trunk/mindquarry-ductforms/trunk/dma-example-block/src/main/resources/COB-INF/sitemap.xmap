@@ -16,6 +16,14 @@
 -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
   
+  <map:components>
+  	<map:generators default="dma">
+		<map:generator name="dma"
+                src="org.apache.cocoon.generation.TraversableSourceDescriptionGenerator"
+                label="content"/>
+  	</map:generators>
+  </map:components>
+  
   <map:flow language="javascript">
     <map:script src="demo.js"/>
   </map:flow>
@@ -34,7 +42,12 @@
       </map:match>
       
       <map:match pattern="svn">
-      	<map:read src="dma:file:///Users/lars/.svk/local/mindquarry/trunk/Website/index.html"/>
+      	<map:read src="dma:http://svn.collab.net/repos/svn/trunk/subversion/bindings/java/javahl/src/org/tigris/subversion/javahl/tests/SVNTests.java"/>
+      </map:match>
+      
+      <map:match pattern="dma/**">
+		<map:generate  type="dma" src="dma:http://svn.collab.net/repos/svn/{1}" />
+		<map:serialize type="xml"/>
       </map:match>
     </map:pipeline>
     
@@ -42,3 +55,4 @@
   
 </map:sitemap>
 
+<!-- map:read src="dma:http://svn.collab.net/repos/svn/trunk/subversion/bindings/java/javahl/src/org/tigris/subversion/javahl/tests/SVNTests.java"/-->
