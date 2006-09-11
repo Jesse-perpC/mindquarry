@@ -135,13 +135,13 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://www.goshaky.com/svn/mindquarry/trunk/SoftwareDevelopment/Prototypes/mailets/
+			scm:svn:https://secure.mindquarry.com/svn/mindquarry/trunk/SoftwareDevelopment/Prototypes/mailets
 		</connection>
 		<url>
-			https://www.goshaky.com/svn/mindquarry/trunk/SoftwareDevelopment/Prototypes/mailets/
+			https://secure.mindquarry.com/svn/mindquarry/trunk/SoftwareDevelopment/Prototypes/mailets
 		</url>
 		<developerConnection>
-			scm:svn:https://www.goshaky.com/svn/mindquarry/trunk/SoftwareDevelopment/Prototypes/mailets/
+			scm:svn:https://secure.mindquarry.com/svn/mindquarry/trunk/SoftwareDevelopment/Prototypes/mailets
 		</developerConnection>
 	</scm>
 
