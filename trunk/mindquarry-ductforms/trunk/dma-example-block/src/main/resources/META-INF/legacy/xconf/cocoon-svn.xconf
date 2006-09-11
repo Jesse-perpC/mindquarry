@@ -1,4 +1,5 @@
 <?xml version="1.0"?>
+<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
 <components>
   <!-- Include roles -->
   <include src="resource://com/mindquarry/dma/dma.roles"/>
