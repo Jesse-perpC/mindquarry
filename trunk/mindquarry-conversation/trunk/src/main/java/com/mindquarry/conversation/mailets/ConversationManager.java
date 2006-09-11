@@ -16,6 +16,7 @@ import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.query.Query;
@@ -98,16 +99,16 @@ public class ConversationManager extends AbstractConversationMailet {
 			// this mail is no contribution to an existing conversation or
 			// the conversation does not exist, check if a tag exists that
 			// matches the given address pattern
-			Node tagNode = checkTagExistsInProject(tokenizer.nextToken(),
-					tokenizer.nextToken());
+			String projectName = tokenizer.nextToken();
+			String tagName = tokenizer.nextToken();
+			Node tagNode = checkTagExistsInProject(projectName, tagName);
 			if (tagNode != null) {
-				String project = tokenizer.nextToken();
-				Collection<Node> entries = newConversations.get(project);
+				Collection<Node> entries = newConversations.get(projectName);
 				if(entries == null) {
 					entries = new ArrayList<Node>();
 				}
 				entries.add(tagNode);
-				newConversations.put(project, entries);
+				newConversations.put(projectName, entries);
 				continue;
 			}
 			// if we reached this point no processing of the contribution was
@@ -119,11 +120,12 @@ public class ConversationManager extends AbstractConversationMailet {
 		// if there are unprocessed contributions that are assigned to valid 
 		// projects and tags, process them now 
 		if(!newConversations.isEmpty()) {
-			handleNewContribution(newConversations, mail);
+			handleNewConversation(newConversations, mail);
 		}
+		getSession().save();
 	}
 	
-	private void handleNewContribution(Hashtable<String, Collection<Node>> items, 
+	private void handleNewConversation(Hashtable<String, Collection<Node>> items, 
 			Mail mail) throws RepositoryException, IOException, 
 			MessagingException {
 		Enumeration<String> keys = items.keys();
@@ -145,26 +147,25 @@ public class ConversationManager extends AbstractConversationMailet {
 			addContributionToConversation(mail.getMessage(), conversationNode);
 
 			// get tag subscribers and add them as conversation subscriber
-			String queryString = "";
-			for (Node tagNode : tags) {
-				if(!queryString.equals("")) {
-					queryString += "|";
-				}
-				queryString += "//users/user[tags/tag/@reference='" 
-					+ tagNode.getUUID() + "']"; 
-			}
-			QueryManager qm = getSession().getWorkspace().getQueryManager();
-			Query query = qm.createQuery(queryString, Query.XPATH);
-			QueryResult qResult = query.execute();
-			NodeIterator nit = qResult.getNodes();
-			
 			Collection<MailAddress> subscriber = new ArrayList<MailAddress>();
-			while(nit.hasNext()) {
-				Node userNode = nit.nextNode();
+			for (Node tagNode : tags) {
+				QueryManager qm = getSession().getWorkspace().getQueryManager();
+				Query query = qm.createQuery("//users/user/tags/tag[@reference='" 
+						+ tagNode.getUUID() + "']", Query.XPATH);
+				QueryResult qResult = query.execute();
 				
-				addSubscriber(conversationNode, userNode);
-				subscriber.add(new MailAddress(
-						userNode.getProperty("mail").getString()));
+				NodeIterator nit = qResult.getNodes();
+				while(nit.hasNext()) {
+					Node userNode = nit.nextNode().getParent().getParent();
+					addSubscriberToConversation(conversationNode, userNode);
+					
+					MailAddress userAddress = new MailAddress(
+							userNode.getProperty("mail").getString());
+					
+					if(!subscriber.contains(userAddress)) {
+						subscriber.add(userAddress);
+					}
+				}
 			}
 			// send mail to subscriber
 			MailAddress conversationAddress = new MailAddress(
@@ -177,13 +178,17 @@ public class ConversationManager extends AbstractConversationMailet {
 	private Node createNewConversation(Node talkNode, Collection<Node> tags, 
 			String projectName) throws RepositoryException {
 		int id = 0;
-		NodeIterator nit = talkNode.getNodes("converation");
+		NodeIterator nit = talkNode.getNodes("conversation");
 		while(nit.hasNext()) {
 			Node tmp = nit.nextNode();
 			int cid = Integer.valueOf(
-					tmp.getProperty("id").getString());
-			id=(cid >= id) ? cid : id;
+					tmp.getProperty("id").getString().split("-")[1]);
+			
+			if(cid >= id) {
+				id = cid;
+			}
 		}
+		id++;
 		Node conversationNode = talkNode.addNode("conversation");
 		conversationNode.setProperty("id", projectName + "-" + id);
 		conversationNode.addNode("subscribers");
@@ -194,6 +199,7 @@ public class ConversationManager extends AbstractConversationMailet {
 			Node tagRef = tagsNode.addNode("tag");
 			tagRef.setProperty("reference", tag);
 		}
+		getSession().save();
 		return conversationNode;
 	}
 
@@ -203,7 +209,7 @@ public class ConversationManager extends AbstractConversationMailet {
 			VersionException, ConstraintViolationException, LockException,
 			ParseException, AddressException {
 		// check if the sender is a valid user
-		Node userNode = checkUserExists(address.toString());
+		Node userNode = checkUserExists(mail.getSender().toString());
 		if (userNode == null) {
 			getMailetContext().bounce(mail, "You are not a member and " + 
 				"thus you are not allowed to send mails to this list.");
@@ -214,10 +220,21 @@ public class ConversationManager extends AbstractConversationMailet {
 		
 		// get subscriber and add the sender, if he is no subscriber
 		Collection<MailAddress> subscriber = getConversationSubscriber(conversationNode);
-		if(subscriber.contains(address)) {
-			addSubscriber(conversationNode, userNode);
+		if(!subscriber.contains(mail.getSender())) {
+			addSubscriberToConversation(conversationNode, userNode);
+			
+			subscriber.add(mail.getSender());
 		}
 		forwardContribution(mail, address, subscriber);
+	}
+
+	private void addSubscriberToConversation(Node conversationNode, 
+			Node userNode) throws ItemExistsException, PathNotFoundException, 
+			VersionException, ConstraintViolationException, LockException, 
+			RepositoryException, ValueFormatException {
+		Node subscribersNode = conversationNode.getNode("subscribers");
+		Node subscriberNode = subscribersNode.addNode("subscriber");
+		subscriberNode.setProperty("reference", userNode);
 	}
 
 	private void addContributionToConversation(MimePart part,
@@ -230,7 +247,6 @@ public class ConversationManager extends AbstractConversationMailet {
 		Node contributionNode = conversationNode
 				.addNode("contributions/contribution");
 		contributionNode.setProperty("content", content);
-		getSession().save();
 	}
 
 	/**
@@ -257,16 +273,6 @@ public class ConversationManager extends AbstractConversationMailet {
 			subscriber.add(new MailAddress(mailAddr));
 		}
 		return subscriber;
-	}
-
-	/**
-	 * Add user as subscriber to a conversation.
-	 */
-	private void addSubscriber(Node conversationNode, Node userNode) 
-		throws ItemExistsException, PathNotFoundException, VersionException, 
-		ConstraintViolationException, LockException, RepositoryException {
-		Node subscriberNode = conversationNode.addNode("subscriber");
-		subscriberNode.setProperty("reference", userNode);
 	}
 	
 	private void forwardContribution(Mail mail, MailAddress address, 

@@ -46,7 +46,7 @@ public class JackRabbitSetupTest extends TestCase {
 		users.add(user);
 		user = new Hashtable<String, String>();
 		user.put("name", "Lars Trieloff");
-		user.put("mail", "lars.trieloff@localhost");
+		user.put("mail", "lars.trieloff@mindquarry.com");
 		users.add(user);
 	}
 
