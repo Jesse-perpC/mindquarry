@@ -1,0 +1,9 @@
+<role-list>
+<!-- 
+	<component name="org.tigris.subversion.javahl.SVNClientInterface" class="" />
+	  -->
+
+  <role name="org.tigris.subversion.javahl.SVNClientInterface"
+			shorthand="svn-client"
+			default-class="com.mindquarry.dma.javasvn.JavaSVNClientAdapter" />
+</role-list>
