@@ -1,13 +1,20 @@
 <?xml version="1.0"?>
 <components>
+  <!-- Include roles -->
+  <include src="resource://com/mindquarry/dma/dma.roles"/>
+
 	<!-- 
 	<role-list>
-		<role name="org.tigris.subversion.javahl.SVNClientInterface"
+		<role name=""
 			shorthand="svn-client"
-			default-class="com.mindquarry.dma.javasvn.JavaSVNClientAdapter" />
+			default-class="" />
 	</role-list>
 	 -->
 	 
+	 <!-- 
+	<component name="org.tigris.subversion.javahl.SVNClientInterface" class="com.mindquarry.dma.javasvn.JavaSVNClientAdapter" />
+	  -->
+	  
 	<source-factories>
 		<!-- pseudo protocol for Subversion repositories -->
 		<component-instance name="dma"
