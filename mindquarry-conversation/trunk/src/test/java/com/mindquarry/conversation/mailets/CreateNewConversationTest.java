@@ -32,14 +32,16 @@ public class CreateNewConversationTest extends TestCase {
 		Properties props = new Properties();
 		props.load(pis);
 
-		Address from = new InternetAddress("test@example.org", "Test User");
-		Address to = new InternetAddress("mindquarry-dev@example.org");
+		Address from = new InternetAddress("alexander.saar@mindquarry.com", "Alexander Saar");
+		Address to = new InternetAddress("Cyclr-dev@conversation.mindquarry.com");
+		Address to2 = new InternetAddress("Cyclr-support@conversation.mindquarry.com");
 
 		Session session = Session.getDefaultInstance(props, null);
 		MimeMessage msg = new MimeMessage(session);
 
 		msg.setFrom(from);
 		msg.addRecipient(Message.RecipientType.TO, to);
+		msg.addRecipient(Message.RecipientType.TO, to2);
 
 		msg.setSubject("new conversation");
 		msg.setText("a question to the developers...");
