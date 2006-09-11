@@ -1,4 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
+<project>
   <parent>
     <artifactId>cocoon-playground</artifactId>
     <groupId>com.mindquarry.cocoon</groupId>
