@@ -28,6 +28,43 @@
 		<map:serialize type="xml"/>
       </map:match>
       
+      <map:match pattern="icons/*/folder.png">
+      	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/places/folder.png" />
+      </map:match>
+      
+      <map:match pattern="icons/*/application/pdf.png">
+      	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
+      </map:match>
+      
+      <map:match pattern="icons/*/actions/*.png">
+      	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/actions/{2}.png" />
+      </map:match>
+      
+      <map:match pattern="icons/*/text/*.png">
+      	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/text-x-generic.png" />
+      </map:match>
+      
+      <map:match pattern="icons/*/image/*.png">
+      	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/image-x-generic.png" />
+      </map:match>
+      
+      <map:match pattern="icons/*/*/*.png">
+      	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
+      	<!-- <map:read src="icons/{1}/mimetypes/package-x-generic.png" /> -->
+      </map:match>
+      
+ 
+       
+      <map:match pattern="(\d+)/(\w+)((.*)/)?" type="regexp">
+		<map:generate type="dma" src="dma:file://{system-property:user.dir}/src/main/resources/COB-INF/repos/{2}/{3}?revision={1}" />
+		<map:transform src="xslt/dma/dir2html.xsl">
+			<map:parameter name="revision" value="{1}"/>
+			<map:parameter name="repo" value="{2}"/>
+			<map:parameter name="path" value="{3}"/>
+		</map:transform>
+		<map:serialize type="html"/>
+      </map:match>
+      
       <map:match pattern="(\w+)((.*)/)?" type="regexp">
 		<map:generate type="dma" src="dma:file://{system-property:user.dir}/src/main/resources/COB-INF/repos/{1}/{2}" />
 		<map:transform src="xslt/dma/dir2html.xsl">
@@ -36,7 +73,7 @@
 		</map:transform>
 		<map:serialize type="html"/>
       </map:match>
-      
+
       <!-- 
       <map:match pattern="**">
       	<map:read src="dma:file://{system-property:user.dir}/src/main/resources/COB-INF/repos/{1}" />
