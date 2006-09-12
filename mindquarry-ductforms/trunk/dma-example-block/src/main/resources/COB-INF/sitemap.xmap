@@ -11,10 +11,6 @@
   	</map:generators>
   </map:components>
   
-  <map:flow language="javascript">
-    <map:script src="demo.js"/>
-  </map:flow>
-  
   <map:pipelines>
     <map:pipeline caching="no">
     
