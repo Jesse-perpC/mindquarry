@@ -17,7 +17,8 @@
   </map:components>
   
   <map:pipelines>
-    <map:pipeline caching="no">
+  	<!-- use noncaching pipeline -->
+    <map:pipeline type="noncaching">
     
       <!-- repository listing -->
       <map:match pattern="">
@@ -77,7 +78,9 @@
       	<map:select type="request-parameter">
       		<map:parameter name="parameter-name" value="show"/>
       		<map:when test="xml">
-      			<map:generate type="changelog" src="dma:file://{system-property:user.dir}/src/main/resources/COB-INF/repos/{1}/{2}" />
+      			<map:generate type="changelog" src="dma:file://{system-property:user.dir}/src/main/resources/COB-INF/repos/{1}/{2}" >
+      				<map:parameter name="revision" value="1"/>
+      			</map:generate>
       			<map:serialize type="xml"/>
       		</map:when>
       		<map:otherwise>
