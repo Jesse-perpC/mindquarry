@@ -62,6 +62,11 @@
     </dependency>
     <dependency>
     <groupId>com.mindquarry.dma</groupId>
+	<artifactId>dma-source</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+    <groupId>com.mindquarry.dma</groupId>
 	<artifactId>dma-javasvn</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
     </dependency>
