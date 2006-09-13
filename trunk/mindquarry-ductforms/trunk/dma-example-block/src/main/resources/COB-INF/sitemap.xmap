@@ -38,6 +38,10 @@
       	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/places/folder.png" />
       </map:match>
       
+      <map:match pattern="icons/*/feed.png">
+      	<map:read src="icons/feed-icon-{1}.png" />
+      </map:match>
+      
       <map:match pattern="icons/*/application/pdf.png">
       	<map:read src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
       </map:match>
