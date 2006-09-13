@@ -9,11 +9,10 @@ import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.cocoon.ProcessingException;
-import org.apache.cocoon.caching.CacheableProcessingComponent;
 import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.cocoon.environment.SourceResolver;
+import org.apache.cocoon.generation.AbstractGenerator;
 import org.apache.cocoon.generation.Generator;
-import org.apache.cocoon.generation.ServiceableGenerator;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 import org.xml.sax.SAXException;
@@ -22,7 +21,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import com.mindquarry.dma.source.Change;
 import com.mindquarry.dma.source.ChangeableSource;
 
-public class ChangeLogGenerator extends ServiceableGenerator implements CacheableProcessingComponent, Generator {
+public class ChangeLogGenerator extends AbstractGenerator {
     /** The URI of the namespace of this generator. */
     protected static final String URI = "http://mindquarry.com/ns/schema/changelog";
 
