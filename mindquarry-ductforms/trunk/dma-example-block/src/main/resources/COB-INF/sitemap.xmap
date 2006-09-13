@@ -9,8 +9,7 @@
                 src="org.apache.cocoon.generation.TraversableSourceDescriptionGenerator"
                 label="content"/>
         <map:generator name="changelog"
-                src="com.mindquarry.dma.generator.ChangeLogGenerator"
-                label="content"/>
+                src="com.mindquarry.dma.generator.ChangeLogGenerator"/>
         <!-- map:generator name="changelog"
                 src="com.mindquarry.dma.generator.ChangeLogGenerator"
                 label="content"/-->
