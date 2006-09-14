@@ -36,6 +36,10 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 				</table>
 			</ft:repeater>
 			<ft:widget id="deleteprojects" />
+			
+			<br/><br/><br/><br/><br/><br/><br/><br/>
+			<ft:widget id="newprojectname"/>
+			<ft:widget id="createproject"/>
 		</ft:form-template>
 	</body>
 </html>

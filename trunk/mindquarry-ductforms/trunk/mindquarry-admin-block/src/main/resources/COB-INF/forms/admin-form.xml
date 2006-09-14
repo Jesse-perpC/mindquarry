@@ -1,5 +1,4 @@
-<fd:form
-  xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
 		<fd:repeater id="projects">
 			<fd:label>Projects</fd:label>
@@ -7,19 +6,37 @@
 				<fd:booleanfield id="selected">
 					<fd:label>Select</fd:label>
 				</fd:booleanfield>
-				<fd:field id="name"  state="output">
+				<fd:field id="name" state="output">
 					<fd:label>Project Name</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 				</fd:field>
-				<fd:row-action id="delete" command="delete" >
+				<fd:row-action id="delete" command="delete">
 					<fd:label>Delete</fd:label>
 				</fd:row-action>
 			</fd:widgets>
 		</fd:repeater>
-		<fd:repeater-action id="deleteprojects" command="delete-rows" repeater="projects" select="selected">
+		<fd:repeater-action id="deleteprojects" command="delete-rows"
+			repeater="projects" select="selected">
 			<fd:label>Delete Selected</fd:label>
 			<fd:hint>Delete Selected Projects</fd:hint>
 			<fd:help>Make the selected projects go away.</fd:help>
 		</fd:repeater-action>
+		
+		<fd:repeater-action id="createproject" command="add-row" repeater="projects">
+			<fd:label>Create Project</fd:label>
+			<fd:on-action>
+				<fd:javascript>createProject(event);</fd:javascript>
+			</fd:on-action>
+		</fd:repeater-action>
+		
+		<fd:field id="newprojectname">
+			<fd:label>Project Name</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:regexp pattern="[a-z]+">
+					<fd:failmessage>Invalid project name, use only lowercase letters</fd:failmessage>
+				</fd:regexp>
+			</fd:validation>
+		</fd:field>
 	</fd:widgets>
 </fd:form>
