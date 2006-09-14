@@ -110,9 +110,12 @@
 						<map:generate type="changelog"
 							src="dma:file://{system-property:mindquarry.reposbasepath}/{1}/{2}">
 							<map:parameter name="revision" value="0" />
-							<map:parameter name="entries" value="10" />
+							<map:parameter name="entries" value="3" />
 						</map:generate>
-						<map:transform src="xslt/log/log2html.xsl" />
+						<map:transform src="xslt/log/log2html.xsl">
+							<map:parameter name="repo" value="{1}" />
+							<map:parameter name="path" value="{2}/" />
+						</map:transform>
 						<map:serialize type="html" />
 					</map:when>
 					<map:otherwise>
