@@ -11,6 +11,13 @@
 				<title>Changes for Project <xsl:value-of select="$repo" /></title>
 			</head>
 			<body>
+				<h1>Changes: <a href="{$reversepath}{$repo}/"><xsl:value-of select="$repo"/></a> - <a href="{$reversepath}{$repo}{$path}"><xsl:value-of select="$path"/></a> - Revision <a href="{$reversepath}{$myrevision}/{$repo}{$path}"><xsl:value-of select="$myrevision"/></a> - <xsl:value-of select="./log:change[1]/@date"/></h1>
+				<xsl:if test="$myrevision&gt;0">
+					<a href="{$reversepath}{$myrevision - 1}/{$repo}{$path}?show=changes">earlier</a> 
+				-
+				</xsl:if>
+				<a href="{$reversepath}{$myrevision + 1}/{$repo}{$path}?show=changes">later</a>
+				
 				<dl>
 					<xsl:apply-templates select="log:change"/> 
 				</dl>

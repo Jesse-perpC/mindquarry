@@ -75,18 +75,54 @@
 			</map:match>
 
 
-			<!-- directr -->
+			<!-- e.g. /3/mindquarry/business -->
 			<map:match pattern="(\d+)/(\w+)(.*)/$" type="regexp">
-				<map:generate type="dma"
-					src="dma:file://{system-property:mindquarry.reposbasepath}/{2}/{3}?revision={1}" />
-				<map:transform src="xslt/dma/dir2html.xsl">
-					<map:parameter name="revision" value="{1}" />
-					<map:parameter name="repo" value="{2}" />
-					<map:parameter name="path" value="{3}/" />
-				</map:transform>
-				<map:serialize type="html" />
+				<map:select type="request-parameter">
+					<map:parameter name="parameter-name" value="show" />
+					<map:when test="xml">
+						<map:generate type="changelog"
+							src="dma:file://{system-property:mindquarry.reposbasepath}/{2}/{3}?revision={1}">
+							<map:parameter name="revision" value="0" />
+						</map:generate>
+						<map:serialize type="xml" />
+					</map:when>
+
+					<map:when test="atom">
+						<map:generate type="changelog"
+							src="dma:file://{system-property:mindquarry.reposbasepath}/{2}/{3}?revision={1}">
+							<map:parameter name="revision" value="0" />
+							<map:parameter name="entries" value="10" />
+						</map:generate>
+						<map:transform src="xslt/log/log2atom.xsl" />
+						<map:serialize type="xml" />
+					</map:when>
+					<map:when test="changes">
+						<map:generate type="changelog"
+							src="dma:file://{system-property:mindquarry.reposbasepath}/{2}/{3}?revision={1}">
+							<map:parameter name="revision" value="0" />
+							<map:parameter name="entries" value="10" />
+						</map:generate>
+						<map:transform src="xslt/log/log2html.xsl">
+							<map:parameter name="revision" value="{1}" />
+							<map:parameter name="repo" value="{2}" />
+							<map:parameter name="path" value="{3}/" />
+						</map:transform>
+						<map:serialize type="html" />
+					</map:when>
+					<map:otherwise>
+						<map:generate type="dma"
+							src="dma:file://{system-property:mindquarry.reposbasepath}/{2}/{3}?revision={1}" />
+						<map:transform src="xslt/dma/dir2html.xsl">
+							<map:parameter name="revision" value="{1}" />
+							<map:parameter name="repo" value="{2}" />
+							<map:parameter name="path" value="{3}/" />
+						</map:transform>
+						<map:serialize type="html" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
 
+			<!-- eg. /mindquarry/business/ -->
 			<map:match pattern="(\w+)(.*)/$" type="regexp">
 				<map:select type="request-parameter">
 					<map:parameter name="parameter-name" value="show" />
