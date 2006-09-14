@@ -1,0 +1,25 @@
+<fd:form
+  xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:repeater id="projects">
+			<fd:label>Projects</fd:label>
+			<fd:widgets>
+				<fd:booleanfield id="selected">
+					<fd:label>Select</fd:label>
+				</fd:booleanfield>
+				<fd:field id="name"  state="output">
+					<fd:label>Project Name</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+				</fd:field>
+				<fd:row-action id="delete" command="delete" >
+					<fd:label>Delete</fd:label>
+				</fd:row-action>
+			</fd:widgets>
+		</fd:repeater>
+		<fd:repeater-action id="deleteprojects" command="delete-rows" repeater="projects" select="selected">
+			<fd:label>Delete Selected</fd:label>
+			<fd:hint>Delete Selected Projects</fd:hint>
+			<fd:help>Make the selected projects go away.</fd:help>
+		</fd:repeater-action>
+	</fd:widgets>
+</fd:form>
