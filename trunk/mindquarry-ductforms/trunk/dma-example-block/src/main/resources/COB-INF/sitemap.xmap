@@ -121,6 +121,24 @@
       <map:match pattern="(\w+)(.*)$" type="regexp">
       	<map:read src="dma:file://{system-property:mindquarry.reposbasepath}/{1}/{2}" />
       </map:match>
+
+      <!-- 
+      <map:match pattern="**">
+      	<map:read src="dma:file://{system-property:user.dir}/src/main/resources/COB-INF/repos/{1}" />
+      </map:match>
+       -->
+       
+       
+       
+       <map:handle-errors>
+          <map:generate type="exception"/>
+          <map:transform src="xslt/system/exception2html.xsl">
+          	<map:parameter name="contextPath" value="{request:contextPath}"/>
+            <map:parameter name="realPath" value="{realpath:}"/>
+          </map:transform>
+          <map:serialize status-code="500" type="html"/>
+    </map:handle-errors>
+       
     </map:pipeline>
     
   </map:pipelines>
