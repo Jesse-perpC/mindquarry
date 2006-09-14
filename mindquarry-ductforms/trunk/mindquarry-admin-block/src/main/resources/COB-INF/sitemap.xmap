@@ -2,7 +2,14 @@
 <!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
 
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-
+	<map:components>
+		<map:actions>
+			<map:action name="setnohttpcache"
+				src="org.apache.cocoon.acting.HttpCacheAction">
+				<seconds>0</seconds>
+			</map:action>
+		</map:actions>
+	</map:components>
 	<map:flow language="javascript">
 		<map:script src="admin.js" />
 	</map:flow>
@@ -15,12 +22,13 @@
 			<!-- repository listing -->
 			<map:match pattern="">
 				<map:call function="handleForm">
-					<map:parameter name="function" value="manageProjects" />
+					<map:parameter name="function"
+						value="manageProjects" />
 					<map:parameter name="definitionURI"
 						value="forms/admin-form.xml" />
 				</map:call>
 			</map:match>
-			
+
 			<map:match pattern="*.instance">
 				<map:generate type="jx" src="forms/{1}-template.xml"
 					label="content1">
@@ -32,27 +40,20 @@
 					<map:parameter name="resources-uri"
 						value="{request:contextPath}/_cocoon/resources" />
 				</map:transform>
-
 				<map:serialize type="html" />
 			</map:match>
-			
-			
-						<map:match pattern="resources/*/**">
+
+
+			<map:match pattern="resources/*/**">
 				<map:read src="{1}/{2}" />
 			</map:match>
 
 			<!-- Continue a scenario. The continuation id is passed in the URL
 				(typically used for GET requests) -->
 			<map:match pattern="*.continue">
+				<map:act type="setnohttpcache" />
 				<map:call continuation="{1}" />
 			</map:match>
-
-			<!-- Continue a scenario. The continuation id is passed as a request
-				parameter (typically used for POST request) -->
-			<map:match pattern="continue">
-				<map:call continuation="{1}" />
-			</map:match>
-			
 		</map:pipeline>
 
 	</map:pipelines>
