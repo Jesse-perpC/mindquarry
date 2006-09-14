@@ -37,6 +37,14 @@
 		<li><xsl:value-of select="@src" /></li>
 	</xsl:template>
 	
+	<xsl:template match="log:replacement">
+		<li>replaced: <a href="{@src}"><xsl:value-of select="@src"/></a></li>
+	</xsl:template>
+	
+	<xsl:template match="log:deletion">
+		<li>deleted: <xsl:value-of select="@src" /></li>
+	</xsl:template>
+	
 	<xsl:template match="log:addition">
 		<li>added: <a href="{@src}"><xsl:value-of select="@src"/></a></li>
 	</xsl:template>
