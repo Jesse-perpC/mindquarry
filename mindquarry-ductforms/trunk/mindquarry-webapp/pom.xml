@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
-<project>
+<?xml version="1.0" encoding="UTF-8"?><project>
   <parent>
     <artifactId>cocoon-playground</artifactId>
     <groupId>com.mindquarry.cocoon</groupId>
@@ -8,10 +6,11 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mindquarry</groupId>
-  <artifactId>mindquarry-admin-block</artifactId>
-  <name>Mindquarry Administration Block</name>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>mindquarry-webapp</artifactId>
+  <name>mindquarry-webapp</name>
+  <version>1.0.0-SNAPSHOT</version>
   <build>
+    <finalName>mindquarry-webapp</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.cocoon</groupId>
@@ -29,53 +28,35 @@
               <maxIdleTime>30000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppSourceDirectory>target/cocoon-playground</webAppSourceDirectory>
+          <webAppSourceDirectory>target/mindquarry-webapp</webAppSourceDirectory>
           <contextPath>/</contextPath>
 	  <scanIntervalSeconds>10</scanIntervalSeconds>
         </configuration>
       </plugin>
     </plugins>
   </build>
-  <repositories>
-    <repository>
-      <id>central</id>
-      <name>Maven central repository</name>
-      <url>http://ibiblio.org/maven2</url>
-    </repository>
-    
-		<repository>
-			<id>goshaky</id>
-			<name>Goshaky Public Repository</name>
-			<url>http://www.goshaky.com/m2</url>
-			<layout>default</layout>
-		</repository>
-    <repository>
-      <id>apache.snapshot</id>
-      <name>Apache Snapshot Repository</name>
-      <url>http://svn.apache.org/maven-snapshot-repository</url>
-    </repository>
-  </repositories>
   <dependencies>
-    <dependency>
-    <groupId>com.mindquarry.project</groupId>
-	<artifactId>mindquarry-project</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-core</artifactId>
       <version>2.2.0-M2-SNAPSHOT</version>
     </dependency>
-    
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-forms-impl</artifactId>
-      <version>1.0.0-M2-SNAPSHOT</version>
-    </dependency>
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-template-impl</artifactId>
-      <version>1.0.0-M2-SNAPSHOT</version>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+	<groupId>com.mindquarry</groupId>
+	<artifactId>dma-example-block</artifactId>
+	<version>1.0-SNAPSHOT</version>
+    </dependency>
+    
+    <dependency>
+	<groupId>com.mindquarry</groupId>
+	<artifactId>mindquarry-admin-block</artifactId>
+	<version>1.0-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
