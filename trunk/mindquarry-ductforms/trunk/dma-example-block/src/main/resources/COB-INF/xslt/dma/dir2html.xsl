@@ -52,7 +52,7 @@
 						</xsl:otherwise>
 					</xsl:choose>
 					<li style="list-style-image:url({$reversepath}icons/22x22/feed.png);">
-						<a href=".?show=log">recent changes</a> (<a href=".?show=atom">feed</a>)
+						<a href=".?show=changes">recent changes</a> (<a href=".?show=atom">feed</a>)
 					</li>
 					<xsl:apply-templates />
 				</ul>
