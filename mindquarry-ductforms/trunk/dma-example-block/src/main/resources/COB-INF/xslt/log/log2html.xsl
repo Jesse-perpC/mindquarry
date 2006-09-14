@@ -49,11 +49,11 @@
 	</xsl:template>
 	
 	<xsl:template match="log:addition">
-		<li>added: <a href="{@src}"><xsl:value-of select="@src"/></a></li>
+		<li>added: <a href="{$reversepath}{../@revision}/{$repo}{@src}"><xsl:value-of select="@src"/></a></li>
 	</xsl:template>
 	
 	<xsl:template match="log:modification">
-		<li>modified: <a href="{@src}"><xsl:value-of select="@src"/></a></li>
+		<li>modified: <a href="{$reversepath}{../@revision}/{$repo}{@src}"><xsl:value-of select="@src"/></a></li>
 	</xsl:template>
 	
 	<xsl:template match="*" />
