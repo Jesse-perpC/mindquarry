@@ -16,9 +16,11 @@
 		</html>
 	</xsl:template> 
 	
-	<xsl:template match="collection:collection">
+	<xsl:template match="collection:collection/collection:collection[collection:collection]">
 		<li>
 			<a href="{@name}/"><xsl:value-of select="@name" /></a> (<xsl:value-of select="@date" />)
 		</li>
 	</xsl:template>
+	
+	<xsl:template match="collection:collection" />
 </xsl:stylesheet>
