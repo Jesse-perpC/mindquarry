@@ -34,13 +34,6 @@
 				<map:serialize type="html" />
 			</map:match>
 
-			<!-- debug output -->
-			<map:match pattern="debug/**">
-				<map:generate type="dma"
-					src="dma:file://{system-property:mindquarry.reposbasepath}/" />
-				<map:serialize type="xml" />
-			</map:match>
-
 			<!-- icons from tango jar -->
 			<map:match pattern="icons/*/folder.png">
 				<map:read
