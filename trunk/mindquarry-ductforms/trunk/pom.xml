@@ -19,6 +19,7 @@
 		<module>cocoon-playground-webapp</module>
 		<module>ductforms-example</module>
     <module>dma-example-block</module>
+    <module>mindquarry-webapp</module>
   </modules>
 
 	<build>
