@@ -13,7 +13,11 @@
 			<body>
 				
 				<h1><a href="{$reversepath}{$repo}/"><xsl:value-of select="$repo"/></a> - <a href="{$reversepath}{$repo}{$path}"><xsl:value-of select="$path"/></a> - Revision <a href="{$reversepath}{$myrevision}/{$repo}{$path}"><xsl:value-of select="@revision"/></a> by <xsl:value-of select="collection:properties/mindquarry:author" /> - <xsl:value-of select="@date"/></h1>
-				<a href="{$reversepath}{$myrevision - 1}/{$repo}{$path}">earlier</a> - <a href="{$reversepath}{$myrevision + 1}/{$repo}{$path}">later</a>
+				<xsl:if test="$myrevision&gt;0">
+					<a href="{$reversepath}{$myrevision - 1}/{$repo}{$path}">earlier</a> 
+				-
+				</xsl:if>
+				<a href="{$reversepath}{$myrevision + 1}/{$repo}{$path}">later</a>
 				<ul>
 					<xsl:choose>
 						<xsl:when test="$path='/'">
@@ -40,13 +44,17 @@
 	
 	<xsl:template match="collection:collection">
 		<li style="list-style-image:url({$reversepath}icons/22x22/folder.png);">
-			<a href="{@name}/"><xsl:value-of select="@name" /></a> (by <xsl:value-of select="collection:properties/mindquarry:author" /> at <xsl:value-of select="@date" />)
+			<a href="{@name}/"><xsl:value-of select="@name" /></a> (at <xsl:value-of select="@date" /> by <xsl:value-of select="collection:properties/mindquarry:author" /><xsl:apply-templates select="collection:properties/mindquarry:message" />)
 		</li>
 	</xsl:template>
 	
 	<xsl:template match="collection:resource">
 		<li style="list-style-image:url({$reversepath}icons/22x22/{@mimeType}.png);">
-			<a href="{@name}"><xsl:value-of select="@name" /></a> (<xsl:value-of select="@mimeType" />, <xsl:value-of select="@size" /> bytes, by <xsl:value-of select="collection:properties/mindquarry:author" /> at <xsl:value-of select="@date" />)
+			<a href="{@name}"><xsl:value-of select="@name" /></a> (<xsl:value-of select="@mimeType" />, <xsl:value-of select="@size" /> bytes, at <xsl:value-of select="@date" /> by <xsl:value-of select="collection:properties/mindquarry:author" /><xsl:apply-templates select="collection:properties/mindquarry:message" />)
 		</li>
+	</xsl:template>
+	
+	<xsl:template match="collection:properties/mindquarry:message">
+		<xsl:text> </xsl:text><q><xsl:value-of select="."/></q>
 	</xsl:template>
 </xsl:stylesheet>
