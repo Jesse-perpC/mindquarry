@@ -12,6 +12,9 @@
 				</fd:field>
 				<fd:row-action id="delete" command="delete">
 					<fd:label>Delete</fd:label>
+					<fd:on-action>
+						<fd:javascript>deleteProjects(event);</fd:javascript>
+					</fd:on-action>
 				</fd:row-action>
 			</fd:widgets>
 		</fd:repeater>
@@ -20,14 +23,15 @@
 			<fd:label>Delete Selected</fd:label>
 			<fd:hint>Delete Selected Projects</fd:hint>
 			<fd:help>Make the selected projects go away.</fd:help>
-		</fd:repeater-action>
-		
-		<fd:repeater-action id="createproject" command="add-row" repeater="projects">
-			<fd:label>Create Project</fd:label>
 			<fd:on-action>
-				<fd:javascript>createProject(event);</fd:javascript>
+				<fd:javascript>deleteProjects(event);</fd:javascript>
 			</fd:on-action>
 		</fd:repeater-action>
+		
+		
+		<fd:submit id="createproject" validate="true">
+			<fd:label>Create Project</fd:label>
+		</fd:submit>
 		
 		<fd:field id="newprojectname">
 			<fd:label>Project Name</fd:label>
@@ -36,6 +40,9 @@
 				<fd:regexp pattern="[a-z]+">
 					<fd:failmessage>Invalid project name, use only lowercase letters</fd:failmessage>
 				</fd:regexp>
+				<fd:javascript>
+					return isNoDuplicate(widget);
+				</fd:javascript>
 			</fd:validation>
 		</fd:field>
 	</fd:widgets>

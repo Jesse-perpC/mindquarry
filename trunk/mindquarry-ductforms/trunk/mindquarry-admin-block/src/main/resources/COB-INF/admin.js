@@ -7,6 +7,10 @@ function manageProjects(form) {
 	model_ = form.getModel();
 	populateModel();
 	form.showForm("admin.instance");
+	
+	var projectname = model_.newprojectname;
+	projectadmin_.create(projectname);
+	
 	cocoon.redirectTo("", false);
 }
 
@@ -17,25 +21,30 @@ function populateModel() {
 	}
 }
 
-function isDuplicate(name) {
+function isNoDuplicate(widget) {
+	var name = widget.value;
+	print(name);
 	var list = projectadmin_.list();
 	for (var i=0;i<model_.projects.length;i++) {
 		if (model_.projects[i].name == name) {
-			return true;
+			widget.setValidationError(
+           new Packages.org.apache.cocoon.forms.
+             validation.ValidationError("Duplicate project", false));
+    		return false;
 		}
 	}
-	return false;
+	return true;
 }
 
-function createProject(event) {
-	var projectname = event.source.lookupWidget("../newprojectname").value;
-	if (! isDuplicate(projectname)) {
-		print("Creating project");
-		projectadmin_.create(projectname);
-		populateModel();
-		event.source.lookupWidget("../newprojectname").value = "";
-	} else {
-		print("duplicate");
-		return false;
+function deleteProjects(event) {
+	var list = projectadmin_.list();
+	for (var i=0;i<list.size();i++) {
+		var button = event.source.form.lookupWidget("/projects/"+i+"/delete");
+		var checkbox = event.source.form.lookupWidget("/projects/"+i+"/selected");
+		//if either the button was clicked or the checkbox selected
+		if (event.source==button||(checkbox!=null&&checkbox.value==true)) {
+			print("delete " + list.get(i).name);
+			projectadmin_.remove(list.get(i).name);
+		}
 	}
 }
