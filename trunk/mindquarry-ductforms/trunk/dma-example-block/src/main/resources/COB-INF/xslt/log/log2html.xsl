@@ -28,7 +28,7 @@
 				<xsl:value-of select="@message" />
 			</blockquote>
 			<ul title="changed paths">
-				<xsl:apply-templates select="log:path" />
+				<xsl:apply-templates  />
 			</ul>
 		</dt>
 	</xsl:template>
@@ -36,4 +36,14 @@
 	<xsl:template match="log:path">
 		<li><xsl:value-of select="@src" /></li>
 	</xsl:template>
+	
+	<xsl:template match="log:addition">
+		<li>added: <a href="{@src}"><xsl:value-of select="@src"/></a></li>
+	</xsl:template>
+	
+	<xsl:template match="log:modification">
+		<li>modified: <a href="{@src}"><xsl:value-of select="@src"/></a></li>
+	</xsl:template>
+	
+	<xsl:template match="*" />
 </xsl:stylesheet>
