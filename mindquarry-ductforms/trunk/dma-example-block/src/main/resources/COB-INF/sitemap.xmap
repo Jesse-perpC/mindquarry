@@ -93,14 +93,14 @@
 					<map:when test="xml">
 						<map:generate type="changelog"
 							src="dma:file://{system-property:mindquarry.reposbasepath}/{1}/{2}">
-							<map:parameter name="revision" value="1" />
+							<map:parameter name="revision" value="0" />
 						</map:generate>
 						<map:serialize type="xml" />
 					</map:when>
 					<map:when test="atom">
 						<map:generate type="changelog"
 							src="dma:file://{system-property:mindquarry.reposbasepath}/{1}/{2}">
-							<map:parameter name="revision" value="1" />
+							<map:parameter name="revision" value="0" />
 							<map:parameter name="entries" value="10" />
 						</map:generate>
 						<map:transform src="xslt/log/log2atom.xsl" />
@@ -109,7 +109,7 @@
 					<map:when test="changes">
 						<map:generate type="changelog"
 							src="dma:file://{system-property:mindquarry.reposbasepath}/{1}/{2}">
-							<map:parameter name="revision" value="1" />
+							<map:parameter name="revision" value="0" />
 							<map:parameter name="entries" value="10" />
 						</map:generate>
 						<map:transform src="xslt/log/log2html.xsl" />
