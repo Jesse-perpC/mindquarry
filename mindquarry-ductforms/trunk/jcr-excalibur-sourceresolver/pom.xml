@@ -1,6 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?><project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.apache.excalibur.source.impl.jcr</groupId>
   <artifactId>jcr-excalibur-sourceresolver</artifactId>
@@ -24,8 +22,8 @@
       <version>1.0.1</version>
       <exclusions>
         <exclusion>
-          <groupId>jsr170</groupId>
           <artifactId>jcr</artifactId>
+          <groupId>jsr170</groupId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -33,12 +31,6 @@
       <groupId>org.apache.excalibur.components.sourceresolve</groupId>
       <artifactId>excalibur-sourceresolve</artifactId>
       <version>2.1</version>
-      <!-- exclusions>
-        <exclusion>
-          <groupId>org.apache.avalon.framework</groupId>
-          <artifactId>avalon-framework-api</artifactId>
-        </exclusion>
-      </exclusions -->
     </dependency>
     <dependency>
       <groupId>org.apache.excalibur.components.xmlutil</groupId>
@@ -46,22 +38,27 @@
       <version>2.1</version>
       <exclusions>
         <exclusion>
-          <groupId>org.apache.excalibur.testcase</groupId>
           <artifactId>excalibur-testcase</artifactId>
+          <groupId>org.apache.excalibur.testcase</groupId>
         </exclusion>
         <exclusion>
-          <groupId>org.apache.excalibur.components.pool</groupId>
           <artifactId>excalibur-pool-instrumented</artifactId>
-        </exclusion>
-        <exclusion>
           <groupId>org.apache.excalibur.components.pool</groupId>
-          <artifactId>excalibur-pool-impl</artifactId>
         </exclusion>
         <exclusion>
-          <groupId>org.apache.avalon.framework</groupId>
+          <artifactId>excalibur-pool-impl</artifactId>
+          <groupId>org.apache.excalibur.components.pool</groupId>
+        </exclusion>
+        <exclusion>
           <artifactId>avalon-framework-api</artifactId>
+          <groupId>org.apache.avalon.framework</groupId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>sax</groupId>
+      <artifactId>sax</artifactId>
+      <version>2.0.1</version>
     </dependency>
   </dependencies>
 </project>
