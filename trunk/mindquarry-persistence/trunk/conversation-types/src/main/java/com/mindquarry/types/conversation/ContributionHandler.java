@@ -1,10 +1,10 @@
-package com.mindquarry.conversation.types;
+package com.mindquarry.types.conversation;
 
 import org.apache.xmlbeans.XmlObject;
 
 public class ContributionHandler {
     /**
-     * @see com.mindquarry.conversation.types.ContributionLogic#testExtension()
+     * @see com.mindquarry.types.conversation.ContributionLogic#testExtension()
      */
     public static String getTestExtension(XmlObject anObject) {
         return "Hello";

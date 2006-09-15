@@ -3,15 +3,15 @@
 
 	<xb:namespace
 		uri="http://www.mindquarry.com/ns/schema/conversation">
-		<xb:package>com.mindquarry.conversation.types</xb:package>
+		<xb:package>com.mindquarry.types.conversation</xb:package>
 	</xb:namespace>
 
 	<!--xb:extension
-		for="com.mindquarry.conversation.types.ContributionReference">
+		for="com.mindquarry.types.conversation.ContributionReference">
 		<xb:interface
-			name="com.mindquarry.conversation.types.ContributionLogic">
+			name="com.mindquarry.types.conversation.ContributionLogic">
 			<xb:staticHandler>
-				com.mindquarry.conversation.types.ContributionHandler
+				com.mindquarry.types.conversation.ContributionHandler
 			</xb:staticHandler>
 		</xb:interface>
 	</xb:extension-->
