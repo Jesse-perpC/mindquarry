@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="http://www.mindquarry.com/ns/schema/conversation"
+	xmlns:cvn="http://www.mindquarry.com/ns/schema/conversation"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="qualified" elementFormDefault="qualified">
+
+	<xs:element name="contribution" type="cvn:Contribution" />
+
+	<xs:complexType name="Contribution">
+		<xs:choice>
+			<xs:any />
+		</xs:choice>
+	</xs:complexType>
+</xs:schema>
