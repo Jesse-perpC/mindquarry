@@ -11,11 +11,30 @@
 	<description></description>
 
 	<artifactId>conversation-types</artifactId>
-	<groupId>com.mindquarry.conversation</groupId>
 	
 	<parent>
 		<groupId>com.mindquarry.types</groupId>
 		<artifactId>mindquarry-types</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>xmlbeans-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>xmlbeans</goal>
+						</goals>
+					</execution>
+				</executions>
+				<inherited>true</inherited>
+				<configuration>
+					<schemaDirectory>src/main/xsd</schemaDirectory>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
