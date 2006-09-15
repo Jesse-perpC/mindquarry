@@ -1,0 +1,18 @@
+<xb:config
+	xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+
+	<xb:namespace
+		uri="http://www.mindquarry.com/ns/schema/conversation">
+		<xb:package>com.mindquarry.conversation.types</xb:package>
+	</xb:namespace>
+
+	<!--xb:extension
+		for="com.mindquarry.conversation.types.ContributionReference">
+		<xb:interface
+			name="com.mindquarry.conversation.types.ContributionLogic">
+			<xb:staticHandler>
+				com.mindquarry.conversation.types.ContributionHandler
+			</xb:staticHandler>
+		</xb:interface>
+	</xb:extension-->
+</xb:config>

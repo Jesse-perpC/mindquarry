@@ -1,0 +1,4 @@
+Schema type extension does not work with Maven 2 XmlBeans Plugin. Use this command
+line statement for generation.
+
+scomp -cp target\classes -d target\classes -src target\xmlbeans-source src\main\xsd\conversation.xsd src\main\xsd\contribution.xsd src\main\xsdconfig\conversation.xsdconfig
