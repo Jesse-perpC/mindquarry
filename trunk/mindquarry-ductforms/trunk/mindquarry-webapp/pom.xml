@@ -10,7 +10,7 @@
   <name>mindquarry-webapp</name>
   <version>1.0.0-SNAPSHOT</version>
   <build>
-    <finalName>mindquarry-webapp</finalName>
+    <finalName>mindquarry</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.cocoon</groupId>
@@ -28,7 +28,7 @@
               <maxIdleTime>30000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppSourceDirectory>target/mindquarry-webapp</webAppSourceDirectory>
+          <webAppSourceDirectory>target/mindquarry</webAppSourceDirectory>
           <contextPath>/</contextPath>
 	  <scanIntervalSeconds>10</scanIntervalSeconds>
         </configuration>
