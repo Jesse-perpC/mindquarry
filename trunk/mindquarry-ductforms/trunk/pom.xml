@@ -15,7 +15,7 @@
 	<version>1.0.0-SNAPSHOT</version>
 	
 	<modules>
-		<module>subversion-block</module>
+		<!--module>subversion-block</module-->
 		<module>cocoon-playground-webapp</module>
 		<module>ductforms-example</module>
     <module>dma-example-block</module>
@@ -32,8 +32,8 @@
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
-				<artifactId>maven-jetty6-plugin</artifactId>
-				<version>6.0.0beta10</version>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.0.0rc2</version>
 				<configuration>
 					<connectors>
 						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
@@ -72,16 +72,6 @@
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cocoon</groupId>
-			<artifactId>cocoon-core</artifactId>
-			<version>2.2.0-M2-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cocoon</groupId>
-			<artifactId>cocoon-template-impl</artifactId>
-			<version>1.0.0-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 
