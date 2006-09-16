@@ -20,6 +20,7 @@
 		<module>ductforms-example</module>
     <module>dma-example-block</module>
     <module>mindquarry-webapp</module>
+    <module>mindquarry-admin-block</module>
   </modules>
 
 	<build>
