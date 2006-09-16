@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.types;
+package com.mindquarry.persistence;
 
 import java.io.File;
 import java.io.IOException;
