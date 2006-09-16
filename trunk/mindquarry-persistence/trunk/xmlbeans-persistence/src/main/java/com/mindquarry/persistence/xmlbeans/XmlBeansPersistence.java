@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.persistence;
+package com.mindquarry.persistence.xmlbeans;
 
 import java.io.File;
 import java.io.IOException;
