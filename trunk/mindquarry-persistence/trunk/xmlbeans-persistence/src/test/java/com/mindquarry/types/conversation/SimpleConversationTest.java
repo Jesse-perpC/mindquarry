@@ -1,7 +1,7 @@
 package com.mindquarry.types.conversation;
 
 import com.mindquarry.common.persistence.Persistence;
-import com.mindquarry.types.XmlBeansPersistence;
+import com.mindquarry.persistence.xmlbeans.XmlBeansPersistence;
 
 import junit.framework.TestCase;
 
