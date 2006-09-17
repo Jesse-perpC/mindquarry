@@ -14,6 +14,12 @@
 				src="com.mindquarry.dma.generator.ChangeLogGenerator"
 				label="content"/-->
 		</map:generators>
+		
+		<map:selectors>
+			<map:selector name="regexp-parameter"
+     			src="org.apache.cocoon.selection.RegexpRequestParameterSelector">
+     		</map:selector>			
+		</map:selectors>
 	</map:components>
 	<map:views>
 		<map:view name="content" from-label="content">
@@ -79,8 +85,39 @@
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
 			</map:match>
 
-
+			<map:match type="regexp" pattern="(browser)/([a-z]+)(/[a-zA-Z0-9\/]+)*$">
+				<map:select type="request-parameter">
+					<map:parameter name="parameter-name" value="revision" />
+					<map:when test="1">
+						<map:generate type="dma"
+							src="dma:file://{system-property:mindquarry.reposbasepath}/{2}{3}?revision={request-param:revision}" />
+						<map:transform src="xslt/dma/dir2html.xsl">
+							<map:parameter name="revision" value="1" />
+							<map:parameter name="repo" value="{2}" />
+							<map:parameter name="path" value="{3}" />
+						</map:transform>
+					</map:when>					
+					<map:otherwise>
+						<map:generate type="dma"
+							src="dma:file://{system-property:mindquarry.reposbasepath}/{2}{3}" />
+						<map:transform src="xslt/dma/dir2html.xsl">
+							<map:parameter name="revision" value="0" />
+							<map:parameter name="repo" value="{2}" />
+							<map:parameter name="path" value="{3}" />
+						</map:transform>					
+					</map:otherwise>
+				</map:select>				
+				<map:serialize type="html" />
+			</map:match>		
+			
+			<!-- 									  project  folders           file         -->
+			<map:match type="regexp" pattern="(view)/([a-z]+)/([a-zA-Z0-9\/]+)*(/[a-zA-Z0-9]+)$">
+				<map:read
+					src="dma:file://{system-property:mindquarry.reposbasepath}/{2}/{3}{4}" />
+			</map:match>
+			
 			<!-- e.g. /3/mindquarry/business -->
+			<!-- 
 			<map:match pattern="(\d+)/(\w+)(.*)/$" type="regexp">
 				<map:select type="request-parameter">
 					<map:parameter name="parameter-name" value="show" />
@@ -126,8 +163,10 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
+			-->
 
 			<!-- eg. /mindquarry/business/ -->
+			<!-- 
 			<map:match pattern="(\w+)(.*)/$" type="regexp">
 				<map:select type="request-parameter">
 					<map:parameter name="parameter-name" value="show" />
@@ -180,6 +219,7 @@
 				<map:read
 					src="dma:file://{system-property:mindquarry.reposbasepath}/{1}/{2}" />
 			</map:match>
+			-->
 
 			<!-- 
 				<map:match pattern="**">

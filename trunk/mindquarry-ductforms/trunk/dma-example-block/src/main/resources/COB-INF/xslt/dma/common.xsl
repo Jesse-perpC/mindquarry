@@ -26,7 +26,7 @@
 				</xsl:if>
 				<xsl:value-of select="$repo"/>
 				<xsl:value-of select="$path"/>
-				</xsl:with-param>
+			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:param>
 	
