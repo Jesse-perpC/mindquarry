@@ -33,13 +33,18 @@
 				<map:transform src="xslt/file/dir2html.xsl" />
 				<map:serialize type="html" />
 			</map:match>
-
+			
 			<!-- icons from tango jar -->
 			<map:match pattern="icons/*/folder.png">
 				<map:read
 					src="resource://org/tango-project/tango-icon-theme/{1}/places/folder.png" />
 			</map:match>
 
+
+			<map:match pattern="css/*.css">				
+				<map:read src="css/{1}.css" />
+			</map:match>
+			
 			<map:match pattern="icons/*/feed.png">
 				<map:read src="icons/feed-icon-{1}.png" />
 			</map:match>
