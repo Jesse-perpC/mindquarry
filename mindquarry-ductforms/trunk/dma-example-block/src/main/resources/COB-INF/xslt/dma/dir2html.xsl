@@ -5,39 +5,31 @@
 	xmlns:mindquarry="mindquarry"
 	xmlns:collection="http://apache.org/cocoon/collection/1.0">
 	<xsl:import href="common.xsl" />
-	
-	<xsl:attribute-set name="odd">
-  		<xsl:attribute name="class">odd</xsl:attribute>
-	</xsl:attribute-set>
-	
-	<xsl:attribute-set name="even">
-  		<xsl:attribute name="class">even</xsl:attribute>
-	</xsl:attribute-set>
 
 	<xsl:template match="/collection:collection">
 		<html>
 			<head>
 				<title>Workspace Content</title>
-				<link rel="stylesheet" href="{$reversepath}css/mindquarry.css" type="text/css" />
-				<link rel="stylesheet" href="{$reversepath}css/dma.css" type="text/css" />
+				<link rel="stylesheet" href="{$reversepath}/css/mindquarry.css" type="text/css" />
+				<link rel="stylesheet" href="{$reversepath}/css/dma.css" type="text/css" />
 			</head>
 			<body>
 				
-				<h1><a href="{$reversepath}{$repo}/"><xsl:value-of select="$repo"/></a> - <a href="{$reversepath}{$repo}{$path}"><xsl:value-of select="$path"/></a> - Revision <a href="{$reversepath}{$myrevision}/{$repo}{$path}"><xsl:value-of select="@revision"/></a> by <xsl:value-of select="collection:properties/mindquarry:author" /> - <xsl:value-of select="@date"/></h1>
+				<h1><a href="{$reversepath}/{$repo}/"><xsl:value-of select="$repo"/></a> - <a href="{$reversepath}/{$repo}{$path}"><xsl:value-of select="$path"/></a> - Revision <a href="{$reversepath}/{$myrevision}/{$repo}{$path}"><xsl:value-of select="@revision"/></a> by <xsl:value-of select="collection:properties/mindquarry:author" /> - <xsl:value-of select="@date"/></h1>
 				<xsl:if test="$myrevision&gt;0">
-					<a href="{$reversepath}{$myrevision - 1}/{$repo}{$path}">earlier</a> 
+					<a href="{$reversepath}/{$myrevision - 1}/{$repo}{$path}">earlier</a> 
 				-
 				</xsl:if>
-				<a href="{$reversepath}{$myrevision + 1}/{$repo}{$path}">later</a>
+				<a href="{$reversepath}/{$myrevision + 1}/{$repo}{$path}">later</a>
 				<ul>
-					<li style="list-style-image:url({$reversepath}icons/22x22/feed.png);">
+					<li style="list-style-image:url({$reversepath}/icons/22x22/feed.png);">
 						<a href=".?show=changes">recent changes</a> (<a href=".?show=atom">feed</a>)
 					</li>
-					<li style="list-style-image:url({$reversepath}icons/22x22/actions/go-up.png);">
+					<li style="list-style-image:url({$reversepath}/icons/22x22/actions/go-up.png);">
 						<a href="{$reversepath}">repository list</a>
 					</li>
 <!-- 				<xsl:if test="$path!='/'">
-						<li style="list-style-image:url({$reversepath}icons/22x22/actions/go-up.png);">
+						<li style="list-style-image:url({$reversepath}/icons/22x22/actions/go-up.png);">
 							<a href="../">parent folder</a>
 						</li>
 					</xsl:if> -->
@@ -69,7 +61,7 @@
  				<xsl:if test="$path!='/'">
  					<tr class="even">
  						<td class="name" colspan="5">
-       						<a class="parent" title="Parent Directory" href="../">../</a>
+       						<a class="parent" title="Parent Directory" href="{$reversepath}{$repo}{$path}/..">../</a>
 						</td>
 					</tr>
 				</xsl:if>
@@ -125,7 +117,7 @@
 	
 	<xsl:template name="collection-columns">
 		<td class="name">
-			<a class="dir" title="Browse Directory" href="{@name}/">
+			<a class="dir" title="Browse Directory" href="{@name}">
 				<xsl:value-of select="@name" />
 			</a>
 		</td>
@@ -156,13 +148,13 @@
 	
 	<!--
 	<xsl:template match="collection:collection">
-		<li style="list-style-image:url({$reversepath}icons/22x22/folder.png);">
+		<li style="list-style-image:url({$reversepath}/icons/22x22/folder.png);">
 			<a href="{@name}/"><xsl:value-of select="@name" /></a> (at <xsl:value-of select="@date" /> by <xsl:value-of select="collection:properties/mindquarry:author" /><xsl:apply-templates select="collection:properties/mindquarry:message" />)
 		</li>
 	</xsl:template>
 	
 	<xsl:template match="collection:resource">
-		<li style="list-style-image:url({$reversepath}icons/22x22/{@mimeType}.png);">
+		<li style="list-style-image:url({$reversepath}/icons/22x22/{@mimeType}.png);">
 			<a href="{@name}"><xsl:value-of select="@name" /></a> (<xsl:value-of select="@mimeType" />, <xsl:value-of select="@size" /> bytes, at <xsl:value-of select="@date" /> by <xsl:value-of select="collection:properties/mindquarry:author" /><xsl:apply-templates select="collection:properties/mindquarry:message" />)
 		</li>
 	</xsl:template>
