@@ -24,14 +24,15 @@
 			<map:action name="project-resolver-action" 
 			src="com.mindquarry.dma.viewer.acting.ProjectResolverAction"/>
 		</map:actions>
-		
-		<!-- 
+	</map:components>
+	
+	<map:action-sets>
 		<map:action-set name="dma-actions">
 			<map:act type="project-resolver-action" />
 			<map:act type="revision-parameter-action" />
 		</map:action-set>
-		-->
-	</map:components>
+	</map:action-sets>
+		
 	<map:views>
 		<map:view name="content" from-label="content">
 			<map:serialize type="xml" />
@@ -40,16 +41,6 @@
 	<map:pipelines>
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
-
-			<!-- repository listing -->
-			<map:match pattern="">
-				<map:generate type="dma"
-					src="file://{system-property:mindquarry.reposbasepath}/">
-					<map:parameter name="depth" value="2" />
-				</map:generate>
-				<map:transform src="xslt/file/dir2html.xsl" />
-				<map:serialize type="html" />
-			</map:match>
 			
 			<!-- icons from tango jar -->
 			<map:match pattern="icons/*/folder.png">
@@ -108,14 +99,15 @@
 			</map:match>
 			
 			<!-- 									     project  folder(s)        -->			
-			<map:match type="regexp" pattern="(&browser_pattern;)/([a-z]+/)(.+/)*$">
-				<map:act type="revision-parameter-action">
+			<map:match type="regexp" pattern="(&browser_pattern;)/([a-z]+)/(.+/)*$">
+				<map:act set="dma-actions">
+					<map:parameter name="project" value="{2}" />
 					<map:generate type="dma"
-					src="dma:file://{system-property:mindquarry.reposbasepath}/{../2}{../3}?{revision-query}" />
+						src="dma:file://{repositoryPath}{../3}?{revision-query}" />
 				</map:act>
 				<map:transform src="xslt/dma/dir2html.xsl">
 					<map:parameter name="revision" value="0" />
-					<map:parameter name="project" value="{2}" />
+					<map:parameter name="project" value="{2}/" />
 					<map:parameter name="path" value="{3}" />
 					<map:parameter name="file_view_pattern" value="&file_view_pattern;" />
 					<map:parameter name="changelog_pattern" value="&changelog_pattern;" />
@@ -124,19 +116,21 @@
 			</map:match>		
 			
 			
-			<!-- 									                project   path (without concluding "/")            -->
-			<map:match type="regexp" pattern="(&file_view_pattern;)/([a-z]+/)(.*[^\/])$">
-				<map:act type="revision-parameter-action">
+			<!-- 									                 project path (without concluding "/")            -->
+			<map:match type="regexp" pattern="(&file_view_pattern;)/([a-z]+)/(.*[^\/])$">
+				<map:act set="dma-actions">
+					<map:parameter name="project" value="{2}" />
 					<map:read
-						src="dma:file://{system-property:mindquarry.reposbasepath}/{2}{3}?{revision-query}" />
+						src="dma:file://{repositoryPath}{../3}?{revision-query}" />
 				</map:act>
 			</map:match>
 			
 			<!-- 									     project  folder(s)       file             -->			
-			<map:match type="regexp" pattern="(&changelog_pattern;)/([a-z]+/)([a-zA-Z0-9]+/)*([a-zA-Z0-9\.]*)$">
-				<map:act type="revision-parameter-action">
+			<map:match type="regexp" pattern="(&changelog_pattern;)/([a-z]+)/([a-zA-Z0-9]+/)*([a-zA-Z0-9\.]*)$">
+				<map:act set="dma-actions">
+					<map:parameter name="project" value="{2}" />
 					<map:generate type="changelog"
-						src="dma:file://{system-property:mindquarry.reposbasepath}/{../2}{../3}{../4}?{revision-query}">
+						src="dma:file://{repositoryPath}{../3}{../4}?{revision-query}">
 						<map:parameter name="revision" value="0" />
 						<map:parameter name="entries" value="10" />
 					</map:generate>
@@ -151,20 +145,6 @@
 				<map:serialize type="html" />
 			</map:match>
 			
-			<!-- 									     project  folder(s)       file             -->			
-			<!-- 
-			<map:match type="regexp" pattern="(atomfeed)/([a-z]+/)([a-zA-Z0-9]+/)*([a-zA-Z0-9\.]*)$">
-				<map:act type="revision-parameter-action">
-					<map:generate type="changelog"
-						src="dma:file://{system-property:mindquarry.reposbasepath}/{../2}{../3}{../4}?{revision-query}">
-						<map:parameter name="revision" value="0" />
-						<map:parameter name="entries" value="10" />
-					</map:generate>
-				</map:act>
-				<map:transform src="xslt/log/log2atom.xsl" />			
-				<map:serialize type="html" />
-			</map:match>
-			-->
 			
 			<map:handle-errors>
 				<map:generate type="exception" />
@@ -181,5 +161,3 @@
 	</map:pipelines>
 
 </map:sitemap>
-
-<!-- map:read src="dma:http://svn.collab.net/repos/svn/trunk/subversion/bindings/java/javahl/src/org/tigris/subversion/javahl/tests/SVNTests.java"/-->
