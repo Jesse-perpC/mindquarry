@@ -124,11 +124,11 @@
 			</map:match>		
 			
 			
-			<!-- 									  project  folder(s)      file            -->
-			<map:match type="regexp" pattern="(&file_view_pattern;)/([a-z]+/)([a-zA-Z0-9]+/)*([a-zA-Z0-9\.]+)$">
+			<!-- 									                project   path (without concluding "/")            -->
+			<map:match type="regexp" pattern="(&file_view_pattern;)/([a-z]+/)(.*[^\/])$">
 				<map:act type="revision-parameter-action">
 					<map:read
-						src="dma:file://{system-property:mindquarry.reposbasepath}/{2}{3}{4}?{revision-query}" />
+						src="dma:file://{system-property:mindquarry.reposbasepath}/{2}{3}?{revision-query}" />
 				</map:act>
 			</map:match>
 			
