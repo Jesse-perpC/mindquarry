@@ -6,6 +6,9 @@
 	<xsl:param name="project" select="''"/>
 	<xsl:param name="path" select="''"/>
 	<xsl:param name="revision" select="false()"/>
+	<xsl:param name="file_view_pattern" select="''"/>
+	<xsl:param name="changelog_pattern" select="''"/>
+	<xsl:param name="browser_pattern" select="''"/>
 	
 	<xsl:param name="myrevision">
 		<xsl:choose>

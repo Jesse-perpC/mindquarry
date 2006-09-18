@@ -4,39 +4,32 @@
 	xmlns:fn="http://www.w3.org/2005/02/xpath-functions"
 	xmlns:mindquarry="mindquarry"
 	xmlns:collection="http://apache.org/cocoon/collection/1.0">
-	<xsl:import href="common.xsl" />
+	<xsl:import href="../common.xsl" />
+	<xsl:param name="file_view_pattern" select="''"/>
+	<xsl:param name="changelog_pattern" select="''"/>
 
 	<xsl:template match="/collection:collection">
 		<html>
 			<head>
 				<title>Workspace Content</title>
-				<link rel="stylesheet" href="{$reversepath}/css/mindquarry.css" type="text/css" />
-				<link rel="stylesheet" href="{$reversepath}/css/dma.css" type="text/css" />
+				<link rel="stylesheet" href="{$reversepath}css/mindquarry.css" type="text/css" />
+				<link rel="stylesheet" href="{$reversepath}css/dma.css" type="text/css" />
 			</head>
 			<body>
 				
-				<h1><a href="{$reversepath}/{$repo}/"><xsl:value-of select="$repo"/></a> - <a href="{$reversepath}/{$repo}{$path}"><xsl:value-of select="$path"/></a> - Revision <a href="{$reversepath}/{$myrevision}/{$repo}{$path}"><xsl:value-of select="@revision"/></a> by <xsl:value-of select="collection:properties/mindquarry:author" /> - <xsl:value-of select="@date"/></h1>
+				<h1><a href="{$reversepath}/{$project}/"><xsl:value-of select="$project"/></a> - <a href="{$reversepath}/{$project}{$path}"><xsl:value-of select="$path"/></a> - Revision <a href="{$reversepath}/{$myrevision}/{$project}{$path}"><xsl:value-of select="@revision"/></a> by <xsl:value-of select="collection:properties/mindquarry:author" /> - <xsl:value-of select="@date"/></h1>
 				<xsl:if test="$myrevision&gt;0">
-					<a href="{$reversepath}/{$myrevision - 1}/{$repo}{$path}">earlier</a> 
-				-
+					<a href="{$reversepath}/{$myrevision - 1}/{$project}{$path}">earlier</a> 
 				</xsl:if>
-				<a href="{$reversepath}/{$myrevision + 1}/{$repo}{$path}">later</a>
+				
+				<a href="{$reversepath}/{$myrevision + 1}/{$project}{$path}">later</a>
 				<ul>
 					<li style="list-style-image:url({$reversepath}/icons/22x22/feed.png);">
-						<a href=".?show=changes">recent changes</a> (<a href=".?show=atom">feed</a>)
+						<a href="{$reversepath}{$changelog_pattern}/{$project}{$path}">recent changes</a> (<a href=".?show=atom">feed</a>)
 					</li>
 					<li style="list-style-image:url({$reversepath}/icons/22x22/actions/go-up.png);">
 						<a href="{$reversepath}">repository list</a>
 					</li>
-<!-- 				<xsl:if test="$path!='/'">
-						<li style="list-style-image:url({$reversepath}/icons/22x22/actions/go-up.png);">
-							<a href="../">parent folder</a>
-						</li>
-					</xsl:if> -->
-					
-					<!-- 
-					<xsl:apply-templates />
-					-->
 				</ul>
 				<table class="listing" id="dirlist">
    					<thead>
@@ -49,7 +42,6 @@
  								<a title="Sort by size" 
  									href="/browser/trunk?order=size">Size</a>
  							</th>
- 							<th class="rev">Rev</th>
  							<th class="date">
  								<a title="Sort by date" 
  									href="/browser/trunk?order=date">Age</a>
@@ -57,32 +49,17 @@
  							<th class="change">Last Change</th>
  						</tr>
  					</thead>
- 				<tbody>
- 				<xsl:if test="$path!='/'">
- 					<tr class="even">
- 						<td class="name" colspan="5">
-       						<a class="parent" title="Parent Directory" href="{$reversepath}{$repo}{$path}/..">../</a>
-						</td>
-					</tr>
-				</xsl:if>
+ 					<tbody>
+ 						<xsl:if test="$path!=''">
+ 							<tr class="even">
+ 								<td class="name" colspan="5">
+       								<a class="parent" title="Parent Directory" href="..">..</a>
+								</td>
+							</tr>
+						</xsl:if>
      
-     			<xsl:apply-templates />
+     					<xsl:apply-templates />
 
-    
-     <!-- 
-     <tr class="even">
-      <td class="name">
-        <a class="dir" title="Browse Directory" href="/browser/trunk/contrib">contrib</a>
-      </td>
-      <td class="size"></td>
-      <td class="rev"><a title="View Revision Log" href="/log/trunk/contrib">3593</a></td>
-      <td class="age"><span title="08/07/06 05:30:24">1 month</span></td>
-
-      <td class="change">
-       <span class="author">cboos:</span>
-       <span class="change"><a class="changeset" href="/changeset/3551" title="Follow-up to r3550: the trac-post-commit-hook is also using the ticket  ...">r3551</a> did not revert completely <a class="changeset" href="/changeset/3486" title="Adapt the trac-post-commit-hook to recent changes milestone:0.10. Also  ...">r3486</a>: re-add initialization of </span>
-      </td>
-     </tr> -->
      				</tbody>
      			</table>
 			</body>
@@ -117,7 +94,7 @@
 	
 	<xsl:template name="collection-columns">
 		<td class="name">
-			<a class="dir" title="Browse Directory" href="{@name}">
+			<a class="dir" title="Browse Directory" href="{@name}/">
 				<xsl:value-of select="@name" />
 			</a>
 		</td>
@@ -127,7 +104,7 @@
 	
 	<xsl:template name="resource-columns">
 		<td class="name">
-			<a class="dir" title="View File" href="{@name}">
+			<a class="dir" title="View File" href="{$reversepath}{$file_view_pattern}/{$project}{$path}{@name}">
 				<xsl:value-of select="@name" />
 			</a>
 		</td>
@@ -136,14 +113,29 @@
 	</xsl:template>
 	
 	<xsl:template name="common-columns">
-		<td class="rev">
-			<a title="View Revision Log" href="/log/trunk/cgi-bin">3678</a>
-		</td>
 		<td class="age"><xsl:value-of select="@date" /></td>
 		<td class="change">
-			<span class="author"><xsl:value-of select="collection:properties/mindquarry:author" />:</span>
-			<span class="change"><xsl:value-of select="collection:properties/mindquarry:message" /></span>
+			<xsl:apply-templates select="collection:properties/mindquarry:author" />
+			<xsl:apply-templates select="collection:properties/mindquarry:message" />
 		</td>		
+	</xsl:template>
+	
+	<xsl:template match="collection:properties/mindquarry:author">
+		<span class="author"><xsl:value-of select="." />: </span>
+	</xsl:template>
+	
+	<xsl:template match="collection:properties/mindquarry:message">
+		<span class="change">
+		<xsl:attribute name="title"><xsl:value-of select="." /></xsl:attribute>
+			<xsl:choose>
+				<xsl:when test="string-length(.)&gt;70">
+					<xsl:value-of select="substring(., 1, 70)" /> &#x2026;
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="."/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</span>
 	</xsl:template>
 	
 	<!--
