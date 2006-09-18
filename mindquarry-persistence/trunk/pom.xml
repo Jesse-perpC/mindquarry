@@ -15,7 +15,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>conversation-types</module>
+		<module>conversation</module>
 		<module>xmlbeans-persistence</module>
 	</modules>
 
