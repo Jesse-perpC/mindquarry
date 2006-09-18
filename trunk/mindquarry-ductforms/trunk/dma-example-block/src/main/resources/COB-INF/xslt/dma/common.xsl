@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:mindquarry="mindquarry"
 	xmlns:collection="http://apache.org/cocoon/collection/1.0">
-	<xsl:param name="repo" select="''"/>
+	<xsl:param name="project" select="''"/>
 	<xsl:param name="path" select="''"/>
 	<xsl:param name="revision" select="false()"/>
 	
@@ -24,7 +24,7 @@
 				<xsl:if test="$revision">
 					<xsl:value-of select="$revision" /><xsl:text>/</xsl:text>
 				</xsl:if>
-				<xsl:value-of select="$repo"/>
+				<xsl:value-of select="$project"/>
 				<xsl:value-of select="$path"/>
 			</xsl:with-param>
 		</xsl:call-template>
