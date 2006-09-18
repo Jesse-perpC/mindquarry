@@ -15,7 +15,7 @@ import org.apache.excalibur.source.SourceException;
  * @author alexander.klimetschek@mindquarry.com
  *
  */
-public class CollectionSource extends AbstractJCRNodeSource implements ModifiableTraversableSource {
+public class FileOrFolderSource extends AbstractJCRNodeSource implements ModifiableTraversableSource {
 
     /* (non-Javadoc)
      * @see org.apache.excalibur.source.ModifiableTraversableSource#makeCollection()
