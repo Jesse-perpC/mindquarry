@@ -18,13 +18,13 @@ import org.xml.sax.SAXException;
  * @author alexander.klimetschek@mindquarry.com
  *
  */
-public class SAXtoJCRConverter implements ContentHandler {
+public class SAXtoJCRNodesConverter implements ContentHandler {
     
     protected Session session;
     
     protected Node node;
 
-    public SAXtoJCRConverter(Session session, Node node) {
+    public SAXtoJCRNodesConverter(Session session, Node node) {
         this.session = session;
         this.node = node;
     }

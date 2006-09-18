@@ -7,6 +7,6 @@ package org.apache.excalibur.source.impl.jcr.xml;
  * @author alexander.klimetschek@mindquarry.com
  *
  */
-public class JCRtoSAXConverter {
+public class JCRNodesToSAXConverter {
 
 }
