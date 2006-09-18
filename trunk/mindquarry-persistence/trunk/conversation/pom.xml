@@ -17,4 +17,9 @@
 		<artifactId>mindquarry-types</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	
+        <modules>
+		<module>conversation-extensions</module>
+		<module>conversation-types</module>
+	</modules>
 </project>
