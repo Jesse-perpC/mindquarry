@@ -43,6 +43,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceUtil;
+import org.apache.excalibur.source.impl.jcr.JCRXMLNodeSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -69,7 +70,7 @@ import org.apache.excalibur.source.SourceUtil;
  * {@link #executeQuery(Session,String,String) executeQuery()} method.
  * 
  */
-public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
+public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         Configurable, Serviceable {
 
     /**

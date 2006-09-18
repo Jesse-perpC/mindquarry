@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.excalibur.source.impl.jcr.xml;
+package org.apache.excalibur.source.impl.jcr.xml.sources;
 
 import javax.jcr.Value;
 
@@ -26,13 +26,13 @@ import org.apache.excalibur.source.SourceValidity;
  *
  * @author alexander.klimetschek@mindquarry.com
  */
-public class JCRXMLNodeSourceValidity implements SourceValidity {
+public class JCRNodeSourceValidity implements SourceValidity {
 
     private static final long serialVersionUID = 1L;
 
     private Value value;
 
-    public JCRXMLNodeSourceValidity(Value value) {
+    public JCRNodeSourceValidity(Value value) {
         this.value = value;
     }
 
@@ -42,9 +42,9 @@ public class JCRXMLNodeSourceValidity implements SourceValidity {
     }
 
     public int isValid(SourceValidity other) {
-        if (other instanceof JCRXMLNodeSourceValidity) {
+        if (other instanceof JCRNodeSourceValidity) {
             // compare the two values
-            return ((JCRXMLNodeSourceValidity) other).value.equals(this.value) ? 1 : -1;
+            return ((JCRNodeSourceValidity) other).value.equals(this.value) ? 1 : -1;
         } else {
             // invalid
             return -1;

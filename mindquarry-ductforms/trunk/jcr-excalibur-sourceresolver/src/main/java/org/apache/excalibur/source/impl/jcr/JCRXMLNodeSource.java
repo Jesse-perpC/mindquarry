@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.excalibur.source.impl.jcr.xml;
+package org.apache.excalibur.source.impl.jcr;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -33,6 +33,7 @@ import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
+import org.apache.excalibur.source.impl.jcr.xml.JCRSourceFactory;
 import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -50,7 +51,7 @@ public class JCRXMLNodeSource implements ModifiableSource, XMLizable {
     protected final String path;
 
     /** The factory that created this Source */
-    protected final JCRXMLSourceFactory factory;
+    protected final JCRSourceFactory factory;
 
     /** The session this source is bound to */
     protected final Session session;
@@ -58,7 +59,7 @@ public class JCRXMLNodeSource implements ModifiableSource, XMLizable {
     /** The node pointed to by this source (can be null) */
     protected Node node;
 
-    public JCRXMLNodeSource(JCRXMLSourceFactory factory, Session session,
+    public JCRXMLNodeSource(JCRSourceFactory factory, Session session,
             String path) throws SourceException {
         this.factory = factory;
         this.session = session;
@@ -81,7 +82,7 @@ public class JCRXMLNodeSource implements ModifiableSource, XMLizable {
         }
     }
 
-    public JCRXMLNodeSource(JCRXMLSourceFactory parent, Node node)
+    public JCRXMLNodeSource(JCRSourceFactory parent, Node node)
             throws SourceException {
         this.factory = parent;
         this.node = node;

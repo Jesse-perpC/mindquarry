@@ -5,16 +5,23 @@ package org.apache.excalibur.source.impl.jcr.xml.sources;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Collection;
 
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
+import org.apache.excalibur.source.TraversableSource;
 
 /**
  * @author alexander.klimetschek@mindquarry.com
  *
  */
-public class QueryResultSource implements Source {
+public class QueryResultSource implements TraversableSource {
+
+    // =========================================================================
+    // Source interface
+    // =========================================================================
 
     /* (non-Javadoc)
      * @see org.apache.excalibur.source.Source#exists()
@@ -87,6 +94,50 @@ public class QueryResultSource implements Source {
     public void refresh() {
         // TODO Auto-generated method stub
 
+    }
+
+    // =========================================================================
+    // TraversableSource interface
+    // =========================================================================
+
+    /* (non-Javadoc)
+     * @see org.apache.excalibur.source.TraversableSource#getChild(java.lang.String)
+     */
+    public Source getChild(String name) throws SourceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.excalibur.source.TraversableSource#getChildren()
+     */
+    public Collection getChildren() throws SourceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.excalibur.source.TraversableSource#getName()
+     */
+    public String getName() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.excalibur.source.TraversableSource#getParent()
+     */
+    public Source getParent() throws SourceException {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    /* (non-Javadoc)
+     * @see org.apache.excalibur.source.TraversableSource#isCollection()
+     */
+    public boolean isCollection() {
+        // TODO Auto-generated method stub
+        return false;
     }
 
 }
