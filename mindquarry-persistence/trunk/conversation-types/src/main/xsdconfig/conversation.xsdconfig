@@ -6,7 +6,7 @@
 		<xb:package>com.mindquarry.types.conversation</xb:package>
 	</xb:namespace>
 
-	<!--xb:extension
+	<xb:extension
 		for="com.mindquarry.types.conversation.ContributionReference">
 		<xb:interface
 			name="com.mindquarry.types.conversation.ContributionLogic">
@@ -14,5 +14,5 @@
 				com.mindquarry.types.conversation.ContributionHandler
 			</xb:staticHandler>
 		</xb:interface>
-	</xb:extension-->
+	</xb:extension>
 </xb:config>
