@@ -1,5 +1,5 @@
 /*
- * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
+ * Coypright (c) 2006 Mindquarry GmbH 
  */
 package com.mindquarry.source.jcr.xml.sources;
 
@@ -17,8 +17,11 @@ import org.xml.sax.SAXException;
 import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
 
 /**
- * @author alexander.klimetschek@mindquarry.com
- *
+ * @author <a
+ *         href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">Alexander
+ *         Klimetschek</a>
+ * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
+ *         Saar</a>
  */
 public class XMLFragmentSource extends AbstractJCRNodeSource
         implements ModifiableSource, XMLizable {

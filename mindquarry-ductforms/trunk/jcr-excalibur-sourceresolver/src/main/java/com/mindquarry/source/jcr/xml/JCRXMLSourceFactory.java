@@ -1,5 +1,6 @@
 /*
- * Copyright 2006 Mindquarry GmbH, Potsdam, Germany
+ * Copyright 2006 Mindquarry GmbH
+ * 
  * Copyright 2005 The Apache Software Foundation.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,9 +19,9 @@ package com.mindquarry.source.jcr.xml;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.util.HashSet;
 import java.util.Map;
 
+import javax.jcr.Item;
 import javax.jcr.LoginException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
@@ -43,7 +44,10 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceUtil;
-import org.apache.excalibur.source.impl.jcr.JCRXMLNodeSource;
+
+import com.mindquarry.source.jcr.xml.sources.AbstractJCRNodeSource;
+import com.mindquarry.source.jcr.xml.sources.FileOrFolderSource;
+import com.mindquarry.source.jcr.xml.sources.QueryResultSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -64,242 +68,235 @@ import org.apache.excalibur.source.impl.jcr.JCRXMLNodeSource;
  * (well, which maps to the sql query
  * <code>SELECT * FROM nt:base WHERE jcr:path = '/root/myfile'</code>)</li>
  * </ul>
+ * 
  * Note that this implementation does only support queries that return a
  * content-node (with no children). If the result contains multiple nodes, the
  * first one is used. See also the
- * {@link #executeQuery(Session,String,String) executeQuery()} method.
  * 
+ * {@link #executeQuery(Session,String,String) executeQuery()} method.
  */
 public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
-        Configurable, Serviceable {
+		Configurable, Serviceable {
+	/**
+	 * The reference to the JCR Repository to use as interface.
+	 */
+	protected Repository repo;
 
-    /**
-     * A hash containing all XML elements that should be versionized
-     */
-    protected HashSet versionizedElements;
+	/**
+	 * Scheme, lazily computed at the first call to getSource().
+	 */
+	protected String scheme;
 
-    /**
-     * The reference to the JCR Repository to use as interface.
-     */
-    protected Repository repo;
+	/**
+	 * Used to resolve other components.
+	 */
+	protected ServiceManager manager;
 
-    /**
-     * Scheme, lazily computed at the first call to getSource()
-     */
-    protected String scheme;
+	/**
+	 * Configuration for this component.
+	 */
+	protected Configuration config;
 
-    /**
-     * Used to resolve other components
-     */
-    protected ServiceManager manager;
+	// =========================================================================
+	// Servicable interface
+	// =========================================================================
 
-    // =========================================================================
-    // Servicable interface
-    // =========================================================================
+	/**
+	 * Called at startup of this component.
+	 * 
+	 * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
+	 */
+	public void service(ServiceManager manager) throws ServiceException {
+		this.manager = manager;
 
-    /**
-     * Called at startup of this component.
-     */
-    public void service(ServiceManager manager) throws ServiceException {
-        this.manager = manager;
-        // this.repo is lazily initialized to avoid a circular dependency
-        // between SourceResolver and JackrabbitRepository that leads to a
-        // StackOverflowError at initialization time
-    }
+		// the repository is lazily initialized to avoid circular dependency
+		// between SourceResolver and JackrabbitRepository that leads to a
+		// StackOverflowError at initialization time
+	}
 
-    // =========================================================================
-    // Configurable interface
-    // =========================================================================
+	// =========================================================================
+	// Configurable interface
+	// =========================================================================
 
-    /**
-     * Configures this component based on some <code>Configuration</code> read
-     * from an XML config file. The configurable elements should be defined in
-     * the class javadoc comment!
-     */
-    public void configure(Configuration config) throws ConfigurationException {
-        this.versionizedElements = new HashSet();
+	/**
+	 * Configures this component based on some <code>Configuration</code> read
+	 * from an XML config file. The configurable elements should be defined in
+	 * the class javadoc comment!
+	 * 
+	 * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
+	 */
+	public void configure(Configuration config) throws ConfigurationException {
+		this.config = config;
+	}
 
-        Configuration[] children = config.getChildren();
+	// =========================================================================
+	// SourceFactory interface
+	// =========================================================================
 
-        for (int i = 0; i < children.length; i++) {
-            Configuration child = children[i];
-            String name = child.getName();
+	/**
+	 * Retrieves a <code>Source</code> for the given URI. The URI can also be
+	 * an Xpath or SQL query conforming to the JCR query support.
+	 * 
+	 * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String,
+	 *      java.util.Map)
+	 */
+	public Source getSource(String uri, Map parameters) throws IOException,
+			MalformedURLException {
+		lazyInitRepository();
 
-            if ("versionize".equals(name)) {
-                this.versionizedElements.add(child.getAttribute("element"));
-            }
-        }
-    }
+		// extract protocol identifier
+		if (scheme == null) {
+			scheme = SourceUtil.getScheme(uri);
+		}
 
-    // =========================================================================
-    // SourceFactory interface
-    // =========================================================================
+		Session session;
+		try {
+			// TODO accept a different workspace, username, password?
+			session = repo.login();
+		} catch (LoginException e) {
+			throw new SourceException("Login to repository failed", e);
+		} catch (RepositoryException e) {
+			throw new SourceException("Cannot access repository", e);
+		}
+		// Compute the path
+		String path = SourceUtil.getSpecificPart(uri);
+		if (!path.startsWith("//")) {
+			throw new MalformedURLException("Expecting " + scheme
+					+ "://path and got " + uri);
+		}
+		// check for query syntax (eg. 'jcr://root/users/*#//name' interpreted
+		// as 'jcr://root/users/*//name')
+		if (path.indexOf("#") != -1) {
+			path = path.replace("#", "");
+			return executeQuery(session, path, Query.XPATH);
+		} else {
+			// standard direct hierarchy-resolving
+			path = removeLeadingSlash(path);
+			return createSource(session, path);
+		}
+	}
 
-    /**
-     * Retrieves a <code>Source</code> for the given uri. The URI can also be
-     * an Xpath or SQL query conforming to the JCR query support.
-     */
-    public Source getSource(String uri, Map parameters) throws IOException,
-            MalformedURLException {
-        lazyInit();
+	/**
+	 * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
+	 */
+	public void release(Source source) {
+		// nothing to do here
+	}
 
-        if (this.scheme == null) {
-            this.scheme = SourceUtil.getScheme(uri);
-        }
+	// =========================================================================
+	// Custom public interface
+	// =========================================================================
 
-        Session session;
-        try {
-            // TODO: accept a different workspace?
-            session = repo.login();
-        } catch (LoginException e) {
-            throw new SourceException("Login to repository failed", e);
-        } catch (RepositoryException e) {
-            throw new SourceException("Cannot access repository", e);
-        }
+	/**
+	 * Creates a new source given a session and a path
+	 * 
+	 * @param session
+	 *            the session
+	 * @param path
+	 *            the absolute path
+	 * @return a new source
+	 * @throws SourceException
+	 */
+	public AbstractJCRNodeSource createSource(Session session, String path)
+			throws SourceException {
+		// is the requested node really a node?
+		try {
+			Item item = session.getItem(path);
+			if (!item.isNode()) {
+				throw new SourceException("Path '" + path
+						+ "' is a property (should be a node)");
+			}
+			// it is a node, try to analyse the node type
+			Node node = (Node) item;
+			if ((node.isNodeType("nt:folder")) || node.isNodeType("nt:file")) {
+				return new FileOrFolderSource(this, session, path);
+			} else if (node.isNodeType("xt:element")) {
+				return new FileOrFolderSource(this, session, path);
+			} else {
+				throw new SourceException("Unsupported primary node type. "
+						+ "Must be nt:file, nt:folder or xt:element.");
+			}
+		} catch (Exception e) {
+			throw new SourceException("An error occured.", e);
+		}
+	}
 
-        // Compute the path
-        String path = SourceUtil.getSpecificPart(uri);
-        if (!path.startsWith("//")) {
-            throw new MalformedURLException("Expecting " + this.scheme
-                    + "://path and got " + uri);
-        }
+	// =========================================================================
+	// Internal methods
+	// =========================================================================
 
-        // check for query syntax (eg. 'jcr://xpath!//element(*, nt:folder)' )
+	/**
+	 * Retrieves the reference of the JCR <code>Repository</code> to use.
+	 */
+	protected void lazyInitRepository() {
+		// check if already initialized
+		if (repo != null) {
+			return;
+		}
+		// otherwise try to lookup the repository
+		try {
+			repo = (Repository) manager.lookup(Repository.class.getName());
+		} catch (Exception e) {
+			throw new CascadingRuntimeException("Cannot lookup repository", e);
+		}
+	}
 
-        if (path.startsWith("//!")) {
-            return executeQuery(session, path.substring(3), Query.XPATH);
-        } else if (path.startsWith("//xpath!")) {
-            return executeQuery(session, path.substring(8), Query.XPATH);
-        } else if (path.startsWith("//sql!")) {
-            return executeQuery(session, path.substring(6), Query.SQL);
-        }
+	/**
+	 * Executes an XPath Query on the JCR repository and returns a node
+	 * representing the query result.
+	 * 
+	 * <p>
+	 * Subclasses that use an extended, XMLizable JCRNodeSource should override
+	 * this method and return all nodes in the result.
+	 * 
+	 * @param session
+	 *            the session
+	 * @param statement
+	 *            the Xpath query statement
+	 * @param queryLang
+	 *            the language to use (should be Query.SQL or Query.XPATH)
+	 * @throws IOException
+	 *             when the query is wrong or the result was empty
+	 */
+	protected Source executeQuery(Session session, String statement,
+			String queryLang) throws IOException {
+		try {
+			QueryManager queryManager = session.getWorkspace()
+					.getQueryManager();
+			Query query = queryManager.createQuery(statement, queryLang);
+			QueryResult result = query.execute();
 
-        // standard direct hierarchy-resolving
+			NodeIterator nit = result.getNodes();
+			if (nit.getSize() == 0) {
+				return null;
+			}
+			return new QueryResultSource(this, nit);
+		} catch (RepositoryException e) {
+			throw new SourceException("Cannot execute query '" + statement
+					+ "'", e);
+		}
+	}
 
-        // Remove first '/'
-        path = path.substring(1);
-        int pathLen = path.length();
-        if (pathLen > 1) {
-            // Not root: ensure there's no trailing '/'
-            if (path.charAt(pathLen - 1) == '/') {
-                path = path.substring(0, pathLen - 1);
-            }
-        }
+	/**
+	 * Remove the leading slash from the given path for hierarchy-resolving.
+	 */
+	private String removeLeadingSlash(String path) {
+		// Remove first '/'
+		path = path.substring(1);
+		int pathLen = path.length();
+		if (pathLen > 1) {
+			// Not root: ensure there's no trailing '/'
+			if (path.charAt(pathLen - 1) == '/') {
+				path = path.substring(0, pathLen - 1);
+			}
+		}
+		return path;
+	}
 
-        return createSource(session, path);
-    }
-
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
-     */
-    public void release(Source source) {
-        // nothing to do here
-    }
-
-    // =========================================================================
-    // Custom public interface
-    // =========================================================================
-
-    /**
-     * Creates a new source given its parent and its node
-     * 
-     * @param parent the parent
-     * @param node the node
-     * @return a new source
-     * @throws SourceException
-     */
-    public JCRXMLNodeSource createSource(JCRXMLNodeSource parent, Node node)
-            throws SourceException {
-        return new JCRXMLNodeSource(parent, node);
-    }
-
-    /**
-     * Creates a new source given a session and a path
-     * 
-     * @param session the session
-     * @param path the absolute path
-     * @return a new source
-     * @throws SourceException
-     */
-    public JCRXMLNodeSource createSource(Session session, String path)
-            throws SourceException {
-        return new JCRXMLNodeSource(this, session, path);
-    }
-
-    // =========================================================================
-    // Internal methods
-    // =========================================================================
-
-    /**
-     * Retrieves the reference of the JCR <code>Repository</code> to use.
-     * 
-     */
-    protected void lazyInit() {
-        // check if already initialized
-        if (this.repo != null) {
-            return;
-        }
-
-        try {
-            this.repo = (Repository) manager.lookup(Repository.class.getName());
-        } catch (Exception e) {
-            throw new CascadingRuntimeException("Cannot lookup repository", e);
-        }
-    }
-
-    /**
-     * Executes an XPath Query on the JCR repository. This implementation only
-     * allows queries that return one node with no children (because
-     * JCRNodeSource is a simple, non-xmlizable Source, that does not know what
-     * to do if someone wants to read (call getInputStream()) from a collection
-     * (or folder-type) node). If the result contains multiple nodes, only the
-     * first one is returned.
-     * 
-     * <p>
-     * Subclasses that use an extended, XMLizable JCRNodeSource should override
-     * this method and return all nodes in the result.
-     * 
-     * @param session the session
-     * @param statement the Xpath query statement
-     * @param queryLang the language to use (should be Query.SQL or Query.XPATH)
-     * @throws IOException when the query is wrong or the result was empty
-     */
-    protected Source executeQuery(Session session, String statement,
-            String queryLang) throws IOException {
-        if (queryLang == Query.SQL
-                && !session.getRepository().getDescriptor(
-                        Repository.OPTION_QUERY_SQL_SUPPORTED).equals("true")) {
-            throw new SourceException(
-                    "JCR Repository does not support SQL queries.");
-        }
-
-        try {
-            QueryManager queryManager = session.getWorkspace()
-                    .getQueryManager();
-            Query query = queryManager.createQuery(statement, queryLang);
-            QueryResult result = query.execute();
-
-            NodeIterator nodeIter = result.getNodes();
-
-            if (nodeIter.getSize() == 0) {
-                return null;
-            }
-
-            // return only the first result.
-            return new JCRXMLNodeSource(this, nodeIter.nextNode());
-        } catch (RepositoryException e) {
-            throw new SourceException("Cannot execute query '" + statement
-                    + "'", e);
-        }
-    }
-
-    /**
-     * Returns the scheme (probably <code>jcr</code>) for the URIs we handle.
-     * 
-     */
-    public String getScheme() {
-        return this.scheme;
-    }
+	/**
+	 * Returns the scheme (probably <code>jcr</code>) for the URIs we handle.
+	 */
+	public String getScheme() {
+		return scheme;
+	}
 }

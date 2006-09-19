@@ -1,5 +1,5 @@
 /*
- * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
+ * Coypright (c) 2006 Mindquarry GmbH 
  */
 package com.mindquarry.source.jcr.xml.sources;
 
@@ -23,8 +23,11 @@ import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
 /**
  * Base class for all JCR Node Sources.
  * 
- * @author alexander.klimetschek@mindquarry.com
- * 
+ * @author <a
+ *         href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">Alexander
+ *         Klimetschek</a>
+ * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
+ *         Saar</a>
  */
 public abstract class AbstractJCRNodeSource implements Source {
 
