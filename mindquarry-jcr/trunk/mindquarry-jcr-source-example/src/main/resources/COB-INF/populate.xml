@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <html>
-	<h2>JCR XML Block Example</h2>
+	<h2>Mindquarry JCR XML Block Example</h2>
 	<p>
-		<b>Importing some XML into JCR...</b>
+		<b>Importing some XML into the JCR repository...</b>
 		<br />
 		<br />
 
@@ -17,7 +17,7 @@
 	</p>
 
 	<p>
-		<b>Done</b>
+		<b>Done!!</b>
 	</p>
 
 	<p>
