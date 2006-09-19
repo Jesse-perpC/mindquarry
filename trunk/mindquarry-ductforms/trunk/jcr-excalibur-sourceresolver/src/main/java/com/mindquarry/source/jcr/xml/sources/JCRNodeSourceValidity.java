@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.excalibur.source.impl.jcr.xml.sources;
+package com.mindquarry.source.jcr.xml.sources;
 
 import javax.jcr.Value;
 

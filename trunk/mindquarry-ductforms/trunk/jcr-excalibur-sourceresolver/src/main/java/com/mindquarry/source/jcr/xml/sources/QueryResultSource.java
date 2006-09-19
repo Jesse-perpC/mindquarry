@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
  */
-package org.apache.excalibur.source.impl.jcr.xml.sources;
+package com.mindquarry.source.jcr.xml.sources;
 
 import java.io.IOException;
 import java.io.InputStream;

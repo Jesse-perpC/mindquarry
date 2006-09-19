@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
  */
-package org.apache.excalibur.source.impl.jcr.xml.sources;
+package com.mindquarry.source.jcr.xml.sources;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,7 +17,8 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
-import org.apache.excalibur.source.impl.jcr.xml.JCRSourceFactory;
+
+import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
 
 /**
  * Base class for all JCR Node Sources.
@@ -28,7 +29,7 @@ import org.apache.excalibur.source.impl.jcr.xml.JCRSourceFactory;
 public abstract class AbstractJCRNodeSource implements Source {
 
     /** The factory that created this Source */
-    protected final JCRSourceFactory factory;
+    protected final JCRXMLSourceFactory factory;
 
     /** The session this source is bound to */
     protected final Session session;
@@ -46,7 +47,7 @@ public abstract class AbstractJCRNodeSource implements Source {
      * @param session The current JCR session in use.
      * @throws SourceException 
      */
-    public AbstractJCRNodeSource(JCRSourceFactory factory, Session session,
+    public AbstractJCRNodeSource(JCRXMLSourceFactory factory, Session session,
             String path) throws SourceException {
         this.factory = factory;
         this.session = session;

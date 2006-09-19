@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
  */
-package org.apache.excalibur.source.impl.jcr.xml.sources;
+package com.mindquarry.source.jcr.xml.sources;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -12,7 +12,8 @@ import javax.jcr.Session;
 import org.apache.excalibur.source.ModifiableTraversableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.impl.jcr.xml.JCRSourceFactory;
+
+import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
 
 /**
  * Represents a file (nt:file) or a folder (nt:folder) in a node
@@ -29,7 +30,7 @@ public class FileOrFolderSource extends AbstractJCRNodeSource implements
      * @param path
      * @throws SourceException
      */
-    public FileOrFolderSource(JCRSourceFactory factory, Session session,
+    public FileOrFolderSource(JCRXMLSourceFactory factory, Session session,
             String path) throws SourceException {
         super(factory, session, path);
         // TODO Auto-generated constructor stub
