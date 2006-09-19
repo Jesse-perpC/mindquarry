@@ -18,7 +18,6 @@
 		<!--module>subversion-block</module-->
 		<module>cocoon-playground-webapp</module>
 		<module>ductforms-example</module>
-    <module>workspace-block</module>
     <module>mindquarry-webapp</module>
     <module>mindquarry-admin-block</module>
   </modules>
