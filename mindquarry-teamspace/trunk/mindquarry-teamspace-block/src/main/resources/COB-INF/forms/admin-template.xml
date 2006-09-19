@@ -1,0 +1,45 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+	<head>
+		<title>Projects</title>
+	</head>
+	<body>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue"
+			method="POST">
+			<ft:repeater id="projects">
+				<table>
+					<tbody>
+						<tr>
+							<th>
+								<ft:repeater-widget-label
+									widget-id="name" />
+							</th>
+							<th>
+								<ft:repeater-widget-label widget-id="delete" />
+							</th>
+						</tr>
+						<ft:repeater-rows>
+							<tr
+								class="forms-row-${repeaterLoop.index % 2}">
+								<td>
+									<ft:widget id="selected" /><ft:widget id="name"/>
+								</td>
+								<td>
+									<ft:widget id="delete" />
+								</td>
+							</tr>
+						</ft:repeater-rows>
+					</tbody>
+				</table>
+			</ft:repeater>
+			<ft:widget id="deleteprojects" />
+			
+			<br/><br/><br/><br/><br/><br/><br/><br/>
+			<ft:widget id="newprojectname"/>
+			<ft:widget id="createproject"/>
+		</ft:form-template>
+	</body>
+</html>
