@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<name>Mindquarry Root Pom</name>
+	<url>http://www.mindquarry.com</url>
+	<description>
+
+	</description>
+
+	<groupId>com.mindquarry</groupId>
+	<artifactId>mindquarry</artifactId>
+	<version>1</version>
+
+	<licenses>
+		<license>
+			<name>The Apache Software License, Version 2.0</name>
+			<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+			<distribution>repo</distribution>
+		</license>
+	</licenses>
+
+	<organization>
+		<name>Mindquarry GmbH</name>
+		<url>http://www.mindquarry.com/</url>
+	</organization>
+	<url>http://www.mindquarry.com/</url>
+
+	<repositories>
+		<repository>
+			<id>goshaky</id>
+			<name>Goshaky Public Repository</name>
+			<url>http://www.goshaky.com/m2</url>
+			<layout>default</layout>
+		</repository>
+		<!--repository>
+			<id>mindquarry-repo</id>
+			<name>Mindquarry Repository</name>
+			<url>sftp://mindquarry.com/var/www/www.mindquarry.com/htdocs/m2</url>
+			<layout>default</layout>
+			</repository-->
+	</repositories>
+
+	<distributionManagement>
+		<repository>
+			<id>mindquarry.releases</id>
+			<name>Mindquarry Repository</name>
+			<url>
+				scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/releases
+			</url>
+		</repository>
+		<snapshotRepository>
+			<id>mindquarry.snapshots</id>
+			<name>Mindquarry Repository</name>
+			<url>
+				scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/snapshots
+			</url>
+		</snapshotRepository>
+	</distributionManagement>
+
+	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.5</source>
+					<target>1.5</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-site-plugin</artifactId>
+				<configuration>
+					<outputEncoding>UTF-8</outputEncoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<ciManagement>
+		<system>continuum</system>
+		<notifiers>
+			<notifier>
+				<type>mail</type>
+				<configuration>
+					<address>builds@mindquarry.com</address>
+				</configuration>
+			</notifier>
+		</notifiers>
+	</ciManagement>
+
+	<reporting>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>
+					maven-project-info-reports-plugin
+				</artifactId>
+				<reportSets>
+					<reportSet>
+						<reports>
+							<report>dependencies</report>
+							<report>project-team</report>
+							<report>mailing-list</report>
+							<report>cim</report>
+							<report>issue-tracking</report>
+							<report>license</report>
+							<report>scm</report>
+						</reports>
+					</reportSet>
+				</reportSets>
+			</plugin>
+		</plugins>
+	</reporting>
+</project>
