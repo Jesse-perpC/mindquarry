@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH 
  */
-package com.mindquarry.source.jcr.xml.sources;
+package com.mindquarry.jcr.source.xml.sources;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -18,7 +18,7 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
 
-import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
+import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
 
 /**
  * Base class for all JCR Node Sources.

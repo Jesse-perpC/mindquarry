@@ -1,7 +1,7 @@
 /*
  * Copyright 2006 Mindquarry GmbH, Potsdam, Germany
  */
-package com.mindquarry.source.jcr.xml;
+package com.mindquarry.jcr.source.xml;
 
 import javax.jcr.Node;
 import javax.jcr.Session;

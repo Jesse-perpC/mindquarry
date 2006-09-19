@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH 
  */
-package com.mindquarry.source.jcr.xml.sources;
+package com.mindquarry.jcr.source.xml.sources;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -14,7 +14,7 @@ import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
+import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
 
 /**
  * @author <a
