@@ -49,6 +49,9 @@ import com.mindquarry.jcr.source.xml.sources.QueryResultSource;
  * <li>XPATH: <code>jcr://!//folder/file</code> (shorthand notation, same
  * query as above)</li>
  * </ul>
+ * 
+ * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
+ *         Saar</a>
  */
 public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
         Configurable, Serviceable {
