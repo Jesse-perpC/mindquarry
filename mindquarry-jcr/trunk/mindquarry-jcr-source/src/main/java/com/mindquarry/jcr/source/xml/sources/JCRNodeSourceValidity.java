@@ -1,7 +1,7 @@
 /*
  * Copyright 2006 Mindquarry GmbH
  */
-package com.mindquarry.source.jcr.xml.sources;
+package com.mindquarry.jcr.source.xml.sources;
 
 import javax.jcr.Value;
 

@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH
  */
-package com.mindquarry.source.jcr.xml.sources;
+package com.mindquarry.jcr.source.xml.sources;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -15,7 +15,7 @@ import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.TraversableSource;
 
-import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
+import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
 
 /**
  * Source implementation for XPath query results.

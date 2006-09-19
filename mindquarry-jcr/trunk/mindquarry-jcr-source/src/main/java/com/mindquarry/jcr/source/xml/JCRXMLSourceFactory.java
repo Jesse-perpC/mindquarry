@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.mindquarry.source.jcr.xml;
+package com.mindquarry.jcr.source.xml;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -45,9 +45,9 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceUtil;
 
-import com.mindquarry.source.jcr.xml.sources.AbstractJCRNodeSource;
-import com.mindquarry.source.jcr.xml.sources.FileOrFolderSource;
-import com.mindquarry.source.jcr.xml.sources.QueryResultSource;
+import com.mindquarry.jcr.source.xml.sources.AbstractJCRNodeSource;
+import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
+import com.mindquarry.jcr.source.xml.sources.QueryResultSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
