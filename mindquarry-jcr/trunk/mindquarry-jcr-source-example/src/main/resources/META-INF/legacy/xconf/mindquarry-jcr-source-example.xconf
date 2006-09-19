@@ -4,7 +4,7 @@
 
 	<source-factories>
 		<component-instance
-			class="com.mindquarry.source.jcr.xml.JcrXmlSourceFactory" name="jcr" />
+			class="com.mindquarry.jcr.source.xml.JCRXMLSourceFactory" name="jcr" />
 	</source-factories>
 
 	<jcr-repository
