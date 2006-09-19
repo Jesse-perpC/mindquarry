@@ -16,6 +16,10 @@
 	<artifactId>mindquarry</artifactId>
 	<version>1</version>
 
+        <modules>
+		<module>mindquarry-common</module>
+	</modules>
+
 	<licenses>
 		<license>
 			<name>The Apache Software License, Version 2.0</name>
