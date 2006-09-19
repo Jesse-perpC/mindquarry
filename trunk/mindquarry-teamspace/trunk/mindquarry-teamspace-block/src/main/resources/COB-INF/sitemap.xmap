@@ -10,17 +10,31 @@
 			</map:action>
 		</map:actions>
 	</map:components>
+	
 	<map:flow language="javascript">
 		<map:script src="admin.js" />
+    	<map:script src="teamspace-view.js"/>
 	</map:flow>
+	
 	<map:pipelines>
+
+		<!-- use noncaching pipeline -->
+		<map:pipeline type="noncaching">
+			<map:match pattern="">
+				<map:call function="teamspaceView" />
+			</map:match>
+			<map:match pattern="screens/teamspaceView">
+				<map:generate src="teamspace-view.jx" type="jx" />
+				<map:transform src="xslt/teamspaces2html.xsl"/>
+				<map:serialize type="html" />
+			</map:match>
+		</map:pipeline>
+
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 
-
-
 			<!-- repository listing -->
-			<map:match pattern="">
+			<map:match pattern="admin">
 				<map:call function="handleForm">
 					<map:parameter name="function"
 						value="manageProjects" />
