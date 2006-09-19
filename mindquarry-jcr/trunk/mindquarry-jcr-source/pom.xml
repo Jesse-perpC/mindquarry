@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.mindquarry.source</groupId>
-	<artifactId>mindquarry-source-jcr</artifactId>
+	<groupId>com.mindquarry.jcr</groupId>
+	<artifactId>mindquarry-jcr-source</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>JCR XML Wrapper for Excalibur Sourceresolver API</name>
