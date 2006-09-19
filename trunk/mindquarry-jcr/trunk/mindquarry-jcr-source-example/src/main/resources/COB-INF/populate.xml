@@ -10,7 +10,9 @@
 			<src:write xmlns:src="http://apache.org/cocoon/source/1.0">
 				<src:source>jcr://root/users/alexander.saar</src:source>
 				<src:fragment>
-					<name>Alexander Saar</name>
+					<user>
+						<name>Alexander Saar</name>
+					</user>
 				</src:fragment>
 			</src:write>
 		</textarea>
