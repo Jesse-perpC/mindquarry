@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<components>
+	<include src="resource://org/apache/cocoon/jcr/jcr.roles" />
+
+	<source-factories>
+		<component-instance
+			class="com.mindquarry.source.jcr.xml.JcrXmlSourceFactory" name="jcr" />
+	</source-factories>
+
+	<jcr-repository
+		class="org.apache.cocoon.jcr.JackrabbitRepository">
+		<credentials login="expression" password="expression" />
+		<home src="context://repository" />
+		<jaas src="resource://COB-INF/jaas.config" />
+		<configuration src="resource://COB-INF/repository.xml" />
+	</jcr-repository>
+</components>
