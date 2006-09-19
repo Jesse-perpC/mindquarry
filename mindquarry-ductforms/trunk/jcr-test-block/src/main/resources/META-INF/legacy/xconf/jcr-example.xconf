@@ -1,36 +1,17 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <components>
-  <include src="resource://org/apache/cocoon/jcr/jcr.roles"/>
+	<include src="resource://org/apache/cocoon/jcr/jcr.roles" />
 
-  <source-factories>
-    <component-instance class="org.apache.excalibur.source.impl.jcr.xml.JCRXMLSourceFactory" name="jcr">
-      
-    </component-instance>
+	<source-factories>
+		<component-instance
+			class="com.mindquarry.source.jcr.xml.JcrXmlSourceFactory" name="jcr" />
+	</source-factories>
 
-    <!--component-instance class="org.apache.cocoon.jcr.source.JCRSourceFactory" name="jcr"-->
-    <!--component-instance class="org.apache.excalibur.source.impl.jcr.JCRSourceFactory" name="jcr">
-      <folder-node type="rep:root" new-file="nt:file"
-          new-folder="nt:folder" />
-      <folder-node type="nt:folder" new-file="nt:file" />
-      <file-node type="nt:file" content-path="jcr:content"
-          content-type="nt:resource" />
-      <file-node type="nt:linkedFile" content-ref="jcr:content" />
-      <content-node type="nt:resource" content-prop="jcr:data"
-          mimetype-prop="jcr:mimeType" lastmodified-prop="jcr:lastModified"
-          validity-prop="jcr:lastModified" />
-    </component-instance-->
-  </source-factories>
-
-  <jcr-repository class="org.apache.cocoon.jcr.JackrabbitRepository">
-    <credentials login="expression" password="expression"/>
-    <home src="context://repository"/>
-    <jaas src="resource://COB-INF/jaas.config"/>
-    <configuration src="resource://COB-INF/repository.xml"/>
-  </jcr-repository>
-  
-<!-- 
-    <component-instance exported="false" name="jcr-repository" class="org.apache.cocoon.components.flow.javascript.fom.FOM_JavaScriptInterpreter">
-
-    </component-instance>
-  -->
+	<jcr-repository
+		class="org.apache.cocoon.jcr.JackrabbitRepository">
+		<credentials login="expression" password="expression" />
+		<home src="context://repository" />
+		<jaas src="resource://COB-INF/jaas.config" />
+		<configuration src="resource://COB-INF/repository.xml" />
+	</jcr-repository>
 </components>
