@@ -48,7 +48,7 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 		projects_ = new HashMap<String, Project>();
 		for (File child : reposBaseDirectory_.listFiles(svnRepositoryFilter())) {
 			String name = child.getName();
-			projects_.put(name, new Project(name));
+			projects_.put(name, makeProject(name));
 		}
 	}
 	
@@ -63,14 +63,17 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 			}
 		};
 	}
+    
+    private Project makeProject(String name) {
+        return new Project(name);
+    }
 	
 	public void create(String name) throws ProjectAlreadyExistsException {
 		if (projects_.containsKey(name))
 			throw new ProjectAlreadyExistsException();
 		
-		dmaAdmin(name).createRepository();
-
-		projects_.put(name, new Project(name));
+		dmaAdmin(name).createRepository();        
+		projects_.put(name, makeProject(name));
 	}
 	
 	private DmaAdmin dmaAdmin(String projectName) {
@@ -93,8 +96,12 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 	 */
 	public String repositoryPath(String name) {
 		validateExistence(name);
-		return new File(reposBaseDirectory_, name).toURI().getPath();
+		return resolveRepositoryPath(name);
 	}
+    
+    private String resolveRepositoryPath(String name) {
+        return new File(reposBaseDirectory_, name).toURI().getPath();
+    }
 
 	public void remove(String name) {
 		validateExistence(name);
