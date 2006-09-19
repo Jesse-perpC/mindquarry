@@ -1,40 +1,26 @@
-<?xml version="1.0"?>
-<!--
-  Copyright 2005 The Apache Software Foundation
-
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-      http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License.
--->
-
-<!--+
-    | Populates JCR repository with some sample data
-    | CVS $Id: populate.xml 264821 2005-08-30 18:07:46Z vgritsenko $
-    +-->
+<?xml version="1.0" encoding="UTF-8"?>
 <html>
-  <h2>Populating JCR with sample data</h2>
+	<h2>JCR XML Block Example</h2>
+	<p>
+		<b>Importing some XML into JCR...</b>
+		<br />
+		<br />
 
-  <h3>Importing some XML into JCR...</h3>
-  <textarea cols="75" rows="3">
-    <s:write xmlns:s="http://apache.org/cocoon/source/1.0">
-      <s:source>jcr://cocoon/sitemap</s:source>
-      <s:fragment>
-        <hallo />
-      </s:fragment>
-    </s:write>
-  </textarea>
+		<textarea cols="75" rows="3">
+			<src:write xmlns:src="http://apache.org/cocoon/source/1.0">
+				<src:source>jcr://root/users/alexander.saar</src:source>
+				<src:fragment>
+					<name>Alexander Saar</name>
+				</src:fragment>
+			</src:write>
+		</textarea>
+	</p>
 
-  <h3>Done</h3>
+	<p>
+		<b>Done</b>
+	</p>
 
-  <p>
-    <a href="./content.xml">Show the content added to the repository</a>
-  </p>
+	<p>
+		<a href="./content.xml">Display new repository content...</a>
+	</p>
 </html>
