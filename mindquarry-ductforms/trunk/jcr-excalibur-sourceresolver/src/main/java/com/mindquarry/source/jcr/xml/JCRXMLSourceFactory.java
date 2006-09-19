@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.apache.excalibur.source.impl.jcr.xml;
+package com.mindquarry.source.jcr.xml;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -70,7 +70,7 @@ import org.apache.excalibur.source.impl.jcr.JCRXMLNodeSource;
  * {@link #executeQuery(Session,String,String) executeQuery()} method.
  * 
  */
-public class JCRSourceFactory implements ThreadSafe, SourceFactory,
+public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
         Configurable, Serviceable {
 
     /**

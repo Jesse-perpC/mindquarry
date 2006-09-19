@@ -1,7 +1,7 @@
 /*
  * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
  */
-package org.apache.excalibur.source.impl.jcr.xml.sources;
+package com.mindquarry.source.jcr.xml.sources;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -10,10 +10,11 @@ import javax.jcr.Session;
 
 import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.impl.jcr.xml.JCRSourceFactory;
 import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+
+import com.mindquarry.source.jcr.xml.JCRXMLSourceFactory;
 
 /**
  * @author alexander.klimetschek@mindquarry.com
@@ -28,7 +29,7 @@ public class XMLFragmentSource extends AbstractJCRNodeSource
      * @param path
      * @throws SourceException 
      */
-    public XMLFragmentSource(JCRSourceFactory factory, Session session,
+    public XMLFragmentSource(JCRXMLSourceFactory factory, Session session,
             String path) throws SourceException {
         super(factory, session, path);
         // TODO Auto-generated constructor stub
