@@ -1,5 +1,5 @@
-/*
- * Coypright (c) 2006 Mindquarry GmbH 
+/**
+ * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
 package com.mindquarry.jcr.source.xml.sources;
 
