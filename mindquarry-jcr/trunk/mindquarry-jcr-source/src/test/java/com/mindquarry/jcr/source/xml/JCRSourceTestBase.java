@@ -22,7 +22,7 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
     protected static final String SCHEME = "jcr";
 
     protected static final String BASE_URL = SCHEME + ":"
-            + "://root/users/alexander.saar";
+            + "//root/users/alexander.saar";
 
     protected void setUp() throws Exception {
         super.setUp();
