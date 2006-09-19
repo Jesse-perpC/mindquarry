@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <testcase>
 	<roles>
+
 		<role name="org.apache.excalibur.source.SourceFactorySelector"
 			shorthand="source-factories"
 			default-class="org.apache.cocoon.core.container.DefaultServiceSelector" />
@@ -8,24 +9,25 @@
 		<role name="org.apache.excalibur.source.SourceResolver"
 			shorthand="source-resolver"
 			default-class="org.apache.excalibur.source.impl.SourceResolverImpl" />
+
+		<role name="javax.jcr.Repository" shorthand="jcr-repository" />
 	</roles>
 	<components>
-		<role-list>
-			<role name="javax.jcr.Repository"
-				shorthand="jcr-repository" />
-		</role-list>
-
 		<source-factories>
+			<component-instance name="resource"
+				class="org.apache.excalibur.source.impl.ResourceSourceFactory" />
+			<component-instance name="file"
+				class="org.apache.excalibur.source.impl.FileSourceFactory" />
 			<component-instance name="jcr"
 				class="com.mindquarry.jcr.source.xml.JCRXMLSourceFactory" />
 		</source-factories>
 
 		<jcr-repository
-			class="org.apache.cocoon.jcr.JackrabbitRepository">
+			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
 
 			<credentials login="expression" password="expression" />
-			<home src="context://repository" />
-			<jaas src="resource://jaas.config" />
+			<home src="file:///tmp/repository" />
+			<credentials login="alexander.saar" password="mypwd" />
 			<configuration src="resource://repository.xml" />
 		</jcr-repository>
 	</components>

@@ -14,6 +14,7 @@ import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.SimpleCredentials;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
@@ -130,7 +131,7 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
         Session session;
         try {
             // TODO accept a different workspace, username, password?
-            session = repo.login();
+            session = repo.login(new SimpleCredentials("alexander.saar", "mypwd".toCharArray()));
         } catch (LoginException e) {
             throw new SourceException("Login to repository failed", e);
         } catch (RepositoryException e) {
