@@ -8,9 +8,9 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.mindquarry</groupId>
-  <artifactId>dma-example-block</artifactId>
-  <name>DMA Cocoon Example</name>
-  <version>1.0-SNAPSHOT</version>
+  <artifactId>workspace-block</artifactId>
+  <name>Workspace Cocoon Block</name>
+  <version>0.0.1-SNAPSHOT</version>
   <build>
     <plugins>
       <plugin>
