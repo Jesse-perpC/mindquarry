@@ -3,6 +3,8 @@
  */
 package com.mindquarry.project;
 
+import java.util.List;
+
 /**
  * 
  *
@@ -16,4 +18,6 @@ public interface ProjectQuery {
 	 * (without concluding separator)
 	 */
 	String repositoryPath(String name);
+    
+    List<ProjectRO> list();
 }
