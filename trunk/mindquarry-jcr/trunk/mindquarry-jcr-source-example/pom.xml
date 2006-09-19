@@ -5,8 +5,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 	
-	<groupId>com.mindquarry.source</groupId>
-	<artifactId>mindquarry-source-jcr-test</artifactId>
+	<groupId>com.mindquarry.jcr</groupId>
+	<artifactId>mindquarry-jcr-source-example</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	
 	<name>Test Block for the JCR XML Wrapper</name>
