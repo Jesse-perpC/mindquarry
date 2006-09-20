@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1</version>
+	</parent>
+
+	<groupId>com.mindquarry.jcr</groupId>
+	<artifactId>mindquarry-jcr</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>JCR XML Extensions for Cocoon</name>
+	
+	<modules>
+		<module>mindquarry-jcr-source</module>
+		<module>mindquarry-jcr-source-example</module>
+	</modules>
+
+	<repositories>
+		<repository>
+			<id>mindquarry.releases</id>
+			<name>Mindquarry Repository</name>
+			<url>http://www.mindquarry.com/releases/</url>
+			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>apache.snapshot</id>
+			<name>Apache Snapshot Repository</name>
+			<url>http://svn.apache.org/maven-snapshot-repository</url>
+		</repository>
+	</repositories>
+
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jcr-source/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/
+		</developerConnection>
+	</scm>
+</project>
