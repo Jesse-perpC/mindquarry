@@ -7,7 +7,8 @@ import java.util.Date;
 
 /**
  *
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public class Change {
 
@@ -25,8 +26,8 @@ public class Change {
 	 * @param revision
 	 * @param changedPaths
 	 */
-	public Change(final Date date, final String author, final String message,
-			final String revision, final RevisedPath[] changedPaths) {
+	public Change(final Date date, final String author, final String message, 
+            final String revision, final RevisedPath[] changedPaths) {
 		
 		super();
 		date_ = date;
@@ -41,9 +42,10 @@ public class Change {
 	}
 
 	public String[] getChangedPaths() {
-		if (changedPaths_==null);
-		changedPaths_ = new String[affectedPaths_.length];
-		for (int i=0;i<affectedPaths_.length;i++) {
+		if (changedPaths_ == null) {
+		    changedPaths_ = new String[affectedPaths_.length];
+        }
+		for (int i = 0; i < affectedPaths_.length; i++) {
 			changedPaths_[i] = affectedPaths_[i].getPath();
 		}
 		return changedPaths_;
@@ -65,3 +67,5 @@ public class Change {
 		return revision_;
 	}
 }
+
+

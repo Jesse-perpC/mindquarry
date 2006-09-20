@@ -4,10 +4,11 @@
 package com.mindquarry.common.init;
 
 /**
- * This exception is used to indicate something went horribly wrong during initialization
- * of a mindquarry component.
+ * This exception is used to indicate something went horribly wrong during
+ * initialization of a mindquarry component.
  * 
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public class InitializationException extends RuntimeException {
 

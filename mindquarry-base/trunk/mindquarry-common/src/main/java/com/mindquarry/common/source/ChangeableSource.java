@@ -11,7 +11,8 @@ import org.apache.excalibur.source.SourceException;
  * A source that is versionable and saves changes 
  * amongst their lifecycle. 
  *  
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public interface ChangeableSource extends RevisableSource {
 
