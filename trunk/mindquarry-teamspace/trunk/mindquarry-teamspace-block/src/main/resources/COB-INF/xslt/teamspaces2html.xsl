@@ -9,7 +9,9 @@
 			</head>
 			<body>				
 				<ul>
-					<xsl:apply-templates />
+					<xsl:apply-templates>
+						<xsl:sort select="name" />
+					</xsl:apply-templates>
 				</ul>				
 			</body>
 		</html>
