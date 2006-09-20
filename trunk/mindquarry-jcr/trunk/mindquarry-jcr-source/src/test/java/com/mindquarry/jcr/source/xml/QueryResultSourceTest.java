@@ -15,7 +15,11 @@ public class QueryResultSourceTest extends JCRSourceTestBase {
     private QueryResultSource source;
 
     protected void setUp() throws Exception {
-        super.setUp();
-        source = (QueryResultSource) resolveSource(BASE_URL);
+        // super.setUp();
+        // source = (FileOrFolderSource) resolveSource(BASE_URL);
+    }
+
+    public void testTheTest() {
+
     }
 }

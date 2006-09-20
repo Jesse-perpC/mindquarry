@@ -42,13 +42,14 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/
 		</connection>
 		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jcr-source/
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/
 		</url>
 		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/
 		</developerConnection>
 	</scm>
 </project>
+

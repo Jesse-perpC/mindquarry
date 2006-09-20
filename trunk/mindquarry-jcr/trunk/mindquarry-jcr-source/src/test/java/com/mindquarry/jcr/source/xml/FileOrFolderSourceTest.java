@@ -3,6 +3,10 @@
  */
 package com.mindquarry.jcr.source.xml;
 
+import java.io.IOException;
+
+import org.apache.avalon.framework.service.ServiceException;
+
 import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
 
 /**
@@ -14,12 +18,14 @@ import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
 public class FileOrFolderSourceTest extends JCRSourceTestBase {
     private FileOrFolderSource source;
 
-    protected void setUp() throws Exception {
-        super.setUp();
-        source = (FileOrFolderSource) resolveSource(BASE_URL);
+    public void testFolderRetrieval() throws ServiceException, IOException {
+        source = (FileOrFolderSource) resolveSource(BASE_URL + "users");
+        assertNotNull(source);
     }
-    
-    public void testTheTest() {
-        
+
+    public void testFileRetrieval() throws ServiceException, IOException {
+        source = (FileOrFolderSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
+        assertNotNull(source);
     }
 }

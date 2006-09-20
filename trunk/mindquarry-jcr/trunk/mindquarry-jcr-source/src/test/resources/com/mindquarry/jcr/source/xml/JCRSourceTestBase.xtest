@@ -22,8 +22,12 @@
 				class="com.mindquarry.jcr.source.xml.JCRXMLSourceFactory" />
 		</source-factories>
 
+		<!-- doesn't work for test cases, use this in production environments -->
+		<!--jcr-repository
+			class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository"-->
+
 		<jcr-repository
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
+			class="org.apache.cocoon.jcr.JackrabbitRepository">
 
 			<credentials login="expression" password="expression" />
 			<home src="file:///tmp/repository" />

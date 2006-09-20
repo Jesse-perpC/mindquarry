@@ -18,13 +18,13 @@ import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
  * 
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-public class JackrabbitRepository extends
+public class JackrabbitRMIRepository extends
         org.apache.cocoon.jcr.JackrabbitRepository {
     /**
      * The name of the remote repository.
      */
     public static final String REMOTE_REPO_NAME = "jackrabbit";
-    
+
     /**
      * The RMI registry used for publishing the remote repository stubs.
      */
@@ -42,7 +42,7 @@ public class JackrabbitRepository extends
         try {
             RemoteRepository remoteRepo = factory.getRemoteRepository(this);
 
-            reg = LocateRegistry.createRegistry(1100);
+            reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
             reg.rebind(REMOTE_REPO_NAME, remoteRepo);
         } catch (RemoteException e) {
             throw new ConfigurationException(

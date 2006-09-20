@@ -35,6 +35,7 @@ import org.apache.excalibur.source.SourceUtil;
 import com.mindquarry.jcr.source.xml.sources.AbstractJCRNodeSource;
 import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
 import com.mindquarry.jcr.source.xml.sources.QueryResultSource;
+import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -187,11 +188,11 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
             Node node = (Node) item;
             if ((node.isNodeType("nt:folder")) || node.isNodeType("nt:file")) {
                 return new FileOrFolderSource(this, session, path);
-            } else if (node.isNodeType("xt:element")) {
-                return new FileOrFolderSource(this, session, path);
+            } else if (node.isNodeType("xt:document")) {
+                return new XMLFileSource(this, session, path);
             } else {
                 throw new SourceException("Unsupported primary node type. "
-                        + "Must be nt:file, nt:folder or xt:element.");
+                        + "Must be one of nt:file, nt:folder or xt:document.");
             }
         } catch (Exception e) {
             throw new SourceException("An error occured.", e);
