@@ -20,7 +20,7 @@
 	<xsl:template match="head">
 		<head>
 			<xsl:apply-templates select="*"/>
-			<link rel="stylesheet" type="text/css" href="mindquarry.css" />
+			<link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/css/screen.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 	
@@ -30,9 +30,16 @@
 	
 	<xsl:template match="body">
 		<body>
-			<a href="{$context.path}/mindquarry.css">mindquarry.css</a>
-			<xsl:apply-templates select="@*" />
 			<div class="body">
+				<div id="header">
+        			<ul id="sections">
+						<li><a class="navTalk" href="content.html">Talk</a></li>
+						<li><a class="navTasks" href="content.html">Tasks</a></li>
+						<li><a class="navWiki" href="content.html">Wiki</a></li>
+						<li><a class="navFiles" href="content.html">Files</a></li>
+						<li><a class="navTeams" href="content.html">Teams</a></li>
+					</ul>
+				</div>
 				<xsl:apply-templates />
 			</div>
 		</body>

@@ -1,0 +1,90 @@
+#header {
+  height:70px;
+  width:100%;
+  overflow:hidden;
+  position:absolute;
+  top:0px;
+  left:0px;
+  background-image:url(../images/header.png);
+  text-align: center;
+}
+
+ul#sections {
+  margin-top:-0px;
+  width:665px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+ul#sections a {
+  color:#ffffff;
+  text-decoration:none;
+  display:block;
+  float:right;
+  width:133px;
+  height:70px;
+  padding-top:20px;
+}
+
+ul#sections a:hover {
+  text-decoration:underline;
+}
+
+#sections a.navFiles {
+  background-image:url(../images/header-red.png);
+}
+
+#sections a.navWiki {
+  background-image:url(../images/header-blue.png);
+}
+
+#sections a.navTasks {
+  background-image:url(../images/header-green.png);
+}
+
+#sections a.navTalk {
+  background-image:url(../images/header-yellow.png);
+}
+
+#sections a.navTeams {
+  background-image:url(../images/header-yellow.png);
+}
+
+ul#sections li {
+  display:inline;
+}
+
+#footer {
+	position: absolute;
+	bottom: 0;
+  width:70%;
+	background-image:url(../images/footer.png);
+  height:64px;
+  overflow:hidden;
+	text-align: center;
+	padding: 0 15%;
+}
+
+/* SBMH -- see http://css-discuss.incutio.com/?page=BoxModelHack 
+ * Stupid hack lets IE see 100%, others see 70%. 
+ */
+#footer {
+    \width: 100%;
+    w\idth: 70%;
+}
+
+#footer ul {
+  margin-top:30px;
+  font-size:9pt;
+}
+
+#footer a, #footer {
+  color:#373737;
+}
+
+#footer li {
+  display:inline;
+  padding-left:5px;
+  padding-right:5px;
+/*  white-space:nowrap;*/
+}

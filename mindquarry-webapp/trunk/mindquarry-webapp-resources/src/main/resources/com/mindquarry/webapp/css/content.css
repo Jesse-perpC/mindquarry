@@ -1,0 +1,24 @@
+h1.content {
+  position:absolute;
+  left:5%;
+}
+
+h2 {
+  position:absolute;
+  left:55%;
+  top:180px;
+}
+
+#headerimage {
+  position:absolute;
+  right:2%;
+  top:80px;
+}
+
+#content {
+  margin-left:55%;
+  margin-top:230px;
+  margin-bottom:100px;
+  width:40%;
+  max-width:30em;
+}
