@@ -8,7 +8,8 @@ import org.apache.excalibur.source.Source;
 /**
  * A source that exists in different versions
  * 
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public interface RevisableSource extends Source {
 

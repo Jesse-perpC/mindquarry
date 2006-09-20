@@ -7,7 +7,8 @@ import java.util.List;
 
 /**
  *
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public interface Persistence {
 
