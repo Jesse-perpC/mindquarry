@@ -19,10 +19,8 @@
   <map:pipelines>
     <map:pipeline>
       <map:match pattern="**">
-        <map:generate src="index.html" />
-        
-        
-        <map:transform src="resource://com/mindquarry/xslt/html2html.xsl">
+        <map:generate src="index.html" />        
+        <map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
         	<map:parameter name="pathInfo" value="{request:pathInfo}"/>
         </map:transform>
         <map:serialize type="xhtml"/>
