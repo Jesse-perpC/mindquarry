@@ -3,6 +3,12 @@
  */
 package com.mindquarry.jcr.source.xml;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+
+import org.apache.avalon.framework.service.ServiceException;
+
 import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
 
 /**
@@ -14,12 +20,26 @@ import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
 public class XMLFileSourceTest extends JCRSourceTestBase {
     private XMLFileSource source;
 
-    protected void setUp() throws Exception {
-        // super.setUp();
-        // source = (FileOrFolderSource) resolveSource(BASE_URL);
+    public void testXMLFileRetrieval() throws ServiceException, IOException {
+        source = (XMLFileSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
+        assertNotNull(source);
     }
-
-    public void testTheTest() {
-
+    
+    public void testReadXMLFile() throws ServiceException, IOException {
+        source = (XMLFileSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
+        assertNotNull(source);
+        
+        InputStream is = source.getInputStream();
+        assertNotNull(is);
+        
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        
+        int b;
+        while((b = is.read()) != -1) {
+            os.write(b);
+        }
+        System.out.println(new String(os.toByteArray()));
     }
 }

@@ -36,7 +36,6 @@ import com.mindquarry.jcr.source.xml.sources.AbstractJCRNodeSource;
 import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
 import com.mindquarry.jcr.source.xml.sources.QueryResultSource;
 import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
-import com.mindquarry.jcr.source.xml.sources.XMLFragmentSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -179,6 +178,8 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
      */
     public AbstractJCRNodeSource createSource(Session session, String path)
             throws SourceException {
+        AbstractJCRNodeSource result;
+        
         // is the requested node really a node?
         try {
             Item item = session.getItem(path);
@@ -188,12 +189,18 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
             }
             // it is a node, try to analyse the node type
             Node node = (Node) item;
-            if ((node.isNodeType("nt:folder")) || node.isNodeType("nt:file")) {
-                return new FileOrFolderSource(this, session, path);
-            } else if (node.isNodeType("xt:document")) {
-                return new XMLFileSource(this, session, path);
-            } else if (node.isNodeType("xt:element")) {
-                return new XMLFragmentSource(this, session, path);
+            if (node.isNodeType("nt:folder")) {
+                result = new FileOrFolderSource(this, session, path);
+            } else if (node.isNodeType("nt:file")) {
+                // check the content type of the file
+                Node contentNode = node.getNode("jcr:content");
+                if (contentNode.isNodeType("xt:document")) {
+                    // it is an XML document
+                    result = new XMLFileSource(this, session, path);
+                } else {
+                    // it is no XML document
+                    result = new FileOrFolderSource(this, session, path);
+                }
             } else {
                 throw new SourceException("Unsupported primary node type. "
                         + "Must be one of nt:file, nt:folder or xt:document.");
@@ -201,6 +208,7 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
         } catch (Exception e) {
             throw new SourceException("An error occured.", e);
         }
+        return result;
     }
 
     // =========================================================================

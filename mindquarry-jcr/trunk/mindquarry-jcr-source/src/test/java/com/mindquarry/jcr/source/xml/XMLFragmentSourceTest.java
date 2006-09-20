@@ -16,7 +16,6 @@ public class XMLFragmentSourceTest extends JCRSourceTestBase {
 
     protected void setUp() throws Exception {
         // super.setUp();
-        // source = (FileOrFolderSource) resolveSource(BASE_URL);
     }
 
     public void testTheTest() {
