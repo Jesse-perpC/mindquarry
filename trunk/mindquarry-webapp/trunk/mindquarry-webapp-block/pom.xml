@@ -41,7 +41,7 @@
 					</webAppSourceDirectory>
 					<classesDirectory>${basedir}/src/main/resources</classesDirectory>
 					<contextPath>/</contextPath>
-					<scanIntervalSeconds>1</scanIntervalSeconds>
+					<scanIntervalSeconds>5</scanIntervalSeconds>
 					<scanTargets>
 			            <scanTarget>${basedir}/src/main/resources/COB-INF/sitemap.xmap</scanTarget>
 			            <scanTarget>${basedir}/src/main/resources/META-INF/</scanTarget>
@@ -77,6 +77,12 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace-block</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.mindquarry.webapp</groupId>
+			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
