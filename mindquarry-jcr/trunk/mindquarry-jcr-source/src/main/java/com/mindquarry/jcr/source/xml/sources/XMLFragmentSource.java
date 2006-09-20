@@ -4,12 +4,14 @@
 package com.mindquarry.jcr.source.xml.sources;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 
 import javax.jcr.Session;
 
 import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.SourceException;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -27,10 +29,7 @@ public class XMLFragmentSource extends AbstractJCRNodeSource
         implements ModifiableSource, XMLizable {
 
     /**
-     * @param factory
-     * @param session
-     * @param path
-     * @throws SourceException 
+     * Default contructor. 
      */
     public XMLFragmentSource(JCRXMLSourceFactory factory, Session session,
             String path) throws SourceException {
@@ -42,7 +41,7 @@ public class XMLFragmentSource extends AbstractJCRNodeSource
     // XMLizable interface
     // =========================================================================
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.excalibur.xml.sax.XMLizable#toSAX(org.xml.sax.ContentHandler)
      */
     public void toSAX(ContentHandler handler) throws SAXException {
@@ -54,11 +53,18 @@ public class XMLFragmentSource extends AbstractJCRNodeSource
     // Source interface
     // =========================================================================
 
-    /* (non-Javadoc)
+    /**
+     * @see org.apache.excalibur.source.Source#getInputStream()
+     */
+    public InputStream getInputStream() throws IOException,
+            SourceNotFoundException {
+        return null;
+    }
+    
+    /**
      * @see org.apache.excalibur.source.Source#getContentLength()
      */
     public long getContentLength() {
-        // TODO Auto-generated method stub
         return 0;
     }
 
@@ -66,36 +72,29 @@ public class XMLFragmentSource extends AbstractJCRNodeSource
     // ModifiableSource interface
     // =========================================================================
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.excalibur.source.ModifiableSource#canCancel(java.io.OutputStream)
      */
     public boolean canCancel(OutputStream stream) {
-        // TODO Auto-generated method stub
         return false;
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.excalibur.source.ModifiableSource#cancel(java.io.OutputStream)
      */
     public void cancel(OutputStream stream) throws IOException {
-        // TODO Auto-generated method stub
-        
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.excalibur.source.ModifiableSource#delete()
      */
     public void delete() throws SourceException {
-        // TODO Auto-generated method stub
-        
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.excalibur.source.ModifiableSource#getOutputStream()
      */
     public OutputStream getOutputStream() throws IOException {
-        // TODO Auto-generated method stub
         return null;
     }
-
 }

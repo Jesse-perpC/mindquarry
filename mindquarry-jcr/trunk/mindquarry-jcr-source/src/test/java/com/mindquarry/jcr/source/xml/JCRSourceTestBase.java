@@ -44,7 +44,7 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
 
     protected static final String SCHEME = "jcr";
 
-    protected static final String BASE_URL = SCHEME + ":" + "//";
+    protected static final String BASE_URL = SCHEME + "://";
 
     @Override
     protected void setUp() throws Exception {
@@ -68,6 +68,14 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         session.exportDocumentView("/", fos, true, false);
         fos.flush();
         fos.close();
+    }
+    
+    /**
+     * @see org.apache.cocoon.core.container.ContainerTestCase#tearDown()
+     */
+    @Override
+    protected void tearDown() throws Exception {
+        super.tearDown();
     }
 
     private void registerNodeTypes(Workspace workspace)

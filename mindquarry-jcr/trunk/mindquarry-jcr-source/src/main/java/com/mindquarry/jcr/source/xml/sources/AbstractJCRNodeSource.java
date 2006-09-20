@@ -48,7 +48,7 @@ public abstract class AbstractJCRNodeSource implements Source {
      * 
      * @param factory The factory that manages us.
      * @param session The current JCR session in use.
-     * @throws SourceException 
+     * @throws SourceException
      */
     public AbstractJCRNodeSource(JCRXMLSourceFactory factory, Session session,
             String path) throws SourceException {
@@ -77,29 +77,15 @@ public abstract class AbstractJCRNodeSource implements Source {
     // Source interface
     // =========================================================================
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.excalibur.source.Source#exists()
      */
     public boolean exists() {
         return this.node != null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
-     * @see org.apache.excalibur.source.Source#getInputStream()
-     */
-    public InputStream getInputStream() throws IOException,
-            SourceNotFoundException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     /**
      * Uses the standard jcr:lastModified property
-     * (non-Javadoc)
      * 
      * @see org.apache.excalibur.source.Source#getLastModified()
      */
@@ -115,53 +101,37 @@ public abstract class AbstractJCRNodeSource implements Source {
         }
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.excalibur.source.Source#getMimeType()
      */
     public String getMimeType() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.excalibur.source.Source#getScheme()
      */
     public String getScheme() {
         return this.factory.getScheme();
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.excalibur.source.Source#getURI()
      */
     public String getURI() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.excalibur.source.Source#getValidity()
      */
     public SourceValidity getValidity() {
-        // TODO Auto-generated method stub
         return null;
     }
 
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.excalibur.source.Source#refresh()
      */
     public void refresh() {
-        // TODO Auto-generated method stub
-
     }
-
 }
