@@ -3,9 +3,6 @@
  */
 package com.mindquarry.jcr.source.xml.sources;
 
-import java.io.IOException;
-import java.io.InputStream;
-
 import javax.jcr.Item;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
@@ -15,7 +12,6 @@ import javax.jcr.Session;
 
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
-import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
 
 import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;

@@ -36,6 +36,7 @@ import com.mindquarry.jcr.source.xml.sources.AbstractJCRNodeSource;
 import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
 import com.mindquarry.jcr.source.xml.sources.QueryResultSource;
 import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
+import com.mindquarry.jcr.source.xml.sources.XMLFragmentSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -46,12 +47,13 @@ import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
  * an enclosed JCR query. The path to the repository would be given simply as
  * <code>jcr://root/folder/file</code>. For the queries:
  * <ul>
- * <li>XPATH: <code>jcr://xpath!//folder/file</code> (which maps to the xpath
- * query <code>//folder/file</code>)</li>
- * <li>XPATH: <code>jcr://!//folder/file</code> (shorthand notation, same
- * query as above)</li>
+ * <li>XPATH: <code>jcr://users/*#//name</code> (which maps to the xpath
+ * query <code>//name</code> executed in all documents under /users)</li>
  * </ul>
  * 
+ * @author <a
+ *         href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">Alexander
+ *         Klimetschek</a>
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
@@ -128,11 +130,11 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
         if (scheme == null) {
             scheme = SourceUtil.getScheme(uri);
         }
-
+        // init session
         Session session;
         try {
-            // TODO accept a different workspace, username, password?
-            session = repo.login(new SimpleCredentials("alexander.saar", "mypwd".toCharArray()));
+            session = repo.login(new SimpleCredentials("alexander.saar",
+                    "mypwd".toCharArray()));
         } catch (LoginException e) {
             throw new SourceException("Login to repository failed", e);
         } catch (RepositoryException e) {
@@ -190,6 +192,8 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
                 return new FileOrFolderSource(this, session, path);
             } else if (node.isNodeType("xt:document")) {
                 return new XMLFileSource(this, session, path);
+            } else if (node.isNodeType("xt:element")) {
+                return new XMLFragmentSource(this, session, path);
             } else {
                 throw new SourceException("Unsupported primary node type. "
                         + "Must be one of nt:file, nt:folder or xt:document.");
