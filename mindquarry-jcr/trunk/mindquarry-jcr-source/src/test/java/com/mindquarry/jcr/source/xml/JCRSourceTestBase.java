@@ -3,8 +3,13 @@
  */
 package com.mindquarry.jcr.source.xml;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+
+import javax.jcr.Repository;
+import javax.jcr.Session;
+import javax.jcr.SimpleCredentials;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.core.container.ContainerTestCase;
@@ -21,11 +26,29 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
 
     protected static final String SCHEME = "jcr";
 
-    protected static final String BASE_URL = SCHEME + ":"
-            + "//root/users/alexander.saar";
+    protected static final String BASE_URL = SCHEME + ":" + "//";
 
     protected void setUp() throws Exception {
+        // remove old repository
+        File repoFolder = new File("/tmp/repository");
+        removeRepository(repoFolder);
+
+        // setup new repository
         super.setUp();
+        setupRepositoryContent();
+    }
+
+    private void setupRepositoryContent() throws Exception {
+        Repository repo = (Repository) lookup(Repository.class.getName());
+        Session session = repo.login(new SimpleCredentials("alexander.saar",
+                "mypwd".toCharArray()));
+
+        // TODO register XML node types
+        
+
+        // TODO add some repository content
+        session.getRootNode().addNode("users", "nt:folder");
+        session.getRootNode().addNode("xml", "xt:element");
     }
 
     protected Source resolveSource(String uri) throws ServiceException,
@@ -50,5 +73,22 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
 
     private ClassLoader classLoader() {
         return getClass().getClassLoader();
+    }
+
+    private void removeRepository(File file) {
+        // check if the file exists
+        if (!file.exists()) {
+            return;
+        }
+        // check if it is a file or a folder
+        if (!file.isDirectory()) {
+            file.delete();
+            return;
+        }
+        // if it is a folder, remove the childs before removing the folder
+        for (File tmp : file.listFiles()) {
+            removeRepository(tmp);
+        }
+        file.delete();
     }
 }

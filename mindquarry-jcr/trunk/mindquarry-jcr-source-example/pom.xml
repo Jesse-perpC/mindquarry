@@ -1,13 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
+<!-- Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved -->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
-	<packaging>jar</packaging>
 	
+	<modelVersion>4.0.0</modelVersion>
+	
+	<parent>
+		<groupId>com.mindquarry.jcr</groupId>
+		<artifactId>mindquarry-jcr</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
 	<groupId>com.mindquarry.jcr</groupId>
 	<artifactId>mindquarry-jcr-source-example</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<packaging>jar</packaging>
 	
 	<name>Test Block for the JCR XML Wrapper</name>
 	
@@ -61,17 +70,4 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
-	
-	<repositories>
-		<repository>
-			<id>central</id>
-			<name>Maven central repository</name>
-			<url>http://ibiblio.org/maven2</url>
-		</repository>
-		<repository>
-			<id>apache.snapshot</id>
-			<name>Apache Snapshot Repository</name>
-			<url>http://svn.apache.org/maven-snapshot-repository</url>
-		</repository>
-	</repositories>
 </project>
