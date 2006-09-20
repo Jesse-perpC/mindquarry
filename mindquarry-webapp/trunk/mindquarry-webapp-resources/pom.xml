@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry.webapp</groupId>
+		<artifactId>mindquarry-webapp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<groupId>com.mindquarry.webapp</groupId>
+	<artifactId>mindquarry-webapp-resources</artifactId>
+	<name>Mindquarry WebApp Resources</name>
+	<version>0.0.1-SNAPSHOT</version>
+
+	<repositories>
+		<repository>
+			<id>mindquarry.releases</id>
+			<name>Mindquarry Repository</name>
+			<url>http://www.mindquarry.com/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-resources/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapp-resources/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-resources/
+		</developerConnection>
+	</scm>	
+</project>
