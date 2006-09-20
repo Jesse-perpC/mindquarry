@@ -22,10 +22,4 @@ public class FileOrFolderSourceTest extends JCRSourceTestBase {
         source = (FileOrFolderSource) resolveSource(BASE_URL + "users");
         assertNotNull(source);
     }
-
-    public void testFileRetrieval() throws ServiceException, IOException {
-        source = (FileOrFolderSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
-        assertNotNull(source);
-    }
 }

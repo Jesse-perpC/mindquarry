@@ -3,10 +3,15 @@
  */
 package com.mindquarry.jcr.source.xml.sources;
 
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.jcr.Node;
+import javax.jcr.NodeIterator;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.excalibur.source.ModifiableSource;
@@ -25,8 +30,8 @@ import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class XMLFileSource extends AbstractJCRNodeSource
-        implements ModifiableSource, XMLizable {
+public class XMLFileSource extends AbstractJCRNodeSource implements
+        ModifiableSource, XMLizable {
     /**
      * Default constructor.
      * 
@@ -59,9 +64,50 @@ public class XMLFileSource extends AbstractJCRNodeSource
      */
     public InputStream getInputStream() throws IOException,
             SourceNotFoundException {
-        return null;
+        ByteArrayOutputStream os = new ByteArrayOutputStream();
+        try {
+            getBytes(node.getNode("jcr:content"), os);
+        } catch (Exception e) {
+            throw new IOException("Error while reading repository content.");
+        }
+        return new ByteArrayInputStream(os.toByteArray());
     }
-    
+
+    private void getBytes(Node node, ByteArrayOutputStream os) throws IOException {
+        
+        try {
+            NodeIterator nit = node.getNodes();
+            while (nit.hasNext()) {
+                Node child = nit.nextNode();
+
+                if (child.isNodeType("xt:text")) {
+                    InputStream is = child.getProperty("xt:characters")
+                            .getStream();
+
+                    int b;
+                    while ((b = is.read()) != -1) {
+                        os.write(b);
+                    }
+                } else if (child.isNodeType("xt:element")) {
+                    child.getMixinNodeTypes();
+                    child.getPrimaryNodeType();
+
+                    os.write("<".getBytes());
+                    os.write(child.getName().getBytes());
+                    os.write(">".getBytes());
+
+                    getBytes(child, os);
+
+                    os.write("<".getBytes());
+                    os.write(child.getName().getBytes());
+                    os.write(">".getBytes());
+                }
+            }
+        } catch (RepositoryException e) {
+            throw new IOException("Error while reading repository content.");
+        }
+    }
+
     /**
      * @see org.apache.excalibur.source.Source#getContentLength()
      */
@@ -84,14 +130,14 @@ public class XMLFileSource extends AbstractJCRNodeSource
      * @see org.apache.excalibur.source.ModifiableSource#cancel(java.io.OutputStream)
      */
     public void cancel(OutputStream stream) throws IOException {
-        
+
     }
 
     /**
      * @see org.apache.excalibur.source.ModifiableSource#delete()
      */
     public void delete() throws SourceException {
-        
+
     }
 
     /**

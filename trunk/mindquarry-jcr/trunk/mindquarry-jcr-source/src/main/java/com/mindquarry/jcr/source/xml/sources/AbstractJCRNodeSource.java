@@ -41,6 +41,8 @@ public abstract class AbstractJCRNodeSource implements Source {
 
     /**
      * Basic constructor for initializing what every JCRNodeSource must have.
+     * Checks if the given path represents a node. If not a SourceException is
+     * thrown.
      * 
      * @param factory The factory that manages us.
      * @param session The current JCR session in use.
