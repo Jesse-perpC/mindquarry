@@ -20,7 +20,7 @@
 	<xsl:template match="head">
 		<head>
 			<xsl:apply-templates select="*"/>
-			<link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/css/screen.css" media="screen,projection" type="text/css" />
+			<link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/resources/css/screen.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 	
@@ -33,14 +33,16 @@
 			<div class="body">
 				<div id="header">
         			<ul id="sections">
-						<li><a class="navTalk" href="content.html">Talk</a></li>
-						<li><a class="navTasks" href="content.html">Tasks</a></li>
-						<li><a class="navWiki" href="content.html">Wiki</a></li>
-						<li><a class="navFiles" href="content.html">Files</a></li>
-						<li><a class="navTeams" href="content.html">Teams</a></li>
+						<li><a class="navTalk" href="{$context.path}">Talk</a></li>
+						<li><a class="navTasks" href="{$context.path}">Tasks</a></li>
+						<li><a class="navWiki" href="{$context.path}">Wiki</a></li>
+						<li><a class="navFiles" href="{$context.path}">Files</a></li>
+						<li><a class="navTeams" href="{$context.path}blocks/mindquarry-teamspace-block/">Teams</a></li>
 					</ul>
 				</div>
-				<xsl:apply-templates />
+				<div id="content">
+					<xsl:apply-templates />
+				</div>
 			</div>
 		</body>
 	</xsl:template>
