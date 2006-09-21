@@ -2,12 +2,8 @@
 @import "headline.css";
 /* Navigation Rules */
 @import "navigation.css";
-/* Titlepage Rules */
-@import "titlepage.css";
 /* Content Page Rules*/
 @import "content.css";
-/* Sitemap Rules */
-@import "sidebar.css";
 
 /* Main Rules */
 p, div,  td {
