@@ -31,16 +31,16 @@
 	<xsl:template match="body">
 		<body>
 			<div class="body">
-				<div id="header">
-        			<ul id="sections">
+				<div id="webapp-header">
+        			<ul id="webapp-sections">
 						<li><a class="navTalk" href="{$context.path}">Talk</a></li>
 						<li><a class="navTasks" href="{$context.path}">Tasks</a></li>
 						<li><a class="navWiki" href="{$context.path}">Wiki</a></li>
-						<li><a class="navFiles" href="{$context.path}">Files</a></li>
+						<li><a class="navFiles" href="{$context.path}blocks/mindquarry-workspace-block/">Files</a></li>
 						<li><a class="navTeams" href="{$context.path}blocks/mindquarry-teamspace-block/">Teams</a></li>
 					</ul>
 				</div>
-				<div id="content">
+				<div id="webapp-content">
 					<xsl:apply-templates />
 				</div>
 			</div>

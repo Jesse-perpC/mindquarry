@@ -1,22 +1,21 @@
-#header {
+#webapp-header {
   height:70px;
   width:100%;
   overflow:hidden;
   position:absolute;
   top:0px;
   left:0px;
-  background-image:url(../images/header.png);
   text-align: center;
 }
 
-ul#sections {
+#webapp-sections {
   margin-top:-0px;
   width:665px;
   margin-left:auto;
   margin-right:auto;
 }
 
-ul#sections a {
+#webapp-sections a {
   color:#ffffff;
   text-decoration:none;
   display:block;
@@ -26,31 +25,31 @@ ul#sections a {
   padding-top:20px;
 }
 
-ul#sections a:hover {
+#webapp-sections a:hover {
   text-decoration:underline;
 }
 
-#sections a.navFiles {
+#webapp-sections a.navFiles {
   background-image:url(../images/header-red.png);
 }
 
-#sections a.navWiki {
+#webapp-sections a.navWiki {
   background-image:url(../images/header-blue.png);
 }
 
-#sections a.navTasks {
+#webapp-sections a.navTasks {
   background-image:url(../images/header-green.png);
 }
 
-#sections a.navTalk {
+#webapp-sections a.navTalk {
   background-image:url(../images/header-yellow.png);
 }
 
-#sections a.navTeams {
+#webapp-sections a.navTeams {
   background-image:url(../images/header-yellow.png);
 }
 
-ul#sections li {
+#webapp-sections li {
   display:inline;
 }
 
