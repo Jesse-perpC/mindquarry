@@ -41,6 +41,7 @@
 						target/mindquarry-teamspace-web
 					</webAppSourceDirectory>
 					<contextPath>/</contextPath>
+					<classesDirectory>${basedir}/src/main/resources</classesDirectory>
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 				</configuration>
 			</plugin>
@@ -59,6 +60,11 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.webapp</groupId>
+			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
