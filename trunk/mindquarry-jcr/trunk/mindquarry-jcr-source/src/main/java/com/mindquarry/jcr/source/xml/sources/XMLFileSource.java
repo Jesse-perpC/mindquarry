@@ -25,6 +25,7 @@ import org.xml.sax.SAXException;
 
 import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
 import com.mindquarry.jcr.source.xml.handler.JCRNodesToSAXConverter;
+import com.mindquarry.jcr.source.xml.sources.stream.XMLFileOutputStream;
 
 /**
  * Source for a node that represents a file (xt:document).
@@ -73,10 +74,10 @@ public class XMLFileSource extends AbstractJCRNodeSource implements
     public InputStream getInputStream() throws IOException,
             SourceNotFoundException {
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        
+
         String xmlHead = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>";
         os.write(xmlHead.getBytes());
-        
+
         try {
             getBytes(node.getNode("jcr:content"), os);
         } catch (Exception e) {
@@ -84,6 +85,74 @@ public class XMLFileSource extends AbstractJCRNodeSource implements
         }
         return new ByteArrayInputStream(os.toByteArray());
     }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.excalibur.source.Source#getContentLength()
+     */
+    public long getContentLength() {
+        return -1;
+    }
+
+    // =========================================================================
+    // ModifiableSource interface
+    // =========================================================================
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.excalibur.source.ModifiableSource#canCancel(java.io.OutputStream)
+     */
+    public boolean canCancel(OutputStream stream) {
+        if (stream instanceof XMLFileOutputStream) {
+            return ((XMLFileOutputStream) stream).canCancel();
+        } else {
+            return false;
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.excalibur.source.ModifiableSource#cancel(java.io.OutputStream)
+     */
+    public void cancel(OutputStream stream) throws IOException {
+        if (canCancel(stream)) {
+            ((XMLFileOutputStream) stream).cancel();
+        } else {
+            throw new IllegalArgumentException("Stream cannot be cancelled");
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.excalibur.source.ModifiableSource#delete()
+     */
+    public void delete() throws SourceException {
+        try {
+            node.remove();
+            node = null;
+            session.save();
+        } catch (Exception e) {
+            throw new SourceException("Can not remove node due to version"
+                    + " or constraint problems.", e);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.excalibur.source.ModifiableSource#getOutputStream()
+     */
+    public OutputStream getOutputStream() throws IOException {
+        return new XMLFileOutputStream(node, session);
+    }
+
+    // =========================================================================
+    // private methods
+    // =========================================================================
 
     private void getBytes(Node node, ByteArrayOutputStream os)
             throws IOException {
@@ -125,52 +194,5 @@ public class XMLFileSource extends AbstractJCRNodeSource implements
         } catch (RepositoryException e) {
             throw new IOException("Error while reading repository content.");
         }
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.Source#getContentLength()
-     */
-    public long getContentLength() {
-        return -1;
-    }
-
-    // =========================================================================
-    // ModifiableSource interface
-    // =========================================================================
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.ModifiableSource#canCancel(java.io.OutputStream)
-     */
-    public boolean canCancel(OutputStream stream) {
-        return false;
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.ModifiableSource#cancel(java.io.OutputStream)
-     */
-    public void cancel(OutputStream stream) throws IOException {
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.ModifiableSource#delete()
-     */
-    public void delete() throws SourceException {
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.ModifiableSource#getOutputStream()
-     */
-    public OutputStream getOutputStream() throws IOException {
-        return null;
     }
 }
