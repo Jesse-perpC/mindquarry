@@ -60,11 +60,11 @@ public abstract class AbstractJCRNodeSource implements Source {
                 throw new SourceException("Path '" + path
                         + "' is a property (should be a node)");
             } else {
-                this.node = (Node) item;
+                node = (Node) item;
             }
         } catch (PathNotFoundException e) {
             // Not found
-            this.node = null;
+            node = null;
         } catch (RepositoryException e) {
             throw new SourceException("Cannot lookup repository path " + path,
                     e);
@@ -76,14 +76,18 @@ public abstract class AbstractJCRNodeSource implements Source {
     // =========================================================================
 
     /**
+     * {@inheritDoc}
+     * 
      * @see org.apache.excalibur.source.Source#exists()
      */
     public boolean exists() {
-        return this.node != null;
+        return node != null;
     }
 
     /**
-     * Uses the standard jcr:lastModified property
+     * {@inheritDoc}
+     * 
+     * Uses the standard jcr:lastModified property.
      * 
      * @see org.apache.excalibur.source.Source#getLastModified()
      */
@@ -92,7 +96,7 @@ public abstract class AbstractJCRNodeSource implements Source {
             return 0;
         }
         try {
-            Property prop = this.node.getProperty("jcr:lastModified");
+            Property prop = node.getProperty("jcr:lastModified");
             return prop == null ? 0 : prop.getDate().getTime().getTime();
         } catch (RepositoryException re) {
             return 0;
@@ -100,20 +104,36 @@ public abstract class AbstractJCRNodeSource implements Source {
     }
 
     /**
+     * {@inheritDoc}
+     * 
+     * Uses the standard jcr:lastModified property.
+     * 
      * @see org.apache.excalibur.source.Source#getMimeType()
      */
     public String getMimeType() {
-        return null;
+        if (!exists()) {
+            return null;
+        }
+        try {
+            Property prop = node.getProperty("jcr:mimeType");
+            return prop == null ? null : prop.getString();
+        } catch (RepositoryException re) {
+            return null;
+        }
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @see org.apache.excalibur.source.Source#getScheme()
      */
     public String getScheme() {
-        return this.factory.getScheme();
+        return factory.getScheme();
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @see org.apache.excalibur.source.Source#getURI()
      */
     public String getURI() {
@@ -121,6 +141,8 @@ public abstract class AbstractJCRNodeSource implements Source {
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @see org.apache.excalibur.source.Source#getValidity()
      */
     public SourceValidity getValidity() {
