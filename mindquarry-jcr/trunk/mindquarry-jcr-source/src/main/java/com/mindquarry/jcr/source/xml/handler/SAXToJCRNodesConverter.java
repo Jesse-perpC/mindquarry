@@ -3,6 +3,10 @@
  */
 package com.mindquarry.jcr.source.xml.handler;
 
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -17,6 +21,43 @@ import org.xml.sax.helpers.DefaultHandler;
  *         Saar</a>
  */
 public class SAXToJCRNodesConverter extends DefaultHandler {
+    private Node node;
+
+    /**
+     * Default constructor.
+     * 
+     * @param node the node representing the nt:file parent of this document
+     * @throws PathNotFoundException
+     * @throws RepositoryException
+     */
+    public SAXToJCRNodesConverter(Node node) throws PathNotFoundException,
+            RepositoryException {
+        this.node = node.getNode("jcr:content");
+    }
+
+    // =========================================================================
+    // ContentHandler interface methods
+    // =========================================================================
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String,
+     *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
+     */
+    @Override
+    public void startElement(String uri, String localName, String qName,
+            Attributes atts) throws SAXException {
+        try {
+            node = node.addNode(qName, "xt:element");
+            for (int i = 0; i < atts.getLength(); i++) {
+                node.setProperty(atts.getLocalName(i), atts.getValue(i));
+            }
+        } catch (Exception e) {
+            throw new SAXException("Error while storing content.", e);
+        }
+    }
+
     /**
      * {@inheritDoc}
      * 
@@ -25,17 +66,13 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     @Override
     public void characters(char[] ch, int start, int length)
             throws SAXException {
-        super.characters(ch, start, length);
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xml.sax.helpers.DefaultHandler#endDocument()
-     */
-    @Override
-    public void endDocument() throws SAXException {
-        super.endDocument();
+        try {
+            Node text = node.addNode("text", "xt:text");
+            text.setProperty("xt:characters", new String(getTextContent(ch,
+                    start, length)));
+        } catch (Exception e) {
+            throw new SAXException("Error while storing content.", e);
+        }
     }
 
     /**
@@ -47,28 +84,22 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     @Override
     public void endElement(String uri, String localName, String qName)
             throws SAXException {
-        super.endElement(uri, localName, qName);
+        try {
+            node = node.getParent();
+        } catch (Exception e) {
+            throw new SAXException("Error while storing content.", e);
+        }
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xml.sax.helpers.DefaultHandler#startDocument()
-     */
-    @Override
-    public void startDocument() throws SAXException {
-        super.startDocument();
-    }
+    // =========================================================================
+    // private methods
+    // =========================================================================
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.xml.sax.helpers.DefaultHandler#startElement(java.lang.String,
-     *      java.lang.String, java.lang.String, org.xml.sax.Attributes)
-     */
-    @Override
-    public void startElement(String uri, String localName, String qName,
-            Attributes attributes) throws SAXException {
-        super.startElement(uri, localName, qName, attributes);
+    public static char[] getTextContent(char[] a, int start, int length) {
+        char[] result = new char[length];
+        for (int i = 0; i < length; i++) {
+            result[i] = a[start + i];
+        }
+        return result;
     }
 }

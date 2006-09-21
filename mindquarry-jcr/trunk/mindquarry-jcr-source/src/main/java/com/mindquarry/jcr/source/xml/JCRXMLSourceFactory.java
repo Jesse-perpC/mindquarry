@@ -203,7 +203,7 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
                 }
             } else {
                 throw new SourceException("Unsupported primary node type. "
-                        + "Must be one of nt:file, nt:folder or xt:document.");
+                        + "Must be one of nt:file or nt:folder.");
             }
         } catch (Exception e) {
             throw new SourceException("An error occured.", e);
