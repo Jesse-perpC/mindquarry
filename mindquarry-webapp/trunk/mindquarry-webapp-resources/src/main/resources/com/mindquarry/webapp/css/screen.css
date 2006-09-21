@@ -14,18 +14,6 @@ h1, h2, h3, h4, h5, h6 {
   font-family:Helvetica,Sans,Arial;
 }
 
-a:link {
-  color:#00f;
-}
-
-a:visited {
-  color:#039;
-}
-
-a:hover {
-  text-decoration:none;
-}
-
 html, body, #cssbody {
 	min-height: 100%;
 	width: 100%;
