@@ -31,6 +31,7 @@ html>body, html>body #cssbody {
 
 body {
 	margin: 0;
+	background-color:#efefef;
 	font-family: Arial, sans-serif;
 }
 
@@ -38,4 +39,69 @@ body {
 	position: absolute;
 	top: 0;
   left: 0;
+}
+
+#background-repeater {
+	left:0px;
+	background-color:#fff;
+	background-image:url(../images/greyrepeater.png);
+	background-repeat:repeat-y;
+}
+
+
+#background-lines {
+	background-image:url(../images/greylines.png);
+	background-repeat:no-repeat;
+}
+
+
+#background-s {
+	background-image:url(../images/border-s.png);
+	background-repeat:repeat-x;
+	background-position:bottom;
+}
+
+#background-n {
+	background-image:url(../images/border-n.png);
+	background-repeat:repeat-x;
+}
+
+#background-w {
+	background-image:url(../images/border-w.png);
+	background-repeat:repeat-y;
+}
+
+#background-e {
+	background-image:url(../images/border-e.png);
+	background-repeat:repeat-y;
+	background-position:right;
+}
+
+#background-nw {
+	background-image:url(../images/border-nw.png);
+	background-repeat:no-repeat;
+}
+
+#background-ne {
+	background-image:url(../images/border-ne.png);
+	background-repeat:no-repeat;
+	background-position:right top;
+}
+
+#background-sw {
+	background-image:url(../images/border-sw.png);
+	background-repeat:no-repeat;
+	background-position:left bottom;
+}
+
+#background-se {
+	background-image:url(../images/border-se.png);
+	background-repeat:no-repeat;
+	background-position:right bottom;
+	padding:30px;
+}
+
+#background-nw {
+	background-image:url(../images/border-nw.png);
+	background-repeat:no-repeat;
 }
