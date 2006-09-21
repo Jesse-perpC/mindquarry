@@ -16,17 +16,40 @@
     	<map:script src="teamspace-view.js"/>
 	</map:flow>
 	
+	<map:resources>
+		<map:resource name="layouting">	        
+        	<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+        	</map:transform>
+        	<map:serialize type="xhtml"/>
+		</map:resource>
+	</map:resources>
+	
 	<map:pipelines>
 
+		<!-- resources pipeline / use noncaching for debugging -->
+		<map:pipeline type="noncaching">
+			<map:match pattern="resources/css/*.css">
+				<map:read
+					src="resource://com/mindquarry/teamspace/css/{1}.css" />
+			</map:match>
+			<map:match pattern="resources/images/*.png">
+				<map:read
+					src="resource://com/mindquarry/teamspace/images/{1}.png" />
+			</map:match>
+		</map:pipeline>
+		
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="">
 				<map:call function="teamspaceView" />
 			</map:match>
-			<map:match pattern="screens/teamspaceView">
+			<map:match pattern="views/teamspaceView">
 				<map:generate src="teamspace-view.jx" type="jx" />
-				<map:transform src="xslt/teamspaces2html.xsl"/>
-				<map:serialize type="html" />
+				<map:transform src="xslt/teamspaces2html.xsl">
+					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+				</map:transform>
+				<map:call resource="layouting" />
 			</map:match>
 		</map:pipeline>
 
@@ -54,12 +77,7 @@
 					<map:parameter name="resources-uri"
 						value="{request:contextPath}/_cocoon/resources" />
 				</map:transform>
-				<map:serialize type="html" />
-			</map:match>
-
-
-			<map:match pattern="resources/*/**">
-				<map:read src="{1}/{2}" />
+				<map:call resource="layouting" />
 			</map:match>
 
 			<!-- Continue a scenario. The continuation id is passed in the URL

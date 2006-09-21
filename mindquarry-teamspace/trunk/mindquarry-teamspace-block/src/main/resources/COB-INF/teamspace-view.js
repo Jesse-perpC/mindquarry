@@ -7,5 +7,5 @@ function teamspaceView() {
     var teamspaceQuery = cocoon.getComponent("teamspaceQuery");
     
     var teamspaceList = { "teamspaceList" : teamspaceQuery.list() }
-    cocoon.sendPage("screens/teamspaceView", teamspaceList);
+    cocoon.sendPage("views/teamspaceView", teamspaceList);
 }
