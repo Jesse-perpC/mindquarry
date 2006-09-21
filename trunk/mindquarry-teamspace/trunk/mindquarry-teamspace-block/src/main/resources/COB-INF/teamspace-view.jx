@@ -4,7 +4,6 @@
 		<jx:forEach var="item" items="${teamspaceList}">
 			<teamspace>
 				<name><jx:out value="${item.name}" /></name>
-				<repositoryPath><jx:out value="${item.repositoryPath}" /></repositoryPath>
 			</teamspace>
 		</jx:forEach>
 	</teamspaces>
