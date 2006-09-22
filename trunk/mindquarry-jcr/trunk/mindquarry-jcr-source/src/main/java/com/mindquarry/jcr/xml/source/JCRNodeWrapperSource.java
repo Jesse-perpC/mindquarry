@@ -31,8 +31,7 @@ import org.xml.sax.SAXException;
 
 import com.mindquarry.jcr.xml.source.helper.FileSourceHelper;
 import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
-import com.mindquarry.jcr.xml.source.helper.stream.XMLFileOutputStream;
-
+import com.mindquarry.jcr.xml.source.helper.stream.JCROutputStream;
 
 /**
  * Source wrapper for all JCR sources.
@@ -64,27 +63,30 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      */
     public InputStream getInputStream() throws IOException,
             SourceNotFoundException {
-    	if (exists()) {
-	    	try {
-				if (node.isNodeType("nt:folder")) {
-					return null;
-				} else if (node.isNodeType("nt:file")) {
-					Node child = node.getNode("jcr:content");
-					if (child.isNodeType("xt:document")) {
-						return XMLFileSourceHelper.getInputStream(node);
-					} else if (child.isNodeType("nt:resource")) {
-						return FileSourceHelper.getInputStream(node);
-					} else {
-						throw new IOException("Unable to get an input stream for node type: " + child.getPrimaryNodeType().getName());
-					}
-				} else {
-					throw new SourceNotFoundException("Resource does not exist");
-				}
-			} catch (RepositoryException e) {
-				throw new IOException("Unable to retrieve node: " + e.getLocalizedMessage());
-			}
-    	}
-    	throw new SourceNotFoundException("Source does not exist");
+        if (exists()) {
+            try {
+                if (node.isNodeType("nt:folder")) {
+                    return null;
+                } else if (node.isNodeType("nt:file")) {
+                    Node child = node.getNode("jcr:content");
+                    if (child.isNodeType("xt:document")) {
+                        return XMLFileSourceHelper.getInputStream(node);
+                    } else if (child.isNodeType("nt:resource")) {
+                        return FileSourceHelper.getInputStream(node);
+                    } else {
+                        throw new IOException(
+                                "Unable to get an input stream for node type: "
+                                        + child.getPrimaryNodeType().getName());
+                    }
+                } else {
+                    throw new SourceNotFoundException("Resource does not exist");
+                }
+            } catch (RepositoryException e) {
+                throw new IOException("Unable to retrieve node: "
+                        + e.getLocalizedMessage());
+            }
+        }
+        throw new SourceNotFoundException("Source does not exist");
     }
 
     // =========================================================================
@@ -97,22 +99,17 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      * @see org.apache.excalibur.source.ModifiableSource#canCancel(java.io.OutputStream)
      */
     public boolean canCancel(OutputStream stream) {
-    	if (exists()) {
-	    	try {
-				if (node.isNodeType("nt:folder")) {
-					return false;
-				} else if (node.isNodeType("nt:file")) {
-					Node child = node.getNode("jcr:content");
-					if (child.isNodeType("xt:document")) {
-						return XMLFileSourceHelper.canCancel(stream);
-					} else if (child.isNodeType("nt:resource")) {
-						return FileSourceHelper.canCancel(stream);
-					} 
-				} 
-			} catch (RepositoryException e) {
-				return false;
-			}
-    	}
+        if (exists()) {
+            try {
+                if (node.isNodeType("nt:folder")) {
+                    return false;
+                } else if (node.isNodeType("nt:file")) {
+                    return ((JCROutputStream) stream).canCancel();
+                }
+            } catch (RepositoryException e) {
+                return false;
+            }
+        }
         return false;
     }
 
@@ -122,22 +119,18 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      * @see org.apache.excalibur.source.ModifiableSource#cancel(java.io.OutputStream)
      */
     public void cancel(OutputStream stream) throws IOException {
-    	if (exists()) {
-	    	try {
-				if (node.isNodeType("nt:folder")) {
-					return;
-				} else if (node.isNodeType("nt:file")) {
-					Node child = node.getNode("jcr:content");
-					if (child.isNodeType("xt:document")) {
-						XMLFileSourceHelper.cancel(stream);
-					} else if (child.isNodeType("nt:resource")) {
-						FileSourceHelper.cancel(stream);
-					}
-				}
-			} catch (RepositoryException e) {
-				throw new IOException("Unable to retrieve node: " + e.getLocalizedMessage());
-			}
-    	}
+        if (exists()) {
+            try {
+                if (node.isNodeType("nt:folder")) {
+                    return;
+                } else if (node.isNodeType("nt:file")) {
+                    ((JCROutputStream) stream).cancel();
+                }
+            } catch (RepositoryException e) {
+                throw new IOException("Unable to retrieve node: "
+                        + e.getLocalizedMessage());
+            }
+        }
     }
 
     /**
@@ -162,46 +155,58 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      * @see org.apache.excalibur.source.ModifiableSource#getOutputStream()
      */
     public OutputStream getOutputStream() throws IOException {
-    	if (exists()) {
-	    	try {
-				if (node.isNodeType("nt:folder")) {
-					return null;
-				} else if (node.isNodeType("nt:file")) {
-					Node child = node.getNode("jcr:content");
-					if (child.isNodeType("xt:document")||child.isNodeType("nt:resource")) {
-						return new XMLFileOutputStream(node, session);
-					} else {
-						throw new IOException("Unable to get an output stream for node type: " + child.getPrimaryNodeType().getName());
-					}
-				} else {
-					throw new SourceNotFoundException("Resource is neither file nor folder");
-				}
-			} catch (RepositoryException e) {
-				throw new IOException("Unable to retrieve node: " + e.getLocalizedMessage());
-			}
-    	} else {
-    		if (!this.getParent().exists()) {
-    			this.getParent().makeCollection();
-    		}
-    		try {
-				this.getParent().node.addNode(getName(), "nt:file");
-				return new XMLFileOutputStream(node, session);
-			} catch (ItemExistsException e) {
-				throw new IOException("Resource already exists: " + e.getLocalizedMessage());
-			} catch (PathNotFoundException e) {
-				throw new IOException("Path not found: " + e.getLocalizedMessage());
-			} catch (NoSuchNodeTypeException e) {
-				throw new IOException("No such node type: " + e.getLocalizedMessage());
-			} catch (LockException e) {
-				throw new IOException("Unable to get lock: " + e.getLocalizedMessage());
-			} catch (VersionException e) {
-				throw new IOException("Versioning not possible: " + e.getLocalizedMessage());
-			} catch (ConstraintViolationException e) {
-				throw new IOException("Violated constrains: " + e.getLocalizedMessage());
-			} catch (RepositoryException e) {
-				throw new IOException("Unable to write to repository: " + e.getLocalizedMessage());
-			}
-    	}
+        if (exists()) {
+            try {
+                if (node.isNodeType("nt:folder")) {
+                    return null;
+                } else if (node.isNodeType("nt:file")) {
+                    Node child = node.getNode("jcr:content");
+                    if (child.isNodeType("xt:document")
+                            || child.isNodeType("nt:resource")) {
+                        return new JCROutputStream(node, session);
+                    } else {
+                        throw new IOException(
+                                "Unable to get an output stream for node type: "
+                                        + child.getPrimaryNodeType().getName());
+                    }
+                } else {
+                    throw new SourceNotFoundException(
+                            "Resource is neither file nor folder");
+                }
+            } catch (RepositoryException e) {
+                throw new IOException("Unable to retrieve node: "
+                        + e.getLocalizedMessage());
+            }
+        } else {
+            if (!this.getParent().exists()) {
+                this.getParent().makeCollection();
+            }
+            try {
+                this.getParent().node.addNode(getName(), "nt:file");
+                return new JCROutputStream(node, session);
+            } catch (ItemExistsException e) {
+                throw new IOException("Resource already exists: "
+                        + e.getLocalizedMessage());
+            } catch (PathNotFoundException e) {
+                throw new IOException("Path not found: "
+                        + e.getLocalizedMessage());
+            } catch (NoSuchNodeTypeException e) {
+                throw new IOException("No such node type: "
+                        + e.getLocalizedMessage());
+            } catch (LockException e) {
+                throw new IOException("Unable to get lock: "
+                        + e.getLocalizedMessage());
+            } catch (VersionException e) {
+                throw new IOException("Versioning not possible: "
+                        + e.getLocalizedMessage());
+            } catch (ConstraintViolationException e) {
+                throw new IOException("Violated constrains: "
+                        + e.getLocalizedMessage());
+            } catch (RepositoryException e) {
+                throw new IOException("Unable to write to repository: "
+                        + e.getLocalizedMessage());
+            }
+        }
     }
 
     // =========================================================================
@@ -216,7 +221,8 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
     public Source getChild(String name) throws SourceException {
         if (isCollection()) {
             try {
-                return factory.createSource(session, node.getNode(name).getPath());
+                return factory.createSource(session, node.getNode(name)
+                        .getPath());
             } catch (Exception e) {
                 throw new SourceException("Could not get child node.", e);
             }
@@ -280,7 +286,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      */
     public boolean isCollection() {
         try {
-            if (node.isNodeType("nt:folder")&&node.isNodeType("jcr:root")) {
+            if (node.isNodeType("nt:folder") && node.isNodeType("jcr:root")) {
                 return true;
             } else {
                 return false;
@@ -330,7 +336,16 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
     // XMLizable interface
     // =========================================================================
 
-    public void toSAX(ContentHandler arg0) throws SAXException {
-
+    public void toSAX(ContentHandler handler) throws SAXException {
+        try {
+            if ((node.isNodeType("nt:file"))
+                    && (node.getNode("jcr:content").isNodeType("xt:document"))) {
+                XMLFileSourceHelper.toSAX(handler, node);
+            }
+        } catch (PathNotFoundException e) {
+            throw new SAXException("Repository path not found.", e);
+        } catch (RepositoryException e) {
+            throw new SAXException("Repository not accessable.", e);
+        }
     }
 }
