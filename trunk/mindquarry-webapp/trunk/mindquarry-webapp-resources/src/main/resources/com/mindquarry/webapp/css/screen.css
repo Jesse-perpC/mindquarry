@@ -105,20 +105,3 @@ body {
 	background-image:url(../images/border-nw.gif);
 	background-repeat:no-repeat;
 }
-
-/*
-
-wrap actual content in:
-
-		<div id="background-repeater">
-		<div id="background-lines">
-		<div id="background-n">
-		<div id="background-s">
-		<div id="background-w">
-		<div id="background-e">
-		<div id="background-nw">
-		<div id="background-ne">
-		<div id="background-sw">
-		<div id="background-se">
-
-*/
