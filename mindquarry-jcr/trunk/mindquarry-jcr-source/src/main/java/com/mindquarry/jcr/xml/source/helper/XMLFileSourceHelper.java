@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.xml.source.wrapper;
+package com.mindquarry.jcr.xml.source.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,7 +26,7 @@ import org.xml.sax.SAXException;
 import com.mindquarry.jcr.xml.source.AbstractJCRNodeSource;
 import com.mindquarry.jcr.xml.source.JCRSourceFactory;
 import com.mindquarry.jcr.xml.source.handler.JCRNodesToSAXConverter;
-import com.mindquarry.jcr.xml.source.stream.XMLFileOutputStream;
+import com.mindquarry.jcr.xml.source.helper.stream.XMLFileOutputStream;
 
 /**
  * Source for a node that represents a file (xt:document).
@@ -37,7 +37,7 @@ import com.mindquarry.jcr.xml.source.stream.XMLFileOutputStream;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class XMLFileSource extends AbstractJCRNodeSource implements
+public class XMLFileSourceHelper extends AbstractJCRNodeSource implements
         ModifiableSource, XMLizable {
     /**
      * Default contructor. Passes all parameters to the constructor of the super
@@ -45,7 +45,7 @@ public class XMLFileSource extends AbstractJCRNodeSource implements
      * 
      * {@link AbstractJCRNodeSource#AbstractJCRNodeSource(JCRSourceFactory, Session, String)}
      */
-    public XMLFileSource(JCRSourceFactory factory, Session session,
+    public XMLFileSourceHelper(JCRSourceFactory factory, Session session,
             String path) throws SourceException {
         super(factory, session, path);
     }

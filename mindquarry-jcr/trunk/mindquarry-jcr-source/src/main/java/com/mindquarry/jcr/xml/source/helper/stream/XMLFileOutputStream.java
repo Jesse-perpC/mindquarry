@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.xml.source.stream;
+package com.mindquarry.jcr.xml.source.helper.stream;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -14,10 +14,10 @@ import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
 import com.mindquarry.jcr.xml.source.handler.SAXToJCRNodesConverter;
-import com.mindquarry.jcr.xml.source.wrapper.XMLFileSource;
+import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
 
 /**
- * OutputStream to be used for writing to the {@link XMLFileSource}.
+ * OutputStream to be used for writing to the {@link XMLFileSourceHelper}.
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>

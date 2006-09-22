@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.xml.source.wrapper;
+package com.mindquarry.jcr.xml.source.helper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -32,7 +32,7 @@ import com.mindquarry.jcr.xml.source.JCRSourceFactory;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class FileOrFolderSource extends AbstractJCRNodeSource implements
+public class FolderSourceHelper extends AbstractJCRNodeSource implements
         ModifiableTraversableSource {
     /**
      * Default contructor. Passes all parameters to the constructor of the super
@@ -40,7 +40,7 @@ public class FileOrFolderSource extends AbstractJCRNodeSource implements
      * 
      * {@link AbstractJCRNodeSource#AbstractJCRNodeSource(JCRSourceFactory, Session, String)}
      */
-    public FileOrFolderSource(JCRSourceFactory factory, Session session,
+    public FolderSourceHelper(JCRSourceFactory factory, Session session,
             String path) throws SourceException {
         super(factory, session, path);
     }

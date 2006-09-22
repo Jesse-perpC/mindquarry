@@ -29,7 +29,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceUtil;
-
+import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -192,9 +192,20 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         }
         // otherwise try to lookup the repository
         try {
-            repo = (Repository) manager.lookup(Repository.class.getName());
+            // check if we have to use the RMI connection
+            String remoteRepoURL = config.getAttribute("rmi");
+            ClientRepositoryFactory factory = new ClientRepositoryFactory();
+            repo = factory.getRepository(remoteRepoURL);
+        } catch (ConfigurationException e1) {
+            // we have to use the local repository
+            try {
+                repo = (Repository) manager.lookup(Repository.class.getName());
+            } catch (ServiceException e) {
+                throw new CascadingRuntimeException(
+                        "Cannot lookup repository.", e);
+            }
         } catch (Exception e) {
-            throw new CascadingRuntimeException("Cannot lookup repository", e);
+            throw new CascadingRuntimeException("Cannot lookup repository.", e);
         }
     }
 
@@ -223,7 +234,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
             if (nit.getSize() == 0) {
                 return null;
             }
-            return null;//new QueryResultSource(this, nit);
+            return null;// new QueryResultSource(this, nit);
         } catch (RepositoryException e) {
             throw new SourceException("Cannot execute query '" + statement
                     + "'", e);
