@@ -21,7 +21,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.xml.source.wrapper.XMLFileSource;
+import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
 
 /**
  * Test cases for the XMLFileSource implementation.
@@ -65,7 +65,7 @@ public class JCRSourceTests extends JCRSourceTestBase {
         os.flush();
         os.close();
 
-        source = (XMLFileSource) resolveSource(BASE_URL
+        source = (XMLFileSourceHelper) resolveSource(BASE_URL
                 + "users/alexander.saar");
         assertNotNull(source);
 

@@ -3,14 +3,12 @@
  */
 package com.mindquarry.jcr.jackrabbit;
 
-import java.io.IOException;
 import java.rmi.registry.Registry;
 
 import javax.jcr.Repository;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
 import com.mindquarry.jcr.source.xml.JCRSourceTestBase;
