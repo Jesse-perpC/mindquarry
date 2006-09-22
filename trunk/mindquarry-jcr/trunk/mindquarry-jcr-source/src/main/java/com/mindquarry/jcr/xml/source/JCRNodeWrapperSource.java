@@ -9,11 +9,9 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
@@ -32,7 +30,7 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JCRWrapperSource extends AbstractJCRNodeSource implements
+public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
         ModifiableTraversableSource, XMLizable {
     /**
      * Default contructor. Passes all parameters to the constructor of the super
@@ -40,7 +38,7 @@ public class JCRWrapperSource extends AbstractJCRNodeSource implements
      * 
      * {@link AbstractJCRNodeSource#AbstractJCRNodeSource(JCRSourceFactory, Session, String)}
      */
-    public JCRWrapperSource(JCRSourceFactory factory, Session session,
+    public JCRNodeWrapperSource(JCRSourceFactory factory, Session session,
             String path) throws SourceException {
         super(factory, session, path);
     }
@@ -203,7 +201,7 @@ public class JCRWrapperSource extends AbstractJCRNodeSource implements
         } else {
             try {
                 // Ensure parent exists
-                JCRWrapperSource parent = (JCRWrapperSource) getParent();
+                JCRNodeWrapperSource parent = (JCRNodeWrapperSource) getParent();
                 if (parent == null) {
                     throw new SourceException(
                             "Problem: root node does not exist!!");

@@ -175,7 +175,14 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      */
     public AbstractJCRNodeSource createSource(Session session, String path)
             throws SourceException {
-        return new JCRWrapperSource(this, session, path);
+        return new JCRNodeWrapperSource(this, session, path);
+    }
+
+    /**
+     * Returns the scheme (probably <code>jcr</code>) for the URIs we handle.
+     */
+    public String getScheme() {
+        return scheme;
     }
 
     // =========================================================================
@@ -255,12 +262,5 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
             }
         }
         return path;
-    }
-
-    /**
-     * Returns the scheme (probably <code>jcr</code>) for the URIs we handle.
-     */
-    public String getScheme() {
-        return scheme;
     }
 }
