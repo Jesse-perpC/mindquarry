@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
+import javax.jcr.LoginException;
+import javax.jcr.RepositoryException;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactoryConfigurationError;
@@ -17,11 +19,9 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.ModifiableSource;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
+import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 
 /**
  * Test cases for the XMLFileSource implementation.
@@ -30,15 +30,17 @@ import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
  *         Saar</a>
  */
 public class JCRSourceTests extends JCRSourceTestBase {
-    private Source source;
+    private JCRNodeWrapperSource source;
 
     public void testXMLFileRetrieval() throws ServiceException, IOException {
-        source = resolveSource(BASE_URL + "users/alexander.saar");
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
         assertNotNull(source);
     }
 
     public void testReadXMLFile() throws ServiceException, IOException {
-        source = resolveSource(BASE_URL + "users/alexander.saar");
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
         assertNotNull(source);
 
         InputStream is = source.getInputStream();
@@ -53,11 +55,13 @@ public class JCRSourceTests extends JCRSourceTestBase {
     }
 
     public void testWriteXMLFile() throws ServiceException, IOException,
-            TransformerConfigurationException, SAXException {
-        source = resolveSource(BASE_URL + "users/alexander.saar");
+            TransformerConfigurationException, SAXException, LoginException,
+            RepositoryException {
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
         assertNotNull(source);
 
-        OutputStream os = ((ModifiableSource)source).getOutputStream();
+        OutputStream os = ((ModifiableSource) source).getOutputStream();
         assertNotNull(os);
 
         String newContent = "<user><name>Alexander Saar der Zweite</name></user>";
@@ -65,7 +69,7 @@ public class JCRSourceTests extends JCRSourceTestBase {
         os.flush();
         os.close();
 
-        source = resolveSource(BASE_URL
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
                 + "users/alexander.saar");
         assertNotNull(source);
 
@@ -73,19 +77,26 @@ public class JCRSourceTests extends JCRSourceTestBase {
                 .newInstance();
         TransformerHandler handler = stfactory.newTransformerHandler();
         handler.setResult(new StreamResult(System.out));
-        ((XMLizable)source).toSAX(handler);
+        source.toSAX(handler);
+
+        // need to do this for better output formatting
+        System.out.println();
     }
 
     public void testXMLizableXMLFileSource() throws ServiceException,
             IOException, SAXException, TransformerFactoryConfigurationError,
             TransformerException {
-        source = resolveSource(BASE_URL + "users/alexander.saar");
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
         assertNotNull(source);
 
         SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
                 .newInstance();
         TransformerHandler handler = stfactory.newTransformerHandler();
         handler.setResult(new StreamResult(System.out));
-        ((XMLizable)source).toSAX(handler);
+        source.toSAX(handler);
+
+        // need to do this for better output formatting
+        System.out.println();
     }
 }
