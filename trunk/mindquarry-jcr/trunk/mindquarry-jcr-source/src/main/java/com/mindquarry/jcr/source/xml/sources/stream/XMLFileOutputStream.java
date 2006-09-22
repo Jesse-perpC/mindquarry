@@ -45,6 +45,7 @@ public class XMLFileOutputStream extends ByteArrayOutputStream {
 
             try {
                 // remove old content
+                node.lock(true, true);
                 NodeIterator nit = node.getNode("jcr:content").getNodes();
                 while (nit.hasNext()) {
                     nit.nextNode().remove();
@@ -59,6 +60,7 @@ public class XMLFileOutputStream extends ByteArrayOutputStream {
                 SAXParserFactory saxFactory = SAXParserFactory.newInstance();
                 SAXParser parser = saxFactory.newSAXParser();
                 parser.parse(is, new SAXToJCRNodesConverter(node));
+                node.unlock();
                 session.save();
             } catch (Exception e) {
                 throw new IOException("Cannot parse content.");

@@ -7,9 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.Map;
 
-import javax.jcr.Item;
 import javax.jcr.LoginException;
-import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
@@ -33,9 +31,7 @@ import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceUtil;
 
 import com.mindquarry.jcr.source.xml.sources.AbstractJCRNodeSource;
-import com.mindquarry.jcr.source.xml.sources.FileOrFolderSource;
-import com.mindquarry.jcr.source.xml.sources.QueryResultSource;
-import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
+import com.mindquarry.jcr.source.xml.sources.JCRWrapperSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -56,7 +52,7 @@ import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
+public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         Configurable, Serviceable {
     /**
      * The reference to the JCR Repository to use as interface.
@@ -132,12 +128,15 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
         // init session
         Session session;
         try {
-            session = repo.login(new SimpleCredentials("alexander.saar",
-                    "mypwd".toCharArray()));
+            session = repo.login(new SimpleCredentials(config
+                    .getAttribute("login"), config.getAttribute("password")
+                    .toCharArray()));
         } catch (LoginException e) {
-            throw new SourceException("Login to repository failed", e);
+            throw new SourceException("Login to repository failed.", e);
         } catch (RepositoryException e) {
-            throw new SourceException("Cannot access repository", e);
+            throw new SourceException("Cannot access repository.", e);
+        } catch (ConfigurationException e) {
+            throw new SourceException("Cannot access configuration data.", e);
         }
         // Compute the path
         String path = SourceUtil.getSpecificPart(uri);
@@ -178,37 +177,7 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
      */
     public AbstractJCRNodeSource createSource(Session session, String path)
             throws SourceException {
-        AbstractJCRNodeSource result;
-        
-        // is the requested node really a node?
-        try {
-            Item item = session.getItem(path);
-            if (!item.isNode()) {
-                throw new SourceException("Path '" + path
-                        + "' is a property (should be a node)");
-            }
-            // it is a node, try to analyse the node type
-            Node node = (Node) item;
-            if (node.isNodeType("nt:folder")) {
-                result = new FileOrFolderSource(this, session, path);
-            } else if (node.isNodeType("nt:file")) {
-                // check the content type of the file
-                Node contentNode = node.getNode("jcr:content");
-                if (contentNode.isNodeType("xt:document")) {
-                    // it is an XML document
-                    result = new XMLFileSource(this, session, path);
-                } else {
-                    // it is no XML document
-                    result = new FileOrFolderSource(this, session, path);
-                }
-            } else {
-                throw new SourceException("Unsupported primary node type. "
-                        + "Must be one of nt:file or nt:folder.");
-            }
-        } catch (Exception e) {
-            throw new SourceException("An error occured.", e);
-        }
-        return result;
+        return new JCRWrapperSource(this, session, path);
     }
 
     // =========================================================================
@@ -256,7 +225,7 @@ public class JCRXMLSourceFactory implements ThreadSafe, SourceFactory,
             if (nit.getSize() == 0) {
                 return null;
             }
-            return new QueryResultSource(this, nit);
+            return null;//new QueryResultSource(this, nit);
         } catch (RepositoryException e) {
             throw new SourceException("Cannot execute query '" + statement
                     + "'", e);

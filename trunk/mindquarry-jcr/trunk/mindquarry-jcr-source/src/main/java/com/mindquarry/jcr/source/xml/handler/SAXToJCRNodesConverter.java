@@ -3,6 +3,8 @@
  */
 package com.mindquarry.jcr.source.xml.handler;
 
+import java.util.GregorianCalendar;
+
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
@@ -86,6 +88,18 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             throws SAXException {
         try {
             node = node.getParent();
+        } catch (Exception e) {
+            throw new SAXException("Error while storing content.", e);
+        }
+    }
+
+    /**
+     * @see org.xml.sax.helpers.DefaultHandler#endDocument()
+     */
+    @Override
+    public void endDocument() throws SAXException {
+        try {
+            node.setProperty("jcr:lastModified", new GregorianCalendar());
         } catch (Exception e) {
             throw new SAXException("Error while storing content.", e);
         }

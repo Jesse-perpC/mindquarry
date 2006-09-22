@@ -14,10 +14,10 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
-import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
+import com.mindquarry.jcr.source.xml.JCRSourceFactory;
 
 /**
- * Base class for all JCR Node Sources.
+ * Base class for all JCR Node Sources as well as the wrapper source.
  * 
  * @author <a
  *         href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">Alexander
@@ -26,18 +26,30 @@ import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
  *         Saar</a>
  */
 public abstract class AbstractJCRNodeSource implements Source {
+    /**
+     * The factory that created this Source.
+     */
+    protected final JCRSourceFactory factory;
 
-    /** The factory that created this Source */
-    protected final JCRXMLSourceFactory factory;
-
-    /** The session this source is bound to */
+    /**
+     * The session this source is bound to.
+     */
     protected final Session session;
 
-    /** The node pointed to by this source (can be null) */
+    /**
+     * The node pointed to by this source (can be null).
+     */
     protected Node node;
 
-    /** The node path (cannot be changed later) */
+    /**
+     * The node path (cannot be changed later).
+     */
     protected final String path;
+
+    /**
+     * The full URI of this node including scheme identifier.
+     */
+    protected String computedURI;
 
     /**
      * Basic constructor for initializing what every JCRNodeSource must have.
@@ -48,7 +60,7 @@ public abstract class AbstractJCRNodeSource implements Source {
      * @param session The current JCR session in use.
      * @throws SourceException
      */
-    public AbstractJCRNodeSource(JCRXMLSourceFactory factory, Session session,
+    public AbstractJCRNodeSource(JCRSourceFactory factory, Session session,
             String path) throws SourceException {
         this.factory = factory;
         this.session = session;
@@ -63,10 +75,10 @@ public abstract class AbstractJCRNodeSource implements Source {
                 node = (Node) item;
             }
         } catch (PathNotFoundException e) {
-            // Not found
+            // node does not exist
             node = null;
         } catch (RepositoryException e) {
-            throw new SourceException("Cannot lookup repository path " + path,
+            throw new SourceException("Cannot lookup repository path: " + path,
                     e);
         }
     }
@@ -98,7 +110,7 @@ public abstract class AbstractJCRNodeSource implements Source {
         try {
             Property prop = node.getProperty("jcr:lastModified");
             return prop == null ? 0 : prop.getDate().getTime().getTime();
-        } catch (RepositoryException re) {
+        } catch (RepositoryException e) {
             return 0;
         }
     }
@@ -106,7 +118,7 @@ public abstract class AbstractJCRNodeSource implements Source {
     /**
      * {@inheritDoc}
      * 
-     * Uses the standard jcr:lastModified property.
+     * Uses the standard jcr:mimeType property.
      * 
      * @see org.apache.excalibur.source.Source#getMimeType()
      */
@@ -137,7 +149,10 @@ public abstract class AbstractJCRNodeSource implements Source {
      * @see org.apache.excalibur.source.Source#getURI()
      */
     public String getURI() {
-        return null;
+        if (computedURI == null) {
+            computedURI = factory.getScheme() + ":/" + path;
+        }
+        return computedURI;
     }
 
     /**
@@ -150,8 +165,19 @@ public abstract class AbstractJCRNodeSource implements Source {
     }
 
     /**
+     * {@inheritDoc}
+     * 
      * @see org.apache.excalibur.source.Source#refresh()
      */
     public void refresh() {
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.excalibur.source.Source#getContentLength()
+     */
+    public long getContentLength() {
+        return -1;
     }
 }
