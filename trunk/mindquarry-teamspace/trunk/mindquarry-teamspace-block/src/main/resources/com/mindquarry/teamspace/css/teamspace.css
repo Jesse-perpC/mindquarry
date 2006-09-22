@@ -1,3 +1,22 @@
 #webapp-header {
-  background-image:url(../images/header-yellow.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-orange.png);
 }
+
+#webapp-sections a.navFiles {
+  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-red.png);
+}
+
+#webapp-sections a.navWiki {
+  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-blue.png);
+}
+
+#webapp-sections a.navTasks {
+  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-green.png);
+}
+
+#webapp-sections a.navTalk {
+  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-yellow.png);
+}
+
+#webapp-sections a.navTeams {
+  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-orange.png);
