@@ -56,53 +56,53 @@ body {
 
 
 #background-s {
-	background-image:url(../images/border-s.png);
+	background-image:url(../images/border-s.gif);
 	background-repeat:repeat-x;
 	background-position:bottom;
 }
 
 #background-n {
-	background-image:url(../images/border-n.png);
+	background-image:url(../images/border-n.gif);
 	background-repeat:repeat-x;
 }
 
 #background-w {
-	background-image:url(../images/border-w.png);
+	background-image:url(../images/border-w.gif);
 	background-repeat:repeat-y;
 }
 
 #background-e {
-	background-image:url(../images/border-e.png);
+	background-image:url(../images/border-e.gif);
 	background-repeat:repeat-y;
 	background-position:right;
 }
 
 #background-nw {
-	background-image:url(../images/border-nw.png);
+	background-image:url(../images/border-nw.gif);
 	background-repeat:no-repeat;
 }
 
 #background-ne {
-	background-image:url(../images/border-ne.png);
+	background-image:url(../images/border-ne.gif);
 	background-repeat:no-repeat;
 	background-position:right top;
 }
 
 #background-sw {
-	background-image:url(../images/border-sw.png);
+	background-image:url(../images/border-sw.gif);
 	background-repeat:no-repeat;
 	background-position:left bottom;
 }
 
 #background-se {
-	background-image:url(../images/border-se.png);
+	background-image:url(../images/border-se.gif);
 	background-repeat:no-repeat;
 	background-position:right bottom;
 	padding:30px;
 }
 
 #background-nw {
-	background-image:url(../images/border-nw.png);
+	background-image:url(../images/border-nw.gif);
 	background-repeat:no-repeat;
 }
 
