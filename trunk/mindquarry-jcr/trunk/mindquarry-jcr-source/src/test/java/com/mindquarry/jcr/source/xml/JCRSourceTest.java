@@ -29,7 +29,7 @@ import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JCRSourceTests extends JCRSourceTestBase {
+public class JCRSourceTest extends JCRSourceTestBase {
     private JCRNodeWrapperSource source;
 
     public void testXMLFileRetrieval() throws ServiceException, IOException {
