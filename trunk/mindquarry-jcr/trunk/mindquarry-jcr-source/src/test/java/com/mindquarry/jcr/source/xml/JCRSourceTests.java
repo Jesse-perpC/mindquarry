@@ -65,7 +65,7 @@ public class JCRSourceTests extends JCRSourceTestBase {
         os.flush();
         os.close();
 
-        source = (XMLFileSourceHelper) resolveSource(BASE_URL
+        source = resolveSource(BASE_URL
                 + "users/alexander.saar");
         assertNotNull(source);
 
