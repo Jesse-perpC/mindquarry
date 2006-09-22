@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://web.resource.org/cc/"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:sodipodi="http://inkscape.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   width="210mm"
+   height="297mm"
+   id="svg10227"
+   sodipodi:version="0.32"
+   inkscape:version="0.43"
+   sodipodi:docbase="/home/lars"
+   sodipodi:docname="border.svg">
+  <defs
+     id="defs10229" />
+  <sodipodi:namedview
+     id="base"
+     pagecolor="#ffffff"
+     bordercolor="#666666"
+     borderopacity="1.0"
+     inkscape:pageopacity="0.0"
+     inkscape:pageshadow="2"
+     inkscape:zoom="0.35"
+     inkscape:cx="350"
+     inkscape:cy="520"
+     inkscape:document-units="px"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="896"
+     inkscape:window-height="589"
+     inkscape:window-x="10"
+     inkscape:window-y="73" />
+  <metadata
+     id="metadata10232">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     inkscape:label="Ebene 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       style="fill:#efefef;fill-opacity:1;fill-rule:evenodd;stroke:none;stroke-width:1.07882071px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       d="M 17.41295,19.826469 L 17.41295,576.32647 L 725.44419,576.32647 L 725.44419,19.826469 L 17.41295,19.826469 z M 58.6942,43.013969 C 58.9938,43.000769 59.29748,43.013969 59.60045,43.013969 L 683.25669,43.013969 C 694.33669,43.013969 703.25669,51.933969 703.25669,63.013968 L 703.25669,533.13897 C 703.25669,544.21899 694.33669,553.13897 683.25669,553.13897 L 59.60045,553.13897 C 48.52046,553.13899 39.60045,544.21897 39.60045,533.13897 L 39.60045,63.013968 C 39.60045,52.236939 48.03698,43.483529 58.6942,43.013969 z "
+       id="rect4456"
+       inkscape:export-filename="/home/lars/border.png"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90" />
+  </g>
+</svg>
