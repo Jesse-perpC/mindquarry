@@ -41,8 +41,27 @@
 					</ul>
 				</div>
 				<div id="webapp-content">
-					<xsl:apply-templates />
-				</div>
+					<div id="background-repeater">
+						<div id="background-lines">
+							<div id="background-n">
+								<div id="background-s">
+									<div id="background-w">
+										<div id="background-e">
+											<div id="background-nw">
+												<div id="background-ne">
+													<div id="background-sw">
+														<div id="background-se">
+															<xsl:apply-templates />
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
 			</div>
 		</body>
 	</xsl:template>
