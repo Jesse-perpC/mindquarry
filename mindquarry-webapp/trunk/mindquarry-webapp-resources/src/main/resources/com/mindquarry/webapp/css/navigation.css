@@ -25,10 +25,6 @@
   padding-top:20px;
 }
 
-#webapp-sections a:hover {
-  text-decoration:underline;
-}
-
 #webapp-sections li {
   display:inline;
 }
