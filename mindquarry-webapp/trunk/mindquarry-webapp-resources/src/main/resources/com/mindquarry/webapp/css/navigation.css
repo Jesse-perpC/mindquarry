@@ -29,26 +29,6 @@
   text-decoration:underline;
 }
 
-#webapp-sections a.navFiles {
-  background-image:url(../images/gray-header-red.png);
-}
-
-#webapp-sections a.navWiki {
-  background-image:url(../images/gray-header-blue.png);
-}
-
-#webapp-sections a.navTasks {
-  background-image:url(../images/gray-header-green.png);
-}
-
-#webapp-sections a.navTalk {
-  background-image:url(../images/gray-header-yellow.png);
-}
-
-#webapp-sections a.navTeams {
-  background-image:url(../images/gray-header-orange.png);
-}
-
 #webapp-sections li {
   display:inline;
 }
