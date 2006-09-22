@@ -72,12 +72,7 @@
 
 	<profiles>
 		<profile>
-			<activation>
-				<property>
-					<name>build.environment</name>
-					<value>mindquarry.com</value>
-				</property>
-			</activation>
+			<id>at-mindquarry.com</id>
 			<distributionManagement>
 				<repository>
 					<id>mindquarry.releases</id>
