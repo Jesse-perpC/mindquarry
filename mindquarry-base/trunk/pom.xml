@@ -63,7 +63,7 @@
 		</repository>
 		<snapshotRepository>
 			<id>mindquarry.snapshots</id>
-			<name>Mindquarry Repository</name>
+			<name>Mindquarry Snapshots Repository</name>
 			<url>
 				scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/snapshots
 			</url>
@@ -79,9 +79,16 @@
 				</property>
 			</activation>
 			<distributionManagement>
+				<repository>
+					<id>mindquarry.releases</id>
+					<name>Mindquarry Repository</name>
+					<url>
+						file:///var/www/www.mindquarry.com/htdocs/releases
+					</url>
+				</repository>
 				<snapshotRepository>
 					<id>mindquarry.snapshots</id>
-					<name>Mindquarry Repository</name>
+					<name>Mindquarry Snapshots Repository</name>
 					<url>
 						file:///var/www/www.mindquarry.com/htdocs/snapshots
 					</url>
