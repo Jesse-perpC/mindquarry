@@ -23,7 +23,7 @@ import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.source.xml.JCRXMLSourceFactory;
+import com.mindquarry.jcr.source.xml.JCRSourceFactory;
 import com.mindquarry.jcr.source.xml.handler.JCRNodesToSAXConverter;
 import com.mindquarry.jcr.source.xml.sources.stream.XMLFileOutputStream;
 
@@ -42,9 +42,9 @@ public class XMLFileSource extends AbstractJCRNodeSource implements
      * Default contructor. Passes all parameters to the constructor of the super
      * class.
      * 
-     * {@link AbstractJCRNodeSource#AbstractJCRNodeSource(JCRXMLSourceFactory, Session, String)}
+     * {@link AbstractJCRNodeSource#AbstractJCRNodeSource(JCRSourceFactory, Session, String)}
      */
-    public XMLFileSource(JCRXMLSourceFactory factory, Session session,
+    public XMLFileSource(JCRSourceFactory factory, Session session,
             String path) throws SourceException {
         super(factory, session, path);
     }
@@ -84,15 +84,6 @@ public class XMLFileSource extends AbstractJCRNodeSource implements
             throw new IOException("Error while reading repository content.");
         }
         return new ByteArrayInputStream(os.toByteArray());
-    }
-
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.Source#getContentLength()
-     */
-    public long getContentLength() {
-        return -1;
     }
 
     // =========================================================================

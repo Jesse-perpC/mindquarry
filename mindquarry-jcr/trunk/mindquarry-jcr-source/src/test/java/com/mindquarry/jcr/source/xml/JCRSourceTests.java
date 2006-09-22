@@ -16,6 +16,9 @@ import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
 import org.apache.avalon.framework.service.ServiceException;
+import org.apache.excalibur.source.ModifiableSource;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.SAXException;
 
 import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
@@ -26,23 +29,20 @@ import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class XMLFileSourceTest extends JCRSourceTestBase {
-    private XMLFileSource source;
+public class JCRSourceTests extends JCRSourceTestBase {
+    private Source source;
 
     public void testXMLFileRetrieval() throws ServiceException, IOException {
-        source = (XMLFileSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+        source = resolveSource(BASE_URL + "users/alexander.saar");
         assertNotNull(source);
     }
 
     public void testReadXMLFile() throws ServiceException, IOException {
-        source = (XMLFileSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+        source = resolveSource(BASE_URL + "users/alexander.saar");
         assertNotNull(source);
 
         InputStream is = source.getInputStream();
         assertNotNull(is);
-
         ByteArrayOutputStream os = new ByteArrayOutputStream();
 
         int b;
@@ -54,11 +54,10 @@ public class XMLFileSourceTest extends JCRSourceTestBase {
 
     public void testWriteXMLFile() throws ServiceException, IOException,
             TransformerConfigurationException, SAXException {
-        source = (XMLFileSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+        source = resolveSource(BASE_URL + "users/alexander.saar");
         assertNotNull(source);
 
-        OutputStream os = source.getOutputStream();
+        OutputStream os = ((ModifiableSource)source).getOutputStream();
         assertNotNull(os);
 
         String newContent = "<user><name>Alexander Saar der Zweite</name></user>";
@@ -74,20 +73,19 @@ public class XMLFileSourceTest extends JCRSourceTestBase {
                 .newInstance();
         TransformerHandler handler = stfactory.newTransformerHandler();
         handler.setResult(new StreamResult(System.out));
-        source.toSAX(handler);
+        ((XMLizable)source).toSAX(handler);
     }
 
     public void testXMLizableXMLFileSource() throws ServiceException,
             IOException, SAXException, TransformerFactoryConfigurationError,
             TransformerException {
-        source = (XMLFileSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+        source = resolveSource(BASE_URL + "users/alexander.saar");
         assertNotNull(source);
 
         SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
                 .newInstance();
         TransformerHandler handler = stfactory.newTransformerHandler();
         handler.setResult(new StreamResult(System.out));
-        source.toSAX(handler);
+        ((XMLizable)source).toSAX(handler);
     }
 }
