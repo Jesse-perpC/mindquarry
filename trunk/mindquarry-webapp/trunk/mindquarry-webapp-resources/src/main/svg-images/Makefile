@@ -9,10 +9,10 @@ yellowpng := $(subst header.png,header-yellow.png,$(pngfiles))
 
 
 
-all: ${graypng}  ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.png border-s.png border-w.png border-e.png border-ne.png border-nw.png border-sw.png border-se.png
+all: ${graypng}  ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.gif border-s.gif border-w.gif border-e.gif border-ne.gif border-nw.gif border-sw.gif border-se.gif
 
 clean:
-	rm -f $(pngfiles) ${graypng} ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.png border-s.png border-w.png border-e.png border-ne.png border-nw.png border-sw.png border-se.png
+	rm -f $(pngfiles) ${graypng} ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.gif border-s.gif border-w.gif border-e.gif border-ne.gif border-nw.gif border-sw.gif border-se.gif
 
 pngs:	all
 	rm -f $(pngfiles)
@@ -41,35 +41,26 @@ pngs:	all
 border.png: border.svg
 	inkscape -D --export-png=$@ $<
 
-border-ne.png: border.png
-	convert $< -crop 50x50+658+0 $@
+border-ne.gif: border.png Makefile
+	convert $< -crop 50x50+658+0 +repage $@
 
-border-nw.png: border.png
-	convert $< -crop 50x50+0+0 $@
+border-nw.gif: border.png Makefile
+	convert $< -crop 50x50+0+0 +repage $@
 
-border-se.png: border.png
-	convert $< -crop 50x50+658+507 $@
+border-se.gif: border.png Makefile
+	convert $< -crop 50x50+658+507 +repage $@
 
-border-sw.png: border.png
-	convert $< -crop 50x50+0+507 $@
+border-sw.gif: border.png Makefile
+	convert $< -crop 50x50+0+507 +repage $@
 
-border-s.png: border.png
-	convert $< -crop 50x50+50+507 $@
+border-s.gif: border.png Makefile
+	convert $< -crop 50x50+50+507 +repage $@
 
-border-n.png: border.png
-	convert $< -crop 50x50+50+0 $@
+border-n.gif: border.png Makefile
+	convert $< -crop 50x50+50+0 +repage $@
 
-border-w.png: border.png
-	convert $< -crop 50x50+0+50 $@
+border-w.gif: border.png Makefile
+	convert $< -crop 50x50+0+50 +repage $@
 
-border-e.png: border.png
-	convert $< -crop 50x50+658+50 $@
-
-#border.png -crop 50x50+658+0  border-ne.png
-#border.png -crop 50x50+658+507  border-se.png
-#border.png -crop 50x50+0+507  border-sw.png
-#border.png -crop 50x50+50+507  border-s.png
-#border.png -crop 50x50+50+0  border-n.png
-#border.png -crop 50x50+658+50  border-e.png
-#border.png -crop 50x50+0+50  border-w.png
-#border.png -crop 50x50+0+0  border-nw.png
+border-e.gif: border.png Makefile
+	convert $< -crop 50x50+658+50 +repage $@
