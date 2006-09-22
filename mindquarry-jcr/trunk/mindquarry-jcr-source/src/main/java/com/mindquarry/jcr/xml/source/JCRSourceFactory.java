@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml;
+package com.mindquarry.jcr.xml.source;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -30,8 +30,6 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.excalibur.source.SourceUtil;
 
-import com.mindquarry.jcr.source.xml.sources.AbstractJCRNodeSource;
-import com.mindquarry.jcr.source.xml.sources.JCRWrapperSource;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an

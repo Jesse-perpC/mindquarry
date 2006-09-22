@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml.sources;
+package com.mindquarry.jcr.xml.source;
 
 import javax.jcr.Item;
 import javax.jcr.Node;
@@ -14,7 +14,6 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
-import com.mindquarry.jcr.source.xml.JCRSourceFactory;
 
 /**
  * Base class for all JCR Node Sources as well as the wrapper source.

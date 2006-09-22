@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml.sources;
+package com.mindquarry.jcr.xml.source;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -25,7 +25,6 @@ import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.source.xml.JCRSourceFactory;
 
 /**
  * Source wrapper for all JCR sources.

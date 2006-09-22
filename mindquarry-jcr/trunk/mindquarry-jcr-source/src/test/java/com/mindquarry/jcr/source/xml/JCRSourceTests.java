@@ -21,7 +21,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.source.xml.sources.XMLFileSource;
+import com.mindquarry.jcr.xml.source.wrapper.XMLFileSource;
 
 /**
  * Test cases for the XMLFileSource implementation.

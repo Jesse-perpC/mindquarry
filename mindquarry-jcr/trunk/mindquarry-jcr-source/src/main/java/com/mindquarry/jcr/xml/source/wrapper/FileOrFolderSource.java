@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml.sources;
+package com.mindquarry.jcr.xml.source.wrapper;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -20,7 +20,8 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 
-import com.mindquarry.jcr.source.xml.JCRSourceFactory;
+import com.mindquarry.jcr.xml.source.AbstractJCRNodeSource;
+import com.mindquarry.jcr.xml.source.JCRSourceFactory;
 
 /**
  * Source for a node that represents a file (nt:file) or a folder (nt:folder).
