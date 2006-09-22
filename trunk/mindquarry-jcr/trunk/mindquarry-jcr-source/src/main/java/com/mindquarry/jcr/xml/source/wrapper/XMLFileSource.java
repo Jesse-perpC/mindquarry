@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml.sources;
+package com.mindquarry.jcr.xml.source.wrapper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -23,9 +23,10 @@ import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.source.xml.JCRSourceFactory;
-import com.mindquarry.jcr.source.xml.handler.JCRNodesToSAXConverter;
-import com.mindquarry.jcr.source.xml.sources.stream.XMLFileOutputStream;
+import com.mindquarry.jcr.xml.source.AbstractJCRNodeSource;
+import com.mindquarry.jcr.xml.source.JCRSourceFactory;
+import com.mindquarry.jcr.xml.source.handler.JCRNodesToSAXConverter;
+import com.mindquarry.jcr.xml.source.stream.XMLFileOutputStream;
 
 /**
  * Source for a node that represents a file (xt:document).

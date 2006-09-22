@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml.handler;
+package com.mindquarry.jcr.xml.source.handler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;

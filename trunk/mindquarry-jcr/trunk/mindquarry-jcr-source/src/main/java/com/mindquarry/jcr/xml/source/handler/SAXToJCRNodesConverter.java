@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml.handler;
+package com.mindquarry.jcr.xml.source.handler;
 
 import java.util.GregorianCalendar;
 
