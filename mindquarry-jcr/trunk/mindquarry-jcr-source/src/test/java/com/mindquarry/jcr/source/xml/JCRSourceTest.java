@@ -7,6 +7,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Iterator;
 
 import javax.jcr.LoginException;
 import javax.jcr.RepositoryException;
@@ -206,7 +208,7 @@ public class JCRSourceTest extends JCRSourceTestBase {
 
         InputStream is = source.getInputStream();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        
+
         int b;
         while ((b = is.read()) != -1) {
             bos.write(b);
@@ -228,6 +230,51 @@ public class JCRSourceTest extends JCRSourceTestBase {
         handler.setResult(new StreamResult(System.out));
         source.toSAX(handler);
 
+        // need to do this for better output formatting
+        System.out.println();
+    }
+
+    public void testGetFileInFolder() throws ServiceException, IOException,
+            TransformerConfigurationException, SAXException {
+        // test with no existing file
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+
+        source = (JCRNodeWrapperSource) source.getChild("alexander.saar");
+        assertEquals(true, source.exists());
+
+        SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
+                .newInstance();
+        TransformerHandler handler = stfactory.newTransformerHandler();
+        handler.setResult(new StreamResult(System.out));
+        source.toSAX(handler);
+
+        // need to do this for better output formatting
+        System.out.println();
+    }
+
+    public void testGetFilesFromFolder() throws ServiceException, IOException,
+            TransformerConfigurationException, SAXException {
+        // test with no existing file
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+
+        Collection childs = source.getChildren();
+        assertEquals(1, childs.size());
+
+        Iterator it = childs.iterator();
+        while (it.hasNext()) {
+            source = (JCRNodeWrapperSource) it.next();
+            assertEquals(true, source.exists());
+
+            SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
+                    .newInstance();
+            TransformerHandler handler = stfactory.newTransformerHandler();
+            handler.setResult(new StreamResult(System.out));
+            source.toSAX(handler);
+        }
         // need to do this for better output formatting
         System.out.println();
     }
