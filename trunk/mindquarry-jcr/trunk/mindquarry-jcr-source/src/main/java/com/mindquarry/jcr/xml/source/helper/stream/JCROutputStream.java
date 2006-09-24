@@ -6,6 +6,7 @@ package com.mindquarry.jcr.xml.source.helper.stream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.GregorianCalendar;
 
 import javax.jcr.AccessDeniedException;
 import javax.jcr.InvalidItemStateException;
@@ -57,15 +58,9 @@ public class JCROutputStream extends ByteArrayOutputStream {
             super.close();
             isClosed = true;
             try {
-                //node.lock(true, true);
-                if (node.getNode("jcr:content") == null) {
-                    boolean isXML = canParse();
-                    if (isXML) {
-                        createXML();
-                    } else {
-                        createBinary();
-                    }
-                } else {
+                // node.lock(true, true);
+                try {
+                    node.getNode("jcr:content");
                     if (isXML()) {
                         deleteChildren();
                         if (canParse()) {
@@ -76,9 +71,16 @@ public class JCROutputStream extends ByteArrayOutputStream {
                     } else {
                         writeBinary();
                     }
+                } catch (PathNotFoundException e) {
+                    boolean isXML = canParse();
+                    if (isXML) {
+                        createXML();
+                    } else {
+                        createBinary();
+                    }
                 }
                 // don't forget to commit
-                //node.unlock();
+                // node.unlock();
                 session.save();
             } catch (RepositoryException e) {
                 throw new IOException("Unable to write to repository "
@@ -115,7 +117,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private void createXML() throws IOException {
         try {
-            node.addNode("jcr:content", "nt:resource");
+            node.addNode("jcr:content", "xt:document");
             writeXML();
         } catch (ItemExistsException e) {
             throw new IOException("Content node already exists: "
@@ -201,6 +203,10 @@ public class JCROutputStream extends ByteArrayOutputStream {
         try {
             node.getNode("jcr:content").setProperty("jcr:data",
                     new ByteArrayInputStream(this.toByteArray()));
+            node.getNode("jcr:content").setProperty("jcr:mimeType",
+                    "application/octetstream");
+            node.getNode("jcr:content").setProperty("jcr:lastModified",
+                    new GregorianCalendar());
         } catch (ValueFormatException e) {
             throw new IOException("Invalid value format: "
                     + e.getLocalizedMessage());

@@ -178,11 +178,11 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
                         + e.getLocalizedMessage());
             }
         } else {
-            if (!this.getParent().exists()) {
-                this.getParent().makeCollection();
+            if (!getParent().exists()) {
+                getParent().makeCollection();
             }
             try {
-                this.getParent().node.addNode(getName(), "nt:file");
+                node = getParent().node.addNode(getName(), "nt:file");
                 return new JCROutputStream(node, session);
             } catch (ItemExistsException e) {
                 throw new IOException("Resource already exists: "
@@ -286,7 +286,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      */
     public boolean isCollection() {
         try {
-            if (node.isNodeType("nt:folder") && node.isNodeType("jcr:root")) {
+            if (node.isNodeType("nt:folder") || path.equals("/")) {
                 return true;
             } else {
                 return false;

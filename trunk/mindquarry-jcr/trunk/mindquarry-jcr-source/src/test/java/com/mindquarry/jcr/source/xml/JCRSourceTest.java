@@ -19,12 +19,14 @@ import javax.xml.transform.stream.StreamResult;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.ModifiableSource;
+import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
+import org.apache.jackrabbit.core.nodetype.compact.ParseException;
 import org.xml.sax.SAXException;
 
 import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 
 /**
- * Test cases for the XMLFileSource implementation.
+ * Test cases for the JCRNodeWrapperSource implementation.
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
@@ -32,10 +34,53 @@ import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 public class JCRSourceTest extends JCRSourceTestBase {
     private JCRNodeWrapperSource source;
 
-    public void testXMLFileRetrieval() throws ServiceException, IOException {
+    public void testExists() throws ServiceException, IOException {
+        // test with no existing file
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/lars.trieloff");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
+
+        // test with existing file
         source = (JCRNodeWrapperSource) resolveSource(BASE_URL
                 + "users/alexander.saar");
         assertNotNull(source);
+        assertEquals(true, source.exists());
+
+        // test with not existing directory
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users/newDir");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
+
+        // test with existing directory
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+    }
+
+    public void testDelete() throws ServiceException, IOException {
+        // test file deletion
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+        source.delete();
+
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/alexander.saar");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
+
+        // test folder deletion
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+        source.delete();
+
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
     }
 
     public void testReadXMLFile() throws ServiceException, IOException {
@@ -83,8 +128,95 @@ public class JCRSourceTest extends JCRSourceTestBase {
         System.out.println();
     }
 
-    public void testXMLizableXMLFileSource() throws ServiceException,
-            IOException, SAXException, TransformerFactoryConfigurationError,
+    public void testCreateNewXMLFile() throws InvalidNodeTypeDefException,
+            ParseException, Exception {
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/lars.trieloff");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
+
+        OutputStream os = source.getOutputStream();
+        assertNotNull(os);
+
+        String newContent = "<user><name>Lars Trieloff</name><mail type=\"business\">lars.trieloff@mindquarry.com</mail></user>";
+        os.write(newContent.getBytes());
+        os.flush();
+        os.close();
+
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/lars.trieloff");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+
+        SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
+                .newInstance();
+        TransformerHandler handler = stfactory.newTransformerHandler();
+        handler.setResult(new StreamResult(System.out));
+        source.toSAX(handler);
+
+        // need to do this for better output formatting
+        System.out.println();
+    }
+
+    public void testCreateNewXMLFileInNewDirectory()
+            throws InvalidNodeTypeDefException, ParseException, Exception {
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "foo/bar");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
+
+        OutputStream os = source.getOutputStream();
+        assertNotNull(os);
+
+        String newContent = "<foo>bar</foo>";
+        os.write(newContent.getBytes());
+        os.flush();
+        os.close();
+
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "foo/bar");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+
+        SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
+                .newInstance();
+        TransformerHandler handler = stfactory.newTransformerHandler();
+        handler.setResult(new StreamResult(System.out));
+        source.toSAX(handler);
+
+        // need to do this for better output formatting
+        System.out.println();
+    }
+
+    public void testCreateNewFileInNewDirectory()
+            throws InvalidNodeTypeDefException, ParseException, Exception {
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "foo/bar");
+        assertNotNull(source);
+        assertEquals(false, source.exists());
+
+        OutputStream os = source.getOutputStream();
+        assertNotNull(os);
+
+        String newContent = "foo is a bar";
+        os.write(newContent.getBytes());
+        os.flush();
+        os.close();
+
+        source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "foo/bar");
+        assertNotNull(source);
+        assertEquals(true, source.exists());
+
+        InputStream is = source.getInputStream();
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+        
+        int b;
+        while ((b = is.read()) != -1) {
+            bos.write(b);
+        }
+        System.out.println(new String(bos.toByteArray()));
+        exportRepository();
+    }
+
+    public void testXMLizableSource() throws ServiceException, IOException,
+            SAXException, TransformerFactoryConfigurationError,
             TransformerException {
         source = (JCRNodeWrapperSource) resolveSource(BASE_URL
                 + "users/alexander.saar");

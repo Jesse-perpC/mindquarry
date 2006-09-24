@@ -16,7 +16,8 @@ import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
  * This extension of the Cocoon internal Jackrabbit repository enables remote
  * access to the repository via RMI.
  * 
- * @author <a href="mailto:your-email-address">your full name</a>
+ * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
+ *         Saar</a>
  */
 public class JackrabbitRMIRepository extends
         org.apache.cocoon.jcr.JackrabbitRepository {
