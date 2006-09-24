@@ -53,7 +53,7 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
         try {
             node = node.addNode(qName, "xt:element");
             for (int i = 0; i < atts.getLength(); i++) {
-                node.setProperty(atts.getLocalName(i), atts.getValue(i));
+                node.setProperty(atts.getQName(i), atts.getValue(i));
             }
         } catch (Exception e) {
             throw new SAXException("Error while storing content.", e);

@@ -14,13 +14,22 @@ import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
 
+import javax.jcr.AccessDeniedException;
+import javax.jcr.InvalidItemStateException;
+import javax.jcr.ItemExistsException;
+import javax.jcr.LoginException;
 import javax.jcr.NamespaceRegistry;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 import javax.jcr.Workspace;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.version.VersionException;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.core.container.ContainerTestCase;
@@ -62,6 +71,17 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         registerNodeTypes(session.getWorkspace());
         setupRepositoryContent(session);
         session.save();
+    }
+
+    protected void exportRepository() throws ServiceException, LoginException,
+            RepositoryException, FileNotFoundException, ParseException,
+            InvalidNodeTypeDefException, Exception, AccessDeniedException,
+            ItemExistsException, ConstraintViolationException,
+            InvalidItemStateException, VersionException, LockException,
+            NoSuchNodeTypeException, IOException, PathNotFoundException {
+        Repository repo = (Repository) lookup(Repository.class.getName());
+        Session session = repo.login(new SimpleCredentials("alexander.saar",
+                "mypwd".toCharArray()));
 
         // export repo content to file
         FileOutputStream fos = new FileOutputStream("repo-content.xml");
@@ -69,7 +89,7 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         fos.flush();
         fos.close();
     }
-    
+
     /**
      * @see org.apache.cocoon.core.container.ContainerTestCase#tearDown()
      */
