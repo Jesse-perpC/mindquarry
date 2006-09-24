@@ -7,25 +7,20 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.net.URL;
 import java.util.GregorianCalendar;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.jcr.AccessDeniedException;
 import javax.jcr.InvalidItemStateException;
 import javax.jcr.ItemExistsException;
 import javax.jcr.LoginException;
-import javax.jcr.NamespaceRegistry;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
-import javax.jcr.Workspace;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
@@ -36,11 +31,9 @@ import org.apache.cocoon.core.container.ContainerTestCase;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
-import org.apache.jackrabbit.core.nodetype.NodeTypeDef;
-import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl;
-import org.apache.jackrabbit.core.nodetype.NodeTypeRegistry;
-import org.apache.jackrabbit.core.nodetype.compact.CompactNodeTypeDefReader;
 import org.apache.jackrabbit.core.nodetype.compact.ParseException;
+
+import com.mindquarry.jcr.jackrabbit.JackrabbitInitializer;
 
 /**
  * Abstract base classes for all JCR XML source test cases.
@@ -49,8 +42,6 @@ import org.apache.jackrabbit.core.nodetype.compact.ParseException;
  *         Saar</a>
  */
 public abstract class JCRSourceTestBase extends ContainerTestCase {
-    protected static final String NODE_TYPES_DEFINITION = "src/test/resources/node-types.txt";
-
     protected static final String SCHEME = "jcr";
 
     protected static final String BASE_URL = SCHEME + "://";
@@ -68,7 +59,7 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         Session session = repo.login(new SimpleCredentials("alexander.saar",
                 "mypwd".toCharArray()));
 
-        registerNodeTypes(session.getWorkspace());
+        lookup(JackrabbitInitializer.ROLE);
         setupRepositoryContent(session);
         session.save();
     }
@@ -98,46 +89,10 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         super.tearDown();
     }
 
-    private void registerNodeTypes(Workspace workspace)
-            throws FileNotFoundException, ParseException, RepositoryException,
-            InvalidNodeTypeDefException {
-        // register xt:* namespace
-        NamespaceRegistry nsRegistry = workspace.getNamespaceRegistry();
-        nsRegistry.registerNamespace("xt", "http://mindquarry.com/ns/cnd/xt");
-
-        // Read in the CND file
-        FileReader fileReader = new FileReader(NODE_TYPES_DEFINITION);
-
-        // Create a CompactNodeTypeDefReader
-        CompactNodeTypeDefReader cndReader = new CompactNodeTypeDefReader(
-                fileReader, NODE_TYPES_DEFINITION);
-
-        // Get the List of NodeTypeDef objects
-        List ntdList = cndReader.getNodeTypeDefs();
-
-        // Get the NodeTypeManager from the Workspace. Note that it must be
-        // casted from the generic JCR NodeTypeManager to the
-        // Jackrabbit-specific implementation.
-        NodeTypeManagerImpl ntmgr = (NodeTypeManagerImpl) workspace
-                .getNodeTypeManager();
-
-        // Acquire the NodeTypeRegistry
-        NodeTypeRegistry ntreg = ntmgr.getNodeTypeRegistry();
-
-        // Loop through the prepared NodeTypeDefs
-        for (Iterator i = ntdList.iterator(); i.hasNext();) {
-            // Get the NodeTypeDef...
-            NodeTypeDef ntd = (NodeTypeDef) i.next();
-
-            // ...and register it
-            ntreg.registerNodeType(ntd);
-        }
-    }
-
     private void setupRepositoryContent(Session session) throws Exception {
         // add a user entry
         Node root = session.getRootNode();
-        Node usersNode = root.addNode("users", "nt:folder");
+        Node usersNode = root.getNode("users");
 
         Node userFileNode = usersNode.addNode("alexander.saar", "nt:file");
         Node userDocNode = userFileNode.addNode("jcr:content", "xt:document");
