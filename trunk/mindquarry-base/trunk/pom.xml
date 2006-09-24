@@ -34,7 +34,7 @@
 		<name>Mindquarry GmbH</name>
 		<url>http://www.mindquarry.com/</url>
 	</organization>
-
+	
 	<repositories>
 		<repository>
 			<id>apache.snapshot</id>
