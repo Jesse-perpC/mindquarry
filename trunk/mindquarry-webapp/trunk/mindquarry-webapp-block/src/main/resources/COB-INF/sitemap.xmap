@@ -28,6 +28,13 @@
 				<map:read
 					src="resource://com/mindquarry/webapp/images/{1}.png" />
 			</map:match>
+			<map:match pattern="resources/icons/*.png">
+				<map:read src="resource://com/mindquarry/webapp/icons/{1}_icon.png" />
+			</map:match>
+			
+			<map:match pattern="resources/buttons/*x*/*.png">
+				<map:read src="resource://com/mindquarry/webapp/buttons/{3}-button-{1}.png" />
+			</map:match>
 		</map:pipeline>
 		
 		<map:pipeline>			
