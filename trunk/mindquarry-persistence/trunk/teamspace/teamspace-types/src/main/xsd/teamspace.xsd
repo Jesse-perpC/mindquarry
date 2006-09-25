@@ -14,4 +14,11 @@
 			<xs:element name="description" type="xs:string" minOccurs="0" />
 		</xs:sequence>
 	</xs:complexType>
+	
+	<xs:complexType name="TeamspaceReferences">
+		<xs:sequence>
+			<xs:element name="teamspace-reference" type="xs:anyURI"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
 </xs:schema>

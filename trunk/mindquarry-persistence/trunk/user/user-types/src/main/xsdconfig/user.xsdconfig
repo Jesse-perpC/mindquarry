@@ -10,4 +10,9 @@
 		uri="http://www.mindquarry.com/ns/schema/tag">
 		<xb:package>com.mindquarry.types.tag</xb:package>
 	</xb:namespace>
+	
+	<xb:namespace
+		uri="http://www.mindquarry.com/ns/schema/teamspace">
+		<xb:package>com.mindquarry.types.teamspace</xb:package>
+	</xb:namespace>	
 </xb:config>
