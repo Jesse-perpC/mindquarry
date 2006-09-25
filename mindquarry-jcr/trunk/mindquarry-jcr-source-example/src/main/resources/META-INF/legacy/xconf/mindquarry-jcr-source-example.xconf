@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <components>
-	<include src="resource://org/apache/cocoon/jcr/jcr.roles" />
-
-	<source-factories>
-		<component-instance
-			class="com.mindquarry.jcr.source.xml.JCRXMLSourceFactory" name="jcr" />
-	</source-factories>
-
-	<jcr-repository
-		class="org.apache.cocoon.jcr.JackrabbitRepository">
-		<credentials login="expression" password="expression" />
-		<home src="context://repository" />
-		<jaas src="resource://COB-INF/jaas.config" />
-		<configuration src="resource://COB-INF/repository.xml" />
-	</jcr-repository>
+  <include src="resource://com/mindquarry/jcr/example/mindquarry-jcr-source-example.roles" />
+  
+  <source-factories>
+			<component-instance name="jcr"
+				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+				login="alexander.klimetschek" password="mypwd" />
+  </source-factories>
+    
+  <jcr-repository
+      class="org.apache.cocoon.jcr.JackrabbitRepository">
+    
+    <!-- needed by org.apache.cocoon.jcr.AbstractRepository -->
+    <jaas src="resource://com/mindquarry/jcr/example/jaas.config"/>
+    
+    <credentials login="expression" password="expression" />
+    <home src="file:///tmp/repository" />
+    <credentials login="alexander.klimetschek" password="mypwd" />
+    <configuration src="resource://com/mindquarry/jcr/example/repository.xml" />
+  </jcr-repository>
+    
+  <jcr-initializer
+      class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
+      
+    <credentials login="alexander.klimetschek" password="mypwd" />
+    <definitions src="resource://com/mindquarry/jcr/example/node-types.txt" />
+  </jcr-initializer>
 </components>
