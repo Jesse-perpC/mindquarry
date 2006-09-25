@@ -205,5 +205,7 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         // add users folder
         Node root = session.getRootNode();
         root.addNode("users", "nt:folder");
+        root.addNode("teamspaces", "nt:folder");
+        root.addNode("tags", "nt:folder");
     }
 }
