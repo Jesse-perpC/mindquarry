@@ -2,11 +2,15 @@
 <xs:schema targetNamespace="http://www.mindquarry.com/ns/schema/user"
 	xmlns:tn="http://www.mindquarry.com/ns/schema/user"
 	xmlns:tag="http://www.mindquarry.com/ns/schema/tag"
+	xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	attributeFormDefault="qualified" elementFormDefault="qualified">
 
 	<xs:import namespace="http://www.mindquarry.com/ns/schema/tag"
 		schemaLocation="../../../../../tag/tag-types/src/main/xsd/tag.xsd" />
+
+	<xs:import namespace="http://www.mindquarry.com/ns/schema/teamspace"
+		schemaLocation="../../../../../teamspace/teamspace-types/src/main/xsd/teamspace.xsd" />
 
 	<xs:element name="user" type="tn:User" />
 
@@ -18,11 +22,9 @@
 			<xs:element name="name" type="xs:string" />
 			<xs:element name="surname" type="xs:string" />
 
-			<xs:element name="email" type="tn:Email"
-				maxOccurs="unbounded" />
-				
-			<xs:element name="tags"
-				type="tag:TagReferences" />
+			<xs:element name="email" type="tn:Email" maxOccurs="unbounded" />
+			<xs:element name="tags"	type="tag:TagReferences" />
+			<xs:element name="teamspaces" type="ts:TeamspaceReferences" />			
 		</xs:sequence>
 	</xs:complexType>
 

@@ -8,8 +8,10 @@
 	<xs:element name="contribution" type="tn:Contribution" />
 
 	<xs:complexType name="Contribution">
-		<xs:choice>
-			<xs:any />
-		</xs:choice>
+		<xs:sequence>
+			<xs:element name="content" type="xs:string" />
+			<xs:element name="created" type="xs:dateTime" />
+			<xs:element name="contributor" type="xs:anyURI" />
+		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
