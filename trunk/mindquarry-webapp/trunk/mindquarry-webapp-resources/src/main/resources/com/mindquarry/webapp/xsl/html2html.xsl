@@ -51,7 +51,9 @@
 												<div id="background-ne">
 													<div id="background-sw">
 														<div id="background-se">
+															<div id="innercontent">
 															<xsl:apply-templates />
+															</div>
 														</div>
 													</div>
 												</div>
