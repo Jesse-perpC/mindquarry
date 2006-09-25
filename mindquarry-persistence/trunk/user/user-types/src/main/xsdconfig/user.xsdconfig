@@ -1,0 +1,13 @@
+<xb:config
+	xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
+
+	<xb:namespace
+		uri="http://www.mindquarry.com/ns/schema/user">
+		<xb:package>com.mindquarry.types.user</xb:package>
+	</xb:namespace>
+	
+	<xb:namespace
+		uri="http://www.mindquarry.com/ns/schema/tag">
+		<xb:package>com.mindquarry.types.tag</xb:package>
+	</xb:namespace>
+</xb:config>

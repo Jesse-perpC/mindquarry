@@ -1,22 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xs:schema
 	targetNamespace="http://www.mindquarry.com/ns/schema/conversation"
-	xmlns:cvn="http://www.mindquarry.com/ns/schema/conversation"
+	xmlns:tn="http://www.mindquarry.com/ns/schema/conversation"
+	xmlns:tag="http://www.mindquarry.com/ns/schema/tag"
 	xmlns:xs="http://www.w3.org/2001/XMLSchema"
 	attributeFormDefault="qualified" elementFormDefault="qualified">
 
-	<xs:element name="conversation" type="cvn:Conversation" />
+	<xs:import namespace="http://www.mindquarry.com/ns/schema/tag"
+		schemaLocation="../../../../../tag/tag-types/src/main/xsd/tag.xsd" />
+
+	<xs:element name="conversation" type="tn:Conversation" />
 
 	<xs:complexType name="Conversation">
 		<xs:sequence>
 			<xs:element name="contributions"
-				type="cvn:ContributionReference" />
+				type="tn:ContributionReferences" />
+				
+			<xs:element name="tags"
+				type="tag:TagReferences" />
 		</xs:sequence>
 		<xs:attribute name="id" type="xs:string" use="required" />
-		<xs:attribute name="title" type="xs:string" />
+		<xs:attribute name="name" type="xs:string" />
 	</xs:complexType>
 
-	<xs:complexType name="ContributionReference">
+	<xs:complexType name="ContributionReferences">
 		<xs:sequence>
 			<xs:element name="contribution-reference" type="xs:anyURI"
 				minOccurs="0" maxOccurs="unbounded" />

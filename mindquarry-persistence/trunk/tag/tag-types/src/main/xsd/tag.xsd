@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema
+	targetNamespace="http://www.mindquarry.com/ns/schema/tag"
+	xmlns:tn="http://www.mindquarry.com/ns/schema/tag"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="qualified" elementFormDefault="qualified">
+
+	<xs:element name="tag" type="tn:Tag" />
+
+	<xs:complexType name="Tag">
+		<xs:sequence>
+			<xs:element name="id" type="xs:string" />
+			<xs:element name="creator" type="xs:anyURI" />			
+			<xs:element name="created" type="xs:dateTime" />
+		</xs:sequence>
+	</xs:complexType>
+	
+	<xs:complexType name="TagReferences">
+		<xs:sequence>
+			<xs:element name="tag-reference" type="xs:anyURI"
+				minOccurs="0" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
