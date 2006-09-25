@@ -26,6 +26,9 @@
 				<groupId>org.apache.cocoon</groupId>
 				<artifactId>cocoon-deployer-plugin</artifactId>
 				<version>1.0.0-M2-SNAPSHOT</version>
+        <configuration>
+          <serverVersion>2.2</serverVersion>
+        </configuration>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -39,9 +42,8 @@
 							<maxIdleTime>30000</maxIdleTime>
 						</connector>
 					</connectors>
-					<webAppSourceDirectory>
-						target/mindquarry-source-jcr-test-0.0.1-SNAPSHOT
-					</webAppSourceDirectory>
+          <scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppSourceDirectory>target/mindquarry-jcr-source-example-0.0.1-SNAPSHOT</webAppSourceDirectory>
 					<contextPath>/</contextPath>
 				</configuration>
 			</plugin>
