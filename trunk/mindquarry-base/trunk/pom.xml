@@ -53,6 +53,12 @@
 			<url>http://www.mindquarry.com/releases/</url>
 			<layout>default</layout>
 		</repository>
+		<repository>
+			<id>mindquarry.snapshots</id>
+			<name>Mindquarry Snapshot Repository</name>
+			<url>http://www.mindquarry.com/snapshots/</url>
+			<layout>default</layout>
+		</repository>
 	</repositories>
 
 	<distributionManagement>
