@@ -5,6 +5,11 @@
 		uri="http://www.mindquarry.com/ns/schema/conversation">
 		<xb:package>com.mindquarry.types.conversation</xb:package>
 	</xb:namespace>
+	
+	<xb:namespace
+		uri="http://www.mindquarry.com/ns/schema/tag">
+		<xb:package>com.mindquarry.types.tag</xb:package>
+	</xb:namespace>
 
 	<xb:extension
 		for="com.mindquarry.types.conversation.ContributionReference">

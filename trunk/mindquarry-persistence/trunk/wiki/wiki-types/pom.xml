@@ -6,24 +6,17 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 
-	<name>Conversation Types</name>
-	<url>http://www.mindquarry.com</url>
-	<description></description>
+	<name>Wiki Types</name>
 
-	<artifactId>conversation-types</artifactId>
+	<artifactId>wiki-types</artifactId>
 
 	<parent>
 		<groupId>com.mindquarry.types</groupId>
-		<artifactId>conversation</artifactId>
+		<artifactId>wiki</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	
 	<dependencies>
-		<dependency>
-			<groupId>com.mindquarry.types</groupId>
-			<artifactId>conversation-extensions</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.types</groupId>
 			<artifactId>tag-types</artifactId>

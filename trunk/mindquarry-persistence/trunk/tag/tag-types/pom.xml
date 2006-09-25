@@ -4,22 +4,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<packaging>pom</packaging>
+	<packaging>jar</packaging>
 
-	<name>Conversation</name>
-	<url>http://www.mindquarry.com</url>
-	<description></description>
+	<name>Tag Types</name>
 
-	<artifactId>conversation</artifactId>
+	<artifactId>tag-types</artifactId>
 
 	<parent>
 		<groupId>com.mindquarry.types</groupId>
-		<artifactId>mindquarry-types</artifactId>
+		<artifactId>tag</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
-	<modules>
-		<module>conversation-extensions</module>
-		<module>conversation-types</module>
-	</modules>
+	
+	<dependencies>
+	</dependencies>
 </project>

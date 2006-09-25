@@ -6,11 +6,8 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 
-	<name>Conversation</name>
-	<url>http://www.mindquarry.com</url>
-	<description></description>
-
-	<artifactId>conversation</artifactId>
+	<name>Tag</name>
+	<artifactId>tag</artifactId>
 
 	<parent>
 		<groupId>com.mindquarry.types</groupId>
@@ -19,7 +16,6 @@
 	</parent>
 
 	<modules>
-		<module>conversation-extensions</module>
-		<module>conversation-types</module>
+		<module>tag-types</module>
 	</modules>
 </project>

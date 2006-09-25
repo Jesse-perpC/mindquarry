@@ -12,7 +12,7 @@ public class SimpleConversationTest extends TestCase {
         
         Conversation conv = (Conversation) persistence.newInstance(Conversation.class);
         conv.setId("newId");
-        conv.setTitle("Conversation Title");
+        conv.setName("Conversation Title");
         
         //persistence.persist(conv);
         
