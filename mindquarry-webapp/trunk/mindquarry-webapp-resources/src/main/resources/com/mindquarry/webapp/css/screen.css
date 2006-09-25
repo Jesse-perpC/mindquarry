@@ -7,11 +7,11 @@
 
 /* Main Rules */
 p, div,  td {
-  font-family:Lucida Grande, Bitstream Vera Sans, Verdana, Sans, Arial;
+  font-family:Lucida Grande, Bitstream Vera Sans, Verdana, Sans, Arial,sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-family:Helvetica,Sans,Arial;
+  font-family:Helvetica,Sans,Arial,sans-serif;
 }
 
 html, body, #cssbody {
