@@ -97,11 +97,14 @@ body {
 #background-se {
 	background-image:url(../images/border-se.gif);
 	background-repeat:no-repeat;
-	background-position:right bottom;
-	padding:30px;
+	background-position:bottom right;
 }
 
 #background-nw {
 	background-image:url(../images/border-nw.gif);
 	background-repeat:no-repeat;
+}
+
+#innercontent {
+	padding:30px;
 }
