@@ -61,6 +61,15 @@
 		</repository>
 	</repositories>
 
+	<pluginRepositories>
+	    <pluginRepository>
+			<id>mindquarry.releases</id>
+			<name>Mindquarry Repository</name>
+			<url>http://www.mindquarry.com/releases/</url>
+			<layout>default</layout>
+	    </pluginRepository>
+	</pluginRepositories>
+
 	<distributionManagement>
 		<repository>
 			<id>mindquarry.releases</id>
