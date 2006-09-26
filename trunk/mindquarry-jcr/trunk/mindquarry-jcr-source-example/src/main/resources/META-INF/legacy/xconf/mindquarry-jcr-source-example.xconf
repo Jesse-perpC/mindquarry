@@ -24,6 +24,8 @@
       class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
       
     <credentials login="alexander.klimetschek" password="mypwd" />
-    <definitions src="resource://com/mindquarry/jcr/example/node-types.txt" />
+    
+    <!-- Here could be additional definitions -->
+    <!-- <definitions src="resource://com/mindquarry/jcr/example/node-types.txt" /> -->
   </jcr-initializer>
 </components>
