@@ -108,7 +108,7 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         }
 
         // get node definitions (for additional definitions)
-        Configuration defs = config.getChild("definitions");
+        Configuration defs = config.getChild("definitions", false);
         if (defs != null) {
             try {
                 SourceResolver resolver = (SourceResolver) manager
@@ -120,10 +120,6 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
                         "Definitions file not found at "
                                 + credentials.getLocation());
             }
-        } else {
-            throw new ConfigurationException(
-                    "Invalid expression for 'definitions' at "
-                            + credentials.getLocation());
         }
 
         // get source for default node defintions
