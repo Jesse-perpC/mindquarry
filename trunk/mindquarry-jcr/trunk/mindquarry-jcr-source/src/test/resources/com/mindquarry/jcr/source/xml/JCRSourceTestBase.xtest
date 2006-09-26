@@ -42,7 +42,7 @@
 			class="org.apache.cocoon.jcr.JackrabbitRepository">
 
 			<credentials login="expression" password="expression" />
-			<home src="file:///tmp/repository" />
+			<home src="target/repository" />
 			<credentials login="alexander.saar" password="mypwd" />
 			<configuration src="resource://repository.xml" />
 		</jcr-repository>

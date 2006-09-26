@@ -49,7 +49,7 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
     @Override
     protected void setUp() throws Exception {
         // remove old repository
-        File repoFolder = new File("/tmp/repository");
+        File repoFolder = new File("target/repository");
         removeRepository(repoFolder);
 
         // setup new repository
