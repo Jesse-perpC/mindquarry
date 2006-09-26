@@ -89,7 +89,7 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         super.tearDown();
     }
 
-    private void setupRepositoryContent(Session session) throws Exception {
+    protected void setupRepositoryContent(Session session) throws Exception {
         // add a user entry
         Node root = session.getRootNode();
         Node usersNode = root.getNode("users");
