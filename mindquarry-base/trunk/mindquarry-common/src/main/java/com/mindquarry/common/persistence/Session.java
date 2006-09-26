@@ -8,11 +8,11 @@ import java.util.List;
 /**
  *
  * @author 
- * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface Persistence {
+public interface Session {
 
-    Object newInstance(Class clazz);
+    Object newEntity(Class clazz);
     
     void persist(Object object);
     
