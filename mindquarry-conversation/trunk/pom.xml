@@ -18,6 +18,10 @@
 	<artifactId>mindquarry-conversation</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 
+        <modules>
+                 <module>mindquarry-mailets</module>
+        </modules>
+
 	<build>
 		<plugins>
 		</plugins>
