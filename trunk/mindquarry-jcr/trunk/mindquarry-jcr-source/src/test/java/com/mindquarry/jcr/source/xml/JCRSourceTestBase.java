@@ -110,6 +110,13 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         userDocMailTextNode.setProperty("xt:characters",
                 "alexander.saar@mindquarry.com");
 
+        // test for additional-node-types.txt
+        Node encodingTextNode = userDocMailNode.addNode("text-with-enc", "xt:textenc");
+        encodingTextNode.setProperty("xt:encoding", "UTF-8");
+
+        // test code to trigger exception for a non-existing node type
+        //Node errorTextNode = userDocMailNode.addNode("error", "xt:doesnotexist");
+        
         // add a document entry
         Node imgsNode = root.addNode("images", "nt:folder");
         Node imgDocNode = imgsNode.addNode("photo154", "nt:file");

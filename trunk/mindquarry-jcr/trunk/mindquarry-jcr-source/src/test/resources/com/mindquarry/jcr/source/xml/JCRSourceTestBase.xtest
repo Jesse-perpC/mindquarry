@@ -51,7 +51,7 @@
 			class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
 			
 			<credentials login="alexander.saar" password="mypwd" />
-			<definitions src="resource://node-types.txt" />
+			<definitions src="resource://additional-node-types.txt" />
 		</jcr-initializer>
 	</components>
 </testcase>
