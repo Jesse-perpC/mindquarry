@@ -5,7 +5,6 @@
 <nt = 'http://www.jcp.org/jcr/nt/1.0'>
 <jcr = 'http://www.jcp.org/jcr/1.0'>
 
-/*
 // text node with mandatory encoding (just as test case)
 [xt:textenc]>xt:text
 	- xt:encoding(string)=''

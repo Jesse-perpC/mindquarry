@@ -216,16 +216,16 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         }
     }
 
-    private void registerNodeTypesFromTextFile(Source additionalSource,
+    private void registerNodeTypesFromTextFile(Source source,
             NodeTypeRegistry ntreg) throws IOException,
             SourceNotFoundException, ParseException,
             InvalidNodeTypeDefException, RepositoryException {
-        InputStreamReader reader = new InputStreamReader(additionalSource
+        InputStreamReader reader = new InputStreamReader(source
                 .getInputStream());
 
         // Create a CompactNodeTypeDefReader
         CompactNodeTypeDefReader cndReader = new CompactNodeTypeDefReader(
-                reader, additionalSource.getURI());
+                reader, source.getURI());
 
         // Get the List of NodeTypeDef objects
         List ntdList = cndReader.getNodeTypeDefs();
