@@ -214,7 +214,6 @@ public class JCRSourceTest extends JCRSourceTestBase {
             bos.write(b);
         }
         System.out.println(new String(bos.toByteArray()));
-        exportRepository();
     }
 
     public void testXMLizableSource() throws ServiceException, IOException,
