@@ -44,7 +44,7 @@ import com.mindquarry.jcr.jackrabbit.JackrabbitInitializer;
 public abstract class JCRSourceTestBase extends ContainerTestCase {
     protected static final String SCHEME = "jcr";
 
-    protected static final String BASE_URL = SCHEME + "://";
+    protected static final String BASE_URL = SCHEME + ":///";
 
     @Override
     protected void setUp() throws Exception {
