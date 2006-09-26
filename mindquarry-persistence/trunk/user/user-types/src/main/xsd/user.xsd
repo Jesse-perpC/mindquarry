@@ -22,7 +22,7 @@
 			<xs:element name="name" type="xs:string" />
 			<xs:element name="surname" type="xs:string" />
 
-			<xs:element name="email" type="tn:Email" maxOccurs="unbounded" />
+			<xs:element name="email" type="tn:Email" />
 			<xs:element name="tags"	type="tag:TagReferences" />
 			<xs:element name="teamspaces" type="ts:TeamspaceReferences" />			
 		</xs:sequence>
