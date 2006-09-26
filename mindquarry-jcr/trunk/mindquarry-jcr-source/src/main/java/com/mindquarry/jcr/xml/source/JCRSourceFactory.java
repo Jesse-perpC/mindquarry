@@ -138,7 +138,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         }
         // Compute the path
         String path = SourceUtil.getSpecificPart(uri);
-        if (!path.startsWith("//")) {
+        if (!path.startsWith("///")) {
             throw new MalformedURLException("Expecting " + scheme
                     + "://path and got " + uri);
         }
@@ -149,7 +149,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
             return (JCRNodeWrapperSource) executeQuery(session, path, Query.XPATH);
         } else {
             // standard direct hierarchy-resolving
-            path = removeLeadingSlash(path);
+            path = removeLeadingSlashes(path);
             return (JCRNodeWrapperSource) createSource(session, path);
         }
     }
@@ -249,18 +249,10 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
     }
 
     /**
-     * Remove the leading slash from the given path for hierarchy-resolving.
+     * Remove the leading slashes from the given path for hierarchy-resolving.
      */
-    private String removeLeadingSlash(String path) {
-        // Remove first '/'
-        path = path.substring(1);
-        int pathLen = path.length();
-        if (pathLen > 1) {
-            // Not root: ensure there's no trailing '/'
-            if (path.charAt(pathLen - 1) == '/') {
-                path = path.substring(0, pathLen - 1);
-            }
-        }
-        return path;
+    private String removeLeadingSlashes(String path) {
+        // Remove first two '/'
+        return path.substring(2);
     }
 }
