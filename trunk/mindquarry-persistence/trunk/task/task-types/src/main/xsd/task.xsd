@@ -12,6 +12,7 @@
 
 	<xs:complexType name="Task">
 		<xs:sequence>
+			<xs:element name="id" type="xs:string" />			
 			<xs:element name="creator" type="xs:anyURI" />
 			<xs:element name="created" type="xs:dateTime" />
 

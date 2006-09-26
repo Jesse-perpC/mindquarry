@@ -9,6 +9,7 @@
 
 	<xs:complexType name="Contribution">
 		<xs:sequence>
+			<xs:element name="id" type="xs:string" />
 			<xs:element name="content" type="xs:string" />
 			<xs:element name="created" type="xs:dateTime" />
 			<xs:element name="contributor" type="xs:anyURI" />
