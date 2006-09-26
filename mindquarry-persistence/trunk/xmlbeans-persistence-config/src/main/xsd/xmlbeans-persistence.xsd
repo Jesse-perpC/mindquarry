@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema targetNamespace="http://www.mindquarry.com/ns/schema/xmlbeans-persistence"
+	xmlns:tn="http://www.mindquarry.com/ns/schema/xmlbeans-persistence"
+	xmlns:xs="http://www.w3.org/2001/XMLSchema"
+	attributeFormDefault="qualified" elementFormDefault="qualified">
+
+	<xs:element name="configuration" type="tn:Configuration" />
+
+	<xs:complexType name="Configuration">
+		<xs:sequence>
+			<xs:element name="entity" type="tn:Entity" maxOccurs="unbounded" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="Entity">
+		<xs:sequence>
+			<xs:element name="className" type="xs:string" />
+			<xs:element name="path" type="xs:string" />
+			<xs:element name="isCollection" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+</xs:schema>
