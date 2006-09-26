@@ -1,4 +1,8 @@
-/*  An example node type definition */
+/**
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
+ */
+ 
+/*  Nodetypes for mapping XML onto JCR nodes */
 
 // The namespace declarations
 <xt = 'http://mindquarry.com/ns/cnd/xt'>
