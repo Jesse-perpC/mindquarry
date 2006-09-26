@@ -25,9 +25,36 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>com.mindquarry.types</groupId>
+			<artifactId>user-types</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jcr-source</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jcr-source</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<type>test-jar</type>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.types</groupId>
+			<artifactId>xmlbeans-persistence-config</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
 		</dependency>
 	</dependencies>
 </project>
