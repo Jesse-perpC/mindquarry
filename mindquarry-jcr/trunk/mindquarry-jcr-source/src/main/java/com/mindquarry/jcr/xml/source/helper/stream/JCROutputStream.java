@@ -23,8 +23,10 @@ import javax.jcr.nodetype.ConstraintViolationException;
 import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.version.VersionException;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.excalibur.source.SourceException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -168,7 +170,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private boolean canParse() {
         try {
-            SAXParserFactory.newInstance().newSAXParser().parse(
+            createSaxParser().parse(
                     new ByteArrayInputStream(this.toByteArray()),
                     new DefaultHandler());
         } catch (SAXException e) {
@@ -180,22 +182,26 @@ public class JCROutputStream extends ByteArrayOutputStream {
         }
         return true;
     }
+    
+    private SAXParser createSaxParser() throws ParserConfigurationException, SAXException {
+        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+        parserFactory.setNamespaceAware(true);
+        return parserFactory.newSAXParser();
+    }
 
     private void writeXML() throws IOException {
         try {
-            SAXParserFactory.newInstance().newSAXParser().parse(
+            createSaxParser().parse(
                     new ByteArrayInputStream(this.toByteArray()),
                     new SAXToJCRNodesConverter(node));
         } catch (PathNotFoundException e) {
             throw new IOException("Path not found: " + e.getLocalizedMessage());
         } catch (SAXException e) {
-            throw new IOException("Unable to parse: " + e.getLocalizedMessage());
+            throw new SourceException("Unable to parse: ", e);
         } catch (ParserConfigurationException e) {
-            throw new IOException("Unable to configure parser: "
-                    + e.getLocalizedMessage());
+            throw new SourceException("Unable to configure parser: ", e);
         } catch (RepositoryException e) {
-            throw new IOException("Unable to write to repository: "
-                    + e.getLocalizedMessage());
+            throw new SourceException("Unable to write to repository: ", e);
         }
     }
 

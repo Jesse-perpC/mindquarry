@@ -3,11 +3,18 @@
  */
 package com.mindquarry.jcr.xml.source.handler;
 
+import java.util.Arrays;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Stack;
 
+import javax.jcr.NamespaceRegistry;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
+import javax.jcr.Workspace;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -23,8 +30,18 @@ import org.xml.sax.helpers.DefaultHandler;
  *         Saar</a>
  */
 public class SAXToJCRNodesConverter extends DefaultHandler {
-    private Node node;
+    
+    private static final String MQ_PREFIX_START = "mq";
+    
+    private static final int ELEMENT_DEPTH_START = 0;
+    private static final String ELEMENT_DEPTH = "SAXToJCRNodesConverter_ElementDepth";
 
+    private Stack<Map<String, String>> prefixMapStack;
+    
+    private int nextPrefixNumber = 0;
+    
+    private Node node;
+ 
     /**
      * Default constructor.
      * 
@@ -34,6 +51,11 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
      */
     public SAXToJCRNodesConverter(Node node) throws PathNotFoundException,
             RepositoryException {
+        
+        prefixMapStack = new Stack<Map<String,String>>();
+        pushNewPrefixMap();
+        
+        //prefixMapStack
         this.node = node.getNode("jcr:content");
     }
 
@@ -49,15 +71,49 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
      */
     @Override
     public void startElement(String uri, String localName, String qName,
-            Attributes atts) throws SAXException {
+            Attributes atts) throws SAXException {        
+         
+        String elementPrefix = prefix(qName);
+        String jcrElementQName = buildJcrQName(elementPrefix, localName);
+                
         try {
-            node = node.addNode(qName, "xt:element");
-            for (int i = 0; i < atts.getLength(); i++) {
-                node.setProperty(atts.getQName(i), atts.getValue(i));
+            node = node.addNode(jcrElementQName, "xt:element");
+            for (int i = 0; i < atts.getLength(); i++) {                
+                String jcrAttributeQName = buildJcrAttributeQName(i, atts);
+                node.setProperty(jcrAttributeQName, atts.getValue(i));
             }
         } catch (Exception e) {
             throw new SAXException("Error while storing content.", e);
         }
+        
+        incrementElementDepthCounter();
+    }
+    
+    private String buildJcrAttributeQName(int index, Attributes attributes) {
+        String prefix = prefix(attributes.getQName(index));
+        String localname = attributes.getLocalName(index);
+        return buildJcrQName(prefix, localname);
+    }
+    
+    private String buildJcrQName(String prefix, String localname) {
+        String jcrPrefix = topPrefixMap().get(prefix);
+        
+        // for elements without namespace
+        if (null == jcrPrefix) 
+            return localname;
+        
+        StringBuilder resultSB = new StringBuilder();
+        resultSB.append(jcrPrefix);
+        resultSB.append(':');
+        resultSB.append(localname);
+        return resultSB.toString();
+    }
+    
+    private String prefix(String qName) {
+        if (-1 == qName.indexOf(':')) 
+            return "".intern();
+        else
+            return qName.substring(0, qName.indexOf(':'));
     }
 
     /**
@@ -91,6 +147,8 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
         } catch (Exception e) {
             throw new SAXException("Error while storing content.", e);
         }
+        
+        decrementElementDepthCounter();
     }
 
     /**
@@ -105,6 +163,66 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
         }
     }
 
+    /**
+     * @see org.xml.sax.helpers.DefaultHandler#startPrefixMapping(java.lang.String,
+     *      java.lang.String)
+     */
+    @Override
+    public void startPrefixMapping(String prefix, String uri)
+            throws SAXException {
+        
+        try {
+            Workspace ws = node.getSession().getWorkspace();
+            NamespaceRegistry nr = ws.getNamespaceRegistry();
+
+                
+            String jcrNodePrefix;
+            List<String> registeredUris = Arrays.asList(nr.getURIs());
+            if (registeredUris.contains(uri)) {
+                jcrNodePrefix = nr.getPrefix(uri);
+            }
+            else {
+                int maxPrefixNumber = maxUsedPrefixNumber(nr.getPrefixes());
+                if (maxPrefixNumber > nextPrefixNumber)
+                    nextPrefixNumber = maxPrefixNumber;
+                
+                jcrNodePrefix = MQ_PREFIX_START + nextPrefixNumber++;
+                nr.registerNamespace(jcrNodePrefix, uri);
+            }
+            
+            if (topPrefixMap().containsKey(prefix))
+                pushNewPrefixMap();                
+
+            topPrefixMap().put(prefix, jcrNodePrefix);
+            
+        } catch (RepositoryException e) {
+            throw new SAXException(e);
+        }
+    }
+    
+    private int maxUsedPrefixNumber(String[] prefixes) {
+        int result = 0;
+        for (String prefix : prefixes) {
+            if (prefix.startsWith(MQ_PREFIX_START)) {
+                String prefixEnd = prefix.substring(MQ_PREFIX_START.length());
+                int number = Integer.valueOf(prefixEnd);
+                if (number >= nextPrefixNumber) {
+                    result = number;
+                }
+            }
+        }
+        return result;
+    }
+    
+    /**
+     * @see org.xml.sax.helpers.DefaultHandler#endPrefixMapping(java.lang.String)
+     */
+    @Override
+    public void endPrefixMapping(String prefix) throws SAXException {
+        if (ELEMENT_DEPTH_START == getElementDepthCounter())
+            prefixMapStack.pop();
+    }
+
     // =========================================================================
     // private methods
     // =========================================================================
@@ -115,5 +233,36 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             result[i] = a[start + i];
         }
         return result;
+    }
+
+    private void decrementElementDepthCounter() {
+        setElementDepthCounter(getElementDepthCounter() - 1);
+    }
+
+    private void incrementElementDepthCounter() {
+        setElementDepthCounter(getElementDepthCounter() + 1);
+    }
+    
+    private int getElementDepthCounter() {
+        Map<String, String> prefixMap = topPrefixMap();
+        return Integer.valueOf(prefixMap.get(ELEMENT_DEPTH));
+    }
+    
+    private void setElementDepthCounter(int value) {
+        Map<String, String> prefixMap = topPrefixMap();
+        prefixMap.put(ELEMENT_DEPTH, String.valueOf(value));
+    }
+    
+    private Map<String, String> topPrefixMap() {
+        return prefixMapStack.peek();
+    }
+    
+    private Map<String, String> pushNewPrefixMap() {
+        Map<String, String> newTopPrefixMap = new HashMap<String, String>();
+        if (! prefixMapStack.isEmpty())
+            newTopPrefixMap.putAll(topPrefixMap());
+
+        newTopPrefixMap.put(ELEMENT_DEPTH, String.valueOf(ELEMENT_DEPTH_START));
+        return prefixMapStack.push(newTopPrefixMap);
     }
 }
