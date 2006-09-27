@@ -33,8 +33,6 @@ import org.apache.excalibur.source.SourceResolver;
 import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
 import org.apache.jackrabbit.core.nodetype.compact.ParseException;
 
-import com.mindquarry.jcr.jackrabbit.JackrabbitInitializer;
-
 /**
  * Abstract base classes for all JCR XML source test cases.
  * 
@@ -59,7 +57,6 @@ public abstract class JCRSourceTestBase extends ContainerTestCase {
         Session session = repo.login(new SimpleCredentials("alexander.saar",
                 "mypwd".toCharArray()));
 
-        lookup(JackrabbitInitializer.ROLE);
         setupRepositoryContent(session);
         session.save();
     }

@@ -19,8 +19,7 @@ import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JackrabbitRMIRepository extends
-        org.apache.cocoon.jcr.JackrabbitRepository {
+public class JackrabbitRMIRepository extends JackrabbitRepository {
     /**
      * The name of the remote repository.
      */
