@@ -9,12 +9,11 @@
   </source-factories>
     
   <jcr-repository
-      class="org.apache.cocoon.jcr.JackrabbitRepository">
+      class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
     
     <!-- needed by org.apache.cocoon.jcr.AbstractRepository -->
     <jaas src="resource://com/mindquarry/jcr/example/jaas.config"/>
     
-    <credentials login="expression" password="expression" />
     <home src="file:///tmp/repository" />
     <credentials login="alexander.klimetschek" password="mypwd" />
     <configuration src="resource://com/mindquarry/jcr/example/repository.xml" />

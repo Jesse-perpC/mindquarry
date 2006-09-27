@@ -6,7 +6,7 @@
 		<br />
 		<br />
 
-		<textarea cols="75" rows="3">
+		<textarea cols="75" rows="20">
 			<src:write xmlns:src="http://apache.org/cocoon/source/1.0">
 				<src:source>jcr://root/users/alexander.saar</src:source>
 				<src:fragment>
