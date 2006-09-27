@@ -62,7 +62,6 @@ public class XmlBeansSessionFactory extends AbstractLogEnabled
     
     private Map<Class, Entity> makeEntityMap(Configuration configuration) {
         Map<Class, Entity> result = new HashMap<Class, Entity>();
-        Entity[] entities = configuration.getEntityArray();
         for (Entity entity : configuration.getEntityArray()) {
             Class clazz = loadClass(entity.getClassName());
             result.put(clazz, entity);

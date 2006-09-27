@@ -42,7 +42,7 @@
 			class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository"-->
 
 		<jcr-repository
-			class="org.apache.cocoon.jcr.JackrabbitRepository">
+			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
 
 			<credentials login="expression" password="expression" />
 			<home src="target/repository" />

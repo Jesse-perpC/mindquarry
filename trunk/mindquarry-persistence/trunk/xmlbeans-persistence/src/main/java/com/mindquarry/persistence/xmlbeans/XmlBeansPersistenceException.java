@@ -50,6 +50,13 @@ class XmlBeansPersistenceException extends PersistenceException {
                 "from " + documentFactoryClazz, cause);
     }
 
+    static XmlBeansPersistenceException gotNoSetEntityMethod(
+            String methodName, Class documentClazz, Exception cause) {
+        return new XmlBeansPersistenceException(
+                "could not get method '" + methodName + "' " +
+                "from " + documentClazz, cause);
+    }
+
     static XmlBeansPersistenceException gotNoAddNewMethod(
             String methodName, Class documentClazz, Exception cause) {
         return new XmlBeansPersistenceException(
@@ -62,6 +69,13 @@ class XmlBeansPersistenceException extends PersistenceException {
         return new XmlBeansPersistenceException(
                 "invoke of factory method failed. could not create " +
                 "new document for class " + clazz, cause);
+    }
+
+    static XmlBeansPersistenceException setEntityMethodFailed(
+            String methodName, Class documentClazz, Exception cause) {
+        return new XmlBeansPersistenceException(
+                "invoke of '" + methodName + "' failed. could not set entity " +
+                "at document with class " + documentClazz, cause);
     }
 
     static XmlBeansPersistenceException addNewMethodFailed(

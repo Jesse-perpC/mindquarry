@@ -3,7 +3,6 @@
  */
 package com.mindquarry.persistence.xmlbeans;
 
-import java.io.File;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
@@ -12,17 +11,24 @@ import java.net.MalformedURLException;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.commons.io.IOUtils;
+import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceResolver;
+import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlObject;
+import org.xml.sax.SAXException;
 
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 import com.mindquarry.persistence.xmlbeans.config.Entity;
-import com.mindquarry.types.user.User;
-import com.mindquarry.types.user.UserDocument;
 
 
 /**
@@ -51,33 +57,43 @@ class XmlBeansSession implements Session {
     
     public Object newEntity(Class entityClazz) {
         validateEntityClass(entityClazz);
-        XmlObject document = documentCreator_.newDocumentFor(entityClazz);
-        return entityCreator_.newEntityFor(entityClazz, document);
+        return entityCreator_.newEntityFor(entityClazz);
     }
 
     public void persist(Object transientInstance) {
+        
+        Class entityClazz = entityClazz(transientInstance);        
         XmlObject xmlTransientInstance = (XmlObject) transientInstance;
+        
         String id = entityId(xmlTransientInstance);
-        String basePath = entityBasePath(xmlTransientInstance);
+        String basePath = entityBasePath(entityClazz);
         String entityPath = basePath + "/" + id;
+        
+        JCRNodeWrapperSource source = resolveJcrSource(entityPath);
+        
+        XmlObject entityDocument = documentCreator_.newDocumentFor(
+                xmlTransientInstance, entityClazz);        
         try {
-            UserDocument doc = UserDocument.Factory.newInstance();
-            doc.setUser(((User) xmlTransientInstance)); 
-            JCRNodeWrapperSource source = resolveJcrSource(entityPath);
             OutputStream out = source.getOutputStream();
-            doc.save(out, null);
+            entityDocument.save(out, null);
             out.flush();
             out.close();
-            //xmlTransientInstance.save(new File(entityPath.substring(1)));
         } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            throw new XmlBeansPersistenceException(
+                    "could not write xml content to jcr source", e);
         }        
     }
     
-    private String entityBasePath(XmlObject entity) {
-        Class clazz = entity.getClass().getInterfaces()[0];
-        return entityMap_.get(clazz).getPath();
+    private Class entityClazz(Object transientInstance) {
+        Class entityImplClazz = transientInstance.getClass();
+        validateEntityImplClass(entityImplClazz);
+        Class entityClazz = entityImplClazz.getInterfaces()[0];
+        validateEntityClass(entityClazz);
+        return entityClazz;
+    }
+    
+    private String entityBasePath(Class entityClazz) {
+        return entityMap_.get(entityClazz).getPath();
     }
     
     private String entityId(XmlObject entity) {
@@ -96,20 +112,60 @@ class XmlBeansSession implements Session {
         }
     }
 
-    public List query(String query, Object[] params) {
-        StringBuilder querySB = new StringBuilder(query);
-        // TODO Auto-generated method stub
+    public List query(String queryKey, Object[] params) {
+        XmlBeans.getBuiltinTypeSystem();
+        Query query = new Query("/users/:userId", params);
+        Source source = resolveJcrSource(query.prepare());
+        
+        SAXParser sourceParser = createSaxParser();
+        
+        try {
+            IOUtils.copy(source.getInputStream(), System.out);
+        } catch (SourceNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        } catch (IOException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
         return null;
     }
     
-    private void validateEntityClass(Class entityClazz) {
-        assert isValidXmlBeanClass(entityClazz) : 
-                    "the class: " + entityClazz + " seems not to be a valid " +
-                    "xmlbeans type, it does not extend " + XmlObject.class; 
+    private SAXParser createSaxParser() {
+        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
+        parserFactory.setNamespaceAware(true);
+        try {
+            return parserFactory.newSAXParser();
+        } catch (ParserConfigurationException e) {
+            throw new InitializationException("could not create sax parser", e);
+        } catch (SAXException e) {
+            throw new InitializationException("could not create sax parser", e);
+        }
+    }
+    
+    private void validateEntityImplClass(Class entityImplClazz) {        
+        assert isValidXmlBeanImplClass(entityImplClazz) : 
+                    "the class: " + entityImplClazz + " seems not to be a valid " +
+                    "xmlbeans implementation type, " +
+                    "it does not implement any interfaces.";
+    }
+    
+    private boolean isValidXmlBeanImplClass(Class clazz) {
+        Class[] extendedInterfaces = clazz.getInterfaces();
+        if (1 != extendedInterfaces.length)
+            return false;
         
+        return true;
+    }
+    
+    private void validateEntityClass(Class entityClazz) {
         String classSimpleName = entityClazz.getSimpleName(); 
         if (classSimpleName.endsWith(Constants.DOCUMENT_CLASS_SUFFIX))
             throw XmlBeansPersistenceException.documentSuffix(entityClazz);
+        
+        assert isValidXmlBeanClass(entityClazz) : 
+                    "the class: " + entityClazz + " seems not to be a valid " +
+                    "xmlbeans type, it does not extend " + XmlObject.class;       
     }
     
     private boolean isValidXmlBeanClass(Class clazz) {
@@ -129,9 +185,9 @@ class XmlBeansSession implements Session {
         try {
             return (JCRNodeWrapperSource) sourceResolver.resolveURI(uri);
         } catch (MalformedURLException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         } catch (IOException e) {
-            throw new RuntimeException();
+            throw new RuntimeException(e);
         }
     }
     
