@@ -26,8 +26,7 @@ public class UserTest extends XmlBeansPersistenceTestBase {
         email.setIsConversationRecipient(true);
         
         session.persist(user);
-        
-        
-        //conv = (Conversation) persistence.query("GetById", new Object[] {greatUuid});
+               
+        session.query("GetById", new Object[] {"bastian"});
     }
 }
