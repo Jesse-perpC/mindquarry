@@ -59,6 +59,14 @@
 
 
 		</map:transformers>
+    
+    <map:generators default="file">
+      <!--<map:generator name="file"
+        src="org.apache.cocoon.generation.FileGenerator"/>-->
+      <map:generator name="traversable"
+        src="org.apache.cocoon.generation.TraversableGenerator">
+      </map:generator>
+    </map:generators>
 
 		<map:selectors>
 			<!-- this selector returns true if there is an ajax request -->
@@ -187,10 +195,7 @@
 			</map:match>
 
 			<map:match pattern="*.query.raw">
-				<!--<map:generate type="directory" src="jcr:///test">
-          <map:parameter name="depth" value="2"/>
-        </map:generate>-->
-				<map:generate src="jcr:///test" />
+				<map:generate type="traversable" src="jcr:///test" />
 				<!--<map:transform src="xslt/jcr/collection2new.xsl" />
 				<map:transform
 					src="xslt/jcr/collection2aggregate.xsl" />
