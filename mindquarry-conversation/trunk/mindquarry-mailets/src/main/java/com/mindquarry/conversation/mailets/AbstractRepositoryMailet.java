@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2006, Mindquarry GmbH 
+/**
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
 package com.mindquarry.conversation.mailets;
 
@@ -17,6 +17,8 @@ import org.apache.mailet.Mail;
 import org.apache.mailet.MailetException;
 
 /**
+ * Abstract base class for all mailets that want ot work with an JCR repository.
+ * 
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
 public abstract class AbstractRepositoryMailet extends GenericMailet {
