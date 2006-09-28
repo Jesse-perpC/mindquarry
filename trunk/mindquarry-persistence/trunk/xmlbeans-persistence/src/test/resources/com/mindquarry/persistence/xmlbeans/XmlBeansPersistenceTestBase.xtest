@@ -58,6 +58,6 @@
 		</jcr-initializer>
 
 		<persistence-factory
-			class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactory" />
+			class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
 	</components>
 </testcase>
