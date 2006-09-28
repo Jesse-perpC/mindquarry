@@ -40,10 +40,13 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
         assertNotNull(sourceOut);
 
         InputStream contentIn = getClass().getResourceAsStream(CONTENT_FILE);
-        IOUtils.copy(contentIn, sourceOut);        
-        sourceOut.flush();
-        sourceOut.close();
-        
+        try {
+            IOUtils.copy(contentIn, sourceOut);        
+            sourceOut.flush();
+        } finally {
+            sourceOut.close();
+            contentIn.close();
+        }        
         
         InputStream expected = getClass().getResourceAsStream(CONTENT_FILE);
         
@@ -51,9 +54,12 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
         assertEquals(true, persistentSource.exists());
         InputStream actual = persistentSource.getInputStream();
        
-        //IOUtils.copy(expected, System.out);
-        //IOUtils.copy(actual, System.out);
-        assertTrue(isXmlEqual(expected, actual));
+        try {
+            assertTrue(isXmlEqual(expected, actual));
+        } finally {
+            expected.close();
+            actual.close();
+        }        
     }
     
     private boolean isXmlEqual(InputStream expected, InputStream actual)
