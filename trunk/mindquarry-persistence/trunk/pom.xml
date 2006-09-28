@@ -27,6 +27,7 @@
 		<module>wiki</module>
 		<module>conversation</module>
 		<module>xmlbeans-persistence</module>
+		<module>xmlbeans-persistence-config</module>
 	</modules>
 
 	<dependencies>
