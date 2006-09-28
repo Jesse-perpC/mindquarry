@@ -61,6 +61,20 @@ public class JCRSourceTest extends JCRSourceTestBase {
         assertEquals(true, source.exists());
     }
 
+    public void testUri() throws ServiceException, IOException {
+        // test if an absolute uri is the same as the requested one (file)
+        String requestedAbsoluteUri = BASE_URL + "users/lars.trieloff";
+        source = (JCRNodeWrapperSource) resolveSource(requestedAbsoluteUri);
+        assertNotNull(source);
+        assertEquals(requestedAbsoluteUri, source.getURI());
+
+        // test if an absolute uri is the same as the requested one (directory)
+        requestedAbsoluteUri = BASE_URL + "users";
+        source = (JCRNodeWrapperSource) resolveSource(requestedAbsoluteUri);
+        assertNotNull(source);
+        assertEquals(requestedAbsoluteUri, source.getURI());
+    }
+
     public void testDelete() throws ServiceException, IOException {
         // test file deletion
         source = (JCRNodeWrapperSource) resolveSource(BASE_URL
