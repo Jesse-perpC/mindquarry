@@ -69,7 +69,8 @@ public class JackRabbitSetupTest extends TestCase {
 	 */
 	@Override
 	protected void setUp() throws Exception {
-		repo = new TransientRepository();
+		repo = new TransientRepository("src/test/resources/repository.xml",
+				"target/repository");
 		ServerAdapterFactory factory = new ServerAdapterFactory();
 		RemoteRepository remoteRepo = factory.getRemoteRepository(repo);
 
@@ -142,7 +143,7 @@ public class JackRabbitSetupTest extends TestCase {
 				Node tags = convNode.addNode("tags");
 				Node tag = tags.addNode("tag");
 				tag.setProperty("reference", session.getNodeByUUID(tagRef));
-				
+
 				convNode.addNode("subscribers");
 				convNode.addNode("contributions");
 			}
@@ -159,8 +160,10 @@ public class JackRabbitSetupTest extends TestCase {
 				tagNode.setProperty("reference", session.getNodeByUUID(tagRef));
 
 				if (user.get("name").equals("Alexander Saar")) {
-					Node convNode = session.getRootNode().getNode(
-							"projects/project[1]/talk/conversation[1]/subscribers");
+					Node convNode = session
+							.getRootNode()
+							.getNode(
+									"projects/project[1]/talk/conversation[1]/subscribers");
 					Node subscriberNode = convNode.addNode("subscriber");
 					subscriberNode.setProperty("reference", memberNode);
 				}
