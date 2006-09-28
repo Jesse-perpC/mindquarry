@@ -1,5 +1,5 @@
-/*
- * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
+/**
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
 package com.mindquarry.jcr.jackrabbit;
 
@@ -18,10 +18,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  */
 public class JackrabbitRepository extends
         org.apache.cocoon.jcr.JackrabbitRepository {
-
-    /*
-     * (non-Javadoc)
-     * 
+    /**
      * @see org.apache.cocoon.jcr.AbstractRepository#service(org.apache.avalon.framework.service.ServiceManager)
      */
     @Override
@@ -29,7 +26,7 @@ public class JackrabbitRepository extends
         super.service(manager);
     }
 
-    /* (non-Javadoc)
+    /**
      * @see org.apache.cocoon.jcr.JackrabbitRepository#configure(org.apache.avalon.framework.configuration.Configuration)
      */
     @Override
@@ -44,5 +41,4 @@ public class JackrabbitRepository extends
             //e.printStackTrace();
         }
     }
-
 }
