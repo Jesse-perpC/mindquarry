@@ -31,6 +31,7 @@ import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.config.Entity;
 import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
+import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
 
 
 /**
@@ -39,22 +40,21 @@ import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 class XmlBeansSession implements Session {
-
-    private static final String JCR_SOURCE_PREFIX = "jcr://";
     
     private Map<Class, Entity> entityMap_;
     private Map<String, QueryInfo> queryInfoMap_;
-    private ServiceManager serviceManager_;
+    
+    private JcrSourceResolver jcrSourceResolver_;
     
     private XmlBeansDocumentCreator documentCreator_;
     private XmlBeansEntityCreator entityCreator_;
     
-    XmlBeansSession(ServiceManager serviceManager, 
+    XmlBeansSession(JcrSourceResolver jcrSourceResolver, 
             Map<Class, Entity> entityMap, Map<String, QueryInfo> queryMap) {
         
         queryInfoMap_ = queryMap;
         entityMap_ = entityMap;
-        serviceManager_ = serviceManager;
+        jcrSourceResolver_ = jcrSourceResolver;
         documentCreator_ = new XmlBeansDocumentCreator();
         entityCreator_ = new XmlBeansEntityCreator();
     }
@@ -220,23 +220,6 @@ class XmlBeansSession implements Session {
     }
     
     private ModifiableSource resolveJcrSource(String path) {
-        String uri = JCR_SOURCE_PREFIX + path;
-        SourceResolver sourceResolver = lookupSourceResolver();
-        try {
-            return (ModifiableSource) sourceResolver.resolveURI(uri);
-        } catch (MalformedURLException e) {
-            throw new RuntimeException(e);
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
-    
-    private SourceResolver lookupSourceResolver() {
-        try {
-            return (SourceResolver) serviceManager_.lookup(SourceResolver.ROLE);
-        } catch (ServiceException e) {
-            throw new InitializationException(
-                    "lookup of SourceResolver failed");
-        }
+        return jcrSourceResolver_.resolveJcrSource(path);
     }
 }

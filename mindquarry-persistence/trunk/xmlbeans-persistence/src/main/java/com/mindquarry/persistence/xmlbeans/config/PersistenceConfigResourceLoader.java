@@ -10,8 +10,6 @@ import java.net.MalformedURLException;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.source.SourceResolver;
-import org.apache.xmlbeans.XmlException;
-import org.apache.xmlbeans.XmlOptions;
 
 import com.mindquarry.common.init.InitializationException;
 
@@ -20,43 +18,21 @@ import com.mindquarry.common.init.InitializationException;
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-public class ConfigFileLoader {
+public class PersistenceConfigResourceLoader extends PersistenceConfigLoader {
  
-    private static final String CONFIG_FILE = "resource://**/mindquarry-persistence.xml";
+    private static final String CONFIG_RESOURCE = "resource://com/mindquarry/persistence/xmlbeans/mindquarry-persistence.xml";
+    
     private ServiceManager serviceManager_;
     
-    public ConfigFileLoader(ServiceManager serviceManager) {
+    public PersistenceConfigResourceLoader(ServiceManager serviceManager) {
         serviceManager_ = serviceManager;
     }
     
-    public Configuration findAndLoad() {
-        InputStream configIn = resolveConfigFile();
-        return parse(configIn);
-    }
-    
-    private Configuration parse(InputStream configIn) {
-        try {
-            return ConfigurationDocument.Factory.parse(
-                    configIn, makeParserXmlOptions()).getConfiguration();
-        } catch (XmlException e) {
-            throw new InitializationException("xmlbeans could " +
-                    "not parse persistence configuration file", e);
-        } catch (IOException e) {
-            throw new InitializationException("xmlbeans could " +
-                    "not parse persistence configuration file", e);
-        }
-    }
-    
-    private XmlOptions makeParserXmlOptions() {
-        XmlOptions result = new XmlOptions();
-        result.setCompileDownloadUrls();
-        return result;
-    }
-    
-    private InputStream resolveConfigFile() {
+    @Override
+    protected InputStream resolveConfig() {
         SourceResolver resolver = lookupSourceResolver();
         try {
-            return resolver.resolveURI(CONFIG_FILE).getInputStream();
+            return resolver.resolveURI(CONFIG_RESOURCE).getInputStream();
         } catch (MalformedURLException e) {
             throw new InitializationException(
                     "could not load persistence configuration file", e);
