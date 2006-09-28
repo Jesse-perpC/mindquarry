@@ -8,7 +8,7 @@
 	
 	<xsl:template match="included">
 		<li>
-			<a href="{@path}.xml">
+			<a href="{@path}">
 				<xsl:apply-templates mode="link" />
 			</a>
 		</li>
