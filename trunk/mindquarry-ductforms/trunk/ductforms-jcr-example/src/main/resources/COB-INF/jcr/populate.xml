@@ -9,11 +9,11 @@
   <p>Create collection should succeed on the first run, but will fail on subsequent runs</p>
   <textarea cols="75" rows="20">
     <src:write xmlns:src="http://apache.org/cocoon/source/1.0">
-      <src:source>jcr:///test/testresource</src:source>
+      <src:source>jcr:///test/wiki1</src:source>
       <src:fragment>
-        <dummy>
-          <description>Hack for creating the folder test/</description>
-        </dummy>
+        <wiki>
+          <title>Your first entry</title>
+        </wiki>
       </src:fragment>
     </src:write>
   </textarea>

@@ -196,10 +196,10 @@
 
 			<map:match pattern="*.query.raw">
 				<map:generate type="traversable" src="jcr:///test" />
-				<!--<map:transform src="xslt/jcr/collection2new.xsl" />
-				<map:transform
-					src="xslt/jcr/collection2aggregate.xsl" />
-				<map:transform type="cinclude" />-->
+				<map:transform src="xslt/jcr/collection2new.xsl" />
+				<!--<map:transform
+					src="xslt/jcr/collection2aggregate.xsl" />-->
+				<map:transform type="cinclude" />
 				<map:serialize type="xml" />
 			</map:match>
 
