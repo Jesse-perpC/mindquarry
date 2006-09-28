@@ -1,5 +1,5 @@
-/*
- * Copyright (C) 2006, Mindquarry GmbH 
+/**
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
 package com.mindquarry.conversation.mailets;
 
@@ -33,6 +33,8 @@ import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 
 /**
+ * This mailet handles all mails that are targeted to the conversation system.
+ * 
  * @author <a hef="mailto:alexander(dot)saar(at)mindquarry(dot)com</a>
  */
 public class ConversationManager extends AbstractRepositoryMailet {
