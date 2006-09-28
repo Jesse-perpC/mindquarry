@@ -149,7 +149,7 @@ public abstract class AbstractJCRNodeSource implements Source {
      */
     public String getURI() {
         if (computedURI == null) {
-            computedURI = factory.getScheme() + ":/" + path;
+            computedURI = factory.getScheme() + "://" + path;
         }
         return computedURI;
     }
