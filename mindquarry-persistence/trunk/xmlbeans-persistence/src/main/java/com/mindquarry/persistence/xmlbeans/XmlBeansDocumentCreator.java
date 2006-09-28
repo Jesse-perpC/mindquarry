@@ -3,6 +3,7 @@
  */
 package com.mindquarry.persistence.xmlbeans;
 
+import java.io.InputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.Collections;
@@ -10,6 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.xmlbeans.XmlObject;
+import org.apache.xmlbeans.XmlOptions;
 
 /**
  *
@@ -18,22 +20,73 @@ import org.apache.xmlbeans.XmlObject;
 class XmlBeansDocumentCreator {
 
     private Map<Class, Method> documentFactoryMethods_;
+    private Map<Class, Method> documentParseMethods_;
     private Map<Class, Method> setEntityMethods_;
     
     XmlBeansDocumentCreator() {        
         Map<Class, Method> fmMap = new HashMap<Class, Method>();
         documentFactoryMethods_ = Collections.synchronizedMap(fmMap);
         
+        Map<Class, Method> fpMap = new HashMap<Class, Method>();
+        documentParseMethods_ = Collections.synchronizedMap(fpMap);
+        
         Map<Class, Method> seMap = new HashMap<Class, Method>();
         setEntityMethods_ = Collections.synchronizedMap(seMap);
     }
     
-    /**
-     * @param entityClazz
-     */
     XmlObject newDocumentFor(XmlObject entity, Class entityClazz) {
         XmlObject document = makeEmptyDocument(entityClazz);
         return setEntityInDocument(entity, entityClazz, document);
+    }
+    
+    XmlObject newDocumentFor(InputStream contentIn, Class entityClazz) {
+        Method parseMethod = documentParseMethod(entityClazz);
+        return invokeParseMethod(parseMethod, contentIn);
+    }
+
+    private XmlObject invokeParseMethod(Method parseMethod,  InputStream contentIn) {
+        try {
+            Object[] params = new Object[] {contentIn, makeParserXmlOptions()};
+            return (XmlObject) parseMethod.invoke(null, params);
+        } catch (IllegalArgumentException e) {
+            throw XmlBeansPersistenceException.parseMethodFailed(parseMethod,e);
+        } catch (IllegalAccessException e) {
+            throw XmlBeansPersistenceException.parseMethodFailed(parseMethod,e);
+        } catch (InvocationTargetException e) {
+            throw XmlBeansPersistenceException.parseMethodFailed(parseMethod,e);
+        }
+    }
+    
+    private XmlOptions makeParserXmlOptions() {
+        XmlOptions result = new XmlOptions();
+        result.setCompileDownloadUrls();
+        return result;
+    }
+    
+    private Method documentParseMethod(Class entityClazz) {
+        Method result = documentParseMethods_.get(entityClazz);
+        if (null == result) {
+            result = loadDocumentParseMethod(entityClazz);
+            documentParseMethods_.put(entityClazz, result);
+        }
+        return result;
+    }
+    
+    private Method loadDocumentParseMethod(Class entityClazz) {
+        Class documentFactoryClazz = documentFactoryClazz(entityClazz);
+        try {
+            Class[] paramTypes = new Class[2];
+            paramTypes[0] = InputStream.class;
+            paramTypes[1] = XmlOptions.class;
+            return documentFactoryClazz.getMethod(
+                    Constants.PARSE_METHOD, paramTypes);
+        } catch (SecurityException e) {
+            throw XmlBeansPersistenceException.gotNoFactoryMethod(
+                    documentFactoryClazz, e);
+        } catch (NoSuchMethodException e) {
+            throw XmlBeansPersistenceException.gotNoFactoryMethod(
+                    documentFactoryClazz, e);
+        }
     }
     
     private XmlObject setEntityInDocument(
@@ -112,9 +165,8 @@ class XmlBeansDocumentCreator {
         return result;
     }
     
-    private Method loadDocumentFactoryMethod(Class entityClazz) {        
-        Class documentClazz = loadDocumentClazz(entityClazz);        
-        Class documentFactoryClazz = documentFactoryClazz(documentClazz);
+    private Method loadDocumentFactoryMethod(Class entityClazz) {       
+        Class documentFactoryClazz = documentFactoryClazz(entityClazz);
         try {
             return documentFactoryClazz.getMethod(Constants.FACTORY_METHOD, new Class[0]);
         } catch (SecurityException e) {
@@ -126,7 +178,8 @@ class XmlBeansDocumentCreator {
         }
     }
     
-    private Class documentFactoryClazz(Class documentClazz) {
+    private Class documentFactoryClazz(Class entityClazz) {
+        Class documentClazz = loadDocumentClazz(entityClazz);
         assert isValidDocumentClass(documentClazz);        
         return documentClazz.getClasses()[0];
     }

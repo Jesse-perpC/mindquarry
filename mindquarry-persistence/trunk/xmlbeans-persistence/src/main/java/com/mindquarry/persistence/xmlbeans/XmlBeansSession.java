@@ -4,10 +4,12 @@
 package com.mindquarry.persistence.xmlbeans;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.net.MalformedURLException;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -18,17 +20,17 @@ import javax.xml.parsers.SAXParserFactory;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.commons.io.IOUtils;
+import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceResolver;
-import org.apache.xmlbeans.XmlBeans;
 import org.apache.xmlbeans.XmlObject;
 import org.xml.sax.SAXException;
 
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 import com.mindquarry.persistence.xmlbeans.config.Entity;
+import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
 
 
 /**
@@ -41,14 +43,16 @@ class XmlBeansSession implements Session {
     private static final String JCR_SOURCE_PREFIX = "jcr://";
     
     private Map<Class, Entity> entityMap_;
+    private Map<String, QueryInfo> queryInfoMap_;
     private ServiceManager serviceManager_;
     
     private XmlBeansDocumentCreator documentCreator_;
     private XmlBeansEntityCreator entityCreator_;
     
     XmlBeansSession(ServiceManager serviceManager, 
-            Map<Class, Entity> entityMap) {
+            Map<Class, Entity> entityMap, Map<String, QueryInfo> queryMap) {
         
+        queryInfoMap_ = queryMap;
         entityMap_ = entityMap;
         serviceManager_ = serviceManager;
         documentCreator_ = new XmlBeansDocumentCreator();
@@ -69,7 +73,7 @@ class XmlBeansSession implements Session {
         String basePath = entityBasePath(entityClazz);
         String entityPath = basePath + "/" + id;
         
-        JCRNodeWrapperSource source = resolveJcrSource(entityPath);
+        ModifiableSource source = resolveJcrSource(entityPath);
         
         XmlObject entityDocument = documentCreator_.newDocumentFor(
                 xmlTransientInstance, entityClazz);        
@@ -112,23 +116,59 @@ class XmlBeansSession implements Session {
         }
     }
 
-    public List query(String queryKey, Object[] params) {
-        XmlBeans.getBuiltinTypeSystem();
-        Query query = new Query("/users/:userId", params);
-        Source source = resolveJcrSource(query.prepare());
+    public List<Object> query(String queryKey, Object[] params) {
         
-        SAXParser sourceParser = createSaxParser();
-        
+        QueryInfo queryInfo = queryInfoMap_.get(queryKey);
+        String query = prepareQuery(queryInfo, params);
+        Source source = resolveJcrSource(query);
+        InputStream sourceIn;
         try {
-            IOUtils.copy(source.getInputStream(), System.out);
-        } catch (SourceNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        } catch (IOException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
+            sourceIn = source.getInputStream();
+        } catch (SourceNotFoundException e2) {
+            throw new RuntimeException(e2);
+        } catch (IOException e2) {
+            throw new RuntimeException(e2);
         }
-        return null;
+        
+        Class entityClazz;
+        try {
+            entityClazz = Class.forName(queryInfo.getResultEntityClass());
+        } catch (ClassNotFoundException e1) {
+            throw new RuntimeException(e1);
+        }
+        
+        XmlObject document = documentCreator_.newDocumentFor(
+                sourceIn, entityClazz);
+        
+        
+        Method getEntityMethod;
+        try {
+            getEntityMethod = document.getClass().getMethod(
+                    "get" + entityClazz.getSimpleName(), new Class[0]);
+        } catch (SecurityException e1) {
+            throw new RuntimeException(e1);
+        } catch (NoSuchMethodException e1) {
+            throw new RuntimeException(e1);
+        }
+        
+        XmlObject entity;
+        try {
+            entity = (XmlObject) getEntityMethod.invoke(document, new Object[0]);
+        } catch (IllegalArgumentException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        } catch (InvocationTargetException e) {
+            throw new RuntimeException(e);
+        }
+        
+        List<Object> result = new LinkedList<Object>();
+        result.add(entity);
+        return result;
+    }
+    
+    private String prepareQuery(QueryInfo queryInfo, Object[] params) {
+        return new QueryPreparer(queryInfo.getQuery(), params).prepare();
     }
     
     private SAXParser createSaxParser() {
@@ -179,11 +219,11 @@ class XmlBeansSession implements Session {
         return true;
     }
     
-    private JCRNodeWrapperSource resolveJcrSource(String path) {
+    private ModifiableSource resolveJcrSource(String path) {
         String uri = JCR_SOURCE_PREFIX + path;
         SourceResolver sourceResolver = lookupSourceResolver();
         try {
-            return (JCRNodeWrapperSource) sourceResolver.resolveURI(uri);
+            return (ModifiableSource) sourceResolver.resolveURI(uri);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

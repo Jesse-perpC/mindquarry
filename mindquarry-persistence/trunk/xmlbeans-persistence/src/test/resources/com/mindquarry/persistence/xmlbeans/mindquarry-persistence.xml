@@ -13,4 +13,9 @@
 		<path>/teamspaces</path>
 		<isCollection>true</isCollection>
 	</entity>
+	<queryInfo>
+		<key>getUserById</key>
+		<query>/users/{$userId}</query>
+		<resultEntityClass>com.mindquarry.types.user.User</resultEntityClass>
+	</queryInfo>
 </configuration>

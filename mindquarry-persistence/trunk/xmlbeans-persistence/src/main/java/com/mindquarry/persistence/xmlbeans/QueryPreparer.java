@@ -8,24 +8,21 @@ package com.mindquarry.persistence.xmlbeans;
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-class Query {
+class QueryPreparer {
 
     private StringBuilder querySB_;
     private Object[] params_;
     
-    Query(String queryString, Object[] params) {
+    QueryPreparer(String queryString, Object[] params) {
         querySB_ = new StringBuilder(queryString);
         params_ = params;
     }
     
     String prepare() {        
         for (Object param : params_) {
-            int start = querySB_.indexOf(":".intern());
-            int end = querySB_.indexOf(" ".intern(), start);
-            if (-1 == end)
-                end = querySB_.length();
-            
-            querySB_.replace(start, end, param.toString());
+            int start = querySB_.indexOf("{$".intern());
+            int end = querySB_.indexOf("}".intern(), start);            
+            querySB_.replace(start, end + 1 , param.toString());
         }        
         return querySB_.toString();
     }
