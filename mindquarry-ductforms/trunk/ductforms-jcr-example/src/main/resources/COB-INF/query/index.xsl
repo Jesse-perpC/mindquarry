@@ -2,13 +2,13 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:i="http://apache.org/cocoon/include/1.0"
-	xmlns:db="http://apache.org/cocoon/xmldb/1.0"
-	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms"
+	xmlns:collection="http://apache.org/cocoon/collection/1.0">
 	<df:title path="index">All Documents</df:title>
 	
 	<xsl:template match="included">
 		<li>
-			<a href="{@path}">
+			<a href="{@path}.xml">
 				<xsl:apply-templates mode="link" />
 			</a>
 		</li>

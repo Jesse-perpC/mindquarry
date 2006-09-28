@@ -17,9 +17,9 @@ function edit(form, page) {
 }
 
 function editPage(form) {
-	print("editing page from cocoon");
 	mypage = cocoon.parameters["page"];
 	myform = form;
+	print("editing page " + mypage + " from cocoon");
 	edit(myform, mypage);
 }
 

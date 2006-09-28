@@ -3,8 +3,8 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms"
 	xmlns:dir="http://apache.org/cocoon/directory/2.0"
-	xmlns:db="http://apache.org/cocoon/xmldb/1.0"
-	xmlns:xi="http://www.w3.org/2001/XInclude">
+	xmlns:xi="http://www.w3.org/2001/XInclude"
+	xmlns:collection="http://apache.org/cocoon/collection/1.0">
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -52,7 +52,7 @@
 							<li>
 								<a>
 									<xsl:attribute name="href">
-										<xsl:text>./{//db:new/@name}.xml.edit</xsl:text>
+										<xsl:text>./{//collection:new/@name}.xml.edit</xsl:text>
 									</xsl:attribute>
 									create
 								</a>
