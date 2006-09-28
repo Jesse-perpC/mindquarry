@@ -11,5 +11,6 @@ class Constants {
     static final String DOCUMENT_CLASS_SUFFIX = "Document";
     static final String FACTORY_CLASS = "Factory";
     static final String FACTORY_METHOD = "newInstance";
+    static final String PARSE_METHOD = "parse";
     static final String ADD_NEW_METHOD_PREFIX = "addNew";
 }

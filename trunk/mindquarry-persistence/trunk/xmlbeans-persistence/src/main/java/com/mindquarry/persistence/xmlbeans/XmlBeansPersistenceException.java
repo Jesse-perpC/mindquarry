@@ -3,6 +3,8 @@
  */
 package com.mindquarry.persistence.xmlbeans;
 
+import java.lang.reflect.Method;
+
 import com.mindquarry.common.persistence.PersistenceException;
 
 /**
@@ -76,6 +78,14 @@ class XmlBeansPersistenceException extends PersistenceException {
         return new XmlBeansPersistenceException(
                 "invoke of '" + methodName + "' failed. could not set entity " +
                 "at document with class " + documentClazz, cause);
+    }
+
+    static XmlBeansPersistenceException parseMethodFailed(
+            Method parseMethod, Exception cause) {
+        return new XmlBeansPersistenceException(
+                "invoke of method '" + Constants.PARSE_METHOD + "' failed. " +
+                "entity document class: " + parseMethod.getClass() + 
+                " could not parse jcr stream.", cause);
     }
 
     static XmlBeansPersistenceException addNewMethodFailed(

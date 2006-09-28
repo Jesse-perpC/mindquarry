@@ -1,5 +1,7 @@
 package com.mindquarry.persistence.xmlbeans;
 
+import java.util.List;
+
 import org.apache.avalon.framework.service.ServiceException;
 
 import com.mindquarry.common.persistence.Session;
@@ -27,6 +29,8 @@ public class UserTest extends XmlBeansPersistenceTestBase {
         
         session.persist(user);
                
-        session.query("GetById", new Object[] {"bastian"});
+        List queryResult = session.query("getUserById", new Object[] {"bastian"});
+        User queriedUser = (User) queryResult.get(0);
+        assertEquals("bastian", queriedUser.getId());
     }
 }
