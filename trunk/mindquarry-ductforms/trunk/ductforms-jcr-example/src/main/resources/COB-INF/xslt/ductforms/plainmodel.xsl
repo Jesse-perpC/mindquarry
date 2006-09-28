@@ -9,12 +9,20 @@
 	<xsl:template match="/df:model">
 		<ductform>
 			<xsl:apply-templates select="df:datatype[@required='true']" />
-			<ductforms/>
+			<ductforms>
+				<xsl:apply-templates select="df:datatype[@required='true']" mode="item"/>
+			</ductforms>
 		</ductform>
 	</xsl:template>
 	
 	<xsl:template match="df:datatype">
 		<xsl:element name="{@id}"></xsl:element>
+	</xsl:template>
+
+	<xsl:template match="df:datatype" mode="item">
+		<item>
+			<xsl:value-of select="@id" />
+		</item>
 	</xsl:template>
 
 </xsl:stylesheet>

@@ -6,7 +6,7 @@
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<df:title path="todo">Todo List</df:title>
 
-	<xsl:template match="included[.//ductforms/item='status']">
+	<xsl:template match="included[.//ductform/status]">
 		<li>
 			<a href="{@path}">
 				<xsl:apply-templates mode="link" />

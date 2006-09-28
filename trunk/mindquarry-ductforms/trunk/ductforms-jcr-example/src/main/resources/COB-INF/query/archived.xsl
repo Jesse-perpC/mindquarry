@@ -6,7 +6,7 @@
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<df:title path="archived">Archived Documents</df:title>
 
-	<xsl:template match="included">
+	<xsl:template match="included[.//archived='true']">
 		<li>
 			<a href="{@path}">
 				<xsl:apply-templates mode="link" />
@@ -14,8 +14,13 @@
 		</li>
 	</xsl:template>
 
+	<xsl:template match="included" />
+	
 	<xsl:template match="*" mode="link">
 		<xsl:value-of select="title" />
+		<xsl:if test="normalize-space(title)=''">
+			&lt;untitled&gt;
+		</xsl:if>
 	</xsl:template>
 
 </xsl:stylesheet>
