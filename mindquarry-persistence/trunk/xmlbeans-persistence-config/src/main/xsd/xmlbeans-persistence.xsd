@@ -9,6 +9,7 @@
 	<xs:complexType name="Configuration">
 		<xs:sequence>
 			<xs:element name="entity" type="tn:Entity" maxOccurs="unbounded" />
+			<xs:element name="queryInfo" type="tn:QueryInfo" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 
@@ -16,7 +17,14 @@
 		<xs:sequence>
 			<xs:element name="className" type="xs:string" />
 			<xs:element name="path" type="xs:string" />
-			<xs:element name="isCollection" type="xs:boolean" />
+		</xs:sequence>
+	</xs:complexType>
+
+	<xs:complexType name="QueryInfo">
+		<xs:sequence>
+			<xs:element name="key" type="xs:string" />
+			<xs:element name="query" type="xs:string" />
+			<xs:element name="resultEntityClass" type="xs:string" />
 		</xs:sequence>
 	</xs:complexType>
 </xs:schema>
