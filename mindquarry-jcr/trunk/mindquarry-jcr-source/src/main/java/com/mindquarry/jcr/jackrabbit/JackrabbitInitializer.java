@@ -51,11 +51,11 @@ import org.apache.jackrabbit.core.nodetype.compact.ParseException;
 public class JackrabbitInitializer implements Serviceable, Configurable,
         Initializable, Contextualizable {
 
-    public static final String MINDQUARRY_JCR_XML_NAMESPACE_PREFIX = "xt";
+    public static final String MQ_JCR_XML_NAMESPACE_PREFIX = "xt";
 
-    public static final String MINDQUARRY_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
+    public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
 
-    public static final String MINDQUARRY_JCR_XML_NODETYPES_FILE = "resource://com/mindquarry/jcr/jackrabbit/node-types.txt";
+    public static final String MQ_JCR_XML_NODETYPES_FILE = "resource://com/mindquarry/jcr/jackrabbit/node-types.txt";
 
     public static final String ROLE = JackrabbitInitializer.class.getName();
 
@@ -126,11 +126,11 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         try {
             SourceResolver resolver = (SourceResolver) this.manager
                     .lookup(SourceResolver.ROLE);
-            defSource = resolver.resolveURI(MINDQUARRY_JCR_XML_NODETYPES_FILE);
+            defSource = resolver.resolveURI(MQ_JCR_XML_NODETYPES_FILE);
         } catch (Exception e) {
             throw new ConfigurationException(
                     "Cannot find internal configuration resource "
-                            + MINDQUARRY_JCR_XML_NODETYPES_FILE);
+                            + MQ_JCR_XML_NODETYPES_FILE);
         }
     }
 
@@ -189,10 +189,10 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         NamespaceRegistry nsRegistry = workspace.getNamespaceRegistry();
         try {
             // check if the namespace already exists
-            nsRegistry.getURI(MINDQUARRY_JCR_XML_NAMESPACE_PREFIX);
+            nsRegistry.getURI(MQ_JCR_XML_NAMESPACE_PREFIX);
         } catch (NamespaceException ne) {
-            nsRegistry.registerNamespace(MINDQUARRY_JCR_XML_NAMESPACE_PREFIX,
-                    MINDQUARRY_JCR_XML_NAMESPACE_URI);
+            nsRegistry.registerNamespace(MQ_JCR_XML_NAMESPACE_PREFIX,
+                    MQ_JCR_XML_NAMESPACE_URI);
         }
 
         // Get the NodeTypeManager from the Workspace. Note that it must be
