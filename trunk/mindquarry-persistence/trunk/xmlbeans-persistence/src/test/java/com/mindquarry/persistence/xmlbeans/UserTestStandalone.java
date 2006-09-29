@@ -2,13 +2,27 @@ package com.mindquarry.persistence.xmlbeans;
 
 import java.util.List;
 
-import junit.framework.TestCase;
-
 import com.mindquarry.common.persistence.Session;
+import com.mindquarry.jcr.jackrabbit.JCRTestBaseStandalone;
 import com.mindquarry.types.user.Email;
 import com.mindquarry.types.user.User;
 
-public class UserTestStandalone extends TestCase {
+public class UserTestStandalone extends JCRTestBaseStandalone {
+	/**
+	 * @see com.mindquarry.jcr.jackrabbit.JCRTestBaseStandalone#setUp()
+	 */
+	@Override
+	protected void setUp() throws Exception {
+		super.setUp();
+	}
+
+	/**
+	 * @see com.mindquarry.jcr.jackrabbit.JCRTestBaseStandalone#tearDown()
+	 */
+	@Override
+	protected void tearDown() throws Exception {
+		super.tearDown();
+	}
 
 	public void testConversation() throws Exception {
 		XmlBeansSessionFactoryStandalone sessionFactory;
