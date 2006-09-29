@@ -11,17 +11,15 @@ import javax.jcr.SimpleCredentials;
 
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
-import com.mindquarry.jcr.source.xml.JCRSourceTestBase;
-
 /**
  * Test cases for the FileOrFolderSource implementation.
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JackrabbitRMITest extends JCRSourceTestBase {
+public class JackrabbitRMITest extends JCRTestBase {
     /**
-     * @see com.mindquarry.jcr.source.xml.JCRSourceTestBase#setUp()
+     * @see com.mindquarry.jcr.source.xml.JCRTestBase#setUp()
      */
     @Override
     protected void setUp() throws Exception {

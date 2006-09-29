@@ -19,7 +19,6 @@ import org.xml.sax.SAXException;
 
 import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 
-
 /**
  * Test cases for the JCRNodeWrapperSource implementation.
  * 
