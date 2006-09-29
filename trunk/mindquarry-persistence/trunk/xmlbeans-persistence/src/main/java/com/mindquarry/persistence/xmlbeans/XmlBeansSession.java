@@ -8,29 +8,19 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.MalformedURLException;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 
-import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceNotFoundException;
-import org.apache.excalibur.source.SourceResolver;
 import org.apache.xmlbeans.XmlObject;
-import org.xml.sax.SAXException;
 
-import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.persistence.xmlbeans.config.Entity;
+import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
+import com.mindquarry.persistence.xmlbeans.creation2.XmlBeansDocumentCreator;
+import com.mindquarry.persistence.xmlbeans.creation2.XmlBeansEntityCreator;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
 
 
@@ -41,24 +31,30 @@ import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
  */
 class XmlBeansSession implements Session {
     
-    private Map<Class, Entity> entityMap_;
-    private Map<String, QueryInfo> queryInfoMap_;
+    private final PersistenceConfiguration configuration_;
+    private final XmlBeansDocumentCreator documentCreator_;
+    private final XmlBeansEntityCreator entityCreator_;
     
-    private JcrSourceResolver jcrSourceResolver_;
+    private final JcrSourceResolver jcrSourceResolver_;
     
-    private XmlBeansDocumentCreator documentCreator_;
-    private XmlBeansEntityCreator entityCreator_;
-    
-    XmlBeansSession(JcrSourceResolver jcrSourceResolver, 
-            Map<Class, Entity> entityMap, Map<String, QueryInfo> queryMap) {
+    /**
+     * @param configuration
+     * @param documentCreator
+     * @param entityCreator
+     * @param jcrSourceResolver
+     */
+    XmlBeansSession(final PersistenceConfiguration configuration, 
+            final XmlBeansDocumentCreator documentCreator, 
+            final XmlBeansEntityCreator entityCreator, 
+            final JcrSourceResolver jcrSourceResolver) {
         
-        queryInfoMap_ = queryMap;
-        entityMap_ = entityMap;
+        super();
+        configuration_ = configuration;
+        documentCreator_ = documentCreator;
+        entityCreator_ = entityCreator;
         jcrSourceResolver_ = jcrSourceResolver;
-        documentCreator_ = new XmlBeansDocumentCreator();
-        entityCreator_ = new XmlBeansEntityCreator();
     }
-    
+
     public Object newEntity(Class entityClazz) {
         validateEntityClass(entityClazz);
         return entityCreator_.newEntityFor(entityClazz);
@@ -70,7 +66,7 @@ class XmlBeansSession implements Session {
         XmlObject xmlTransientInstance = (XmlObject) transientInstance;
         
         String id = entityId(xmlTransientInstance);
-        String basePath = entityBasePath(entityClazz);
+        String basePath = configuration_.entityBasePath(entityClazz);
         String entityPath = basePath + "/" + id;
         
         ModifiableSource source = resolveJcrSource(entityPath);
@@ -96,10 +92,6 @@ class XmlBeansSession implements Session {
         return entityClazz;
     }
     
-    private String entityBasePath(Class entityClazz) {
-        return entityMap_.get(entityClazz).getPath();
-    }
-    
     private String entityId(XmlObject entity) {
         Class clazz = entity.getClass();
         try {
@@ -118,7 +110,7 @@ class XmlBeansSession implements Session {
 
     public List<Object> query(String queryKey, Object[] params) {
         
-        QueryInfo queryInfo = queryInfoMap_.get(queryKey);
+        QueryInfo queryInfo = configuration_.queryInfo(queryKey);
         String query = prepareQuery(queryInfo, params);
         Source source = resolveJcrSource(query);
         InputStream sourceIn;
@@ -137,31 +129,8 @@ class XmlBeansSession implements Session {
             throw new RuntimeException(e1);
         }
         
-        XmlObject document = documentCreator_.newDocumentFor(
-                sourceIn, entityClazz);
-        
-        
-        Method getEntityMethod;
-        try {
-            getEntityMethod = document.getClass().getMethod(
-                    "get" + entityClazz.getSimpleName(), new Class[0]);
-        } catch (SecurityException e1) {
-            throw new RuntimeException(e1);
-        } catch (NoSuchMethodException e1) {
-            throw new RuntimeException(e1);
-        }
-        
-        XmlObject entity;
-        try {
-            entity = (XmlObject) getEntityMethod.invoke(document, new Object[0]);
-        } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
-        } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
-        } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
-        }
-        
+        XmlObject entity = entityCreator_.newEntityFrom(sourceIn, entityClazz);
+                
         List<Object> result = new LinkedList<Object>();
         result.add(entity);
         return result;
@@ -169,18 +138,6 @@ class XmlBeansSession implements Session {
     
     private String prepareQuery(QueryInfo queryInfo, Object[] params) {
         return new QueryPreparer(queryInfo.getQuery(), params).prepare();
-    }
-    
-    private SAXParser createSaxParser() {
-        SAXParserFactory parserFactory = SAXParserFactory.newInstance();
-        parserFactory.setNamespaceAware(true);
-        try {
-            return parserFactory.newSAXParser();
-        } catch (ParserConfigurationException e) {
-            throw new InitializationException("could not create sax parser", e);
-        } catch (SAXException e) {
-            throw new InitializationException("could not create sax parser", e);
-        }
     }
     
     private void validateEntityImplClass(Class entityImplClazz) {        

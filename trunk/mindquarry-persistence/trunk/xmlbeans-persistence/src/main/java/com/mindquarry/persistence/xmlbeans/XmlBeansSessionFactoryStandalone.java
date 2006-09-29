@@ -5,12 +5,10 @@ package com.mindquarry.persistence.xmlbeans;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
-import org.apache.avalon.framework.service.ServiceManager;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigFileLoader;
-import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigResourceLoader;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
 
@@ -35,8 +33,7 @@ public class XmlBeansSessionFactoryStandalone extends AbstractLogEnabled
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
     public Session currentSession() {
-        return new XmlBeansSession(jcrSourceResolver_, 
-                configuration_.getEntityMap(), configuration_.getQueryInfoMap());
+        return null;//new XmlBeansSession(jcrSourceResolver_, configuration_);
     }
     
     /**
