@@ -9,12 +9,12 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.mindquarry.jcr</groupId>
-		<artifactId>mindquarry-jcr</artifactId>
+		<groupId>com.mindquarry.source</groupId>
+		<artifactId>mindquarry-source</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
-	<groupId>com.mindquarry.jcr</groupId>
+	<groupId>com.mindquarry.source</groupId>
 	<artifactId>mindquarry-jcr-source</artifactId>
 	<packaging>jar</packaging>
 

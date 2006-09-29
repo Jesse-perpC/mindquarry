@@ -14,13 +14,13 @@
 		<version>1</version>
 	</parent>
 
-	<groupId>com.mindquarry.jcr</groupId>
-	<artifactId>mindquarry-jcr</artifactId>
+	<groupId>com.mindquarry.source</groupId>
+	<artifactId>mindquarry-source</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>JCR XML Extensions for Cocoon</name>
-	
+
 	<modules>
 		<module>mindquarry-jcr-source</module>
 		<module>mindquarry-jcr-source-example</module>
@@ -57,7 +57,7 @@
 			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<tagBase>https://secure.mindquarry.com/repos/mindquarry-jcr/tags</tagBase>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-source/tags</tagBase>
 				</configuration>
 			</plugin>
 		</plugins>
