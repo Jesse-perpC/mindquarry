@@ -9,15 +9,17 @@ yellowpng := $(subst header.png,header-yellow.png,$(pngfiles))
 
 svgicons := $(wildcard *_icon.svg)
 pngicons := $(subst .svg,.png,$(svgicons))
+gificons := $(subst .svg,.gif,$(svgicons))
 
 svgbuttons := $(wildcard *-button-*.svg)
 pngbuttons := $(subst .svg,.png,$(svgbuttons))
+gifbuttons := $(subst .svg,.gif,$(svgbuttons))
 
 
-all: ${graypng}  ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.gif border-s.gif border-w.gif border-e.gif border-ne.gif border-nw.gif border-sw.gif border-se.gif ${pngicons} ${pngbuttons}
+all: ${graypng}  ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.gif border-s.gif border-w.gif border-e.gif border-ne.gif border-nw.gif border-sw.gif border-se.gif ${pngicons} ${pngbuttons} ${gificons} ${gifbuttons}
 
 clean:
-	rm -f $(pngfiles) ${graypng} ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.gif border-s.gif border-w.gif border-e.gif border-ne.gif border-nw.gif border-sw.gif border-se.gif $(pngicons) $(pngbuttons)
+	rm -f $(pngfiles) ${graypng} ${orangepng}  ${redpng}  ${bluepng}  ${greenpng}  ${yellowpng} border-n.gif border-s.gif border-w.gif border-e.gif border-ne.gif border-nw.gif border-sw.gif border-se.gif $(pngicons) $(pngbuttons) $(gificons) $(gifbuttons)
 
 pngs:	all
 	rm -f $(pngfiles)
@@ -55,7 +57,6 @@ border.png: border.svg
 %.png: %.svg
 	inkscape -D --export-png=$@ $<
 
-
 border-ne.gif: border.png
 	convert $< -crop 50x50+658+0 +repage $@
 
@@ -79,3 +80,6 @@ border-w.gif: border.png
 
 border-e.gif: border.png
 	convert $< -crop 50x50+658+50 +repage $@
+	
+%.gif: %.png
+	convert $< $@
