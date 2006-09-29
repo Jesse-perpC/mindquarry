@@ -28,7 +28,7 @@ class JcrSourceResolverStandalone extends JcrSourceResolverBase {
         DefaultConfiguration jcrCredentialsConfig = new DefaultConfiguration("credentials");
         jcrCredentialsConfig.setAttribute("login", "alexander.saar");
         jcrCredentialsConfig.setAttribute("password", "myPwd");
-        jcrCredentialsConfig.setAttribute("rmi", "rmi://localhost:1100/jackrabbit");
+        jcrCredentialsConfig.setAttribute("rmi", "rmi://localhost:1099/jackrabbit");
         
         try {
             jcrSourceFactory_.configure(jcrCredentialsConfig);

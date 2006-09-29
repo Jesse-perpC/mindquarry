@@ -23,32 +23,36 @@ import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-public class XmlBeansSessionFactoryStandalone extends AbstractLogEnabled 
-    implements SessionFactory, Initializable {
-    
-    private PersistenceConfiguration configuration_;
-    private JcrSourceResolverBase jcrSourceResolver_;
+public class XmlBeansSessionFactoryStandalone 
+    extends XmlBeansSessionFactoryBase {
 
     /**
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
+    @Override
     public Session currentSession() {
-        return null;//new XmlBeansSession(jcrSourceResolver_, configuration_);
+        return new XmlBeansSession(configuration_, documentCreator_, 
+                entityCreator_, jcrSourceResolver_);
     }
     
     /**
      * @see org.apache.avalon.framework.activity.Initializable#initialize()
      */
+    @Override
     public void initialize() throws Exception {
+        super.initialize();
         jcrSourceResolver_ = newJcrSourceResolverCocoon();
-        configuration_ = new PersistenceConfiguration(makeConfigLoader());
     }
     
     private JcrSourceResolverBase newJcrSourceResolverCocoon() {
         return JcrSourceResolverBase.newStandaloneSourceResolver();
     }
     
-    private PersistenceConfigFileLoader makeConfigLoader() {
+    /**
+     * @see com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryBase#makeConfigLoader()
+     */
+    @Override
+    protected PersistenceConfigFileLoader makeConfigLoader() {
         return new PersistenceConfigFileLoader();
     }
 }

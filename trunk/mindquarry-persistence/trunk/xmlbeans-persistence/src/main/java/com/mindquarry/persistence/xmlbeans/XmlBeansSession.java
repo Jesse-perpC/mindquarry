@@ -23,11 +23,11 @@ import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
-
 /**
- * 
+ * Add summary documentation here.
  *
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author
+ * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 class XmlBeansSession implements Session {
     
