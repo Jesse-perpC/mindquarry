@@ -16,21 +16,3 @@ h1.title {
   text-align:center;
   font-size:44pt;
 }
-
-#title {
-  background-image:url(../images/logo43.png);
-  text-align:left;
-  padding-left:1em;
-  background-repeat:no-repeat;
-  background-position: 0% 50%;
-}
-
-#divider {
-  display:none;
-}
-
-#tagline {
-  display:block;
-  padding-left:5em;
-  font-size:50%;
-}
