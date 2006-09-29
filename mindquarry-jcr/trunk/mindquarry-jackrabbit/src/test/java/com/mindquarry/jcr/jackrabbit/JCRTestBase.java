@@ -5,7 +5,6 @@ package com.mindquarry.jcr.jackrabbit;
 
 import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 
 import javax.jcr.Repository;
 import javax.jcr.Session;
