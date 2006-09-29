@@ -207,7 +207,7 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
                 String prefixEnd = prefix.substring(MQ_PREFIX_START.length());
                 int number = Integer.valueOf(prefixEnd);
                 if (number >= nextPrefixNumber) {
-                    result = number;
+                    result = number + 1;
                 }
             }
         }
