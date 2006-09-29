@@ -44,7 +44,7 @@
 			<credentials login="expression" password="expression" />
 			<home src="target/repository" />
 			<credentials login="alexander.saar" password="mypwd" />
-			<configuration src="resource://repository.xml" />
+			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
 		</jcr-repository>
 
 		<jcr-initializer
