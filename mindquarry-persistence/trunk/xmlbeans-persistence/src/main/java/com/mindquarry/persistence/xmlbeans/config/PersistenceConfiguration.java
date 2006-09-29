@@ -3,9 +3,9 @@
  */
 package com.mindquarry.persistence.xmlbeans.config;
 
-import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Set;
 
 import com.mindquarry.common.init.InitializationException;
 
@@ -19,9 +19,6 @@ public class PersistenceConfiguration {
     private Map<Class, Entity> entityMap_;
     private Map<String, QueryInfo> queryInfoMap_;
     
-    private Map<Class, Method> documentFactoryMethods_;
-    private Map<Class, Method> setEntityMethods_;
-    
     public PersistenceConfiguration(
             PersistenceConfigLoader configFileLoader) {
         
@@ -30,12 +27,16 @@ public class PersistenceConfiguration {
         queryInfoMap_ = makeQueryInfoMap(xmlBeansConfig);
     }
     
-    public Map<Class, Entity> getEntityMap() {
-        return entityMap_;
+    public Set<Class> entityClazzes() {
+        return entityMap_.keySet();
     }
     
-    public Map<String, QueryInfo> getQueryInfoMap() {
-        return queryInfoMap_;
+    public String entityBasePath(Class entityClazz) {
+        return entityMap_.get(entityClazz).getPath();
+    }
+    
+    public QueryInfo queryInfo(String queryKey) {
+        return queryInfoMap_.get(queryKey);
     }
     
     private Map<String, QueryInfo> makeQueryInfoMap(

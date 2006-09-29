@@ -14,6 +14,10 @@ import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigLoader;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigResourceLoader;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
+import com.mindquarry.persistence.xmlbeans.creation2.XmlBeansDocumentCreator;
+import com.mindquarry.persistence.xmlbeans.creation2.XmlBeansEntityCreator;
+import com.mindquarry.persistence.xmlbeans.reflection.DocumentReflectionData;
+import com.mindquarry.persistence.xmlbeans.reflection.EntityReflectionData;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
 
 /**
@@ -31,6 +35,8 @@ public class XmlBeansSessionFactoryCocoon extends AbstractLogEnabled
     implements SessionFactory, Serviceable, Initializable {
     
     private PersistenceConfiguration configuration_;
+    private XmlBeansDocumentCreator documentCreator_;
+    private XmlBeansEntityCreator entityCreator_;
     
     private JcrSourceResolver jcrSourceResolver_;
     private ServiceManager serviceManager_;
@@ -39,8 +45,8 @@ public class XmlBeansSessionFactoryCocoon extends AbstractLogEnabled
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
     public Session currentSession() {
-        return new XmlBeansSession(jcrSourceResolver_, 
-                configuration_.getEntityMap(), configuration_.getQueryInfoMap());
+        return new XmlBeansSession(configuration_, documentCreator_, 
+                entityCreator_, jcrSourceResolver_);
     }
     
     /**
@@ -61,6 +67,25 @@ public class XmlBeansSessionFactoryCocoon extends AbstractLogEnabled
      */
     public void initialize() throws Exception {
         configuration_ = new PersistenceConfiguration(makeConfigLoader());
+        documentCreator_ = makeDocumentCreator(configuration_);
+        entityCreator_ = makeEntityCreator(configuration_, documentCreator_);
+    }
+    
+    private XmlBeansDocumentCreator makeDocumentCreator(
+            PersistenceConfiguration configuration) {
+        
+        DocumentReflectionData reflectionData = 
+            new DocumentReflectionData(configuration_.entityClazzes());
+        return new XmlBeansDocumentCreator(reflectionData);
+    }
+    
+    private XmlBeansEntityCreator makeEntityCreator(
+            PersistenceConfiguration configuration, 
+            XmlBeansDocumentCreator documentCreator) {
+        
+        EntityReflectionData reflectionData = 
+            new EntityReflectionData(configuration_.entityClazzes());
+        return new XmlBeansEntityCreator(reflectionData, documentCreator);
     }
     
     private PersistenceConfigLoader makeConfigLoader() {
