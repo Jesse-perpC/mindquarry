@@ -18,7 +18,7 @@ import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
 import com.mindquarry.persistence.xmlbeans.reflection.DocumentReflectionData;
 import com.mindquarry.persistence.xmlbeans.reflection.EntityReflectionData;
-import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
+import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 /**
  * Add summary documentation here.
@@ -38,7 +38,7 @@ public class XmlBeansSessionFactoryCocoon extends AbstractLogEnabled
     private XmlBeansDocumentCreator documentCreator_;
     private XmlBeansEntityCreator entityCreator_;
     
-    private JcrSourceResolver jcrSourceResolver_;
+    private JcrSourceResolverBase jcrSourceResolver_;
     private ServiceManager serviceManager_;
         
     /**
@@ -57,9 +57,9 @@ public class XmlBeansSessionFactoryCocoon extends AbstractLogEnabled
         serviceManager_ = serviceManager;
     }
     
-    private JcrSourceResolver newJcrSourceResolverCocoon(
+    private JcrSourceResolverBase newJcrSourceResolverCocoon(
             ServiceManager serviceManager) {
-        return JcrSourceResolver.newCocoonSourceResolver(serviceManager);
+        return JcrSourceResolverBase.newCocoonSourceResolver(serviceManager);
     }
 
     /**

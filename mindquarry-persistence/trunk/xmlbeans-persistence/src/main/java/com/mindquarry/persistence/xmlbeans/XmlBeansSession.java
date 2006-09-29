@@ -21,7 +21,7 @@ import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
-import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
+import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 
 /**
@@ -35,7 +35,7 @@ class XmlBeansSession implements Session {
     private final XmlBeansDocumentCreator documentCreator_;
     private final XmlBeansEntityCreator entityCreator_;
     
-    private final JcrSourceResolver jcrSourceResolver_;
+    private final JcrSourceResolverBase jcrSourceResolver_;
     
     /**
      * @param configuration
@@ -46,7 +46,7 @@ class XmlBeansSession implements Session {
     XmlBeansSession(final PersistenceConfiguration configuration, 
             final XmlBeansDocumentCreator documentCreator, 
             final XmlBeansEntityCreator entityCreator, 
-            final JcrSourceResolver jcrSourceResolver) {
+            final JcrSourceResolverBase jcrSourceResolver) {
         
         super();
         configuration_ = configuration;

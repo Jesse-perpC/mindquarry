@@ -10,7 +10,7 @@ import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigFileLoader;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
-import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
+import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 /**
  * Add summary documentation here.
@@ -27,7 +27,7 @@ public class XmlBeansSessionFactoryStandalone extends AbstractLogEnabled
     implements SessionFactory, Initializable {
     
     private PersistenceConfiguration configuration_;
-    private JcrSourceResolver jcrSourceResolver_;
+    private JcrSourceResolverBase jcrSourceResolver_;
 
     /**
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
@@ -44,8 +44,8 @@ public class XmlBeansSessionFactoryStandalone extends AbstractLogEnabled
         configuration_ = new PersistenceConfiguration(makeConfigLoader());
     }
     
-    private JcrSourceResolver newJcrSourceResolverCocoon() {
-        return JcrSourceResolver.newStandaloneSourceResolver();
+    private JcrSourceResolverBase newJcrSourceResolverCocoon() {
+        return JcrSourceResolverBase.newStandaloneSourceResolver();
     }
     
     private PersistenceConfigFileLoader makeConfigLoader() {
