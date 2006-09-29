@@ -3,13 +3,8 @@
  */
 package com.mindquarry.persistence.xmlbeans;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
-
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigFileLoader;
-import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 /**
