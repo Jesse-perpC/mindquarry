@@ -42,7 +42,7 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 
 	public static final String MINDQUARRY_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
 
-	public static final String MINDQUARRY_JCR_XML_NODETYPES_FILE = "src/main/resources/node-types.txt";
+	public static final String MINDQUARRY_JCR_XML_NODETYPES_FILE = "src/test/resources/node-types.txt";
 
 	protected Repository repo;
 
@@ -69,8 +69,8 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 		session = repo.login(new SimpleCredentials("alexander.saar", "mypwd"
 				.toCharArray()));
 		JackrabbitInitializerHelper.setupRepository(session,
-				new InputStreamReader(new FileInputStream("")),
-				new InputStreamReader(new FileInputStream("")), "");
+				new InputStreamReader(new FileInputStream(
+						MINDQUARRY_JCR_XML_NODETYPES_FILE)), null, "");
 	}
 
 	/**
