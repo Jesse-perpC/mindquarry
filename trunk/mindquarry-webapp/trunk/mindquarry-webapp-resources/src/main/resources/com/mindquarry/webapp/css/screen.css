@@ -14,10 +14,14 @@ h1, h2, h3, h4, h5, h6 {
   font-family:Helvetica,Sans,Arial,sans-serif;
 }
 
-html, body, #cssbody {
+html, body, #webapp-content {
 	min-height: 100%;
 	width: 100%;
 	height: 100%;
+}
+
+#webapp-content {
+	z-index:100;
 }
 
 /*
@@ -25,7 +29,7 @@ html, body, #cssbody {
  * it using the child selector to hide from IE5+/Win
  */
 
-html>body, html>body #cssbody {
+html>body, html>body #webapp-content {
 	height: auto;
 }
 
@@ -33,12 +37,6 @@ body {
 	margin: 0;
 	background-color:#efefef;
 	font-family: Arial, sans-serif;
-}
-
-#cssbody {
-	position: absolute;
-	top: 0;
-  left: 0;
 }
 
 #background-repeater {

@@ -32,7 +32,7 @@
 		<body>
 			<div class="body">
 				<div id="webapp-header">
-        			<ul id="webapp-sections">
+        				<ul id="webapp-sections">
 						<li><a class="navTalk" href="{$context.path}">Talk</a></li>
 						<li><a class="navTasks" href="{$context.path}">Tasks</a></li>
 						<li><a class="navWiki" href="{$context.path}">Wiki</a></li>
@@ -64,6 +64,19 @@
 							</div>
 						</div>
 					</div>
+				</div>
+				<div id="webapp-footer">
+					<ul id="webapp-footer-sections">
+						<li><a href="{$context.path}">Home</a></li>
+						<li><a href="{$context.path}blocks/mindquarry-teamspace-block/">Teams</a></li>
+						<li><a href="{$context.path}blocks/mindquarry-workspace-block/">Files</a></li>
+						<li><a href="{$context.path}">Wiki</a></li>
+						<li><a href="{$context.path}">Tasks</a></li>
+						<li><a href="{$context.path}">Talk</a></li>
+						<li><a href="{$context.path}/blocks/mindquarry-help-block/">Help</a></li>
+						<li><a href="http://www.mindquarry.com">Visit Mindquarry.com</a></li>
+						<li><a href="http://www.mindquarry.com/support/">Get Support</a></li>
+					</ul>
 				</div>
 			</div>
 		</body>

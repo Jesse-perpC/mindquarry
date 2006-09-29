@@ -29,35 +29,22 @@
   display:inline;
 }
 
-#footer {
-	position: absolute;
-	bottom: 0;
-  width:70%;
-	background-image:url(../images/footer.png);
-  height:64px;
-  overflow:hidden;
-	text-align: center;
-	padding: 0 15%;
+#webapp-footer {
+	width:100%;
+	text-align:center;
 }
 
-/* SBMH -- see http://css-discuss.incutio.com/?page=BoxModelHack 
- * Stupid hack lets IE see 100%, others see 70%. 
- */
-#footer {
-    \width: 100%;
-    w\idth: 70%;
-}
-
-#footer ul {
+#webapp-footer ul {
   margin-top:30px;
+  margin-bottom:15px;
   font-size:9pt;
 }
 
-#footer a, #footer {
+#webapp-footer a, #webapp-footer {
   color:#373737;
 }
 
-#footer li {
+#webapp-footer li {
   display:inline;
   padding-left:5px;
   padding-right:5px;
