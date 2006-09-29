@@ -18,7 +18,7 @@ import com.mindquarry.common.init.InitializationException;
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-class JcrSourceResolverCocoon extends JcrSourceResolver {
+class JcrSourceResolverCocoon extends JcrSourceResolverBase {
 
     private ServiceManager serviceManager_;
     
