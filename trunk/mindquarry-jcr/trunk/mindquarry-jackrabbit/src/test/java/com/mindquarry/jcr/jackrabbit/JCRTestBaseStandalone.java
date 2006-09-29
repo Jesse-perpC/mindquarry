@@ -70,7 +70,7 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 				.toCharArray()));
 		JackrabbitInitializerHelper.setupRepository(session,
 				new InputStreamReader(new FileInputStream(
-						MINDQUARRY_JCR_XML_NODETYPES_FILE)), null, "");
+						MINDQUARRY_JCR_XML_NODETYPES_FILE)), "");
 	}
 
 	/**

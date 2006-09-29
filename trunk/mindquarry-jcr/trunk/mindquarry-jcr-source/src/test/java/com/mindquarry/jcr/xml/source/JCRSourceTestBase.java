@@ -21,7 +21,7 @@ import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 public abstract class JCRSourceTestBase extends JCRTestBase {
     @Override
     protected void setUp() throws Exception {
-       super.setUp();
+        super.setUp();
 
         setupRepositoryContent(session);
         session.save();
@@ -45,7 +45,7 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
     protected void prepare() throws Exception {
         String className = JCRSourceTestBase.class.getName();
         String xtestResourceName = className.replace('.', '/') + ".xtest";
-
+        
         URL xtestResource = getClass().getClassLoader().getResource(xtestResourceName);
         this.prepare(xtestResource.openStream());
     }
@@ -70,10 +70,6 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
         Node userDocMailTextNode = userDocMailNode.addNode("text", "xt:text");
         userDocMailTextNode.setProperty("xt:characters",
                 "alexander.saar@mindquarry.com");
-
-        // test for additional-node-types.txt
-        Node encodingTextNode = userDocMailNode.addNode("text-with-enc", "xt:textenc");
-        encodingTextNode.setProperty("xt:encoding", "UTF-8");
 
         // test code to trigger exception for a non-existing node type
         //Node errorTextNode = userDocMailNode.addNode("error", "xt:doesnotexist");

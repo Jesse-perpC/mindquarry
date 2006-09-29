@@ -36,7 +36,7 @@ public class JackrabbitInitializerHelper {
 	public static final String MQ_JCR_XML_NODETYPES_FILE = "resource://com/mindquarry/jcr/jackrabbit/node-types.txt";
 
 	public static void setupRepository(Session session,
-			InputStreamReader nDefs, InputStreamReader addNDefs, String uri)
+			InputStreamReader nDefs, String uri)
 			throws ParseException, RepositoryException,
 			InvalidNodeTypeDefException, SourceNotFoundException, IOException {
 		// register xt:* namespace
@@ -62,9 +62,6 @@ public class JackrabbitInitializerHelper {
 		// register the default node types (xt:element etc.)
 		registerNodeTypesFromTextFile(nDefs, ntreg, uri);
 
-		if (addNDefs != null) {
-			registerNodeTypesFromTextFile(addNDefs, ntreg, uri);
-		}
 		setupInitialRepositoryStructure(session);
 	}
 
