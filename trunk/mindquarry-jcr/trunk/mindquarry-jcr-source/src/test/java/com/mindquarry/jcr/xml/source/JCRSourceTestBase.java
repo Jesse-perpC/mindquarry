@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.jcr.source.xml;
+package com.mindquarry.jcr.xml.source;
 
 import java.io.FileInputStream;
 import java.net.URL;
