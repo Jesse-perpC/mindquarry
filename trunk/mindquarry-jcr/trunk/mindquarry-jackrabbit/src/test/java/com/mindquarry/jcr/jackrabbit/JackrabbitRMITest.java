@@ -3,6 +3,7 @@
  */
 package com.mindquarry.jcr.jackrabbit;
 
+import java.net.URL;
 import java.rmi.registry.Registry;
 
 import javax.jcr.Repository;
@@ -32,6 +33,21 @@ public class JackrabbitRMITest extends JCRTestBase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+    
+    /**
+     * Initializes the ComponentLocator
+     * 
+     * The configuration file is determined by the class name plus .xtest
+     * appended, all '.' replaced by '/' and loaded as a resource via classpath
+     */
+    @Override
+    protected void prepare() throws Exception {
+        String className = JackrabbitRMITest.class.getName();
+        String xtestResourceName = className.replace('.', '/') + ".xtest";
+
+        URL xtestResource = getClass().getClassLoader().getResource(xtestResourceName);
+        this.prepare(xtestResource.openStream());
     }
 
     public void testRepositoryRMIAccess() throws Exception {
