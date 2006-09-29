@@ -19,8 +19,8 @@ import org.apache.xmlbeans.XmlObject;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
-import com.mindquarry.persistence.xmlbeans.creation2.XmlBeansDocumentCreator;
-import com.mindquarry.persistence.xmlbeans.creation2.XmlBeansEntityCreator;
+import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
+import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolver;
 
 

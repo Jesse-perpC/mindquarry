@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.persistence.xmlbeans.creation2;
+package com.mindquarry.persistence.xmlbeans.creation;
 
 import java.lang.reflect.Method;
 
