@@ -13,7 +13,7 @@
 		</xsl:copy>
 	</xsl:template>
 	
-	<xsl:template match="us:user">
+	<xsl:template match="us:text">
 		<xsl:choose>
 			<xsl:when test="contains($user.agent, @value)">
 				<xsl:value-of select="@value"/>
@@ -25,6 +25,20 @@
 				<xsl:apply-templates select="us:default/node()" />
 			</xsl:otherwise>
 		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template match="us:attribute">
+		
+		<xsl:attribute name="{@name}">
+			<xsl:choose>
+				<xsl:when test="contains($user.agent, @value)">
+					<xsl:value-of select="@value"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<xsl:value-of select="@default"/>
+				</xsl:otherwise>
+			</xsl:choose>
+		</xsl:attribute>
 	</xsl:template>
 
 	<xsl:template match="html">
