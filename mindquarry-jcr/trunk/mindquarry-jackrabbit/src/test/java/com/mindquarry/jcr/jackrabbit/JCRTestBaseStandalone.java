@@ -98,6 +98,7 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 	protected void tearDown() throws Exception {
 		// uncomment this for shutting down RMI repository
 		reg.unbind(REMOTE_REPO_NAME);
+		session.logout();
 	}
 
 	private void removeRepository(File file) {
