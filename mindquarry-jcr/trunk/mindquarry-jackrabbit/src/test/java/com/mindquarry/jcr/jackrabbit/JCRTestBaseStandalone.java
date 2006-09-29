@@ -4,8 +4,11 @@
 package com.mindquarry.jcr.jackrabbit;
 
 import java.io.File;
-import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.net.URL;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -15,6 +18,7 @@ import javax.jcr.SimpleCredentials;
 
 import junit.framework.TestCase;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.rmi.remote.RemoteRepository;
 import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
@@ -38,11 +42,9 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 
 	public static final String REMOTE_REPO_NAME = "jackrabbit";
 
-	public static final String MINDQUARRY_JCR_XML_NAMESPACE_PREFIX = "xt";
-
-	public static final String MINDQUARRY_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
-
-	public static final String MINDQUARRY_JCR_XML_NODETYPES_FILE = "src/test/resources/node-types.txt";
+    public static final String REPO_CONFIG_FILE = "/com/mindquarry/jcr/jackrabbit/repository.xml";
+    
+	public static final String MQ_JCR_XML_NODETYPES_FILE = "/com/mindquarry/jcr/jackrabbit/node-types.txt";
 
 	protected Repository repo;
 
@@ -56,21 +58,37 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 		File repoFolder = new File("target/repository");
 		removeRepository(repoFolder);
 
-		Repository repo = new TransientRepository(
-				"src/test/resources/repository.xml", "target/repository");
+        InputStream repoConfigIn = getClass().getResourceAsStream(REPO_CONFIG_FILE);
+        
+        File tempRepoConfigFile = File.createTempFile("repository", "xml");
+        tempRepoConfigFile.deleteOnExit();
+        
+        OutputStream tempRepoConfigOut = new FileOutputStream(tempRepoConfigFile);
+        
+        try {
+            IOUtils.copy(repoConfigIn, tempRepoConfigOut);
+        } finally {
+            repoConfigIn.close();
+            tempRepoConfigOut.close();
+        }
+        
+        Repository repo = new TransientRepository(
+                tempRepoConfigFile.getAbsolutePath(), "target/repository");
+        
 		ServerAdapterFactory factory = new ServerAdapterFactory();
 		RemoteRepository remoteRepo = factory.getRemoteRepository(repo);
 
-		reg = LocateRegistry.createRegistry(1100);
+		reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
 		reg.rebind(REMOTE_REPO_NAME, remoteRepo);
 
 		session = repo.login(new SimpleCredentials(LOGIN, PWD.toCharArray()),
 				WORKSPACE);
 		session = repo.login(new SimpleCredentials("alexander.saar", "mypwd"
 				.toCharArray()));
+        
+        InputStream nodeTypeDefIn = getClass().getResourceAsStream(MQ_JCR_XML_NODETYPES_FILE);
 		JackrabbitInitializerHelper.setupRepository(session,
-				new InputStreamReader(new FileInputStream(
-						MINDQUARRY_JCR_XML_NODETYPES_FILE)), "");
+				new InputStreamReader(nodeTypeDefIn), "");
 	}
 
 	/**

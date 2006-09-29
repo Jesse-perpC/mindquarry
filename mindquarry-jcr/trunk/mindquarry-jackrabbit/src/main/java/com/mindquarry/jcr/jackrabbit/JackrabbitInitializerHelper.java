@@ -33,8 +33,6 @@ public class JackrabbitInitializerHelper {
 
 	public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
 
-	public static final String MQ_JCR_XML_NODETYPES_FILE = "resource://com/mindquarry/jcr/jackrabbit/node-types.txt";
-
 	public static void setupRepository(Session session,
 			InputStreamReader nDefs, String uri)
 			throws ParseException, RepositoryException,
