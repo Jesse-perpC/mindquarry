@@ -41,7 +41,7 @@
 					</webAppSourceDirectory>
 					<classesDirectory>${basedir}/src/main/resources</classesDirectory>
 					<contextPath>/</contextPath>
-					<scanIntervalSeconds>0</scanIntervalSeconds>
+					<scanIntervalSeconds>15</scanIntervalSeconds>
 					<scanTargets>
 			            <scanTarget>${basedir}/src/main/resources/COB-INF/sitemap.xmap</scanTarget>
 			            <scanTarget>${basedir}/src/main/resources/META-INF/</scanTarget>

@@ -24,16 +24,16 @@
 				<map:read
 					src="resource://com/mindquarry/webapp/css/{1}.css" />
 			</map:match>
-			<map:match pattern="resources/images/*.png">
+			<map:match pattern="resources/images/*.*">
 				<map:read
-					src="resource://com/mindquarry/webapp/images/{1}.png" />
+					src="resource://com/mindquarry/webapp/images/{1}.{2}" />
 			</map:match>
-			<map:match pattern="resources/icons/*.png">
-				<map:read src="resource://com/mindquarry/webapp/icons/{1}_icon.png" />
+			<map:match pattern="resources/icons/*.*">
+				<map:read src="resource://com/mindquarry/webapp/icons/{1}_icon.{2}" />
 			</map:match>
 			
-			<map:match pattern="resources/buttons/*x*/*.png">
-				<map:read src="resource://com/mindquarry/webapp/buttons/{3}-button-{1}.png" />
+			<map:match pattern="resources/buttons/*x*/*.*">
+				<map:read src="resource://com/mindquarry/webapp/buttons/{3}-button-{1}.{4}" />
 			</map:match>
 		</map:pipeline>
 		
