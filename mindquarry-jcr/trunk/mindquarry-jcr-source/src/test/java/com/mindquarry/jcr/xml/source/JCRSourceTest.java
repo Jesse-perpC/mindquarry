@@ -202,7 +202,7 @@ public class JCRSourceTest extends JCRSourceTestBase {
         System.out.println();
     }
 
-    public void testCreateNewFileInNewDirectory()
+    public void testCreateNewBinaryFileInNewDirectory()
             throws InvalidNodeTypeDefException, ParseException, Exception {
         source = (JCRNodeWrapperSource) resolveSource(BASE_URL + "foo/bar");
         assertNotNull(source);
@@ -223,11 +223,16 @@ public class JCRSourceTest extends JCRSourceTestBase {
         InputStream is = source.getInputStream();
         ByteArrayOutputStream bos = new ByteArrayOutputStream();
 
-        int b;
-        while ((b = is.read()) != -1) {
-            bos.write(b);
+        try {
+            int b;
+            while ((b = is.read()) != -1) {
+                bos.write(b);
+            }
+            System.out.println(new String(bos.toByteArray()));
+        } finally {
+            is.close();
+            bos.close();
         }
-        System.out.println(new String(bos.toByteArray()));
     }
 
     public void testXMLizableSource() throws ServiceException, IOException,

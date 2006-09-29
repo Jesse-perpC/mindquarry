@@ -27,7 +27,7 @@ import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
  */
 public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
     
-    private static final String CONTENT_FILE = "/com/mindquarry/jcr/source/xml/ComplexContent.xml";
+    private static final String CONTENT_FILE = "/com/mindquarry/jcr/xml/source/ComplexContent.xml";
     
     public void testCreateNewXMLFile() throws InvalidNodeTypeDefException,
             ParseException, Exception {

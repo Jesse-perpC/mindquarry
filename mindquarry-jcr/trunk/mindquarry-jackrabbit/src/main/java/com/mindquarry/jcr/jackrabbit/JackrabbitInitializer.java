@@ -41,9 +41,7 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
 
 	private Configuration config;
 
-	private Source defSource;
-
-	private Source additionalDefSource;
+	private Source nodeTypeDefSource;
 
 	/**
 	 * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
@@ -51,25 +49,11 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
 	public void configure(Configuration config) throws ConfigurationException {
 		this.config = config;
 
-		// get node definitions (for additional definitions)
-		Configuration defs = config.getChild("definitions", false);
-		if (defs != null) {
-			try {
-				SourceResolver resolver = (SourceResolver) manager
-						.lookup(SourceResolver.ROLE);
-				additionalDefSource = resolver.resolveURI(defs
-						.getAttribute("src"));
-			} catch (Exception e) {
-				throw new ConfigurationException(
-						"Definitions file not found at " + defs.getLocation());
-			}
-		}
-
 		// get source for default node defintions
 		try {
 			SourceResolver resolver = (SourceResolver) this.manager
 					.lookup(SourceResolver.ROLE);
-			defSource = resolver.resolveURI(MQ_JCR_XML_NODETYPES_FILE);
+			nodeTypeDefSource = resolver.resolveURI(MQ_JCR_XML_NODETYPES_FILE);
 		} catch (Exception e) {
 			throw new ConfigurationException(
 					"Cannot find internal configuration resource "
@@ -97,10 +81,11 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
 		Session session = repo.login(new SimpleCredentials(login, password
 				.toCharArray()));
 
+        InputStreamReader nodeTypeDefReader =
+            new InputStreamReader(nodeTypeDefSource.getInputStream());
+        
 		JackrabbitInitializerHelper
-				.setupRepository(session, new InputStreamReader(defSource
-						.getInputStream()), new InputStreamReader(
-						additionalDefSource.getInputStream()), "");
+				.setupRepository(session, nodeTypeDefReader, "");
 		session.save();
 	}
 }
