@@ -18,7 +18,7 @@ import com.mindquarry.jcr.xml.source.JCRSourceFactory;
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-class JcrSourceResolverStandalone extends JcrSourceResolver {
+class JcrSourceResolverStandalone extends JcrSourceResolverBase {
      
     private JCRSourceFactory jcrSourceFactory_;
     

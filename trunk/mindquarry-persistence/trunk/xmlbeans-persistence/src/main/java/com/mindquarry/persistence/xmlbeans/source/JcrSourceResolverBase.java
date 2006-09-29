@@ -9,9 +9,10 @@ import org.apache.excalibur.source.ModifiableSource;
 /**
  * Add summary documentation here.
  *
- * @author <a href="mailto:your-email-address">your full name</a>
+ * @author
+ * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public abstract class JcrSourceResolver {
+public abstract class JcrSourceResolverBase {
 
     private static final String JCR_SOURCE_PREFIX = "jcr://";
 
@@ -22,13 +23,13 @@ public abstract class JcrSourceResolver {
     
     protected abstract ModifiableSource resolveJcrSourceInternal(String jcrPath);
     
-    public static JcrSourceResolver newCocoonSourceResolver(
+    public static JcrSourceResolverBase newCocoonSourceResolver(
             ServiceManager serviceManager_) {
         
         return new JcrSourceResolverCocoon(serviceManager_);
     }
     
-    public static JcrSourceResolver newStandaloneSourceResolver() {        
+    public static JcrSourceResolverBase newStandaloneSourceResolver() {        
         return new JcrSourceResolverStandalone();
     }
 }
