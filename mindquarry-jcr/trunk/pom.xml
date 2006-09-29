@@ -19,9 +19,10 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>JCR XML Extensions for Cocoon</name>
+	<name>Mindquarry JCR XML Extensions</name>
 
 	<modules>
+	         <module>mindquarry-jackrabbit</module>
 		<module>mindquarry-jcr-source</module>
 		<module>mindquarry-jcr-source-example</module>
 	</modules>
