@@ -3,21 +3,13 @@
  */
 package com.mindquarry.persistence.xmlbeans;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigLoader;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigResourceLoader;
-import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
-import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
-import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
-import com.mindquarry.persistence.xmlbeans.reflection.DocumentReflectionData;
-import com.mindquarry.persistence.xmlbeans.reflection.EntityReflectionData;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 /**
