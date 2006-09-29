@@ -80,6 +80,17 @@
 		<map:script src="ductforms.js" />
 	</map:flow>
 
+	<map:resources>
+    <!-- call this resource instead of the normal html serializer -->
+		<map:resource name="layouting">
+        	<!--<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">-->
+        	<map:transform src="xslt/html/html2html.xsl">
+        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+        	</map:transform>
+        	<map:serialize type="xhtml"/>
+		</map:resource>
+	</map:resources>
+	
 	<map:pipelines>
 		<map:pipeline type="noncaching">
 
@@ -219,7 +230,8 @@
 			<map:match pattern="*.query">
 				<map:generate src="cocoon:/{1}.query.raw" />
 				<map:transform src="cocoon:/{1}.query.xsl" />
-				<map:serialize type="html" />
+				<map:call resource="layouting" />
+				<!--<map:serialize type="html" />-->
 			</map:match>
 
       <!-- start page (or any other page) -->
