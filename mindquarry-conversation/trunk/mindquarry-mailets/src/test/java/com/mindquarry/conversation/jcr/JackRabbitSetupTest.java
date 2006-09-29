@@ -48,9 +48,9 @@ public class JackRabbitSetupTest extends JCRTestBaseStandalone {
 		cyclr.setName("Cyclr");
 		persistSession.persist(cyclr);
 		
-		Tag dev = (Tag) persistSession.newEntity(Tag.class);
-		dev.setId("dev");
-		dev.setCreated(new GregorianCalendar());
+//		Tag dev = (Tag) persistSession.newEntity(Tag.class);
+//		dev.setId("dev");
+//		dev.setCreated(new GregorianCalendar());
 		//dev.setCreator();
 
 		// String tagRef = null;
@@ -105,8 +105,6 @@ public class JackRabbitSetupTest extends JCRTestBaseStandalone {
 		// subscriberNode.setProperty("reference", memberNode);
 		// }
 		// }
-		session.save();
-
 		System.out.println("Please press <enter> to shutdown the server.");
 		System.in.read();
 
