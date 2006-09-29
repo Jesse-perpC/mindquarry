@@ -1,14 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns="http://www.w3.org/1999/xhtml">
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
 	
 	<xsl:import href="contextpath.xsl"/>
+	<xsl:param name="user.agent" select="''"/>
 	
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="us:user">
+		<xsl:choose>
+			<xsl:when test="contains($user.agent, @value)">
+				<xsl:value-of select="@value"/>
+				<xsl:apply-templates select="us:value/node()" />
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="@default"/>
+				
+				<xsl:apply-templates select="us:default/node()" />
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<xsl:template match="html">
