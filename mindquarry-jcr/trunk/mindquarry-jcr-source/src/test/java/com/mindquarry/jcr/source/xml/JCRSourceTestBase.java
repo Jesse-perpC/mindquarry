@@ -4,6 +4,7 @@
 package com.mindquarry.jcr.source.xml;
 
 import java.io.FileInputStream;
+import java.net.URL;
 import java.util.GregorianCalendar;
 
 import javax.jcr.Node;
@@ -32,6 +33,21 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
     @Override
     protected void tearDown() throws Exception {
         super.tearDown();
+    }
+    
+    /**
+     * Initializes the ComponentLocator
+     * 
+     * The configuration file is determined by the class name plus .xtest
+     * appended, all '.' replaced by '/' and loaded as a resource via classpath
+     */
+    @Override
+    protected void prepare() throws Exception {
+        String className = JCRSourceTestBase.class.getName();
+        String xtestResourceName = className.replace('.', '/') + ".xtest";
+
+        URL xtestResource = getClass().getClassLoader().getResource(xtestResourceName);
+        this.prepare(xtestResource.openStream());
     }
 
     protected void setupRepositoryContent(Session session) throws Exception {

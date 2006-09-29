@@ -57,25 +57,6 @@ public abstract class JCRTestBase extends ContainerTestCase {
         return resolver.resolveURI(uri);
     }
 
-    /**
-     * Initializes the ComponentLocator
-     * 
-     * The configuration file is determined by the class name plus .xtest
-     * appended, all '.' replaced by '/' and loaded as a resource via classpath
-     */
-    @Override
-    protected void prepare() throws Exception {
-        String className = JCRTestBase.class.getName();
-        String xtestResourceName = className.replace('.', '/') + ".xtest";
-
-        URL xtestResource = classLoader().getResource(xtestResourceName);
-        this.prepare(xtestResource.openStream());
-    }
-
-    private ClassLoader classLoader() {
-        return getClass().getClassLoader();
-    }
-
     private void removeRepository(File file) {
         // check if the file exists
         if (!file.exists()) {
