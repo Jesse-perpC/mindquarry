@@ -1,17 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
-	<modelVersion>4.0.0</modelVersion>
-	
 	<parent>
 		<artifactId>mindquarry-conversation</artifactId>
 		<groupId>com.mindquarry.conversation</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	
+	<modelVersion>4.0.0</modelVersion>
 	<artifactId>mindquarry-mailets</artifactId>
 	<name>Mindquarry Conversation Mailets</name>
 	<description>Project containing Mindquarry mailets.</description>
-	
 	<scm>
 		<connection>
 			scm:svn:https://secure.mindquarry.com/repos/mindquarry-conversation/trunk/mindquarry-mailets
@@ -23,7 +20,6 @@
 			https://secure.mindquarry.com/repos/mindquarry-conversation/trunk/mindquarry-mailets
 		</url>
 	</scm>
-	
 	<build>
 		<plugins>
 			<plugin>
@@ -76,6 +72,11 @@
 			<groupId>org.apache.jackrabbit</groupId>
 			<artifactId>jackrabbit-jcr-rmi</artifactId>
 			<version>1.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.types</groupId>
+			<artifactId>xmlbeans-persistence</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 </project>

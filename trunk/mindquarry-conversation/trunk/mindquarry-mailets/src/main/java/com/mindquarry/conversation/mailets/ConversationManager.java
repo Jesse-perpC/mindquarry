@@ -32,6 +32,9 @@ import javax.mail.internet.ParseException;
 import org.apache.mailet.Mail;
 import org.apache.mailet.MailAddress;
 
+import com.mindquarry.common.persistence.Session;
+import com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryStandalone;
+
 /**
  * This mailet handles all mails that are targeted to the conversation system.
  * 
@@ -44,6 +47,15 @@ public class ConversationManager extends AbstractRepositoryMailet {
 	@Override
 	public void init() throws MessagingException {
 		super.init();
+
+		try {
+			XmlBeansSessionFactoryStandalone factory = 
+				new XmlBeansSessionFactoryStandalone();
+			factory.initialize();
+			Session session = factory.currentSession();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 	/**
