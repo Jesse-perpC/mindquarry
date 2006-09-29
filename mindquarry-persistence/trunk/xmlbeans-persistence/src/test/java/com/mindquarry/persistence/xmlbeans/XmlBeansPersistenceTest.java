@@ -6,10 +6,11 @@ import org.apache.avalon.framework.service.ServiceException;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.types.teamspace.Teamspace;
 import com.mindquarry.types.user.Email;
 import com.mindquarry.types.user.User;
 
-public class UserTest extends XmlBeansPersistenceTestBase {
+public class XmlBeansPersistenceTest extends XmlBeansPersistenceTestBase {
 
     public void testConversation() throws ServiceException {
         SessionFactory sessionFactory = (SessionFactory) lookup(SessionFactory.ROLE);
@@ -32,5 +33,13 @@ public class UserTest extends XmlBeansPersistenceTestBase {
         List queryResult = session.query("getUserById", new Object[] {"bastian"});
         User queriedUser = (User) queryResult.get(0);
         assertEquals("bastian", queriedUser.getId());
+        
+        
+        Teamspace teamspace = (Teamspace) session.newEntity(Teamspace.class);
+        teamspace.setDescription("a great description");
+        teamspace.setId("mindquarry");
+        teamspace.setName("Mindquarry");
+        
+        session.persist(teamspace);
     }
 }
