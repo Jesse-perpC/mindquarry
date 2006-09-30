@@ -6,11 +6,11 @@
 
 	<modelVersion>4.0.0</modelVersion>
 
-	<parent>
+	<!--<parent>
 		<groupId>com.mindquarry.webapp</groupId>
 		<artifactId>mindquarry-webapp</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
-	</parent>
+	</parent>-->
 
 	<groupId>com.mindquarry.webapp</groupId>
 	<artifactId>mindquarry-webapp-resources</artifactId>
