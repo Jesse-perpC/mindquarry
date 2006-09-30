@@ -6,14 +6,14 @@ import junit.framework.TestCase;
 
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.teamspace.file.FileProjectManager;
+import com.mindquarry.teamspace.file.FileTeamspaceManager;
 
-public class FileProjectManagerTest extends TestCase {
+public class FileTeamspaceManagerTest extends TestCase {
 
 	protected void setUp() throws Exception {
 		super.setUp();
 		System.setProperty(
-				FileProjectManager.REPOS_BASE_PATH_PROPERTY, "target");
+				FileTeamspaceManager.REPOS_BASE_PATH_PROPERTY, "target");
 		
 	}
 	
@@ -21,7 +21,7 @@ public class FileProjectManagerTest extends TestCase {
 		
 		String projectName = "mindquarry";
 		
-		FileProjectManager projectMgr = new FileProjectManager();
+		FileTeamspaceManager projectMgr = new FileTeamspaceManager();
 		projectMgr.create(projectName);
 		
 		boolean exists = false;

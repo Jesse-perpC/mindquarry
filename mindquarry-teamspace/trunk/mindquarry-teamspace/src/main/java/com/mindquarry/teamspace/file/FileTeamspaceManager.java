@@ -23,13 +23,13 @@ import com.mindquarry.teamspace.TeamspaceRO;
  *  
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public class FileProjectManager implements TeamspaceAdmin, TeamspaceManager {
+public class FileTeamspaceManager implements TeamspaceAdmin, TeamspaceManager {
 
 	static final String REPOS_BASE_PATH_PROPERTY = "mindquarry.reposbasepath";
 	
 	private File reposBaseDirectory_;
 	
-	public FileProjectManager() {		
+	public FileTeamspaceManager() {		
 		String path = System.getProperty(REPOS_BASE_PATH_PROPERTY);
 		if (null != path)
 			reposBaseDirectory_ = new File(path);		
@@ -53,8 +53,8 @@ public class FileProjectManager implements TeamspaceAdmin, TeamspaceManager {
 		};
 	}
     
-    private Project makeProject(String name) {
-        return new Project(name);
+    private Teamspace makeProject(String name) {
+        return new Teamspace(name);
     }
 	
 	public void create(String name) throws TeamspaceAlreadyExistsException {
@@ -102,8 +102,8 @@ public class FileProjectManager implements TeamspaceAdmin, TeamspaceManager {
 									 + " does not exists.");		
 	}
 
-    private Map<String, Project> getProjects() {
-        Map<String, Project> result = new HashMap<String, Project>();
+    private Map<String, Teamspace> getProjects() {
+        Map<String, Teamspace> result = new HashMap<String, Teamspace>();
         for (File child : reposBaseDirectory_.listFiles(svnRepositoryFilter())) {
             String name = child.getName();
             result.put(name, makeProject(name));

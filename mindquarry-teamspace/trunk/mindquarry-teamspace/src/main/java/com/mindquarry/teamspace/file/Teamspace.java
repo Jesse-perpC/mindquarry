@@ -10,21 +10,21 @@ import com.mindquarry.teamspace.TeamspaceRO;
  *
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public class Project implements TeamspaceRO {
+public class Teamspace implements TeamspaceRO {
 	
 	private String name_;
 
 	/**
 	 * default constructor
 	 */
-	public Project() {
+	public Teamspace() {
 	}
 
 	/**
 	 * @param name
 	 * @param title
 	 */
-	public Project(String name) {
+	public Teamspace(String name) {
 		super();
 		name_ = name;
 	}
