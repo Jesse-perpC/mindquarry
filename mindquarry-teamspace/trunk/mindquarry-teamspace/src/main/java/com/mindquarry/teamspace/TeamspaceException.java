@@ -1,34 +1,35 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.project;
+package com.mindquarry.teamspace;
 
 /**
  * 
  *
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class ProjectException extends RuntimeException {
+public class TeamspaceException extends RuntimeException {
 
 	private static final long serialVersionUID = -83840116191701053L;
 
 	/**
 	 * 
 	 */
-	public ProjectException() {
+	public TeamspaceException() {
 	}
 
 	/**
 	 * @param message
 	 */
-	public ProjectException(String message) {
+	public TeamspaceException(String message) {
 		super(message);
 	}
 
 	/**
 	 * @param cause
 	 */
-	public ProjectException(Throwable cause) {
+	public TeamspaceException(Throwable cause) {
 		super(cause);
 	}
 
@@ -36,7 +37,7 @@ public class ProjectException extends RuntimeException {
 	 * @param message
 	 * @param cause
 	 */
-	public ProjectException(String message, Throwable cause) {
+	public TeamspaceException(String message, Throwable cause) {
 		super(message, cause);
 	}
 }
