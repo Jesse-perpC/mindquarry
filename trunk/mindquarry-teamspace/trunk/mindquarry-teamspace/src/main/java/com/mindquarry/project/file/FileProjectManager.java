@@ -28,7 +28,6 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 	static final String REPOS_BASE_PATH_PROPERTY = "mindquarry.reposbasepath";
 	
 	private File reposBaseDirectory_;
-	private Map<String, Project> projects_;
 	
 	public FileProjectManager() {		
 		String path = System.getProperty(REPOS_BASE_PATH_PROPERTY);
@@ -40,16 +39,6 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 			throw new InitializationException("system property " +
 					"'mindquarry.reposbasepath' is not set to a valid, " +
 					"existing base directory for repositories");
-		
-		init();
-	}
-	
-	private void init() {
-		projects_ = new HashMap<String, Project>();
-		for (File child : reposBaseDirectory_.listFiles(svnRepositoryFilter())) {
-			String name = child.getName();
-			projects_.put(name, makeProject(name));
-		}
 	}
 	
 	private FileFilter svnRepositoryFilter() {
@@ -69,11 +58,10 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
     }
 	
 	public void create(String name) throws ProjectAlreadyExistsException {
-		if (projects_.containsKey(name))
+		if (getProjects().containsKey(name))
 			throw new ProjectAlreadyExistsException();
 		
-		dmaAdmin(name).createRepository();        
-		projects_.put(name, makeProject(name));
+		dmaAdmin(name).createRepository();
 	}
 	
 	private DmaAdmin dmaAdmin(String projectName) {
@@ -86,7 +74,7 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 	}
 	
 	public List<ProjectRO> list() {
-		return new LinkedList<ProjectRO>(projects_.values());
+		return new LinkedList<ProjectRO>(getProjects().values());
 	}
 	
 	/**
@@ -106,12 +94,20 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 	public void remove(String name) {
 		validateExistence(name);
 		dmaAdmin(name).removeRepository();
-		projects_.remove(name);
 	}
 	
 	private void validateExistence(String name) {
-		if (! projects_.containsKey(name))
+		if (! getProjects().containsKey(name))
 			throw new ProjectException("a project with name: " + name 
 									 + " does not exists.");		
 	}
+
+    private Map<String, Project> getProjects() {
+        Map<String, Project> result = new HashMap<String, Project>();
+        for (File child : reposBaseDirectory_.listFiles(svnRepositoryFilter())) {
+            String name = child.getName();
+            result.put(name, makeProject(name));
+        }
+        return result;
+    }
 }
