@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.mindquarry.project.file;
+package com.mindquarry.teamspace.file;
 
 import java.io.File;
 import java.io.FileFilter;
@@ -13,17 +13,17 @@ import java.util.Map;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.dma.admin.DmaAdmin;
 import com.mindquarry.dma.admin.DmaAdminFactory;
-import com.mindquarry.project.ProjectAdmin;
-import com.mindquarry.project.ProjectAlreadyExistsException;
-import com.mindquarry.project.ProjectException;
-import com.mindquarry.project.ProjectQuery;
-import com.mindquarry.project.ProjectRO;
+import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
+import com.mindquarry.teamspace.TeamspaceException;
+import com.mindquarry.teamspace.TeamspaceManager;
+import com.mindquarry.teamspace.TeamspaceRO;
 
 /**
  *  
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public class FileProjectManager implements ProjectAdmin, ProjectQuery {
+public class FileProjectManager implements TeamspaceAdmin, TeamspaceManager {
 
 	static final String REPOS_BASE_PATH_PROPERTY = "mindquarry.reposbasepath";
 	
@@ -57,9 +57,9 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
         return new Project(name);
     }
 	
-	public void create(String name) throws ProjectAlreadyExistsException {
+	public void create(String name) throws TeamspaceAlreadyExistsException {
 		if (getProjects().containsKey(name))
-			throw new ProjectAlreadyExistsException();
+			throw new TeamspaceAlreadyExistsException();
 		
 		dmaAdmin(name).createRepository();
 	}
@@ -73,8 +73,8 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 		return DmaAdminFactory.createAdmin(repoPathSB.toString());
 	}
 	
-	public List<ProjectRO> list() {
-		return new LinkedList<ProjectRO>(getProjects().values());
+	public List<TeamspaceRO> list() {
+		return new LinkedList<TeamspaceRO>(getProjects().values());
 	}
 	
 	/**
@@ -98,7 +98,7 @@ public class FileProjectManager implements ProjectAdmin, ProjectQuery {
 	
 	private void validateExistence(String name) {
 		if (! getProjects().containsKey(name))
-			throw new ProjectException("a project with name: " + name 
+			throw new TeamspaceException("a project with name: " + name 
 									 + " does not exists.");		
 	}
 

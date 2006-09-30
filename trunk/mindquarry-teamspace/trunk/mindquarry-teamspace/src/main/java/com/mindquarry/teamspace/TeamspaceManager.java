@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.project;
+package com.mindquarry.teamspace;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import java.util.List;
  *
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public interface ProjectQuery {
+public interface TeamspaceManager {
 
 	/**
 	 * @param name, the name (id) of the project
@@ -19,5 +19,5 @@ public interface ProjectQuery {
 	 */
 	String repositoryPath(String name);
     
-    List<ProjectRO> list();
+    List<TeamspaceRO> list();
 }

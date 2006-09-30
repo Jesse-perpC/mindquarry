@@ -1,11 +1,12 @@
-package com.mindquarry.project.file;
+package com.mindquarry.teamspace.file;
 
 import java.util.List;
 
 import junit.framework.TestCase;
 
-import com.mindquarry.project.ProjectAlreadyExistsException;
-import com.mindquarry.project.ProjectRO;
+import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
+import com.mindquarry.teamspace.TeamspaceRO;
+import com.mindquarry.teamspace.file.FileProjectManager;
 
 public class FileProjectManagerTest extends TestCase {
 
@@ -16,7 +17,7 @@ public class FileProjectManagerTest extends TestCase {
 		
 	}
 	
-	public void testFileProjectManager() throws ProjectAlreadyExistsException {
+	public void testFileProjectManager() throws TeamspaceAlreadyExistsException {
 		
 		String projectName = "mindquarry";
 		
@@ -24,10 +25,10 @@ public class FileProjectManagerTest extends TestCase {
 		projectMgr.create(projectName);
 		
 		boolean exists = false;
-		List<ProjectRO> projects = projectMgr.list();
+		List<TeamspaceRO> projects = projectMgr.list();
 		int nProjects = projects.size();
 		assertTrue(0 < nProjects);
-		for (ProjectRO project : projectMgr.list()) {
+		for (TeamspaceRO project : projectMgr.list()) {
 			if (projectName.equals(project.getName())) {
 				exists = true;
 				break;

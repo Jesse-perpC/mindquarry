@@ -1,16 +1,16 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.project.file;
+package com.mindquarry.teamspace.file;
 
-import com.mindquarry.project.ProjectRO;
+import com.mindquarry.teamspace.TeamspaceRO;
 
 /**
  * 
  *
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public class Project implements ProjectRO {
+public class Project implements TeamspaceRO {
 	
 	private String name_;
 
