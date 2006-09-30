@@ -27,6 +27,10 @@ public class PersistenceConfiguration {
         queryInfoMap_ = makeQueryInfoMap(xmlBeansConfig);
     }
     
+    public boolean existsEntity(Class entityClazz) {
+        return entityMap_.containsKey(entityClazz);
+    }
+    
     public Set<Class> entityClazzes() {
         return entityMap_.keySet();
     }

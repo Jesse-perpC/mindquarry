@@ -87,8 +87,10 @@ class XmlBeansSession implements Session {
     private Class entityClazz(Object transientInstance) {
         Class entityImplClazz = transientInstance.getClass();
         validateEntityImplClass(entityImplClazz);
+        
         Class entityClazz = entityImplClazz.getInterfaces()[0];
         validateEntityClass(entityClazz);
+        
         return entityClazz;
     }
     
@@ -171,6 +173,9 @@ class XmlBeansSession implements Session {
             return false;
         
         if (! XmlObject.class.equals(extendedInterfaces[0]))
+            return false;
+        
+        if (! configuration_.existsEntity(clazz))
             return false;
         
         return true;
