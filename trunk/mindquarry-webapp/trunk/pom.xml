@@ -22,7 +22,7 @@
 
 	<modules>
 		<module>mindquarry-webapp-block</module>
-		<module>mindquarry-webapp-resources</module>
+		<!--<module>mindquarry-webapp-resources</module>-->
 	</modules>
 	
 	<developers>
