@@ -6,7 +6,6 @@ package com.mindquarry.jcr.jackrabbit;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
 
 /**
  * This extension of the Cocoon internal Jackrabbit repository component ensures
@@ -18,14 +17,7 @@ import org.apache.avalon.framework.service.ServiceManager;
  */
 public class JackrabbitRepository extends
         org.apache.cocoon.jcr.JackrabbitRepository {
-    /**
-     * @see org.apache.cocoon.jcr.AbstractRepository#service(org.apache.avalon.framework.service.ServiceManager)
-     */
-    @Override
-    public void service(ServiceManager manager) throws ServiceException {
-        super.service(manager);
-    }
-
+    
     /**
      * @see org.apache.cocoon.jcr.JackrabbitRepository#configure(org.apache.avalon.framework.configuration.Configuration)
      */
