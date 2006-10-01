@@ -5,6 +5,7 @@ package com.mindquarry.persistence.xmlbeans;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigFileLoader;
+import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigLoader;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 /**
@@ -47,7 +48,10 @@ public class XmlBeansSessionFactoryStandalone
      * @see com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryBase#makeConfigLoader()
      */
     @Override
-    protected PersistenceConfigFileLoader makeConfigLoader() {
-        return new PersistenceConfigFileLoader();
+    protected PersistenceConfigLoader makeConfigLoader() {
+        PersistenceConfigLoader result;
+        result = new PersistenceConfigFileLoader();
+        result.enableLogging(getLogger());
+        return result;
     }
 }

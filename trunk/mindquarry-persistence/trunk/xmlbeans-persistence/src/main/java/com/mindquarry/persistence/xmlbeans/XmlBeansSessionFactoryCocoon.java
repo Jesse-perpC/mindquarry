@@ -52,6 +52,9 @@ public class XmlBeansSessionFactoryCocoon extends XmlBeansSessionFactoryBase
     
     @Override
     protected PersistenceConfigLoader makeConfigLoader() {
-        return new PersistenceConfigResourceLoader(serviceManager_);
+        PersistenceConfigLoader result;
+        result = new PersistenceConfigResourceLoader(serviceManager_);
+        result.enableLogging(getLogger());
+        return result;
     }
 }
