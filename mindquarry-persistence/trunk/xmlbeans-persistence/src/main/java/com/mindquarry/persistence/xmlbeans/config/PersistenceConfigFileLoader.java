@@ -15,6 +15,8 @@ public class PersistenceConfigFileLoader extends PersistenceConfigLoader {
     private static final String CONFIG_FILE = "/com/mindquarry/persistence/xmlbeans/mindquarry-persistence.xml";
     
     protected InputStream resolveConfig() {
+        getLogger().info("lookup xmlbeans persistence " +
+                "configuration file at: " + CONFIG_FILE);
         return getClass().getResourceAsStream(CONFIG_FILE);
     }
 }

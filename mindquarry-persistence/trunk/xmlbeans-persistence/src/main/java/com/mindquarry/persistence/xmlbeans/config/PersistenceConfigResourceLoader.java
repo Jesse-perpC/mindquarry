@@ -30,6 +30,9 @@ public class PersistenceConfigResourceLoader extends PersistenceConfigLoader {
     
     @Override
     protected InputStream resolveConfig() {
+        getLogger().info("lookup xmlbeans persistence " +
+                "configuration file at: " + CONFIG_RESOURCE);
+        
         SourceResolver resolver = lookupSourceResolver();
         try {
             return resolver.resolveURI(CONFIG_RESOURCE).getInputStream();

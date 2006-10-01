@@ -69,5 +69,16 @@ public class PersistenceConfiguration {
             throw new InitializationException(
                     "could not load entity class", e);
         }
-    } 
+    }
+    
+    public String toString() {
+        StringBuilder resultSB = new StringBuilder();
+        resultSB.append("PersistenceConfiguration: ");
+        resultSB.append("entityMap=");
+        resultSB.append(entityMap_);
+        resultSB.append(' ');
+        resultSB.append("queryInfoMap=");
+        resultSB.append(queryInfoMap_);
+        return resultSB.toString();
+    }
 }

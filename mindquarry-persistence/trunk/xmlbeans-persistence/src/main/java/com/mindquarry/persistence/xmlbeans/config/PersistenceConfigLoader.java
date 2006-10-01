@@ -3,6 +3,7 @@ package com.mindquarry.persistence.xmlbeans.config;
 import java.io.IOException;
 import java.io.InputStream;
 
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.xmlbeans.XmlException;
 import org.apache.xmlbeans.XmlOptions;
 
@@ -13,7 +14,7 @@ import com.mindquarry.common.init.InitializationException;
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-public abstract class PersistenceConfigLoader {
+public abstract class PersistenceConfigLoader extends AbstractLogEnabled {
 
     protected abstract InputStream resolveConfig();
 
@@ -23,6 +24,7 @@ public abstract class PersistenceConfigLoader {
     }
 
     protected Configuration parse(InputStream configIn) {
+        getLogger().debug("parse xmlbeans persistence configuration");
         try {
             return ConfigurationDocument.Factory.parse(
                     configIn, makeParserXmlOptions()).getConfiguration();
