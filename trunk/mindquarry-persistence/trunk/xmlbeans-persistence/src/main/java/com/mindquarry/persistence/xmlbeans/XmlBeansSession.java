@@ -8,13 +8,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.excalibur.source.ModifiableSource;
+import org.apache.excalibur.source.ModifiableTraversableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.TraversableSource;
 import org.apache.xmlbeans.XmlObject;
 
 import com.mindquarry.common.persistence.Session;
@@ -102,14 +106,21 @@ class XmlBeansSession implements Session {
     }
     
     public void commit() {
-        for (XmlObject entity : pooledEntities_) {
+        
+        Iterator<XmlObject> pooledEntitiesIt = pooledEntities_.iterator();
+        while (pooledEntitiesIt.hasNext()) {
+            XmlObject entity = pooledEntitiesIt.next();
             persist(entity);
-            pooledEntities_.remove(entity);
+            pooledEntitiesIt.remove();
         }
-        for (XmlObject entity : deletedEntities_) {
+        
+        Iterator<XmlObject> deletedEntitiesIt = deletedEntities_.iterator();
+        while (deletedEntitiesIt.hasNext()) {
+            XmlObject entity = deletedEntitiesIt.next();
             ModifiableSource source = resolveJcrSource(entity);
             try {
                 source.delete();
+                deletedEntitiesIt.remove();
             } catch (SourceException e) {
                 throw new XmlBeansPersistenceException(
                      "could not delete xml content from jcr source", e);
@@ -150,16 +161,38 @@ class XmlBeansSession implements Session {
         String query = configuration_.query(queryKey);
         String preparedQuery = prepareQuery(query, params);
         
-        Source source = resolveJcrSource(preparedQuery);
+        TraversableSource source = resolveJcrSource(preparedQuery);
         
         if (source.exists()) {
-            String clazzName = configuration_.queryResultClass(queryKey);
-            XmlObject entity = entityCreator_.newEntityFrom(
-                    loadSourceContent(source), clazzName);
-            
-            pooledEntities_.add(entity);
-            result.add(entity);
+            String clazzName = configuration_.queryResultClass(queryKey);            
+            if (source.isCollection()) {
+                for (Object child : getChildren(source)) {
+                    ModifiableSource childSource = (ModifiableSource) child;
+                    XmlObject entity = createEntity(childSource, clazzName);
+                    result.add(entity);
+                }
+            } else {
+                XmlObject entity = createEntity(source, clazzName);
+                result.add(entity);
+            }            
         }
+        return result;
+    }
+    
+    private Collection getChildren(TraversableSource parentSource) {
+        try {
+            return parentSource.getChildren();
+        } catch (SourceException e) {
+            throw new XmlBeansPersistenceException(
+                    "could not get children from source: " + 
+                    parentSource.getURI(), e);
+        }
+    }
+    
+    private XmlObject createEntity(Source source, String clazzName) {
+        InputStream sourceIn = loadSourceContent(source);
+        XmlObject result = entityCreator_.newEntityFrom(sourceIn, clazzName);
+        pooledEntities_.add(result);
         return result;
     }
     
@@ -218,11 +251,11 @@ class XmlBeansSession implements Session {
         return true;
     }
     
-    private ModifiableSource resolveJcrSource(String path) {
+    private ModifiableTraversableSource resolveJcrSource(String path) {
         return jcrSourceResolver_.resolveJcrSource(path);
     }
     
-    private ModifiableSource resolveJcrSource(XmlObject entity) {
+    private ModifiableTraversableSource resolveJcrSource(XmlObject entity) {
         String entityPath = buildEntityPath(entity);
         return resolveJcrSource(entityPath);
     }

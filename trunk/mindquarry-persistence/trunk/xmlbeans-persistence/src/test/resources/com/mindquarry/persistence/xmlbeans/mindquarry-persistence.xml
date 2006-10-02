@@ -16,4 +16,9 @@
 		<query>/users/{$userId}</query>
 		<resultEntityClass>com.mindquarry.types.user.User</resultEntityClass>
 	</queryInfo>
+	<queryInfo>
+		<key>getAllUsers</key>
+		<query>/users</query>
+		<resultEntityClass>com.mindquarry.types.user.User</resultEntityClass>
+	</queryInfo>
 </configuration>
