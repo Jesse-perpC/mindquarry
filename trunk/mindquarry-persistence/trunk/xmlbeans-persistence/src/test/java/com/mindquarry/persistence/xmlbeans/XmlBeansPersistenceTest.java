@@ -50,10 +50,4 @@ public class XmlBeansPersistenceTest extends XmlBeansPersistenceTestBase {
         
         session.commit();
     }
-    
-    private UserTransaction newUserTransaction() {
-        ApplicationContext ctx = new ClassPathXmlApplicationContext("/META-INF/spring/xmlbeans-persistence-context.xml", this.getClass());
-        JtaTransactionManager txManager = (JtaTransactionManager) ctx.getBean("transactionManager");
-        return txManager.getUserTransaction();
-    }
 }
