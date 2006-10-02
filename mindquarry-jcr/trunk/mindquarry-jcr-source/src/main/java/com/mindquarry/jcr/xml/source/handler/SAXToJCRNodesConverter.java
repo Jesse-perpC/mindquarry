@@ -149,6 +149,9 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
         }
         
         decrementElementDepthCounter();
+        
+        if (ELEMENT_DEPTH_START == getElementDepthCounter())
+            prefixMapStack.pop();
     }
 
     /**
@@ -212,15 +215,6 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             }
         }
         return result;
-    }
-    
-    /**
-     * @see org.xml.sax.helpers.DefaultHandler#endPrefixMapping(java.lang.String)
-     */
-    @Override
-    public void endPrefixMapping(String prefix) throws SAXException {
-        if (ELEMENT_DEPTH_START == getElementDepthCounter())
-            prefixMapStack.pop();
     }
 
     // =========================================================================
