@@ -2,7 +2,14 @@ package com.mindquarry.persistence.xmlbeans;
 
 import java.util.List;
 
+import javax.transaction.NotSupportedException;
+import javax.transaction.SystemException;
+import javax.transaction.UserTransaction;
+
 import org.apache.avalon.framework.service.ServiceException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.transaction.jta.JtaTransactionManager;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
@@ -12,7 +19,8 @@ import com.mindquarry.types.user.User;
 
 public class XmlBeansPersistenceTest extends XmlBeansPersistenceTestBase {
 
-    public void testConversation() throws ServiceException {
+    public void testConversation() throws ServiceException, NotSupportedException, SystemException {
+                
         SessionFactory sessionFactory = (SessionFactory) lookup(SessionFactory.ROLE);
         Session session = sessionFactory.currentSession();
         
@@ -28,8 +36,8 @@ public class XmlBeansPersistenceTest extends XmlBeansPersistenceTestBase {
         email.setAddress("bastian.steinert@mindquarry.com");
         email.setIsConversationRecipient(true);
         
-        session.persist(user);
-               
+        session.commit();
+        
         List queryResult = session.query("getUserById", new Object[] {"bastian"});
         User queriedUser = (User) queryResult.get(0);
         assertEquals("bastian", queriedUser.getId());
@@ -40,6 +48,12 @@ public class XmlBeansPersistenceTest extends XmlBeansPersistenceTestBase {
         teamspace.setId("mindquarry");
         teamspace.setName("Mindquarry");
         
-        session.persist(teamspace);
+        session.commit();
+    }
+    
+    private UserTransaction newUserTransaction() {
+        ApplicationContext ctx = new ClassPathXmlApplicationContext("/META-INF/spring/xmlbeans-persistence-context.xml", this.getClass());
+        JtaTransactionManager txManager = (JtaTransactionManager) ctx.getBean("transactionManager");
+        return txManager.getUserTransaction();
     }
 }
