@@ -49,7 +49,7 @@ public class UserTestStandalone extends JCRTestBaseStandalone {
 		email.setAddress("bastian.steinert@mindquarry.com");
 		email.setIsConversationRecipient(true);
 
-		session.persist(user);
+		session.commit();
 
 		List queryResult = session.query("getUserById",
 				new Object[] { "bastian" });
