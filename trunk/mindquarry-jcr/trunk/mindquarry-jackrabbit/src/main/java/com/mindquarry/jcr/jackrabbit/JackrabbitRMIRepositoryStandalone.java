@@ -164,6 +164,7 @@ public class JackrabbitRMIRepositoryStandalone {
         JackrabbitInitializerHelper
                 .setupRepository(session, new InputStreamReader(nodeTypeDefIn),
                         MQ_JCR_XML_NODETYPES_FILE);
+        session.save();
     }
 
     private void stop() throws Exception {
