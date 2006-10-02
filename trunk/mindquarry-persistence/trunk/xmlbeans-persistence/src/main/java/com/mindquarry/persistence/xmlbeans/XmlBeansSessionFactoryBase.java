@@ -28,7 +28,8 @@ public abstract class XmlBeansSessionFactoryBase extends AbstractLogEnabled
      * @see org.apache.avalon.framework.activity.Initializable#initialize()
      */
     public void initialize() throws Exception {
-        configuration_ = new PersistenceConfiguration(makeConfigLoader());
+        configuration_ = new PersistenceConfiguration(
+                getLogger(), makeConfigLoader());
         documentCreator_ = makeDocumentCreator(configuration_);
         entityCreator_ = makeEntityCreator(configuration_, documentCreator_);
     }

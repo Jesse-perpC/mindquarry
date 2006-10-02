@@ -32,17 +32,29 @@ public class XmlBeansPersistenceTest extends XmlBeansPersistenceTestBase {
         email.setAddress("bastian.steinert@mindquarry.com");
         email.setIsConversationRecipient(true);
         
-        session.commit();
-        
-        List queryResult = session.query("getUserById", new Object[] {"bastian"});
-        User queriedUser = (User) queryResult.get(0);
-        assertEquals("bastian", queriedUser.getId());
-        
-        
         Teamspace teamspace = (Teamspace) session.newEntity(Teamspace.class);
         teamspace.setDescription("a great description");
         teamspace.setId("mindquarry");
         teamspace.setName("Mindquarry");
+        
+        session.commit();
+        
+        
+        session = sessionFactory.currentSession();
+        
+        List queryResult = session.query("getUserById", new Object[] {"bastian"});
+        User persistentUser = (User) queryResult.get(0);
+        assertEquals("bastian", persistentUser.getId());
+        
+        session.delete(persistentUser);
+        
+        session.commit();
+        
+        
+        session = sessionFactory.currentSession();
+        
+        queryResult = session.query("getUserById", new Object[] {"bastian"});
+        assertTrue(queryResult.isEmpty());       
         
         session.commit();
     }

@@ -34,7 +34,11 @@ public class XmlBeansEntityCreator {
         return invokeEntityFactoryMethod(entityClazz, factoryMethod);
     }
     
-    public XmlObject newEntityFrom(InputStream contentIn, Class entityClazz) {
+    public XmlObject newEntityFrom(
+            InputStream contentIn, String entityClazzName) {
+        
+        Class entityClazz = entityReflectionData_.classForName(entityClazzName);
+        
         XmlObject document = documentCreator_.newDocumentFor(
                 contentIn, entityClazz);
         
