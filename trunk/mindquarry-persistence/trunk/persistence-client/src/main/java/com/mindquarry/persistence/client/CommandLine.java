@@ -6,6 +6,8 @@ package com.mindquarry.persistence.client;
 import java.io.File;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -39,6 +41,8 @@ public class CommandLine {
     private static final String O_PWD = "p"; //$NON-NLS-1$
 
     private static final char VALUE_SEPARATOR = ' ';
+    
+    private Logger logger;
 
     /**
      * The options object for the command line applications.
@@ -98,6 +102,9 @@ public class CommandLine {
      * @param args the command line arguments
      */
     private void run(String[] args) throws Exception {
+        
+        logger = new ConsoleLogger(ConsoleLogger.LEVEL_WARN);
+        
         // create the parser
         org.apache.commons.cli.CommandLine line = null;
         CommandLineParser parser = new GnuParser();
@@ -119,6 +126,7 @@ public class CommandLine {
 
         // init connection to persistence layer
         XmlBeansSessionFactoryStandalone factory = new XmlBeansSessionFactoryStandalone();
+        factory.enableLogging(logger);
         factory.configure(config);
         factory.initialize();
 
