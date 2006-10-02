@@ -14,10 +14,9 @@ public interface Session {
 
     Object newEntity(Class clazz);
     
-    /**
-     * @deprecated use commit at the end of your session
-     */    
-    void persist(Object object);
+    void persist(Object entity);
+    
+    boolean delete(Object entity);
     
     List query(String queryName, Object[] params);
     
