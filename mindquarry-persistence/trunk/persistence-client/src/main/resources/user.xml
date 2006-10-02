@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<usr:user xmlns:tag="http://www.mindquarry.com/ns/schema/tag"
+	xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace"
+	xmlns:usr="http://www.mindquarry.com/ns/schema/user"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mindquarry.com/ns/schema/user ../../../../user-types/src/main/xsd/user.xsd http://www.mindquarry.com/ns/schema/tag ../../../../../tag/tag-types/src/main/xsd/tag.xsd http://www.mindquarry.com/ns/schema/teamspace ../../../../../teamspace/teamspace-types/src/main/xsd/teamspace.xsd ">
+
+	<usr:id>alexander.saar</usr:id>
+	<usr:password>mypwd</usr:password>
+	<usr:name>Alexander</usr:name>
+	<usr:surname>Saar</usr:surname>
+	<usr:email>
+		<usr:address>alexander.saar@mindquarry.com</usr:address>
+		<usr:isConversationRecipient>true</usr:isConversationRecipient>
+	</usr:email>
+	<usr:tags />
+	<usr:teamspaces />
+</usr:user>
