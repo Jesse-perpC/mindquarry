@@ -17,6 +17,8 @@ import javax.jcr.SimpleCredentials;
 
 import junit.framework.TestCase;
 
+import org.apache.avalon.framework.logger.ConsoleLogger;
+import org.apache.avalon.framework.logger.Logger;
 import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.rmi.remote.RemoteRepository;
@@ -50,10 +52,19 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 	protected Registry reg;
 
 	protected Session session;
+    
+    private Logger logger;
+    
+    protected Logger getLogger() {
+        return logger;
+    }
 
 	@Override
 	protected void setUp() throws Exception {
-		// remove old repository
+	
+        this.logger = new ConsoleLogger(ConsoleLogger.LEVEL_WARN);
+        
+        // remove old repository
 		File repoFolder = new File("target/repository");
 		removeRepository(repoFolder);
 
