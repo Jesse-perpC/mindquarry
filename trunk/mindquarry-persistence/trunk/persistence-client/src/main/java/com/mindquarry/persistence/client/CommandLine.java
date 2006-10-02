@@ -19,8 +19,13 @@ import org.apache.xmlbeans.XmlException;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryStandalone;
+import com.mindquarry.types.tag.Tag;
+import com.mindquarry.types.tag.TagDocument;
+import com.mindquarry.types.teamspace.Teamspace;
+import com.mindquarry.types.teamspace.TeamspaceDocument;
 import com.mindquarry.types.user.User;
 import com.mindquarry.types.user.UserDocument;
+import com.sun.jmx.snmp.tasks.Task;
 
 /**
  * Command line client to be used for working with the Mindquarry persistence
@@ -41,7 +46,7 @@ public class CommandLine {
     private static final String O_PWD = "p"; //$NON-NLS-1$
 
     private static final char VALUE_SEPARATOR = ' ';
-    
+
     private Logger logger;
 
     /**
@@ -91,8 +96,12 @@ public class CommandLine {
      * @param args the command line arguments
      */
     public static void main(String[] args) throws Exception {
+        System.out.println("Starting persistence client...");
+        
         CommandLine cl = new CommandLine();
         cl.run(args);
+        
+        System.out.println("Persistence actions finished.");
     }
 
     /**
@@ -102,9 +111,8 @@ public class CommandLine {
      * @param args the command line arguments
      */
     private void run(String[] args) throws Exception {
-        
         logger = new ConsoleLogger(ConsoleLogger.LEVEL_WARN);
-        
+
         // create the parser
         org.apache.commons.cli.CommandLine line = null;
         CommandLineParser parser = new GnuParser();
@@ -144,14 +152,34 @@ public class CommandLine {
     private void persistTypes(String[] optionValues, Session session)
             throws Exception {
         for (String value : optionValues) {
+            System.out.println("Start adding of " + value);
+            
             try {
-                UserDocument userDoc = UserDocument.Factory.parse(new File(
-                        value));
-                User user = userDoc.getUser();
-                session.persist(user);
+                User entity = (User) session.newEntity(User.class);
+                entity.set(UserDocument.Factory.parse(new File(value))
+                        .getUser());
+                continue;
             } catch (XmlException e) {
-
+                // nothing to do here, check next type
             }
+            try {
+                Teamspace entity = (Teamspace) session
+                        .newEntity(Teamspace.class);
+                entity.set(TeamspaceDocument.Factory.parse(new File(value))
+                        .getTeamspace());
+                continue;
+            } catch (XmlException e) {
+                // nothing to do here, check next type
+            }
+            try {
+                Tag entity = (Tag) session.newEntity(Tag.class);
+                entity.set(TagDocument.Factory.parse(new File(value)).getTag());
+                continue;
+            } catch (XmlException e) {
+                // nothing to do here, check next type
+            }
+            // if we reached this point, an unknown entity is detected
+            System.out.println("Unknown entity detected: " + value);
         }
     }
 
