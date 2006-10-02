@@ -16,11 +16,16 @@ import java.util.Set;
  */
 public class EntityReflectionData {
 
+    private Map<String, Class> entityClazzes_;
     private Map<Class, Method> entityFactoryMethods_;
     private Map<Class, Method> getEntityMethods_;
     
     public EntityReflectionData(Set<Class> entityClazzes) {
-
+        
+        entityClazzes_ = new HashMap<String, Class>();
+        for (Class clazz : entityClazzes)
+            entityClazzes_.put(clazz.getName(), clazz);
+        
         entityFactoryMethods_ = new HashMap<Class, Method>();
         loadEntityFactoryMethods(entityClazzes);
         
@@ -30,6 +35,10 @@ public class EntityReflectionData {
     
     public Method getEntityMethod(Class entityClazz) {
         return getEntityMethods_.get(entityClazz);
+    }
+    
+    public Class classForName(String clazzName) {
+        return entityClazzes_.get(clazzName);
     }
     
     private void loadGetEntityMethods(Set<Class> entityClazzes) {

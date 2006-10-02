@@ -13,12 +13,12 @@ import java.util.List;
 
 import org.apache.excalibur.source.ModifiableSource;
 import org.apache.excalibur.source.Source;
+import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.xmlbeans.XmlObject;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
-import com.mindquarry.persistence.xmlbeans.config.QueryInfo;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
@@ -31,7 +31,8 @@ import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
  */
 class XmlBeansSession implements Session {
     
-    private List<XmlObject> transientInstances_;
+    private List<XmlObject> pooledEntities_;
+    private List<XmlObject> deletedEntities_;
     
     private final PersistenceConfiguration configuration_;
     private final XmlBeansDocumentCreator documentCreator_;
@@ -56,13 +57,14 @@ class XmlBeansSession implements Session {
         entityCreator_ = entityCreator;
         jcrSourceResolver_ = jcrSourceResolver;
         
-        transientInstances_ = new LinkedList<XmlObject>();
+        pooledEntities_ = new LinkedList<XmlObject>();
+        deletedEntities_ = new LinkedList<XmlObject>();
     }
 
     public Object newEntity(Class entityClazz) {
         validateEntityClass(entityClazz);
         XmlObject result = entityCreator_.newEntityFor(entityClazz);
-        transientInstances_.add(result);
+        pooledEntities_.add(result);
         return result;
     }
 
@@ -70,12 +72,8 @@ class XmlBeansSession implements Session {
         
         Class entityClazz = entityClazz(transientInstance);        
         XmlObject xmlTransientInstance = (XmlObject) transientInstance;
-        
-        String id = entityId(xmlTransientInstance);
-        String basePath = configuration_.entityBasePath(entityClazz);
-        String entityPath = basePath + "/" + id;
-        
-        ModifiableSource source = resolveJcrSource(entityPath);
+                
+        ModifiableSource source = resolveJcrSource(xmlTransientInstance);
         
         XmlObject entityDocument = documentCreator_.newDocumentFor(
                 xmlTransientInstance, entityClazz);        
@@ -90,9 +88,32 @@ class XmlBeansSession implements Session {
         }        
     }
     
+    public boolean delete(Object object) {
+        boolean isDeleted = false;
+        
+        if (pooledEntities_.contains(object)) {            
+            XmlObject entity = (XmlObject) object;
+            deletedEntities_.add(entity);
+            pooledEntities_.remove(entity);
+            isDeleted = true;
+        }
+        
+        return isDeleted;
+    }
+    
     public void commit() {
-        for (XmlObject transientInstance : transientInstances_) {
-            persist(transientInstance);
+        for (XmlObject entity : pooledEntities_) {
+            persist(entity);
+            pooledEntities_.remove(entity);
+        }
+        for (XmlObject entity : deletedEntities_) {
+            ModifiableSource source = resolveJcrSource(entity);
+            try {
+                source.delete();
+            } catch (SourceException e) {
+                throw new XmlBeansPersistenceException(
+                     "could not delete xml content from jcr source", e);
+            }
         }
     }
     
@@ -124,35 +145,38 @@ class XmlBeansSession implements Session {
 
     public List<Object> query(String queryKey, Object[] params) {
         
-        QueryInfo queryInfo = configuration_.queryInfo(queryKey);
-        String query = prepareQuery(queryInfo, params);
-        Source source = resolveJcrSource(query);
-        InputStream sourceIn;
-        try {
-            sourceIn = source.getInputStream();
-        } catch (SourceNotFoundException e2) {
-            throw new RuntimeException(e2);
-        } catch (IOException e2) {
-            throw new RuntimeException(e2);
-        }
-        
-        Class entityClazz;
-        try {
-            entityClazz = Class.forName(queryInfo.getResultEntityClass());
-        } catch (ClassNotFoundException e1) {
-            throw new RuntimeException(e1);
-        }
-        
-        XmlObject entity = entityCreator_.newEntityFrom(sourceIn, entityClazz);
-        transientInstances_.add(entity);
-        
         List<Object> result = new LinkedList<Object>();
-        result.add(entity);
+        
+        String query = configuration_.query(queryKey);
+        String preparedQuery = prepareQuery(query, params);
+        
+        Source source = resolveJcrSource(preparedQuery);
+        
+        if (source.exists()) {
+            String clazzName = configuration_.queryResultClass(queryKey);
+            XmlObject entity = entityCreator_.newEntityFrom(
+                    loadSourceContent(source), clazzName);
+            
+            pooledEntities_.add(entity);
+            result.add(entity);
+        }
         return result;
     }
     
-    private String prepareQuery(QueryInfo queryInfo, Object[] params) {
-        return new QueryPreparer(queryInfo.getQuery(), params).prepare();
+    private InputStream loadSourceContent(Source source) {
+        try {
+            return source.getInputStream();
+        } catch (SourceNotFoundException e) {
+            throw new XmlBeansPersistenceException(
+                    "could load content from source: " + source.getURI());
+        } catch (IOException e) {
+            throw new XmlBeansPersistenceException(
+                    "could load content from source: " + source.getURI());
+        }
+    }
+
+    private String prepareQuery(String query, Object[] params) {
+        return new QueryPreparer(query, params).prepare();
     }
     
     private void validateEntityImplClass(Class entityImplClazz) {        
@@ -196,5 +220,17 @@ class XmlBeansSession implements Session {
     
     private ModifiableSource resolveJcrSource(String path) {
         return jcrSourceResolver_.resolveJcrSource(path);
+    }
+    
+    private ModifiableSource resolveJcrSource(XmlObject entity) {
+        String entityPath = buildEntityPath(entity);
+        return resolveJcrSource(entityPath);
+    }
+    
+    private String buildEntityPath(XmlObject xmlEntity) {
+        String id = entityId(xmlEntity);
+        Class entityClazz = entityClazz(xmlEntity);  
+        String basePath = configuration_.entityBasePath(entityClazz);
+        return basePath + "/" + id;
     }
 }

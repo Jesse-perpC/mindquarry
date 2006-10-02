@@ -4,8 +4,12 @@
 package com.mindquarry.persistence.xmlbeans.config;
 
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
+
+import org.apache.avalon.framework.logger.Logger;
 
 import com.mindquarry.common.init.InitializationException;
 
@@ -16,12 +20,14 @@ import com.mindquarry.common.init.InitializationException;
  */
 public class PersistenceConfiguration {
 
+    private Logger logger_;
     private Map<Class, Entity> entityMap_;
     private Map<String, QueryInfo> queryInfoMap_;
     
-    public PersistenceConfiguration(
+    public PersistenceConfiguration(Logger logger,
             PersistenceConfigLoader configFileLoader) {
-        
+    
+        logger_ = logger;
         Configuration xmlBeansConfig = configFileLoader.findAndLoad();
         entityMap_ = makeEntityMap(xmlBeansConfig);
         queryInfoMap_ = makeQueryInfoMap(xmlBeansConfig);
@@ -39,8 +45,12 @@ public class PersistenceConfiguration {
         return entityMap_.get(entityClazz).getPath();
     }
     
-    public QueryInfo queryInfo(String queryKey) {
-        return queryInfoMap_.get(queryKey);
+    public String query(String queryKey) {
+        return queryInfoMap_.get(queryKey).getQuery();
+    }
+    
+    public String queryResultClass(String queryKey) {
+        return queryInfoMap_.get(queryKey).getResultEntityClass();
     }
     
     private Map<String, QueryInfo> makeQueryInfoMap(
@@ -50,7 +60,33 @@ public class PersistenceConfiguration {
         for (QueryInfo query : configuration.getQueryInfoArray()) {
             result.put(query.getKey(), query);
         }
+        assert isQueryInfoMapValid(result);
         return result;
+    }
+    
+    private boolean isQueryInfoMapValid(
+            Map<String, QueryInfo> queryInfoMap) {
+        
+        List<String> entityClassNames = new LinkedList<String>();
+        for (Class clazz : entityMap_.keySet()) 
+            entityClassNames.add(clazz.getName());
+        
+        boolean isValid = true;
+        for (QueryInfo queryInfo : queryInfoMap.values()) {
+            String resultEntityClazzName = queryInfo.getResultEntityClass();
+            
+            if (! entityClassNames.contains(resultEntityClazzName)) {
+                logger_.error("resultEntityClass for query with key: " 
+                        + queryInfo.getKey() 
+                        + " is not defined as entity class");
+
+                isValid = false;
+                
+                // continue loop to get all possible configuration errors
+                // and maximize feedback
+            }   
+        }
+        return isValid;
     }
     
     private Map<Class, Entity> makeEntityMap(Configuration configuration) {
