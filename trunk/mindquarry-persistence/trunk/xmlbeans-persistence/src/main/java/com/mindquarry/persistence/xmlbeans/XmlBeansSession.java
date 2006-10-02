@@ -31,6 +31,8 @@ import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
  */
 class XmlBeansSession implements Session {
     
+    private List<XmlObject> transientInstances_;
+    
     private final PersistenceConfiguration configuration_;
     private final XmlBeansDocumentCreator documentCreator_;
     private final XmlBeansEntityCreator entityCreator_;
@@ -53,11 +55,15 @@ class XmlBeansSession implements Session {
         documentCreator_ = documentCreator;
         entityCreator_ = entityCreator;
         jcrSourceResolver_ = jcrSourceResolver;
+        
+        transientInstances_ = new LinkedList<XmlObject>();
     }
 
     public Object newEntity(Class entityClazz) {
         validateEntityClass(entityClazz);
-        return entityCreator_.newEntityFor(entityClazz);
+        XmlObject result = entityCreator_.newEntityFor(entityClazz);
+        transientInstances_.add(result);
+        return result;
     }
 
     public void persist(Object transientInstance) {
@@ -82,6 +88,12 @@ class XmlBeansSession implements Session {
             throw new XmlBeansPersistenceException(
                     "could not write xml content to jcr source", e);
         }        
+    }
+    
+    public void commit() {
+        for (XmlObject transientInstance : transientInstances_) {
+            persist(transientInstance);
+        }
     }
     
     private Class entityClazz(Object transientInstance) {
