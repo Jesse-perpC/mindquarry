@@ -8,7 +8,6 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.net.URL;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 
@@ -83,8 +82,6 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 
 		session = repo.login(new SimpleCredentials(LOGIN, PWD.toCharArray()),
 				WORKSPACE);
-		session = repo.login(new SimpleCredentials("alexander.saar", "mypwd"
-				.toCharArray()));
         
         InputStream nodeTypeDefIn = getClass().getResourceAsStream(MQ_JCR_XML_NODETYPES_FILE);
 		JackrabbitInitializerHelper.setupRepository(session,
@@ -96,7 +93,7 @@ public abstract class JCRTestBaseStandalone extends TestCase {
 	 */
 	@Override
 	protected void tearDown() throws Exception {
-		// uncomment this for shutting down RMI repository
+		// shutting down RMI repository
 		reg.unbind(REMOTE_REPO_NAME);
 		session.logout();
 	}
