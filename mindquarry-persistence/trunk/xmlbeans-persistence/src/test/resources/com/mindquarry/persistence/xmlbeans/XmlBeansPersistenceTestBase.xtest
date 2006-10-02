@@ -9,13 +9,26 @@
 			shorthand="source-resolver"
 			default-class="org.apache.excalibur.source.impl.SourceResolverImpl" />
 
-		<role name="javax.jcr.Repository" shorthand="jcr-repository" />
+
+		<role name="javax.jcr.Repository" shorthand="jcr-repository"
+			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository" >
+			
+			<credentials login="expression" password="expression" />
+			<home src="target/repository" />
+			<credentials login="alexander.saar" password="mypwd" />
+			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+		</role>
+			
 
 		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
-			shorthand="jcr-initializer" />
+			shorthand="jcr-initializer"
+			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer" >
+			
+			<credentials login="alexander.saar" password="mypwd" />
+		</role>
 
 		<role name="com.mindquarry.common.persistence.SessionFactory"
-			shorthand="persistence-factory" />
+			default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
 	</roles>
 
 	<components>
@@ -36,27 +49,5 @@
 				login="alexander.saar" password="mypwd"
 				rmi="rmi://localhost:1099/jackrabbit" /-->
 		</source-factories>
-
-		<!-- doesn't work for test cases, use this in production environments -->
-		<!--jcr-repository
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository"-->
-
-		<jcr-repository
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
-
-			<credentials login="expression" password="expression" />
-			<home src="target/repository" />
-			<credentials login="alexander.saar" password="mypwd" />
-			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
-		</jcr-repository>
-
-		<jcr-initializer
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
-
-			<credentials login="alexander.saar" password="mypwd" />
-		</jcr-initializer>
-
-		<persistence-factory
-			class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
 	</components>
 </testcase>

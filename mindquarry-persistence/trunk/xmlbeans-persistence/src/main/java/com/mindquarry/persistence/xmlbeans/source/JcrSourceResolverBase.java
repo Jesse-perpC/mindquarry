@@ -3,7 +3,7 @@
  */
 package com.mindquarry.persistence.xmlbeans.source;
 
-import org.apache.excalibur.source.ModifiableSource;
+import org.apache.excalibur.source.ModifiableTraversableSource;
 
 /**
  * Add summary documentation here.
@@ -15,10 +15,10 @@ public abstract class JcrSourceResolverBase {
 
     private static final String JCR_SOURCE_PREFIX = "jcr://";
 
-    public ModifiableSource resolveJcrSource(String path) {
+    public ModifiableTraversableSource resolveJcrSource(String path) {
         String jcrUri = JCR_SOURCE_PREFIX + path;
         return resolveJcrSourceInternal(jcrUri);
     }
     
-    protected abstract ModifiableSource resolveJcrSourceInternal(String jcrPath);
+    protected abstract ModifiableTraversableSource resolveJcrSourceInternal(String jcrPath);
 }
