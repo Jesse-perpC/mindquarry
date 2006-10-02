@@ -144,7 +144,8 @@ class XmlBeansSession implements Session {
         }
         
         XmlObject entity = entityCreator_.newEntityFrom(sourceIn, entityClazz);
-                
+        transientInstances_.add(entity);
+        
         List<Object> result = new LinkedList<Object>();
         result.add(entity);
         return result;
