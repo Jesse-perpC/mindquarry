@@ -17,4 +17,6 @@ public interface Session {
     void persist(Object object);
     
     List query(String queryName, Object[] params);
+    
+    void commit();
 }
