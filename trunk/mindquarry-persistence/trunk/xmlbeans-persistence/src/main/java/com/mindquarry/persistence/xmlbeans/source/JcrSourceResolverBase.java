@@ -3,7 +3,6 @@
  */
 package com.mindquarry.persistence.xmlbeans.source;
 
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.excalibur.source.ModifiableSource;
 
 /**
@@ -22,14 +21,4 @@ public abstract class JcrSourceResolverBase {
     }
     
     protected abstract ModifiableSource resolveJcrSourceInternal(String jcrPath);
-    
-    public static JcrSourceResolverBase newCocoonSourceResolver(
-            ServiceManager serviceManager_) {
-        
-        return new JcrSourceResolverCocoon(serviceManager_);
-    }
-    
-    public static JcrSourceResolverBase newStandaloneSourceResolver() {        
-        return new JcrSourceResolverStandalone();
-    }
 }
