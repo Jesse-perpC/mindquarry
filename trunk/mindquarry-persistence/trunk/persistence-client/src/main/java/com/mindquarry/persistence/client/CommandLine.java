@@ -3,12 +3,9 @@
  */
 package com.mindquarry.persistence.client;
 
-import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
+import java.io.File;
 
-import javax.jcr.Repository;
-
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.commons.cli.CommandLineParser;
 import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.HelpFormatter;
@@ -16,10 +13,12 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
+import org.apache.xmlbeans.XmlException;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryStandalone;
+import com.mindquarry.types.user.User;
+import com.mindquarry.types.user.UserDocument;
 
 /**
  * Command line client to be used for working with the Mindquarry persistence
@@ -31,9 +30,13 @@ import com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryStandalone;
 public class CommandLine {
     private static final String O_REPO = "r"; //$NON-NLS-1$
 
-    private static final String O_PERSIST = "p"; //$NON-NLS-1$
+    private static final String O_PERSIST = "a"; //$NON-NLS-1$
 
     private static final String O_DEL = "d"; //$NON-NLS-1$
+
+    private static final String O_USER = "u"; //$NON-NLS-1$
+
+    private static final String O_PWD = "p"; //$NON-NLS-1$
 
     private static final char VALUE_SEPARATOR = ' ';
 
@@ -48,7 +51,7 @@ public class CommandLine {
                 "The endpoint where the persistence layer is available."); //$NON-NLS-1$
         repo.setRequired(true);
 
-        Option persist = new Option(O_PERSIST, "persist", true,
+        Option persist = new Option(O_PERSIST, "add", true,
                 "A list of XML files containing the types that should "
                         + "be stored in the persistence layer.");
         persist.setValueSeparator(VALUE_SEPARATOR);
@@ -63,9 +66,19 @@ public class CommandLine {
         actions.addOption(persist);
         actions.addOption(delete);
 
+        Option user = new Option(O_USER, "user", true,
+                "The user name to be used for login and setup the repository.");
+        user.setRequired(true);
+
+        Option pwd = new Option(O_PWD, "password", true,
+                "The password to be used for login and setup the repository.");
+        pwd.setRequired(true);
+
         options = new Options();
         options.addOption(repo);
         options.addOptionGroup(actions);
+        options.addOption(user);
+        options.addOption(pwd);
     }
 
     /**
@@ -98,28 +111,44 @@ public class CommandLine {
             printUsage();
             return;
         }
+        // init factory configuration
+        DefaultConfiguration config = new DefaultConfiguration("credentials"); //$NON-NLS-1$
+        config.setAttribute("login", line.getOptionValue(O_USER)); //$NON-NLS-1$
+        config.setAttribute("password", line.getOptionValue(O_PWD)); //$NON-NLS-1$
+        config.setAttribute("rmi", line.getOptionValue(O_REPO)); //$NON-NLS-1$
+
         // init connection to persistence layer
-        String repoEndpoint = line.getOptionValue(O_REPO);
-        ClientRepositoryFactory clFactory = new ClientRepositoryFactory();
-        Repository repo = clFactory.getRepository(repoEndpoint);
-        
         XmlBeansSessionFactoryStandalone factory = new XmlBeansSessionFactoryStandalone();
+        factory.configure(config);
+        factory.initialize();
+
         Session session = factory.currentSession();
-                
+
         // check what actions are specified
         if (line.hasOption(O_PERSIST)) {
-            persistTypes(line.getOptionValues(O_PERSIST));
+            persistTypes(line.getOptionValues(O_PERSIST), session);
         } else if (line.hasOption(O_DEL)) {
-            deleteTypes(line.getOptionValues(O_DEL));
+            deleteTypes(line.getOptionValues(O_DEL), session);
+        }
+        session.commit();
+    }
+
+    private void persistTypes(String[] optionValues, Session session)
+            throws Exception {
+        for (String value : optionValues) {
+            try {
+                UserDocument userDoc = UserDocument.Factory.parse(new File(
+                        value));
+                User user = userDoc.getUser();
+                session.persist(user);
+            } catch (XmlException e) {
+
+            }
         }
     }
 
-    private void persistTypes(String[] optionValues) {
-
-    }
-
-    private void deleteTypes(String[] optionValues) {
-
+    private void deleteTypes(String[] optionValues, Session session) {
+        // TODO implement deletion of types
     }
 
     /**
