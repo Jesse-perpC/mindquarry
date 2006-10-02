@@ -1,23 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-	<packaging>jar</packaging>
-
-	<name>XML Beans persistence</name>
-	<url>http://www.mindquarry.com</url>
-	<description>XML Beans persistence classes for Mindquarry types.</description>
-
-	<artifactId>xmlbeans-persistence</artifactId>
-
 	<parent>
-		<groupId>com.mindquarry.types</groupId>
 		<artifactId>mindquarry-types</artifactId>
+		<groupId>com.mindquarry.types</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>xmlbeans-persistence</artifactId>
+	<name>XML Beans persistence</name>
+	<description>
+		XML Beans persistence classes for Mindquarry types.
+	</description>
+	<url>http://www.mindquarry.com</url>
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.types</groupId>

@@ -2,6 +2,9 @@ package com.mindquarry.persistence.xmlbeans;
 
 import java.util.List;
 
+import org.apache.avalon.framework.configuration.Configuration;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
+
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.jcr.jackrabbit.JCRTestBaseStandalone;
 import com.mindquarry.types.user.Email;
@@ -25,8 +28,11 @@ public class UserTestStandalone extends JCRTestBaseStandalone {
 	}
 
 	public void testConversation() throws Exception {
+        
 		XmlBeansSessionFactoryStandalone sessionFactory;
 		sessionFactory = new XmlBeansSessionFactoryStandalone();
+        sessionFactory.enableLogging(getLogger());
+        sessionFactory.configure(jcrCredentialsConfig());
 		sessionFactory.initialize();
 
 		Session session = sessionFactory.currentSession();
@@ -50,4 +56,13 @@ public class UserTestStandalone extends JCRTestBaseStandalone {
 		User queriedUser = (User) queryResult.get(0);
 		assertEquals("bastian", queriedUser.getId());
 	}
+
+    private Configuration jcrCredentialsConfig() {
+        DefaultConfiguration result = new DefaultConfiguration("credentials");
+        result.setAttribute("login", "alexander.saar");
+        result.setAttribute("password", "myPwd");
+        result.setAttribute("rmi", "rmi://localhost:1099/jackrabbit");
+        return result;
+    }
+    
 }

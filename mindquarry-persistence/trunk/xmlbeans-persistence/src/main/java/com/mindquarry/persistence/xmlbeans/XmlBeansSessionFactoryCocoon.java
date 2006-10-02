@@ -11,6 +11,7 @@ import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigLoader;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigResourceLoader;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
+import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverCocoon;
 
 /**
  * Add summary documentation here.
@@ -47,7 +48,7 @@ public class XmlBeansSessionFactoryCocoon extends XmlBeansSessionFactoryBase
     
     private JcrSourceResolverBase newJcrSourceResolverCocoon(
             ServiceManager serviceManager) {
-        return JcrSourceResolverBase.newCocoonSourceResolver(serviceManager);
+        return new JcrSourceResolverCocoon(serviceManager_);
     }    
     
     @Override
