@@ -16,14 +16,14 @@ import com.mindquarry.dma.admin.DmaAdminFactory;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
 import com.mindquarry.teamspace.TeamspaceException;
-import com.mindquarry.teamspace.TeamspaceManager;
+import com.mindquarry.teamspace.TeamspaceQuery;
 import com.mindquarry.teamspace.TeamspaceRO;
 
 /**
  *  
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public class FileTeamspaceManager implements TeamspaceAdmin, TeamspaceManager {
+public class FileTeamspaceManager implements TeamspaceAdmin, TeamspaceQuery {
 
 	static final String REPOS_BASE_PATH_PROPERTY = "mindquarry.reposbasepath";
 	
@@ -82,7 +82,7 @@ public class FileTeamspaceManager implements TeamspaceAdmin, TeamspaceManager {
 	 * @return the absolute path to the dma repository 
 	 * (without concluding separator)
 	 */
-	public String repositoryPath(String name) {
+	public String workspaceUri(String name) {
 		validateExistence(name);
 		return resolveRepositoryPath(name);
 	}
