@@ -25,10 +25,10 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.avalon.framework.thread.ThreadSafe;
+import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
-import org.apache.excalibur.source.SourceUtil;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
 /**
@@ -136,20 +136,14 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         } catch (ConfigurationException e) {
             throw new SourceException("Cannot access configuration data.", e);
         }
-        // Compute the path
-        String path = SourceUtil.getSpecificPart(uri);
-        if (!path.startsWith("///")) {
-            throw new MalformedURLException("Expecting " + scheme
-                    + "://path and got " + uri);
-        }
         // check for query syntax (eg. 'jcr://root/users/*#//name' interpreted
-        // as 'jcr://root/users/*//name')
+        // as 'jcr:///root/users/*//name')
+        String path = SourceUtil.getPath(uri);
         if (path.indexOf("#") != -1) {
             path = path.replace("#", "");
             return (JCRNodeWrapperSource) executeQuery(session, path, Query.XPATH);
         } else {
             // standard direct hierarchy-resolving
-            path = removeLeadingSlashes(path);
             return (JCRNodeWrapperSource) createSource(session, path);
         }
     }
@@ -246,13 +240,5 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
             throw new SourceException("Cannot execute query '" + statement
                     + "'", e);
         }
-    }
-
-    /**
-     * Remove the leading slashes from the given path for hierarchy-resolving.
-     */
-    private String removeLeadingSlashes(String path) {
-        // Remove first two '/'
-        return path.substring(2);
     }
 }
