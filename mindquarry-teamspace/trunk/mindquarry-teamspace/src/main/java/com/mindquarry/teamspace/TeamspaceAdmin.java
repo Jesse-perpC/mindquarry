@@ -8,7 +8,7 @@ package com.mindquarry.teamspace;
  * @author bastian
  *
  */
-public interface TeamspaceAdmin extends TeamspaceManager {
+public interface TeamspaceAdmin extends TeamspaceQuery {
 
 	void create(String name) throws TeamspaceAlreadyExistsException;
 	

@@ -10,14 +10,14 @@ import java.util.List;
  *
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public interface TeamspaceManager {
+public interface TeamspaceQuery {
 
 	/**
-	 * @param name, the name (id) of the project
-	 * @return the absolute path to the dma repository
-	 * (without concluding separator)
+	 * @param name, the id of the project
+	 * @return return the uri to the corresponding
+     * workspace, e.g. file:///tmp/mindquarry/webapp/
 	 */
-	String repositoryPath(String name);
+	String workspaceUri(String name);
     
     List<TeamspaceRO> list();
 }
