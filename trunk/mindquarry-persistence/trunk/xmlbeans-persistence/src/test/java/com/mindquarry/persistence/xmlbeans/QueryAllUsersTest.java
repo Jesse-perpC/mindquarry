@@ -9,7 +9,6 @@ import org.apache.avalon.framework.service.ServiceException;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
-import com.mindquarry.types.teamspace.Teamspace;
 import com.mindquarry.types.user.Email;
 import com.mindquarry.types.user.User;
 
