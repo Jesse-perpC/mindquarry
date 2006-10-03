@@ -1,0 +1,58 @@
+<?xml version="1.0"?>
+<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
+<testcase>
+	<roles>
+		<role name="org.apache.excalibur.source.SourceFactorySelector"
+			shorthand="source-factories"
+			default-class="org.apache.cocoon.core.container.DefaultServiceSelector" />
+		
+		<role name="org.apache.excalibur.source.SourceResolver"
+			shorthand="source-resolver"
+			default-class="org.apache.excalibur.source.impl.SourceResolverImpl" />
+
+		<role name="javax.jcr.Repository" shorthand="jcr-repository"
+			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository" >
+			
+			<credentials login="expression" password="expression" />
+			<home src="target/repository" />
+			<credentials login="alexander.saar" password="mypwd" />
+			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+		</role>			
+
+		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
+			shorthand="jcr-initializer"
+			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer" >
+			
+			<credentials login="alexander.saar" password="mypwd" />
+		</role>
+
+		<role name="com.mindquarry.common.persistence.SessionFactory"
+			default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
+			
+		<role name="com.mindquarry.dma.admin.DmaAdminFactory"
+			default-class="com.mindquarry.dma.admin.DmaAdminFactory" />
+			
+		<role name="com.mindquarry.teamspace.TeamspaceAdmin"
+			default-class="com.mindquarry.teamspace.TeamspaceManager" >
+		</role>
+	</roles>
+	<components>
+		<source-factories>
+			<component-instance name="resource"
+				class="org.apache.excalibur.source.impl.ResourceSourceFactory" />
+			
+			<component-instance name="file"
+				class="org.apache.excalibur.source.impl.FileSourceFactory" />
+				
+			<component-instance name="jcr"
+				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+				login="bastian" password="mypwd" />
+
+			<!-- use the following for working with an RMI repository -->
+			<!-- component-instance name="jcr"
+				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+				login="bastian" password="mypwd"
+				rmi="rmi://localhost:1099/jackrabbit" /-->
+		</source-factories>
+	</components>
+</testcase>

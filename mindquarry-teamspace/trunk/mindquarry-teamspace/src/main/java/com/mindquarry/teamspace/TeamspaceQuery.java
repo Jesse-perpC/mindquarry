@@ -17,7 +17,7 @@ public interface TeamspaceQuery {
 	 * @return return the uri to the corresponding
      * workspace, e.g. file:///tmp/mindquarry/webapp/
 	 */
-	String workspaceUri(String name);
+	String workspaceUri(String id);
     
-    List<TeamspaceRO> list();
+    List<Object> list();
 }

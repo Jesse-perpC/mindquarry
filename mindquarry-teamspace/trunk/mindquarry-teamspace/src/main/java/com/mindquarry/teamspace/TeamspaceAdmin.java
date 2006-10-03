@@ -10,7 +10,7 @@ package com.mindquarry.teamspace;
  */
 public interface TeamspaceAdmin extends TeamspaceQuery {
 
-	void create(String name) throws TeamspaceAlreadyExistsException;
+	void create(String id, String name, String description);
 	
-	void remove(String name);
+	void remove(String id);
 }
