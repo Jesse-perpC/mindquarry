@@ -5,6 +5,8 @@ package com.mindquarry.jcr.xml.source;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.jcr.LoginException;
@@ -17,7 +19,6 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 
-import org.apache.avalon.framework.CascadingRuntimeException;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -30,6 +31,8 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
+
+import com.mindquarry.common.init.InitializationException;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -192,21 +195,40 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
             return;
         }
         // otherwise try to lookup the repository
+        String remoteRepoUrl = config.getAttribute("rmi", null);
+        boolean isRemoteRepositoryConfigured = null != remoteRepoUrl;
+        
+        if (isRemoteRepositoryConfigured)
+            repo = createClientRepository(remoteRepoUrl);
+        else
+            repo = lookupLocalRepository();
+    }
+    
+    private Repository lookupLocalRepository() {
         try {
-            // check if we have to use the RMI connection
-            String remoteRepoURL = config.getAttribute("rmi");
-            ClientRepositoryFactory factory = new ClientRepositoryFactory();
-            repo = factory.getRepository(remoteRepoURL);
-        } catch (ConfigurationException e1) {
-            // we have to use the local repository
-            try {
-                repo = (Repository) manager.lookup(Repository.class.getName());
-            } catch (ServiceException e) {
-                throw new CascadingRuntimeException(
-                        "Cannot lookup repository.", e);
-            }
-        } catch (Exception e) {
-            throw new CascadingRuntimeException("Cannot lookup repository.", e);
+            return (Repository) manager.lookup(Repository.class.getName());
+        } catch (ServiceException e) {
+            throw new InitializationException(
+                    "Cannot lookup local jcr repository.", e);
+        }
+    }
+    
+    private Repository createClientRepository(String remoteRepoUrl) {
+        ClientRepositoryFactory factory = new ClientRepositoryFactory();
+        try {
+            return factory.getRepository(remoteRepoUrl);
+        } catch (ClassCastException e) {
+            throw new InitializationException("could not create client " +
+                    "jcr repository for repository url:" +remoteRepoUrl, e);
+        } catch (MalformedURLException e) {
+            throw new InitializationException("could not create client " +
+                    "repository for repository url:" +remoteRepoUrl, e);
+        } catch (RemoteException e) {
+            throw new InitializationException("could not create client " +
+                    "repository for repository url:" +remoteRepoUrl, e);
+        } catch (NotBoundException e) {
+            throw new InitializationException("could not create client " +
+                    "repository for repository url:" +remoteRepoUrl, e);
         }
     }
 
