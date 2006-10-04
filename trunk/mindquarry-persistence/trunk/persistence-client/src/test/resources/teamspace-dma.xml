@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts:teamspace xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mindquarry.com/ns/schema/teamspace ../../../../teamspace-types/src/main/xsd/teamspace.xsd ">
+	
+	<ts:id>dmatest</ts:id>
+	<ts:name>The Mindquarry Dma Test Project</ts:name>
+	<ts:workspaceUri>file:///c:/tmp/repos/dmatest/</ts:workspaceUri>
+</ts:teamspace>
