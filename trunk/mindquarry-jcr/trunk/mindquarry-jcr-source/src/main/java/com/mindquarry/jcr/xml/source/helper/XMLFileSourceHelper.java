@@ -9,11 +9,12 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import javax.jcr.Node;
-import javax.xml.transform.TransformerConfigurationException;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
 
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.cocoon.CascadingIOException;
+import org.apache.cocoon.serialization.Serializer;
+import org.apache.cocoon.serialization.XMLSerializer;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -47,26 +48,33 @@ public class XMLFileSourceHelper {
 
     /**
      * Delegate for getInputStream
+     * 
+     * @param manager
      */
-    public static InputStream getInputStream(Node node) throws IOException,
-            SourceNotFoundException {
-        ByteArrayOutputStream os = new ByteArrayOutputStream();
+    public static InputStream getInputStream(ServiceManager manager, Node node)
+            throws IOException, SourceNotFoundException {
 
-        SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
-                .newInstance();
-        TransformerHandler handler;
+        ByteArrayInputStream inputStream = null;
+        Serializer serializer = null;
         try {
-            handler = stfactory.newTransformerHandler();
-            handler.setResult(new StreamResult(os));
-            XMLFileSourceHelper.toSAX(handler, node);
+            // we use Cocoons XMLSerializer here which is configurable in terms
+            // of the Transformer Implementation to use (some are buggy, so we
+            // want to ensure which one is used)
+            serializer = (Serializer) manager.lookup(XMLSerializer.ROLE);
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            serializer.setOutputStream(outputStream);
 
-            return new ByteArrayInputStream(os.toByteArray());
-        } catch (TransformerConfigurationException e) {
-            throw new IOException("Unable to configure Transformer Factory: "
-                    + e.getLocalizedMessage());
+            XMLFileSourceHelper.toSAX(serializer, node);
+
+            inputStream = new ByteArrayInputStream(outputStream.toByteArray());
+        } catch (ServiceException se) {
+            throw new CascadingIOException(se);
         } catch (SAXException e) {
-            throw new IOException("Unable to serialize XML results: "
-                    + e.getLocalizedMessage());
+            throw new CascadingIOException(e);
+        } finally {
+            manager.release(serializer);
         }
+
+        return inputStream;
     }
 }

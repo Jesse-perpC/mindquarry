@@ -13,6 +13,9 @@
 
 		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
 			shorthand="jcr-initializer" />
+		
+		<!-- configure a serializer for XML output -->
+		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
 	</roles>
 
 	<components>
@@ -52,5 +55,11 @@
 
 			<credentials login="alexander.saar" password="mypwd" />
 		</jcr-initializer>
+		
+		<!-- define the exact XMLSerializer we want to use (taken from
+			 standard cocoon configuration) -->
+		<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+		</serializer>
 	</components>
 </testcase>
