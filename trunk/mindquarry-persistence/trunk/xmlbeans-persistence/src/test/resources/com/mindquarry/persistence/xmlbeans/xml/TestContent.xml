@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<team:teamspace
+	xmlns:team="http://www.mindquarry.com/ns/schema/teamspace">
+	<team:id>mindquarry</team:id>
+	<team:name>Mindquarry</team:name>
+	<team:description>a great description</team:description>
+	<user:user xmlns:user="http://www.mindquarry.com/ns/schema/user">
+		<user:id>bastian</user:id>
+		<user:password>password</user:password>
+		<user:name>firstname</user:name>
+		<user:surname>lastname</user:surname>
+		<user:email>
+			<user:address>firstname.lastname@mindquarry.com</user:address>
+			<user:isConversationRecipient>true</user:isConversationRecipient>
+		</user:email>
+	</user:user>
+</team:teamspace>

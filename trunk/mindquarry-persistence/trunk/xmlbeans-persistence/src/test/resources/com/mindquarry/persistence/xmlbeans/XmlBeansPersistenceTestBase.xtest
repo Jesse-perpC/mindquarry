@@ -29,6 +29,12 @@
 
 		<role name="com.mindquarry.common.persistence.SessionFactory"
 			default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
+			
+		<role name="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration"
+			default-class="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration" />
+			
+		<role name="com.mindquarry.common.xml.EntityXmlizerFactory"
+			default-class="com.mindquarry.persistence.xmlbeans.xml.XmlBeansEntityXmlizerFactory" />
 	</roles>
 
 	<components>
