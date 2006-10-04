@@ -1,0 +1,39 @@
+<role-list>
+
+	<role name="javax.jcr.Repository" shorthand="jcr-repository"
+		default-class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
+
+		<credentials login="expression" password="expression" />
+		<home src="target/repository" />
+		<credentials login="alexander.saar" password="mypwd" />
+		<configuration
+			src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+	</role>
+
+
+	<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
+		shorthand="jcr-initializer"
+		default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
+
+		<credentials login="alexander.saar" password="mypwd" />
+	</role>
+
+	<role name="com.mindquarry.common.persistence.SessionFactory"
+		default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
+
+	<role
+		name="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration"
+		default-class="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration" />
+
+	<role name="com.mindquarry.common.xml.EntityXmlizerFactory"
+		default-class="com.mindquarry.persistence.xmlbeans.xml.XmlBeansEntityXmlizerFactory" />
+
+	<role name="com.mindquarry.dma.admin.DmaRepositoryFactory"
+		default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
+
+	<role name="com.mindquarry.teamspace.TeamspaceAdmin"
+		default-class="com.mindquarry.teamspace.TeamspaceManager" />
+	
+	<role name="com.mindquarry.teamspace.TeamspaceQuery"
+		default-class="com.mindquarry.teamspace.TeamspaceManager" />
+</role-list>

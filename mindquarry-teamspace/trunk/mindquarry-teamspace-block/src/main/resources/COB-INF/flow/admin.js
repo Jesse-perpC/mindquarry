@@ -1,7 +1,8 @@
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
 var model_;
-var teamspaceAdmin_ = cocoon.getComponent("teamspaceAdmin");
+var teamspaceAdminName = "com.mindquarry.teamspace.TeamspaceAdmin";
+var teamspaceAdmin_ = cocoon.getComponent(teamspaceAdminName);
 
 function manageProjects(form) {
 	model_ = form.getModel();

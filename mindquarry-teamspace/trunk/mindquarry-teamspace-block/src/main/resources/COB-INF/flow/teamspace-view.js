@@ -4,7 +4,8 @@
  
 function teamspaceView() {
 
-    var teamspaceManager = cocoon.getComponent("teamspaceManager");
+	var teamspaceQueryName = "com.mindquarry.teamspace.TeamspaceQuery";
+    var teamspaceManager = cocoon.getComponent(teamspaceQueryName);
     
     var teamspaceList = { "teamspaceList" : teamspaceManager.list() }
     cocoon.sendPage("views/teamspaceView", teamspaceList);

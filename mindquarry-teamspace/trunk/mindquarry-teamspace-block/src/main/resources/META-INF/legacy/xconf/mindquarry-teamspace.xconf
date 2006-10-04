@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<components>
+	<!-- Include roles -->
+	<include
+		src="resource://com/mindquarry/teamspace/mindquarry-teamspace.roles" />
+
+	<source-factories>
+		<component-instance name="resource"
+			class="org.apache.excalibur.source.impl.ResourceSourceFactory" />
+
+		<component-instance name="file"
+			class="org.apache.excalibur.source.impl.FileSourceFactory" />
+
+		<component-instance name="jcr"
+			class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+			login="alexander.saar" password="mypwd" />
+
+		<!-- use the following for working with an RMI repository -->
+		<!-- component-instance name="jcr"
+			class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+			login="alexander.saar" password="mypwd"
+			rmi="rmi://localhost:1099/jackrabbit" /-->
+	</source-factories>
+</components>
