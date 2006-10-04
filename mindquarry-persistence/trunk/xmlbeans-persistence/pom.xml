@@ -15,6 +15,11 @@
 	<url>http://www.mindquarry.com</url>
 	<dependencies>
 		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.types</groupId>
 			<artifactId>conversation-types</artifactId>
 			<version>0.0.1-SNAPSHOT</version>

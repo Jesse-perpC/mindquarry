@@ -30,15 +30,6 @@ class XmlBeansPersistenceException extends PersistenceException {
         super(message, cause);
     }
 
-    static XmlBeansPersistenceException documentSuffix(Class clazz) {
-        return new XmlBeansPersistenceException(
-                "the class: " + clazz + " is not a valid entity class." +
-                "you must not use the xmlbeans generated " +
-                "'*" + Constants.DOCUMENT_CLASS_SUFFIX + "' classes. " +
-                "please find documentation about usage of the " +
-                "XmlBeans persistence component in the mindquarry wiki.");
-    }
-
     static XmlBeansPersistenceException classNotFound(
             ClassNotFoundException cause) {
         return new XmlBeansPersistenceException(

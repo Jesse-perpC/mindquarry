@@ -9,36 +9,57 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.avalon.framework.logger.Logger;
+import org.apache.avalon.framework.activity.Initializable;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
+import org.apache.avalon.framework.service.ServiceManager;
+import org.apache.avalon.framework.service.Serviceable;
 
 import com.mindquarry.common.init.InitializationException;
+import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
+import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
+import com.mindquarry.persistence.xmlbeans.reflection.DocumentReflectionData;
+import com.mindquarry.persistence.xmlbeans.reflection.EntityReflectionData;
 
 /**
  * Add summary documentation here.
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-public class PersistenceConfiguration {
+public class PersistenceConfiguration extends AbstractLogEnabled 
+    implements Serviceable, Initializable {
 
-    private Logger logger_;
+    private ServiceManager serviceManager_;
+    
     private Map<Class, Entity> entityMap_;
     private Map<String, QueryInfo> queryInfoMap_;
     
-    public PersistenceConfiguration(Logger logger,
-            PersistenceConfigLoader configFileLoader) {
-    
-        logger_ = logger;
-        Configuration xmlBeansConfig = configFileLoader.findAndLoad();
+    private XmlBeansDocumentCreator documentCreator_;
+    private XmlBeansEntityCreator entityCreator_;
+
+
+    public void service(ServiceManager serviceManager) {
+        serviceManager_ = serviceManager;
+    }
+
+    public void initialize() {
+        Configuration xmlBeansConfig = makeConfigLoader().findAndLoad();
         entityMap_ = makeEntityMap(xmlBeansConfig);
         queryInfoMap_ = makeQueryInfoMap(xmlBeansConfig);
+        
+        documentCreator_ = makeDocumentCreator();
+        entityCreator_ = makeEntityCreator(documentCreator_);                
+    }
+    
+    public XmlBeansDocumentCreator getDocumentCreator() {
+        return documentCreator_;
+    }
+    
+    public XmlBeansEntityCreator getEntityCreator() {
+        return entityCreator_;
     }
     
     public boolean existsEntity(Class entityClazz) {
         return entityMap_.containsKey(entityClazz);
-    }
-    
-    public Set<Class> entityClazzes() {
-        return entityMap_.keySet();
     }
     
     public String entityBasePath(Class entityClazz) {
@@ -51,6 +72,25 @@ public class PersistenceConfiguration {
     
     public String queryResultClass(String queryKey) {
         return queryInfoMap_.get(queryKey).getResultEntityClass();
+    }
+    
+    private XmlBeansDocumentCreator makeDocumentCreator() {
+        
+        DocumentReflectionData reflectionData = 
+            new DocumentReflectionData(entityClazzes());
+        return new XmlBeansDocumentCreator(reflectionData);
+    }
+    
+    private XmlBeansEntityCreator makeEntityCreator( 
+            XmlBeansDocumentCreator documentCreator) {
+        
+        EntityReflectionData reflectionData = 
+            new EntityReflectionData(entityClazzes());
+        return new XmlBeansEntityCreator(reflectionData, documentCreator);
+    }
+    
+    private Set<Class> entityClazzes() {
+        return entityMap_.keySet();
     }
     
     private Map<String, QueryInfo> makeQueryInfoMap(
@@ -76,7 +116,7 @@ public class PersistenceConfiguration {
             String resultEntityClazzName = queryInfo.getResultEntityClass();
             
             if (! entityClassNames.contains(resultEntityClazzName)) {
-                logger_.error("resultEntityClass for query with key: " 
+                getLogger().error("resultEntityClass for query with key: " 
                         + queryInfo.getKey() 
                         + " is not defined as entity class");
 
@@ -105,6 +145,17 @@ public class PersistenceConfiguration {
             throw new InitializationException(
                     "could not load entity class", e);
         }
+    }
+    
+    private PersistenceConfigLoader makeConfigLoader() {
+        PersistenceConfigLoader result;
+        if (null != serviceManager_)
+            result = new PersistenceConfigResourceLoader(serviceManager_);
+        else 
+            result = new PersistenceConfigFileLoader();
+        
+        result.enableLogging(getLogger());
+        return result;
     }
     
     public String toString() {

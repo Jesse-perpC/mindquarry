@@ -25,6 +25,7 @@ import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansDocumentCreator;
 import com.mindquarry.persistence.xmlbeans.creation.XmlBeansEntityCreator;
+import com.mindquarry.persistence.xmlbeans.reflection.EntityClassUtil;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 
 /**
@@ -39,11 +40,9 @@ class XmlBeansSession implements Session {
     private List<XmlObject> deletedEntities_;
     
     private final PersistenceConfiguration configuration_;
-    private final XmlBeansDocumentCreator documentCreator_;
-    private final XmlBeansEntityCreator entityCreator_;
     
     private final JcrSourceResolverBase jcrSourceResolver_;
-    
+
     /**
      * @param configuration
      * @param documentCreator
@@ -51,14 +50,10 @@ class XmlBeansSession implements Session {
      * @param jcrSourceResolver
      */
     XmlBeansSession(final PersistenceConfiguration configuration, 
-            final XmlBeansDocumentCreator documentCreator, 
-            final XmlBeansEntityCreator entityCreator, 
             final JcrSourceResolverBase jcrSourceResolver) {
         
         super();
         configuration_ = configuration;
-        documentCreator_ = documentCreator;
-        entityCreator_ = entityCreator;
         jcrSourceResolver_ = jcrSourceResolver;
         
         pooledEntities_ = new LinkedList<XmlObject>();
@@ -67,7 +62,7 @@ class XmlBeansSession implements Session {
 
     public Object newEntity(Class entityClazz) {
         validateEntityClass(entityClazz);
-        XmlObject result = entityCreator_.newEntityFor(entityClazz);
+        XmlObject result = entityCreator().newEntityFor(entityClazz);
         pooledEntities_.add(result);
         return result;
     }
@@ -79,7 +74,7 @@ class XmlBeansSession implements Session {
                 
         ModifiableSource source = resolveJcrSource(xmlTransientInstance);
         
-        XmlObject entityDocument = documentCreator_.newDocumentFor(
+        XmlObject entityDocument = documentCreator().newDocumentFor(
                 xmlTransientInstance, entityClazz);        
         try {
             OutputStream out = source.getOutputStream();
@@ -128,14 +123,12 @@ class XmlBeansSession implements Session {
         }
     }
     
-    private Class entityClazz(Object transientInstance) {
-        Class entityImplClazz = transientInstance.getClass();
-        validateEntityImplClass(entityImplClazz);
-        
-        Class entityClazz = entityImplClazz.getInterfaces()[0];
-        validateEntityClass(entityClazz);
-        
-        return entityClazz;
+    private XmlBeansDocumentCreator documentCreator() {
+        return configuration_.getDocumentCreator();
+    }
+    
+    private XmlBeansEntityCreator entityCreator() {
+        return configuration_.getEntityCreator();
     }
     
     private String entityId(XmlObject entity) {
@@ -191,7 +184,7 @@ class XmlBeansSession implements Session {
     
     private XmlObject createEntity(Source source, String clazzName) {
         InputStream sourceIn = loadSourceContent(source);
-        XmlObject result = entityCreator_.newEntityFrom(sourceIn, clazzName);
+        XmlObject result = entityCreator().newEntityFrom(sourceIn, clazzName);
         pooledEntities_.add(result);
         return result;
     }
@@ -212,45 +205,6 @@ class XmlBeansSession implements Session {
         return new QueryPreparer(query, params).prepare();
     }
     
-    private void validateEntityImplClass(Class entityImplClazz) {        
-        assert isValidXmlBeanImplClass(entityImplClazz) : 
-                    "the class: " + entityImplClazz + " seems not to be a valid " +
-                    "xmlbeans implementation type, " +
-                    "it does not implement any interfaces.";
-    }
-    
-    private boolean isValidXmlBeanImplClass(Class clazz) {
-        Class[] extendedInterfaces = clazz.getInterfaces();
-        if (1 != extendedInterfaces.length)
-            return false;
-        
-        return true;
-    }
-    
-    private void validateEntityClass(Class entityClazz) {
-        String classSimpleName = entityClazz.getSimpleName(); 
-        if (classSimpleName.endsWith(Constants.DOCUMENT_CLASS_SUFFIX))
-            throw XmlBeansPersistenceException.documentSuffix(entityClazz);
-        
-        assert isValidXmlBeanClass(entityClazz) : 
-                    "the class: " + entityClazz + " seems not to be a valid " +
-                    "xmlbeans type, it does not extend " + XmlObject.class;       
-    }
-    
-    private boolean isValidXmlBeanClass(Class clazz) {
-        Class[] extendedInterfaces = clazz.getInterfaces();
-        if (1 != extendedInterfaces.length)
-            return false;
-        
-        if (! XmlObject.class.equals(extendedInterfaces[0]))
-            return false;
-        
-        if (! configuration_.existsEntity(clazz))
-            return false;
-        
-        return true;
-    }
-    
     private ModifiableTraversableSource resolveJcrSource(String path) {
         return jcrSourceResolver_.resolveJcrSource(path);
     }
@@ -265,5 +219,13 @@ class XmlBeansSession implements Session {
         Class entityClazz = entityClazz(xmlEntity);  
         String basePath = configuration_.entityBasePath(entityClazz);
         return basePath + "/" + id;
+    }
+    
+    private Class entityClazz(Object entity) {
+        return EntityClassUtil.entityClazz(entity, configuration_);
+    }
+    
+    private void validateEntityClass(Class entityClazz) {
+        EntityClassUtil.validateEntityClass(entityClazz, configuration_);
     }
 }

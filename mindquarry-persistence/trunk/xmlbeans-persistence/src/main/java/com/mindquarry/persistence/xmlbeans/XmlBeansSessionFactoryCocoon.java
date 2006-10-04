@@ -8,8 +8,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigLoader;
-import com.mindquarry.persistence.xmlbeans.config.PersistenceConfigResourceLoader;
+import com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
 import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverCocoon;
 
@@ -34,8 +33,7 @@ public class XmlBeansSessionFactoryCocoon extends XmlBeansSessionFactoryBase
      */
     @Override
     public Session currentSession() {
-        return new XmlBeansSession(configuration_, documentCreator_, 
-                entityCreator_, jcrSourceResolver_);
+        return new XmlBeansSession(configuration_, jcrSourceResolver_);
     }
     
     /**
@@ -44,18 +42,18 @@ public class XmlBeansSessionFactoryCocoon extends XmlBeansSessionFactoryBase
     public void service(ServiceManager serviceManager) throws ServiceException {
         serviceManager_ = serviceManager;        
         jcrSourceResolver_ = newJcrSourceResolverCocoon(serviceManager);
+
+        configuration_ = new PersistenceConfiguration();
     }
-    
+
+    @Override
+    public PersistenceConfiguration makeConfiguration() throws ServiceException {
+        String name = PersistenceConfiguration.class.getName();
+        return (PersistenceConfiguration) serviceManager_.lookup(name);
+    }
+
     private JcrSourceResolverBase newJcrSourceResolverCocoon(
             ServiceManager serviceManager) {
         return new JcrSourceResolverCocoon(serviceManager_);
-    }    
-    
-    @Override
-    protected PersistenceConfigLoader makeConfigLoader() {
-        PersistenceConfigLoader result;
-        result = new PersistenceConfigResourceLoader(serviceManager_);
-        result.enableLogging(getLogger());
-        return result;
     }
 }
