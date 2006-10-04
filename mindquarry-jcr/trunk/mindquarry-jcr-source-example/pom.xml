@@ -74,6 +74,10 @@
           <groupId>org.apache.cocoon</groupId>
           <artifactId>cocoon-core</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>jsr170</groupId>
+          <artifactId>jcr</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
   </dependencies>
