@@ -1,12 +1,13 @@
 /**
- * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
+ * Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
  */
 package com.mindquarry.teamspace;
 
 /**
  * 
  *
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class TeamspaceAlreadyExistsException extends Exception {
 
