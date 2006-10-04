@@ -80,6 +80,7 @@ public class JCRNodesToSAXConverter {
                     if (prefix != null) {
                         localName = getLocalName(prop.getName());
                         namespaceURI = getNamespace(prefix, nr);
+                        qName = prefix + ":" + localName;
                     } else {
                         localName = prop.getName();
                     }
@@ -94,6 +95,7 @@ public class JCRNodesToSAXConverter {
                 if (prefix != null) {
                     localName = getLocalName(child.getName());
                     namespaceURI = getNamespace(prefix, nr);
+                    qName = prefix + ":" + localName;
                 } else {
                     localName = child.getName();
                 }
