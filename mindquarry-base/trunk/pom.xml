@@ -68,6 +68,12 @@
 			<url>http://www.mindquarry.com/releases/</url>
 			<layout>default</layout>
 	    </pluginRepository>
+	    <pluginRepository>
+			<id>codehaus.mojo</id>
+			<name>Codehaus Repository</name>
+			<url>http://repository.codehaus.org/</url>
+			<layout>default</layout>
+	    </pluginRepository>
 	</pluginRepositories>
 
 	<distributionManagement>
