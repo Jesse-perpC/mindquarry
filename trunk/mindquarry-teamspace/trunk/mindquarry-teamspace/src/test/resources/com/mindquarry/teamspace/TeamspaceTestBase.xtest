@@ -39,8 +39,7 @@
 			default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
 			
 		<role name="com.mindquarry.teamspace.TeamspaceAdmin"
-			default-class="com.mindquarry.teamspace.TeamspaceManager" >
-		</role>
+			default-class="com.mindquarry.teamspace.TeamspaceManager" />
 	</roles>
 	<components>
 		<source-factories>
