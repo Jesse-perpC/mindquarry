@@ -29,8 +29,14 @@
 		<role name="com.mindquarry.common.persistence.SessionFactory"
 			default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
 			
-		<role name="com.mindquarry.dma.admin.DmaAdminFactory"
-			default-class="com.mindquarry.dma.admin.DmaAdminFactory" />
+		<role name="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration"
+			default-class="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration" />
+			
+		<role name="com.mindquarry.common.xml.EntityXmlizerFactory"
+			default-class="com.mindquarry.persistence.xmlbeans.xml.XmlBeansEntityXmlizerFactory" />
+			
+		<role name="com.mindquarry.dma.admin.DmaRepositoryFactory"
+			default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
 			
 		<role name="com.mindquarry.teamspace.TeamspaceAdmin"
 			default-class="com.mindquarry.teamspace.TeamspaceManager" >

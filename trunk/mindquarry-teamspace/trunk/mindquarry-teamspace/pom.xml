@@ -51,6 +51,13 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
