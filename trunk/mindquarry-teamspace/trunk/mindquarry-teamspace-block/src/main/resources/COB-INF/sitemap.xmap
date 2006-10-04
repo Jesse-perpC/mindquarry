@@ -12,8 +12,8 @@
 	</map:components>
 	
 	<map:flow language="javascript">
-		<map:script src="admin.js" />
-    	<map:script src="teamspace-view.js"/>
+		<map:script src="flow/admin.js" />
+    	<map:script src="flow/teamspace-view.js"/>
 	</map:flow>
 	
 	<map:resources>
