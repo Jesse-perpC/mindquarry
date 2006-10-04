@@ -97,10 +97,10 @@ public class CommandLine {
      */
     public static void main(String[] args) throws Exception {
         System.out.println("Starting persistence client...");
-        
+
         CommandLine cl = new CommandLine();
         cl.run(args);
-        
+
         System.out.println("Persistence actions finished.");
     }
 
@@ -153,27 +153,33 @@ public class CommandLine {
             throws Exception {
         for (String value : optionValues) {
             System.out.println("Start adding of " + value);
-            
+
             try {
+                User user = UserDocument.Factory.parse(new File(value))
+                        .getUser();
+
                 User entity = (User) session.newEntity(User.class);
-                entity.set(UserDocument.Factory.parse(new File(value))
-                        .getUser());
+                entity.set(user);
                 continue;
             } catch (XmlException e) {
                 // nothing to do here, check next type
             }
             try {
+                Teamspace ts = TeamspaceDocument.Factory.parse(new File(value))
+                        .getTeamspace();
+
                 Teamspace entity = (Teamspace) session
                         .newEntity(Teamspace.class);
-                entity.set(TeamspaceDocument.Factory.parse(new File(value))
-                        .getTeamspace());
+                entity.set(ts);
                 continue;
             } catch (XmlException e) {
                 // nothing to do here, check next type
             }
             try {
+                Tag tag = TagDocument.Factory.parse(new File(value)).getTag();
+
                 Tag entity = (Tag) session.newEntity(Tag.class);
-                entity.set(TagDocument.Factory.parse(new File(value)).getTag());
+                entity.set(tag);
                 continue;
             } catch (XmlException e) {
                 // nothing to do here, check next type
