@@ -1,16 +1,8 @@
 package com.mindquarry.persistence.xmlbeans.xml;
 
 import java.io.ByteArrayOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
-
-import javax.management.BadStringOperationException;
-import javax.xml.transform.TransformerFactory;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
-import javax.xml.transform.stream.StreamResult;
 
 import org.apache.cocoon.serialization.Serializer;
 import org.apache.cocoon.serialization.XMLSerializer;
