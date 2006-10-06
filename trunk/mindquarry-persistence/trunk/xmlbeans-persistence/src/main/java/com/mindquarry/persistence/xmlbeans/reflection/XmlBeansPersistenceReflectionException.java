@@ -43,6 +43,13 @@ class XmlBeansPersistenceReflectionException extends PersistenceException {
                 "could not load genereated xmlbean class", cause);
     }
 
+    static XmlBeansPersistenceReflectionException gotNoGetIdMethod(
+            String methodName, Class entityClazz, Exception cause) {
+        return new XmlBeansPersistenceReflectionException(
+                "could not get method '" + methodName + "' " +
+                "from " + entityClazz, cause);
+    }
+
     static XmlBeansPersistenceReflectionException gotNoFactoryMethod(
             Class documentFactoryClazz, Exception cause) {
         return new XmlBeansPersistenceReflectionException(
