@@ -4,6 +4,8 @@
 package com.mindquarry.jcr.jackrabbit;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.rmi.registry.LocateRegistry;
@@ -20,6 +22,7 @@ import org.apache.commons.cli.HelpFormatter;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.io.IOUtils;
 import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.rmi.remote.RemoteRepository;
 import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
@@ -32,6 +35,8 @@ import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
  *         Saar</a>
  */
 public class JackrabbitRMIRepositoryStandalone {
+    private static final String REPO_CONF_PATH = "/com/mindquarry/jcr/jackrabbit/repository.xml";
+
     private static final String O_CONF = "c"; //$NON-NLS-1$
 
     private static final String O_LOC = "l"; //$NON-NLS-1$
@@ -62,7 +67,6 @@ public class JackrabbitRMIRepositoryStandalone {
         Option repo = new Option(O_CONF, "config", true,
                 "The crepository configuration file to be used by "
                         + "the repository instance..");
-        repo.setRequired(true);
 
         Option location = new Option(O_LOC, "location", true,
                 "The directory to be used by the repository "
@@ -79,7 +83,6 @@ public class JackrabbitRMIRepositoryStandalone {
 
         Option ws = new Option(O_WS, "workspace", true,
                 "The workspace to be used during login and setup of the repository.");
-        ws.setRequired(true);
 
         options = new Options();
         options.addOption(repo);
@@ -132,11 +135,13 @@ public class JackrabbitRMIRepositoryStandalone {
     }
 
     private void start(CommandLine line) throws Exception {
-        File repoConf = new File(line.getOptionValue(O_CONF));
-        if (!repoConf.exists()) {
-            throw new IllegalArgumentException(
-                    "Repository configuration file don't exists.");
-        }
+        String repoConf;
+        String repoConfArg = line.getOptionValue(O_CONF);
+        if (null == repoConfArg)
+            repoConf = createDefaultRepoConf();
+        else
+            repoConf = new File(repoConfArg).getAbsolutePath();
+        
         File repoLoc = new File(line.getOptionValue(O_LOC));
         if (!repoLoc.exists()) {
             repoLoc.mkdir();
@@ -145,7 +150,7 @@ public class JackrabbitRMIRepositoryStandalone {
             throw new IllegalArgumentException(
                     "Repository location is not a directory.");
         }
-        Repository repo = new TransientRepository(repoConf.getAbsolutePath(),
+        Repository repo = new TransientRepository(repoConf,
                 repoLoc.getAbsolutePath());
 
         ServerAdapterFactory factory = new ServerAdapterFactory();
@@ -154,9 +159,12 @@ public class JackrabbitRMIRepositoryStandalone {
         reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
         reg.rebind(REMOTE_REPO_NAME, remoteRepo);
 
+        String workspace = line.getOptionValue(O_WS);
+        if (null == workspace) 
+            workspace = "default";
+        
         session = repo.login(new SimpleCredentials(line.getOptionValue(O_USER),
-                line.getOptionValue(O_PWD).toCharArray()), line
-                .getOptionValue(O_WS));
+                line.getOptionValue(O_PWD).toCharArray()), workspace);
 
         InputStream nodeTypeDefIn = getClass().getResourceAsStream(
                 MQ_JCR_XML_NODETYPES_FILE);
@@ -165,6 +173,14 @@ public class JackrabbitRMIRepositoryStandalone {
                 .setupRepository(session, new InputStreamReader(nodeTypeDefIn),
                         MQ_JCR_XML_NODETYPES_FILE);
         session.save();
+    }
+    
+    private String createDefaultRepoConf() throws IOException {
+        InputStream confIn = getClass().getResourceAsStream(REPO_CONF_PATH);
+        File tempConfFile = File.createTempFile("repository", "xml");
+        tempConfFile.deleteOnExit();
+        IOUtils.copy(confIn, new FileOutputStream(tempConfFile));
+        return tempConfFile.getAbsolutePath();
     }
 
     private void stop() throws Exception {
