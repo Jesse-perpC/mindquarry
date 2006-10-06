@@ -186,8 +186,8 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             }
             else {
                 int maxPrefixNumber = maxUsedPrefixNumber(nr.getPrefixes());
-                if (maxPrefixNumber > nextPrefixNumber)
-                    nextPrefixNumber = maxPrefixNumber;
+                if (maxPrefixNumber >= nextPrefixNumber)
+                    nextPrefixNumber = maxPrefixNumber + 1;
                 
                 jcrNodePrefix = MQ_PREFIX_START + nextPrefixNumber++;
                 nr.registerNamespace(jcrNodePrefix, uri);
@@ -209,8 +209,8 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             if (prefix.startsWith(MQ_PREFIX_START)) {
                 String prefixEnd = prefix.substring(MQ_PREFIX_START.length());
                 int number = Integer.valueOf(prefixEnd);
-                if (number >= nextPrefixNumber) {
-                    result = number + 1;
+                if (number >= nextPrefixNumber && number > result) {
+                    result = number;
                 }
             }
         }
