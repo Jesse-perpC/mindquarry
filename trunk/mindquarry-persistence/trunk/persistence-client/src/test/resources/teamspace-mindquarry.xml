@@ -1,7 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<ts:teamspace xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mindquarry.com/ns/schema/teamspace ../../../../teamspace-types/src/main/xsd/teamspace.xsd ">
+<ts:teamspace xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace">
 	
 	<ts:id>mindquarry</ts:id>
 	<ts:name>The Mindquarry Project</ts:name>

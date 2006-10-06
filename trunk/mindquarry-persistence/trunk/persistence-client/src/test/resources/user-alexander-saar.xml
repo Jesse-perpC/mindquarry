@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <usr:user xmlns:tag="http://www.mindquarry.com/ns/schema/tag"
 	xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace"
-	xmlns:usr="http://www.mindquarry.com/ns/schema/user"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.mindquarry.com/ns/schema/user ../../../../user-types/src/main/xsd/user.xsd http://www.mindquarry.com/ns/schema/tag ../../../../../tag/tag-types/src/main/xsd/tag.xsd http://www.mindquarry.com/ns/schema/teamspace ../../../../../teamspace/teamspace-types/src/main/xsd/teamspace.xsd ">
+	xmlns:usr="http://www.mindquarry.com/ns/schema/user">
 
 	<usr:id>alexander.saar</usr:id>
 	<usr:password>mypwd</usr:password>
