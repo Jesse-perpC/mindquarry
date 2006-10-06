@@ -1,69 +1,69 @@
 package com.mindquarry.persistence.xmlbeans.xml;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.StringWriter;
+import java.util.LinkedList;
+import java.util.List;
 
-import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
-import org.custommonkey.xmlunit.Diff;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
+import org.apache.excalibur.xml.sax.XMLizable;
 
 import com.mindquarry.common.xml.EntityXmlizer;
 import com.mindquarry.common.xml.EntityXmlizerFactory;
 import com.mindquarry.persistence.xmlbeans.XmlBeansPersistenceTestBase;
 import com.mindquarry.types.teamspace.Teamspace;
-import com.mindquarry.types.teamspace.TeamspaceDocument;
 import com.mindquarry.types.user.Email;
 import com.mindquarry.types.user.User;
 
 public class XmlBeansEntityXmlizerTest extends XmlBeansPersistenceTestBase {
-
-    private static final String CONTENT_FILE = "/com/mindquarry/persistence/xmlbeans/xml/TestContent.xml";
     
+    private static final String USER_NS_URI = "http://www.mindquarry.com/ns/schema/user";
+    private static final String USERS_LOCALNAME = "users";
+    
+    private EntityXmlizerFactory xmlizerFactory_;
+    
+    /**
+     * @see com.mindquarry.jcr.jackrabbit.JCRTestBase#setUp()
+     */
+    @Override
+    protected void setUp() throws Exception {
+        super.setUp();
+        String xmlizerFactoryName = EntityXmlizerFactory.class.getName();
+        xmlizerFactory_ = (EntityXmlizerFactory) lookup(xmlizerFactoryName);
+    }
+
     public void testXmlBeansEntityXmlizer() throws Exception {
         
-        ByteArrayOutputStream actualOut = new ByteArrayOutputStream();
+        String[] userIds = new String[] {"bastian", "lars", "alex", "alexs"};
+        List<XMLizable> xmlizableUsers = new LinkedList<XMLizable>();
+        for (String userId : userIds) {
+            User user = makeUser(userId);
+            xmlizableUsers.add(xmlizerFactory_.newEntityXmlizer(user));
+        }
+        
+        XMLizable xmlizableUserList = new XMLizableListWrapper(
+                USER_NS_URI, USERS_LOCALNAME, xmlizableUsers);
+        
+        Teamspace teamspace = makeTeamspace();
+        EntityXmlizer teamspaceXmlizer = 
+            xmlizerFactory_.newEntityXmlizer(teamspace);
+        
+        teamspaceXmlizer.beforeEndEntityElement(xmlizableUserList);
+        
+        
+        StringWriter actualOut = new StringWriter();
         
         SAXTransformerFactory factory = 
-            (SAXTransformerFactory) SAXTransformerFactory.newInstance();
+            (SAXTransformerFactory) TransformerFactory.newInstance();
         TransformerHandler handler = factory.newTransformerHandler();
-        handler.setResult(new StreamResult(System.out));
+        handler.setResult(new StreamResult(actualOut));
         
-        handler.startDocument();
-        
-        User user = makeUser("bastian");
-        Teamspace teamspace = makeTeamspace();
-        
-        String xmlizerFactoryName = EntityXmlizerFactory.class.getName();
-        EntityXmlizerFactory xmlizerFactory = 
-            (EntityXmlizerFactory) lookup(xmlizerFactoryName);
-        
-        EntityXmlizer userXmlizer = xmlizerFactory.newEntityXmlizer(user);
-        EntityXmlizer teamspaceXmlizer = xmlizerFactory.newEntityXmlizer(teamspace);
-        
-        //teamspaceXmlizer.beforeEndEntityElement(userXmlizer);
-        teamspaceXmlizer.toSax(handler);
-        
+        handler.startDocument();        
+        teamspaceXmlizer.toSAX(handler);        
         handler.endDocument();
-        
-//        InputStream actualIn = new ByteArrayInputStream(actualOut.toByteArray());
-//        InputStream expected = getClass().getResourceAsStream(CONTENT_FILE);
-//        
-//        isXmlEqual(expected, actualIn);
-    }
-    
-    private boolean isXmlEqual(InputStream expected, InputStream actual)
-        throws SAXException, IOException, ParserConfigurationException {
-        
-        InputSource expectedSource = new InputSource(expected);
-        InputSource actualSource = new InputSource(actual);
-        Diff xmlDiff = new Diff(expectedSource, actualSource);
-        return xmlDiff.similar();
     }
     
     private User makeUser(String userId) {

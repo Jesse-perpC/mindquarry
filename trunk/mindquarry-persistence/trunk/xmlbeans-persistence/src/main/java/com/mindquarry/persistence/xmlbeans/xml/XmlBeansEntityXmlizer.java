@@ -7,6 +7,7 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.InvocationTargetException;
 
+import org.apache.excalibur.xml.sax.XMLizable;
 import org.apache.xmlbeans.XmlObject;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -22,7 +23,7 @@ import com.mindquarry.common.xml.EntityXmlizer;
 class XmlBeansEntityXmlizer implements EntityXmlizer {
 
     private XmlObject entity_;
-    private EntityXmlizer childEntityXmlizer_;
+    private XMLizable xmlizableChild_;
     private Constructor contentHandlerProxyConstructor_;
     
     XmlBeansEntityXmlizer(
@@ -35,16 +36,16 @@ class XmlBeansEntityXmlizer implements EntityXmlizer {
     /**
      * @see com.mindquarry.common.xml.EntityXmlizer#beforeEndEntityElement(com.mindquarry.common.xml.EntityXmlizer)
      */
-    public void beforeEndEntityElement(EntityXmlizer childEntityXmlizer) {
-        childEntityXmlizer_ = childEntityXmlizer;
+    public void beforeEndEntityElement(XMLizable xmlizableChild) {
+        xmlizableChild_ = xmlizableChild;
     }
 
     /**
      * @see com.mindquarry.common.xml.EntityXmlizer#toSax(org.xml.sax.ContentHandler)
      */
-    public void toSax(ContentHandler contentHandler) {
+    public void toSAX(ContentHandler contentHandler) {
         InvocationHandler handler = new ContentHandlerInvocationHandler(
-                contentHandler, childEntityXmlizer_);
+                contentHandler, xmlizableChild_);
         
         ContentHandler proxyHandler = createProxyContentHandler(handler);
         try {

@@ -21,4 +21,14 @@
 		<query>/users</query>
 		<resultEntityClass>com.mindquarry.types.user.User</resultEntityClass>
 	</queryInfo>
+	<queryInfo>
+		<key>getTeamspaceById</key>
+		<query>/teamspaces/{$id}</query>
+		<resultEntityClass>com.mindquarry.types.teamspace.Teamspace</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getAllTeamspaces</key>
+		<query>/teamspaces</query>
+		<resultEntityClass>com.mindquarry.types.teamspace.Teamspace</resultEntityClass>
+	</queryInfo>
 </configuration>

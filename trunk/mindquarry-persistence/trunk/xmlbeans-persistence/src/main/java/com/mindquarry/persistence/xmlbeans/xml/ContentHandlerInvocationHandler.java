@@ -7,11 +7,11 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.Arrays;
 
+import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 
 import com.mindquarry.common.init.InitializationException;
-import com.mindquarry.common.xml.EntityXmlizer;
 
 /**
  * Add summary documentation here.
@@ -62,14 +62,14 @@ class ContentHandlerInvocationHandler implements InvocationHandler {
     
     private int elementDepth_;
     private ContentHandler contentHandler_;
-    private EntityXmlizer childEntityXmlizer_;
+    private XMLizable xmlizableChild_;
     
     ContentHandlerInvocationHandler(ContentHandler contentHandler,
-            EntityXmlizer childEntityXmlizer) {
+            XMLizable xmlizableChild) {
         
         elementDepth_ = 0;
         contentHandler_ = contentHandler;
-        childEntityXmlizer_ = childEntityXmlizer;
+        xmlizableChild_ = xmlizableChild;
     }
     
     public Object invoke(Object proxy, Method method, Object[] args) 
@@ -80,8 +80,8 @@ class ContentHandlerInvocationHandler implements InvocationHandler {
         }
         
         if (endElementMethod_.equals(method)) {
-            if (1 == elementDepth_ && null != childEntityXmlizer_) {
-                childEntityXmlizer_.toSax(contentHandler_);
+            if (1 == elementDepth_ && null != xmlizableChild_) {
+                xmlizableChild_.toSAX(contentHandler_);
             }
             elementDepth_--;
         }
