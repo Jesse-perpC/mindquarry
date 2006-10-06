@@ -3,6 +3,7 @@
 	<teamspaces>
 		<jx:forEach var="item" items="${teamspaceList}">
 			<teamspace>
+				<id><jx:out value="${item.id}" /></id>
 				<name><jx:out value="${item.name}" /></name>
 			</teamspace>
 		</jx:forEach>

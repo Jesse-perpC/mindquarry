@@ -59,6 +59,11 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
+			<artifactId>mindquarry-teamspace-cocoon</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>

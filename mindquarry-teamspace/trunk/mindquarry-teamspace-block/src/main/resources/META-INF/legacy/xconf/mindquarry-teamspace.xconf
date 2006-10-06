@@ -17,12 +17,19 @@
 
 		<component-instance name="jcr"
 			class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
-			login="alexander.saar" password="mypwd" />
+			login="alexander.saar" password="mypwd"
+			rmi="rmi://localhost:1099/jackrabbit" />
 
 		<!-- use the following for working with an RMI repository -->
-		<!-- component-instance name="jcr"
-			class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
-			login="alexander.saar" password="mypwd"
-			rmi="rmi://localhost:1099/jackrabbit" /-->
+		<!-- component-instance name="jcr" -->
+
 	</source-factories>
+
+	<!-- define the exact XMLSerializer we want to use (taken from
+		standard cocoon configuration) -->
+	<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+		<transformer-factory>
+			org.apache.xalan.xsltc.trax.TransformerFactoryImpl
+		</transformer-factory>
+	</serializer>
 </components>
