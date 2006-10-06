@@ -21,9 +21,9 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 	public void testCreateAndRemove() throws ServiceException, TeamspaceAlreadyExistsException {
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
 		admin.create("mindquarry", "Mindquarry", "a greate description");
-        assertEquals(1, admin.list().size());
+        assertEquals(1, admin.allTeamspaces().size());
         admin.remove("mindquarry");
-        assertEquals(0, admin.list().size());
+        assertEquals(0, admin.allTeamspaces().size());
 	}
     
     private TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {

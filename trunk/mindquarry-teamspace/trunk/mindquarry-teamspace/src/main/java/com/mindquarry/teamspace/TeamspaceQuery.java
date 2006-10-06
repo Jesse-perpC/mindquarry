@@ -19,5 +19,7 @@ public interface TeamspaceQuery {
 	 */
 	String workspaceUri(String id);
     
-    List<Object> list();
+    List<Object> allTeamspaces();
+    
+    List<Object> teamspacesForUser(String userId);
 }

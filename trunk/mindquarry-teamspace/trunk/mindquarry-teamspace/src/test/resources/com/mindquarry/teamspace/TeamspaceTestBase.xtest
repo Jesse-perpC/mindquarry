@@ -25,6 +25,9 @@
 			
 			<credentials login="alexander.saar" password="mypwd" />
 		</role>
+		
+		<!-- configure a serializer for XML output -->
+		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
 
 		<role name="com.mindquarry.common.persistence.SessionFactory"
 			default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
@@ -59,5 +62,11 @@
 				login="bastian" password="mypwd"
 				rmi="rmi://localhost:1099/jackrabbit" /-->
 		</source-factories>
+		
+		<!-- define the exact XMLSerializer we want to use (taken from
+			 standard cocoon configuration) -->
+		<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+		</serializer>
 	</components>
 </testcase>

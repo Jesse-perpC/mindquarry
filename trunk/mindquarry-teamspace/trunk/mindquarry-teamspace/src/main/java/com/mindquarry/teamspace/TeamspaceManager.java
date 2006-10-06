@@ -19,6 +19,8 @@ import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.types.teamspace.Teamspace;
+import com.mindquarry.types.teamspace.TeamspaceReferences;
+import com.mindquarry.types.user.User;
 
 /**
  * Add summary documentation here.
@@ -95,13 +97,8 @@ class TeamspaceManager implements TeamspaceAdmin,
         session.delete(teamspace);
         session.commit();
     }
-    
-    private Teamspace queryTeamspaceById(Session session, String id) {
-        List queryResult = session.query("getTeamspaceById", new Object[] {id});
-        return (Teamspace) queryResult.get(0);
-    }
 
-    public List<Object> list() {
+    public List<Object> allTeamspaces() {
         Session session = currentSession();
         List queryResult = session.query("getAllTeamspaces", new Object[0]);
         
@@ -111,6 +108,32 @@ class TeamspaceManager implements TeamspaceAdmin,
         
         session.commit();
         return result;
+    }
+
+    public List<Object> teamspacesForUser(String userId) {
+        Session session = currentSession();
+        User user = queryUserById(session, userId);
+        
+        List<Object> result = new LinkedList<Object>();
+        
+        TeamspaceReferences teamRefs = user.getTeamspaces();
+        for (String teamRef : teamRefs.getTeamspaceReferenceArray()) {
+            Teamspace teamspace = queryTeamspaceById(session, teamRef);
+            result.add(teamspace);
+        }
+        
+        session.commit();
+        return result;
+    }
+    
+    private Teamspace queryTeamspaceById(Session session, String id) {
+        List queryResult = session.query("getTeamspaceById", new Object[] {id});
+        return (Teamspace) queryResult.get(0);
+    }
+    
+    private User queryUserById(Session session, String id) {
+        List queryResult = session.query("getUserById", new Object[] {id});
+        return (User) queryResult.get(0);
     }
 
     public String workspaceUri(String id) {
