@@ -31,6 +31,33 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.excalibur.components.xmlutil</groupId>
+			<artifactId>excalibur-xmlutil</artifactId>
+			<version>2.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>excalibur-testcase</artifactId>
+					<groupId>org.apache.excalibur.testcase</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>excalibur-pool-instrumented</artifactId>
+					<groupId>
+						org.apache.excalibur.components.pool
+					</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>excalibur-pool-impl</artifactId>
+					<groupId>
+						org.apache.excalibur.components.pool
+					</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>avalon-framework-api</artifactId>
+					<groupId>org.apache.avalon.framework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
 			<groupId>geronimo-spec</groupId>
 			<artifactId>geronimo-spec-jta</artifactId>
 			<version>1.0-M1</version>

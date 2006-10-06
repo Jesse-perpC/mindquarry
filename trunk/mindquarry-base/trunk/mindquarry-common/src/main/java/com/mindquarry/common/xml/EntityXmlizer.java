@@ -3,7 +3,7 @@
  */
 package com.mindquarry.common.xml;
 
-import org.xml.sax.ContentHandler;
+import org.apache.excalibur.xml.sax.XMLizable;
 
 /**
  * Add summary documentation here.
@@ -11,9 +11,7 @@ import org.xml.sax.ContentHandler;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface EntityXmlizer {
+public interface EntityXmlizer extends XMLizable {
 
-    void beforeEndEntityElement(EntityXmlizer childEntityXmlizer);
-    
-    void toSax(ContentHandler contentHandler);
+    void beforeEndEntityElement(XMLizable xmlizableChild);
 }
