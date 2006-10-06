@@ -25,7 +25,6 @@ import com.mindquarry.types.teamspace.Teamspace;
 import com.mindquarry.types.teamspace.TeamspaceDocument;
 import com.mindquarry.types.user.User;
 import com.mindquarry.types.user.UserDocument;
-import com.sun.jmx.snmp.tasks.Task;
 
 /**
  * Command line client to be used for working with the Mindquarry persistence
