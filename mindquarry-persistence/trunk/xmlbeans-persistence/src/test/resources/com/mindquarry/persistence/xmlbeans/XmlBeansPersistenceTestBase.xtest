@@ -48,6 +48,7 @@
 			<component-instance name="jcr"
 				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
 				login="alexander.saar" password="mypwd" />
+<!-- 			rmi="rmi://localhost:1099/jackrabbit" /-->
 
 			<!-- use the following for working with an RMI repository -->
 			<!-- component-instance name="jcr"
