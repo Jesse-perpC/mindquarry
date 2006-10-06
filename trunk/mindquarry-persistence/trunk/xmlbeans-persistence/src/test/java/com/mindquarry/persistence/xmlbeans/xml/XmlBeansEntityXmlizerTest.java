@@ -1,14 +1,19 @@
 package com.mindquarry.persistence.xmlbeans.xml;
 
+import java.io.ByteArrayOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.StringWriter;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.management.BadStringOperationException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.sax.SAXTransformerFactory;
 import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 
+import org.apache.cocoon.serialization.Serializer;
+import org.apache.cocoon.serialization.XMLSerializer;
 import org.apache.excalibur.xml.sax.XMLizable;
 
 import com.mindquarry.common.xml.EntityXmlizer;
@@ -54,16 +59,14 @@ public class XmlBeansEntityXmlizerTest extends XmlBeansPersistenceTestBase {
         teamspaceXmlizer.beforeEndEntityElement(xmlizableUserList);
         
         
-        StringWriter actualOut = new StringWriter();
+        ByteArrayOutputStream actualOut = new ByteArrayOutputStream();
         
-        SAXTransformerFactory factory = 
-            (SAXTransformerFactory) TransformerFactory.newInstance();
-        TransformerHandler handler = factory.newTransformerHandler();
-        handler.setResult(new StreamResult(actualOut));
-        
-        handler.startDocument();        
-        teamspaceXmlizer.toSAX(handler);        
-        handler.endDocument();
+        Serializer serializer = (Serializer) lookup(XMLSerializer.ROLE);
+        serializer.setOutputStream(actualOut);
+                
+        serializer.startDocument();        
+        teamspaceXmlizer.toSAX(serializer);        
+        serializer.endDocument();
     }
     
     private User makeUser(String userId) {
