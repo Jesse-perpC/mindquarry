@@ -36,6 +36,7 @@ import com.mindquarry.persistence.xmlbeans.source.JcrSourceResolverBase;
  */
 class XmlBeansSession implements Session {
     
+    private List<XmlObject> createdEntities_;
     private List<XmlObject> pooledEntities_;
     private List<XmlObject> deletedEntities_;
     
@@ -56,14 +57,15 @@ class XmlBeansSession implements Session {
         configuration_ = configuration;
         jcrSourceResolver_ = jcrSourceResolver;
         
-        pooledEntities_ = new LinkedList<XmlObject>();
+        createdEntities_ = new LinkedList<XmlObject>();
+        pooledEntities_ = new LinkedList<XmlObject>();        
         deletedEntities_ = new LinkedList<XmlObject>();
     }
 
     public Object newEntity(Class entityClazz) {
         validateEntityClass(entityClazz);
         XmlObject result = entityCreator().newEntityFor(entityClazz);
-        pooledEntities_.add(result);
+        createdEntities_.add(result);
         return result;
     }
 
@@ -96,13 +98,18 @@ class XmlBeansSession implements Session {
             pooledEntities_.remove(entity);
             isDeleted = true;
         }
+        if (createdEntities_.contains(object)) {            
+            XmlObject entity = (XmlObject) object;
+            createdEntities_.remove(entity);
+            isDeleted = true;
+        }
         
         return isDeleted;
     }
     
     public void commit() {
         
-        Iterator<XmlObject> pooledEntitiesIt = pooledEntities_.iterator();
+        Iterator<XmlObject> pooledEntitiesIt = createdEntities_.iterator();
         while (pooledEntitiesIt.hasNext()) {
             XmlObject entity = pooledEntitiesIt.next();
             persist(entity);
@@ -132,18 +139,19 @@ class XmlBeansSession implements Session {
     }
     
     private String entityId(XmlObject entity) {
-        Class clazz = entity.getClass();
-        try {
-            Method getIdMethod = clazz.getMethod("getId", new Class[0]);
+        Class clazz = entityClazz(entity);
+        Method getIdMethod = configuration_.getIdMethod(clazz);
+        try {            
             return (String) getIdMethod.invoke(entity, new Object[0]);
-        } catch (NoSuchMethodException e) {
-            throw new RuntimeException(e);
         } catch (IllegalArgumentException e) {
-            throw new RuntimeException(e);
+            throw XmlBeansPersistenceException.getIdMethodFailed(
+                    getIdMethod.getName(), entity, e);
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(e);
+            throw XmlBeansPersistenceException.getIdMethodFailed(
+                    getIdMethod.getName(), entity, e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw XmlBeansPersistenceException.getIdMethodFailed(
+                    getIdMethod.getName(), entity, e);
         }
     }
 
@@ -151,7 +159,7 @@ class XmlBeansSession implements Session {
         
         List<Object> result = new LinkedList<Object>();
         
-        String query = configuration_.query(queryKey);
+        String query = findQuery(queryKey);
         String preparedQuery = prepareQuery(query, params);
         
         TraversableSource source = resolveJcrSource(preparedQuery);
@@ -161,14 +169,24 @@ class XmlBeansSession implements Session {
             if (source.isCollection()) {
                 for (Object child : getChildren(source)) {
                     ModifiableSource childSource = (ModifiableSource) child;
-                    XmlObject entity = createEntity(childSource, clazzName);
+                    XmlObject entity = makePersistentEntity(
+                            childSource, clazzName);
                     result.add(entity);
                 }
             } else {
-                XmlObject entity = createEntity(source, clazzName);
+                XmlObject entity = makePersistentEntity(source, clazzName);
                 result.add(entity);
             }            
         }
+        return result;
+    }
+    
+    private String findQuery(String queryKey) {
+        String result = configuration_.query(queryKey);
+        if (null == result)
+            throw new XmlBeansPersistenceException(
+                    "a query with key: " + queryKey + " is not defined " + 
+                    "within the persistence configuration file");
         return result;
     }
     
@@ -182,7 +200,7 @@ class XmlBeansSession implements Session {
         }
     }
     
-    private XmlObject createEntity(Source source, String clazzName) {
+    private XmlObject makePersistentEntity(Source source, String clazzName) {
         InputStream sourceIn = loadSourceContent(source);
         XmlObject result = entityCreator().newEntityFrom(sourceIn, clazzName);
         pooledEntities_.add(result);
@@ -194,10 +212,10 @@ class XmlBeansSession implements Session {
             return source.getInputStream();
         } catch (SourceNotFoundException e) {
             throw new XmlBeansPersistenceException(
-                    "could load content from source: " + source.getURI());
+                    "could load content from source: " + source.getURI(), e);
         } catch (IOException e) {
             throw new XmlBeansPersistenceException(
-                    "could load content from source: " + source.getURI());
+                    "could load content from source: " + source.getURI(), e);
         }
     }
 

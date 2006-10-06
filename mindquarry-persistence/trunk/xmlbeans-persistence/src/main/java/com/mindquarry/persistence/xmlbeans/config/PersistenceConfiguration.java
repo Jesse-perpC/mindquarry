@@ -3,6 +3,7 @@
  */
 package com.mindquarry.persistence.xmlbeans.config;
 
+import java.lang.reflect.Method;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -35,6 +36,9 @@ public class PersistenceConfiguration extends AbstractLogEnabled
     
     private XmlBeansDocumentCreator documentCreator_;
     private XmlBeansEntityCreator entityCreator_;
+    
+    private EntityReflectionData entityReflectionData_;
+    private DocumentReflectionData documentReflectionData_;
 
 
     public void service(ServiceManager serviceManager) {
@@ -46,8 +50,16 @@ public class PersistenceConfiguration extends AbstractLogEnabled
         entityMap_ = makeEntityMap(xmlBeansConfig);
         queryInfoMap_ = makeQueryInfoMap(xmlBeansConfig);
         
-        documentCreator_ = makeDocumentCreator();
-        entityCreator_ = makeEntityCreator(documentCreator_);                
+        documentReflectionData_ = new DocumentReflectionData(entityClazzes());
+        entityReflectionData_ = new EntityReflectionData(entityClazzes());        
+        
+        documentCreator_ = new XmlBeansDocumentCreator(documentReflectionData_);
+        entityCreator_ = new XmlBeansEntityCreator(
+                entityReflectionData_, documentCreator_);               
+    }
+    
+    public Method getIdMethod(Class entityClazz) {
+        return entityReflectionData_.getIdMethod(entityClazz);
     }
     
     public XmlBeansDocumentCreator getDocumentCreator() {
@@ -72,21 +84,6 @@ public class PersistenceConfiguration extends AbstractLogEnabled
     
     public String queryResultClass(String queryKey) {
         return queryInfoMap_.get(queryKey).getResultEntityClass();
-    }
-    
-    private XmlBeansDocumentCreator makeDocumentCreator() {
-        
-        DocumentReflectionData reflectionData = 
-            new DocumentReflectionData(entityClazzes());
-        return new XmlBeansDocumentCreator(reflectionData);
-    }
-    
-    private XmlBeansEntityCreator makeEntityCreator( 
-            XmlBeansDocumentCreator documentCreator) {
-        
-        EntityReflectionData reflectionData = 
-            new EntityReflectionData(entityClazzes());
-        return new XmlBeansEntityCreator(reflectionData, documentCreator);
     }
     
     private Set<Class> entityClazzes() {

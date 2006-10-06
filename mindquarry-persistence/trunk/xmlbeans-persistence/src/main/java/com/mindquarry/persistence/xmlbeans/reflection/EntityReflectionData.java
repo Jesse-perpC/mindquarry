@@ -17,20 +17,30 @@ import java.util.Set;
 public class EntityReflectionData {
 
     private Map<String, Class> entityClazzes_;
+    private Map<Class, Method> getIdMethods_;
     private Map<Class, Method> entityFactoryMethods_;
     private Map<Class, Method> getEntityMethods_;
     
     public EntityReflectionData(Set<Class> entityClazzes) {
         
         entityClazzes_ = new HashMap<String, Class>();
-        for (Class clazz : entityClazzes)
+        for (Class clazz : entityClazzes) {
+            assert isValidEntityClass(clazz);
             entityClazzes_.put(clazz.getName(), clazz);
+        }
+        
+        getIdMethods_ = new HashMap<Class, Method>();
+        loadGetIdMethods(entityClazzes);
         
         entityFactoryMethods_ = new HashMap<Class, Method>();
         loadEntityFactoryMethods(entityClazzes);
         
         getEntityMethods_ = new HashMap<Class, Method>();
         loadGetEntityMethods(entityClazzes);
+    }
+    
+    public Method getIdMethod(Class entityClazz) {
+        return getIdMethods_.get(entityClazz);
     }
     
     public Method getEntityMethod(Class entityClazz) {
@@ -41,10 +51,30 @@ public class EntityReflectionData {
         return entityClazzes_.get(clazzName);
     }
     
+    private void loadGetIdMethods(Set<Class> entityClazzes) {
+        for (Class entityClazz : entityClazzes) {
+            Method getIdMethod = loadGetIdMethod(entityClazz);
+            getIdMethods_.put(entityClazz, getIdMethod);
+        }
+    }
+    
     private void loadGetEntityMethods(Set<Class> entityClazzes) {
         for (Class entityClazz : entityClazzes) {
             Method getEntityMethod = loadGetEntityMethod(entityClazz);
             getEntityMethods_.put(entityClazz, getEntityMethod);
+        }
+    }
+    
+    private Method loadGetIdMethod(Class entityClazz) {
+        String methodName = "getId";
+        try {
+            return entityClazz.getMethod(methodName, new Class[0]);
+        } catch (SecurityException e) {
+            throw XmlBeansPersistenceReflectionException.gotNoGetIdMethod(
+                    methodName, entityClazz, e);
+        } catch (NoSuchMethodException e) {
+            throw XmlBeansPersistenceReflectionException.gotNoGetIdMethod(
+                    methodName, entityClazz, e);
         }
     }
     
@@ -99,7 +129,6 @@ public class EntityReflectionData {
     }
     
     private Class entityFactoryClazz(Class entityClazz) {
-        assert isValidEntityClass(entityClazz);        
         return entityClazz.getClasses()[0];
     }
     
