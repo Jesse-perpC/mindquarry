@@ -3,8 +3,10 @@ package com.mindquarry.persistence.xmlbeans.xml;
 import java.util.List;
 
 import org.apache.excalibur.xml.sax.XMLizable;
+import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributesImpl;
 
 public class XMLizableListWrapper implements XMLizable {
     
@@ -21,7 +23,8 @@ public class XMLizableListWrapper implements XMLizable {
 
     public void toSAX(ContentHandler contentHandler) throws SAXException  {
         
-        contentHandler.startElement(uri_, localName_, localName_, null); 
+        Attributes atts = new AttributesImpl();
+        contentHandler.startElement(uri_, localName_, localName_, atts); 
         
         for (XMLizable item : wrappedList_)
             item.toSAX(contentHandler);
