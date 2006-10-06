@@ -18,6 +18,9 @@
 		<credentials login="alexander.saar" password="mypwd" />
 	</role>
 
+	<!-- configure a serializer for XML output -->
+	<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
+		
 	<role name="com.mindquarry.common.persistence.SessionFactory"
 		default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
 

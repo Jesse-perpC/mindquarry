@@ -22,7 +22,7 @@
 				 
 	<xsl:template match="teamspace" >
 		<li>
-			<a href="{$context.path}blocks/mindquarry-workspace-block/browser/{name}/"><xsl:value-of select="name" /></a>
+			<a href="{$context.path}blocks/mindquarry-workspace-block/browser/{id}/"><xsl:value-of select="name" /></a>
 		</li>
 	</xsl:template>
 </xsl:stylesheet>
