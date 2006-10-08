@@ -14,7 +14,6 @@ import javax.jcr.NamespaceRegistry;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
-import javax.jcr.Workspace;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -98,8 +97,9 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     private String buildJcrQName(String prefix, String localname) {
         String jcrPrefix = topPrefixMap().get(prefix);
         
-        // for elements without namespace
-        if (null == jcrPrefix) 
+        // if element is in default namespace
+        // return localname only
+        if (null == jcrPrefix || "".intern().equals(jcrPrefix)) 
             return localname;
         
         StringBuilder resultSB = new StringBuilder();
@@ -175,22 +175,22 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             throws SAXException {
         
         try {
-            Workspace ws = node.getSession().getWorkspace();
-            NamespaceRegistry nr = ws.getNamespaceRegistry();
-
-                
+            NamespaceRegistry nsReg = namespaceRegistry();
+            
             String jcrNodePrefix;
-            List<String> registeredUris = Arrays.asList(nr.getURIs());
+            List<String> registeredUris = 
+                Arrays.asList(namespaceRegistry().getURIs());
+            
             if (registeredUris.contains(uri)) {
-                jcrNodePrefix = nr.getPrefix(uri);
+                jcrNodePrefix = nsReg.getPrefix(uri);
             }
             else {
-                int maxPrefixNumber = maxUsedPrefixNumber(nr.getPrefixes());
+                int maxPrefixNumber = maxUsedPrefixNumber(nsReg.getPrefixes());
                 if (maxPrefixNumber >= nextPrefixNumber)
                     nextPrefixNumber = maxPrefixNumber + 1;
                 
                 jcrNodePrefix = MQ_PREFIX_START + nextPrefixNumber++;
-                nr.registerNamespace(jcrNodePrefix, uri);
+                nsReg.registerNamespace(jcrNodePrefix, uri);
             }
             
             if (topPrefixMap().containsKey(prefix))
@@ -201,6 +201,10 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
         } catch (RepositoryException e) {
             throw new SAXException(e);
         }
+    }
+    
+    private NamespaceRegistry namespaceRegistry() throws RepositoryException {
+        return node.getSession().getWorkspace().getNamespaceRegistry();
     }
     
     private int maxUsedPrefixNumber(String[] prefixes) {
