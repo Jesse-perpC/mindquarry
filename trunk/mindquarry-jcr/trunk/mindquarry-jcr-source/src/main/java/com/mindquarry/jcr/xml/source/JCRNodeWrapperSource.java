@@ -270,7 +270,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      * @see org.apache.excalibur.source.TraversableSource#getParent()
      */
     public JCRNodeWrapperSource getParent() throws SourceException {
-        if (this.path.length() == 1) {
+        if (path.length() == 1) {
             // we are the root node
             return null;
         }
