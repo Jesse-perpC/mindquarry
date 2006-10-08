@@ -2,11 +2,14 @@
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
  
-function teamspaceView() {
+function listTeamspacesForUser() {
 
 	var teamspaceQueryName = "com.mindquarry.teamspace.TeamspaceQuery";
-    var teamspaceManager = cocoon.getComponent(teamspaceQueryName);
+    var teamspaceQuery = cocoon.getComponent(teamspaceQueryName);
     
-    var teamspaceList = { "teamspaceList" : teamspaceManager.list() }
-    cocoon.sendPage("views/teamspaceView", teamspaceList);
+    var userId = "bastian";
+    var teamspaces = teamspaceQuery.teamspacesForUser(userId);
+    
+    var parameterMap = { "teamspaces" : teamspaces }
+    cocoon.sendPage("views/teamspaceView", parameterMap);
 }
