@@ -10,7 +10,6 @@ import java.rmi.RemoteException;
 import java.util.Map;
 
 import javax.jcr.LoginException;
-import javax.jcr.NodeIterator;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
@@ -43,8 +42,8 @@ import com.mindquarry.common.init.InitializationException;
  * an enclosed JCR query. The path to the repository would be given simply as
  * <code>jcr://root/folder/file</code>. For the queries:
  * <ul>
- * <li>XPATH: <code>jcr://users/*#//name</code> (which maps to the xpath
- * query <code>//name</code> executed in all documents under /users)</li>
+ * <li>XPATH: <code>jcr:///users#//name</code> (which maps to the xpath query
+ * <code>//name</code> executed in all documents under /users)</li>
  * </ul>
  * 
  * @author <a
@@ -118,8 +117,8 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String,
      *      java.util.Map)
      */
-    public JCRNodeWrapperSource getSource(String uri, Map parameters) throws IOException,
-            MalformedURLException {
+    public JCRNodeWrapperSource getSource(String uri, Map parameters)
+            throws IOException, MalformedURLException {
         lazyInitRepository();
 
         // extract protocol identifier
@@ -139,12 +138,11 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         } catch (ConfigurationException e) {
             throw new SourceException("Cannot access configuration data.", e);
         }
-        // check for query syntax (eg. 'jcr://root/users/*#//name' interpreted
-        // as 'jcr:///root/users/*//name')
+        // check for query syntax (eg. 'jcr:///users#//name' interpreted
+        // as 'jcr:///jcr:root/users//name')
         String path = SourceUtil.getPath(uri);
         if (path.indexOf("#") != -1) {
-            path = path.replace("#", "");
-            return (JCRNodeWrapperSource) executeQuery(session, path, Query.XPATH);
+            return (JCRNodeWrapperSource) executeQuery(session, path);
         } else {
             // standard direct hierarchy-resolving
             return (JCRNodeWrapperSource) createSource(session, path);
@@ -197,13 +195,13 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         // otherwise try to lookup the repository
         String remoteRepoUrl = config.getAttribute("rmi", null);
         boolean isRemoteRepositoryConfigured = null != remoteRepoUrl;
-        
+
         if (isRemoteRepositoryConfigured)
             repo = createClientRepository(remoteRepoUrl);
         else
             repo = lookupLocalRepository();
     }
-    
+
     private Repository lookupLocalRepository() {
         try {
             return (Repository) manager.lookup(Repository.class.getName());
@@ -212,23 +210,23 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
                     "Cannot lookup local jcr repository.", e);
         }
     }
-    
+
     private Repository createClientRepository(String remoteRepoUrl) {
         ClientRepositoryFactory factory = new ClientRepositoryFactory();
         try {
             return factory.getRepository(remoteRepoUrl);
         } catch (ClassCastException e) {
-            throw new InitializationException("could not create client " +
-                    "jcr repository for repository url:" +remoteRepoUrl, e);
+            throw new InitializationException("could not create client "
+                    + "jcr repository for repository url:" + remoteRepoUrl, e);
         } catch (MalformedURLException e) {
-            throw new InitializationException("could not create client " +
-                    "repository for repository url:" +remoteRepoUrl, e);
+            throw new InitializationException("could not create client "
+                    + "repository for repository url:" + remoteRepoUrl, e);
         } catch (RemoteException e) {
-            throw new InitializationException("could not create client " +
-                    "repository for repository url:" +remoteRepoUrl, e);
+            throw new InitializationException("could not create client "
+                    + "repository for repository url:" + remoteRepoUrl, e);
         } catch (NotBoundException e) {
-            throw new InitializationException("could not create client " +
-                    "repository for repository url:" +remoteRepoUrl, e);
+            throw new InitializationException("could not create client "
+                    + "repository for repository url:" + remoteRepoUrl, e);
         }
     }
 
@@ -245,19 +243,19 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * @param queryLang the language to use (should be Query.SQL or Query.XPATH)
      * @throws IOException when the query is wrong or the result was empty
      */
-    protected Source executeQuery(Session session, String statement,
-            String queryLang) throws IOException {
+    protected Source executeQuery(Session session, String statement)
+            throws IOException {
         try {
+            // modify path for query execution
+            statement = statement.replace("#", "");
+            statement = "/jcr:root" + statement;
+
             QueryManager queryManager = session.getWorkspace()
                     .getQueryManager();
-            Query query = queryManager.createQuery(statement, queryLang);
+            Query query = queryManager.createQuery(statement, Query.XPATH);
             QueryResult result = query.execute();
 
-            NodeIterator nit = result.getNodes();
-            if (nit.getSize() == 0) {
-                return null;
-            }
-            return null;// new QueryResultSource(this, nit);
+            return new QueryResultSource(this, session, result.getNodes());
         } catch (RepositoryException e) {
             throw new SourceException("Cannot execute query '" + statement
                     + "'", e);
