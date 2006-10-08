@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace;
+package com.mindquarry.teamspace.manager;
 
 import java.io.File;
 import java.util.LinkedList;
@@ -18,9 +18,8 @@ import org.apache.avalon.framework.service.Serviceable;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
-import com.mindquarry.types.teamspace.Teamspace;
-import com.mindquarry.types.teamspace.TeamspaceReferences;
-import com.mindquarry.types.user.User;
+import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.teamspace.TeamspaceRO;
 
 /**
  * Add summary documentation here.
@@ -83,42 +82,42 @@ class TeamspaceManager implements TeamspaceAdmin,
     }
 
     public void create(String id, String name, String description) {
-        Session session = currentSession();
-        Teamspace teamspace = (Teamspace) session.newEntity(Teamspace.class);
+        TeamspaceEntity teamspace = new TeamspaceEntity();
         teamspace.setId(id);
         teamspace.setName(name);
         teamspace.setDescription(description);
+        Session session = currentSession();
+        session.persist(teamspace);
         session.commit();
     }
 
     public void remove(String id) {
         Session session = currentSession();
-        Teamspace teamspace = queryTeamspaceById(session, id);
+        TeamspaceEntity teamspace = queryTeamspaceById(session, id);
         session.delete(teamspace);
         session.commit();
     }
 
-    public List<Object> allTeamspaces() {
+    public List<TeamspaceRO> allTeamspaces() {
         Session session = currentSession();
         List queryResult = session.query("getAllTeamspaces", new Object[0]);
         
-        List<Object> result = new LinkedList<Object>();
-        for (Object teamspace : queryResult)
-            result.add(teamspace);
+        List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
+        for (Object object : queryResult)
+            result.add((TeamspaceEntity) object);
         
         session.commit();
         return result;
     }
 
-    public List<Object> teamspacesForUser(String userId) {
+    public List<TeamspaceRO> teamspacesForUser(String userId) {
         Session session = currentSession();
-        User user = queryUserById(session, userId);
+        UserEntity user = queryUserById(session, userId);
         
-        List<Object> result = new LinkedList<Object>();
-        
-        TeamspaceReferences teamRefs = user.getTeamspaces();
-        for (String teamRef : teamRefs.getTeamspaceReferenceArray()) {
-            Teamspace teamspace = queryTeamspaceById(session, teamRef);
+        List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
+
+        for (String teamRef : user.getTeamspaceReferences()) {
+            TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
             result.add(teamspace);
         }
         
@@ -126,19 +125,19 @@ class TeamspaceManager implements TeamspaceAdmin,
         return result;
     }
     
-    private Teamspace queryTeamspaceById(Session session, String id) {
+    private TeamspaceEntity queryTeamspaceById(Session session, String id) {
         List queryResult = session.query("getTeamspaceById", new Object[] {id});
-        return (Teamspace) queryResult.get(0);
+        return (TeamspaceEntity) queryResult.get(0);
     }
     
-    private User queryUserById(Session session, String id) {
+    private UserEntity queryUserById(Session session, String id) {
         List queryResult = session.query("getUserById", new Object[] {id});
-        return (User) queryResult.get(0);
+        return (UserEntity) queryResult.get(0);
     }
 
     public String workspaceUri(String id) {
         Session session = currentSession();
-        Teamspace teamspace = queryTeamspaceById(session, id);
+        TeamspaceEntity teamspace = queryTeamspaceById(session, id);
         String result = teamspace.getWorkspaceUri();
         session.commit();
         return result;

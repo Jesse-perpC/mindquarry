@@ -3,40 +3,35 @@
  */
 package com.mindquarry.teamspace;
 
+import java.util.Collection;
+
 /**
  * Add summary documentation here.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">your full name</a>
  */
-public interface TeamspaceRO {
-
-    /**
-     * Getter for description.
-     *
-     * @return the description
-     */
-    public String getDescription();
+public interface UserRO {
 
     /**
      * Getter for id.
      *
      * @return the id
      */
-    public String getId();
+    String getId();
 
     /**
      * Getter for name.
      *
      * @return the name
      */
-    public String getName();
+    String getName();
 
     /**
-     * Getter for workspaceUri.
+     * Getter for teamspaces.
      *
-     * @return the workspaceUri
+     * @return an unmodifiable view of the teamspaces
      */
-    public String getWorkspaceUri();
+    Collection<String> getTeamspaceReferences();
 
 }
