@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration
+	xmlns="http://www.mindquarry.com/ns/schema/xmlbeans-persistence">
+	
+	<entity>
+		<className>com.mindquarry.teamspace.manager.UserEntity</className>
+		<path>/users</path>
+	</entity>
+	<entity>
+		<className>com.mindquarry.teamspace.manager.TeamspaceEntity</className>
+		<path>/teamspaces</path>
+	</entity>
+	<queryInfo>
+		<key>getUserById</key>
+		<query>/users/{$userId}</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getAllUsers</key>
+		<query>/teamspaces</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getTeamspaceById</key>
+		<query>/teamspaces/{$id}</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getAllTeamspaces</key>
+		<query>/teamspaces</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+</configuration>

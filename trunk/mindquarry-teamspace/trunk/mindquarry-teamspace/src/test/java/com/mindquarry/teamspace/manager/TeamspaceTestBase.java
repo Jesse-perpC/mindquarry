@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace;
+package com.mindquarry.teamspace.manager;
 
 import java.io.IOException;
 import java.net.URL;

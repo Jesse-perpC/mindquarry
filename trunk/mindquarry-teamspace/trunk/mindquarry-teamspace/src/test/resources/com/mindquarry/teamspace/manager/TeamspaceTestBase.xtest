@@ -30,19 +30,16 @@
 		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
 
 		<role name="com.mindquarry.common.persistence.SessionFactory"
-			default-class="com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryCocoon" />
+			default-class="com.mindquarry.persistence.castor.CastorSessionFactoryCocoon" />
 			
-		<role name="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration"
-			default-class="com.mindquarry.persistence.xmlbeans.config.PersistenceConfiguration" />
-			
-		<role name="com.mindquarry.common.xml.EntityXmlizerFactory"
-			default-class="com.mindquarry.persistence.xmlbeans.xml.XmlBeansEntityXmlizerFactory" />
+		<role name="com.mindquarry.persistence.castor.config.PersistenceConfiguration"
+			default-class="com.mindquarry.persistence.castor.config.PersistenceConfiguration" />
 			
 		<role name="com.mindquarry.dma.admin.DmaRepositoryFactory"
 			default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
 			
 		<role name="com.mindquarry.teamspace.TeamspaceAdmin"
-			default-class="com.mindquarry.teamspace.TeamspaceManager" />
+			default-class="com.mindquarry.teamspace.manager.TeamspaceManager" />
 	</roles>
 	<components>
 		<source-factories>

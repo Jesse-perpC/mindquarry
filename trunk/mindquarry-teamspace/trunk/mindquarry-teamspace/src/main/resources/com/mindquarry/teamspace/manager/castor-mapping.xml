@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                                 "http://castor.org/mapping.dtd">
+
+<mapping>
+	<!--  <include href="other_mapping_file.xml" /> -->
+
+	<class name="com.mindquarry.teamspace.manager.TeamspaceEntity"
+		auto-complete="true">
+
+		<map-to xml="teamspace"
+			ns-uri="http://www.mindquarry.com/ns/schema/teamspace" />
+	</class>
+
+	<class name="com.mindquarry.teamspace.manager.UserEntity"
+		auto-complete="true">
+
+		<map-to xml="user"
+			ns-uri="http://www.mindquarry.com/ns/schema/teamspace" />
+		
+		<field name="teamspaceReferences" type="java.lang.String"
+			collection="collection" >
+			<bind-xml name="teamspaceReference" location="teamspaceReferences" />
+		</field>
+	</class>
+
+</mapping>

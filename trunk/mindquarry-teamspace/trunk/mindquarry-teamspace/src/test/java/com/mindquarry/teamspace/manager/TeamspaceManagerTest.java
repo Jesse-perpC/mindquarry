@@ -1,8 +1,12 @@
-package com.mindquarry.teamspace;
+package com.mindquarry.teamspace.manager;
 
 import java.io.File;
 
 import org.apache.avalon.framework.service.ServiceException;
+
+import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
+import com.mindquarry.teamspace.manager.TeamspaceManager;
 
 public class TeamspaceManagerTest extends TeamspaceTestBase {
 	

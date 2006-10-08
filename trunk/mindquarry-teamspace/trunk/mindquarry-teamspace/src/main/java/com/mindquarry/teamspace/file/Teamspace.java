@@ -36,4 +36,19 @@ public class Teamspace implements TeamspaceRO {
 	public void setName(String name) {
 		name_ = name;
 	}
+
+    public String getDescription() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getId() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public String getWorkspaceUri() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 }

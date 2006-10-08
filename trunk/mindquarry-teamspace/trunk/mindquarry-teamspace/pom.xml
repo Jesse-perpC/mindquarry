@@ -54,16 +54,6 @@
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>		
-		<dependency>
-			<groupId>com.mindquarry.types</groupId>
-			<artifactId>user-types</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mindquarry.types</groupId>
-			<artifactId>teamspace-types</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.dma</groupId>
@@ -72,18 +62,9 @@
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.types</groupId>
-			<artifactId>user-types</artifactId>
+			<artifactId>castor-persistence</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mindquarry.types</groupId>
-			<artifactId>teamspace-types</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mindquarry.types</groupId>
-			<artifactId>xmlbeans-persistence</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
