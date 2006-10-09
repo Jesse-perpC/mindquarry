@@ -19,6 +19,8 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.mindquarry.jcr.xml.source.JCRSourceFactory;
+
 /**
  * A SAX content handler implementation for converting SAX event to JCR nodes.
  * 
@@ -40,16 +42,17 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     private int nextPrefixNumber = 0;
     
     private Node node;
- 
+    
     /**
      * Default constructor.
      * 
      * @param node the node representing the nt:file parent of this document
+     * @param configured namespace mappings
      * @throws PathNotFoundException
      * @throws RepositoryException
      */
-    public SAXToJCRNodesConverter(Node node) throws PathNotFoundException,
-            RepositoryException {
+    public SAXToJCRNodesConverter(Node node) 
+            throws PathNotFoundException, RepositoryException {
         
         prefixMapStack = new Stack<Map<String,String>>();
         pushNewPrefixMap();
@@ -175,21 +178,21 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             throws SAXException {
         
         try {
-            NamespaceRegistry nsReg = namespaceRegistry();
+            NamespaceRegistry nsReg = getNamespaceRegistry();
             
             String jcrNodePrefix;
             List<String> registeredUris = 
-                Arrays.asList(namespaceRegistry().getURIs());
+                Arrays.asList(nsReg.getURIs());
             
             if (registeredUris.contains(uri)) {
                 jcrNodePrefix = nsReg.getPrefix(uri);
             }
-            else {
-                int maxPrefixNumber = maxUsedPrefixNumber(nsReg.getPrefixes());
-                if (maxPrefixNumber >= nextPrefixNumber)
-                    nextPrefixNumber = maxPrefixNumber + 1;
-                
-                jcrNodePrefix = MQ_PREFIX_START + nextPrefixNumber++;
+            else {                
+                if (configuredMappings().containsKey(uri)) {
+                    jcrNodePrefix = configuredMappings().get(uri);
+                } else {                    
+                    jcrNodePrefix = generateUniquePrefix(nsReg);
+                }                
                 nsReg.registerNamespace(jcrNodePrefix, uri);
             }
             
@@ -202,8 +205,22 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
             throw new SAXException(e);
         }
     }
+
+    private String generateUniquePrefix(NamespaceRegistry nsReg) 
+        throws RepositoryException {
+
+        int maxPrefixNumber = maxUsedPrefixNumber(nsReg.getPrefixes());
+        if (maxPrefixNumber >= nextPrefixNumber)
+            nextPrefixNumber = maxPrefixNumber + 1;
+
+        return MQ_PREFIX_START + nextPrefixNumber++;
+    }
     
-    private NamespaceRegistry namespaceRegistry() throws RepositoryException {
+    private Map<String, String> configuredMappings() {
+        return JCRSourceFactory.configuredMappings;
+    }
+    
+    private NamespaceRegistry getNamespaceRegistry() throws RepositoryException {
         return node.getSession().getWorkspace().getNamespaceRegistry();
     }
     

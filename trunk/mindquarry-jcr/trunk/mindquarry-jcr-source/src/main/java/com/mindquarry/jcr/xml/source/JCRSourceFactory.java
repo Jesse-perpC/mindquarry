@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.util.Hashtable;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.jcr.LoginException;
@@ -79,7 +79,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
     /**
      * The namespace-prefix mappings for this factory.
      */
-    protected Map<String, String> nsMappings;
+    public static Map<String, String> configuredMappings;
 
     // =========================================================================
     // Servicable interface
@@ -123,12 +123,15 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * @see org.apache.avalon.framework.activity.Initializable#initialize()
      */
     public void initialize() throws Exception {
-        nsMappings = new Hashtable<String, String>();
+        if (null == JCRSourceFactory.configuredMappings) {
+            JCRSourceFactory.configuredMappings = new HashMap<String, String>();
 
-        Configuration mappings = config.getChild("mappings"); //$NON-NLS-1$
-        for (Configuration mapping : mappings.getChildren("mapping")) { //$NON-NLS-1$
-            nsMappings.put(mapping.getAttribute("prefix"), mapping //$NON-NLS-1$
-                    .getAttribute("namespace")); //$NON-NLS-1$
+            Configuration mappings = config.getChild("mappings"); //$NON-NLS-1$
+            for (Configuration mapping : mappings.getChildren("mapping")) { //$NON-NLS-1$
+                String namespace = mapping.getAttribute("namespace");
+                String prefix = mapping.getAttribute("prefix");
+                JCRSourceFactory.configuredMappings.put(namespace, prefix); //$NON-NLS-1$
+            }
         }
     }
 
@@ -205,24 +208,6 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      */
     public String getScheme() {
         return scheme;
-    }
-
-    public String getPrefixForNamespace(String namespace) {
-        String prefix = null;
-
-        if (nsMappings.containsValue(namespace)) {
-            for (String key : nsMappings.keySet()) {
-                if (nsMappings.get(key).equals(namespace)) {
-                    prefix = key;
-                    break;
-                }
-            }
-        }
-        return prefix;
-    }
-
-    public String getNamespaceForPrefix(String prefix) {
-        return nsMappings.get(prefix);
     }
 
     // =========================================================================
