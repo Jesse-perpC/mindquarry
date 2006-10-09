@@ -3,21 +3,11 @@
  */
 package com.mindquarry.jcr.xml.source;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Collection;
+import java.util.Iterator;
 
-import javax.xml.parsers.ParserConfigurationException;
-
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.commons.io.IOUtils;
-import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
-import org.apache.jackrabbit.core.nodetype.compact.ParseException;
-import org.custommonkey.xmlunit.Diff;
-import org.xml.sax.InputSource;
-import org.xml.sax.SAXException;
-
-import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
+import org.apache.excalibur.source.ModifiableSource;
 
 /**
  * Test cases for the JCRNodeWrapperSource implementation.
@@ -26,50 +16,30 @@ import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
  *         Saar</a>
  */
 public class JCRSourceQueryTest extends JCRSourceTestBase {
-    
-    private static final String CONTENT_FILE = "/com/mindquarry/jcr/xml/source/ComplexContent.xml";
-    
-    public void testCreateNewXMLFile() throws InvalidNodeTypeDefException,
-            ParseException, Exception {
-         
-        JCRNodeWrapperSource emptySource = loadTestSource();        
-        assertEquals(false, emptySource.exists());
+    public void testSimpleQuery() throws Exception {
+        JCRNodeWrapperSource source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+                + "users/foo.bar");
+        assertNotNull(source);
 
-        OutputStream sourceOut = emptySource.getOutputStream();
-        assertNotNull(sourceOut);
+        OutputStream os = ((ModifiableSource) source).getOutputStream();
+        assertNotNull(os);
 
-        InputStream contentIn = getClass().getResourceAsStream(CONTENT_FILE);
-        try {
-            IOUtils.copy(contentIn, sourceOut);        
-            sourceOut.flush();
-        } finally {
-            sourceOut.close();
-            contentIn.close();
-        }        
+        String newContent = "<user><id>foo.bar</id></user>";
+        os.write(newContent.getBytes());
+        os.flush();
+        os.close();
+
+        QueryResultSource qResult = (QueryResultSource) resolveSource(BASE_URL
+                + "users?//id='foo.bar'");
+        assertNotNull(qResult);
         
-        InputStream expected = getClass().getResourceAsStream(CONTENT_FILE);
+        Collection results = qResult.getChildren();
+        assertEquals(1, results.size());
         
-        JCRNodeWrapperSource persistentSource = loadTestSource();
-        assertEquals(true, persistentSource.exists());
-        InputStream actual = persistentSource.getInputStream();
-       
-        try {
-            //assertTrue(isXmlEqual(expected, actual));
-        } finally {
-            expected.close();
-            actual.close();
-        }        
-    }
-    
-    private JCRNodeWrapperSource loadTestSource()
-        throws ServiceException, IOException {
-        
-        JCRNodeWrapperSource result;
-        
-        String testSourceUri = BASE_URL + "users/lars.trieloff"; 
-        result = (JCRNodeWrapperSource) resolveSource(testSourceUri);
-        assertNotNull(result);
-        
-        return result;
+        Iterator it = results.iterator();
+        while(it.hasNext()) {
+            JCRNodeWrapperSource rSrc = (JCRNodeWrapperSource)it.next();
+            assertNotNull(rSrc);
+        }
     }
 }
