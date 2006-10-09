@@ -10,7 +10,9 @@ import java.io.InputStream;
 
 import javax.jcr.Node;
 
-import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.configuration.DefaultConfiguration;
+import org.apache.avalon.framework.logger.NullLogger;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.CascadingIOException;
 import org.apache.cocoon.serialization.Serializer;
@@ -19,6 +21,7 @@ import org.apache.excalibur.source.SourceNotFoundException;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.jcr.xml.source.handler.JCRNodesToSAXConverter;
 
 /**
@@ -54,27 +57,49 @@ public class XMLFileSourceHelper {
     public static InputStream getInputStream(ServiceManager manager, Node node)
             throws IOException, SourceNotFoundException {
 
-        ByteArrayInputStream inputStream = null;
-        Serializer serializer = null;
+        Serializer serializer = createSerializer();
+
+        ByteArrayOutputStream outputStream = null;
         try {
-            // we use Cocoons XMLSerializer here which is configurable in terms
-            // of the Transformer Implementation to use (some are buggy, so we
-            // want to ensure which one is used)
-            serializer = (Serializer) manager.lookup(XMLSerializer.ROLE);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            outputStream = new ByteArrayOutputStream();
             serializer.setOutputStream(outputStream);
 
             XMLFileSourceHelper.toSAX(serializer, node);
 
-            inputStream = new ByteArrayInputStream(outputStream.toByteArray());
-        } catch (ServiceException se) {
-            throw new CascadingIOException(se);
+            return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (SAXException e) {
             throw new CascadingIOException(e);
         } finally {
-            manager.release(serializer);
+            if (null != outputStream)
+                outputStream.close();
         }
-
-        return inputStream;
+    }
+    
+    private static Serializer createSerializer() {
+        // we use Cocoons XMLSerializer here which is configurable in terms
+        // of the Transformer Implementation to use (some are buggy, so we
+        // want to ensure which one is used)
+        
+        DefaultConfiguration transformerConfig = 
+            new DefaultConfiguration("transformer-factory");
+        transformerConfig.setValue(
+                "org.apache.xalan.xsltc.trax.TransformerFactoryImpl");
+        
+        DefaultConfiguration serializerConfig = 
+            new DefaultConfiguration("serializer");
+        serializerConfig.setAttribute("class", "org.apache.cocoon.serialization.XMLSerializer");
+        serializerConfig.addChild(transformerConfig);
+        
+        
+        XMLSerializer serializer = new XMLSerializer();
+        serializer.enableLogging(new NullLogger());
+        try {
+            serializer.configure(serializerConfig);
+        } catch (ConfigurationException e) {
+            throw new InitializationException(
+                    "could not confiure XMLSerializer", e);
+        }
+        
+        return serializer;
     }
 }

@@ -17,8 +17,8 @@ import org.apache.excalibur.source.ModifiableSource;
  */
 public class JCRSourceQueryTest extends JCRSourceTestBase {
     public void testSimpleQuery() throws Exception {
-        JCRNodeWrapperSource source = (JCRNodeWrapperSource) resolveSource(BASE_URL
-                + "users/foo.bar");
+        JCRNodeWrapperSource source = 
+            (JCRNodeWrapperSource) resolveSource(BASE_URL + "users/foo.bar");
         assertNotNull(source);
 
         OutputStream os = ((ModifiableSource) source).getOutputStream();
@@ -29,8 +29,8 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         os.flush();
         os.close();
 
-        QueryResultSource qResult = (QueryResultSource) resolveSource(BASE_URL
-                + "users?//user[//id='foo.bar']");
+        QueryResultSource qResult = (QueryResultSource) resolveSource(
+                BASE_URL + "users?//user[//id='foo.bar']");
         assertNotNull(qResult);
         
         Collection results = qResult.getChildren();
