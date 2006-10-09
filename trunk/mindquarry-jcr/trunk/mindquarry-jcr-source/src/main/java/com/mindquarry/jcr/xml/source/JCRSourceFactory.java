@@ -117,7 +117,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String,
      *      java.util.Map)
      */
-    public JCRNodeWrapperSource getSource(String uri, Map parameters)
+    public Source getSource(String uri, Map parameters)
             throws IOException, MalformedURLException {
         lazyInitRepository();
 
@@ -141,7 +141,7 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         // check for query syntax (eg. 'jcr:///users#//name' interpreted
         // as 'jcr:///jcr:root/users//name')
         if (uri.indexOf("?") != -1) {
-            return (JCRNodeWrapperSource) executeQuery(session, SourceUtil
+            return (QueryResultSource) executeQuery(session, SourceUtil
                     .getPath(uri), SourceUtil.getQuery(uri));
         } else {
             // standard direct hierarchy-resolving
