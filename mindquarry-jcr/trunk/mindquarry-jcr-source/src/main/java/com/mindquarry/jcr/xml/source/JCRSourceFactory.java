@@ -42,7 +42,7 @@ import com.mindquarry.common.init.InitializationException;
  * an enclosed JCR query. The path to the repository would be given simply as
  * <code>jcr://root/folder/file</code>. For the queries:
  * <ul>
- * <li>XPATH: <code>jcr:///users#//name</code> (which maps to the xpath query
+ * <li>XPATH: <code>jcr:///users?//name</code> (which maps to the xpath query
  * <code>//name</code> executed in all documents under /users)</li>
  * </ul>
  * 
@@ -140,12 +140,13 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         }
         // check for query syntax (eg. 'jcr:///users#//name' interpreted
         // as 'jcr:///jcr:root/users//name')
-        String path = SourceUtil.getPath(uri);
-        if (path.indexOf("#") != -1) {
-            return (JCRNodeWrapperSource) executeQuery(session, path);
+        if (uri.indexOf("?") != -1) {
+            return (JCRNodeWrapperSource) executeQuery(session, SourceUtil
+                    .getPath(uri), SourceUtil.getQuery(uri));
         } else {
             // standard direct hierarchy-resolving
-            return (JCRNodeWrapperSource) createSource(session, path);
+            return (JCRNodeWrapperSource) createSource(session, SourceUtil
+                    .getPath(uri));
         }
     }
 
@@ -239,16 +240,16 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * this method and return all nodes in the result.
      * 
      * @param session the session
+     * @param path the path that is used as root of the query
      * @param statement the Xpath query statement
      * @param queryLang the language to use (should be Query.SQL or Query.XPATH)
      * @throws IOException when the query is wrong or the result was empty
      */
-    protected Source executeQuery(Session session, String statement)
+    protected Source executeQuery(Session session, String path, String statement)
             throws IOException {
         try {
             // modify path for query execution
-            statement = statement.replace("#", "");
-            statement = "/jcr:root" + statement;
+            statement = "/jcr:root" + path + statement;
 
             QueryManager queryManager = session.getWorkspace()
                     .getQueryManager();
