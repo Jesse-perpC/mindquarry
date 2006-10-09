@@ -28,6 +28,7 @@
 		<module>conversation</module>
 		<module>xmlbeans-persistence</module>
                 <module>xmlbeans-persistence-config</module>
+		<module>persistence-client</module>
 	</modules>
 
 	<dependencies>
