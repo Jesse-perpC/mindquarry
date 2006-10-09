@@ -4,6 +4,7 @@
 package com.mindquarry.persistence.client;
 
 import java.io.File;
+import java.io.FileReader;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -15,16 +16,10 @@ import org.apache.commons.cli.Option;
 import org.apache.commons.cli.OptionGroup;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
-import org.apache.xmlbeans.XmlException;
 
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.persistence.xmlbeans.XmlBeansSessionFactoryStandalone;
-import com.mindquarry.types.tag.Tag;
-import com.mindquarry.types.tag.TagDocument;
-import com.mindquarry.types.teamspace.Teamspace;
-import com.mindquarry.types.teamspace.TeamspaceDocument;
-import com.mindquarry.types.user.User;
-import com.mindquarry.types.user.UserDocument;
+import com.mindquarry.persistence.castor.CastorSessionFactoryStandalone;
+import com.mindquarry.persistence.castor.CastorSessionStandalone;
 
 /**
  * Command line client to be used for working with the Mindquarry persistence
@@ -132,12 +127,12 @@ public class CommandLine {
         config.setAttribute("rmi", line.getOptionValue(O_REPO)); //$NON-NLS-1$
 
         // init connection to persistence layer
-        XmlBeansSessionFactoryStandalone factory = new XmlBeansSessionFactoryStandalone();
+        CastorSessionFactoryStandalone factory = new CastorSessionFactoryStandalone();
         factory.enableLogging(logger);
         factory.configure(config);
         factory.initialize();
 
-        Session session = factory.currentSession();
+        CastorSessionStandalone session = factory.currentSession();
 
         // check what actions are specified
         if (line.hasOption(O_PERSIST)) {
@@ -148,43 +143,14 @@ public class CommandLine {
         session.commit();
     }
 
-    private void persistTypes(String[] optionValues, Session session)
-            throws Exception {
+    private void persistTypes(String[] optionValues, 
+            CastorSessionStandalone session) throws Exception {
+        
         for (String value : optionValues) {
             System.out.println("Start adding of " + value);
 
-            try {
-                User user = UserDocument.Factory.parse(new File(value))
-                        .getUser();
-
-                User entity = (User) session.newEntity(User.class);
-                entity.set(user);
-                continue;
-            } catch (XmlException e) {
-                // nothing to do here, check next type
-            }
-            try {
-                Teamspace ts = TeamspaceDocument.Factory.parse(new File(value))
-                        .getTeamspace();
-
-                Teamspace entity = (Teamspace) session
-                        .newEntity(Teamspace.class);
-                entity.set(ts);
-                continue;
-            } catch (XmlException e) {
-                // nothing to do here, check next type
-            }
-            try {
-                Tag tag = TagDocument.Factory.parse(new File(value)).getTag();
-
-                Tag entity = (Tag) session.newEntity(Tag.class);
-                entity.set(tag);
-                continue;
-            } catch (XmlException e) {
-                // nothing to do here, check next type
-            }
-            // if we reached this point, an unknown entity is detected
-            System.out.println("Unknown entity detected: " + value);
+            FileReader fileReader = new FileReader(new File(value));
+            session.persistFromReader(fileReader);
         }
     }
 

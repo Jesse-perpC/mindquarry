@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration
+	xmlns="http://www.mindquarry.com/ns/schema/xmlbeans-persistence">
+	
+	<entity>
+		<className>com.mindquarry.teamspace.manager.UserEntity</className>
+		<path>/users</path>
+	</entity>
+	<entity>
+		<className>com.mindquarry.teamspace.manager.TeamspaceEntity</className>
+		<path>/teamspaces</path>
+	</entity>
+</configuration>

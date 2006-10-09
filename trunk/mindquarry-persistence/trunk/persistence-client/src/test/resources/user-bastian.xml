@@ -1,18 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <usr:user 
-	xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace"
 	xmlns:usr="http://www.mindquarry.com/ns/schema/user">
 
-	<usr:id>bastian</usr:id>
-	<usr:password>mypwd</usr:password>
-	<usr:name>Bastian</usr:name>
-	<usr:surname>Steinert</usr:surname>
-	<usr:email>
-		<usr:address>bastian.steinret@mindquarry.com</usr:address>
-		<usr:isConversationRecipient>true</usr:isConversationRecipient>
-	</usr:email>
-	<usr:tags />
-	<usr:teamspaces>
-		<ts:teamspace-reference>dmatest</ts:teamspace-reference>
-	</usr:teamspaces>
+	<id>bastian</id>
+	<name>Bastian</name>
+	<teamspace-references>
+		<teamspace-reference>dmatest</teamspace-reference>
+	</teamspace-references>
 </usr:user>
