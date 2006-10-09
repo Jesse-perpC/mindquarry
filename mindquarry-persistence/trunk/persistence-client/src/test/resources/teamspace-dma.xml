@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ts:teamspace xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace">	
-	<ts:id>dmatest</ts:id>
-	<ts:name>The Mindquarry Dma Test Project</ts:name>
-	<ts:workspaceUri>file:///c:/tmp/repos/dmatest/</ts:workspaceUri>
+	<id>dmatest</id>
+	<name>The Mindquarry Dma Test Project</name>
+	<workspace-uri>file:///c:/tmp/repos/dmatest/</workspace-uri>
 </ts:teamspace>
