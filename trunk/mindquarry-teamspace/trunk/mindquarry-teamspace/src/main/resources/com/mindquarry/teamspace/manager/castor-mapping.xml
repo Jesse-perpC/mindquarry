@@ -20,7 +20,7 @@
 		
 		<field name="teamspaceReferences" type="java.lang.String"
 			collection="collection" >
-			<bind-xml name="teamspaceReference" location="teamspaceReferences" />
+			<bind-xml name="teamspace-reference" location="teamspace-references" />
 		</field>
 	</class>
 
