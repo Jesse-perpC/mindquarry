@@ -30,7 +30,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         os.close();
 
         QueryResultSource qResult = (QueryResultSource) resolveSource(BASE_URL
-                + "users?//id");
+                + "users?//user[//id='foo.bar']");
         assertNotNull(qResult);
         
         Collection results = qResult.getChildren();
