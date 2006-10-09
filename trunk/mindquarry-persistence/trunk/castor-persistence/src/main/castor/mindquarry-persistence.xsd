@@ -9,7 +9,7 @@
 	<xs:complexType name="Configuration">
 		<xs:sequence>
 			<xs:element name="entity" type="tn:Entity" maxOccurs="unbounded" />
-			<xs:element name="queryInfo" type="tn:QueryInfo" maxOccurs="unbounded" />
+			<xs:element name="queryInfo" type="tn:QueryInfo" minOccurs="0" maxOccurs="unbounded" />
 		</xs:sequence>
 	</xs:complexType>
 

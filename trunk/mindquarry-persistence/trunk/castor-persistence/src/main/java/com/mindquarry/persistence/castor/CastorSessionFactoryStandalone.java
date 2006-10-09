@@ -7,7 +7,6 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
-import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverStandalone;
@@ -27,8 +26,8 @@ public class CastorSessionFactoryStandalone
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
     @Override
-    public Session currentSession() {
-        CastorSession result = new CastorSession(
+    public CastorSessionStandalone currentSession() {
+        CastorSessionStandalone result = new CastorSessionStandalone(
                 mapping_, configuration_, jcrSourceResolver_);
         result.enableLogging(getLogger());
         return result;
