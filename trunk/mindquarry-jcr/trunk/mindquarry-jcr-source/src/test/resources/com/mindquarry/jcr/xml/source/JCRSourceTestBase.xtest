@@ -13,9 +13,10 @@
 
 		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
 			shorthand="jcr-initializer" />
-		
+
 		<!-- configure a serializer for XML output -->
-		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
+		<role name="org.apache.cocoon.serialization.Serializer"
+			shorthand="serializer" />
 	</roles>
 
 	<components>
@@ -28,7 +29,22 @@
 
 			<component-instance name="jcr"
 				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
-				login="alexander.saar" password="mypwd" />
+				login="alexander.saar" password="mypwd">
+				<mappings>
+					<mapping prefix="usr"
+						namespace="http://www.mindquarry.com/ns/schema/user" />
+					<mapping prefix="ts"
+						namespace="http://www.mindquarry.com/ns/schema/teamspace" />
+					<mapping prefix="tag"
+						namespace="http://www.mindquarry.com/ns/schema/tag" />
+					<mapping prefix="wiki"
+						namespace="http://www.mindquarry.com/ns/schema/wiki" />
+					<mapping prefix="task"
+						namespace="http://www.mindquarry.com/ns/schema/task" />
+					<mapping prefix="cnv"
+						namespace="http://www.mindquarry.com/ns/schema/conversation" />
+				</mappings>
+			</component-instance>
 
 			<!-- use the following for working with an RMI repository -->
 			<!-- component-instance name="jcr"
@@ -47,7 +63,8 @@
 			<credentials login="expression" password="expression" />
 			<home src="target/repository" />
 			<credentials login="alexander.saar" password="mypwd" />
-			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+			<configuration
+				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
 		</jcr-repository>
 
 		<jcr-initializer
@@ -55,11 +72,14 @@
 
 			<credentials login="alexander.saar" password="mypwd" />
 		</jcr-initializer>
-		
+
 		<!-- define the exact XMLSerializer we want to use (taken from
-			 standard cocoon configuration) -->
-		<serializer class="org.apache.cocoon.serialization.XMLSerializer">
-			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+			standard cocoon configuration) -->
+		<serializer
+			class="org.apache.cocoon.serialization.XMLSerializer">
+			<transformer-factory>
+				org.apache.xalan.xsltc.trax.TransformerFactoryImpl
+			</transformer-factory>
 		</serializer>
 	</components>
 </testcase>
