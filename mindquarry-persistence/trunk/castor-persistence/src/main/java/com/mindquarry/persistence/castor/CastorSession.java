@@ -41,13 +41,13 @@ import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
  */
 class CastorSession extends AbstractLogEnabled implements Session {
 
-    private final Mapping mapping_;
+    protected final Mapping mapping_;
     private final PersistenceConfiguration configuration_;    
     private final JcrSourceResolverBase jcrSourceResolver_;
     
-    private Set<EntityBase> createdEntities_;
+    protected Set<EntityBase> createdEntities_;
     private Set<EntityBase> queriedEntities_;
-    private Set<EntityBase> deletedEntities_;
+    protected Set<EntityBase> deletedEntities_;
     
     public CastorSession(final Mapping mapping,
             final PersistenceConfiguration configuration, 
