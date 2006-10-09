@@ -16,6 +16,7 @@
 -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 	<map:components>
+
 		<map:serializers>
 			<map:serializer logger="sitemap.serializer.html"
 				mime-type="text/html" name="html" pool-max="32"
@@ -29,18 +30,8 @@
 				<encoding>UTF-8</encoding>
 			</map:serializer>
 		</map:serializers>
-		<map:transformers default="xslt">
-    <!--
-			<map:transformer logger="sitemap.transformer.xmldb"
-				name="xmldb"
-				src="org.apache.cocoon.transformation.XMLDBTransformer">
-				<driver>
-					org.apache.xindice.client.xmldb.embed.DatabaseImpl
-				</driver>
-				<base>xmldb:xindice-embed:///db</base>
-			</map:transformer>
-    -->
 
+		<map:transformers default="xslt">
 			<!-- the browser-update transformer is needed for AJAX -->
 			<map:transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
@@ -56,23 +47,33 @@
 				</catalogues>
 				<cache-at-startup>true</cache-at-startup>
 			</map:transformer>
-
-
 		</map:transformers>
-    
-    <map:generators default="file">
-      <!--<map:generator name="file"
-        src="org.apache.cocoon.generation.FileGenerator"/>-->
-      <map:generator name="traversable"
-        src="org.apache.cocoon.generation.TraversableGenerator">
-      </map:generator>
-    </map:generators>
+
+		<map:generators default="file">
+			<!--<map:generator name="file"
+				src="org.apache.cocoon.generation.FileGenerator"/>-->
+			<map:generator name="traversable"
+				src="org.apache.cocoon.generation.TraversableGenerator">
+			</map:generator>
+
+			<map:generator label="content,data"
+				logger="sitemap.generator.profiler" name="profiler"
+				src="org.apache.cocoon.generation.ProfilerGenerator" />
+		</map:generators>
 
 		<map:selectors>
 			<!-- this selector returns true if there is an ajax request -->
 			<map:selector name="ajax-request"
 				src="org.apache.cocoon.ajax.AjaxRequestSelector" />
 		</map:selectors>
+
+		<map:pipes default="caching">
+			<!-- The following two can be used for profiling:-->
+			<map:pipe name="profile-caching"
+				src="org.apache.cocoon.components.profiler.ProfilingCachingProcessingPipeline" />
+			<map:pipe name="profile-noncaching"
+				src="org.apache.cocoon.components.profiler.ProfilingNonCachingProcessingPipeline" />
+		</map:pipes>
 
 	</map:components>
 
@@ -81,18 +82,48 @@
 	</map:flow>
 
 	<map:resources>
-    <!-- call this resource instead of the normal html serializer -->
+		<!-- call this resource instead of the normal html serializer -->
 		<map:resource name="layouting">
-        	<!--<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">-->
-        	<map:transform src="xslt/html/html2html.xsl">
-        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
-        	</map:transform>
-        	<map:serialize type="xhtml"/>
+			<!--<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">-->
+			<map:transform src="xslt/html/html2html.xsl">
+				<map:parameter name="pathInfo"
+					value="{request:pathInfo}" />
+			</map:transform>
+			<map:serialize type="xhtml" />
 		</map:resource>
 	</map:resources>
+
+	<map:views>
+		<map:view name="pretty-content" from-label="data">
+			<map:transform src="simple-xml2html.xslt" />
+			<map:serialize type="html" />
+		</map:view>
+	</map:views>
 	
 	<map:pipelines>
-		<map:pipeline type="noncaching">
+		<map:pipeline type="profile-noncaching">
+    
+      <map:match pattern="status.xml">
+        <map:generate type="status">
+          <map:parameter name="show-cont" value="true"/>
+        </map:generate>
+        <!--<map:transform src="xslt/html/contextpath.xsl">
+          <map:parameter name="pathInfo"
+            value="{request:pathInfo}" />
+        </map:transform>-->
+        <map:transform src="status2html.xslt">
+          <map:parameter name="pathInfo" value="{request:pathInfo}"/>
+        </map:transform>
+        <map:serialize type="xhtml" />
+      </map:match>
+
+			<!-- the pipelines for resources for status2html.xslt -->
+			<map:match pattern="styles/*">
+				<map:read src="resources/styles/{1}" />
+			</map:match>
+			<map:match pattern="scripts/*">
+				<map:read src="resources/scripts/{1}" />
+			</map:match>
 
 			<!-- the aggregation of all datamodel desctiptions available in the system -->
 			<map:match pattern="model.xml">
@@ -111,21 +142,18 @@
 
 			<!-- the raw content of the xml document, only for further processing and debugging -->
 			<map:match pattern="*.xml.raw">
-				<map:generate
-					src="jcr:///test/{1}.xml" />
+				<map:generate src="jcr:///test/{1}.xml" />
 				<map:serialize type="xml" />
 			</map:match>
-			
+
 			<!--+ the true content of the model, here required fields have been added and
 				| redundant declaration of the fields included is added
 				+-->
 			<map:match pattern="*.xml.plain">
 				<map:select type="resource-exists">
 					<!-- if it exists, show the list of jobs -->
-					<map:when
-						test="jcr:///test/{1}.xml">
-						<map:generate
-							src="jcr:///test/{1}.xml" />
+					<map:when test="jcr:///test/{1}.xml">
+						<map:generate src="jcr:///test/{1}.xml" />
 						<map:transform
 							src="xslt/ductforms/addfield.xsl" />
 						<map:serialize type="xml" />
@@ -138,11 +166,11 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
-			
+
 			<!--+ the aggregation of the plain instance (data of the document)
 				| and the aggregated models. This includes everything that is
 				| and could be.
-			 	+-->
+				+-->
 			<map:match pattern="*.xml.model">
 				<map:generate src="cocoon:/model.xml" />
 				<map:transform
@@ -157,7 +185,7 @@
 			</map:match>
 
 			<!-- the generated form model including all possible fields  -->
-      
+
 			<map:match pattern="*.xml.form">
 				<map:generate src="cocoon:/{1}.xml.model" />
 				<map:transform
@@ -166,7 +194,7 @@
 			</map:match>
 
 			<!-- the generated form template including only the selected fields -->
-      
+
 			<map:match pattern="*.xml.template">
 				<map:generate src="cocoon:/{1}.xml.model" />
 				<map:transform
@@ -175,7 +203,7 @@
 			</map:match>
 
 			<!-- the form instance, or the document in edit mode -->
-      
+
 			<map:match pattern="*.xml.edit">
 				<map:call function="handleForm">
 					<map:parameter name="function" value="editPage" />
@@ -186,14 +214,13 @@
 						value="cocoon:/{1}.xml.form" />
 				</map:call>
 			</map:match>
-      
+
 			<!-- the document in presentation mode -->
-      
+
 			<map:match pattern="*.xml">
 				<map:select type="resource-exists">
 					<!-- if it exists, show the list of jobs -->
-					<map:when
-						test="jcr:///test/{1}.xml">
+					<map:when test="jcr:///test/{1}.xml">
 						<map:call function="handleForm">
 							<map:parameter name="function"
 								value="showPage" />
@@ -209,8 +236,8 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
-      
-      <!-- the overview pages (query) -->
+
+			<!-- the overview pages (query) -->
 
 			<map:match pattern="*.query.raw">
 				<map:generate type="traversable" src="jcr:///test" />
@@ -234,8 +261,8 @@
 				<!--<map:serialize type="html" />-->
 			</map:match>
 
-      <!-- start page (or any other page) -->
-      
+			<!-- start page (or any other page) -->
+
 			<map:match pattern="">
 				<!-- test for existance of a collection -->
 				<map:select type="resource-exists">
@@ -247,31 +274,35 @@
 					<map:otherwise>
 						<map:generate src="jcr/populate.xml" />
 						<map:transform type="write-source" />
-						<map:transform
-							src="xslt/jcr/populate2html.xsl" />
+						<map:transform src="xslt/jcr/populate2html.xsl" />
 						<map:serialize type="html" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
 
-      <!-- instance ? -->
-      
+			<!-- the form rendering pipeline called by the form controller -->
+
 			<map:match pattern="*.xml.instance">
+				<!-- get the form template from a dynamic pipeline -->
 				<map:generate type="jx" src="cocoon:/{1}.xml.template"
 					label="content1">
 					<map:parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</map:generate>
 
+				<!-- beautify our forms -->
 				<map:transform src="xslt/ductforms/instance2html.xsl">
 					<map:parameter name="page" value="{1}" />
 				</map:transform>
 
+				<!-- standard cocoon form2html stylesheet + dojo-editor -->
 				<map:transform src="xslt/forms/form2html.xsl">
 					<map:parameter name="resources-uri"
 						value="{request:contextPath}/_cocoon/resources" />
 				</map:transform>
 
+				<!-- convert escaped html in dojo-editor content (marked with
+					htmllize tags) into real html (nekohtml from cocoon-html) -->
 				<map:transform type="nekohtml">
 					<map:parameter name="tags" value="htmllize" />
 				</map:transform>
@@ -282,7 +313,7 @@
 			</map:match>
 
 
-      <!-- the pipeline for resources like images -->
+			<!-- the pipeline for resources like images -->
 			<map:match pattern="resources/*/**">
 				<map:read src="{1}/{2}" />
 			</map:match>
@@ -299,8 +330,21 @@
 				<map:call continuation="{1}" />
 			</map:match>
 
-		</map:pipeline>
+			<map:match pattern="profile.html">
+				<map:generate type="profiler" />
+				<map:transform src="profile2html.xsl">
+					<map:parameter name="use-request-parameters"
+						value="true" />
+				</map:transform>
+				<map:serialize type="html" />
+			</map:match>
 
+			<map:match pattern="profile.xml">
+				<map:generate type="profiler" />
+				<map:serialize type="xml" />
+			</map:match>
+
+		</map:pipeline>
 
 	</map:pipelines>
 
