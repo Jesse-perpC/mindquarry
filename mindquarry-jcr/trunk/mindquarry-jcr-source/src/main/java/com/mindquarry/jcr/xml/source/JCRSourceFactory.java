@@ -34,6 +34,7 @@ import org.apache.excalibur.source.SourceFactory;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
 import com.mindquarry.common.init.InitializationException;
+import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
 
 /**
  * This implementation extends <code>JCRSourceFactory</code> to provide an
@@ -232,11 +233,11 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
             throws IOException {
         try {
             // modify path for query execution
-            statement = "/jcr:root" + path + statement;
+            statement = path + statement;
 
             QueryManager queryManager = session.getWorkspace()
                     .getQueryManager();
-            Query query = queryManager.createQuery(statement, Query.XPATH);
+            Query query = queryManager.createQuery(statement, JaxenQueryHandler.FULL_XPATH);
             QueryResult result = query.execute();
 
             return new QueryResultSource(this, session, result.getNodes());
