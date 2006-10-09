@@ -1,79 +1,88 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
 
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.mindquarry</groupId>
-  <artifactId>ductforms-jcr-example</artifactId>
-  <name>Ductile Forms Example with JCR Backend</name>
-  <version>1.0.0-SNAPSHOT</version>
-  <build>
-    <finalName>ductforms-jcr-example</finalName>
-    <plugins>
-      <plugin>
-        <groupId>org.apache.cocoon</groupId>
-        <artifactId>cocoon-deployer-plugin</artifactId>
-        <version>1.0.0-M2-SNAPSHOT</version>
-        <configuration>
-          <serverVersion>2.2</serverVersion>
-        </configuration>
-      </plugin>
-      <plugin>
-        <groupId>org.mortbay.jetty</groupId>
-        <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.0.0rc2</version>
-        <configuration>
-          <connectors>
-            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
-              <port>8888</port>
-              <maxIdleTime>30000</maxIdleTime>
-            </connector>
-          </connectors>
-          <scanIntervalSeconds>10</scanIntervalSeconds>
-          <webAppSourceDirectory>target/ductforms-jcr-example</webAppSourceDirectory>
-          <contextPath>/</contextPath>
-        </configuration>
-      </plugin>
-    </plugins>
-  </build>
-  	<repositories>
-		<repository>
-			<id>goshaky</id>
-			<name>Goshaky Public Repository</name>
-			<url>http://www.goshaky.com/m2</url>
-			<layout>default</layout>
-		</repository>
-		<!--repository>
-			<id>mindquarry-repo</id>
-			<name>Mindquarry Repository</name>
-			<url>sftp://mindquarry.com/var/www/www.mindquarry.com/htdocs/m2</url>
-			<layout>default</layout>
-		</repository-->
-	</repositories>
-  <dependencies>
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-core</artifactId>
-      <version>2.2.0-M2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-template-impl</artifactId>
-      <version>1.0.0-M2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-forms-impl</artifactId>
-      <version>1.0.0-M2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-xmldb-impl</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-html-impl</artifactId>
-      <version>1.0.0-SNAPSHOT</version>
-    </dependency>
+<!-- Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved -->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry.dforms</groupId>
+		<artifactId>mindquarry-ductforms</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+	</parent>
+
+	<artifactId>ductforms-jcr-example</artifactId>
+	<packaging>jar</packaging>
+
+	<name>Ductile Forms Example with JCR Backend</name>
+
+	<build>
+		<finalName>ductforms-jcr-example</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cocoon</groupId>
+				<artifactId>cocoon-deployer-plugin</artifactId>
+				<version>1.0.0-M2-SNAPSHOT</version>
+				<configuration>
+					<serverVersion>2.2</serverVersion>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.0.0rc2</version>
+				<configuration>
+					<connectors>
+						<connector
+							implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>8888</port>
+							<maxIdleTime>30000</maxIdleTime>
+						</connector>
+					</connectors>
+					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<webAppSourceDirectory>
+						target/ductforms-jcr-example
+					</webAppSourceDirectory>
+					<contextPath>/</contextPath>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-template-impl</artifactId>
+			<version>1.0.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-forms-impl</artifactId>
+			<version>1.0.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-xmldb-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-html-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-profiler-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-jcr-impl</artifactId>
@@ -83,16 +92,16 @@
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jcr-source</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
-      <exclusions>
-        <exclusion>
-          <groupId>org.apache.cocoon</groupId>
-          <artifactId>cocoon-core</artifactId>
-        </exclusion>
+			<exclusions>
+				<exclusion>
+					<groupId>org.apache.cocoon</groupId>
+					<artifactId>cocoon-core</artifactId>
+				</exclusion>
 				<exclusion>
 					<artifactId>jcr</artifactId>
 					<groupId>jsr170</groupId>
 				</exclusion>
-      </exclusions>
+			</exclusions>
 		</dependency>
-  </dependencies>
+	</dependencies>
 </project>
