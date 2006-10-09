@@ -24,9 +24,15 @@
 		<PersistenceManager
 			class="org.apache.jackrabbit.core.state.xml.XMLPersistenceManager" />
 		<SearchIndex
+			class="com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler">
+			<param name="path" value="${wsp.home}/index" />
+		</SearchIndex>
+		<!-- 
+		<SearchIndex
 			class="org.apache.jackrabbit.core.query.lucene.SearchIndex">
 			<param name="path" value="${wsp.home}/index" />
 		</SearchIndex>
+		-->
 	</Workspace>
 
 	<Versioning rootPath="${rep.home}/versions">

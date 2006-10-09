@@ -179,7 +179,16 @@ public class JackrabbitNavigator extends DefaultNavigator implements Navigator {
 		return false;
 	}
 
-	public boolean isElement(Object arg0) {
+    public Object getDocumentNode(Object contextNode) {
+        Node node = (Node) contextNode;
+        try {
+            return node.getSession().getRootNode();
+        } catch (RepositoryException e) {
+            return null;
+        }
+    }
+
+    public boolean isElement(Object arg0) {
 		return (arg0 instanceof Node) && !isDocument(arg0);
 	}
 
