@@ -1,45 +1,66 @@
 package com.mindquarry.jcr.jackrabbit.xpath;
 
-import java.io.IOException;
-
+import javax.jcr.NamespaceException;
+import javax.jcr.NamespaceRegistry;
 import javax.jcr.RepositoryException;
+import javax.jcr.Session;
 import javax.jcr.query.InvalidQueryException;
 
 import org.apache.jackrabbit.core.ItemManager;
-import org.apache.jackrabbit.core.NodeId;
 import org.apache.jackrabbit.core.SessionImpl;
-import org.apache.jackrabbit.core.query.AbstractQueryHandler;
 import org.apache.jackrabbit.core.query.ExecutableQuery;
-import org.apache.jackrabbit.core.state.NodeState;
+import org.apache.jackrabbit.core.query.lucene.SearchIndex;
 import org.jaxen.JaxenException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class JaxenQueryHandler extends AbstractQueryHandler {
-	
-	
-	protected void doInit() throws IOException {
-		//no initialization neccessary
-	}
+public class JaxenQueryHandler extends SearchIndex {
 
-	public void addNode(NodeState node) throws RepositoryException, IOException {
-		throw new UnsupportedOperationException("addNode");
-	}
+    public static final String FULL_XPATH = "full_xpath";
 
-	public void close() throws IOException {
-		//no finishing cleanup neccessary
-	}
+    private static final Logger log = LoggerFactory
+            .getLogger(JaxenQueryHandler.class);
 
-	public ExecutableQuery createExecutableQuery(SessionImpl session,
-			ItemManager itemMgr, String statement, String language)
-			throws InvalidQueryException {
-		try {
-			return new JackrabbitXPath(statement, session);
-		} catch (JaxenException je) {
-			throw new InvalidQueryException(je);
-		}
-	}
+    /**
+     * @see org.apache.jackrabbit.core.query.lucene.SearchIndex#setPath(java.lang.String)
+     */
+    @Override
+    public void setPath(String path) {
+        super.setPath(path);
+    }
 
-	public void deleteNode(NodeId id) throws IOException {
-		throw new UnsupportedOperationException("deleteNode");
-	}
+    /**
+     * @see org.apache.jackrabbit.core.query.lucene.SearchIndex#createExecutableQuery(org.apache.jackrabbit.core.SessionImpl, org.apache.jackrabbit.core.ItemManager, java.lang.String, java.lang.String)
+     */
+    @Override
+    public ExecutableQuery createExecutableQuery(SessionImpl session,
+            ItemManager itemMgr, String statement, String language)
+            throws InvalidQueryException {
+        if (language.equals(FULL_XPATH)) {
+            try {
+                log.debug("Full XPath Query: " + statement);
+                JackrabbitXPath xpath = new JackrabbitXPath(statement, session);
+                NamespaceRegistry nsReg = namespaceRegistry(session);
+                for (String uri : nsReg.getURIs()) {
+                    xpath.addNamespace(nsReg.getPrefix(uri), uri);
+                }
+                return xpath;
+            } catch (JaxenException je) {
+                throw new InvalidQueryException(je);
+            } catch (NamespaceException e) {
+                throw new InvalidQueryException(e);
+            } catch (RepositoryException e) {
+                throw new InvalidQueryException(e);
+            }
+        } else {
+            return super.createExecutableQuery(session, itemMgr, statement,
+                    language);
+        }
+    }
 
+    private NamespaceRegistry namespaceRegistry(Session session)
+            throws RepositoryException {
+
+        return session.getWorkspace().getNamespaceRegistry();
+    }
 }
