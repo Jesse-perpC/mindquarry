@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Hashtable;
 import java.util.Map;
 
 import javax.jcr.LoginException;
@@ -18,6 +19,7 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 
+import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -53,7 +55,7 @@ import com.mindquarry.common.init.InitializationException;
  *         Saar</a>
  */
 public class JCRSourceFactory implements ThreadSafe, SourceFactory,
-        Configurable, Serviceable {
+        Configurable, Serviceable, Initializable {
     /**
      * The reference to the JCR Repository to use as interface.
      */
@@ -73,6 +75,11 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * Configuration for this component.
      */
     protected Configuration config;
+
+    /**
+     * The namespace-prefix mappings for this factory.
+     */
+    protected Map<String, String> nsMappings;
 
     // =========================================================================
     // Servicable interface
@@ -107,6 +114,25 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
     }
 
     // =========================================================================
+    // Initializable interface
+    // =========================================================================
+
+    /**
+     * Initializes namespace mappings.
+     * 
+     * @see org.apache.avalon.framework.activity.Initializable#initialize()
+     */
+    public void initialize() throws Exception {
+        nsMappings = new Hashtable<String, String>();
+
+        Configuration mappings = config.getChild("mappings"); //$NON-NLS-1$
+        for (Configuration mapping : mappings.getChildren("mapping")) { //$NON-NLS-1$
+            nsMappings.put(mapping.getAttribute("prefix"), mapping //$NON-NLS-1$
+                    .getAttribute("namespace")); //$NON-NLS-1$
+        }
+    }
+
+    // =========================================================================
     // SourceFactory interface
     // =========================================================================
 
@@ -117,8 +143,8 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * @see org.apache.excalibur.source.SourceFactory#getSource(java.lang.String,
      *      java.util.Map)
      */
-    public Source getSource(String uri, Map parameters)
-            throws IOException, MalformedURLException {
+    public Source getSource(String uri, Map parameters) throws IOException,
+            MalformedURLException {
         lazyInitRepository();
 
         // extract protocol identifier
@@ -181,9 +207,59 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         return scheme;
     }
 
+    public String getPrefixForNamespace(String namespace) {
+        String prefix = null;
+
+        if (nsMappings.containsValue(namespace)) {
+            for (String key : nsMappings.keySet()) {
+                if (nsMappings.get(key).equals(namespace)) {
+                    prefix = key;
+                    break;
+                }
+            }
+        }
+        return prefix;
+    }
+
+    public String getNamespaceForPrefix(String prefix) {
+        return nsMappings.get(prefix);
+    }
+
     // =========================================================================
     // Internal methods
     // =========================================================================
+
+    /**
+     * Executes an XPath Query on the JCR repository and returns a node
+     * representing the query result.
+     * 
+     * <p>
+     * Subclasses that use an extended, XMLizable JCRNodeSource should override
+     * this method and return all nodes in the result.
+     * 
+     * @param session the session
+     * @param path the path that is used as root of the query
+     * @param statement the Xpath query statement
+     * @param queryLang the language to use (should be Query.SQL or Query.XPATH)
+     * @throws IOException when the query is wrong or the result was empty
+     */
+    protected Source executeQuery(Session session, String path, String statement)
+            throws IOException {
+        try {
+            // modify path for query execution
+            statement = "/jcr:root" + path + statement;
+
+            QueryManager queryManager = session.getWorkspace()
+                    .getQueryManager();
+            Query query = queryManager.createQuery(statement, Query.XPATH);
+            QueryResult result = query.execute();
+
+            return new QueryResultSource(this, session, result.getNodes());
+        } catch (RepositoryException e) {
+            throw new SourceException("Cannot execute query '" + statement
+                    + "'", e);
+        }
+    }
 
     /**
      * Retrieves the reference of the JCR <code>Repository</code> to use.
@@ -228,38 +304,6 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
         } catch (NotBoundException e) {
             throw new InitializationException("could not create client "
                     + "repository for repository url:" + remoteRepoUrl, e);
-        }
-    }
-
-    /**
-     * Executes an XPath Query on the JCR repository and returns a node
-     * representing the query result.
-     * 
-     * <p>
-     * Subclasses that use an extended, XMLizable JCRNodeSource should override
-     * this method and return all nodes in the result.
-     * 
-     * @param session the session
-     * @param path the path that is used as root of the query
-     * @param statement the Xpath query statement
-     * @param queryLang the language to use (should be Query.SQL or Query.XPATH)
-     * @throws IOException when the query is wrong or the result was empty
-     */
-    protected Source executeQuery(Session session, String path, String statement)
-            throws IOException {
-        try {
-            // modify path for query execution
-            statement = "/jcr:root" + path + statement;
-
-            QueryManager queryManager = session.getWorkspace()
-                    .getQueryManager();
-            Query query = queryManager.createQuery(statement, Query.XPATH);
-            QueryResult result = query.execute();
-
-            return new QueryResultSource(this, session, result.getNodes());
-        } catch (RepositoryException e) {
-            throw new SourceException("Cannot execute query '" + statement
-                    + "'", e);
         }
     }
 }
