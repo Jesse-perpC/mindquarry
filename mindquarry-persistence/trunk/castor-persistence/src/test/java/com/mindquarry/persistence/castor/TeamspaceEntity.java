@@ -3,6 +3,8 @@
  */
 package com.mindquarry.persistence.castor;
 
+import java.util.Set;
+
 import com.mindquarry.common.persistence.EntityBase;
 
 /**
@@ -16,6 +18,7 @@ public class TeamspaceEntity extends EntityBase {
     private String name;
     private String description;
     private String workspaceUri;
+    private Set<UserEntity> users;
 
     
     /**
@@ -77,5 +80,23 @@ public class TeamspaceEntity extends EntityBase {
      */
     public void setWorkspaceUri(String workspaceUri) {
         this.workspaceUri = workspaceUri;
+    }
+
+    /**
+     * Getter for users.
+     *
+     * @return the users
+     */
+    public Set<UserEntity> getUsers() {
+        return users;
+    }
+
+    /**
+     * Setter for users.
+     *
+     * @param users the users to set
+     */
+    public void setUsers(Set<UserEntity> users) {
+        this.users = users;
     }
 }

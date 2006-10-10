@@ -164,7 +164,8 @@ class CastorSession extends AbstractLogEnabled implements Session {
                     "could not write xml content to jcr source", e);
         } catch (MappingException e) {
             throw new CastorPersistenceException(
-                    "could not write xml content to jcr source", e);
+                    "could not write xml content to jcr source. " +
+                    "the castor mapping seems to be invalid", e);
         } finally {
             try {
                 if (null != sourceWriter)

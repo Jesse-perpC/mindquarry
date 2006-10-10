@@ -10,6 +10,8 @@
 
 		<map-to xml="teamspace"
 			ns-uri="http://www.mindquarry.com/ns/schema/teamspace" />
+			
+		<field name="users" transient="true" type="java.util.Set" />			
 	</class>
 
 	<class name="com.mindquarry.persistence.castor.UserEntity"
