@@ -3,16 +3,10 @@
  */
 package com.mindquarry.jcr.xml.source;
 
-import java.io.ByteArrayOutputStream;
-import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.Collection;
-import java.util.Iterator;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.ModifiableSource;
-import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
-import org.apache.jackrabbit.core.nodetype.compact.ParseException;
 
 /**
  * Test cases for the JCRNodeWrapperSource implementation.
