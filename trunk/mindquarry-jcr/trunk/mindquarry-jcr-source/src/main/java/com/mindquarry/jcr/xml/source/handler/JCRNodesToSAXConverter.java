@@ -105,14 +105,8 @@ public class JCRNodesToSAXConverter {
 
                 handler.endElement(namespaceURI, localName, qName);
             } else if (child.isNodeType("xt:text")) {
-                InputStream is = child.getProperty("xt:characters").getStream();
-                ByteArrayOutputStream os = new ByteArrayOutputStream();
-
-                int b;
-                while ((b = is.read()) != -1) {
-                    os.write(b);
-                }
-                char[] characters = new String(os.toByteArray()).toCharArray();
+                String str = child.getProperty("xt:characters").getString();
+                char[] characters = str.toCharArray();
                 handler.characters(characters, 0, characters.length);
             }
         }

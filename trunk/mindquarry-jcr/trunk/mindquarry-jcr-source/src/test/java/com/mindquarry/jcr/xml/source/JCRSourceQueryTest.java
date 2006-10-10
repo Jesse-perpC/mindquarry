@@ -48,7 +48,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         os.close();
         
         QueryResultSource qResult = (QueryResultSource) resolveSource(BASE_URL
-                + "users?/*[.//teamspace/text/@xt:characters='mindquarry']");
+                + "users?/*[.//user/teamspace='mindquarry']");
         
         assertNotNull(qResult);
 

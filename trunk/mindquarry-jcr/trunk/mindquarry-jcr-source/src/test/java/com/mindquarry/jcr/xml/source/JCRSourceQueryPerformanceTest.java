@@ -35,7 +35,7 @@ public class JCRSourceQueryPerformanceTest extends JCRSourceTestBase {
         }
         long startTime = System.currentTimeMillis();
         QueryResultSource qResult = (QueryResultSource) resolveSource(BASE_URL
-                + "users?/*[.//id/text/@xt:characters='67']");
+                + "users?/*[.//user/id='67']");
 
         long testTime = System.currentTimeMillis() - startTime;
         System.out.println("Test time: " + testTime + " ms");
