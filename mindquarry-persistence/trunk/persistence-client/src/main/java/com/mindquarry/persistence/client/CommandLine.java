@@ -5,6 +5,8 @@ package com.mindquarry.persistence.client;
 
 import java.io.File;
 import java.io.FileReader;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.apache.avalon.framework.configuration.DefaultConfiguration;
 import org.apache.avalon.framework.logger.ConsoleLogger;
@@ -125,6 +127,19 @@ public class CommandLine {
         config.setAttribute("login", line.getOptionValue(O_USER)); //$NON-NLS-1$
         config.setAttribute("password", line.getOptionValue(O_PWD)); //$NON-NLS-1$
         config.setAttribute("rmi", line.getOptionValue(O_REPO)); //$NON-NLS-1$
+        
+        Map<String, String> mappings = namespaceMappings();
+        DefaultConfiguration allMappingsConfig = 
+            new DefaultConfiguration("mappings");
+        config.addChild(allMappingsConfig);
+        
+        for (String prefix : mappings.keySet()) {
+            DefaultConfiguration mappingConfig = 
+                new DefaultConfiguration("mapping");
+            mappingConfig.setAttribute("prefix", prefix);
+            mappingConfig.setAttribute("namespace", "");
+            allMappingsConfig.addChild(mappingConfig);
+        }
 
         // init connection to persistence layer
         CastorSessionFactoryStandalone factory = new CastorSessionFactoryStandalone();
@@ -165,5 +180,16 @@ public class CommandLine {
         HelpFormatter formatter = new HelpFormatter();
         formatter.printHelp("java -jar persistence-client-<version>.jar", //$NON-NLS-1$
                 options, true);
+    }
+    
+    private Map<String, String> namespaceMappings() {
+        Map<String, String> mappings = new HashMap<String, String>();
+        mappings.put("user", "http://www.mindquarry.com/ns/schema/user");
+        mappings.put("team", "http://www.mindquarry.com/ns/schema/teamspace");
+        mappings.put("tag", "http://www.mindquarry.com/ns/schema/tag");
+        mappings.put("wiki", "http://www.mindquarry.com/ns/schema/wiki");
+        mappings.put("task", "http://www.mindquarry.com/ns/schema/task");
+        mappings.put("cnv", "http://www.mindquarry.com/ns/schema/conversation");
+        return mappings;
     }
 }
