@@ -46,6 +46,7 @@ class CastorSession extends AbstractLogEnabled implements Session {
     private final JcrSourceResolverBase jcrSourceResolver_;
     
     protected Set<EntityBase> createdEntities_;
+    protected Set<EntityBase> updatedEntities_;
     private Set<EntityBase> queriedEntities_;
     protected Set<EntityBase> deletedEntities_;
     
@@ -58,6 +59,7 @@ class CastorSession extends AbstractLogEnabled implements Session {
         jcrSourceResolver_ = jcrSourceResolver;
         
         createdEntities_ = new HashSet<EntityBase>();
+        updatedEntities_ = new HashSet<EntityBase>();
         queriedEntities_ = new HashSet<EntityBase>();
         deletedEntities_ = new HashSet<EntityBase>();
     }
@@ -79,6 +81,11 @@ class CastorSession extends AbstractLogEnabled implements Session {
         EntityBase entity = validateEntity(object);
         createdEntities_.add(entity);      
     }
+
+    public void update(Object object) {
+        EntityBase entity = validateEntity(object);
+        updatedEntities_.add(entity);
+    }
     
     public boolean delete(Object object) {
         EntityBase entity = validateEntity(object);
@@ -98,6 +105,18 @@ class CastorSession extends AbstractLogEnabled implements Session {
         while (createdEntitiesIt.hasNext()) {
             EntityBase entity = createdEntitiesIt.next();
             ModifiableSource source = resolveJcrSource(entity);
+            writeToSource(entity, source);
+            createdEntitiesIt.remove();
+        }
+        
+        Iterator<EntityBase> updatedEntitiesIt = updatedEntities_.iterator();
+        while (updatedEntitiesIt.hasNext()) {
+            EntityBase entity = updatedEntitiesIt.next();
+            ModifiableSource source = resolveJcrSource(entity);
+            if (! source.exists()) {
+                getLogger().error("could not update entity " + entity +
+                        "with id: " + entity.getId() +  ". It does yet exist.");
+            }
             writeToSource(entity, source);
             createdEntitiesIt.remove();
         }
