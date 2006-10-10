@@ -107,6 +107,10 @@ class XmlBeansSession implements Session {
         return isDeleted;
     }
     
+    public void update(Object object) {
+        throw new UnsupportedOperationException();
+    }
+    
     public void commit() {
         
         Iterator<XmlObject> pooledEntitiesIt = createdEntities_.iterator();
