@@ -34,6 +34,7 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     
     private static final String MQ_PREFIX_START = "mq";
     
+    // used to handle namespace (prefix) declarations
     private static final int ELEMENT_DEPTH_START = 0;
     private static final String ELEMENT_DEPTH = "SAXToJCRNodesConverter_ElementDepth";
 
