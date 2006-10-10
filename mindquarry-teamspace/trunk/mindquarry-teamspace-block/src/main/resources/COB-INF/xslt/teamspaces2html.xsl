@@ -23,6 +23,14 @@
 	<xsl:template match="teamspace" >
 		<li>
 			<a href="{$context.path}blocks/mindquarry-workspace-block/browser/{id}/"><xsl:value-of select="name" /></a>
+			<ul>
+				<xsl:apply-templates select="users" />
+			</ul>
+		</li>
+	</xsl:template>
+	<xsl:template match="user" >
+		<li>
+			<p><xsl:value-of select="name" /></p>
 		</li>
 	</xsl:template>
 </xsl:stylesheet>

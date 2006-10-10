@@ -59,12 +59,12 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
-			<artifactId>mindquarry-teamspace-cocoon</artifactId>
+			<artifactId>mindquarry-teamspace</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
-			<groupId>com.mindquarry.teamspace</groupId>
-			<artifactId>mindquarry-teamspace</artifactId>
+			<groupId>com.mindquarry.types</groupId>
+			<artifactId>castor-persistence</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
