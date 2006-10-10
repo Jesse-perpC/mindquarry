@@ -19,7 +19,10 @@ import org.jaxen.XPath;
 import org.jaxen.saxpath.SAXPathException;
 
 public class JackrabbitNavigator extends DefaultNavigator implements Navigator {
-	private NamespaceResolver nr;
+	
+    private static final long serialVersionUID = -2215449271829411396L;
+    
+    private NamespaceResolver nr;
 	
 	public String translateNamespacePrefixToUri(String prefix, Object element) {
 		try {

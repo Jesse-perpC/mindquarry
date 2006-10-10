@@ -11,7 +11,10 @@ import org.jaxen.BaseXPath;
 import org.jaxen.JaxenException;
 
 public class JackrabbitXPath extends BaseXPath implements ExecutableQuery, QueryResult {
-	private SessionImpl session;
+	
+    private static final long serialVersionUID = -4394464481180580466L;
+    
+    private SessionImpl session;
 	
 	public JackrabbitXPath(String expression, SessionImpl session) throws JaxenException {
 		super(expression, new JackrabbitNavigator(session.getNamespaceResolver()));
