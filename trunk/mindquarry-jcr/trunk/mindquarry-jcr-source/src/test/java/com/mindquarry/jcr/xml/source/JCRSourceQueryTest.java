@@ -87,7 +87,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         os.close();
 
         QueryResultSource qResult = (QueryResultSource) resolveSource(BASE_URL
-                + "images?/*[contains(local-name(.), 'photo')]");
+                + "images?/*[contains(local-name(), 'photo.png')]");
         assertNotNull(qResult);
 
         Collection results = qResult.getChildren();
