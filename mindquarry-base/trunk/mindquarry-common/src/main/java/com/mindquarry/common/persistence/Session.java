@@ -16,6 +16,8 @@ public interface Session {
     
     void persist(Object entity);
     
+    void update(Object entity);
+    
     boolean delete(Object entity);
     
     List<Object> query(String queryName, Object[] params);
