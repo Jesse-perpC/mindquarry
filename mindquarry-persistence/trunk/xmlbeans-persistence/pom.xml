@@ -57,11 +57,6 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.mindquarry.types</groupId>
-			<artifactId>xmlbeans-persistence-config</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
