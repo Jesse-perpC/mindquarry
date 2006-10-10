@@ -3,9 +3,7 @@
  */
 package com.mindquarry.jcr.xml.source.handler;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 
 import javax.jcr.NamespaceException;
 import javax.jcr.NamespaceRegistry;
