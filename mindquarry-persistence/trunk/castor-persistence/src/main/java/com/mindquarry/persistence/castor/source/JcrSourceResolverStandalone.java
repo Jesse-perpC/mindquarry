@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.excalibur.source.ModifiableTraversableSource;
+import org.apache.excalibur.source.Source;
 
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.jcr.xml.source.JCRSourceFactory;
@@ -33,11 +33,9 @@ public class JcrSourceResolverStandalone extends JcrSourceResolverBase {
     }
     
     @Override
-    protected ModifiableTraversableSource 
-                        resolveJcrSourceInternal(String jcrPath) {
+    protected Source resolveJcrSourceInternal(String jcrPath) {
         try {
-            Object sourceObj = jcrSourceFactory_.getSource(jcrPath, null);
-            return (ModifiableTraversableSource) sourceObj;
+            return jcrSourceFactory_.getSource(jcrPath, null);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {

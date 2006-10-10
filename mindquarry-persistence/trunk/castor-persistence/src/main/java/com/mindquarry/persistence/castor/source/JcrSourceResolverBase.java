@@ -3,7 +3,7 @@
  */
 package com.mindquarry.persistence.castor.source;
 
-import org.apache.excalibur.source.ModifiableTraversableSource;
+import org.apache.excalibur.source.Source;
 
 /**
  * Add summary documentation here.
@@ -15,10 +15,10 @@ public abstract class JcrSourceResolverBase {
 
     private static final String JCR_SOURCE_PREFIX = "jcr://";
 
-    public ModifiableTraversableSource resolveJcrSource(String path) {
+    public Source resolveJcrSource(String path) {
         String jcrUri = JCR_SOURCE_PREFIX + path;
         return resolveJcrSourceInternal(jcrUri);
     }
     
-    protected abstract ModifiableTraversableSource resolveJcrSourceInternal(String jcrPath);
+    protected abstract Source resolveJcrSourceInternal(String jcrPath);
 }
