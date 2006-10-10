@@ -4,8 +4,12 @@
 package com.mindquarry.teamspace.manager;
 
 import java.io.File;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -20,6 +24,7 @@ import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceRO;
+import com.mindquarry.teamspace.UserRO;
 
 /**
  * Add summary documentation here.
@@ -81,7 +86,9 @@ class TeamspaceManager implements TeamspaceAdmin,
                     "existing base directory for repositories.");        
     }
 
-    public void create(String id, String name, String description) {
+    public TeamspaceRO createTeamspace(
+            String id, String name, String description) {
+        
         TeamspaceEntity teamspace = new TeamspaceEntity();
         teamspace.setId(id);
         teamspace.setName(name);
@@ -89,22 +96,34 @@ class TeamspaceManager implements TeamspaceAdmin,
         Session session = currentSession();
         session.persist(teamspace);
         session.commit();
+        return teamspace;
     }
 
-    public void remove(String id) {
+    public void removeTeamspace(String id) {
         Session session = currentSession();
-        TeamspaceEntity teamspace = queryTeamspaceById(session, id);
+        TeamspaceRO teamspace = queryTeamspaceById(session, id);
         session.delete(teamspace);
         session.commit();
     }
 
     public List<TeamspaceRO> allTeamspaces() {
         Session session = currentSession();
-        List queryResult = session.query("getAllTeamspaces", new Object[0]);
+        
+        List<Object> queriedTeamspaces = session.query(
+                "getAllTeamspaces", new Object[0]);
+        
+        Map<String, Set<UserRO>> userMap = loadUserMap();
         
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
-        for (Object object : queryResult)
-            result.add((TeamspaceEntity) object);
+        for (Object teamspaceObj : queriedTeamspaces) {
+            
+            TeamspaceEntity teamspace = (TeamspaceEntity) teamspaceObj;
+            if (userMap.containsKey(teamspace.getId())) {
+                Set<UserRO> users = queryUsersForTeamspace(teamspace); //userMap.get(teamspace.getId());
+                teamspace.setUsers(users);                
+            }
+            result.add(teamspace);
+        }
         
         session.commit();
         return result;
@@ -114,14 +133,88 @@ class TeamspaceManager implements TeamspaceAdmin,
         Session session = currentSession();
         UserEntity user = queryUserById(session, userId);
         
+        Map<String, Set<UserRO>> userMap = loadUserMap();        
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
 
         for (String teamRef : user.getTeamspaceReferences()) {
             TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
+            if (userMap.containsKey(teamspace.getId())) {
+                Set<UserRO> users = queryUsersForTeamspace(teamspace);
+                teamspace.setUsers(users);                
+            }
             result.add(teamspace);
         }
         
         session.commit();
+        return result;
+    } 
+
+    private Map<String, Set<UserRO>> loadUserMap() {
+        
+        Session session = currentSession();
+        
+        List<Object> queriedUsers = session.query("getAllUsers", new Object[0]);
+        
+        Map<String, Set<UserRO>> userMap = new HashMap<String, Set<UserRO>>();
+        
+        for (Object userObj: queriedUsers) {
+            UserRO user = (UserRO) userObj;
+            for (String teamspaceId : user.getTeamspaceReferences()) {
+                
+                if (! userMap.containsKey(teamspaceId))
+                    userMap.put(teamspaceId, new HashSet<UserRO>());
+                    
+                userMap.get(teamspaceId).add(user);
+            }
+        }
+        return userMap;
+    }
+
+    private Set<UserRO> queryUsersForTeamspace(TeamspaceRO teamspace) {
+        
+        Session session = currentSession();
+        
+        List<Object> queryResult = session.query(
+                "getUsersForTeamspace", new String[] {teamspace.getId()});
+        
+        Set<UserRO> result = new HashSet<UserRO>();
+        
+        for (Object userObj: queryResult) {
+            UserRO user = (UserRO) userObj;
+            result.add(user);
+        }
+        return result;
+    }
+
+    public UserRO createUser(String id, String name) {
+        UserEntity user = new UserEntity();
+        user.setId(id);
+        user.setName(name);
+        Session session = currentSession();
+        session.persist(user);
+        session.commit();
+        return user;
+    }
+
+    public void removeUser(String id) {
+        Session session = currentSession();
+        UserRO user = queryUserById(session, id);
+        session.delete(user);
+        session.commit();
+    }
+
+    public List<UserRO> allUsers() {
+        Session session = currentSession();
+        
+        List<Object> queriedUsers = session.query(
+                "getAllUsers", new Object[0]);
+        
+        List<UserRO> result = new LinkedList<UserRO>();        
+        
+        for (Object userObj: queriedUsers) {
+            UserRO user = (UserRO) userObj;
+            result.add(user);
+        }
         return result;
     }
     
@@ -137,7 +230,7 @@ class TeamspaceManager implements TeamspaceAdmin,
 
     public String workspaceUri(String id) {
         Session session = currentSession();
-        TeamspaceEntity teamspace = queryTeamspaceById(session, id);
+        TeamspaceRO teamspace = queryTeamspaceById(session, id);
         String result = teamspace.getWorkspaceUri();
         session.commit();
         return result;
@@ -147,4 +240,17 @@ class TeamspaceManager implements TeamspaceAdmin,
         return sessionFactory_.currentSession();
     }
 
+    public void addUserToTeamspace(UserRO user, TeamspaceRO teamspace) {
+        UserEntity userEntity = (UserEntity) user;
+        TeamspaceEntity teamspaceEntity = (TeamspaceEntity) teamspace;
+        
+        userEntity.addTeamspaceReference(teamspace);
+        teamspaceEntity.addUser(user);
+        
+        Session session = currentSession();
+        session.update(userEntity);
+        session.update(teamspaceEntity);
+        
+        session.commit();
+    }
 }

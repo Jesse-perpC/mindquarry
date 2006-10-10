@@ -3,7 +3,10 @@
  */
 package com.mindquarry.teamspace.file;
 
+import java.util.List;
+
 import com.mindquarry.teamspace.TeamspaceRO;
+import com.mindquarry.teamspace.UserRO;
 
 /**
  * 
@@ -48,6 +51,11 @@ public class Teamspace implements TeamspaceRO {
     }
 
     public String getWorkspaceUri() {
+        // TODO Auto-generated method stub
+        return null;
+    }
+
+    public List<UserRO> getUsers() {
         // TODO Auto-generated method stub
         return null;
     }

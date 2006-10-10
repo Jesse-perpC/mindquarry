@@ -10,16 +10,18 @@
 
 		<map-to xml="teamspace"
 			ns-uri="http://www.mindquarry.com/ns/schema/teamspace" />
+		
+		<field name="users" transient="true" type="java.util.Set" />
 	</class>
 
 	<class name="com.mindquarry.teamspace.manager.UserEntity"
 		auto-complete="true">
 
 		<map-to xml="user"
-			ns-uri="http://www.mindquarry.com/ns/schema/teamspace" />
+			ns-uri="http://www.mindquarry.com/ns/schema/user" />
 		
 		<field name="teamspaceReferences" type="java.lang.String"
-			collection="collection" >
+			collection="set" >
 			<bind-xml name="teamspace-reference" location="teamspace-references" />
 		</field>
 	</class>

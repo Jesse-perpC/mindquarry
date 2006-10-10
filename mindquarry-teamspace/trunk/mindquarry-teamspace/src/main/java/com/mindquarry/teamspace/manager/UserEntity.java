@@ -1,7 +1,7 @@
 package com.mindquarry.teamspace.manager;
 
-import java.util.Collection;
-import java.util.LinkedList;
+import java.util.HashSet;
+import java.util.Set;
 
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.TeamspaceRO;
@@ -11,7 +11,7 @@ public class UserEntity extends EntityBase implements User {
     
     private String name;
     
-    private Collection<String> teamspaceReferences;
+    private Set<String> teamspaceReferences;
 
 
     /**
@@ -20,7 +20,7 @@ public class UserEntity extends EntityBase implements User {
     public UserEntity() {
         id = "".intern();
         name = "".intern();
-        teamspaceReferences = new LinkedList<String>();
+        teamspaceReferences = new HashSet<String>();
     }
 
     /**
@@ -40,7 +40,7 @@ public class UserEntity extends EntityBase implements User {
     /**
      * @see com.mindquarry.types.teamspace.User#getTeamspaces()
      */
-    public Collection<String> getTeamspaceReferences() {
+    public Set<String> getTeamspaceReferences() {
         return teamspaceReferences;
     }
 
@@ -49,7 +49,7 @@ public class UserEntity extends EntityBase implements User {
      *
      * @param teamspaceReferences the teamspaceReferences to set
      */
-    public void setTeamspaceReferences(Collection<String> teamspaces) {
+    public void setTeamspaceReferences(Set<String> teamspaces) {
         this.teamspaceReferences = teamspaces;
     }
 
