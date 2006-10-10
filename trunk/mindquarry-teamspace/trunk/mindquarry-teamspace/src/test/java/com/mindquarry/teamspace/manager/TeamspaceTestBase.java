@@ -7,16 +7,17 @@ import java.io.IOException;
 import java.net.URL;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.cocoon.core.container.ContainerTestCase;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
+
+import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 
 
 
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-abstract class TeamspaceTestBase extends ContainerTestCase {
+abstract class TeamspaceTestBase extends JCRTestBase {
     
     protected void setUp() throws Exception {
         super.setUp();

@@ -22,4 +22,8 @@ public interface TeamspaceQuery {
     List<TeamspaceRO> allTeamspaces();
     
     List<TeamspaceRO> teamspacesForUser(String userId);
+    
+    List<UserRO> allUsers();
+    
+    void addUserToTeamspace(UserRO user, TeamspaceRO teamspace);
 }

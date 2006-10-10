@@ -3,6 +3,8 @@
  */
 package com.mindquarry.teamspace;
 
+import java.util.List;
+
 /**
  * Add summary documentation here.
  *
@@ -39,4 +41,10 @@ public interface TeamspaceRO {
      */
     public String getWorkspaceUri();
 
+    /**
+     * Getter for users.
+     *
+     * @return an umodifiable view of the users participating this project
+     */
+    public List<UserRO> getUsers();
 }

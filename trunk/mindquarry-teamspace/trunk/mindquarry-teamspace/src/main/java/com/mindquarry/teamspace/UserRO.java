@@ -3,7 +3,7 @@
  */
 package com.mindquarry.teamspace;
 
-import java.util.Collection;
+import java.util.Set;
 
 /**
  * Add summary documentation here.
@@ -32,6 +32,6 @@ public interface UserRO {
      *
      * @return an unmodifiable view of the teamspaces
      */
-    Collection<String> getTeamspaceReferences();
+    Set<String> getTeamspaceReferences();
 
 }

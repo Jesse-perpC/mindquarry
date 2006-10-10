@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration
-	xmlns="http://www.mindquarry.com/ns/schema/xmlbeans-persistence">
+	xmlns="http://www.mindquarry.com/ns/schema/persistence">
 	
 	<entity>
 		<className>com.mindquarry.teamspace.manager.UserEntity</className>
@@ -17,8 +17,13 @@
 	</queryInfo>
 	<queryInfo>
 		<key>getAllUsers</key>
-		<query>/teamspaces</query>
+		<query>/users</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getUsersForTeamspace</key>
+		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference='{$teamspaceId}']</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
 		<key>getTeamspaceById</key>

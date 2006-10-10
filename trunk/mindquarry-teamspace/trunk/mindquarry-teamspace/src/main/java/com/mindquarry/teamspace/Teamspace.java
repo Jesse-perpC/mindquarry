@@ -31,5 +31,4 @@ public interface Teamspace extends TeamspaceRO {
      * @param workspaceUri the workspaceUri to set
      */
     public void setWorkspaceUri(String workspaceUri);
-
 }
