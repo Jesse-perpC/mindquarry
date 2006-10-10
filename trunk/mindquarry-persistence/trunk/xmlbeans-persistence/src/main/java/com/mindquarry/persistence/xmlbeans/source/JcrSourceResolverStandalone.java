@@ -36,7 +36,7 @@ public class JcrSourceResolverStandalone extends JcrSourceResolverBase {
     protected ModifiableTraversableSource 
                         resolveJcrSourceInternal(String jcrPath) {
         try {
-            return jcrSourceFactory_.getSource(jcrPath, null);
+            return (ModifiableTraversableSource) jcrSourceFactory_.getSource(jcrPath, null);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
