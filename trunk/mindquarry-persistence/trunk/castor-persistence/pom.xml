@@ -34,6 +34,7 @@
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jcr-source</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
