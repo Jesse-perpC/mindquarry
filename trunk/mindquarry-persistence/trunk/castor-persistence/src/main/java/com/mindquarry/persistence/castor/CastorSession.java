@@ -118,7 +118,7 @@ class CastorSession extends AbstractLogEnabled implements Session {
                         "with id: " + entity.getId() +  ". It does yet exist.");
             }
             writeToSource(entity, source);
-            createdEntitiesIt.remove();
+            updatedEntitiesIt.remove();
         }
         
         Iterator<EntityBase> deletedEntitiesIt = deletedEntities_.iterator();
@@ -142,7 +142,7 @@ class CastorSession extends AbstractLogEnabled implements Session {
         String query = findQuery(queryKey);
         String preparedQuery = prepareQuery(query, params);
         
-        TraversableSource source = resolveJcrSource(preparedQuery);
+        TraversableSource source = resolveJcrQuerySource(preparedQuery);
         
         if (source.exists()) {            
             if (source.isCollection()) {
@@ -164,13 +164,19 @@ class CastorSession extends AbstractLogEnabled implements Session {
     private void writeToSource(EntityBase entity, ModifiableSource source) {
         
         OutputStreamWriter sourceWriter = null;
-        try {            
+        try {
+            OutputStreamWriter consoleWriter = new OutputStreamWriter(System.out);
+            Marshaller consoleMarshaller = new Marshaller(consoleWriter);
+            consoleMarshaller.setMapping(mapping_);
+            consoleMarshaller.marshal(entity);
+            
             sourceWriter = new OutputStreamWriter(source.getOutputStream());
             
             Marshaller marshaller = new Marshaller(sourceWriter);
             marshaller.setMapping(mapping_);
 
             marshaller.marshal(entity);
+            
             sourceWriter.flush();
         } catch (IOException e) {
             throw new CastorPersistenceException(
@@ -277,13 +283,15 @@ class CastorSession extends AbstractLogEnabled implements Session {
         return new QueryPreparer(query, params).prepare();
     }
     
-    private ModifiableTraversableSource resolveJcrSource(String path) {
-        return jcrSourceResolver_.resolveJcrSource(path);
+    private TraversableSource resolveJcrQuerySource(String query) {
+        Source source = jcrSourceResolver_.resolveJcrSource(query);
+        return (TraversableSource) source;
     }
     
     private ModifiableTraversableSource resolveJcrSource(EntityBase entity) {
         String entityPath = buildEntityPath(entity);
-        return resolveJcrSource(entityPath);
+        Source source = jcrSourceResolver_.resolveJcrSource(entityPath);
+        return (ModifiableTraversableSource) source;
     }
     
     private String buildEntityPath(EntityBase entity) {

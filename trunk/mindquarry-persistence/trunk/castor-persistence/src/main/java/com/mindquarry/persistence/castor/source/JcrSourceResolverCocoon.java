@@ -8,7 +8,7 @@ import java.net.MalformedURLException;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.excalibur.source.ModifiableTraversableSource;
+import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
 import com.mindquarry.common.init.InitializationException;
@@ -27,13 +27,11 @@ public class JcrSourceResolverCocoon extends JcrSourceResolverBase {
     }
     
     @Override
-    protected ModifiableTraversableSource 
-                     resolveJcrSourceInternal(String jcrUri) {
+    protected Source resolveJcrSourceInternal(String jcrUri) {
         
         SourceResolver sourceResolver = lookupSourceResolver();
         try {
-            Object resolvedSource = sourceResolver.resolveURI(jcrUri);
-            return (ModifiableTraversableSource) resolvedSource;
+            return sourceResolver.resolveURI(jcrUri);
         } catch (MalformedURLException e) {
             throw new RuntimeException(e);
         } catch (IOException e) {
