@@ -26,6 +26,7 @@
 		<module>task</module>
 		<module>wiki</module>
 		<module>conversation</module>
+		<module>castor-persistence</module>
 		<module>xmlbeans-persistence</module>
                 <module>xmlbeans-persistence-config</module>
 		<module>persistence-client</module>
