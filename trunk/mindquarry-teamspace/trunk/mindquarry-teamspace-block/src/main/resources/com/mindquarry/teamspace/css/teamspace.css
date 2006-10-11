@@ -1,22 +1,39 @@
 #webapp-header {
-  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-orange.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-orange.png);
 }
 
 #webapp-sections a.navFiles {
-  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-red.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-red.png);
 }
 
 #webapp-sections a.navWiki {
-  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-blue.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-blue.png);
 }
 
 #webapp-sections a.navTasks {
-  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-green.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-green.png);
 }
 
 #webapp-sections a.navTalk {
-  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-yellow.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-yellow.png);
 }
 
 #webapp-sections a.navTeams {
-  background-image:url(../../../../blocks/mindquarry-webapp-block/resources/images/orange-header-orange.png);
+  background-image:url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-orange.png);
+}
+
+a.add_member_button {
+	background-image:url(../../resources/buttons/add_member.gif);
+	display:block;
+	width:152px;
+	height:32px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	text-align:center;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:12pt;
+	padding-top:9px;
+	padding-left:13px;
+}

@@ -8,9 +8,10 @@
 		<html>
 			<head>
 				<title>Teamspaces</title>
-				<link rel="stylesheet" href="resources/css/teamspace.css" ype="text/css" />
+				<link rel="stylesheet" href="resources/css/teamspace.css" type="text/css" />
 			</head>
 			<body>
+				<h1>Manage Your Teams</h1>
 				<ul>
 					<xsl:apply-templates>
 						<xsl:sort select="name" />
@@ -22,10 +23,13 @@
 				 
 	<xsl:template match="teamspace" >
 		<li>
-			<a href="{$context.path}blocks/mindquarry-workspace-block/browser/{id}/"><xsl:value-of select="name" /></a>
-			<ul>
-				<xsl:apply-templates select="users" />
-			</ul>
+			<div>
+				<a href="{$context.path}blocks/mindquarry-workspace-block/browser/{id}/"><xsl:value-of select="name" /></a>
+				<ul>
+					<xsl:apply-templates select="users" />
+				</ul>
+				<a href="{id}/editMembers/" class="add_member_button">Add Members</a>
+			</div>
 		</li>
 	</xsl:template>
 	<xsl:template match="user" >

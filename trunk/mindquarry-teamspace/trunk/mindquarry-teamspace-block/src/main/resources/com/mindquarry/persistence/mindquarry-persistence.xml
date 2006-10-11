@@ -21,6 +21,16 @@
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
+		<key>getMembersForTeamspace</key>
+		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference='{$teamspaceId}']</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getNonMembersForTeamspace</key>
+		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference!='{$teamspaceId}']</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
 		<key>getTeamspaceById</key>
 		<query>/teamspaces/{$id}</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>

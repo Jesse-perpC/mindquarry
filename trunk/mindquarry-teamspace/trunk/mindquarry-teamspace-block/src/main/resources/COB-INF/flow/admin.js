@@ -1,3 +1,7 @@
+/*
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
+ */
+ 
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
 var model_;
@@ -10,7 +14,7 @@ function manageProjects(form) {
 	form.showForm("admin.instance");
 	
 	var projectname = model_.newprojectname;
-	teamspaceAdmin_.create(projectname);
+	teamspaceAdmin_.createTeamspace(projectname);
 	
 	cocoon.redirectTo("", false);
 }
@@ -45,7 +49,7 @@ function deleteProjects(event) {
 		//if either the button was clicked or the checkbox selected
 		if (event.source==button||(checkbox!=null&&checkbox.value==true)) {
 			print("delete " + list.get(i).name);
-			teamspaceAdmin_.remove(list.get(i).name);
+			teamspaceAdmin_.removeTeamspace(list.get(i).name);
 		}
 	}
 }
