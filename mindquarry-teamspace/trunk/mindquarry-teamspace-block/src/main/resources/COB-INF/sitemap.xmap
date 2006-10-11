@@ -13,7 +13,8 @@
 	
 	<map:flow language="javascript">
 		<map:script src="flow/admin.js" />
-    	<map:script src="flow/teamspace-view.js"/>
+    	<map:script src="flow/teamspaces-view.js"/>
+    	<map:script src="flow/edit-members.js"/>
 	</map:flow>
 	
 	<map:resources>
@@ -36,6 +37,9 @@
 			<map:match pattern="resources/images/*.png">
 				<map:read
 					src="resource://com/mindquarry/teamspace/images/{1}.png" />
+			</map:match>			
+			<map:match pattern="resources/buttons/*.*">
+				<map:read src="resource://com/mindquarry/teamspace/buttons/{1}_button.{2}" />
 			</map:match>
 		</map:pipeline>
 		
@@ -50,6 +54,19 @@
 					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
 				</map:transform>
 				<map:call resource="layouting" />
+			</map:match>
+		</map:pipeline>
+		
+		<!-- use noncaching pipeline -->
+		<map:pipeline type="noncaching">
+			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/$">
+				<map:call function="editMembers">
+					<map:parameter name="teamspaceId" value="{1}"/>
+				</map:call>
+			</map:match>
+			<map:match pattern="views/membersView">
+				<map:generate src="members.jx" type="jx" />
+				<map:serialize type="xhtml"/>
 			</map:match>
 		</map:pipeline>
 
@@ -78,13 +95,15 @@
 						value="{request:contextPath}/_cocoon/resources" />
 				</map:transform>
 				<map:call resource="layouting" />
-			</map:match>
-
+			</map:match>			
+		</map:pipeline>
+		
+		<map:pipeline>
 			<!-- Continue a scenario. The continuation id is passed in the URL
 				(typically used for GET requests) -->
-			<map:match pattern="*.continue">
+			<map:match pattern="**/*.continue">
 				<map:act type="setnohttpcache" />
-				<map:call continuation="{1}" />
+				<map:call continuation="{2}" />
 			</map:match>
 		</map:pipeline>
 

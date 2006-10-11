@@ -42,7 +42,7 @@
 					</webAppSourceDirectory>
 					<contextPath>/</contextPath>
 					<classesDirectory>${basedir}/src/main/resources</classesDirectory>
-					<scanIntervalSeconds>10</scanIntervalSeconds>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
 				</configuration>
 			</plugin>
 		</plugins>
