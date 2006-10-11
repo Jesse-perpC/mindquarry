@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 
+import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
 import com.mindquarry.teamspace.TeamspaceRO;
@@ -73,15 +74,24 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         TeamspaceRO teamspace = admin.createTeamspace(
                 teamspaceId, "Mindquarry Teamspace", "a greate description");
         
-        admin.addUserToTeamspace(user, teamspace);
+        Membership membership = admin.membership(teamspace);
+        membership.newMembers.add(user);
         
-        List<TeamspaceRO> teamspaces = admin.teamspacesForUser(userId);
-        assertEquals(1, teamspaces.size());
-        assertEquals(teamspaceId, teamspaces.get(0).getId());
+        admin.updateMembership(membership);
         
-        List<UserRO> users = teamspaces.get(0).getUsers();
-        assertEquals(1, users.size());
-        assertEquals(userId, users.get(0).getId());
+        
+        Membership updatedMembership = admin.membership(teamspace);
+        assertEquals(1, updatedMembership.members.size());
+        assertEquals(1, updatedMembership.newMembers.size());
+        assertEquals(0, updatedMembership.nonMembers.size());
+        
+        updatedMembership.newMembers.remove(0);
+        admin.updateMembership(updatedMembership);
+        
+        Membership originalMembership = admin.membership(teamspace);
+        assertEquals(0, originalMembership.members.size());
+        assertEquals(0, originalMembership.newMembers.size());
+        assertEquals(0, updatedMembership.nonMembers.size());
     }
     
     private TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {

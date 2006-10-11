@@ -21,7 +21,7 @@
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
-		<key>getUsersForTeamspace</key>
+		<key>getMembersForTeamspace</key>
 		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference='{$teamspaceId}']</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
 	</queryInfo>

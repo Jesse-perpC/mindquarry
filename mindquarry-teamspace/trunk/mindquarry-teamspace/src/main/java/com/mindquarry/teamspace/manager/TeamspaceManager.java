@@ -4,12 +4,9 @@
 package com.mindquarry.teamspace.manager;
 
 import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -22,6 +19,8 @@ import org.apache.avalon.framework.service.Serviceable;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.teamspace.Membership;
+import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.teamspace.UserRO;
@@ -111,17 +110,10 @@ class TeamspaceManager implements TeamspaceAdmin,
         
         List<Object> queriedTeamspaces = session.query(
                 "getAllTeamspaces", new Object[0]);
-        
-        Map<String, Set<UserRO>> userMap = loadUserMap();
-        
+                
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
-        for (Object teamspaceObj : queriedTeamspaces) {
-            
+        for (Object teamspaceObj : queriedTeamspaces) {            
             TeamspaceEntity teamspace = (TeamspaceEntity) teamspaceObj;
-            if (userMap.containsKey(teamspace.getId())) {
-                Set<UserRO> users = queryUsersForTeamspace(teamspace); //userMap.get(teamspace.getId());
-                teamspace.setUsers(users);                
-            }
             result.add(teamspace);
         }
         
@@ -129,19 +121,17 @@ class TeamspaceManager implements TeamspaceAdmin,
         return result;
     }
 
-    public List<TeamspaceRO> teamspacesForUser(String userId) {
+    public List<Teamspace> teamspacesForUser(String userId) {
         Session session = currentSession();
         UserEntity user = queryUserById(session, userId);
-        
-        Map<String, Set<UserRO>> userMap = loadUserMap();        
-        List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
+              
+        List<Teamspace> result = new LinkedList<Teamspace>();
 
         for (String teamRef : user.getTeamspaceReferences()) {
             TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
-            if (userMap.containsKey(teamspace.getId())) {
-                Set<UserRO> users = queryUsersForTeamspace(teamspace);
-                teamspace.setUsers(users);                
-            }
+            List<UserRO> users = queryMembersForTeamspace(
+                    session, teamspace);
+            teamspace.setUsers(users);
             result.add(teamspace);
         }
         
@@ -149,35 +139,20 @@ class TeamspaceManager implements TeamspaceAdmin,
         return result;
     } 
 
-    private Map<String, Set<UserRO>> loadUserMap() {
+    private List<UserRO> queryMembersForTeamspace(
+            Session session, TeamspaceRO teamspace) {
         
-        Session session = currentSession();
-        
-        List<Object> queriedUsers = session.query("getAllUsers", new Object[0]);
-        
-        Map<String, Set<UserRO>> userMap = new HashMap<String, Set<UserRO>>();
-        
-        for (Object userObj: queriedUsers) {
-            UserRO user = (UserRO) userObj;
-            for (String teamspaceId : user.getTeamspaceReferences()) {
-                
-                if (! userMap.containsKey(teamspaceId))
-                    userMap.put(teamspaceId, new HashSet<UserRO>());
-                    
-                userMap.get(teamspaceId).add(user);
-            }
-        }
-        return userMap;
+        return queryUsersForTeamspace(
+                "getMembersForTeamspace", session, teamspace);
     }
 
-    private Set<UserRO> queryUsersForTeamspace(TeamspaceRO teamspace) {
-        
-        Session session = currentSession();
+    private List<UserRO> queryUsersForTeamspace(
+            String queryKey, Session session, TeamspaceRO teamspace) {
         
         List<Object> queryResult = session.query(
-                "getUsersForTeamspace", new String[] {teamspace.getId()});
+                queryKey, new String[] {teamspace.getId()});
         
-        Set<UserRO> result = new HashSet<UserRO>();
+        List<UserRO> result = new LinkedList<UserRO>();
         
         for (Object userObj: queryResult) {
             UserRO user = (UserRO) userObj;
@@ -240,17 +215,72 @@ class TeamspaceManager implements TeamspaceAdmin,
         return sessionFactory_.currentSession();
     }
 
-    public void addUserToTeamspace(UserRO user, TeamspaceRO teamspace) {
+    public TeamspaceRO teamspaceForId(String teamspaceId) {
+        Session session = currentSession();
+        return queryTeamspaceById(session, teamspaceId);
+    }
+
+    public Membership membership(TeamspaceRO teamspace) {
+        List<UserRO> users = allUsers();
+        List<UserRO> members = new LinkedList<UserRO>();
+        List<UserRO> nonMembers = new LinkedList<UserRO>();
+        
+        for (UserRO user : users) {
+            if (user.isMemberOf(teamspace))
+                members.add(user);
+            else
+                nonMembers.add(user);
+        }
+        
+        return new Membership(teamspace, 
+                Collections.unmodifiableList(members), 
+                Collections.unmodifiableList(nonMembers));
+    }
+
+    public void updateMembership(Membership membership) {
+
+        List<UserRO> updatedUsers = new LinkedList<UserRO>();
+        
+        // check old members for removal from teamspace
+        for (UserRO user : membership.members) {            
+            if (! membership.newMembers.contains(user)) {                
+                removeUserFromTeamspace(user, membership.teamspace);                
+                updatedUsers.add(user);
+            }
+        }
+        
+        // check new members for adding to teamspae 
+        for (UserRO user : membership.newMembers) {
+            if (! membership.members.contains(user)) {
+                addUserToTeamspace(user, membership.teamspace);
+                updatedUsers.add(user);
+            }
+        }
+        
+        Session session = currentSession();
+        for (UserRO updatedUser : updatedUsers) {
+            session.update(updatedUser);
+        }
+        session.commit();
+    }
+    
+    private void removeUserFromTeamspace(
+            UserRO user, TeamspaceRO teamspace) {
+        
         UserEntity userEntity = (UserEntity) user;
         TeamspaceEntity teamspaceEntity = (TeamspaceEntity) teamspace;
         
-        userEntity.addTeamspaceReference(teamspace);
-        teamspaceEntity.addUser(user);
+        userEntity.teamspaceReferences.remove(teamspace.getId());
+        teamspaceEntity.users.remove(user);
+    }
+    
+    private void addUserToTeamspace(
+            UserRO user, TeamspaceRO teamspace) {
         
-        Session session = currentSession();
-        session.update(userEntity);
-        session.update(teamspaceEntity);
+        UserEntity userEntity = (UserEntity) user;
+        TeamspaceEntity teamspaceEntity = (TeamspaceEntity) teamspace;
         
-        session.commit();
+        userEntity.teamspaceReferences.add(teamspace.getId());
+        teamspaceEntity.users.add(user);
     }
 }

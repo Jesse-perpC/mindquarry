@@ -4,10 +4,8 @@
 package com.mindquarry.teamspace.manager;
 
 import java.util.Collections;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.Teamspace;
@@ -25,7 +23,7 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
     private String name;
     private String description;
     private String workspaceUri;
-    private Set<UserRO> users;
+    List<UserRO> users;
 
     
     /**
@@ -36,7 +34,7 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
         this.name = "".intern();
         this.description = "".intern();
         this.workspaceUri = "".intern();
-        this.users = new HashSet<UserRO>();
+        this.users = new LinkedList<UserRO>();
     }
 
     /**
@@ -46,7 +44,7 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
      * @param workspaceUri
      */
     public TeamspaceEntity(String id, String name, String description, 
-            String workspaceUri, Set<UserRO> users) {
+            String workspaceUri, List<UserRO> users) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -100,11 +98,7 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
         return Collections.unmodifiableList(userList);
     }
     
-    void setUsers(Set<UserRO> value) {
+    void setUsers(List<UserRO> value) {
         this.users = value;
-    }
-    
-    void addUser(UserRO user) {
-        this.users.add(user);
     }
 }

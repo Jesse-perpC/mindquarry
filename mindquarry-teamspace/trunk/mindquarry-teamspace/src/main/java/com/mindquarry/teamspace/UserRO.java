@@ -34,4 +34,8 @@ public interface UserRO {
      */
     Set<String> getTeamspaceReferences();
 
+    /**
+     * determines if this user is a member of the specified teamspace
+     */
+    boolean isMemberOf(TeamspaceRO teamspace);
 }
