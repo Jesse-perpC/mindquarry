@@ -21,6 +21,11 @@
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.types</groupId>
+			<artifactId>xmlbeans-persistence-config</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.types</groupId>
 			<artifactId>conversation-types</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>test</scope>
