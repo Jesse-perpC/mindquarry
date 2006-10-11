@@ -19,11 +19,29 @@ public interface TeamspaceQuery {
 	 */
 	String workspaceUri(String id);
     
+    /**
+     * return the list of all teamspaces;
+     * each teamspace in the list contains basic description information
+     */
     List<TeamspaceRO> allTeamspaces();
     
-    List<TeamspaceRO> teamspacesForUser(String userId);
+    /**
+     * return the list of all teamspaces the user participates in;
+     * each teamspace in the result list contains also
+     * a list of all participating users. 
+     */
+    List<Teamspace> teamspacesForUser(String userId);
     
     List<UserRO> allUsers();
     
-    void addUserToTeamspace(UserRO user, TeamspaceRO teamspace);
+    TeamspaceRO teamspaceForId(String teamspaceId);
+    
+    Membership membership(TeamspaceRO teamspace);
+    
+    /**
+     * update the current members of a teamspace
+     * @param membership, contains lists of up to date members 
+     * and users that should be members after update
+     */
+    void updateMembership(Membership membership);
 }

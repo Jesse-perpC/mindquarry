@@ -11,7 +11,7 @@ public class UserEntity extends EntityBase implements User {
     
     private String name;
     
-    private Set<String> teamspaceReferences;
+    Set<String> teamspaceReferences;
 
 
     /**
@@ -53,11 +53,10 @@ public class UserEntity extends EntityBase implements User {
         this.teamspaceReferences = teamspaces;
     }
 
-    public void addTeamspaceReference(TeamspaceRO teamspace) {
-        this.teamspaceReferences.add(teamspace.getId());
-    }
-
-    public void removeTeamspaceReference(TeamspaceRO teamspace) {
-        this.teamspaceReferences.remove(teamspace.getId());
+    /**
+     * @see com.mindquarry.teamspace.UserRO#isMemberOf(com.mindquarry.teamspace.TeamspaceRO)
+     */
+    public boolean isMemberOf(TeamspaceRO teamspace) {
+        return teamspaceReferences.contains(teamspace.getId());
     }
 }
