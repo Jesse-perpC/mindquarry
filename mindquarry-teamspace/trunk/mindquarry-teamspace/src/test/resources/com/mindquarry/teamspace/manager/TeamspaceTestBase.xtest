@@ -51,8 +51,7 @@
 				
 			<component-instance name="jcr"
 				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
-				login="alexander.saar" password="mypwd"
-				rmi="rmi://localhost:1099/jackrabbit">
+				login="alexander.saar" password="mypwd">
 				<mappings>
 					<mapping prefix="user"
 						namespace="http://www.mindquarry.com/ns/schema/user" />
