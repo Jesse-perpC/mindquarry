@@ -19,7 +19,6 @@ import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 
-import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
@@ -56,7 +55,7 @@ import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
  *         Saar</a>
  */
 public class JCRSourceFactory implements ThreadSafe, SourceFactory,
-        Configurable, Serviceable, Initializable {
+        Configurable, Serviceable {
     /**
      * The reference to the JCR Repository to use as interface.
      */
@@ -112,18 +111,6 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      */
     public void configure(Configuration config) throws ConfigurationException {
         this.config = config;
-    }
-
-    // =========================================================================
-    // Initializable interface
-    // =========================================================================
-
-    /**
-     * Initializes namespace mappings.
-     * 
-     * @see org.apache.avalon.framework.activity.Initializable#initialize()
-     */
-    public void initialize() throws Exception {
         if (null == JCRSourceFactory.configuredMappings) {
             JCRSourceFactory.configuredMappings = new HashMap<String, String>();
 
