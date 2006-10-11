@@ -164,12 +164,7 @@ class CastorSession extends AbstractLogEnabled implements Session {
     private void writeToSource(EntityBase entity, ModifiableSource source) {
         
         OutputStreamWriter sourceWriter = null;
-        try {
-            OutputStreamWriter consoleWriter = new OutputStreamWriter(System.out);
-            Marshaller consoleMarshaller = new Marshaller(consoleWriter);
-            consoleMarshaller.setMapping(mapping_);
-            consoleMarshaller.marshal(entity);
-            
+        try {            
             sourceWriter = new OutputStreamWriter(source.getOutputStream());
             
             Marshaller marshaller = new Marshaller(sourceWriter);
