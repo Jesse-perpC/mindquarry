@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <usr:user 
 	xmlns:usr="http://www.mindquarry.com/ns/schema/user">
-
 	<id>bastian</id>
 	<name>Bastian</name>
 	<teamspace-references>

@@ -137,7 +137,7 @@ public class CommandLine {
             DefaultConfiguration mappingConfig = 
                 new DefaultConfiguration("mapping");
             mappingConfig.setAttribute("prefix", prefix);
-            mappingConfig.setAttribute("namespace", "");
+            mappingConfig.setAttribute("namespace", mappings.get(prefix));
             allMappingsConfig.addChild(mappingConfig);
         }
 
