@@ -55,12 +55,28 @@ public class PersistenceConfiguration extends AbstractLogEnabled
         return entityMap_.get(entityClazz).getPath();
     }
     
+    /**
+     * @param queryKey, specified mindquarry-persistence configuration file
+     * @return the query string if a query with the key is configured
+     *         otherwise null
+     */
     public String query(String queryKey) {
-        return queryInfoMap_.get(queryKey).getQuery();
+        if (queryInfoMap_.containsKey(queryKey))
+            return queryInfoMap_.get(queryKey).getQuery();
+        else
+            return null;
     }
     
+    /**
+     * @param queryKey, specified mindquarry-persistence configuration file
+     * @return the class of query result entities 
+     *         if a query with the key is configured otherwise null
+     */
     public String queryResultClass(String queryKey) {
-        return queryInfoMap_.get(queryKey).getResultEntityClass();
+        if (queryInfoMap_.containsKey(queryKey))
+            return queryInfoMap_.get(queryKey).getResultEntityClass();
+        else 
+            return null;
     }
     
     public Collection<Class> entityClazzes() {
