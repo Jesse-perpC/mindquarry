@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>pom</packaging>
+
+  <artifactId>mindquarry-buildall</artifactId>
+  <name>Mindquarry Build All Pom</name>
+  <description>
+    Builds all Mindquarry projects
+  </description>
+
+  <parent>
+  	<groupId>com.mindquarry</groupId>
+  	<artifactId>mindquarry</artifactId>
+  	<version>1</version>
+  </parent>
+
+  <modules>
+    <!-- common stuff to be used by all modules -->
+    <module>mindquarry-common</module>
+    <!-- persistence layer -->
+    <module>../mindquarry-types</module>
+    <module>../mindquarry-jcr</module>
+    <!-- the central module for deploying the cocoon based webapp -->
+    <module>../mindquarry-webapp</module>
+    <!-- our cocoon blocks -->
+    <module>../mindquarry-workspace-web</module>
+    <!-- helper/business logic libs -->
+    <module>../mindquarry-teamspace</module>
+    <module>../mindquarry-dma-client</module>
+  </modules>
+</project>
