@@ -12,9 +12,9 @@
 	</map:components>
 	
 	<map:flow language="javascript">
-		<map:script src="flow/admin.js" />
-    	<map:script src="flow/teamspaces-view.js"/>
-    	<map:script src="flow/edit-members.js"/>
+		<map:script src="flows/admin.js" />
+         <map:script src="flows/teamspaces-view.js"/>
+    	<map:script src="flows/edit-members.js"/>
 	</map:flow>
 	
 	<map:resources>
