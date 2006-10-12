@@ -39,8 +39,24 @@ a.add_member_button {
 	display: block;
 	width: 152px;
 	height: 32px;
-	margin-left: auto;
-	margin-right: auto;
+/*	margin-left: auto;
+	margin-right: auto;*/
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 12pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+a.project_details_button {
+	background-image: url(../../resources/buttons/project_details.gif);
+	display: block;
+	width: 152px;
+	height: 32px;
+/*	margin-left: auto;
+	margin-right: auto;*/
 	text-decoration: none;
 	text-align: center;
 	color: white;

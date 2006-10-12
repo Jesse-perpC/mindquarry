@@ -26,6 +26,10 @@
 	<xsl:template match="teamspace">
 		<li>
 			<div class="nifty">
+				<a href="{normalize-space(id)}/editMembers/" class="project_details_button"></a>
+				
+				<img src="test.png" />
+				
 				<a
 					href="{$context.path}blocks/mindquarry-workspace-block/browser/{normalize-space(id)}/">
 					<xsl:value-of select="name" />
