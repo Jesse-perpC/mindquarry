@@ -2,14 +2,22 @@
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
 	<html>
 		<head>
-			<title>Teamspace: <jx:out value="${teamspace.name}" /></title>
-			<link rel="stylesheet" href="resources/css/teamspace.css" type="text/css" />
+			<title>
+				Teamspace:
+				<jx:out value="${teamspace.name}" />
+			</title>
+			<link rel="stylesheet" href="resources/css/teamspace.css"
+				type="text/css" />
 		</head>
 		<body>
 			<h1>Edit Team Members</h1>
-			<div>		
-				<p><jx:out value="${teamspace.name}" /></p>
-				<a href="${cocoon.continuation.id}.continue">add or remove test link</a>
+			<div>
+				<p>
+					<jx:out value="${teamspace.name}" />
+				</p>
+				<a href="${cocoon.continuation.id}.continue">
+					add or remove test link
+				</a>
 			</div>
 			<div>
 				<h3>Members</h3>

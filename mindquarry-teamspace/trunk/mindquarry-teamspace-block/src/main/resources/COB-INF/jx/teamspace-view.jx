@@ -3,12 +3,19 @@
 	<teamspaces>
 		<jx:forEach var="teamspace" items="${teamspaces}">
 			<teamspace>
-				<id><jx:out value="${teamspace.id}" /></id>
-				<name><jx:out value="${teamspace.name}" /></name>
+				<id>
+					<jx:out value="${teamspace.id}" />
+				</id>
+				<name>
+					<jx:out value="${teamspace.name}" />
+				</name>
 				<users>
 					<user>
-						<jx:forEach var="user" items="${teamspace.users}">
-							<name><jx:out value="${user.name}" /></name>
+						<jx:forEach var="user"
+							items="${teamspace.users}">
+							<name>
+								<jx:out value="${user.name}" />
+							</name>
 						</jx:forEach>
 					</user>
 				</users>
