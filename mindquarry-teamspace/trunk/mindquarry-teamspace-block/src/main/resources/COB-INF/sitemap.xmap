@@ -49,7 +49,7 @@
 				<map:call function="listTeamspacesForUser" />
 			</map:match>
 			<map:match pattern="views/teamspaceView">
-				<map:generate src="teamspace-view.jx" type="jx" />
+				<map:generate src="jx/teamspace-view.jx" type="jx" />
 				<map:transform src="xslt/teamspaces2html.xsl">
 					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
 				</map:transform>
@@ -65,7 +65,7 @@
 				</map:call>
 			</map:match>
 			<map:match pattern="views/membersView">
-				<map:generate src="members.jx" type="jx" />
+				<map:generate src="jx/members.jx" type="jx" />
 				<map:serialize type="xhtml"/>
 			</map:match>
 		</map:pipeline>
