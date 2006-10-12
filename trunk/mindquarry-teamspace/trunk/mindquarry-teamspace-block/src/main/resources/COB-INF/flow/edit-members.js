@@ -16,7 +16,7 @@ function editMembers() {
 		print("show members");
 		cocoon.sendPageAndWait("views/membersView", 
 							{ "teamspace" : editedTeamspace
-							 ,"members" : membership.newMembers
-							 ,"nonMembers" : membership.nonMembers } );
+							 ,"members" : membership.getMembers()
+							 ,"nonMembers" : membership.getNonMembers() } );
 	}
 }
