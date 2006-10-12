@@ -9,7 +9,7 @@
 
 	<parent>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<artifactId>mindquarry-teamspace-web</artifactId>
+		<artifactId>mindquarry-teamspace-root</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
