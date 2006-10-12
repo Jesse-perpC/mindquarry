@@ -68,30 +68,30 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        UserRO user = admin.createUser(userId, "Mindquarry User");
+        admin.createUser(userId, "Mindquarry User");
         
         String teamspaceId = "mindquarry-teamspace";
         TeamspaceRO teamspace = admin.createTeamspace(
                 teamspaceId, "Mindquarry Teamspace", "a greate description");
         
         Membership membership = admin.membership(teamspace);
-        membership.newMembers.add(user);
+        UserRO nonMember = membership.getNonMembers().get(0);
+        membership.addMember(nonMember);
         
         admin.updateMembership(membership);
         
         
         Membership updatedMembership = admin.membership(teamspace);
-        assertEquals(1, updatedMembership.members.size());
-        assertEquals(1, updatedMembership.newMembers.size());
-        assertEquals(0, updatedMembership.nonMembers.size());
+        assertEquals(1, updatedMembership.getMembers().size());
+        assertEquals(0, updatedMembership.getNonMembers().size());
         
-        updatedMembership.newMembers.remove(0);
+        UserRO newMember = updatedMembership.getMembers().get(0);
+        updatedMembership.removeMember(newMember);
         admin.updateMembership(updatedMembership);
         
         Membership originalMembership = admin.membership(teamspace);
-        assertEquals(0, originalMembership.members.size());
-        assertEquals(0, originalMembership.newMembers.size());
-        assertEquals(0, updatedMembership.nonMembers.size());
+        assertEquals(0, originalMembership.getMembers().size());
+        assertEquals(1, updatedMembership.getNonMembers().size());
     }
     
     private TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {

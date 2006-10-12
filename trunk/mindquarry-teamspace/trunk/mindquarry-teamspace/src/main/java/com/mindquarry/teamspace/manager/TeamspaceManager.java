@@ -4,9 +4,10 @@
 package com.mindquarry.teamspace.manager;
 
 import java.io.File;
-import java.util.Collections;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
@@ -222,8 +223,8 @@ class TeamspaceManager implements TeamspaceAdmin,
 
     public Membership membership(TeamspaceRO teamspace) {
         List<UserRO> users = allUsers();
-        List<UserRO> members = new LinkedList<UserRO>();
-        List<UserRO> nonMembers = new LinkedList<UserRO>();
+        Set<UserRO> members = new HashSet<UserRO>();
+        Set<UserRO> nonMembers = new HashSet<UserRO>();
         
         for (UserRO user : users) {
             if (user.isMemberOf(teamspace))
@@ -232,29 +233,23 @@ class TeamspaceManager implements TeamspaceAdmin,
                 nonMembers.add(user);
         }
         
-        return new Membership(teamspace, 
-                Collections.unmodifiableList(members), 
-                Collections.unmodifiableList(nonMembers));
+        return new Membership(teamspace, members, nonMembers);
     }
 
     public void updateMembership(Membership membership) {
 
         List<UserRO> updatedUsers = new LinkedList<UserRO>();
         
-        // check old members for removal from teamspace
-        for (UserRO user : membership.members) {            
-            if (! membership.newMembers.contains(user)) {                
-                removeUserFromTeamspace(user, membership.teamspace);                
-                updatedUsers.add(user);
-            }
+        // check old members for removal from teamspace        
+        for (UserRO user : membership.getRemovedMembers()) {            
+            removeUserFromTeamspace(user, membership.teamspace);                
+            updatedUsers.add(user);
         }
         
         // check new members for adding to teamspae 
-        for (UserRO user : membership.newMembers) {
-            if (! membership.members.contains(user)) {
-                addUserToTeamspace(user, membership.teamspace);
-                updatedUsers.add(user);
-            }
+        for (UserRO user : membership.getAddedMembers()) {
+            addUserToTeamspace(user, membership.teamspace);
+            updatedUsers.add(user);
         }
         
         Session session = currentSession();
