@@ -4,9 +4,9 @@
 			<fd:label>user ID</fd:label>
 			<fd:datatype base="string"></fd:datatype>
 			<fd:validation>
-				<fd:regexp pattern="[a-z]{5,}">
+				<fd:regexp pattern="[a-z]{3,}">
 					<fd:failmessage>
-						invalid user id; it must contains (at least 5)
+						invalid user id; it must contains (at least 3)
 						lower case letters
 					</fd:failmessage>
 				</fd:regexp>
