@@ -11,6 +11,8 @@ public class UserEntity extends EntityBase implements User {
     
     private String name;
     
+    private String email;
+    
     Set<String> teamspaceReferences;
 
 
@@ -58,5 +60,23 @@ public class UserEntity extends EntityBase implements User {
      */
     public boolean isMemberOf(TeamspaceRO teamspace) {
         return teamspaceReferences.contains(teamspace.getId());
+    }
+
+    /**
+     * Getter for email.
+     *
+     * @return the email
+     */
+    public String getEmail() {
+        return email;
+    }
+
+    /**
+     * Setter for email.
+     *
+     * @param email the email to set
+     */
+    public void setEmail(String email) {
+        this.email = email;
     }
 }

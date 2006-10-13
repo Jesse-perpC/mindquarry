@@ -14,7 +14,7 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
 	
 	void removeTeamspace(String id);
     
-	UserRO createUser(String id, String name);
+	UserRO createUser(String id, String name, String email);
     
     void removeUser(String id);
 }

@@ -124,7 +124,7 @@ class TeamspaceManager implements TeamspaceAdmin,
 
     public List<Teamspace> teamspacesForUser(String userId) {
         Session session = currentSession();
-        UserEntity user = queryUserById(session, userId);
+        UserRO user = queryUserById(session, userId);
               
         List<Teamspace> result = new LinkedList<Teamspace>();
 
@@ -162,10 +162,11 @@ class TeamspaceManager implements TeamspaceAdmin,
         return result;
     }
 
-    public UserRO createUser(String id, String name) {
+    public UserRO createUser(String id, String name, String email) {
         UserEntity user = new UserEntity();
         user.setId(id);
         user.setName(name);
+        user.setEmail(email);
         Session session = currentSession();
         session.persist(user);
         session.commit();
@@ -199,9 +200,9 @@ class TeamspaceManager implements TeamspaceAdmin,
         return (TeamspaceEntity) queryResult.get(0);
     }
     
-    private UserEntity queryUserById(Session session, String id) {
+    private UserRO queryUserById(Session session, String id) {
         List queryResult = session.query("getUserById", new Object[] {id});
-        return (UserEntity) queryResult.get(0);
+        return (UserRO) queryResult.get(0);
     }
 
     public String workspaceUri(String id) {

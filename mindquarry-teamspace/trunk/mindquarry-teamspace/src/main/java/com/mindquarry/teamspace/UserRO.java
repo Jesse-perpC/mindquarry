@@ -38,4 +38,11 @@ public interface UserRO {
      * determines if this user is a member of the specified teamspace
      */
     boolean isMemberOf(TeamspaceRO teamspace);
+
+    /**
+     * Getter for email.
+     *
+     * @return the email
+     */
+    String getEmail();
 }
