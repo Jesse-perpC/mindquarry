@@ -39,5 +39,16 @@
 				</fd:row-action>
 			</fd:widgets>
 		</fd:repeater>
+		
+		<fd:submit id="ok">
+			<fd:label>ok</fd:label>
+			<fd:on-action>
+				<fd:javascript>saveMembershipChanges(event);</fd:javascript>
+			</fd:on-action>
+		</fd:submit>
+		
+		<fd:submit id="cancel" validate="false">
+			<fd:label>cancel</fd:label>
+		</fd:submit>
 	</fd:widgets>
 </fd:form>
