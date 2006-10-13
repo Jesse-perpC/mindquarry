@@ -10,14 +10,14 @@
 					<jx:out value="${teamspace.name}" />
 				</name>
 				<users>
-					<user>
-						<jx:forEach var="user"
+					<jx:forEach var="user"
 							items="${teamspace.users}">
+						<user>
 							<name>
 								<jx:out value="${user.name}" />
 							</name>
-						</jx:forEach>
-					</user>
+						</user>
+					</jx:forEach>
 				</users>
 			</teamspace>
 		</jx:forEach>
