@@ -24,6 +24,10 @@
 			<map:serialize type="xml"/>
 		</map:view>
 		
+		<map:view name="form" from-label="form">
+			<map:serialize type="xml"/>
+		</map:view>
+		
 	</map:views>
 
 	<map:flow language="javascript">
@@ -35,10 +39,16 @@
 	
 	<map:resources>
 		<map:resource name="layouting">	        
-        	<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+         	<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
         		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
         	</map:transform>
         	<map:serialize type="xhtml"/>
+		</map:resource>
+		
+		<map:resource name="form2html">
+			<map:transform src="xslt/forms/form2html.xsl" label="form">
+				<map:parameter name="pathInfo" value="{request:pathInfo}" />
+			</map:transform>
 		</map:resource>
 	</map:resources>
 	
@@ -50,6 +60,10 @@
 			<map:match pattern="resources/css/*.css">
 				<map:read
 					src="resource://com/mindquarry/teamspace/css/{1}.css" />
+			</map:match>
+			<map:match pattern="resources/scripts/*.js">
+				<map:read
+					src="resource://com/mindquarry/teamspace/scripts/{1}.js" />
 			</map:match>
 			<map:match pattern="resources/images/*.*">
 				<map:read
@@ -80,7 +94,8 @@
 					<map:parameter name="pathInfo"
 						value="{request:pathInfo}" />
 				</map:transform>
-				<map:call resource="layouting" />
+   				<map:call resource="form2html" />
+ 				<map:call resource="layouting" />
 			</map:match>
 		</map:pipeline>
 		
@@ -94,6 +109,12 @@
 						value="forms/edit-members-form.xml" />
 					<map:parameter name="teamspaceId" value="{1}"/>
 				</map:call>
+			</map:match>
+			
+			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/lightbox/$">
+				<map:generate src="cocoon:/{1}/editMembers/" />
+				<map:transform src="xslt/editMembers2lightbox.xsl" />
+				<map:serialize type="xml" />
 			</map:match>
 		</map:pipeline>
 		
@@ -131,10 +152,7 @@
 					<map:parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</map:generate>
-
-				<map:transform src="xslt/forms/form2html.xsl">
-					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
-				</map:transform>
+				<map:call resource="form2html" />
 				<map:serialize type="html" />
 			</map:match>
 			
@@ -144,9 +162,7 @@
 						value="{flow-attribute:locale}" />
 				</map:generate>
 
-				<map:transform src="xslt/forms/form2html.xsl">
-					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
-				</map:transform>				
+				<map:call resource="form2html" />				
 				<map:call resource="layouting" />
 			</map:match>
 			

@@ -1,16 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsl:stylesheet version="1.0" xmlns="http://www.w3.org/1999/xhtml"
+<xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:import
 		href="resource://com/mindquarry/webapp/xsl/contextpath.xsl" />
 
 	<xsl:template match="/teamspaces">
-		<html xmlns="http://www.w3.org/1999/xhtml">
+		<html>
 			<head>
 				<title>Teamspaces</title>
 				<link rel="stylesheet"
 					href="resources/css/teamspace.css" type="text/css" />
+				<link rel="stylesheet" href="resources/css/screen.css" 
+					media="screen,projection" type="text/css" />
+					
+				<script type="text/javascript" 
+					src="resources/scripts/prototype.js">//</script>
+				<script type="text/javascript" 
+					src="resources/scripts/lightbox.js" >//</script>
 			</head>
 			<body>
 				<h1>Manage Your Teams</h1>
@@ -26,7 +33,7 @@
 	<xsl:template match="teamspace">
 		<li>
 			<div class="nifty">
-				<a href="{normalize-space(id)}/editMembers/" class="project_details_button"></a>
+				<a href="#" class="project_details_button"></a>
 				
 				<a
 					href="{$context.path}blocks/mindquarry-workspace-block/browser/{normalize-space(id)}/">
@@ -37,8 +44,11 @@
 						<xsl:apply-templates select="users" />
 					</ul>
 				</xsl:if>
+				<a href="{normalize-space(id)}/editMembers/lightbox/" rel="lightbox" class="lbOn add_member_button">
+					Edit Members
+				</a>
 				<a href="{normalize-space(id)}/editMembers/" class="add_member_button">
-					Add Members
+					Edit Members
 				</a>
 			</div>
 		</li>

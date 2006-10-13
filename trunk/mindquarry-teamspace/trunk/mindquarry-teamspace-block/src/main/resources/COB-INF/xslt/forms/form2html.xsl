@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="fi">
 
 	<xsl:import
