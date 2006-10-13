@@ -20,7 +20,7 @@ function manageProjects(form) {
 }
 
 function populateModel() {
-	var list = teamspaceAdmin_.list();
+	var list = teamspaceAdmin_.allTeamspaces();
 	for (var i=0;i<list.size();i++) {
 		model_.projects[i].name = list.get(i).name;
 	}

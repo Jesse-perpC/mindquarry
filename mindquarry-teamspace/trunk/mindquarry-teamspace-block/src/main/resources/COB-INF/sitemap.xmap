@@ -28,20 +28,20 @@
 
 	<map:flow language="javascript">
 		<map:script src="flows/admin.js" />
-		<map:script src="flows/teamspaces-view.js" />
-		<map:script src="flows/edit-members.js" />
+		<map:script src="flows/create-user.js" />
+		<map:script src="flows/teamspaces-view.js"/>
+		<map:script src="flows/edit-members.js"/>
 	</map:flow>
-
+	
 	<map:resources>
-		<map:resource name="layouting">
-			<map:transform
-				src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
-				<map:parameter name="pathInfo"
-					value="{request:pathInfo}" />
-			</map:transform>
-			<map:serialize type="xhtml" />
+		<map:resource name="layouting">	        
+        	<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+        	</map:transform>
+        	<map:serialize type="xhtml"/>
 		</map:resource>
 	</map:resources>
+	
 
 	<map:pipelines>
 
@@ -61,6 +61,14 @@
 			</map:match>
 		</map:pipeline>
 
+		<!-- user pipeline / use noncaching for debugging -->
+		<map:pipeline type="noncaching">
+			<map:match type="regexp" pattern="([a-z]+).png">
+				<map:read
+					src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
+			</map:match>
+		</map:pipeline>
+		
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="">
@@ -72,24 +80,35 @@
 					<map:parameter name="pathInfo"
 						value="{request:pathInfo}" />
 				</map:transform>
-
 				<map:call resource="layouting" />
-
 			</map:match>
 		</map:pipeline>
-
+		
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
-			<map:match type="regexp"
-				pattern="([a-z\-]+)/editMembers/$">
-				<map:call function="editMembers">
-					<map:parameter name="teamspaceId" value="{1}" />
+			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/$">
+				<map:call function="handleForm">
+					<map:parameter name="function"
+						value="editMembers" />
+					<map:parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<map:parameter name="teamspaceId" value="{1}"/>
 				</map:call>
 			</map:match>
-			<map:match pattern="views/membersView">
-				<map:generate src="jx/members.jx" type="jx" />
-				<map:serialize type="xhtml" />
-			</map:match>
+		</map:pipeline>
+		
+		<!-- use noncaching pipeline -->
+		<map:pipeline type="noncaching">
+
+			<!-- repository listing -->
+			<map:match pattern="createUser">
+				<map:call function="handleForm">
+					<map:parameter name="function"
+						value="createUser" />
+					<map:parameter name="definitionURI"
+						value="forms/create-user-form.xml" />
+				</map:call>
+			</map:match>			
 		</map:pipeline>
 
 		<!-- use noncaching pipeline -->
@@ -104,28 +123,42 @@
 						value="forms/admin-form.xml" />
 				</map:call>
 			</map:match>
-
-			<map:match pattern="*.instance">
-				<map:generate type="jx" src="forms/{1}-template.xml"
-					label="content1">
+		</map:pipeline>
+		
+		<map:pipeline>
+			<map:match pattern="*.plain-instance">
+				<map:generate type="jx" src="forms/{1}-template.xml" label="content">
 					<map:parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</map:generate>
 
 				<map:transform src="xslt/forms/form2html.xsl">
-					<map:parameter name="resources-uri"
-						value="{request:contextPath}/_cocoon/resources" />
+					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
 				</map:transform>
+				<map:serialize type="html" />
+			</map:match>
+			
+			<map:match pattern="*.instance">
+				<map:generate type="jx" src="forms/{1}-template.xml">
+					<map:parameter name="locale"
+						value="{flow-attribute:locale}" />
+				</map:generate>
+
+				<map:transform src="xslt/forms/form2html.xsl">
+					<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+				</map:transform>				
 				<map:call resource="layouting" />
 			</map:match>
-		</map:pipeline>
-
-		<map:pipeline>
+			
 			<!-- Continue a scenario. The continuation id is passed in the URL
 				(typically used for GET requests) -->
 			<map:match pattern="**/*.continue">
 				<map:act type="setnohttpcache" />
 				<map:call continuation="{2}" />
+			</map:match>
+			<map:match pattern="*.continue">
+				<map:act type="setnohttpcache" />
+				<map:call continuation="{1}" />
 			</map:match>
 		</map:pipeline>
 
