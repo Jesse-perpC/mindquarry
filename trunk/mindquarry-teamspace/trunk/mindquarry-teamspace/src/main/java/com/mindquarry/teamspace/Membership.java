@@ -3,9 +3,11 @@
  */
 package com.mindquarry.teamspace;
 
-import java.util.HashSet;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -18,37 +20,48 @@ public class Membership {
 
     public final TeamspaceRO teamspace;
     
-    private final Set<UserRO> members;
+    private final Map<String, UserRO> membersMap;
     
-    private final Set<UserRO> nonMembers;
+    private final Map<String, UserRO> nonMembersMap;
     
-    private final Set<UserRO> addedMembers;
+    private final Map<String, UserRO> addedMembersMap;
     
-    private final Set<UserRO> removedMembers;
+    private final Map<String, UserRO> removedMembersMap;
     
     public Membership(TeamspaceRO teamspace, 
             Set<UserRO> members, Set<UserRO> nonMembers) {
         
         this.teamspace = teamspace;
-        this.members = members;
-        this.nonMembers = nonMembers;
         
-        this.addedMembers = new HashSet<UserRO>();
-        this.removedMembers = new HashSet<UserRO>();
+        membersMap = createIdUserMap(members);
+        nonMembersMap = createIdUserMap(nonMembers);
+        
+        addedMembersMap = new HashMap<String, UserRO>(1);
+        removedMembersMap = new HashMap<String, UserRO>(1);
+    }
+    
+    private Map<String, UserRO> createIdUserMap(final Set<UserRO> users) {
+        Map<String, UserRO> result = 
+            new HashMap<String, UserRO>(users.size() + 1);
+        
+        for (UserRO user : users)
+            result.put(user.getId(), user);
+        
+        return result;
     }
     
     /** returns a calculated list of current members */
     public List<UserRO> getMembers() {
-        List<UserRO> result = new LinkedList<UserRO>(members);
-        for (UserRO addedMember : addedMembers)
+        List<UserRO> result = new LinkedList<UserRO>(membersMap.values());
+        for (UserRO addedMember : addedMembersMap.values())
             result.add(addedMember);
         return result;
     }
     
     /** returns a calcualted list of current nonMembers */
     public List<UserRO> getNonMembers() {
-        List<UserRO> result = new LinkedList<UserRO>(nonMembers);
-        for (UserRO removedMember : removedMembers)
+        List<UserRO> result = new LinkedList<UserRO>(nonMembersMap.values());
+        for (UserRO removedMember : removedMembersMap.values())
             result.add(removedMember);
         return result;
     }
@@ -57,11 +70,23 @@ public class Membership {
      * the user is in the nonMembers list;
      * if the user is in the removed member list it is removed from this */
     public void addMember(UserRO user) {
-        if (nonMembers.contains(user)) {
-            addedMembers.add(user);            
+        if (nonMembersMap.containsKey(user.getId())) {
+            addedMembersMap.put(user.getId(), user);            
         }
-        else if (removedMembers.contains(user)) {
-            removedMembers.add(user);
+        else if (removedMembersMap.containsKey(user.getId())) {
+            removedMembersMap.put(user.getId(), user);
+        }
+    }
+    
+    /** adds an user to the added members list if  
+     * the user is in the nonMembers list;
+     * if the user is in the removed member list it is removed from this */
+    public void addMember(String userId) {
+        if (nonMembersMap.containsKey(userId)) {
+            addedMembersMap.put(userId, nonMembersMap.get(userId));            
+        }
+        else if (removedMembersMap.containsKey(userId)) {
+            removedMembersMap.remove(userId);
         }
     }
     
@@ -69,11 +94,23 @@ public class Membership {
      * the user is in the members list;
      * if the user is in the added member list it is removed from this */
     public void removeMember(UserRO user) {
-        if (members.contains(user)) { 
-            removedMembers.add(user);
+        if (membersMap.containsKey(user.getId())) { 
+            removedMembersMap.put(user.getId(), user);
         }
-        else if (addedMembers.contains(user)) {
-            addedMembers.remove(user);
+        else if (addedMembersMap.containsKey(user.getId())) {
+            addedMembersMap.remove(user.getId());
+        }
+    }
+    
+    /** adds an user to the removed members list if 
+     * the user is in the members list;
+     * if the user is in the added member list it is removed from this */
+    public void removeMember(String userId) {
+        if (membersMap.containsKey(userId)) { 
+            removedMembersMap.put(userId, membersMap.get(userId));
+        }
+        else if (addedMembersMap.containsKey(userId)) {
+            addedMembersMap.remove(userId);
         }
     }
 
@@ -82,8 +119,8 @@ public class Membership {
      *
      * @return the addedMembers
      */
-    public Set<UserRO> getAddedMembers() {
-        return addedMembers;
+    public Collection<UserRO> getAddedMembers() {
+        return addedMembersMap.values();
     }
 
     /**
@@ -91,8 +128,8 @@ public class Membership {
      *
      * @return the removedMembers
      */
-    public Set<UserRO> getRemovedMembers() {
-        return removedMembers;
+    public Collection<UserRO> getRemovedMembers() {
+        return removedMembersMap.values();
     }
 }
 

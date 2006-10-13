@@ -19,4 +19,10 @@ public interface User extends UserRO {
      */
     void setName(String name);
 
+    /**
+     * Setter for email.
+     *
+     * @param email the email to set
+     */
+    void setEmail(String email);
 }

@@ -52,7 +52,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        admin.createUser(userId, "Mindquarry User");
+        admin.createUser(userId, "Mindquarry User", "an email");
         
         List<UserRO> users = admin.allUsers();
         assertEquals(1, users.size());
@@ -68,7 +68,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        admin.createUser(userId, "Mindquarry User");
+        admin.createUser(userId, "Mindquarry User", "an email");
         
         String teamspaceId = "mindquarry-teamspace";
         TeamspaceRO teamspace = admin.createTeamspace(
