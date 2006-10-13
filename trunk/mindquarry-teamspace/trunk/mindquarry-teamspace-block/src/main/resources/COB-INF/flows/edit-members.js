@@ -34,6 +34,13 @@ function editMembers(form) {
 	}
 	
 	form.showForm("edit-members.plain-instance");
+	
+	print("finish");
+	cocoon.redirectTo("../..");
+}
+
+function saveMembershipChanges(event) {
+	print("saveMembershipChanges")
 }
 
 function removeMember(event) {

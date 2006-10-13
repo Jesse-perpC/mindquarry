@@ -13,8 +13,8 @@ function manageProjects(form) {
 	populateModel();
 	form.showForm("admin.instance");
 	
-	var projectname = model_.newprojectname;
-	teamspaceAdmin_.createTeamspace(projectname);
+	//var projectname = model_.newprojectname;
+	//teamspaceAdmin_.createTeamspace(projectname);
 	
 	cocoon.redirectTo("", false);
 }

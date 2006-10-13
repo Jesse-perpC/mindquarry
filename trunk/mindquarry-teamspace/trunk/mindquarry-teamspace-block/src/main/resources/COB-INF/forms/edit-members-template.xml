@@ -51,6 +51,8 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 					</ul>
 				</ft:repeater>
 			</div>
+			
+			<ft:widget id="ok" /><ft:widget id="cancel" />
 		</ft:form-template>
 	</body>
 </html>
