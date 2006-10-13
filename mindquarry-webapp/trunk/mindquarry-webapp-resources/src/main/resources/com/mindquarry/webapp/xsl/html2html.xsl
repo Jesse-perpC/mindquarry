@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
-	
+
 	<xsl:import href="contextpath.xsl"/>
 	<xsl:param name="user.agent" select="''"/>
-	
+
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:copy>
 	</xsl:template>
-	
+
 	<xsl:template match="us:text">
 		<xsl:choose>
 			<xsl:when test="contains($user.agent, @value)">
@@ -22,14 +22,14 @@
 			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="@default"/>
-				
+
 				<xsl:apply-templates select="us:default/node()" />
 			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
-	
+
 	<xsl:template match="us:attribute">
-		
+
 		<xsl:attribute name="{@name}">
 			<xsl:choose>
 				<xsl:when test="contains($user.agent, @value)">
@@ -42,24 +42,31 @@
 		</xsl:attribute>
 	</xsl:template>
 
-	<xsl:template match="xhtml:html">
+	<xsl:template match="xhtml:html|html">
 		<html xmlns="http://www.w3.org/1999/xhtml">
-			<xsl:apply-templates />	
+			<xsl:apply-templates />
 		</html>
 	</xsl:template>
-	
-	<xsl:template match="xhtml:head">
+
+	<xsl:template match="xhtml:head|head">
 		<head>
-			<xsl:apply-templates select="*"/>
-			<link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/resources/css/screen.css" media="screen,projection" type="text/css" />
+        		<xsl:apply-templates />
+                        <link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/resources/css/screen.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
-	
-	<xsl:template match="xhtml:title">
+
+	<xsl:template match="xhtml:script[normalize-space(.)='']|script[normalize-space(.)='']">
+	              <xsl:copy>
+                                <xsl:copy-of select="@*" />
+                                <xsl:text>//</xsl:text>
+	              </xsl:copy>
+	</xsl:template>
+
+	<xsl:template match="xhtml:title|title">
 		<title>Mindquarry: <xsl:value-of select="." /></title>
 	</xsl:template>
-	
-	<xsl:template match="xhtml:body">
+
+	<xsl:template match="xhtml:body|body">
 		<body>
 			<div class="body">
 				<div id="webapp-header">
@@ -112,8 +119,8 @@
 			</div>
 		</body>
 	</xsl:template>
-	
-	<xsl:template match="xhtml:div[@class='nifty']">
+
+	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
 		<div class="nifty">
 			<b class="rtop">
 				<b class="r1"><xsl:comment>t</xsl:comment></b>
@@ -130,5 +137,5 @@
 			</b>
 		</div>
 	</xsl:template>
-	
+
 </xsl:stylesheet>
