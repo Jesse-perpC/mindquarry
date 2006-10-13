@@ -28,7 +28,7 @@ function editMembers(form) {
 	
 	var nonMembers = membership_.getNonMembers();
 		
-	for (var i = 0; i < members.size(); i++) {
+	for (var i = 0; i < nonMembers.size(); i++) {
 		model_.nonMembers[i].userId = nonMembers.get(i).id;
 		model_.nonMembers[i].name = nonMembers.get(i).name;
 	}
