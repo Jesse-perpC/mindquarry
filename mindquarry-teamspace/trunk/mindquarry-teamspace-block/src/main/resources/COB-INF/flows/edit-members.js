@@ -4,6 +4,7 @@
 
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
+var teamspaceQuery_;
 var membership_;
 var model_;
 
@@ -11,10 +12,10 @@ function editMembers(form) {
 	var teamspaceId = cocoon.parameters.teamspaceId;
 	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceQuery";
-	var teamspaceQuery = cocoon.getComponent(lookupName);
+	teamspaceQuery_ = cocoon.getComponent(lookupName);
 	
-	var editedTeamspace = teamspaceQuery.teamspaceForId(teamspaceId);	
-	membership_ = teamspaceQuery.membership(editedTeamspace);
+	var editedTeamspace = teamspaceQuery_.teamspaceForId(teamspaceId);	
+	membership_ = teamspaceQuery_.membership(editedTeamspace);
 	
 	
 	model_ = form.getModel();
@@ -35,23 +36,26 @@ function editMembers(form) {
 	
 	form.showForm("edit-members.plain-instance");
 	
-	print("finish");
 	cocoon.redirectTo("../..");
 }
 
 function saveMembershipChanges(event) {
-	print("saveMembershipChanges")
+	teamspaceQuery_.updateMembership(membership_);
 }
 
 function removeMember(event) {
 	var rowIndex = fetchRowIndex(event);
 	var modelUser =	model_.members[rowIndex];
+	
+	membership_.removeMember(modelUser.userId);
 	addUserToEndOfList(modelUser, model_.nonMembers);
 }
 
 function addMember(event) {	
 	var rowIndex = fetchRowIndex(event);
 	var modelUser =	model_.nonMembers[rowIndex];
+	
+	membership_.addMember(modelUser.userId);
 	addUserToEndOfList(modelUser, model_.members);
 }
 
