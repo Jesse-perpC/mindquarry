@@ -1,0 +1,43 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:field id="userId" required="true">
+			<fd:label>user ID</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:regexp pattern="[a-z]{5,}">
+					<fd:failmessage>
+						invalid user id; it must contains (at least 5)
+						lower case letters
+					</fd:failmessage>
+				</fd:regexp>
+			</fd:validation>
+		</fd:field>
+		<fd:field id="name" required="true">
+			<fd:label>full name</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:regexp pattern="[\w\s]+">
+					<fd:failmessage>
+						invalid full name; it must contains at least one
+						word character
+					</fd:failmessage>
+				</fd:regexp>
+			</fd:validation>
+		</fd:field>
+		<fd:field id="email" required="true">
+			<fd:label>email</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:email>
+					<fd:failmessage>
+						Not a valid email address!
+					</fd:failmessage>
+				</fd:email>
+			</fd:validation>
+		</fd:field>
+
+		<fd:submit id="create-user">
+			<fd:label>create user</fd:label>
+		</fd:submit>
+	</fd:widgets>
+</fd:form>

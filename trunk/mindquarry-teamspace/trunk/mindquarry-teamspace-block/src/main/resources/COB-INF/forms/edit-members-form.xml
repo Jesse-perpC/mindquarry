@@ -1,0 +1,43 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:output id="teamspaceName">
+			<fd:datatype base="string" />
+		</fd:output>
+				
+		<fd:repeater id="members">
+			<fd:label>Members</fd:label>
+			<fd:widgets>
+				<fd:output id="userId">
+					<fd:datatype base="string" />
+				</fd:output>				
+				<fd:output id="name">
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:row-action id="removeMember" command="delete">
+					<fd:label>remove member</fd:label>
+					<fd:on-action>
+						<fd:javascript>removeMember(event);</fd:javascript>
+					</fd:on-action>
+				</fd:row-action>
+			</fd:widgets>
+		</fd:repeater>
+		
+		<fd:repeater id="nonMembers">
+			<fd:label>Non Members</fd:label>
+			<fd:widgets>
+				<fd:output id="userId">				
+					<fd:datatype base="string" />
+				</fd:output>				
+				<fd:output id="name">
+					<fd:datatype base="string" />
+				</fd:output>
+				<fd:row-action id="addMember" command="delete">
+					<fd:label>add member</fd:label>
+					<fd:on-action>
+						<fd:javascript>addMember(event);</fd:javascript>
+					</fd:on-action>
+				</fd:row-action>
+			</fd:widgets>
+		</fd:repeater>
+	</fd:widgets>
+</fd:form>
