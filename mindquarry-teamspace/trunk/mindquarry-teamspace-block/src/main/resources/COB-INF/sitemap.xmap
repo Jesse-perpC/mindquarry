@@ -122,7 +122,7 @@
 		<map:pipeline type="noncaching">
 
 			<!-- repository listing -->
-			<map:match pattern="createUser">
+			<map:match pattern="createUser/">
 				<map:call function="handleForm">
 					<map:parameter name="function"
 						value="createUser" />
