@@ -3,18 +3,17 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+				
 	<head>
-		<title>Teamspace <ft:widget id="teamspaceName" /></title>
+		<title>Edit Members of Teamspace</title>
+		<link rel="stylesheet"
+				href="../../resources/css/teamspace.css" type="text/css" />
 	</head>
 	<body>
+	<div class="edit-members">
 		<h3>Edit Team Members</h3>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue"
 			method="POST">
-			
-			<div>		
-				<p><ft:widget id="teamspaceName" /></p>
-				<a href="${cocoon.continuation.id}.continue">add or remove test link</a>
-			</div>
 
 			<div>
 				<h3><ft:widget-label id="members" /></h3>
@@ -54,5 +53,6 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 			
 			<ft:widget id="ok" /><ft:widget id="cancel" />
 		</ft:form-template>
+	</div>
 	</body>
 </html>

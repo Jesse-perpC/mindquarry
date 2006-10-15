@@ -77,7 +77,7 @@
 
 		<!-- user pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
-			<map:match type="regexp" pattern="([a-z]+).png">
+			<map:match type="regexp" pattern="users/([a-z]+).png">
 				<map:read
 					src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
 			</map:match>
