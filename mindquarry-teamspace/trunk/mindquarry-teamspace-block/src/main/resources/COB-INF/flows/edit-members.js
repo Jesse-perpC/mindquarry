@@ -19,6 +19,7 @@ function editMembers(form) {
 	
 	
 	model_ = form.getModel();
+	model_.teamspaceName = editedTeamspace.name;
 	
 	var members = membership_.getMembers();
 		
@@ -34,7 +35,7 @@ function editMembers(form) {
 		model_.nonMembers[i].name = nonMembers.get(i).name;
 	}
 	
-	form.showForm("edit-members.plain-instance");
+	form.showForm("edit-members.instance");
 	
 	cocoon.redirectTo("../..");
 }
