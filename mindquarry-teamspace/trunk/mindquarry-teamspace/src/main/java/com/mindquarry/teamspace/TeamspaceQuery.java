@@ -38,6 +38,8 @@ public interface TeamspaceQuery {
     
     Membership membership(TeamspaceRO teamspace);
     
+    Membership refreshMembership(Membership membership);
+    
     /**
      * update the current members of a teamspace
      * @param membership, contains lists of up to date members 
