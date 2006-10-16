@@ -140,7 +140,9 @@
 		</div>
 	</xsl:template>
 	
-	
+	<!-- look for attributes whose parent element has an
+		 attribute us:context with a value that equals the 
+		 local name of the processed attribute -->
 	<xsl:template match="@*[../@us:context=local-name(.)]">
 		<xsl:attribute name="{local-name(.)}">
 			<xsl:value-of select="$context.path" />
