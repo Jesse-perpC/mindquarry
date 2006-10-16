@@ -9,8 +9,6 @@ var teamspaceQuery_;
 var membership_;
 var model_;
 
-var isInEditMembersMode_ = false;
-
 function processEditMembersForm(form) {
 	
 	var teamspaceId = cocoon.parameters.teamspaceId;
@@ -54,12 +52,14 @@ function loadModelWithMembership() {
 
 function processCreateUserForm(form) {
 	
+	model_ = form.getModel();
+	
 	activateCreateUserForm();
 	setCreateUserStandaloneMode();
 	
 	form.showForm("edit-members.instance");
-		
-	cocoon.redirectTo("");
+
+	cocoon.redirectTo("../");
 }
 
 function activateCreateUserForm() {

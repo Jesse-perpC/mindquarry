@@ -34,7 +34,7 @@
 	</map:views>
 
 	<map:flow language="javascript">
-		<map:script src="flows/admin.js" />
+		<map:script src="flows/create-teamspace.js" />
 		<map:script src="flows/teamspaces-view.js"/>
 		<map:script src="flows/edit-members.js"/>
 	</map:flow>
@@ -124,10 +124,9 @@
 			</map:match>
 		</map:pipeline>
 		
-		<!-- use noncaching pipeline -->
+		<!-- creating users and teamspace / use noncaching pipeline -->
 		<map:pipeline type="noncaching">
-
-			<!-- repository listing -->
+		
 			<map:match pattern="createUser/">
 				<map:call function="handleForm">
 					<map:parameter name="function"
@@ -135,21 +134,16 @@
 					<map:parameter name="definitionURI"
 						value="forms/edit-members-form.xml" />
 				</map:call>
-			</map:match>			
-		</map:pipeline>
-
-		<!-- use noncaching pipeline -->
-		<map:pipeline type="noncaching">
-
-			<!-- repository listing -->
-			<map:match pattern="admin/">
+			</map:match>	
+			
+			<map:match pattern="createTeamspace/">
 				<map:call function="handleForm">
 					<map:parameter name="function"
-						value="manageProjects" />
+						value="processCreateTeamspaceForm" />
 					<map:parameter name="definitionURI"
-						value="forms/admin-form.xml" />
+						value="forms/create-teamspace-form.xml" />
 				</map:call>
-			</map:match>
+			</map:match>		
 		</map:pipeline>
 		
 		<map:pipeline>			

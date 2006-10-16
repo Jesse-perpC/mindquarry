@@ -1,0 +1,39 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:field id="teamspaceId" required="true">
+			<fd:label>teamspace ID</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:regexp pattern="[a-z\-]{3,}">
+					<fd:failmessage>
+						invalid teamspace id; it must contains (at least 3)
+						lower case letters
+					</fd:failmessage>
+				</fd:regexp>
+			</fd:validation>
+		</fd:field>
+		<fd:field id="name" required="true">
+			<fd:label>full name</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:regexp pattern="[\w\s]+">
+					<fd:failmessage>
+						invalid full name; it must contains at least one
+						word character
+					</fd:failmessage>
+				</fd:regexp>
+			</fd:validation>
+		</fd:field>
+		<fd:field id="description">
+			<fd:label>Description</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+		</fd:field>
+
+		<fd:submit id="createTeamspaceSubmit">
+			<fd:label>create teamspace</fd:label>
+		</fd:submit>
+		<fd:submit id="cancelSubmit">
+			<fd:label>cancel</fd:label>
+		</fd:submit>
+	</fd:widgets>
+</fd:form>

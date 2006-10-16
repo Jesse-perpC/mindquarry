@@ -1,23 +1,21 @@
 <html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
-	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 				
 	<head>
 		<title>Edit Members of Teamspace</title>
-		<link rel="stylesheet"
-				href="../../resources/css/teamspace.css" type="text/css" />
+		<link rel="stylesheet" us:context="href" type="text/css" 
+			href="blocks/mindquarry-teamspace-block/resources/css/teamspace.css" />
 	</head>
 	<body>
 	<div>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue"
-			method="POST">
-			
-			<h3>Edit Team Members</h3>
-		
+			method="POST">		
  			<ft:group id="editMembersModel">
-			
+				<h3>Edit Team Members</h3>
 				<div>
 					<h3><ft:widget-label id="members" /></h3>
 					<ft:repeater id="members">
@@ -62,6 +60,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 			
 			
 			<ft:group id="createUserModel">
+				<h3>Create New User</h3>
 				<table>
 					<tr>
 						<td><ft:widget-label id="userId" /></td>
