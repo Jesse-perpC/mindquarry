@@ -4,29 +4,25 @@
 -->
 
 <beans xmlns="http://www.springframework.org/schema/beans"
-       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-       
-	<bean id="com.mindquarry.tasks.tasks-block" class="org.apache.cocoon.blocks.BlockServlet">
-		<property name="mountPath" value="/tasks"/>
-		
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="com.mindquarry.tasks.tasks-block"
+		class="org.apache.cocoon.blocks.BlockServlet">
+		<property name="mountPath" value="/tasks" />
+
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
-		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
-		
+		<property name="servletClass"
+			value="org.apache.cocoon.sitemap.SitemapServlet" />
+
+		<!-- does not work yet, context urls cannot be an absolute file system path -->
 		<property name="blockContextURL" value="/blocks/mindquarry-tasks-block"/>
-		
-		<!-- 
-		<property name="properties">
-			<map>
-				<entry key="foo" value="bar"/>
-			</map>
-		</property>
-		-->
 
 		<property name="connections">
 			<map>
 				<!-- inherit from the dforms block -->
-				<entry key="super" value-ref="com.mindquarry.dforms.dforms-block"/>
+				<entry key="super"
+					value-ref="com.mindquarry.dforms.dforms-block" />
 			</map>
 		</property>
 
