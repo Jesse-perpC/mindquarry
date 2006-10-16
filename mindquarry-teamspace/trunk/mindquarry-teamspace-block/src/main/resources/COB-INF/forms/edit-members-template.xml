@@ -10,48 +10,83 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 				href="../../resources/css/teamspace.css" type="text/css" />
 	</head>
 	<body>
-	<div class="edit-members">
-		<h3>Edit Team Members</h3>
+	<div>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue"
 			method="POST">
-
-			<div>
-				<h3><ft:widget-label id="members" /></h3>
-				<ft:repeater id="members">
-					<ul>
-						<ft:repeater-rows>
-							<li class="member-list">
-								<fi:styling type="member-entry" />
-								<ft:widget id="userId">
-									<fi:styling type="user-image" />
-								</ft:widget>
-								<ft:widget id="name" />
-								<ft:widget id="removeMember" />
-							</li>
-						</ft:repeater-rows>
-					</ul>
-				</ft:repeater>
-			</div>
 			
-			<div>
-				<h3><ft:widget-label id="nonMembers" /></h3>
-				<ft:repeater id="nonMembers">
-					<ul>
-						<ft:repeater-rows>
-							<li class="member-list">
-								<fi:styling type="member-entry" />
-								<ft:widget id="userId">
-									<fi:styling type="user-image" />
-								</ft:widget>
-								<ft:widget id="name" />
-								<ft:widget id="addMember" />
-							</li>
-						</ft:repeater-rows>
-					</ul>
-				</ft:repeater>
-			</div>
+			<h3>Edit Team Members</h3>
+		
+ 			<ft:group id="editMembersModel">
 			
-			<ft:widget id="ok" /><ft:widget id="cancel" />
+				<div>
+					<h3><ft:widget-label id="members" /></h3>
+					<ft:repeater id="members">
+						<ul>
+							<ft:repeater-rows>
+								<li class="member-list">
+									<fi:styling type="member-entry" />
+									<ft:widget id="userId">
+										<fi:styling type="user-image" />
+									</ft:widget>
+									<ft:widget id="name" />
+									<ft:widget id="removeMember" />
+								</li>
+							</ft:repeater-rows>
+						</ul>
+					</ft:repeater>
+				</div>
+			
+				<div>
+					<h3><ft:widget-label id="nonMembers" /></h3>
+					<ft:repeater id="nonMembers">
+						<ul>
+							<ft:repeater-rows>
+								<li class="member-list">
+									<fi:styling type="member-entry" />
+									<ft:widget id="userId">
+										<fi:styling type="user-image" />
+									</ft:widget>
+									<ft:widget id="name" />
+									<ft:widget id="addMember" />
+								</li>
+							</ft:repeater-rows>
+						</ul>
+					</ft:repeater>
+				</div>
+			
+				<ft:widget id="ok" />
+				<ft:widget id="cancel" />
+				<ft:widget id="createUser" />
+			
+ 			</ft:group>
+			
+			
+			<ft:group id="createUserModel">
+				<table>
+					<tr>
+						<td><ft:widget-label id="userId" /></td>
+						<td><ft:widget id="userId" /></td>
+					</tr>
+					<tr>
+						<td><ft:widget-label id="name" /></td>
+						<td><ft:widget id="name" /></td>
+					</tr>
+					<tr>
+						<td><ft:widget-label id="email" /></td>
+						<td><ft:widget id="email" /></td>
+					</tr>
+				</table>
+			
+				<br/><br/>
+			
+				<!-- standalone -->
+				<ft:widget id="createUserSubmit" />
+				<ft:widget id="cancelSubmit" />
+				
+				<!-- embedded -->
+				<ft:widget id="createUserAction" />
+				<ft:widget id="cancelAction" />
+			</ft:group>
 		</ft:form-template>
 	</div>
 	</body>

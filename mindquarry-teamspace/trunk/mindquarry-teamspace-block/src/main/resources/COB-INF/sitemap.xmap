@@ -35,7 +35,6 @@
 
 	<map:flow language="javascript">
 		<map:script src="flows/admin.js" />
-		<map:script src="flows/create-user.js" />
 		<map:script src="flows/teamspaces-view.js"/>
 		<map:script src="flows/edit-members.js"/>
 	</map:flow>
@@ -90,7 +89,7 @@
 
 		<!-- user pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
-			<map:match type="regexp" pattern="users/([a-z]+).png">
+			<map:match pattern="users/*.png">
 				<map:read
 					src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
 			</map:match>
@@ -117,7 +116,7 @@
 			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/$">
 				<map:call function="handleForm">
 					<map:parameter name="function"
-						value="editMembers" />
+						value="processEditMembersForm" />
 					<map:parameter name="definitionURI"
 						value="forms/edit-members-form.xml" />
 					<map:parameter name="teamspaceId" value="{1}"/>
@@ -132,9 +131,9 @@
 			<map:match pattern="createUser/">
 				<map:call function="handleForm">
 					<map:parameter name="function"
-						value="createUser" />
+						value="processCreateUserForm" />
 					<map:parameter name="definitionURI"
-						value="forms/create-user-form.xml" />
+						value="forms/edit-members-form.xml" />
 				</map:call>
 			</map:match>			
 		</map:pipeline>
@@ -143,7 +142,7 @@
 		<map:pipeline type="noncaching">
 
 			<!-- repository listing -->
-			<map:match pattern="admin">
+			<map:match pattern="admin/">
 				<map:call function="handleForm">
 					<map:parameter name="function"
 						value="manageProjects" />
