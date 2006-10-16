@@ -152,16 +152,7 @@
 			</map:match>
 		</map:pipeline>
 		
-		<map:pipeline>
-			<map:match pattern="*.plain-instance">
-				<map:generate type="jx" src="forms/{1}-template.xml" label="content">
-					<map:parameter name="locale"
-						value="{flow-attribute:locale}" />
-				</map:generate>
-				<map:call resource="form2html" />
-				<map:serialize type="html" />
-			</map:match>
-			
+		<map:pipeline>			
 			<map:match pattern="*.instance">
 				<map:generate type="jx" src="forms/{1}-template.xml">
 					<map:parameter name="locale"
