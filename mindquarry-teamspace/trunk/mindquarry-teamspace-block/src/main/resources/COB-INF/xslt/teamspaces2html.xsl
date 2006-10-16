@@ -47,9 +47,6 @@
 				<a href="{normalize-space(id)}/editMembers/" rel="lightbox" class="add_member_button">
 					Edit Members
 				</a>
-				<a href="{normalize-space(id)}/editMembers/" class="add_member_button">
-					Edit Members
-				</a>
 			</div>
 		</li>
 	</xsl:template>
