@@ -1,0 +1,37 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+	<head>
+		<title>Create Teamspace</title>
+		<link rel="stylesheet"
+				href="../resources/css/teamspace.css" type="text/css" />
+	</head>
+	<body>
+		<h1>Create New Teamspace</h1>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue"
+			method="POST">
+			
+			<table>
+				<tr>
+					<td><ft:widget-label id="teamspaceId" /></td>
+					<td><ft:widget id="teamspaceId" /></td>
+				</tr>
+				<tr>
+					<td><ft:widget-label id="name" /></td>
+					<td><ft:widget id="name" /></td>
+				</tr>
+				<tr>
+					<td><ft:widget-label id="description" /></td>
+					<td><ft:widget id="description" /></td>
+				</tr>
+			</table>
+			
+			<br/><br/>
+			
+			<ft:widget id="createTeamspaceSubmit"/>
+			<ft:widget id="cancelSubmit"/>
+		</ft:form-template>
+	</body>
+</html>

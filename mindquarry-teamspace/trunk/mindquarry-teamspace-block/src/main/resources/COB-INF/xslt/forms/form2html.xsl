@@ -57,7 +57,7 @@
   </xsl:template>
   
   <xsl:template match="fi:output[fi:styling/@type='user-image']">
-  	<img alt="{normalize-space(fi:value)}" src="../../users/{normalize-space(fi:value)}.png"/>
+  	<img alt="{normalize-space(fi:value)}" src="{$context.path}blocks/mindquarry-teamspace-block/users/{normalize-space(fi:value)}.png"/>
   </xsl:template>
   
 </xsl:stylesheet>

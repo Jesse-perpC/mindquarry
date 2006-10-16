@@ -21,6 +21,7 @@
 			</head>
 			<body>
 				<h1>Manage Your Teams</h1>
+				<a href="createTeamspace/">create new teamspace</a>
 				<ul class="teamspace-list">
 					<xsl:apply-templates>
 						<xsl:sort select="name" />

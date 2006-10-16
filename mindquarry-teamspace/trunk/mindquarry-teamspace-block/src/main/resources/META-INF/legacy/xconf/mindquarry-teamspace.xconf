@@ -18,7 +18,14 @@
 		<component-instance name="jcr"
 			class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
 			login="alexander.saar" password="mypwd"
-			rmi="rmi://localhost:1099/jackrabbit" />
+			rmi="rmi://localhost:1099/jackrabbit">
+			<mappings>
+				<mapping prefix="user"
+					namespace="http://www.mindquarry.com/ns/schema/user" />
+				<mapping prefix="team"
+					namespace="http://www.mindquarry.com/ns/schema/teamspace" />
+			</mappings>
+		</component-instance>
 
 		<!-- use the following for working with an RMI repository -->
 		<!-- component-instance name="jcr" -->
