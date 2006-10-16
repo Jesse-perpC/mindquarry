@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+
+	<map:pipelines>
+
+		<!-- resources pipeline / use noncaching for debugging -->
+		<map:pipeline type="noncaching">
+			<!-- special resources of this sitemap/project -->
+			<map:match pattern="resources/css/webapp.css">
+				<map:read src="resources/css/webapp.css" />
+			</map:match>
+			<map:match pattern="resources/images/header.png">
+				<map:read src="resources/images/header.png" />
+			</map:match>
+
+			<map:match pattern="resources/css/*.css">
+				<map:read
+					src="resource://com/mindquarry/webapp/css/{1}.css" />
+			</map:match>
+			<map:match pattern="resources/images/*.*">
+				<map:read
+					src="resource://com/mindquarry/webapp/images/{1}.{2}" />
+			</map:match>
+			<map:match pattern="resources/icons/*.*">
+				<map:read
+					src="resource://com/mindquarry/webapp/icons/{1}_icon.{2}" />
+			</map:match>
+
+			<map:match pattern="resources/buttons/*x*/*.*">
+				<map:read
+					src="resource://com/mindquarry/webapp/buttons/{3}-button-{1}.{4}" />
+			</map:match>
+		</map:pipeline>
+
+		<map:pipeline>
+			<map:match pattern="">
+				<map:generate src="index.html" />
+				<map:transform
+					src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+					<map:parameter name="pathInfo"
+						value="{request:pathInfo}" />
+				</map:transform>
+				<map:serialize type="xhtml" />
+			</map:match>
+
+			<!-- resources of block jars -->
+
+			<map:match pattern="_cocoon/resources/*/**">
+				<map:read
+					src="resource://org/apache/cocoon/{1}/resources/{2}" />
+			</map:match>
+
+			<!-- mount all development blocks -->
+			<!-- <map:match pattern="blocks/mindquarry-tasks-block/**">
+				<map:mount uri-prefix="blocks/mindquarry-tasks-block"
+				src="file:/Users/alex/Mindquarry/hack/mindquarry-tasks/mindquarry-tasks-block/src/main/resources/COB-INF/" />
+				</map:match> -->
+
+			<!-- mount all deployed blocks -->
+			<!-- blocks/mindquarry-irgendwas/resource -->
+			<map:match pattern="*/*/**">
+				<map:mount src="{1}/{2}/" uri-prefix="{1}/{2}" />
+			</map:match>
+
+		</map:pipeline>
+
+	</map:pipelines>
+
+</map:sitemap>
+
