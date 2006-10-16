@@ -244,6 +244,17 @@ class TeamspaceManager implements TeamspaceAdmin,
         
         return new Membership(teamspace, members, nonMembers);
     }
+    
+    public Membership refreshMembership(Membership oldMembership) {
+        Membership result = membership(oldMembership.teamspace);
+        for (UserRO user : oldMembership.getAddedMembers()) {
+            result.addMember(user);
+        }
+        for (UserRO user : oldMembership.getRemovedMembers()) {
+            result.removeMember(user);
+        }
+        return result;
+    }
 
     public void updateMembership(Membership membership) {
 
