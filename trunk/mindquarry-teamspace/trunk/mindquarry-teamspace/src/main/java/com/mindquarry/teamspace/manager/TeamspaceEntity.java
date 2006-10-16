@@ -43,13 +43,14 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
      * @param description
      * @param workspaceUri
      */
-    public TeamspaceEntity(String id, String name, String description, 
-            String workspaceUri, List<UserRO> users) {
+    public TeamspaceEntity(String id, String name, 
+            String description, String workspaceUri) {
+        
         this.id = id;
         this.name = name;
         this.description = description;
         this.workspaceUri = workspaceUri;
-        this.users = users;
+        this.users = new LinkedList<UserRO>();
     }
     
     /**
