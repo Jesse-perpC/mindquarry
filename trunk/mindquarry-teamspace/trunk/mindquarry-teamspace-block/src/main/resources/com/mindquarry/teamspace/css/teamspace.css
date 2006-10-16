@@ -67,12 +67,15 @@ a.project_details_button {
 }
 
 ul.teamspace-list {
-	list-style-type: none;
+	list-style: none;
+	margin: 0px;
+	padding: 0px;
 }
 
 /* styles for rounded boxes */
 div.nifty {
 	width:100%;
+	clear:both;
 }
 
 
@@ -161,3 +164,74 @@ b.rbottom b.r1, b.rtop b.r1 {
 .rbottom .r1 {
 	border-bottom: 1px solid #999999;
 }
+
+img.icon {
+	height:48px;
+	width:48px;
+	border:1px solid black;
+	padding:2px;
+	margin-right:5px;
+}
+
+div.name h2 {
+	display:inline;
+	font-weight:bold;
+	color:black;
+	font-size:12pt;
+	margin-right:5px;
+}
+
+div.name img {
+	align:left;
+	float:left;
+}
+
+div.name span {
+	font-weight:normal;
+	color:#666666;
+	font-size:10pt;
+}
+
+div.name {
+	height:60px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+
+ul.members {
+	clear:both;
+	width:270px;
+	float:right;
+}
+
+ul.members li {
+	display:block;
+	width:50px;
+	font-size:8pt;
+	padding-top:50px;
+	overflow:hidden;
+	float:left;
+	margin:0px 2px;
+	text-align:center;
+}
+
+ul.tags {
+	clear:left;
+	background-image:url(../images/tag_32.png);
+	height:32px;
+	background-repeat:no-repeat;
+	padding-top:6px;
+	background-position:6px 0px;
+	overflow:hidden;
+}
+
+ul.tags li {
+	display:inline;
+	font-size:9pt;
+	margin:0px 3px;
+}
+ a:link, a:visited {
+ 	color:#3333ff;
+ 	text-decoration:none;
+}
+
