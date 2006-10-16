@@ -86,6 +86,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.mindquarry.tasks</groupId>
+			<artifactId>mindquarry-tasks-block</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
