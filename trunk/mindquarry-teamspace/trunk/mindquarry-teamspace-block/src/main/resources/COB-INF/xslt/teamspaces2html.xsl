@@ -44,7 +44,7 @@
 						<xsl:apply-templates select="users" />
 					</ul>
 				</xsl:if>
-				<a href="{normalize-space(id)}/editMembers/lightbox/" rel="lightbox" class="lbOn add_member_button">
+				<a href="{normalize-space(id)}/editMembers/" rel="lightbox" class="add_member_button">
 					Edit Members
 				</a>
 				<a href="{normalize-space(id)}/editMembers/" class="add_member_button">

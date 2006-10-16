@@ -129,7 +129,7 @@ lightbox.prototype = {
 			var myAjax = new Ajax.Updater(
 				'lightboxplaceholder', 
 				this.content, 
-				{ method: 'get' }
+				{ method: 'get', parameters: 'lightbox-request=true' }
 			);
 			$('lightboxplaceholder').style.display = display;
 		}
@@ -164,9 +164,12 @@ lightbox.prototype = {
 // Onload, make all links that need to trigger a lightbox active
 function initialize(){
 	addLightboxMarkup();
-	lbox = document.getElementsByClassName('lbOn');
-	for(i = 0; i < lbox.length; i++) {
-		valid = new lightbox(lbox[i]);
+//	lbox = document.getElementsByClassName('lbOn');
+	lboxcandidates = document.getElementsByTagName('a');
+	for(i = 0; i < lboxcandidates.length; i++) {
+		if (lboxcandidates[i].getAttribute('rel')=='lightbox') {
+			valid = new lightbox(lboxcandidates[i]);
+		}
 	}
 }
 
