@@ -127,13 +127,15 @@ class TeamspaceManager implements TeamspaceAdmin,
         UserRO user = queryUserById(session, userId);
               
         List<Teamspace> result = new LinkedList<Teamspace>();
-
-        for (String teamRef : user.getTeamspaceReferences()) {
-            TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
-            List<UserRO> users = queryMembersForTeamspace(
-                    session, teamspace);
-            teamspace.setUsers(users);
-            result.add(teamspace);
+        
+        if (user != null) {
+            for (String teamRef : user.getTeamspaceReferences()) {
+                TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
+                List<UserRO> users = queryMembersForTeamspace(
+                        session, teamspace);
+                teamspace.setUsers(users);
+                result.add(teamspace);
+            }            
         }
         
         session.commit();
@@ -176,8 +178,10 @@ class TeamspaceManager implements TeamspaceAdmin,
     public void removeUser(String id) {
         Session session = currentSession();
         UserRO user = queryUserById(session, id);
-        session.delete(user);
-        session.commit();
+        if (user != null) {
+            session.delete(user);
+            session.commit();            
+        }
     }
 
     public List<UserRO> allUsers() {
@@ -202,7 +206,11 @@ class TeamspaceManager implements TeamspaceAdmin,
     
     private UserRO queryUserById(Session session, String id) {
         List queryResult = session.query("getUserById", new Object[] {id});
-        return (UserRO) queryResult.get(0);
+        if (queryResult.size() == 1) {
+            return (UserRO) queryResult.get(0);            
+        } else {
+            return null;
+        }
     }
 
     public String workspaceUri(String id) {
