@@ -93,6 +93,11 @@
 				<map:read
 					src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
 			</map:match>
+			
+			<map:match pattern="teams/*.png">
+				<map:read
+					src="resource://com/mindquarry/teamspace/images/anonymous-project.png" />
+			</map:match>
 		</map:pipeline>
 		
 		<!-- use noncaching pipeline -->
