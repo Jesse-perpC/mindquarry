@@ -4,7 +4,7 @@
 
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
-function createUser(form) {
+/*function createUser(form) {
 
 	form.showForm("create-user.plain-instance");
 	
@@ -16,4 +16,4 @@ function createUser(form) {
 	var user = teamspaceAdmin.createUser(model.userId, model.name, model.email);
 	
 	cocoon.redirectTo("");
-}
+}*/

@@ -13,8 +13,9 @@ function manageProjects(form) {
 	populateModel();
 	form.showForm("admin.instance");
 	
-	//var projectname = model_.newprojectname;
-	//teamspaceAdmin_.createTeamspace(projectname);
+	var projectname = model_.newprojectname;
+	teamspaceAdmin_.createTeamspace(projectname, 
+			"the project name", "the project description");
 	
 	cocoon.redirectTo("", false);
 }
@@ -29,7 +30,7 @@ function populateModel() {
 function isNoDuplicate(widget) {
 	var name = widget.value;
 	print(name);
-	var list = teamspaceAdmin_.list();
+	var list = teamspaceAdmin_.allTeamspaces();
 	for (var i=0;i<model_.projects.length;i++) {
 		if (model_.projects[i].name == name) {
 			widget.setValidationError(
@@ -42,7 +43,7 @@ function isNoDuplicate(widget) {
 }
 
 function deleteProjects(event) {
-	var list = teamspaceAdmin_.list();
+	var list = teamspaceAdmin_.allTeamspaces();
 	for (var i=0;i<list.size();i++) {
 		var button = event.source.form.lookupWidget("/projects/"+i+"/delete");
 		var checkbox = event.source.form.lookupWidget("/projects/"+i+"/selected");

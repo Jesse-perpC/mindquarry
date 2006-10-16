@@ -5,6 +5,8 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 	<head>
 		<title>Projects</title>
+		<link rel="stylesheet"
+				href="../resources/css/teamspace.css" type="text/css" />
 	</head>
 	<body>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue"
