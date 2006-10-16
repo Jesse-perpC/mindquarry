@@ -48,6 +48,8 @@ public class HttpAuthAction extends AbstractAction {
 			String username = auths[0];
 			String password = auths[1];
 			//TODO: lookup the user manager and verify the password
+			
+			return username;
 		}
 		return null;
 	}
