@@ -6,7 +6,6 @@
 	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
 
 	<xsl:import href="contextpath.xsl"/>
-	<xsl:import href="niftify.xsl"/>
 	
 	<xsl:param name="user.agent" select="''"/>
 
@@ -18,15 +17,34 @@
 
 	<xsl:template match="xhtml:html|html">
 		<div id="lightbox-content">
-			<xsl:select>
+			<xsl:choose>
 				<xsl:when test="//div[@id='lightbox-content']">
 					<xsl:apply-templates select="//div[@id='lightbox-content']/node()" />
 				</xsl:when>
 				<xsl:otherwise>
 					<xsl:apply-templates select="//body/node()" />				
 				</xsl:otherwise>
-			</xsl:select>
-			<xsl:apply-templates />
+			</xsl:choose>
 		</div>
 	</xsl:template>
+	
+	
+	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
+		<div class="nifty">
+			<b class="rtop">
+				<b class="r1"><xsl:comment>t</xsl:comment></b>
+				<b class="rleft"><xsl:comment>tr</xsl:comment></b>
+				<b class="rright"><xsl:comment>tl</xsl:comment></b>
+			</b>
+			<div class="content">
+				<xsl:apply-templates />
+			</div>
+			<b class="rbottom">
+				<b class="r1"><xsl:comment>b</xsl:comment></b>
+				<b class="rleft"><xsl:comment>bl</xsl:comment></b>
+				<b class="rright"><xsl:comment>br</xsl:comment></b>
+			</b>
+		</div>
+	</xsl:template>
+	
 </xsl:stylesheet>
