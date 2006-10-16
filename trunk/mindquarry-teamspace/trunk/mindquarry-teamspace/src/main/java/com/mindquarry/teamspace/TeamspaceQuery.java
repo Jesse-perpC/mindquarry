@@ -34,6 +34,8 @@ public interface TeamspaceQuery {
     
     List<UserRO> allUsers();
     
+    UserRO userForId(String userId);
+    
     TeamspaceRO teamspaceForId(String teamspaceId);
     
     Membership membership(TeamspaceRO teamspace);

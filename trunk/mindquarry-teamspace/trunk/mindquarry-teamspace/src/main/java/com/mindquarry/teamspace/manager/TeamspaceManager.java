@@ -86,15 +86,18 @@ class TeamspaceManager implements TeamspaceAdmin,
                     "existing base directory for repositories.");        
     }
 
-    public TeamspaceRO createTeamspace(
-            String id, String name, String description) {
+    public TeamspaceRO createTeamspace(String id, String name, 
+            String description, UserRO teamspaceCreator) {
         
         TeamspaceEntity teamspace = new TeamspaceEntity();
         teamspace.setId(id);
         teamspace.setName(name);
         teamspace.setDescription(description);
+        addUserToTeamspace(teamspaceCreator, teamspace);
+        
         Session session = currentSession();
         session.persist(teamspace);
+        session.update(teamspaceCreator);
         session.commit();
         return teamspace;
     }
@@ -225,6 +228,11 @@ class TeamspaceManager implements TeamspaceAdmin,
         return sessionFactory_.currentSession();
     }
 
+    public UserRO userForId(String userId) {
+        Session session = currentSession();
+        return queryUserById(session, userId);
+    }
+    
     public TeamspaceRO teamspaceForId(String teamspaceId) {
         Session session = currentSession();
         return queryTeamspaceById(session, teamspaceId);

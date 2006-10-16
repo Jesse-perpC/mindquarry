@@ -10,7 +10,8 @@ package com.mindquarry.teamspace;
  */
 public interface TeamspaceAdmin extends TeamspaceQuery {
 
-	TeamspaceRO createTeamspace(String id, String name, String description);
+	TeamspaceRO createTeamspace(String id, String name, 
+                String description, UserRO teamspaceCreator);
 	
 	void removeTeamspace(String id);
     

@@ -30,10 +30,15 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
-        String teamspaceId = "mindquarry-teamspace";
-		admin.createTeamspace(teamspaceId, "Mindquarry Teamspace", "a greate description");
+        String userId = "mindquarry-user";
+        UserRO creator = admin.createUser(userId, "Mindquarry User", "an email");
         
-        admin.createTeamspace(teamspaceId + "2", "Mindquarry Teamspace", "a greate description");
+        String teamspaceId = "mindquarry-teamspace";
+		admin.createTeamspace(teamspaceId, "Mindquarry Teamspace", 
+                "a greate description", creator);
+        
+        admin.createTeamspace(teamspaceId + "2", "Mindquarry Teamspace", 
+                "a greate description", creator);
         
         List<TeamspaceRO> teamspaces = admin.allTeamspaces();
         assertEquals(2, teamspaces.size());
@@ -68,29 +73,34 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        admin.createUser(userId, "Mindquarry User", "an email");
+        UserRO creator = admin.createUser(userId, "Mindquarry User", "an email");
+        
+        admin.createUser(
+                "newUser", "Mindquarry User", "an email");
         
         String teamspaceId = "mindquarry-teamspace";
-        TeamspaceRO teamspace = admin.createTeamspace(
-                teamspaceId, "Mindquarry Teamspace", "a greate description");
+        TeamspaceRO teamspace = admin.createTeamspace(teamspaceId, 
+                "Mindquarry Teamspace", "a greate description", creator);
         
         Membership membership = admin.membership(teamspace);
-        UserRO nonMember = membership.getNonMembers().get(0);
-        membership.addMember(nonMember);
+        assertEquals(1, membership.getMembers().size());
+        assertEquals(1, membership.getNonMembers().size());
         
+        
+        membership.addMember(membership.getNonMembers().get(0));
         admin.updateMembership(membership);
         
         
         Membership updatedMembership = admin.membership(teamspace);
-        assertEquals(1, updatedMembership.getMembers().size());
+        assertEquals(2, updatedMembership.getMembers().size());
         assertEquals(0, updatedMembership.getNonMembers().size());
         
-        UserRO newMember = updatedMembership.getMembers().get(0);
-        updatedMembership.removeMember(newMember);
+        UserRO memberToRemove = updatedMembership.getMembers().get(0);
+        updatedMembership.removeMember(memberToRemove);
         admin.updateMembership(updatedMembership);
         
         Membership originalMembership = admin.membership(teamspace);
-        assertEquals(0, originalMembership.getMembers().size());
+        assertEquals(1, originalMembership.getMembers().size());
         assertEquals(1, updatedMembership.getNonMembers().size());
     }
     
