@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
+	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
 	
 	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
 		<div class="nifty">

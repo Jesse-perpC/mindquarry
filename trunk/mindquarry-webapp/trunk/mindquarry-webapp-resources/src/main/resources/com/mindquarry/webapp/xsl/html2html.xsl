@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
+	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
 
 	<xsl:import href="contextpath.xsl"/>
 	<xsl:import href="niftify.xsl"/>
@@ -31,7 +31,6 @@
 	</xsl:template>
 
 	<xsl:template match="us:attribute">
-
 		<xsl:attribute name="{@name}">
 			<xsl:choose>
 				<xsl:when test="contains($user.agent, @value)">
@@ -139,6 +138,14 @@
 				<b class="rright"><xsl:comment>br</xsl:comment></b>
 			</b>
 		</div>
+	</xsl:template>
+	
+	
+	<xsl:template match="@*[../@us:context=local-name(.)]">
+		<xsl:attribute name="{local-name(.)}">
+			<xsl:value-of select="$context.path" />
+			<xsl:value-of select="." />
+		</xsl:attribute>
 	</xsl:template>
 
 </xsl:stylesheet>
