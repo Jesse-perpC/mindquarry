@@ -9,6 +9,9 @@
 				<seconds>0</seconds>
 			</map:action>
 		</map:actions>
+		<map:selectors>
+			<map:selector name="lightbox-request" src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
+		</map:selectors>
 	</map:components>
 	
 	<map:views>
@@ -38,11 +41,21 @@
 	</map:flow>
 	
 	<map:resources>
-		<map:resource name="layouting">	        
-         	<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
-        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
-        	</map:transform>
-        	<map:serialize type="xhtml"/>
+		<map:resource name="layouting">
+		<map:select type="lightbox-request">
+			<map:when test="true">
+				<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
+	        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+	        	</map:transform>
+	        	<map:serialize type="xhtml"/>
+	        </map:when>
+	        <map:otherwise>
+	      		<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+	        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+	        	</map:transform>
+	        	<map:serialize type="xhtml" />
+	        </map:otherwise>
+			</map:select>
 		</map:resource>
 		
 		<map:resource name="form2html">
@@ -109,12 +122,6 @@
 						value="forms/edit-members-form.xml" />
 					<map:parameter name="teamspaceId" value="{1}"/>
 				</map:call>
-			</map:match>
-			
-			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/lightbox/$">
-				<map:generate src="cocoon:/{1}/editMembers/" />
-				<map:transform src="xslt/editMembers2lightbox.xsl" />
-				<map:serialize type="xml" />
 			</map:match>
 		</map:pipeline>
 		
