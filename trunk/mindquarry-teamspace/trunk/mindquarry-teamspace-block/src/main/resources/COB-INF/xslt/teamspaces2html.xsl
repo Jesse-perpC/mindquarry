@@ -26,7 +26,8 @@
 			<body>
 				<h1>Manage Your Teams</h1>
 				
-				<a class="create_teamspace_button" href="createTeamspace/">New Team</a>
+				<a class="create_teamspace_button" href="createTeamspace/">
+					New Team</a>
 				
 				<ul class="teamspace-list">
 					<xsl:apply-templates>
