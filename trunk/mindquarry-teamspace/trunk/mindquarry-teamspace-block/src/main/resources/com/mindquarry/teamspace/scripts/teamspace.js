@@ -17,6 +17,7 @@ doExpandOrCollapse = function(event)	{
 	var parent = event.target.parentNode;
 	var details = dojo.html.getElementsByClass("details", parent);
 	var members = dojo.html.getElementsByClass("members", parent);
+	var addMembersButton = dojo.html.getElementsByClass("add_members_button", parent);
 	
 	var detailsButton = event.target;
 	if(detailsButton.className == "details-expanded") {
@@ -28,6 +29,9 @@ doExpandOrCollapse = function(event)	{
 		for(i=0; i<members.length; i++) {
 			members[i].style.display = "block";
 		}
+		for(i=0; i<addMembersButton.length; i++) {
+			addMembersButton[i].style.display = "none";
+		}
 	} else {
 		detailsButton.className = "details-expanded";
 		
@@ -36,6 +40,9 @@ doExpandOrCollapse = function(event)	{
 		}
 		for(i=0; i<members.length; i++) {
 			members[i].style.display = "none";
+		}
+		for(i=0; i<addMembersButton.length; i++) {
+			addMembersButton[i].style.display = "block";
 		}
 	}
 }
