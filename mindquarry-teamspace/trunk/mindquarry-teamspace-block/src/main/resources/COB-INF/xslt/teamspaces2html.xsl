@@ -83,7 +83,7 @@
 			
 			<div class="details" style="display:none;">
 				<h3>Related Teams</h3>
-				none yet.
+				not implemented yet.
 			</div>
 			</div>
 			</div>

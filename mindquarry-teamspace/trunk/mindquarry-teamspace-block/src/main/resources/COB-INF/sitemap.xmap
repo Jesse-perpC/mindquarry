@@ -155,7 +155,7 @@
 					</map:call>
 				</map:act>
 			</map:match>	
-			
+			 
 			<map:match pattern="createTeamspace/">
 				<map:act type="httpauth">
 					<map:call function="handleForm">
