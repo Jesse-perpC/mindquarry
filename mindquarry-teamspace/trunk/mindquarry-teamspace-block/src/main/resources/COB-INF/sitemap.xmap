@@ -110,9 +110,20 @@
 				<map:act type="httpauth">
 					<map:call function="listTeamspacesForUser">
 						<map:parameter name="username" value="{username}" />
+						<map:parameter name="view" value="views/teamspaceView"/>
 					</map:call>
 				</map:act>
 			</map:match>
+			
+			<map:match pattern="*.xml">
+				<map:act type="httpauth">
+					<map:call function="listTeamspacesForUser">
+						<map:parameter name="username" value="{1}" />
+						<map:parameter name="view" value="views/teamspaceXMLView" />
+					</map:call>
+				</map:act>
+			</map:match>
+			
 			<map:match pattern="views/teamspaceView">
 				<map:act type="httpauth">
 					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
@@ -122,6 +133,15 @@
 					</map:transform>
 	   				<map:call resource="form2html" />
 	 				<map:call resource="layouting" />
+ 				</map:act>
+			</map:match>
+			
+			
+			<map:match pattern="views/teamspaceXMLView">
+				<map:act type="httpauth">
+					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
+					<map:transform src="xslt/teamspaces2xml.xsl" />
+					<map:serialize type="xml" />
  				</map:act>
 			</map:match>
 		</map:pipeline>
