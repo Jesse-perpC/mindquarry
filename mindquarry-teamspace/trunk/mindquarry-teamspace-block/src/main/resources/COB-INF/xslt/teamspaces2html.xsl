@@ -37,24 +37,24 @@
 		<li>
 			<div class="nifty">
 			<a href="#">more</a>
+			
 			<ul class="members">
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">First Margand</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Second Margand</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Third Margand</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Arnaud Margand</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Hans-Werner Sowieso</li>
+				<xsl:if test="users/user">
+					<xsl:apply-templates select="users" />
+				</xsl:if>
 				
-				<li style="display:none;background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Superman</li>
-				<li style="display:none;background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Zorro</li>
-				<li style="display:none;background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Robin Hood</li>
-				
+				<!--li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 1</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 2</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 3</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 4</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 5</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 6</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 7</li-->
 			</ul>
 			<div class="name">
 				<img class="icon" src="teams/goshaky.png" />
 				<h2 class="name"><xsl:value-of select="name" /></h2>
-				<span class="description">Description of the project in plain enlish
-				letters and words. And I add so much words here to test if the
-				description can overflow nicely.</span>
+				<span class="description"><xsl:value-of select="description" /></span>
 			</div>
 			
 			<ul class="tags">
@@ -65,28 +65,18 @@
 				<li><a href="#">open</a></li>
 			</ul>
 			<!-- 
-				<a
-					href="{$context.path}blocks/mindquarry-workspace-block/browser/{normalize-space(id)}/">
-					<xsl:value-of select="name" />
-				</a>
-				<xsl:if test="users/user">
-					<ul>
-						<xsl:apply-templates select="users" />
-					</ul>
-				</xsl:if>
 				<a href="{normalize-space(id)}/editMembers/" rel="lightbox" class="add_member_button">
 					Edit Members
 				</a>
-				 -->
+			-->
 			</div>
 		</li>
 	</xsl:template>
 
 	<xsl:template match="user">
-		<li>
-			<p>
-				<xsl:value-of select="name" />
-			</p>
+		<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">
+			<xsl:value-of select="name" />
+			<xsl:value-of select="surname" />
 		</li>
 	</xsl:template>
 </xsl:stylesheet>
