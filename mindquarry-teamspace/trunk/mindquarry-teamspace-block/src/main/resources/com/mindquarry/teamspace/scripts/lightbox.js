@@ -11,6 +11,7 @@ Inspired by the lightbox implementation found at http://www.huddletogether.com/p
 And the lightbox gone wild by ParticleTree at http://particletree.com/features/lightbox-gone-wild/
 
 */
+dojo.require("dojo.event");
 dojo.require("cocoon.ajax.common");
 dojo.require("cocoon.ajax.insertion");
 /*-------------------------------GLOBAL VARIABLES------------------------------------*/
@@ -58,11 +59,20 @@ function checkIt(string) {
 
 /*-----------------------------------------------------------------------------------------------*/
 
-Event.observe(window, 'load', initialize, false);
-Event.observe(window, 'load', getBrowserInfo, false);
-Event.observe(window, 'unload', Event.unloadCache, false);
 
-var lightbox = Class.create();
+var MyClass = {
+	create: function() {
+		return function() {
+			this.initialize.apply(this, arguments);
+		}
+	}
+}
+
+var lightbox = MyClass.create();
+
+function handleClick(event) {
+	alert("click");
+}
 
 lightbox.prototype = {
 
@@ -71,8 +81,8 @@ lightbox.prototype = {
 
 	initialize: function(ctrl) {
 		this.content = ctrl.href;
-		Event.observe(ctrl, 'click', this.activate.bindAsEventListener(this), false);
 		ctrl.onclick = function(){return false;};
+		dojo.event.connect(ctrl, "onclick", this, "activate");
 	},
 	
 	// Turn everything on - mainly the IE fixes
@@ -121,27 +131,24 @@ lightbox.prototype = {
 	},
 	
 	displayLightbox: function(display){
-		$('overlay').style.display = display;
+		document.getElementById('overlay').style.display = display;
 		
 		if(this.content.substring(0,1) == "#") {
 			$(this.content.substr(1)).style.display = display;
 		}
 		else {
-			cocoon.ajax.update(this.content + "?lightbox-request=true", $('lightboxplaceholder'), "insert");
-			$('lightboxplaceholder').style.display = display;
-			cocoon.ajax.insertionHelper.parseDojoWidgets($('lightboxplaceholder'));
+			placeholder = document.getElementById('lightboxplaceholder');
+			cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
+			placeholder.style.display = display;
+			cocoon.ajax.insertionHelper.parseDojoWidgets(placeholder);
 		}
 		if(display != 'none') this.actions();		
+		
+		return false;
 	},
 	
-	// Search through new links within the lightbox, and attach click event
+	// TODO: Search through new links within the lightbox, and attach click event
 	actions: function(){
-		lbActions = document.getElementsByClassName('lbAction');
-
-		for(i = 0; i < lbActions.length; i++) {
-			Event.observe(lbActions[i], 'click', this[lbActions[i].rel].bindAsEventListener(this), false);
-			lbActions[i].onclick = function(){return false;};
-		}
 
 	},
 	
@@ -152,21 +159,15 @@ lightbox.prototype = {
 			this.prepareIE("auto", "auto");
 			this.hideSelects("visible");
 		}
-		
 		this.displayLightbox("none");
 	}
 }
 
-
-function notify() {
-	//haha
-	}
 /*-----------------------------------------------------------------------------------------------*/
 
 // Onload, make all links that need to trigger a lightbox active
 function initialize(){
 	addLightboxMarkup();
-//	lbox = document.getElementsByClassName('lbOn');
 	lboxcandidates = document.getElementsByTagName('a');
 	for(i = 0; i < lboxcandidates.length; i++) {
 		if (lboxcandidates[i].getAttribute('rel')=='lightbox') {
@@ -179,15 +180,14 @@ function initialize(){
 // Overlay holds the shadow
 // Lightbox is the centered square that the content is put into.
 function addLightboxMarkup() {
-
 	bod 				= document.getElementsByTagName('body')[0];
-
 	overlay 			= document.createElement('div');
 	overlay.id			= 'overlay';
-
 	lightboxplaceholder 			= document.createElement('div');
 	lightboxplaceholder.id			= 'lightboxplaceholder';
-
 	bod.appendChild(overlay);
 	bod.appendChild(lightboxplaceholder);
 }
+
+dojo.event.connect(dojo.hostenv, "loaded", "initialize");
+dojo.event.connect(dojo.hostenv, "loaded", "getBrowserInfo");
