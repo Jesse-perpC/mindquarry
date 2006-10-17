@@ -34,18 +34,30 @@
 		;
 }
 
-a.add_member_button {
+a.add_members_button:link, a.add_members_button:visited {
 	background-image: url(../../resources/buttons/add_member.gif);
-	display: block;
+	display: none;
 	width: 152px;
 	height: 32px;
-/*	margin-left: auto;
-	margin-right: auto;*/
 	text-decoration: none;
 	text-align: center;
 	color: white;
 	background-repeat: no-repeat;
-	font-size: 12pt;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+a.create_teamspace_button:link, a.create_teamspace_button:visited {
+	background-image: url(../../resources/buttons/create_teamspace.gif);
+	display:block;
+	width: 152px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
 	padding-top: 9px;
 	padding-left: 13px;
 }

@@ -25,7 +25,9 @@
 			</head>
 			<body>
 				<h1>Manage Your Teams</h1>
-				<a href="createTeamspace/">create new teamspace</a>
+				
+				<a class="create_teamspace_button" href="createTeamspace/">New Team</a>
+				
 				<ul class="teamspace-list">
 					<xsl:apply-templates>
 						<xsl:sort select="name" />
@@ -69,6 +71,10 @@
 				<li><a href="#">open</a></li>
 			</ul>
 			
+			<a href="{normalize-space(id)}/editMembers/" rel="lightbox" class="add_members_button">
+					Edit Members
+			</a>
+		
 			<div class="details" style="display:none;">
 				<h3>Team Members</h3>
 				<xsl:choose>
