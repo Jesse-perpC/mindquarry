@@ -34,6 +34,9 @@
 		</fd:submit>
 		<fd:submit id="cancelSubmit">
 			<fd:label>cancel</fd:label>
+			<fd:on-action>
+				<fd:javascript>cancel();</fd:javascript>
+			</fd:on-action>
 		</fd:submit>
 	</fd:widgets>
 </fd:form>
