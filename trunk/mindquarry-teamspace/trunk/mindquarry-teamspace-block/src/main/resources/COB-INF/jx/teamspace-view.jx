@@ -16,6 +16,7 @@
 					<jx:forEach var="user"
 							items="${teamspace.users}">
 						<user>
+							<id><jx:out value="${user.id}" /></id>
 							<name>
 								<jx:out value="${user.name}" />
 							</name>
