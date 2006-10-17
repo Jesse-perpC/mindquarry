@@ -17,6 +17,7 @@
 
 	<xsl:template match="xhtml:html|html">
 		<div id="lightbox-content">
+			<xsl:apply-templates select="//head/script" />
 			<xsl:choose>
 				<xsl:when test="//div[@id='lightbox-content']">
 					<xsl:apply-templates select="//div[@id='lightbox-content']/node()" />
@@ -28,6 +29,12 @@
 		</div>
 	</xsl:template>
 	
+	<xsl:template match="xhtml:script[normalize-space(.)='']|script[normalize-space(.)='']">
+	              <xsl:copy>
+                                <xsl:copy-of select="@*" />
+                                <xsl:text>//</xsl:text>
+	              </xsl:copy>
+	</xsl:template>
 	
 	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
 		<div class="nifty">

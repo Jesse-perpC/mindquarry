@@ -51,8 +51,10 @@
 
 	<xsl:template match="xhtml:head|head">
 		<head>
-        		<xsl:apply-templates />
-                        <link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/resources/css/screen.css" media="screen,projection" type="text/css" />
+		
+			<xsl:apply-templates />
+			
+			<link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/resources/css/screen.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
