@@ -74,6 +74,9 @@ doPrevious = function(event)	{
 	if (first!=null&&last!=null) {
 		//dojo.fx.html.fadeOut(first, 300, function(){});}
 		first.style.display = 'none';last.style.display = 'block';
+		ul.lastChild.style.visibility = "visible";
+	} else {
+		a.style.visibility = "hidden";
 	}
 }
 
