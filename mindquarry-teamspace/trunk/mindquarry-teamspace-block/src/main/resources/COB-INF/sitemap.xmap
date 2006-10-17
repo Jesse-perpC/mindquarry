@@ -8,6 +8,7 @@
 				src="org.apache.cocoon.acting.HttpCacheAction">
 				<seconds>0</seconds>
 			</map:action>
+			<map:action name="httpauth" src="com.mindquarry.webapp.auth.HttpAuthAction" />
 		</map:actions>
 		<map:selectors>
 			<map:selector name="lightbox-request" src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
@@ -103,7 +104,11 @@
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="">
-				<map:call function="listTeamspacesForUser" />
+				<map:act type="httpauth">
+					<map:call function="listTeamspacesForUser">
+						<map:parameter name="username" value="{username}" />
+					</map:call>
+				</map:act>
 			</map:match>
 			<map:match pattern="views/teamspaceView">
 				<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
