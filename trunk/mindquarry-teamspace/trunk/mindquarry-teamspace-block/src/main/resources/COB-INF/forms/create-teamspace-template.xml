@@ -4,13 +4,13 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 	<head>
-		<title>Create Teamspace</title>
+		<title>Create Team</title>
 		<link rel="stylesheet"
 				href="../resources/css/teamspace.css" type="text/css" />
 	</head>
 	<body>
-		<h1>Create New Teamspace</h1>
-		<ft:form-template action="#{$cocoon/continuation/id}.continue"
+		<h1>Create New Team</h1>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
 			method="POST">
 			
 			<table>

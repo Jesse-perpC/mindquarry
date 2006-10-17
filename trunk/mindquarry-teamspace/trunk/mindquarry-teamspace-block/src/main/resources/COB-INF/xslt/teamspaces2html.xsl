@@ -26,7 +26,7 @@
 			<body>
 				<h1>Manage Your Teams</h1>
 				
-				<a class="create_teamspace_button" href="createTeamspace/">
+				<a class="create_teamspace_button" href="createTeamspace/" rel="lightbox">
 					New Team</a>
 				
 				<ul class="teamspace-list">
