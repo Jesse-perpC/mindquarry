@@ -69,23 +69,12 @@
 				<li><a href="#">open</a></li>
 			</ul>
 			
-			<div class="details" style="display:none;">
+			<div class="details" style="display:block;">
 				<h3>Team Members</h3>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
-				<div class="detail">hahaha</div>
+				
 			</div>
 			
-			<div class="details" style="display:none;">
+			<div class="details" style="display:block;">
 				<h3>Related Teams</h3>
 			</div>
 			</div>

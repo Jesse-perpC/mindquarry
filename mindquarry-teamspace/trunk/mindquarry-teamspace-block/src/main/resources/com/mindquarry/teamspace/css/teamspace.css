@@ -271,10 +271,6 @@ a.details-expanded {
 	background-repeat: no-repeat;
 }
 
-div.details {
-	
-}
-
 div.details h3 {
 	/*display: none;*/
 	color: #666666;
@@ -283,8 +279,16 @@ div.details h3 {
 }
 
 div.detail {
-	width:300px;
+	font-size:9pt;
+	color:#999999;
+	width:250px;
 	height:50px;
 	border:1px dotted gray;
+	padding:2px;
+	margin:2px;
 	float:left;
+}
+
+div.details {
+	clear:both;
 }
