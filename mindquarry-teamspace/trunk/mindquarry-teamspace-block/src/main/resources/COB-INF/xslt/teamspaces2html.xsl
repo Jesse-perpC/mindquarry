@@ -47,6 +47,7 @@
 				<li style="display:none;background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Superman</li>
 				<li style="display:none;background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Zorro</li>
 				<li style="display:none;background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">Robin Hood</li>
+				
 			</ul>
 			<div class="name">
 				<img class="icon" src="teams/goshaky.png" />
