@@ -11,10 +11,16 @@ initEvents = function() {
 	for (i=0;i<slidingLists.length;i++) {
 		next = document.createElement('a');
 		next.href = "#";
+		next.className = "slidernext";
 		next.innerHTML = "next";
+		if (slidingLists[i].childNodes.length<=5) {
+			next.style.visibility = "hidden";
+		}
 		prev = document.createElement('a');
 		prev.href = "#";
+		prev.className = "sliderprev";
 		prev.innerHTML = "prev";
+		prev.style.visibility = "hidden";
 		
 		slidingLists[i].appendChild(next);
 		slidingLists[i].insertBefore(prev, slidingLists[i].firstChild);
@@ -43,6 +49,9 @@ doNext = function(event)	{
 	if (first!=null&&last!=null) {
 //		dojo.fx.html.fadeOut(first, 300, function(){});}
 		first.style.display = 'none';last.style.display = 'block';
+		ul.firstChild.style.visibility = "visible";
+	} else {
+		a.style.visibility = "hidden";
 	}
 }
 

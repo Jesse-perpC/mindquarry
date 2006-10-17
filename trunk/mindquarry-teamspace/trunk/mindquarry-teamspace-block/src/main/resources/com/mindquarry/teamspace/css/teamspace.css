@@ -200,8 +200,9 @@ div.name {
 
 ul.members {
 	clear:both;
-	width:270px;
+	width:300px;
 	float:right;
+	margin-right:5px;
 }
 
 ul.members li {
@@ -233,5 +234,30 @@ ul.tags li {
  a:link, a:visited {
  	color:#3333ff;
  	text-decoration:none;
+}
+
+a.slidernext {
+	display:block;
+	background:url(../icons/22x22/actions/go-next.png);
+	height:22px;
+	width:22px;
+	overflow:hidden;
+	color:transparent;
+	font-size:0px;
+	background-repeat:no-repeat;
+	margin-top:12px;
+}
+
+a.sliderprev {
+	display:block;
+	background:url(../icons/22x22/actions/go-previous.png);
+	height:22px;
+	width:22px;
+	overflow:hidden;
+	float:left;
+	color:transparent;
+	font-size:0px;
+	background-repeat:no-repeat;
+	margin-top:12px;
 }
 
