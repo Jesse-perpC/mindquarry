@@ -20,6 +20,8 @@
 					src="resources/scripts/lightbox.js" >//</script>
 				<script type="text/javascript" 
 					src="resources/scripts/slider.js" >//</script>
+				<script type="text/javascript" 
+					src="resources/scripts/teamspace.js" >//</script>
 			</head>
 			<body>
 				<h1>Manage Your Teams</h1>
@@ -36,8 +38,10 @@
 	<xsl:template match="teamspace">
 		<li>
 			<div class="nifty">
-			<a href="#">more</a>
 			
+			<a class="details-collapsed" href="#" title="Click here to show project details">more</a>
+			
+			<div style="margin-left:24px">
 			<ul class="members">
 				<xsl:if test="users/user">
 					<xsl:apply-templates select="users" />
@@ -64,11 +68,16 @@
 				<li><a href="#">source</a></li>
 				<li><a href="#">open</a></li>
 			</ul>
-			<!-- 
-				<a href="{normalize-space(id)}/editMembers/" rel="lightbox" class="add_member_button">
-					Edit Members
-				</a>
-			-->
+			
+			<div class="details" style="display:none;">
+				<h3>Team Members</h3>
+				
+			</div>
+			
+			<div class="details" style="display:none;">
+				<h3>Related Teams</h3>
+			</div>
+			</div>
 			</div>
 		</li>
 	</xsl:template>

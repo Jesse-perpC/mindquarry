@@ -50,22 +50,6 @@ a.add_member_button {
 	padding-left: 13px;
 }
 
-a.project_details_button {
-	background-image: url(../../resources/buttons/project_details.gif);
-	display: block;
-	width: 152px;
-	height: 32px;
-/*	margin-left: auto;
-	margin-right: auto;*/
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 12pt;
-	padding-top: 9px;
-	padding-left: 13px;
-}
-
 ul.teamspace-list {
 	list-style: none;
 	margin: 0px;
@@ -200,7 +184,7 @@ div.name {
 
 ul.members {
 	clear:both;
-	width:300px;
+	width:320px;
 	float:right;
 	margin-right:5px;
 }
@@ -261,3 +245,32 @@ a.sliderprev {
 	margin-top:12px;
 }
 
+a.details-collapsed {
+	background-image: url(../../resources/buttons/details_collapsed.gif);
+	height:16px;
+	width:16px;
+	overflow:hidden;
+	float:left;
+	margin-right:6px;
+	display: block;
+	color: transparent;
+	font-size:0px;
+	background-repeat: no-repeat;
+}
+
+a.details-expanded {
+	background-image: url(../../resources/buttons/details_expanded.gif);
+	height:16px;
+	width:16px;
+	overflow:hidden;
+	float:left;
+	margin-right:6px;
+	display: block;
+	color: transparent;
+	font-size:0px;
+	background-repeat: no-repeat;
+}
+
+div.details h3 {
+	display: none;
+}
