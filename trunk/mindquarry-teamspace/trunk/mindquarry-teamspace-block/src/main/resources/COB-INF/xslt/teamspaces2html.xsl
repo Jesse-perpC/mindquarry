@@ -13,9 +13,6 @@
 					href="resources/css/teamspace.css" type="text/css" />
 				<link rel="stylesheet" href="resources/css/screen.css" 
 					media="screen,projection" type="text/css" />
-					 
-				<script type="text/javascript" 
-					src="resources/scripts/prototype.js">//</script>
 				<script type="text/javascript" 
 					src="resources/scripts/lightbox.js" >//</script>
 				<script type="text/javascript" 
