@@ -58,6 +58,13 @@ function processCreateUserForm(form) {
 	setCreateUserStandaloneMode();
 	
 	form.showForm("edit-members.instance");
+	
+	print("creating user...");
+
+	cocoon.redirectTo("../");
+}
+
+function cancel() {
 
 	cocoon.redirectTo("../");
 }
@@ -89,7 +96,7 @@ function setCreateUserEmbeddedMode() {
 }
 
 function createUser() {
-
+	
 	var userModel = model_.createUserModel;
 	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";

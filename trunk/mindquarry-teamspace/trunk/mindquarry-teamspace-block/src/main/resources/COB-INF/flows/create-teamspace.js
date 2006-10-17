@@ -9,8 +9,10 @@ function processCreateTeamspaceForm(form) {
 	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
 	var teamspaceAdmin = cocoon.getComponent(lookupName);
 	
-	var userId = "bastian";
+	var userId = cocoon.parameters["username"];
+	print("userId: " + userId);
 	var user = teamspaceAdmin.userForId(userId);
+	print("user: " + user);
 	
 	if (null == user) {
 		cocoon.redirectTo("../createUser/");

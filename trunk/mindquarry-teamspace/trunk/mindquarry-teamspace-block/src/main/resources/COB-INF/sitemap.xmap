@@ -111,26 +111,30 @@
 				</map:act>
 			</map:match>
 			<map:match pattern="views/teamspaceView">
-				<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
-				<map:transform src="xslt/teamspaces2html.xsl" label="html">
-					<map:parameter name="pathInfo"
-						value="{request:pathInfo}" />
-				</map:transform>
-   				<map:call resource="form2html" />
- 				<map:call resource="layouting" />
+				<map:act type="httpauth">
+					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
+					<map:transform src="xslt/teamspaces2html.xsl" label="html">
+						<map:parameter name="pathInfo"
+							value="{request:pathInfo}" />
+					</map:transform>
+	   				<map:call resource="form2html" />
+	 				<map:call resource="layouting" />
+ 				</map:act>
 			</map:match>
 		</map:pipeline>
 		
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/$">
-				<map:call function="handleForm">
-					<map:parameter name="function"
-						value="processEditMembersForm" />
-					<map:parameter name="definitionURI"
-						value="forms/edit-members-form.xml" />
-					<map:parameter name="teamspaceId" value="{1}"/>
-				</map:call>
+				<map:act type="httpauth">
+					<map:call function="handleForm">
+						<map:parameter name="function"
+							value="processEditMembersForm" />
+						<map:parameter name="definitionURI"
+							value="forms/edit-members-form.xml" />
+						<map:parameter name="teamspaceId" value="{1}"/>
+					</map:call>
+				</map:act>
 			</map:match>
 		</map:pipeline>
 		
@@ -138,21 +142,27 @@
 		<map:pipeline type="noncaching">
 		
 			<map:match pattern="createUser/">
-				<map:call function="handleForm">
-					<map:parameter name="function"
-						value="processCreateUserForm" />
-					<map:parameter name="definitionURI"
-						value="forms/edit-members-form.xml" />
-				</map:call>
+				<map:act type="httpauth">
+					<map:call function="handleForm">
+						<map:parameter name="function"
+							value="processCreateUserForm" />
+						<map:parameter name="definitionURI"
+							value="forms/edit-members-form.xml" />
+						<map:parameter name="username" value="{username}" />
+					</map:call>
+				</map:act>
 			</map:match>	
 			
 			<map:match pattern="createTeamspace/">
-				<map:call function="handleForm">
-					<map:parameter name="function"
-						value="processCreateTeamspaceForm" />
-					<map:parameter name="definitionURI"
-						value="forms/create-teamspace-form.xml" />
-				</map:call>
+				<map:act type="httpauth">
+					<map:call function="handleForm">
+						<map:parameter name="function"
+							value="processCreateTeamspaceForm" />
+						<map:parameter name="definitionURI"
+							value="forms/create-teamspace-form.xml" />
+						<map:parameter name="username" value="{username}" />
+					</map:call>
+				</map:act>
 			</map:match>		
 		</map:pipeline>
 		
@@ -171,11 +181,15 @@
 				(typically used for GET requests) -->
 			<map:match pattern="**/*.continue">
 				<map:act type="setnohttpcache" />
-				<map:call continuation="{2}" />
+				<map:act type="httpauth">
+					<map:call continuation="{../2}" />
+				</map:act>
 			</map:match>
 			<map:match pattern="*.continue">
 				<map:act type="setnohttpcache" />
-				<map:call continuation="{1}" />
+				<map:act type="httpauth">
+					<map:call continuation="{../1}" />
+				</map:act>
 			</map:match>
 		</map:pipeline>
 
