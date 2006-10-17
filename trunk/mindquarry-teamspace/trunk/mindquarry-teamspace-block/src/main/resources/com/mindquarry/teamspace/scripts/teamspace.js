@@ -14,35 +14,39 @@ initTeamspaceEvents = function() {
 
 /* expand teamspace */
 doExpandOrCollapse = function(event)	{
-	var parent = event.target.parentNode;
-	var details = dojo.html.getElementsByClass("details", parent);
-	var members = dojo.html.getElementsByClass("members", parent);
-	var addMembersButton = dojo.html.getElementsByClass("add_members_button", parent);
-	
 	var detailsButton = event.target;
 	if(detailsButton.className == "details-expanded") {
 		detailsButton.className = "details-collapsed";
-		
-		for(i=0; i<details.length; i++) {
-			details[i].style.display = "none";
-		}
-		for(i=0; i<members.length; i++) {
-			members[i].style.display = "block";
-		}
-		for(i=0; i<addMembersButton.length; i++) {
-			addMembersButton[i].style.display = "none";
-		}
 	} else {
 		detailsButton.className = "details-expanded";
+	}
+	
+	var childs = detailsButton.nextSibling.childNodes;
+	for(i=0; i<childs.length; i++) {
+		var child = childs[i];
 		
-		for(i=0; i<details.length; i++) {
-			details[i].style.display = "block";
+		if((child.nodeName == "DIV") && (child.className == "details")) {
+			if(detailsButton.className == "details-expanded") {
+				child.style.display = "block";
+			} else {
+				child.style.display = "none";
+			}
 		}
-		for(i=0; i<members.length; i++) {
-			members[i].style.display = "none";
+		
+		if((child.nodeName == "UL") && (child.className == "members")) {
+			if(detailsButton.className == "details-expanded") {
+				child.style.display = "none";
+			} else {
+				child.style.display = "block";
+			}
 		}
-		for(i=0; i<addMembersButton.length; i++) {
-			addMembersButton[i].style.display = "block";
+		
+		if((child.nodeName == "A") && (child.className == "add_members_button")) {
+			if(detailsButton.className == "details-expanded") {
+				child.style.display = "block";
+			} else {
+				child.style.display = "none";
+			}
 		}
 	}
 }
