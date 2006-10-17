@@ -11,6 +11,7 @@ Inspired by the lightbox implementation found at http://www.huddletogether.com/p
 And the lightbox gone wild by ParticleTree at http://particletree.com/features/lightbox-gone-wild/
 
 */
+dojo.require("cocoon.ajax.common");
 dojo.require("cocoon.ajax.insertion");
 /*-------------------------------GLOBAL VARIABLES------------------------------------*/
 
@@ -126,9 +127,8 @@ lightbox.prototype = {
 			$(this.content.substr(1)).style.display = display;
 		}
 		else {
-			dojo.io.updateNode('lightboxplaceholder',this.content+"?lightbox-request=true");
+			cocoon.ajax.update(this.content + "?lightbox-request=true", $('lightboxplaceholder'), "insert");
 			$('lightboxplaceholder').style.display = display;
-			alert("wait some time in lightbox.js:131");
 			cocoon.ajax.insertionHelper.parseDojoWidgets($('lightboxplaceholder'));
 		}
 		if(display != 'none') this.actions();		
