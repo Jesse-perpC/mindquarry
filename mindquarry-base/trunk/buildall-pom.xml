@@ -24,12 +24,12 @@
     <!-- persistence layer -->
     <module>../mindquarry-types</module>
     <module>../mindquarry-jcr</module>
-    <!-- the central module for deploying the cocoon based webapp -->
+    <!-- central module for deploying the cocoon based webapp -->
     <module>../mindquarry-webapp</module>
     <!-- our cocoon blocks -->
-    <module>../mindquarry-workspace-web</module>
-    <!-- helper/business logic libs -->
     <module>../mindquarry-teamspace</module>
-    <module>../mindquarry-dma-client</module>
+    <module>../mindquarry-workspace</module>
+    <module>../mindquarry-wiki</module>
+    <module>../mindquarry-tasks</module>
   </modules>
 </project>
