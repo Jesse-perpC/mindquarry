@@ -72,7 +72,7 @@
 				<li><a href="#">open</a></li>
 			</ul>
 			
-			<a href="{normalize-space(id)}/editMembers/" rel="lightbox" class="add_members_button">
+			<a href="{normalize-space(id)}/editMembers/" class="add_members_button">
 					Edit Members
 			</a>
 		
