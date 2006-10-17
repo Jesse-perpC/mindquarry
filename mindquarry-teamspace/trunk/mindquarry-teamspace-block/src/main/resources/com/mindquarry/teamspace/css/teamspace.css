@@ -271,8 +271,15 @@ a.details-expanded {
 	background-repeat: no-repeat;
 }
 
+div.details {
+	
+}
+
 div.details h3 {
-	display: none;
+	/*display: none;*/
+	color: #666666;
+	font-size: 12px;
+	border-bottom: 1px solid grey;
 }
 
 div.detail {
