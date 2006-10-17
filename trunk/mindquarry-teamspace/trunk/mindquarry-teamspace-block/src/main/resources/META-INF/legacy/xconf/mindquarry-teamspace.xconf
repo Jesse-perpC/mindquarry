@@ -48,5 +48,7 @@
 			<configuration
 				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
 	</jcr-repository>
-	<jcr-initializer />
+	<jcr-initializer>
+		<credentials login="alexander.saar" password="mypwd" />
+	</jcr-initializer>
 </components>
