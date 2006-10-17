@@ -1,22 +1,22 @@
-
 dojo.require("dojo.io.BrowserIO");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
-dojo.require("dojo.fx.html");
 
 /* doing some init stuff */
-initEvents = function() {
+initSliderEvents = function() {
 	slidingLists = dojo.html.getElementsByClassName("members");
 
 	// add prev & next buttons to all member lists
 	for (i=0; i<slidingLists.length; i++) {
 		next = document.createElement('a');
 		next.href = "#";
+		next.title="Click here to see next project members";
 		next.className = "slidernext";
 		next.innerHTML = "next";
 		
 		prev = document.createElement('a');
 		prev.href = "#";
+		prev.title="Click here to see previous project members"
 		prev.className = "sliderprev";
 		prev.innerHTML = "prev";
 		prev.style.visibility = "hidden";
@@ -100,4 +100,4 @@ doPrevious = function(event)	{
 	}
 }
 
-dojo.event.connect(dojo.hostenv, "loaded", "initEvents");
+dojo.event.connect(dojo.hostenv, "loaded", "initSliderEvents");
