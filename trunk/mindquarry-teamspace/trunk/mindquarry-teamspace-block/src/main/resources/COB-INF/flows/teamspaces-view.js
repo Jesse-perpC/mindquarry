@@ -10,5 +10,6 @@ function listTeamspacesForUser() {
     var teamspaces = teamspaceQuery.teamspacesForUser(userId);
     
     var parameterMap = { "teamspaces" : teamspaces }
-    cocoon.sendPage("views/teamspaceView", parameterMap);
+    var view = cocoon.parameters["view"];
+    cocoon.sendPage(view, parameterMap);
 }
