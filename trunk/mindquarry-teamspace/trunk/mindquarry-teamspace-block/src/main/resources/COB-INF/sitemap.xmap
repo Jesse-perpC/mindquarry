@@ -158,14 +158,14 @@
 		
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
-			<map:match type="regexp" pattern="([a-z\-]+)/editMembers/$">
+			<map:match pattern="*/editMembers/">
 				<map:act type="httpauth">
 					<map:call function="handleForm">
 						<map:parameter name="function"
 							value="processEditMembersForm" />
 						<map:parameter name="definitionURI"
 							value="forms/edit-members-form.xml" />
-						<map:parameter name="teamspaceId" value="{1}"/>
+						<map:parameter name="teamId" value="{../1}"/>
 					</map:call>
 				</map:act>
 			</map:match>
