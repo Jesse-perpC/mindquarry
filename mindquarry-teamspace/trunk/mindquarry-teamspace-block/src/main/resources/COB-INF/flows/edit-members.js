@@ -11,7 +11,8 @@ var model_;
 
 function processEditMembersForm(form) {
 	
-	var teamspaceId = cocoon.parameters.teamspaceId;
+	var teamspaceId = cocoon.parameters["teamId"];
+	print("editing members for team: " + teamspaceId);
 	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceQuery";
 	teamspaceQuery_ = cocoon.getComponent(lookupName);
