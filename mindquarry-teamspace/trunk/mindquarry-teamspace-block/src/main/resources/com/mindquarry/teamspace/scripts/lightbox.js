@@ -128,9 +128,8 @@ lightbox.prototype = {
 		else {
 			dojo.io.updateNode('lightboxplaceholder',this.content+"?lightbox-request=true");
 			$('lightboxplaceholder').style.display = display;
-			alert("now parse the dojo tree");
+			alert("wait some time in lightbox.js:131");
 			cocoon.ajax.insertionHelper.parseDojoWidgets($('lightboxplaceholder'));
-			alert("done");
 		}
 		if(display != 'none') this.actions();		
 	},
