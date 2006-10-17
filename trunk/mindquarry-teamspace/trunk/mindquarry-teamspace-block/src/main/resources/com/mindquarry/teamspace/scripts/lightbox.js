@@ -129,7 +129,7 @@ lightbox.prototype = {
 			var myAjax = new Ajax.Updater(
 				'lightboxplaceholder', 
 				this.content, 
-				{ method: 'get', parameters: 'lightbox-request=true' }
+				{ method: 'get', parameters: 'lightbox-request=true', evalScripts: true }
 			);
 			$('lightboxplaceholder').style.display = display;
 		}
