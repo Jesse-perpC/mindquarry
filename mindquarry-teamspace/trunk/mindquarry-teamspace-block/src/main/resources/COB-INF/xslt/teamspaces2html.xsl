@@ -71,7 +71,18 @@
 			
 			<div class="details" style="display:none;">
 				<h3>Team Members</h3>
-				
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
+				<div class="detail">hahaha</div>
 			</div>
 			
 			<div class="details" style="display:none;">
