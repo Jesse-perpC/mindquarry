@@ -41,19 +41,13 @@ doExpandOrCollapse = function(event)	{
 			}
 		}
 		
-		if((child.nodeName == "A") && (child.className == "edit_members_button")) {
+		if((child.nodeName == "DIV") && (child.className == "edit-buttons")) {
 			if(detailsButton.className == "details-expanded") {
-				child.style.display = "block";
+				child.firstChild.style.display = "block";
+				child.lastChild.style.display = "block";
 			} else {
-				child.style.display = "none";
-			}
-		}
-		
-		if((child.nodeName == "A") && (child.className == "edit_subprojects_button")) {
-			if(detailsButton.className == "details-expanded") {
-				child.style.display = "block";
-			} else {
-				child.style.display = "none";
+				child.firstChild.style.display = "none";
+				child.lastChild.style.display = "none";
 			}
 		}
 	}

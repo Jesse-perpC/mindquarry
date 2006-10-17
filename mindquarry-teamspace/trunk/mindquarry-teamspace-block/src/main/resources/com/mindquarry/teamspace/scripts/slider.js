@@ -8,13 +8,13 @@ initSliderEvents = function() {
 
 	// add prev & next buttons to all member lists
 	for (i=0; i<slidingLists.length; i++) {
-		next = document.createElement('a');
+		var next = document.createElement('a');
 		next.href = "#";
 		next.title="Click here to see next project members";
 		next.className = "slidernext";
 		next.innerHTML = "next";
 		
-		prev = document.createElement('a');
+		var prev = document.createElement('a');
 		prev.href = "#";
 		prev.title="Click here to see previous project members"
 		prev.className = "sliderprev";
@@ -43,7 +43,7 @@ initSliderEvents = function() {
 }
 
 /* slide to next image */
-doNext = function(event)	{
+doNext = function(event) {
 	var first = null;
 	var last = null;
 	

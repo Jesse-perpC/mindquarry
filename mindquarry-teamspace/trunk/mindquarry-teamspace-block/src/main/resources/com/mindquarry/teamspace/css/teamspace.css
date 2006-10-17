@@ -37,7 +37,7 @@
 a.edit_members_button:link, a.edit_members_button:visited {
 	background-image: url(../../resources/buttons/add_member.gif);
 	display: none;
-	width: 152px;
+	width: 140px;
 	height: 32px;
 	text-decoration: none;
 	text-align: center;
@@ -51,7 +51,7 @@ a.edit_members_button:link, a.edit_members_button:visited {
 a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 	background-image: url(../../resources/buttons/edit_subprojects.gif);
 	display: none;
-	width: 152px;
+	width: 140px;
 	height: 32px;
 	text-decoration: none;
 	text-align: center;
@@ -60,6 +60,10 @@ a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 	font-size: 10pt;
 	padding-top: 9px;
 	padding-left: 13px;
+}
+
+div.edit-buttons {
+	float:right;
 }
 
 a.create_teamspace_button:link, a.create_teamspace_button:visited {
@@ -75,6 +79,7 @@ a.create_teamspace_button:link, a.create_teamspace_button:visited {
 	padding-top: 9px;
 	padding-left: 13px;
 	margin-left:auto;
+	margin-right:11px;
 }
 
 ul.teamspace-list {
@@ -214,6 +219,8 @@ ul.members {
 	width:320px;
 	float:right;
 	margin-right:5px;
+	position:relative;
+	z-index:2;
 }
 
 ul.members li {

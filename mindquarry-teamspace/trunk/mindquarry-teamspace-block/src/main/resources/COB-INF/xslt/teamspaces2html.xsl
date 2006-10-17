@@ -45,6 +45,7 @@
 			<a class="details-collapsed" href="#" title="Click here to show project details">more</a>
 			
 			<div style="margin-left:24px">
+			
 			<ul class="members">
 				<xsl:if test="users/user">
 					<xsl:apply-templates select="users" />
@@ -58,6 +59,17 @@
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 6</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 7</li>
 			</ul>
+			
+			<div class="edit-buttons">
+				<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox">
+						Edit Members
+				</a>
+				
+				<a href="#" class="edit_subprojects_button">
+						Edit Related Teams
+				</a>
+			</div>
+			
 			<div class="name">
 				<img class="icon" src="teams/goshaky.png" />
 				<h2 class="name"><xsl:value-of select="name" /></h2>
@@ -71,14 +83,6 @@
 				<li><a href="#">source</a></li>
 				<li><a href="#">open</a></li>
 			</ul>
-		
-			<a href="{normalize-space(id)}/editMembers/" class="add_members_button" rel="lightbox">
-					Edit Members
-			</a>
-			
-			<a href="#" class="edit_subprojects_button">
-					Edit Related Teams
-			</a>
 		
 			<div class="details" style="display:none;">
 				<h3>Team Members</h3>
