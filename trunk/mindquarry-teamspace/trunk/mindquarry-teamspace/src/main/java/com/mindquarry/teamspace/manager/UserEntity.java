@@ -9,7 +9,11 @@ import com.mindquarry.teamspace.User;
 
 public class UserEntity extends EntityBase implements User {
     
+    private String password;
+    
     private String name;
+    
+    private String surname;
     
     private String email;
     
@@ -21,8 +25,24 @@ public class UserEntity extends EntityBase implements User {
      */
     public UserEntity() {
         id = "".intern();
+        password = "".intern();
         name = "".intern();
+        surname = "".intern();
         teamspaceReferences = new HashSet<String>();
+    }
+    
+    /**
+     * @see com.mindquarry.teamspace.User#setPassword(java.lang.String)
+     */
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    /**
+     * @see com.mindquarry.teamspace.UserRO#getPassword()
+     */
+    public String getPassword() {
+        return password;
     }
 
     /**
@@ -37,6 +57,20 @@ public class UserEntity extends EntityBase implements User {
      */
     public void setName(String name) {
         this.name = name;
+    }
+    
+    /**
+     * @see com.mindquarry.teamspace.User#setSurname(java.lang.String)
+     */
+    public void setSurname(String surname) {
+        this.surname = surname;
+    }
+
+    /**
+     * @see com.mindquarry.teamspace.UserRO#getSurname()
+     */
+    public String getSurname() {
+        return surname;
     }
 
     /**
