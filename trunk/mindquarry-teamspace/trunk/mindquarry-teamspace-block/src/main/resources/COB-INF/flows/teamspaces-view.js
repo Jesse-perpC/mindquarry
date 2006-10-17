@@ -7,7 +7,7 @@ function listTeamspacesForUser() {
 	var teamspaceQueryName = "com.mindquarry.teamspace.TeamspaceQuery";
     var teamspaceQuery = cocoon.getComponent(teamspaceQueryName);
     
-    var userId = "bastian";
+    var userId = cocoon.parameters["username"];
     var teamspaces = teamspaceQuery.teamspacesForUser(userId);
     
     var parameterMap = { "teamspaces" : teamspaces }

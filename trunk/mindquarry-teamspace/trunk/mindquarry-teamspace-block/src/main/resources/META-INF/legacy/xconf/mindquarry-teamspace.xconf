@@ -27,8 +27,9 @@
 			</mappings>
 		</component-instance>
 
+
 		<!-- use the following for working with an RMI repository -->
-		<!-- component-instance name="jcr" -->
+		<!--component-instance name="jcr"/-->
 
 	</source-factories>
 
@@ -39,4 +40,13 @@
 			org.apache.xalan.xsltc.trax.TransformerFactoryImpl
 		</transformer-factory>
 	</serializer>
+	
+	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
+			<credentials login="expression" password="expression" />
+			<home src="target/repository" />
+			<credentials login="alexander.saar" password="mypwd" />
+			<configuration
+				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+	</jcr-repository>
+	<jcr-initializer />
 </components>
