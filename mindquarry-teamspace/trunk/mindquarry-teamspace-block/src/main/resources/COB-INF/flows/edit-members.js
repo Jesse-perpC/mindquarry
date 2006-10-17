@@ -65,7 +65,6 @@ function processCreateUserForm(form) {
 }
 
 function cancel() {
-
 	cocoon.redirectTo("/");
 }
 

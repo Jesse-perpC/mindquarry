@@ -29,14 +29,11 @@
 			<fd:datatype base="string"></fd:datatype>
 		</fd:field>
 
-		<fd:submit id="createTeamspaceSubmit">
+		<fd:submit id="createTeamspaceSubmit" command="submit" validate="true">
 			<fd:label>create teamspace</fd:label>
 		</fd:submit>
-		<fd:submit id="cancelSubmit">
-			<fd:label>cancel</fd:label>
-			<fd:on-action>
-				<fd:javascript>cancel();</fd:javascript>
-			</fd:on-action>
+		<fd:submit id="cancelSubmit" command="cancel" validate="false">
+			<fd:label>cancel (and return)</fd:label>
 		</fd:submit>
 	</fd:widgets>
 </fd:form>
