@@ -69,21 +69,42 @@
 				<li><a href="#">open</a></li>
 			</ul>
 			
-			<div class="details" style="display:block;">
+			<div class="details" style="display:none;">
 				<h3>Team Members</h3>
-				
+				<xsl:choose>
+					<xsl:when test="users/user">
+						<xsl:apply-templates select="users/user" mode="detail" />
+					</xsl:when>
+					<xsl:otherwise>
+						none yet.
+					</xsl:otherwise>
+				</xsl:choose>
 			</div>
 			
-			<div class="details" style="display:block;">
+			<div class="details" style="display:none;">
 				<h3>Related Teams</h3>
+				none yet.
 			</div>
 			</div>
 			</div>
 		</li>
 	</xsl:template>
+	
+	<xsl:template match="user" mode="detail">
+		<div class="detail">
+			<img src="users/{normalize-space(id)}.png" />
+			<h4>
+				<xsl:value-of select="name" />
+				<xsl:value-of select="surname" />
+			</h4>
+			Description of the user in a few words
+			<div class="role">Undefined Role <a href="#">more...</a></div>
+			
+		</div>
+	</xsl:template>
 
 	<xsl:template match="user">
-		<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">
+		<li style="background:url(users/{normalize-space(id)}.png);background-repeat:no-repeat;background-position:1px 0px;">
 			<xsl:value-of select="name" />
 			<xsl:value-of select="surname" />
 		</li>
