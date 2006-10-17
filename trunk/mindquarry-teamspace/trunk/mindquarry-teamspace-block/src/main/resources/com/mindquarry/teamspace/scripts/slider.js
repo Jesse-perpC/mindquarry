@@ -8,14 +8,13 @@ dojo.require("dojo.fx.html");
 initEvents = function() {
 	slidingLists = dojo.html.getElementsByClassName("members");
 
-	for (i=0;i<slidingLists.length;i++) {
+	// add prev & next buttons to all member lists
+	for (i=0; i<slidingLists.length; i++) {
 		next = document.createElement('a');
 		next.href = "#";
 		next.className = "slidernext";
 		next.innerHTML = "next";
-		if (slidingLists[i].childNodes.length<=5) {
-			next.style.visibility = "hidden";
-		}
+		
 		prev = document.createElement('a');
 		prev.href = "#";
 		prev.className = "sliderprev";
@@ -27,56 +26,77 @@ initEvents = function() {
 		
 		dojo.event.connect(next, "onclick", "doNext");
 		dojo.event.connect(prev, "onclick", "doPrevious");
+		
+		// set visibility for member entries
+		memberEntries = slidingLists[i].getElementsByTagName("li");
+		for(j=0; j<memberEntries.length; j++) {
+			if(j<5){
+				memberEntries[j].style.display = "block";
+			} else {
+				memberEntries[j].style.display = "none";
+			}
+		}
+		if (memberEntries.length <= 5) {
+			next.style.visibility = "hidden";
+		}
 	}
 }
 
 /* slide to next image */
 doNext = function(event)	{
-	var a = event.target;
-	var ul = a.parentNode;
 	var first = null;
 	var last = null;
+	
+	var ul = event.target.parentNode;
 	var lis = ul.getElementsByTagName("li");
-	for (i=0;i<lis.length;i++) {
+	
+	for (i=0; i<lis.length; i++) {
 		var li = lis[i];
-		if (li.style.display!='none'&&first==null) {
+		if ((li.style.display != 'none') && (first==null)) {
 			first = li;
 		}
-		if (li.style.display=='none'&&last==null&&first!=null) {
+		if ((li.style.display == 'none') && (last == null) && (first != null)) {
 			last = li;
+			
+			if(i == (lis.length - 1)) {
+				event.target.style.visibility = "hidden";
+			}
 		}
 	}
-	if (first!=null&&last!=null) {
-//		dojo.fx.html.fadeOut(first, 300, function(){});}
-		first.style.display = 'none';last.style.display = 'block';
+	if ((first != null) && (last != null)) {
+		first.style.display = 'none';
+		last.style.display = 'block';
+		
 		ul.firstChild.style.visibility = "visible";
-	} else {
-		a.style.visibility = "hidden";
 	}
 }
 
 /* slide to previous image */
 doPrevious = function(event)	{
-	var a = event.target;
-	var ul = a.parentNode;
 	var first = null;
 	var last = null;
+	
+	var ul = event.target.parentNode;
 	var lis = ul.getElementsByTagName("li");
-	for (i=lis.length-1;i>=0;i--) {
+	
+	for (i=lis.length-1; i>=0; i--) {
 		var li = lis[i];
-		if (li.style.display!='none'&&first==null) {
+		if ((li.style.display != 'none') &&(first == null)) {
 			first = li;
 		}
-		if (li.style.display=='none'&&last==null&&first!=null) {
+		if ((li.style.display == 'none') && (last == null) && (first != null)) {
 			last = li;
+			
+			if(i == 0) {
+				event.target.style.visibility = "hidden";
+			}
 		}
 	}
-	if (first!=null&&last!=null) {
-		//dojo.fx.html.fadeOut(first, 300, function(){});}
-		first.style.display = 'none';last.style.display = 'block';
+	if ((first != null) && (last != null)) {
+		first.style.display = 'none';
+		last.style.display = 'block';
+		
 		ul.lastChild.style.visibility = "visible";
-	} else {
-		a.style.visibility = "hidden";
 	}
 }
 
