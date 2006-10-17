@@ -34,8 +34,22 @@
 		;
 }
 
-a.add_members_button:link, a.add_members_button:visited {
+a.edit_members_button:link, a.edit_members_button:visited {
 	background-image: url(../../resources/buttons/add_member.gif);
+	display: none;
+	width: 152px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
+	background-image: url(../../resources/buttons/edit_subprojects.gif);
 	display: none;
 	width: 152px;
 	height: 32px;
