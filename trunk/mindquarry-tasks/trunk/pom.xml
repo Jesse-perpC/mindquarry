@@ -18,7 +18,6 @@
 
 	<modules>
     <module>mindquarry-tasks-block</module>
-    <module>mindquarry-tasks-test-webapp</module>
   </modules>
 
 	<scm>
