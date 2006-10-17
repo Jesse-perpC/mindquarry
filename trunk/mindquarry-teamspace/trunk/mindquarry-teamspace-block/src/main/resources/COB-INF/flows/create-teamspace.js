@@ -19,11 +19,13 @@ function processCreateTeamspaceForm(form) {
 	}
 	
 	form.showForm("create-teamspace.instance");
-	
-	var model = form.getModel();	
-	
-	teamspaceAdmin.createTeamspace(
-		model.teamspaceId, model.name, model.description, user);
-	
+	if (form.submitId == "cancelSubmit") {
+      // the user pressed cancel
+    } else {
+      // the user pressed ok and the form is valid
+      var model = form.getModel();	
+      teamspaceAdmin.createTeamspace(
+      	model.teamspaceId, model.name, model.description, user);
+    }	
 	cocoon.redirectTo("/");
 }

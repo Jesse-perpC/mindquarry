@@ -53,7 +53,7 @@
 				<xsl:if test="users/user">
 					<xsl:apply-templates select="users" />
 				</xsl:if>
-				
+				<!-- 
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 1</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 2</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 3</li>
@@ -61,6 +61,7 @@
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 5</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 6</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 7</li>
+				 -->
 			</ul>
 			
 			<div class="edit-buttons">
