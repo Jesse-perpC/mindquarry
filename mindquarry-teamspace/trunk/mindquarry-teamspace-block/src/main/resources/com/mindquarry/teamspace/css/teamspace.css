@@ -276,7 +276,6 @@ div.details h3 {
 	color: #666666;
 	font-size: 12px;
 	border-bottom: 1px solid grey;
-	margin-top:15px;
 }
 
 div.detail {
@@ -288,6 +287,7 @@ div.detail {
 	margin:2px;
 	float:left;
 	overflow:hidden;
+	margin-bottom:5px;
 }
 
 div.details {
