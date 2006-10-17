@@ -13,7 +13,7 @@
 					href="resources/css/teamspace.css" type="text/css" />
 				<link rel="stylesheet" href="resources/css/screen.css" 
 					media="screen,projection" type="text/css" />
-					
+					 
 				<script type="text/javascript" 
 					src="resources/scripts/prototype.js">//</script>
 				<script type="text/javascript" 
@@ -22,6 +22,9 @@
 					src="resources/scripts/slider.js" >//</script>
 				<script type="text/javascript" 
 					src="resources/scripts/teamspace.js" >//</script>
+				<script type="text/javascript">
+					dojo.require("cocoon.forms");
+				</script>
 			</head>
 			<body>
 				<h1>Manage Your Teams</h1>

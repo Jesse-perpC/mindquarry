@@ -126,11 +126,7 @@ lightbox.prototype = {
 			$(this.content.substr(1)).style.display = display;
 		}
 		else {
-			var myAjax = new Ajax.Updater(
-				'lightboxplaceholder', 
-				this.content, 
-				{ method: 'get', parameters: 'lightbox-request=true', evalScripts: true }
-			);
+			dojo.io.updateNode('lightboxplaceholder',this.content+"?lightbox-request=true");
 			$('lightboxplaceholder').style.display = display;
 		}
 		if(display != 'none') this.actions();		
@@ -159,6 +155,10 @@ lightbox.prototype = {
 	}
 }
 
+
+function notify() {
+	//haha
+	}
 /*-----------------------------------------------------------------------------------------------*/
 
 // Onload, make all links that need to trigger a lightbox active
