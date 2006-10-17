@@ -15,7 +15,7 @@ function processCreateTeamspaceForm(form) {
 	print("user: " + user);
 	
 	if (null == user) {
-		cocoon.redirectTo("../createUser/");
+		cocoon.redirectTo("/createUser/");
 	}
 	
 	form.showForm("create-teamspace.instance");
@@ -25,5 +25,5 @@ function processCreateTeamspaceForm(form) {
 	teamspaceAdmin.createTeamspace(
 		model.teamspaceId, model.name, model.description, user);
 	
-	cocoon.redirectTo("../");
+	cocoon.redirectTo("/");
 }

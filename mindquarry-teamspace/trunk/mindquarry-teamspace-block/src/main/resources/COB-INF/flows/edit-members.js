@@ -28,7 +28,7 @@ function processEditMembersForm(form) {
 	setCreateUserEmbeddedMode();
 	form.showForm("edit-members.instance");
 	
-	cocoon.redirectTo("../..");
+	cocoon.redirectTo("/");
 }
 
 function loadModelWithMembership() {
@@ -61,12 +61,12 @@ function processCreateUserForm(form) {
 	
 	print("creating user...");
 
-	cocoon.redirectTo("../");
+	cocoon.redirectTo("/");
 }
 
 function cancel() {
 
-	cocoon.redirectTo("../");
+	cocoon.redirectTo("/");
 }
 
 function activateCreateUserForm() {
