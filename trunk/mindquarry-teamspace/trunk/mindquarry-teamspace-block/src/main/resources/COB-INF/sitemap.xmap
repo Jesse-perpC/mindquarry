@@ -51,15 +51,21 @@
 				<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
 	        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
 	        	</map:transform>
-	        	<map:serialize type="xhtml"/>
 	        </map:when>
 	        <map:otherwise>
 	      		<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
 	        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
 	        	</map:transform>
-	        	<map:serialize type="xhtml" />
 	        </map:otherwise>
 			</map:select>
+			<map:select type="ajax-request">
+			    <map:when test="true">
+			      <map:serialize type="xml"/>
+			    </map:when>
+			    <map:otherwise>
+			      <map:serialize type="xhtml"/>
+			    </map:otherwise>
+		  </map:select>
 		</map:resource>
 		
 		<map:resource name="form2html">
