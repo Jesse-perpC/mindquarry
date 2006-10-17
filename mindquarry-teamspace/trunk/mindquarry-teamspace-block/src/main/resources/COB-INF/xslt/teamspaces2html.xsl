@@ -50,13 +50,13 @@
 					<xsl:apply-templates select="users" />
 				</xsl:if>
 				
-				<!--li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 1</li>
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 1</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 2</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 3</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 4</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 5</li>
 				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 6</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 7</li-->
+				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 7</li>
 			</ul>
 			<div class="name">
 				<img class="icon" src="teams/goshaky.png" />
@@ -71,9 +71,13 @@
 				<li><a href="#">source</a></li>
 				<li><a href="#">open</a></li>
 			</ul>
-			
+		
 			<a href="{normalize-space(id)}/editMembers/" class="add_members_button">
 					Edit Members
+			</a>
+			
+			<a href="#" class="edit_subprojects_button">
+					Edit Related Teams
 			</a>
 		
 			<div class="details" style="display:none;">
@@ -83,7 +87,7 @@
 						<xsl:apply-templates select="users/user" mode="detail" />
 					</xsl:when>
 					<xsl:otherwise>
-						none yet.
+						No team members assigned.
 					</xsl:otherwise>
 				</xsl:choose>
 			</div>
