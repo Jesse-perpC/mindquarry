@@ -48,7 +48,7 @@
 		<map:resource name="layouting">
 		<map:select type="lightbox-request">
 			<map:when test="true">
-				<map:transform src="xslt/html2lightbox.xsl">
+				<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
 	        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
 	        	</map:transform>
 	        </map:when>
