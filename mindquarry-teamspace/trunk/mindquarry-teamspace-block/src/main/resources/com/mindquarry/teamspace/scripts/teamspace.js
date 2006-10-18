@@ -1,6 +1,7 @@
 dojo.require("dojo.io.BrowserIO");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
+dojo.require("dojo.lfx.html");
 
 /* doing some init stuff */
 initTeamspaceEvents = function() {
@@ -24,32 +25,44 @@ doExpandOrCollapse = function(event)	{
 	var childs = detailsButton.nextSibling.childNodes;
 	for(i=0; i<childs.length; i++) {
 		var child = childs[i];
-		
+		var anims = new Array();
 		if((child.nodeName == "DIV") && (child.className == "details")) {
 			if(detailsButton.className == "details-expanded") {
-				child.style.display = "block";
+				dojo.lfx.html.wipeIn(child, 350).play();
+				//child.style.display = "block";
 			} else {
-				child.style.display = "none";
+				//dojo.lfx.html.fadeOut(child, 340, 1, function() {child.style.display = "none"; });
+				dojo.lfx.html.wipeOut(child, 350).play();
+				//child.style.display = "none";
 			}
 		}
 		
 		if((child.nodeName == "UL") && (child.className == "members")) {
 			if(detailsButton.className == "details-expanded") {
 				child.style.display = "none";
+				//anims[anims.length] = dojo.lfx.html.fadeOut(child, 350, null, function() {child.style.display = "none";});
 			} else {
 				child.style.display = "block";
+				//anims[anims.length] = dojo.lfx.html.fadeIn(child, 350);
 			}
 		}
 		
 		if((child.nodeName == "DIV") && (child.className == "edit-buttons")) {
 			if(detailsButton.className == "details-expanded") {
-				child.firstChild.style.display = "block";
-				child.lastChild.style.display = "block";
+				//alert(child);
+				//anims[anims.length] = dojo.lfx.html.fadeIn(child, 350);
+				child.style.display = "block";
+				//child.firstChild.style.display = "block";
+				//child.lastChild.style.display = "block";
 			} else {
-				child.firstChild.style.display = "none";
-				child.lastChild.style.display = "none";
+				//anims[anims.length] = dojo.lfx.html.fadeOut(child, 350);
+				child.style.display = "none";
+				//child.firstChild.style.display = "none";
+				//child.lastChild.style.display = "none";
 			}
 		}
+		
+		//dojo.lfx.chain(anims).play();
 	}
 }
 

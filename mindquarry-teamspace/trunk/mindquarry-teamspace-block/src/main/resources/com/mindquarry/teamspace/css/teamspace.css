@@ -36,7 +36,7 @@
 
 a.edit_members_button:link, a.edit_members_button:visited {
 	background-image: url(../../resources/buttons/add_member.gif);
-	display: none;
+	display: block;
 	width: 140px;
 	height: 32px;
 	text-decoration: none;
@@ -50,7 +50,7 @@ a.edit_members_button:link, a.edit_members_button:visited {
 
 a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 	background-image: url(../../resources/buttons/edit_subprojects.gif);
-	display: none;
+	display: block;
 	width: 140px;
 	height: 32px;
 	text-decoration: none;
@@ -64,6 +64,7 @@ a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 
 div.edit-buttons {
 	float:right;
+	display:none;
 }
 
 a.create_teamspace_button:link, a.create_teamspace_button:visited {
