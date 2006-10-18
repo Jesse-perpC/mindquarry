@@ -1,5 +1,14 @@
-body {
-	font-family: arial;
+body #background-repeater {
+	left:0px;
+	background-color:#fff;
+	background-image:url(../images/orangerepeater.png);
+	background-repeat:repeat-y;
+}
+
+
+body #background-lines {
+	background-image:url(../images/orangelines.png);
+	background-repeat:no-repeat;
 }
 
 #lightboxplaceholder {
