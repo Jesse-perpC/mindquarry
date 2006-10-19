@@ -4,11 +4,11 @@
 	
 	<entity>
 		<className>com.mindquarry.teamspace.manager.UserEntity</className>
-		<path>/users</path>
+		<path>/users/{$id}</path>
 	</entity>
 	<entity>
 		<className>com.mindquarry.teamspace.manager.TeamspaceEntity</className>
-		<path>/teamspaces</path>
+		<path>/teamspaces/{$id}/metadata.xml</path>
 	</entity>
 	<queryInfo>
 		<key>getUserById</key>
@@ -32,12 +32,12 @@
 	</queryInfo>
 	<queryInfo>
 		<key>getTeamspaceById</key>
-		<query>/teamspaces/{$id}</query>
+		<query>/teamspaces/{$id}/metadata.xml</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
 		<key>getAllTeamspaces</key>
-		<query>/teamspaces</query>
+		<query>/teamspaces/*/metadata.xml</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 </configuration>
