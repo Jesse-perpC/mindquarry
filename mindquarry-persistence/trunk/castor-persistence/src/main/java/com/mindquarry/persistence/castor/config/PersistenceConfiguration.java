@@ -51,7 +51,7 @@ public class PersistenceConfiguration extends AbstractLogEnabled
         return entityMap_.containsKey(entityClazz);
     }
     
-    public String entityBasePath(Class entityClazz) {
+    public String entityPath(Class entityClazz) {
         return entityMap_.get(entityClazz).getPath();
     }
     
