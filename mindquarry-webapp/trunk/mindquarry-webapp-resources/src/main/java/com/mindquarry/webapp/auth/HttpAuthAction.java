@@ -3,18 +3,22 @@ package com.mindquarry.webapp.auth;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletResponse;
+
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.cocoon.acting.AbstractAction;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.cocoon.acting.ServiceableAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.Response;
 import org.apache.cocoon.environment.SourceResolver;
-import javax.servlet.http.HttpServletResponse;
 import org.apache.cocoon.environment.http.HttpResponse;
 import org.apache.commons.codec.binary.Base64;
 
-public class HttpAuthAction extends AbstractAction {
+import com.mindquarry.teamspace.Authentication;
+
+public class HttpAuthAction extends ServiceableAction {
 
 	public Map act(Redirector redirect, SourceResolver resolve, Map objectModel, String source,
 			Parameters params) throws Exception {
@@ -41,24 +45,28 @@ public class HttpAuthAction extends AbstractAction {
 			return EMPTY_MAP;
 		} else {
 			//authenticated. the username is now available from the sitemap
-			Map responsemap = new HashMap();
+			Map<String, String> responsemap = new HashMap<String, String>();
 			responsemap.put("username", user);
 			return responsemap;
 		}
 	}
 	
-	private String getAuthenticatedUser(String encodedAuth) {
+	private String getAuthenticatedUser(String encodedAuth) throws ServiceException {
 		String decodedAuth = new String(Base64.decodeBase64(encodedAuth.getBytes()));
 		String[] auths = decodedAuth.split(":");
-		if (auths.length==2) {
+		
+        String authenticatedUser = null;
+        if (auths.length==2) {
 			String username = auths[0];
 			String password = auths[1];
-			//TODO: lookup the user manager and verify the password
 			
-			//return the username if authentication was successful
-			return username;
+            if (lookupAuthentication().authenticate(username, password))
+                authenticatedUser = username;
 		}
-		return null;
+		return authenticatedUser;
 	}
 
+    private Authentication lookupAuthentication() throws ServiceException {
+        return (Authentication) manager.lookup(Authentication.class.getName());
+    }
 }
