@@ -99,7 +99,8 @@ function createUser() {
 	var teamspaceAdmin = cocoon.getComponent(lookupName);
 	
 	return teamspaceAdmin.createUser(
-			userModel.userId, userModel.name, userModel.email);
+			userModel.userId, userModel.password, userModel.name, 
+			userModel.surname, userModel.email);
 }
 
 function saveMembershipChanges(event) {

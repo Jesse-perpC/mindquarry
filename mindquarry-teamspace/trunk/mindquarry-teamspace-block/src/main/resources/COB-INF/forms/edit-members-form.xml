@@ -75,7 +75,7 @@
 		<fd:group id="createUserModel" state="invisible">
 			<fd:widgets>
 				<fd:field id="userId" required="true">
-					<fd:label>user ID</fd:label>
+					<fd:label>User ID</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 						<fd:regexp pattern="[\w]{3,}">
@@ -86,13 +86,37 @@
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
+				<fd:field id="password" required="true">
+					<fd:label>Password</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w]{5,}">
+							<fd:failmessage>
+								invalid password; it must contains 
+								(at least 5) word characters
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
 				<fd:field id="name" required="true">
-					<fd:label>full name</fd:label>
+					<fd:label>First Name</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 						<fd:regexp pattern="[\w\s]+">
 							<fd:failmessage>
-								invalid full name; it must contains at
+								invalid first name; it must contains at
+								least one word character
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+				<fd:field id="surname" required="true">
+					<fd:label>Surame</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w\s]+">
+							<fd:failmessage>
+								invalid surname; it must contains at
 								least one word character
 							</fd:failmessage>
 						</fd:regexp>
