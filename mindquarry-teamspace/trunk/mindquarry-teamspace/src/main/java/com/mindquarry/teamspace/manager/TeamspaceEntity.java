@@ -8,7 +8,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import com.mindquarry.common.persistence.EntityBase;
-import com.mindquarry.teamspace.Teamspace;
+import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.teamspace.UserRO;
 
 
@@ -18,12 +18,12 @@ import com.mindquarry.teamspace.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">your full name</a>
  */
-public class TeamspaceEntity extends EntityBase implements Teamspace {
+public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
 
     private String name;
     private String description;
     private String workspaceUri;
-    List<UserRO> users;
+    private List<UserRO> users;
 
     
     /**
@@ -54,46 +54,41 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
     }
     
     /**
-     * @see com.mindquarry.types.teamspace.Teamspace#getDescription()
+     * @see com.mindquarry.teamspace.TeamspaceRO#getDescription()
      */
     public String getDescription() {
         return description;
     }
-    /**
-     * @see com.mindquarry.types.teamspace.Teamspace#setDescription(java.lang.String)
-     */
+    
     public void setDescription(String description) {
         this.description = description;
     }
 
     /**
-     * @see com.mindquarry.types.teamspace.Teamspace#getName()
+     * @see com.mindquarry.teamspace.TeamspaceRO#getName()
      */
     public String getName() {
         return name;
     }
-    /**
-     * @see com.mindquarry.types.teamspace.Teamspace#setName(java.lang.String)
-     */
+    
+    
     public void setName(String name) {
         this.name = name;
     }
+    
     /**
-     * @see com.mindquarry.types.teamspace.Teamspace#getWorkspaceUri()
+     * @see com.mindquarry.teamspace.TeamspaceRO#getWorkspaceUri()
      */
     public String getWorkspaceUri() {
         return workspaceUri;
     }
-    /**
-     * @see com.mindquarry.types.teamspace.Teamspace#setWorkspaceUri(java.lang.String)
-     */
+    
+    
     public void setWorkspaceUri(String workspaceUri) {
         this.workspaceUri = workspaceUri;
     }
     
-    /**
-     * @see com.mindquarry.teamspace.TeamspaceRO#getUsers()
-     */
+    
     public List<UserRO> getUsers() {
         List<UserRO> userList = new LinkedList<UserRO>(users);   
         return Collections.unmodifiableList(userList);

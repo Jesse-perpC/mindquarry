@@ -19,13 +19,6 @@ public interface UserRO {
      * @return the id
      */
     String getId();
-    
-    /**
-     * Getter for password.
-     *
-     * @return the password
-     */
-    String getPassword();
 
     /**
      * Getter for name.
