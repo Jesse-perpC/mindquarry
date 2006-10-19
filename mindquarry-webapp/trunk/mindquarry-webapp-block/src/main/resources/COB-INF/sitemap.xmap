@@ -44,6 +44,7 @@
 					src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
 					<map:parameter name="pathInfo"
 						value="{request:pathInfo}" />
+					<map:parameter name="user.agent" value="{request-header:User-Agent}" />
 				</map:transform>
 				<map:serialize type="xhtml" />
 			</map:match>

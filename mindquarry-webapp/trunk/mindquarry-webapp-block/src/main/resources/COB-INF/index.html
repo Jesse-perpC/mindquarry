@@ -1,4 +1,4 @@
-<html>
+<html xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
 	<head>
 		<title>Welcome</title>
 		<link rel="stylesheet" href="resources/css/webapp.css" type="text/css" />
@@ -11,7 +11,7 @@
 }
 
 #innercontent a.orangebutton {
-	background-image:url(resources/buttons/133x46/orange.gif);
+	background-image:url(resources/buttons/133x46/orange.<us:text test="MSIE" value="gif" default="png"/>);
 	display:block;
 	width:133px;
 	height:46px;
@@ -25,7 +25,7 @@
 }
 
 #innercontent a.redbutton {
-	background-image:url(resources/buttons/133x46/red.gif);
+	background-image:url(resources/buttons/133x46/red.<us:text test="MSIE" value="gif" default="png"/>);
 	display:block;
 	width:133px;
 	height:46px;
@@ -39,7 +39,7 @@
 }
 
 #innercontent a.bluebutton {
-	background-image:url(resources/buttons/133x46/blue.gif);
+	background-image:url(resources/buttons/133x46/blue.<us:text test="MSIE" value="gif" default="png"/>);
 	display:block;
 	width:133px;
 	height:46px;
@@ -53,7 +53,7 @@
 }
 
 #innercontent a.greenbutton {
-	background-image:url(resources/buttons/133x46/green.gif);
+	background-image:url(resources/buttons/133x46/green.<us:text test="MSIE" value="gif" default="png"/>);
 	display:block;
 	width:133px;
 	height:46px;
@@ -67,7 +67,7 @@
 }
 
 #innercontent a.yellowbutton {
-	background-image:url(resources/buttons/133x46/yellow.gif);
+	background-image:url(resources/buttons/133x46/yellow.<us:text test="MSIE" value="gif" default="png"/>);
 	display:block;
 	width:133px;
 	height:46px;
@@ -98,11 +98,12 @@
 		</p>
 		<table class="welcome">
 			<tr>
-				<td style="text-align:center;"><a href="../mindquarry-teamspace-block/"><img alt="Teams Icon" src="resources/icons/teams.gif" /></a></td>
-				<td style="text-align:center;"><a href="../mindquarry-workspace-block/"><img alt="Workspaces Icon" src="resources/icons/workspaces.gif" /></a></td>
-				<td style="text-align:center;"><a href="#"><img alt="Wiki Icon" src="resources/icons/wiki.gif" /></a></td>
-				<td style="text-align:center;"><a href="#"><img alt="Tasks Icon" src="resources/icons/tasks.gif" /></a></td>
-				<td style="text-align:center;"><a href="#"><img alt="Talk Icon" src="resources/icons/conversations.gif" /></a></td>
+				<td style="text-align:center;"><a href="../mindquarry-teamspace-block/"><img alt="Teams Icon" ><us:attribute name="src" test="MSIE" value="resources/icons/teams.gif" default="resources/icons/teams.png"/></img></a></td>
+				<td style="text-align:center;"><a href="../mindquarry-workspace-block/"><img alt="Workspaces Icon"><us:attribute name="src" test="MSIE" value="resources/icons/workspaces.gif" default="resources/icons/workspaces.png"/></img></a></td>
+				<td style="text-align:center;"><a href="#"><img alt="Wiki Icon"><us:attribute name="src" test="MSIE" value="resources/icons/wiki.gif" default="resources/icons/wiki.png"/></img></a></td>
+				<td style="text-align:center;"><a href="#"><img alt="Tasks Icon"><us:attribute name="src" test="MSIE" value="resources/icons/tasks.gif" default="resources/icons/tasks.png"/></img></a></td>
+				<td style="text-align:center;"><a href="#">
+				<img alt="Talk Icon"><us:attribute name="src" test="MSIE" value="resources/icons/conversations.gif" default="resources/icons/conversations.png"/></img></a></td>
 			</tr>
 			<tr>
 				<td>The teams block allows you to see all the 
@@ -131,7 +132,7 @@
 				<td>
 					<p>I would like to...</p>
 					<ul>
-						<li><a href="../mindquarry-teamspace-block/">See my projects</a></li>
+						<li><a href="../mindquarry-teamspace-block/">see my projects</a></li>
 						<li><a href="#">create a new project</a></li>
 						<li><a href="#">add a new team member</a></li>
 					</ul>
