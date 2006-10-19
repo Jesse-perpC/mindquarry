@@ -88,15 +88,9 @@ class CastorSession extends AbstractLogEnabled implements Session {
     }
     
     public boolean delete(Object object) {
-        EntityBase entity = validateEntity(object);
-        
-        boolean isDeleted = false;        
-        if (queriedEntities_.contains(object)) {            
-            deletedEntities_.add(entity);
-            queriedEntities_.remove(entity);
-            isDeleted = true;
-        }        
-        return isDeleted;
+        EntityBase entity = validateEntity(object);            
+        deletedEntities_.add(entity);
+        return true;
     }
     
     public void commit() {
