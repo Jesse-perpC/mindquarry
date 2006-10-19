@@ -1,0 +1,4 @@
+<role-list>	
+	<role name="com.mindquarry.teamspace.Authentication"
+		default-class="com.mindquarry.teamspace.manager.TeamspaceManager" />
+</role-list>
