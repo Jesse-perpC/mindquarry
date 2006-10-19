@@ -8,6 +8,7 @@ var WidgetState = org.apache.cocoon.forms.formmodel.WidgetState;
 var teamspaceQuery_;
 var membership_;
 var model_;
+var form_;
 
 function processEditMembersForm(form) {
 	
@@ -21,6 +22,7 @@ function processEditMembersForm(form) {
 	membership_ = teamspaceQuery_.membership(editedTeamspace);
 	
 	model_ = form.getModel();
+	form_ = form;
 	model_.teamspaceName = editedTeamspace.name;
 	
 	loadModelWithMembership();
@@ -54,6 +56,7 @@ function loadModelWithMembership() {
 function processCreateUserForm(form) {
 	
 	model_ = form.getModel();
+	form_ = form;
 	
 	activateCreateUserForm();
 	setCreateUserStandaloneMode();
@@ -94,6 +97,14 @@ function setCreateUserEmbeddedMode() {
 function createUser() {
 	
 	var userModel = model_.createUserModel;
+	
+	var uploadWidget = form_.lookupWidget("/createUserModel/photo");
+	print("uploadWidget:" + uploadWidget);
+	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
+    var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
+    
+    uploadWidget.getValue().copyToSource(source);
+    print("copied image");
 	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
 	var teamspaceAdmin = cocoon.getComponent(lookupName);

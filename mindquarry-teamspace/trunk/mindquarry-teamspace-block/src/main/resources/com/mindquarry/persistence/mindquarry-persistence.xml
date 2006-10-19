@@ -17,7 +17,8 @@
 	</queryInfo>
 	<queryInfo>
 		<key>getAllUsers</key>
-		<query>/users</query>
+		<!-- exclude all documents with a dot, because .png files cannot be parsed -->
+		<query>/users?/*[not(contains(local-name(.),'.'))]</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
