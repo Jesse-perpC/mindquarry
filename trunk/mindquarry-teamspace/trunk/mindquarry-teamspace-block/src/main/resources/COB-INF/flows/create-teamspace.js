@@ -12,11 +12,6 @@ function processCreateTeamspaceForm(form) {
 	var userId = cocoon.parameters["username"];
 	print("userId: " + userId);
 	var user = teamspaceAdmin.userForId(userId);
-	print("user: " + user);
-	
-	if (null == user) {
-		cocoon.redirectTo("/createUser/");
-	}
 	
 	form.showForm("create-teamspace.instance");
 	if (form.submitId == "cancelSubmit") {
@@ -25,7 +20,7 @@ function processCreateTeamspaceForm(form) {
       // the user pressed ok and the form is valid
       var model = form.getModel();	
       teamspaceAdmin.createTeamspace(
-      	model.teamspaceId, model.name, model.description, user);
+      model.teamspaceId, model.name, model.description, user);
     }	
 	cocoon.redirectTo("/");
 }

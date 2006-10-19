@@ -28,6 +28,8 @@
 				
 				<a class="create_teamspace_button" href="createTeamspace/" rel="lightbox">
 					New Team</a>
+				<a class="create_user_button" href="createUser/" rel="lightbox">
+					New User</a>
 				
 				<ul class="teamspace-list">
 					<xsl:apply-templates>
