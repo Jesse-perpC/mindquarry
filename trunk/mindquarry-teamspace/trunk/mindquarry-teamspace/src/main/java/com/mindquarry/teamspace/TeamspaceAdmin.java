@@ -10,12 +10,39 @@ package com.mindquarry.teamspace;
  */
 public interface TeamspaceAdmin extends TeamspaceQuery {
 
+    /**
+     * creates a new teamspace
+     * @param teamspaceId
+     * @param name of the teamspace
+     * @param a String describing the teamspace
+     * @param the user that triggered the creation of the new teamspace 
+     */
 	TeamspaceRO createTeamspace(String id, String name, 
                 String description, UserRO teamspaceCreator);
 	
-	void removeTeamspace(String id);
+	void removeTeamspace(String teamspaceId);
     
-	UserRO createUser(String id, String name, String email);
+    /**
+     * creates a new user account
+     * @param userId
+     * @param password
+     * @param first name of the new user
+     * @param last name of the new user
+     * @param the user's email address
+     */
+	UserRO createUser(String id, String password, 
+            String name, String surName, String email);
     
-    void removeUser(String id);
+    /**
+     * change the password of a user if the old password matches
+     * 
+     * @param a user
+     * @param the old password
+     * @param the new password
+     * @returns true if change succeeds otherwise false
+     */
+    boolean changePassword(String userId, 
+            String oldPassword, String newPassword);
+    
+    void removeUser(String userId);
 }

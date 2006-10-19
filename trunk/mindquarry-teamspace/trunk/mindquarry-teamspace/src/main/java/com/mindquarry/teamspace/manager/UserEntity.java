@@ -32,7 +32,9 @@ public class UserEntity extends EntityBase implements User {
     }
     
     /**
-     * @see com.mindquarry.teamspace.User#setPassword(java.lang.String)
+     * setter for password
+     * 
+     * @param password
      */
     public void setPassword(String password) {
         this.password = password;

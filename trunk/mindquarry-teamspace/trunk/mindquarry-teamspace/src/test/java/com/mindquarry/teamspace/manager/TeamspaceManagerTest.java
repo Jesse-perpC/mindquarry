@@ -31,7 +31,8 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        UserRO creator = admin.createUser(userId, "Mindquarry User", "an email");
+        UserRO creator = admin.createUser(userId, "aSecretPassword", 
+                "Mindquarry User", "surname", "an email");
         
         String teamspaceId = "mindquarry-teamspace";
 		admin.createTeamspace(teamspaceId, "Mindquarry Teamspace", 
@@ -40,43 +41,44 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         admin.createTeamspace(teamspaceId + "2", "Mindquarry Teamspace", 
                 "a greate description", creator);
         
-        List<TeamspaceRO> teamspaces = admin.allTeamspaces();
+        List<TeamspaceRO> teamspaces = admin.teamspacesForUser(userId);
         assertEquals(2, teamspaces.size());
-        assertEquals(teamspaceId, teamspaces.get(0).getId());
                 
+        admin.removeTeamspace(teamspaceId);        
         admin.removeTeamspace(teamspaceId + "2");
-        assertEquals(1, admin.allTeamspaces().size());
         
-        admin.removeTeamspace(teamspaceId);
-        assertEquals(0, admin.allTeamspaces().size());
+        assertEquals(0, admin.teamspacesForUser(userId).size());
 	}
     
     public void testCreateAndRemoveUser() 
         throws ServiceException, TeamspaceAlreadyExistsException {
+        // please note, an admin users is created within the initialize method
         
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        admin.createUser(userId, "Mindquarry User", "an email");
+        admin.createUser(userId, "aSecretPassword",
+                "Mindquarry User", "surname", "an email");
         
         List<UserRO> users = admin.allUsers();
-        assertEquals(1, users.size());
-        assertEquals(userId, users.get(0).getId());
+        assertEquals(2, users.size());
         
         admin.removeUser(userId);
-        assertEquals(0, admin.allTeamspaces().size());
+        assertEquals(1, admin.allUsers().size());
     }
     
     public void testAddUserToTeamspace() 
         throws ServiceException, TeamspaceAlreadyExistsException {
+        // please note, an admin users is created within the initialize method
         
         TeamspaceAdmin admin = lookupTeamspaceAdmin();
         
         String userId = "mindquarry-user";
-        UserRO creator = admin.createUser(userId, "Mindquarry User", "an email");
+        UserRO creator = admin.createUser(userId, "aSecretPassword",
+                "Mindquarry User", "surname", "an email");
         
-        admin.createUser(
-                "newUser", "Mindquarry User", "an email");
+        admin.createUser("newUser", "aSecretPassword", 
+                "Mindquarry User", "surname", "an email");
         
         String teamspaceId = "mindquarry-teamspace";
         TeamspaceRO teamspace = admin.createTeamspace(teamspaceId, 
@@ -84,7 +86,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         Membership membership = admin.membership(teamspace);
         assertEquals(1, membership.getMembers().size());
-        assertEquals(1, membership.getNonMembers().size());
+        assertEquals(2, membership.getNonMembers().size());
         
         
         membership.addMember(membership.getNonMembers().get(0));
@@ -93,7 +95,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         Membership updatedMembership = admin.membership(teamspace);
         assertEquals(2, updatedMembership.getMembers().size());
-        assertEquals(0, updatedMembership.getNonMembers().size());
+        assertEquals(1, updatedMembership.getNonMembers().size());
         
         UserRO memberToRemove = updatedMembership.getMembers().get(0);
         updatedMembership.removeMember(memberToRemove);
@@ -101,7 +103,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         Membership originalMembership = admin.membership(teamspace);
         assertEquals(1, originalMembership.getMembers().size());
-        assertEquals(1, updatedMembership.getNonMembers().size());
+        assertEquals(2, updatedMembership.getNonMembers().size());
     }
     
     private TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {

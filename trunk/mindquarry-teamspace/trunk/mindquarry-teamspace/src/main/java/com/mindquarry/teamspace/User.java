@@ -13,13 +13,6 @@ package com.mindquarry.teamspace;
 public interface User extends UserRO {
     
     /**
-     * Setter for password.
-     *
-     * @param name the password to set
-     */
-    void setPassword(String password);
-    
-    /**
      * Setter for name.
      *
      * @param name the name to set
