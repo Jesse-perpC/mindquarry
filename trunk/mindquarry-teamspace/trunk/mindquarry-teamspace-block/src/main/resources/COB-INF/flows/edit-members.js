@@ -65,10 +65,6 @@ function processCreateUserForm(form) {
 	cocoon.redirectTo("/");
 }
 
-function cancel() {
-	cocoon.redirectTo("/");
-}
-
 function activateCreateUserForm() {
 	model_.editMembersModel.state = WidgetState.INVISIBLE;
 	model_.createUserModel.state = WidgetState.ACTIVE;
