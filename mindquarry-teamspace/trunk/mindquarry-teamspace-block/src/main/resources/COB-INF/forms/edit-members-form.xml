@@ -119,14 +119,9 @@
 					</fd:on-action>
 				</fd:submit>
 
-				<fd:action id="cancelSubmit" state="invisible">
+				<fd:submit id="cancelSubmit" state="invisible" validate="false">
 					<fd:label>cancel (and return)</fd:label>
-					<fd:on-action>
-						<fd:javascript>
-							cancel();
-						</fd:javascript>
-					</fd:on-action>
-				</fd:action>
+				</fd:submit>
 				
 				
 				<fd:action id="createUserAction" state="invisible">
