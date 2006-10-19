@@ -24,7 +24,11 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 				</tr>
 				<tr>
 					<td><ft:widget-label id="description" /></td>
-					<td><ft:widget id="description" /></td>
+					<td>
+						<ft:widget id="description">
+							<fi:styling type="textarea" />
+						</ft:widget>
+					</td>
 				</tr>
 			</table>
 			

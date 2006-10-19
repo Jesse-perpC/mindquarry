@@ -89,7 +89,7 @@ a.create_teamspace_button:link, a.create_teamspace_button:visited {
 a.create_user_button:link, a.create_user_button:visited {
 	background-image: url(../../resources/buttons/create_user.gif);
 	display:block;
-	width: 140px;
+	width: 142px;
 	height: 32px;
 	text-decoration: none;
 	text-align: center;

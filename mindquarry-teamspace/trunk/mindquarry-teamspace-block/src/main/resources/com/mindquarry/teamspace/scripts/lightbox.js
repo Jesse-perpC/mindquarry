@@ -14,6 +14,7 @@ And the lightbox gone wild by ParticleTree at http://particletree.com/features/l
 dojo.require("dojo.event");
 dojo.require("cocoon.ajax.common");
 dojo.require("cocoon.ajax.insertion");
+dojo.require("dojo.lfx.html");
 /*-------------------------------GLOBAL VARIABLES------------------------------------*/
 
 var detect = navigator.userAgent.toLowerCase();
@@ -139,7 +140,9 @@ lightbox.prototype = {
 		else {
 			placeholder = document.getElementById('lightboxplaceholder');
 			cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
+			//placeholder.style.visibility = "visible";
 			placeholder.style.display = display;
+			//dojo.lfx.html.fadeShow(placeholder, 1000).play();
 			cocoon.ajax.insertionHelper.parseDojoWidgets(placeholder);
 		}
 		if(display != 'none') this.actions();		
