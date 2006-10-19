@@ -5,11 +5,11 @@
 	xsi:schemaLocation="http://www.mindquarry.com/ns/schema/xmlbeans-persistence ../../../../../../main/xsd/xmlbeans-persistence.xsd ">
 	<entity>
 		<className>com.mindquarry.persistence.castor.UserEntity</className>
-		<path>/users</path>
+		<path>/users/{$id}</path>
 	</entity>
 	<entity>
 		<className>com.mindquarry.persistence.castor.TeamspaceEntity</className>
-		<path>/teamspaces</path>
+		<path>/teamspaces/{$id}/metadata.xml</path>
 	</entity>
 	<queryInfo>
 		<key>getUserById</key>
@@ -23,7 +23,7 @@
 	</queryInfo>
 	<queryInfo>
 		<key>getTeamspaceById</key>
-		<query>/teamspaces/{$id}</query>
+		<query>/teamspaces/{$id}/metadata.xml</query>
 		<resultEntityClass>com.mindquarry.persistence.castor.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>

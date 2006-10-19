@@ -283,9 +283,15 @@ class CastorSession extends AbstractLogEnabled implements Session {
         return (ModifiableTraversableSource) source;
     }
     
-    private String buildEntityPath(EntityBase entity) {
+    private String buildEntityPath_old(EntityBase entity) {
         Class entityClazz = entity.getClass();  
-        String basePath = configuration_.entityBasePath(entityClazz);
+        String basePath = configuration_.entityPath(entityClazz);
         return basePath + "/" + entity.getId();
+    }
+    
+    private String buildEntityPath(EntityBase entity) {
+        Class entityClazz = entity.getClass();
+        String entityPathTemplate = configuration_.entityPath(entityClazz);
+        return entityPathTemplate.replace("{$id}", entity.getId());
     }
 }
