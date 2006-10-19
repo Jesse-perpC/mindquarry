@@ -9,6 +9,8 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 		<title>Edit Members of Teamspace</title>
 		<link rel="stylesheet" us:context="href" type="text/css" 
 			href="blocks/mindquarry-teamspace-block/resources/css/teamspace.css" />
+		<link rel="stylesheet" us:context="href" type="text/css" 
+			href="blocks/mindquarry-teamspace-block/resources/css/edit-members.css" />
 	</head>
 	<body>
 	<div>
@@ -20,9 +22,9 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 					<div>
 						<h2><ft:widget-label id="members" /></h2>
 						<ft:repeater id="members">
-							<ul>
+							<ul class="member-list">
 								<ft:repeater-rows>
-									<li class="member-list">
+									<li>
 										<fi:styling type="member-entry" />
 										<ft:widget id="userId">
 											<fi:styling type="user-image" />
@@ -38,9 +40,9 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 					<div>
 						<h2><ft:widget-label id="nonMembers" /></h2>
 						<ft:repeater id="nonMembers">
-							<ul>
+							<ul class="member-list">
 								<ft:repeater-rows>
-									<li class="member-list">
+									<li>
 										<fi:styling type="member-entry" />
 										<ft:widget id="userId">
 											<fi:styling type="user-image" />
