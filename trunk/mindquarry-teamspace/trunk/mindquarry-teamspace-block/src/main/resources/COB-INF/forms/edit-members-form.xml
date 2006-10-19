@@ -98,6 +98,15 @@
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
+				<fd:field id="password2" required="true">
+					<fd:label>Password (repeat)</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+				        <fd:assert test="password = password2">
+				          <fd:failmessage>The two passwords are not equal.</fd:failmessage>
+				        </fd:assert>
+			      </fd:validation>
+				</fd:field>
 				<fd:field id="name" required="true">
 					<fd:label>First Name</fd:label>
 					<fd:datatype base="string"></fd:datatype>
@@ -111,7 +120,7 @@
 					</fd:validation>
 				</fd:field>
 				<fd:field id="surname" required="true">
-					<fd:label>Surame</fd:label>
+					<fd:label>Surname</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 						<fd:regexp pattern="[\w\s]+">

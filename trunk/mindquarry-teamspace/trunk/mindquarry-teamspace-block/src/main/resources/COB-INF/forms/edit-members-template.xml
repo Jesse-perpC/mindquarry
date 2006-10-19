@@ -77,6 +77,14 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 							</td>
 						</tr>
 						<tr>
+							<td><ft:widget-label id="password2" /></td>
+							<td>
+								<ft:widget id="password2">
+									<fi:styling type="password"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
 							<td><ft:widget-label id="name" /></td>
 							<td><ft:widget id="name" /></td>
 						</tr>
