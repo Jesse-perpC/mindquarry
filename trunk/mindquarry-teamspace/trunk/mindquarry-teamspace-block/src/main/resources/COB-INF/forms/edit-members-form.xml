@@ -131,6 +131,11 @@
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
+				
+				<fd:upload id="photo" mime-types="image/png" required="false">
+				  <fd:label>Photo</fd:label>
+				</fd:upload>
+				
 				<fd:field id="email" required="true">
 					<fd:label>email</fd:label>
 					<fd:datatype base="string"></fd:datatype>
