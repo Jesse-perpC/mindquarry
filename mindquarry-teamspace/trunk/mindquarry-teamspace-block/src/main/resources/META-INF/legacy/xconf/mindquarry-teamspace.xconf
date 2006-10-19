@@ -43,7 +43,7 @@
 	
 	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
 			<credentials login="expression" password="expression" />
-			<home src="/tmp/mq-jcr" />
+			<home src="${user.home}/tmp/mq-jcr" />
 			<credentials login="alexander.saar" password="mypwd" />
 			<configuration
 				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />

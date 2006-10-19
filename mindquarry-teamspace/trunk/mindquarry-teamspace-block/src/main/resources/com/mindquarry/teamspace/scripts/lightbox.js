@@ -138,7 +138,6 @@ lightbox.prototype = {
 		}
 		else {
 			placeholder = document.getElementById('lightboxplaceholder');
-			
 			cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
 			placeholder.style.display = display;
 			cocoon.ajax.insertionHelper.parseDojoWidgets(placeholder);
