@@ -17,7 +17,7 @@
 	<artifactId>mindquarry-jcr-source</artifactId>
 	<packaging>jar</packaging>
 
-	<name>JCR XML Wrapper for Excalibur Sourceresolver API</name>
+	<name>Mindquarry JCR XML/Sourceresolver Wrapper</name>
 
 	<build>
 		<plugins>
