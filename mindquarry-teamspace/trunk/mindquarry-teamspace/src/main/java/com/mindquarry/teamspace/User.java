@@ -32,4 +32,11 @@ public interface User extends UserRO {
      * @param email the email to set
      */
     void setEmail(String email);
+    
+    /**
+     * Setter for skills.
+     *
+     * @param skills the skills to set
+     */
+    void setSkills(String skills);
 }
