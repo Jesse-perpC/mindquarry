@@ -1,9 +1,0 @@
-<?xml version="1.0"?>
-<role-list>
-  <role name="javax.jcr.Repository"
-      shorthand="jcr-repository" />
-
-  <role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
-      shorthand="jcr-initializer" />
-</role-list>
-
