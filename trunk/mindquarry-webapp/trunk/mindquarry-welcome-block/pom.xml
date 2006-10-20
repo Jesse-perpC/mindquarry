@@ -13,11 +13,11 @@
 	</parent>
 
 	<groupId>com.mindquarry.webapp</groupId>
-	<artifactId>mindquarry-webapp-block</artifactId>
-	<name>Mindquarry WebApp Block</name>
+	<artifactId>mindquarry-welcome-block</artifactId>
+	<name>Mindquarry Welcome Block</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<build>
-		<finalName>mindquarry-block</finalName>
+		<finalName>mindquarry-welcome-block</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.cocoon</groupId>
@@ -37,7 +37,7 @@
 						</connector>
 					</connectors>
 					<webAppSourceDirectory>
-						target/mindquarry-block
+						target/mindquarry-welcome-block
 					</webAppSourceDirectory>
 					<classesDirectory>${basedir}/src/main/resources</classesDirectory>
 					<contextPath>/</contextPath>
@@ -63,18 +63,6 @@
 		</dependency>
 
 		<dependency>
-			<groupId>com.mindquarry.workspace</groupId>
-			<artifactId>mindquarry-workspace-block</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>com.mindquarry.teamspace</groupId>
-			<artifactId>mindquarry-teamspace-block</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		
-		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -93,13 +81,13 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-block/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-welcome-block/
 		</connection>
 		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapp-block/
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-welcome-block/
 		</url>
 		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-block/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-welcome-block/
 		</developerConnection>
 	</scm>	
 </project>
