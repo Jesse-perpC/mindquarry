@@ -60,7 +60,7 @@
 				</fd:repeater>
 
 				<fd:submit id="ok">
-					<fd:label>ok</fd:label>
+					<fd:label>OK</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							saveMembershipChanges(event);
@@ -69,11 +69,11 @@
 				</fd:submit>
 
 				<fd:submit id="cancel" validate="false">
-					<fd:label>cancel</fd:label>
+					<fd:label>Cancel</fd:label>
 				</fd:submit>
 
 				<fd:action id="createUser">
-					<fd:label>create new member</fd:label>
+					<fd:label>New Member</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							activateCreateUserForm();
@@ -149,7 +149,7 @@
 				</fd:upload>
 				
 				<fd:field id="email" required="true">
-					<fd:label>email</fd:label>
+					<fd:label>EMail</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 						<fd:email>
@@ -166,7 +166,7 @@
 				</fd:field>
 
 				<fd:submit id="createUserSubmit" state="invisible">
-					<fd:label>create user</fd:label>
+					<fd:label>Create User</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							createUser();
@@ -175,12 +175,12 @@
 				</fd:submit>
 
 				<fd:submit id="cancelSubmit" state="invisible" validate="false">
-					<fd:label>cancel (and return)</fd:label>
+					<fd:label>Cancel</fd:label>
 				</fd:submit>
 				
 				
 				<fd:action id="createUserAction" state="invisible">
-					<fd:label>create user</fd:label>
+					<fd:label>Create User</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							var user = createUser();
@@ -191,7 +191,7 @@
 				</fd:action>
 				
 				<fd:action id="cancelAction" state="invisible">
-					<fd:label>cancel</fd:label>
+					<fd:label>Cancel</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							activateEditMembersForm();

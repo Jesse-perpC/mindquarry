@@ -68,3 +68,18 @@ div.member-details input {
 	text-align:center;
 	clear:both;
 }
+
+
+#create-user-form {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#create-user-form td.label {
+	text-align:left;
+	vertical-align:top;
+}
+
+#create-user-form td {
+	margin:2px;
+}

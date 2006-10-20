@@ -15,6 +15,8 @@
 					media="screen,projection" type="text/css" />
 				<link rel="stylesheet" 
 					href="resources/css/edit-members.css" type="text/css" />
+				<link rel="stylesheet" 
+					href="resources/css/create-teamspace.css" type="text/css" />
 				
 				<script type="text/javascript" 
 					src="resources/scripts/lightbox.js" >//</script>
