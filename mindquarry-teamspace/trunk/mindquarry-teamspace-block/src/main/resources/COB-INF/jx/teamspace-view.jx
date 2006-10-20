@@ -23,6 +23,9 @@
 							<surname>
 								<jx:out value="${user.surname}" />
 							</surname>
+							<skills>
+								<jx:out value="${user.skills}" />
+							</skills>
 						</user>
 					</jx:forEach>
 				</users>
