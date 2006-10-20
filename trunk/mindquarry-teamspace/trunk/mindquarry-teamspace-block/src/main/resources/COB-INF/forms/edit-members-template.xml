@@ -83,13 +83,13 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 			<ft:group id="createUserModel">
 				<div id="createUserModel">
 					<h1>Create New User</h1>
-					<table>
+					<table id="create-user-form">
 						<tr>
-							<td><ft:widget-label id="userId" /></td>
+							<td class="label"><ft:widget-label id="userId" /></td>
 							<td><ft:widget id="userId" /></td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="password" /></td>
+							<td class="label"><ft:widget-label id="password" /></td>
 							<td>
 								<ft:widget id="password">
 									<fi:styling type="password"></fi:styling>
@@ -97,7 +97,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 							</td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="password2" /></td>
+							<td class="label"><ft:widget-label id="password2" /></td>
 							<td>
 								<ft:widget id="password2">
 									<fi:styling type="password"></fi:styling>
@@ -105,23 +105,23 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 							</td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="photo" /></td>
+							<td class="label"><ft:widget-label id="photo" /></td>
 							<td><ft:widget id="photo" /></td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="name" /></td>
+							<td class="label"><ft:widget-label id="name" /></td>
 							<td><ft:widget id="name" /></td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="surname" /></td>
+							<td class="label"><ft:widget-label id="surname" /></td>
 							<td><ft:widget id="surname" /></td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="email" /></td>
+							<td class="label"><ft:widget-label id="email" /></td>
 							<td><ft:widget id="email" /></td>
 						</tr>
 						<tr>
-							<td><ft:widget-label id="skills" /></td>
+							<td class="label"><ft:widget-label id="skills" /></td>
 							<td>
 								<ft:widget id="skills">
 									<fi:styling type="textarea"></fi:styling>

@@ -1,7 +1,7 @@
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
 		<fd:field id="teamspaceId" required="true">
-			<fd:label>teamspace ID</fd:label>
+			<fd:label>Teamspace ID</fd:label>
 			<fd:datatype base="string"></fd:datatype>
 			<fd:validation>
 				<fd:regexp pattern="[a-z\-]{3,}">
@@ -13,7 +13,7 @@
 			</fd:validation>
 		</fd:field>
 		<fd:field id="name" required="true">
-			<fd:label>full name</fd:label>
+			<fd:label>Teamspace Name</fd:label>
 			<fd:datatype base="string"></fd:datatype>
 			<fd:validation>
 				<fd:regexp pattern="[\w\s]+">
@@ -30,10 +30,10 @@
 		</fd:field>
 
 		<fd:submit id="createTeamspaceSubmit" command="submit" validate="true">
-			<fd:label>create teamspace</fd:label>
+			<fd:label>Create</fd:label>
 		</fd:submit>
 		<fd:submit id="cancelSubmit" command="cancel" validate="false">
-			<fd:label>cancel (and return)</fd:label>
+			<fd:label>Cancel</fd:label>
 		</fd:submit>
 	</fd:widgets>
 </fd:form>
