@@ -50,3 +50,11 @@
   padding-right:5px;
 /*  white-space:nowrap;*/
 }
+
+#beta-comment {
+	font-size:10pt;
+	color: white;
+	position:absolute;
+	top:8px;
+	right:8px;
+}

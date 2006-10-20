@@ -72,15 +72,20 @@
 	<xsl:template match="xhtml:body|body">
 		<body>
 			<div class="body">
+				<!-- layouting the header -->
 				<div id="webapp-header">
-        				<ul id="webapp-sections">
+        			<ul id="webapp-sections">
 						<li><a class="navTalk" href="{$context.path}">Talk</a></li>
 						<li><a class="navTasks" href="{$context.path}">Tasks</a></li>
 						<li><a class="navWiki" href="{$context.path}">Wiki</a></li>
 						<li><a class="navFiles" href="{$context.path}blocks/mindquarry-workspace-block/">Files</a></li>
 						<li><a class="navTeams" href="{$context.path}blocks/mindquarry-teamspace-block/">Teams</a></li>
 					</ul>
+					
+					<div id="beta-comment">Alpha 1</div>
 				</div>
+				
+				<!-- layouting the content -->
 				<div id="webapp-content">
 					<div id="background-repeater">
 						<div id="background-lines">
@@ -93,7 +98,7 @@
 													<div id="background-sw">
 														<div id="background-se">
 															<div id="innercontent">
-															<xsl:apply-templates />
+																<xsl:apply-templates />
 															</div>
 														</div>
 													</div>
@@ -106,6 +111,8 @@
 						</div>
 					</div>
 				</div>
+				
+				<!-- layouting the footer -->
 				<div id="webapp-footer">
 					<ul id="webapp-footer-sections">
 						<li><a href="{$context.path}">Home</a></li>
