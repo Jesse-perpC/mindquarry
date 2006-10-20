@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>castor-persistence</artifactId>
-	<name>Castor persistence</name>
+	<name>Mindquarry Castor Persistence</name>
 	<description>
 		Castor persistence classes for Mindquarry types.
 	</description>

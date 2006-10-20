@@ -8,7 +8,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>xmlbeans-persistence</artifactId>
-	<name>XML Beans persistence</name>
+	<name>Mindquarry XML Beans Persistence</name>
 	<description>
 		XML Beans persistence classes for Mindquarry types.
 	</description>

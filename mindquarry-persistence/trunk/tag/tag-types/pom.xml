@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
 
-	<name>Tag Types</name>
+	<name>Mindquarry Datamodel Tag Types</name>
 
 	<artifactId>tag-types</artifactId>
 

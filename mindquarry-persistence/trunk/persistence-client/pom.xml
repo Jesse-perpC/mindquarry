@@ -7,7 +7,7 @@
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>persistence-client</artifactId>
-	<name>Minquarry Persistence Client</name>
+	<name>Mindquarry Persistence Client</name>
 	<description>
 		Persistence client for the Mindquarry system.
 	</description>
