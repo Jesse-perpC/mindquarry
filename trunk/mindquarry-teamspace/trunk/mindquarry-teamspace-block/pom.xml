@@ -10,12 +10,12 @@
   <name>Mindquarry Teamspace Block</name>
   <version>0.0.1-SNAPSHOT</version>
   <scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace-web/trunk/mindquarry-teamspace-block/</connection>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace-web/trunk/mindquarry-teamspace-block/</developerConnection>
-    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-teamspace-web/trunk/mindquarry-teamspace-block/</url>
+    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</connection>
+    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</developerConnection>
+    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</url>
   </scm>
   <build>
-    <finalName>mindquarry-teamspace-web</finalName>
+    <finalName>mindquarry-teamspace-block</finalName>
     <plugins>
       <plugin>
         <groupId>org.apache.cocoon</groupId>
@@ -33,7 +33,7 @@
               <maxIdleTime>30000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppSourceDirectory>target/mindquarry-teamspace-web</webAppSourceDirectory>
+          <webAppSourceDirectory>target/mindquarry-teamspace-block</webAppSourceDirectory>
           <contextPath>/</contextPath>
           <classesDirectory>${basedir}/src/main/resources</classesDirectory>
           <scanIntervalSeconds>0</scanIntervalSeconds>
