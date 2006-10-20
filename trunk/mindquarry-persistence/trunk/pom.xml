@@ -12,7 +12,7 @@
 		<version>1</version>
 	</parent>
 
-	<name>Mindquarry Types</name>
+	<name>Mindquarry Datamodel Root</name>
 	<description>Mindquarry Types and Schema definitions.</description>
 
 	<artifactId>mindquarry-types</artifactId>
