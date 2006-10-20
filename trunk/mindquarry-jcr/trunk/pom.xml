@@ -24,7 +24,6 @@
   <modules>
     <module>mindquarry-jackrabbit</module>
     <module>mindquarry-jcr-source</module>
-    <module>mindquarry-jcr-source-example</module>
   </modules>
   
   <repositories>
