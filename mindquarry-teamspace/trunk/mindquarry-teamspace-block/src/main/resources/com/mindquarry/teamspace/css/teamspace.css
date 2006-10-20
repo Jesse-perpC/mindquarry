@@ -233,6 +233,7 @@ div.name span {
 
 div.name {
 	height:60px;
+	margin-right:320px;
 	overflow:hidden;
 	text-overflow: ellipsis;
 }
@@ -241,6 +242,7 @@ ul.members {
 	clear:both;
 	width:320px;
 	float:right;
+	margin-top:-15px;
 	margin-right:5px;
 	position:relative;
 	z-index:2;

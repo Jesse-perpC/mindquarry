@@ -15,6 +15,8 @@ dojo.require("dojo.event");
 dojo.require("cocoon.ajax.common");
 dojo.require("cocoon.ajax.insertion");
 dojo.require("dojo.lfx.html");
+//according to the dojo devs this enables background uploads
+dojo.require("dojo.io.IframeIO");
 /*-------------------------------GLOBAL VARIABLES------------------------------------*/
 
 var detect = navigator.userAgent.toLowerCase();
