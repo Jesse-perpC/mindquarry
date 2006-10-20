@@ -26,7 +26,6 @@ body #background-lines {
 	padding: 1em;
 	border: 4px solid #B8B8B8;
 	background-color: white;
-	text-align: left;
 	z-index:1001;
 	overflow: hidden;
 	text-align:center;	

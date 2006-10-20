@@ -109,7 +109,7 @@
 				<map:select type="resource-exists">
 					<map:when test="jcr:///users/{1}.png">
 					<map:read
-							src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
+							src="jcr:///users/{1}.png" />
 							<!-- 
 						<map:read type="image-op-resize" src="jcr:///users/{1}.png">
 							<map:parameter name="size-width" value="48"/>

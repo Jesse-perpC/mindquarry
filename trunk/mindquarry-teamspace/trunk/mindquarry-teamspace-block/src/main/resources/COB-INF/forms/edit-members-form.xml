@@ -8,12 +8,18 @@
 			<fd:widgets>
 
 				<fd:repeater id="members">
-					<fd:label>Members</fd:label>
+					<fd:label>Team Members</fd:label>
 					<fd:widgets>
 						<fd:output id="userId">
 							<fd:datatype base="string" />
 						</fd:output>
 						<fd:output id="name">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="surname">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="skills">
 							<fd:datatype base="string" />
 						</fd:output>
 						<fd:row-action id="removeMember" command="delete">
@@ -28,12 +34,18 @@
 				</fd:repeater>
 
 				<fd:repeater id="nonMembers">
-					<fd:label>Non Members</fd:label>
+					<fd:label>Other People</fd:label>
 					<fd:widgets>
 						<fd:output id="userId">
 							<fd:datatype base="string" />
 						</fd:output>
 						<fd:output id="name">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="surname">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="skills">
 							<fd:datatype base="string" />
 						</fd:output>
 						<fd:row-action id="addMember" command="delete">
@@ -146,6 +158,11 @@
 							</fd:failmessage>
 						</fd:email>
 					</fd:validation>
+				</fd:field>
+				
+				<fd:field id="skills" required="false">
+					<fd:label>Skills</fd:label>
+					<fd:datatype base="string"></fd:datatype>
 				</fd:field>
 
 				<fd:submit id="createUserSubmit" state="invisible">

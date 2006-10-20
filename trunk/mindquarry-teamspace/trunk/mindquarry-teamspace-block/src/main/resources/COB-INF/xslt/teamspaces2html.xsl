@@ -13,8 +13,8 @@
 					href="resources/css/teamspace.css" type="text/css" />
 				<link rel="stylesheet" href="resources/css/screen.css" 
 					media="screen,projection" type="text/css" />
-				<link rel="stylesheet" href="resources/css/edit-members.css" 
-					media="screen,projection" type="text/css" />
+				<link rel="stylesheet" 
+					href="resources/css/edit-members.css" type="text/css" />
 				
 				<script type="text/javascript" 
 					src="resources/scripts/lightbox.js" >//</script>
@@ -55,15 +55,6 @@
 				<xsl:if test="users/user">
 					<xsl:apply-templates select="users" />
 				</xsl:if>
-				<!-- 
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 1</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 2</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 3</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 4</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 5</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 6</li>
-				<li style="background:url(users/arnaud.png);background-repeat:no-repeat;background-position:1px 0px;">dummy 7</li>
-				 -->
 			</ul>
 			
 			<div class="edit-buttons">
@@ -112,13 +103,13 @@
 	</xsl:template>
 	
 	<xsl:template match="user" mode="detail">
-		<div class="detail">
+		<div class="member-details">
 			<img src="users/{normalize-space(id)}.png" />
 			<h4>
 				<xsl:value-of select="name" />
 				<xsl:value-of select="surname" />
 			</h4>
-			Description of the user in a few words
+			<xsl:value-of select="skills" />
 			<div class="role">Undefined Role <a href="#">more...</a></div>
 			
 		</div>

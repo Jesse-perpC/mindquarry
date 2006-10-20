@@ -43,6 +43,8 @@ function loadModelWithMembership() {
 	for (var i = 0; i < members.size(); i++) {
 		editModel.members[i].userId = members.get(i).id;
 		editModel.members[i].name = members.get(i).name;
+		editModel.members[i].surname = members.get(i).surname;
+		editModel.members[i].skills = members.get(i).skills;
 	}
 	
 	var nonMembers = membership_.getNonMembers();
@@ -50,6 +52,8 @@ function loadModelWithMembership() {
 	for (var i = 0; i < nonMembers.size(); i++) {
 		editModel.nonMembers[i].userId = nonMembers.get(i).id;
 		editModel.nonMembers[i].name = nonMembers.get(i).name;
+		editModel.nonMembers[i].surname = nonMembers.get(i).surname;
+		editModel.nonMembers[i].skills = nonMembers.get(i).skills;
 	}
 }
 
@@ -101,7 +105,7 @@ function createUser() {
 	var uploadWidget = form_.lookupWidget("/createUserModel/photo");
 	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
     var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
-    if (!source.exists()) {
+    if (!source.exists()&&uploadWidget.getValue()) {
     	uploadWidget.getValue().copyToSource(source);
     	print("copied image to " + source.getURI());
     }
@@ -111,7 +115,7 @@ function createUser() {
 	
 	return teamspaceAdmin.createUser(
 			userModel.userId, userModel.password, userModel.name, 
-			userModel.surname, userModel.email);
+			userModel.surname, userModel.email, userModel.skills);
 }
 
 function saveMembershipChanges(event) {
@@ -146,6 +150,8 @@ function addUserToEndOfList(user, list) {
 	var i = list.length;
 	list[i].userId = user.userId;
 	list[i].name = user.name;
+	list[i].surname = user.surname;
+	list[i].skills = user.skills;
 }
 
 function fetchRowIndex(event) {

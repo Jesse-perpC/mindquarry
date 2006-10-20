@@ -42,10 +42,23 @@
 	<xsl:template match="li[fi:styling/@type='member-entry']" >
     	<li id="{@id}">
     		<div class="member-entry" style="cursor:pointer;">
-    			<xsl:apply-templates select="fi:action" mode="javascript"/>
-    			<xsl:apply-templates select="fi:output" />
+    			<div class="member-details">
+	    			<xsl:apply-templates select="fi:action" mode="javascript"/>
+    				<xsl:apply-templates select="fi:output|fi:action|text()" />
+    			</div>
     		</div>
     	</li>
+  </xsl:template>
+  
+  <xsl:template match="fi:output[fi:styling/@type='full-name']">
+  	<xsl:if test="count(preceding-sibling::fi:output[fi:styling/@type='full-name'])=0">
+  		<h4>
+  			<xsl:value-of select="fi:value" /><xsl:text> </xsl:text>
+  			<xsl:for-each select="following-sibling::fi:output[fi:styling/@type='full-name']">
+  				<xsl:value-of select="fi:value" />
+  			</xsl:for-each>
+  		</h4>
+  	</xsl:if>
   </xsl:template>
   
   <xsl:template match="fi:action" mode="javascript">
@@ -57,7 +70,7 @@
   </xsl:template>
   
   <xsl:template match="fi:output[fi:styling/@type='user-image']">
-  	<img alt="{normalize-space(fi:value)}" src="{$context.path}blocks/mindquarry-teamspace-block/users/{normalize-space(fi:value)}.png"/>
+  	<img alt="image of the user with id {normalize-space(fi:value)}" src="{$context.path}blocks/mindquarry-teamspace-block/users/{normalize-space(fi:value)}.png"/>
   </xsl:template>
   
 </xsl:stylesheet>
