@@ -19,7 +19,7 @@
   <version>0.0.1-SNAPSHOT</version>
   <packaging>pom</packaging>
   
-  <name>Mindquarry JCR XML Extensions</name>
+  <name>Mindquarry JCR Root</name>
   
   <modules>
     <module>mindquarry-jackrabbit</module>
