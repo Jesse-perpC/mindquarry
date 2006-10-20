@@ -108,10 +108,14 @@
 			<map:match pattern="users/*.png">
 				<map:select type="resource-exists">
 					<map:when test="jcr:///users/{1}.png">
+					<map:read
+							src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
+							<!-- 
 						<map:read type="image-op-resize" src="jcr:///users/{1}.png">
 							<map:parameter name="size-width" value="48"/>
 	          				<map:parameter name="size-height" value="48"/>
 						</map:read>
+						 -->
 					</map:when>
 					<map:otherwise>
 						<map:read
