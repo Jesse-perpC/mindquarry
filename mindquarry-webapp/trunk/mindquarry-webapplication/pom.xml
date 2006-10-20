@@ -106,13 +106,13 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-block/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/
 		</connection>
 		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapp-block/
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapplication/
 		</url>
 		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-block/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/
 		</developerConnection>
 	</scm>	
 </project>
