@@ -90,7 +90,7 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
                     "existing base directory for repositories.");
         
         if (! existsAdminUser())
-            createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null);
+            createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null, null);
     }
     
     private boolean existsAdminUser() {
@@ -204,7 +204,7 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
     }
 
     public UserRO createUser(String id, String password, 
-            String name, String surname, String email) {
+            String name, String surname, String email, String skills) {
         
         UserEntity user = new UserEntity();
         user.setId(id);
@@ -212,6 +212,7 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         user.setName(name);
         user.setSurname(surname);
         user.setEmail(email);
+        user.setSkills(skills);
         Session session = currentSession();
         session.persist(user);
         session.commit();

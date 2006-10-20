@@ -29,9 +29,10 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
      * @param first name of the new user
      * @param last name of the new user
      * @param the user's email address
+     * @param the skills of the user
      */
 	UserRO createUser(String id, String password, 
-            String name, String surName, String email);
+            String name, String surName, String email, String skills);
     
     /**
      * change the password of a user if the old password matches

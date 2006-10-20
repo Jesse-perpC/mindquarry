@@ -52,4 +52,11 @@ public interface UserRO {
      * @return the email
      */
     String getEmail();
+    
+    /**
+     * Getter for skills.
+     *
+     * @return the skills
+     */
+    String getSkills();
 }

@@ -17,6 +17,8 @@ public class UserEntity extends EntityBase implements User {
     
     private String email;
     
+    private String skills;
+    
     Set<String> teamspaceReferences;
 
 
@@ -28,6 +30,8 @@ public class UserEntity extends EntityBase implements User {
         password = "".intern();
         name = "".intern();
         surname = "".intern();
+        email = "".intern();
+        skills = "".intern();
         teamspaceReferences = new HashSet<String>();
     }
     
@@ -114,5 +118,23 @@ public class UserEntity extends EntityBase implements User {
      */
     public void setEmail(String email) {
         this.email = email;
+    }
+    
+    /**
+     * Getter for skills.
+     *
+     * @return the skills
+     */
+    public String getSkills() {
+        return skills;
+    }
+
+    /**
+     * Setter for skills.
+     *
+     * @param email the skills to set
+     */
+    public void setSkills(String skills) {
+        this.skills = skills;
     }
 }

@@ -32,7 +32,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         String userId = "mindquarry-user";
         UserRO creator = admin.createUser(userId, "aSecretPassword", 
-                "Mindquarry User", "surname", "an email");
+                "Mindquarry User", "surname", "an email", "the skills");
         
         String teamspaceId = "mindquarry-teamspace";
 		admin.createTeamspace(teamspaceId, "Mindquarry Teamspace", 
@@ -58,7 +58,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         String userId = "mindquarry-user";
         admin.createUser(userId, "aSecretPassword",
-                "Mindquarry User", "surname", "an email");
+                "Mindquarry User", "surname", "an email", "the skills");
         
         List<UserRO> users = admin.allUsers();
         assertEquals(2, users.size());
@@ -75,10 +75,10 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         String userId = "mindquarry-user";
         UserRO creator = admin.createUser(userId, "aSecretPassword",
-                "Mindquarry User", "surname", "an email");
+                "Mindquarry User", "surname", "an email", "the skills");
         
         admin.createUser("newUser", "aSecretPassword", 
-                "Mindquarry User", "surname", "an email");
+                "Mindquarry User", "surname", "an email", "the skills");
         
         String teamspaceId = "mindquarry-teamspace";
         TeamspaceRO teamspace = admin.createTeamspace(teamspaceId, 
