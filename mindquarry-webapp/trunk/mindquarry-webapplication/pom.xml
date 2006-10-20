@@ -14,7 +14,7 @@
 
 	<groupId>com.mindquarry.webapp</groupId>
 	<artifactId>mindquarry-webapplication</artifactId>
-	<name>Mindquarry Web-Application</name>
+	<name>Mindquarry Webapplication</name>
 	<version>0.0.1-SNAPSHOT</version>
 	
 	<!-- Apart from creating a WAR-archive this tells the cocoon deployer

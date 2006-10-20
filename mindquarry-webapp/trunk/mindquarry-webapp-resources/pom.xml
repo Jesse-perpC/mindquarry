@@ -15,7 +15,7 @@
 
 	<groupId>com.mindquarry.webapp</groupId>
 	<artifactId>mindquarry-webapp-resources</artifactId>
-	<name>Mindquarry WebApp Resources</name>
+	<name>Mindquarry Webapp Resources</name>
 	<version>0.0.1-SNAPSHOT</version>
 	<scm>
 		<connection>
