@@ -1,55 +1,58 @@
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
-var myform;
-var mypage;
-var pipeline = false;
+var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
+var form_;
+var documentPath_;
 
 // helper function
-function loadAndShow(form, page) {
-	form.loadXML("cocoon:/" + page + ".xml.plain");
-	form.showForm(page+".xml.instance");
+function loadAndShow(form, filename) {
+	form.loadXML("cocoon:/" + filename + ".plain");
+	form.showForm(filename + ".instance");
 }
 
 // this triggers the edit variant of the form (called from sitemap)
 function editPage(form) {
-	var page = cocoon.parameters["page"];
+	var baseURI = cocoon.parameters["baseURI"];
+	var documentID = cocoon.parameters["documentID"];
+	var filename = documentID + ".xml";
 	
-	// save form and page for AJAX calls
-	mypage = page;
-	myform = form;
+	// save form and page for auto-reload or AJAX calls
+	form_ = form;
+	documentPath_ = baseURI + filename;
 
-	loadAndShow(form, page);
+	loadAndShow(form, filename);
 	
 	// the form includes all possible fields, but only some of them are
 	// actually used. the best solution would be to strip out forms
-	form.saveXML("jcr:///test/" + page + ".xml","xslt/ductforms/saveclean.xsl");
+	form.saveXML(baseURI + filename, CLEAN_MODEL_XSL);
 	
-	// reset form and page for AJAX calls
-	myform = null;
-	mypage = null;
+	// reset form and page for auto-reload or AJAX calls
+	form_ = null;
+	documentPath_ = null;
 	
 	// show the display variant of the form
-	cocoon.redirectTo(page+".xml", false);
+	cocoon.redirectTo(filename, false);
 }
 
 // this simply displays the form in readonly mode (called from sitemap)
 function showPage(form) {
-	var page = cocoon.parameters["page"];
+	var documentID = cocoon.parameters["documentID"];
+	var filename = documentID + ".xml";
 	
-	// no AJAX calls are allowed in display mode
-	myform = null;
-	mypage = null;
+	// no auto-reload or AJAX calls are allowed in display mode
+	form_ = null;
+	documentPath_ = null;
 	
 	// set status to output only
 	form.lookupWidget("/").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
 	
-	loadAndShow(form, page);
+	loadAndShow(form, filename);
 }
 
-// called by AJAX for mutivalue fields
+// called by auto-reload or AJAX for mutivalue fields
 function upd(event) {
-	if (myform&&mypage) {
-		myform.saveXML("jcr:///test/" + mypage + ".xml","xslt/ductforms/saveclean.xsl");
+	if (form_ && documentPath_) {
+		form_.saveXML(documentPath_, CLEAN_MODEL_XSL);
 	}
 	cocoon.exit();
 }

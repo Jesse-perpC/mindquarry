@@ -10,6 +10,10 @@
 		<map:actions>
 			<map:action name="log"
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
+			<map:action name="log-params"
+				src="com.mindquarry.webapp.acting.LogParametersAction" />
+			<map:action name="request"
+				src="org.apache.cocoon.acting.RequestParamAction" />
 		</map:actions>
 	</map:components>
 
@@ -24,37 +28,92 @@
 	<map:pipelines>
 		<map:pipeline type="noncaching">
 
-			<map:match pattern="model.xml">
+			<!-- internal -->
+			<map:match pattern="model.xml.model">
 				<map:act type="log" src=">>[dforms] model.xml" />
-				
+
 				<map:generate src="block:/dforms-model-directory.xml" />
 				<map:call resource="directories2model" />
 			</map:match>
 
+			<!-- internal -->
 			<!-- @virtual: getting basic model stuff -->
 			<map:match pattern="dforms-model-directory.xml">
-				<map:act type="log" src=">>[dforms] dforms-model-directory.xml" />
-				
+				<map:act type="log"
+					src=">>[dforms] dforms-model-directory.xml" />
+
 				<map:generate src="model" type="directory" />
 				<!-- Note: for some reason the generic
-				     src="block:/directory2resourceincludes.xsl" reference
-				     does not work here -->
+					src="block:/directory2resourceincludes.xsl" reference
+					does not work here -->
 				<map:transform src="xsl/directory2resourceincludes.xsl" />
 				<map:serialize type="xml" />
 			</map:match>
 
+			<!-- internal -->
 			<!-- for child blocks to create includes of files in directories
-				 with the correct block:/resource/* source format -->
+				with the correct block:/resource/* source format -->
 			<map:match pattern="directory2resourceincludes.xsl">
-				<map:act type="log" src=">>[dforms] directory2resourceincludes.xsl" />
-			
+				<map:act type="log"
+					src=">>[dforms] directory2resourceincludes.xsl" />
+
 				<map:read src="xsl/directory2resourceincludes.xsl" />
 			</map:match>
+
+			<!-- internal -->
+			<!--+ the aggregation of the plain instance (data of the document)
+				| and the aggregated models. This includes everything that is
+				| and could be.
+				+-->
+			<!-- <map:match pattern="*.xml.model">
+				<map:generate src="cocoon:/model.xml" />
+				<map:transform
+				src="xslt/ductforms/model2modelinclude.xsl">
+				<map:parameter name="instance"
+				value="cocoon:/{1}.xml.plain">
+				</map:parameter>
+				</map:transform>
+				<map:transform type="xinclude" />
+				<map:transform src="xslt/ductforms/cleanmodel.xsl" />
+				<map:serialize type="xml" />
+				</map:match> -->
+
+			<!-- internal -->
+			<!-- the generated form model including all possible fields  -->
+			<!-- <map:match pattern="*.xml.form">
+				<map:generate src="cocoon:/{1}.xml.model" />
+				<map:transform
+				src="xslt/ductforms/modelincluded2form.xsl" />
+				<map:serialize type="xml" />
+				</map:match> -->
+
+			<!-- internal, for child -->
+			<map:match pattern="show-document.xml">
+				<map:act type="request">
+					<map:parameter name="parameters" value="true" />
+					<map:act type="log-params" />
+				</map:act>
+
+				<map:generate src="xsl/model/saveclean.xsl" />
+				<map:serialize type="xml" />
+
+				<!-- <map:call function="handleForm">
+					<map:parameter name="function"
+					value="showPage" />
+					<map:parameter name="baseURI" value="{1}" />
+					<map:parameter name="documentID" value="{1}" />
+					<map:parameter name="definitionURI"
+					value="cocoon:/{1}.xml.form" />
+					</map:call> -->
+			</map:match>
+
+			<!-- =========================================================== -->
+
 
 			<!-- @virtual: for inheriting sitemap resources -->
 			<map:match pattern="resource/**">
 				<map:act type="log" src=">>[dforms] resource/**" />
-				
+
 				<map:read src="{1}" />
 			</map:match>
 
