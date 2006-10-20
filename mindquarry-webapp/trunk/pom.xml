@@ -21,12 +21,25 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>mindquarry-webapp-block</module>
 		<module>mindquarry-webapplication</module>
-		<!--<module>mindquarry-webapp-resources</module>-->
+		<module>mindquarry-welcome-block</module>
+		<!--+
+		    | resources block is used by all the blocks
+		    | that are dependencies of mindquarry-webapplication
+		    | so declaring it as a module here would end up in
+		    | a circular dependency.
+		    +-->
+		<module>mindquarry-webapp-resources</module>
 	</modules>
 	
 	<developers>
+		<developer>
+			<id>alex</id>
+			<name>Alexander Klimetschek</name>
+			<email>alexander.klimetschek@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
 		<developer>
 			<id>bastian</id>
 			<name>Bastian Steinert</name>
