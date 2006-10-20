@@ -49,14 +49,14 @@
 		<map:select type="lightbox-request">
 			<map:when test="true">
 				<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
-        		<!-- <map:parameter name="pathInfo" value="{request:pathInfo}"/> -->
-        		<map:parameter name="pathInfo" value="{block-path:/}"/>
+        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+        		<!-- <map:parameter name="pathInfo" value="{block-path:/}"/> -->
 	        	</map:transform>
 	        </map:when>
 	        <map:otherwise>
 	      		<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
-        		<!-- <map:parameter name="pathInfo" value="{request:pathInfo}"/> -->
-        		<map:parameter name="pathInfo" value="{block-path:/}"/>
+        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
+        		<!-- <map:parameter name="pathInfo" value="{block-path:/}"/> -->
 	        	</map:transform>
 	        </map:otherwise>
 			</map:select>
