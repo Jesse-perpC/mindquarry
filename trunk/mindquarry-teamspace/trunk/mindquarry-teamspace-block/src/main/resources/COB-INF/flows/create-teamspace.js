@@ -10,7 +10,7 @@ function processCreateTeamspaceForm(form) {
 	var teamspaceAdmin = cocoon.getComponent(lookupName);
 	
 	var userId = cocoon.parameters["username"];
-	print("userId: " + userId);
+	//print("userId: " + userId);
 	var user = teamspaceAdmin.userForId(userId);
 	
 	form.showForm("create-teamspace.instance");
