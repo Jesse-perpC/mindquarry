@@ -17,5 +17,12 @@
 		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
 		
 		<property name="blockContextURL" value="/blocks/mindquarry-dforms"/>
+
+		<property name="connections">
+			<map>
+				<entry key="super"
+					value-ref="com.mindquarry.webapp.resources-block" />
+			</map>
+		</property>
 	</bean>
 </beans>
