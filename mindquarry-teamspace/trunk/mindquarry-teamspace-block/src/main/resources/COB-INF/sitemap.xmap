@@ -46,33 +46,36 @@
 	
 	<map:resources>
 		<map:resource name="layouting">
-		<map:select type="lightbox-request">
-			<map:when test="true">
-				<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
-        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
-        		<!-- <map:parameter name="pathInfo" value="{block-path:/}"/> -->
-	        	</map:transform>
-	        </map:when>
-	        <map:otherwise>
-	      		<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
-        		<map:parameter name="pathInfo" value="{request:pathInfo}"/>
-        		<!-- <map:parameter name="pathInfo" value="{block-path:/}"/> -->
-	        	</map:transform>
-	        </map:otherwise>
+			<map:select type="lightbox-request">
+				<map:when test="true">
+					<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
+		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
+		        	</map:transform>
+		        </map:when>
+		        <map:otherwise>
+		      		<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
+		        	</map:transform>
+		        </map:otherwise>
+				</map:select>
+				<map:select type="ajax-request">
+				    <map:when test="true">
+				      <map:serialize type="xml"/>
+				    </map:when>
+				    <map:otherwise>
+				      <map:serialize type="xhtml"/>
+				    </map:otherwise>
 			</map:select>
-			<map:select type="ajax-request">
-			    <map:when test="true">
-			      <map:serialize type="xml"/>
-			    </map:when>
-			    <map:otherwise>
-			      <map:serialize type="xhtml"/>
-			    </map:otherwise>
-		  </map:select>
 		</map:resource>
 		
 		<map:resource name="form2html">
 			<map:transform src="xslt/forms/form2html.xsl" label="form">
-				<map:parameter name="pathInfo" value="{request:pathInfo}" />
+        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
 			</map:transform>
 		</map:resource>
 	</map:resources>
@@ -82,24 +85,62 @@
 
 		<!-- resources pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
-			<map:match pattern="resources/css/*.css">
-				<map:read
-					src="resource://com/mindquarry/teamspace/css/{1}.css" />
+			<map:match pattern="css/*.css">
+				<map:select type="resource-exists">
+					<map:when test="resource://com/mindquarry/teamspace/css/{1}.css">
+					<!-- if it exists, load it from this sitemap's resources -->
+						<map:read
+							src="resource://com/mindquarry/teamspace/css/{1}.css" />
+					</map:when>
+					<!-- if not, look in the super block -->
+					<map:otherwise>
+						<map:read src="block:super:/css/{1}.css" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
-			<map:match pattern="resources/scripts/*.js">
-				<map:read
-					src="resource://com/mindquarry/teamspace/scripts/{1}.js" />
+			<map:match pattern="scripts/*.js">
+				<map:select type="resource-exists">
+					<map:when test="resource://com/mindquarry/teamspace/scripts/{1}.js">
+						<map:read
+							src="resource://com/mindquarry/teamspace/scripts/{1}.js" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/scripts/{1}.js" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
-			<map:match pattern="resources/images/*.*">
-				<map:read
-					src="resource://com/mindquarry/teamspace/images/{1}.{2}" />
+			<map:match pattern="images/*.*">
+				<map:select type="resource-exists">
+					<map:when test="resource://com/mindquarry/teamspace/images/{1}.{2}">
+						<map:read
+							src="resource://com/mindquarry/teamspace/images/{1}.{2}" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/images/{1}.{2}" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
-			<map:match pattern="resources/buttons/*.*">
-				<map:read
-					src="resource://com/mindquarry/teamspace/buttons/{1}_button.{2}" />
+			<map:match pattern="buttons/*.*">
+				<map:select type="resource-exists">
+					<map:when test="resource://com/mindquarry/teamspace/buttons/{1}_button.{2}">
+						<map:read
+							src="resource://com/mindquarry/teamspace/buttons/{1}_button.{2}" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/buttons/{1}.{2}" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
-			<map:match pattern="resources/icons/*x*/*/*.png">
-				<map:read src="resource://org/tango-project/tango-icon-theme/{1}x{2}/{3}/{4}.png" />
+			<map:match pattern="icons/*x*/*/*.png">
+				<map:select type="resource-exists">
+					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{2}/{3}/{4}.png">
+						<map:read
+							src="resource://org/tango-project/tango-icon-theme/{1}x{2}/{3}/{4}.png" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
 		</map:pipeline>
 
@@ -154,8 +195,9 @@
 				<map:act type="httpauth">
 					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
 					<map:transform src="xslt/teamspaces2html.xsl" label="html">
-						<map:parameter name="pathInfo"
-							value="{request:pathInfo}" />
+		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
 					</map:transform>
 	   				<map:call resource="form2html" />
 	 				<map:call resource="layouting" />
@@ -239,6 +281,14 @@
 				<map:act type="httpauth">
 					<map:call continuation="{../1}" />
 				</map:act>
+			</map:match>
+
+			<!--+
+				| forward any unknown stuff to the super block 
+				| NOTE: This must be the last matcher!
+				+-->
+			<map:match pattern="**">
+				<map:read src="block:super:/{1}" />
 			</map:match>
 		</map:pipeline>
 

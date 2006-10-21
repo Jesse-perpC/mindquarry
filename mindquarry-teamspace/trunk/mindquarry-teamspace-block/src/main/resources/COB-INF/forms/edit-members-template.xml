@@ -8,9 +8,9 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	<head>
 		<title>Edit Members of Teamspace</title>
 		<link rel="stylesheet" us:context="href" type="text/css" 
-			href="blocks/mindquarry-teamspace-block/resources/css/teamspace.css" />
+			href="css/teamspace.css" />
 		<link rel="stylesheet" us:context="href" type="text/css" 
-			href="blocks/mindquarry-teamspace-block/resources/css/edit-members.css" />
+			href="css/edit-members.css" />
 	</head>
 	<body>
 	<div>

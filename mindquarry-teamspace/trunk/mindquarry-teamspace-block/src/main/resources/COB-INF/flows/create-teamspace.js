@@ -22,5 +22,5 @@ function processCreateTeamspaceForm(form) {
       teamspaceAdmin.createTeamspace(
       model.teamspaceId, model.name, model.description, user);
     }	
-	cocoon.redirectTo("/");
+	cocoon.redirectTo("/teamspace/");
 }

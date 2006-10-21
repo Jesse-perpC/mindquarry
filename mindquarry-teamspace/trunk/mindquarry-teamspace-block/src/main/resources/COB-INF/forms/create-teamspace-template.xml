@@ -6,7 +6,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	<head>
 		<title>Create Team</title>
 		<link rel="stylesheet"
-				href="../resources/css/teamspace.css" type="text/css" />
+				href="css/teamspace.css" type="text/css" />
 		<link rel="stylesheet"
 				href="../resources/css/create-teamspace.css" type="text/css" />
 				
