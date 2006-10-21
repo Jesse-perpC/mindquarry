@@ -3,12 +3,16 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	xmlns="http://www.w3.org/1999/xhtml"
-	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
+	xmlns:wa="http://www.mindquarry.com/ns/schema/webapp"
+	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
 
 	<xsl:import href="contextpath.xsl"/>
 	<xsl:import href="niftify.xsl"/>
 	
 	<xsl:param name="user.agent" select="''"/>
+
+	<xsl:param name="block-path.this" select="''" />
+	<xsl:param name="block-path.super" select="''" />
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -54,7 +58,9 @@
 		
 			<xsl:apply-templates />
 			
-			<link rel="stylesheet" href="{$context.path}blocks/mindquarry-webapp-resources/resources/css/screen.css" media="screen,projection" type="text/css" />
+			<!-- NOTE: {pathToBlock}css/screen.css (without resources) does not
+				 work for the welcome block which is mounted at / -->
+			<link rel="stylesheet" href="{$pathToRoot}resources/css/screen.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
@@ -75,15 +81,22 @@
 				<!-- layouting the header -->
 				<div id="webapp-header">
         			<ul id="webapp-sections">
-						<li><a class="navTalk" href="{$context.path}">Talk</a></li>
-						<li><a class="navTasks" href="{$context.path}">Tasks</a></li>
-						<li><a class="navWiki" href="{$context.path}">Wiki</a></li>
-						<li><a class="navFiles" href="{$context.path}blocks/mindquarry-workspace-block/">Files</a></li>
-						<li><a class="navTeams" href="{$context.path}blocks/mindquarry-teamspace-block/">Teams</a></li>
+						<li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li>
+						<li><a class="navTasks" href="{$pathToRoot}tasks/">Tasks</a></li>
+						<li><a class="navWiki" href="{$pathToRoot}wiki/">Wiki</a></li>
+						<li><a class="navFiles" href="{$pathToRoot}workspace/">Files</a></li>
+						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
 					</ul>
 					
 					<div id="beta-comment">Alpha 1</div>
 				</div>
+				
+				<!-- <div>
+					pathToRoot: '<xsl:value-of select="$pathToRoot" />'<br/>
+					pathToBlock: '<xsl:value-of select="$pathToBlock" />'<br/>
+					fullPath: '<xsl:value-of select="$fullPath" />'<br/>
+					sitemapPath: '<xsl:value-of select="$sitemapPath" />'<br/>
+				</div> -->
 				
 				<!-- layouting the content -->
 				<div id="webapp-content">
@@ -115,13 +128,13 @@
 				<!-- layouting the footer -->
 				<div id="webapp-footer">
 					<ul id="webapp-footer-sections">
-						<li><a href="{$context.path}">Home</a></li>
-						<li><a href="{$context.path}blocks/mindquarry-teamspace-block/">Teams</a></li>
-						<li><a href="{$context.path}blocks/mindquarry-workspace-block/">Files</a></li>
-						<li><a href="{$context.path}">Wiki</a></li>
-						<li><a href="{$context.path}">Tasks</a></li>
-						<li><a href="{$context.path}">Talk</a></li>
-						<li><a href="{$context.path}/blocks/mindquarry-help-block/">Help</a></li>
+						<li><a href="{$pathToRoot}">Home</a></li>
+						<li><a href="{$pathToRoot}teamspace/">Teams</a></li>
+						<li><a href="{$pathToRoot}workspace/">Files</a></li>
+						<li><a href="{$pathToRoot}wiki/">Wiki</a></li>
+						<li><a href="{$pathToRoot}tasks/">Tasks</a></li>
+						<li><a href="{$pathToRoot}talk/">Talk</a></li>
+						<li><a href="{$pathToRoot}help/">Help</a></li>
 						<li><a href="http://www.mindquarry.com">Visit Mindquarry.com</a></li>
 						<li><a href="http://www.mindquarry.com/support/">Get Support</a></li>
 					</ul>
@@ -152,11 +165,17 @@
 	<!-- look for attributes whose parent element has an
 		 attribute us:context with a value that equals the 
 		 local name of the processed attribute -->
-	<xsl:template match="@*[../@us:context=local-name(.)]">
+	<xsl:template match="@*[../@us:rootcontext=local-name(.)]">
 		<xsl:attribute name="{local-name(.)}">
-			<xsl:value-of select="$context.path" />
+			<xsl:value-of select="$pathToRoot" />
 			<xsl:value-of select="." />
 		</xsl:attribute>
 	</xsl:template>
 
+	<xsl:template match="@*[../@us:context=local-name(.)]">
+		<xsl:attribute name="{local-name(.)}">
+			<xsl:value-of select="$pathToBlock" />
+			<xsl:value-of select="." />
+		</xsl:attribute>
+	</xsl:template>
 </xsl:stylesheet>
