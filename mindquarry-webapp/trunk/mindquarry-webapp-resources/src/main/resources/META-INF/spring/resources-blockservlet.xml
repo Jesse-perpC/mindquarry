@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+       
+	<bean id="com.mindquarry.webapp.resources-block" class="org.apache.cocoon.blocks.BlockServlet">
+		<property name="mountPath" value="/resources"/>
+		
+		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
+		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
+		
+		<property name="blockContextURL" value="/blocks/mindquarry-webapp-resources"/>
+	</bean>
+</beans>
