@@ -18,8 +18,9 @@
 
 			<!-- @virtual: for even more specific sub-blocks ;-) -->
 			<map:match pattern="tasks-dforms-model-directory.xml">
-				<map:act type="log" src=">>[tasks] tasks-dforms-model-directory.xml" />
-				
+				<map:act type="log"
+					src=">>[tasks] tasks-dforms-model-directory.xml" />
+
 				<map:generate src="dforms-model" type="directory" />
 				<map:transform
 					src="block:super:/directory2resourceincludes.xsl" />
@@ -28,9 +29,10 @@
 
 			<!-- @override: provide the model as directory listing for the dforms block -->
 			<map:match pattern="dforms-model-directory.xml">
-				<map:act type="log" src=">>[tasks] dforms-model-directory.xml" />
+				<map:act type="log"
+					src=">>[tasks] dforms-model-directory.xml" />
 				<!-- we want our models and the inherited models -->
-				
+
 				<map:aggregate element="resources">
 					<map:part
 						src="block:super:/dforms-model-directory.xml" />
@@ -40,10 +42,64 @@
 				<map:serialize type="xml" />
 			</map:match>
 
+			<!-- public -->
+
+			<!--+
+				| URL for a task in a certain teamspace:
+				| .../tasks/<teamspace-id>/<task-id>.xml
+				|
+				| JCR path for the task:
+				| /teamspaces/<teamspace-id>/tasks/<task-id>.xml
+				+-->
+			<map:match pattern="*/*.xml">
+				<map:read
+					src="block:super:/show-document.xml?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}">
+					<!-- <map:parameter name="baseURI"
+						value="jcr:///teamspaces/{1}/tasks/" />
+						<map:parameter name="documentID" value="{2}" /> -->
+					<!-- <map:parameter name="suffix" value=".xml" /> -->
+				</map:read>
+
+				<!--
+					
+					
+					<map:select type="resource-exists">
+					if it exists, show the task 
+					<map:when
+					test="jcr:///teamspaces/{1}/tasks/{2}.xml">
+					<map:read
+					src="block:super:/show-document.xml">
+					<map:parameter name="baseURI"
+					value="jcr:///teamspaces/{1}/tasks/" />
+					<map:parameter name="documentID"
+					value="{2}" />
+					<map:parameter name="suffix" value=".xml" /> 
+					</map:read>
+					</map:when>
+					else edit the task 
+					<map:otherwise>
+					<map:read
+					src="block:super:/edit-document.xml">
+					<map:parameter name="baseURI"
+					value="jcr:///teamspaces/{1}/tasks/" />
+					<map:parameter name="documentID"
+					value="{2}" />
+					<map:parameter name="suffix" value=".xml" /> 
+					</map:read>
+					<map:redirect-to uri="{1}/{2}.xml.edit" /> 
+					</map:otherwise>
+					</map:select>
+				-->
+			</map:match>
+
+
+			<!-- =========================================================== -->
+
+
 			<!-- @override: for inheriting sitemap resources -->
 			<map:match pattern="resource/**">
 				<map:act type="log" src=">>[tasks] resource/**" />
-				
+
 				<map:select type="resource-exists">
 					<!-- if it exists, load it from this sitemap's resources -->
 					<map:when test="{1}">
@@ -52,7 +108,8 @@
 					</map:when>
 					<!-- if not, look in the super block -->
 					<map:otherwise>
-						<map:act type="log" src=">>[tasks] does not exist -> super block" />
+						<map:act type="log"
+							src=">>[tasks] does not exist -> super block" />
 						<map:read src="block:super:/resource/{1}" />
 					</map:otherwise>
 				</map:select>
@@ -64,7 +121,7 @@
 				+-->
 			<map:match pattern="**">
 				<map:act type="log" src=">> tasks **" />
-				
+
 				<map:read src="block:super:/{1}" />
 			</map:match>
 
