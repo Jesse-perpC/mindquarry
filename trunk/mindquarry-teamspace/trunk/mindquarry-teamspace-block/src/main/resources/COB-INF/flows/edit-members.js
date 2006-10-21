@@ -66,7 +66,7 @@ function processCreateUserForm(form) {
 	
 	//print("creating user...");
 
-	cocoon.redirectTo("/");
+	cocoon.redirectTo("/teamspace/");
 }
 
 function activateCreateUserForm() {

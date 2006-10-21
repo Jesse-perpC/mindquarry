@@ -18,8 +18,8 @@
 
 	<!-- resources directory for Dojo js, css and the like -->
 	<xsl:param name="resources-uri">
-		<xsl:value-of select="$context.path" />
-		<xsl:text>_cocoon/resources</xsl:text>
+		<xsl:value-of select="$pathToRoot" />
+		<xsl:text>resources/_cocoon/resources</xsl:text>
 	</xsl:param>
 
 	<xsl:template match="head">
@@ -70,7 +70,7 @@
   </xsl:template>
   
   <xsl:template match="fi:output[fi:styling/@type='user-image']">
-  	<img alt="image of the user with id {normalize-space(fi:value)}" src="{$context.path}blocks/mindquarry-teamspace-block/users/{normalize-space(fi:value)}.png"/>
+  	<img alt="image of the user with id {normalize-space(fi:value)}" src="{$pathToRoot}teamspace/users/{normalize-space(fi:value)}.png"/>
   </xsl:template>
   
 </xsl:stylesheet>

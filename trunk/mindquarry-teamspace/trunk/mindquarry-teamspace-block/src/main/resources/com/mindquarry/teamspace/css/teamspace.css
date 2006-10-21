@@ -1,41 +1,41 @@
 #webapp-header {
 	background-image:
-		url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-orange.png)
+		url(../images/orange-header-orange.png)
 		;
 }
 
 #webapp-sections a.navFiles {
 	background-image:
-		url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-red.png)
+		url(../images/orange-header-red.png)
 		;
 }
 
 #webapp-sections a.navWiki {
 	background-image:
-		url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-blue.png)
+		url(../images/orange-header-blue.png)
 		;
 }
 
 #webapp-sections a.navTasks {
 	background-image:
-		url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-green.png)
+		url(../images/orange-header-green.png)
 		;
 }
 
 #webapp-sections a.navTalk {
 	background-image:
-		url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-yellow.png)
+		url(../images/orange-header-yellow.png)
 		;
 }
 
 #webapp-sections a.navTeams {
 	background-image:
-		url(../../../../blocks/mindquarry-webapp-resources/resources/images/orange-header-orange.png)
+		url(../images/orange-header-orange.png)
 		;
 }
 
 a.edit_members_button:link, a.edit_members_button:visited {
-	background-image: url(../../resources/buttons/edit_member.gif);
+	background-image: url(../buttons/edit_member.gif);
 	display: block;
 	width: 140px;
 	height: 32px;
@@ -49,7 +49,7 @@ a.edit_members_button:link, a.edit_members_button:visited {
 }
 
 a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
-	background-image: url(../../resources/buttons/edit_subprojects.gif);
+	background-image: url(../buttons/edit_subprojects.gif);
 	display: block;
 	width: 140px;
 	height: 32px;
@@ -68,7 +68,7 @@ div.edit-buttons {
 }
 
 a.create_teamspace_button:link, a.create_teamspace_button:visited {
-	background-image: url(../../resources/buttons/create_teamspace.gif);
+	background-image: url(../buttons/create_teamspace.gif);
 	display:block;
 	width: 140px;
 	height: 32px;
@@ -87,7 +87,7 @@ a.create_teamspace_button:link, a.create_teamspace_button:visited {
 }
 
 a.create_user_button:link, a.create_user_button:visited {
-	background-image: url(../../resources/buttons/create_user.gif);
+	background-image: url(../buttons/create_user.gif);
 	display:block;
 	width: 142px;
 	height: 32px;
@@ -305,7 +305,7 @@ a.sliderprev {
 }
 
 a.details-collapsed {
-	background-image: url(../../resources/buttons/details_collapsed.gif);
+	background-image: url(../buttons/details_collapsed.gif);
 	height:16px;
 	width:16px;
 	overflow:hidden;
@@ -318,7 +318,7 @@ a.details-collapsed {
 }
 
 a.details-expanded {
-	background-image: url(../../resources/buttons/details_expanded.gif);
+	background-image: url(../buttons/details_expanded.gif);
 	height:16px;
 	width:16px;
 	overflow:hidden;

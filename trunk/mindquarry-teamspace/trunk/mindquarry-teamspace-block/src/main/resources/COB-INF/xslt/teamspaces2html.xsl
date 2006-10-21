@@ -10,20 +10,20 @@
 			<head>
 				<title>Teamspaces</title>
 				<link rel="stylesheet"
-					href="resources/css/teamspace.css" type="text/css" />
-				<link rel="stylesheet" href="resources/css/screen.css" 
+					href="{$pathToBlock}css/teamspace.css" type="text/css" />
+				<link rel="stylesheet" href="css/screen.css" 
 					media="screen,projection" type="text/css" />
 				<link rel="stylesheet" 
-					href="resources/css/edit-members.css" type="text/css" />
+					href="{$pathToBlock}css/edit-members.css" type="text/css" />
 				<link rel="stylesheet" 
-					href="resources/css/create-teamspace.css" type="text/css" />
+					href="{$pathToBlock}css/create-teamspace.css" type="text/css" />
 				
 				<script type="text/javascript" 
-					src="resources/scripts/lightbox.js" >//</script>
+					src="{$pathToBlock}scripts/lightbox.js" >//</script>
 				<script type="text/javascript" 
-					src="resources/scripts/slider.js" >//</script>
+					src="{$pathToBlock}scripts/slider.js" >//</script>
 				<script type="text/javascript" 
-					src="resources/scripts/teamspace.js" >//</script>
+					src="{$pathToBlock}scripts/teamspace.js" >//</script>
 				<script type="text/javascript">
 					dojo.require("cocoon.forms");
 				</script>
@@ -70,7 +70,7 @@
 			</div>
 			
 			<div class="name">
-				<img class="icon" src="teams/goshaky.png" />
+				<img class="icon" src="{$pathToBlock}teams/goshaky.png" />
 				<h2 class="name"><xsl:value-of select="name" /></h2>
 				<span class="description"><xsl:value-of select="description" /></span>
 			</div>
@@ -106,7 +106,7 @@
 	
 	<xsl:template match="user" mode="detail">
 		<div class="member-details">
-			<img src="users/{normalize-space(id)}.png" />
+			<img src="{$pathToRoot}teamspace/users/{normalize-space(id)}.png" />
 			<h4>
 				<xsl:value-of select="name" />
 				<xsl:value-of select="surname" />
@@ -118,7 +118,7 @@
 	</xsl:template>
 
 	<xsl:template match="user">
-		<li style="background:url(users/{normalize-space(id)}.png);background-repeat:no-repeat;background-position:1px 0px;">
+		<li style="background:url({$pathToRoot}teamspace/users/{normalize-space(id)}.png);background-repeat:no-repeat;background-position:1px 0px;">
 			<xsl:value-of select="name" />
 			<xsl:value-of select="surname" />
 		</li>
