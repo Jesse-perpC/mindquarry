@@ -15,11 +15,13 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 	
     private static final String TEST_REPOS_PATH = "target/workspace-repos";
     
+    private File reposDir_;
+    
     protected void setUp() throws Exception {
         super.setUp();
-        File reposDir = new File(TEST_REPOS_PATH);
-        if (! reposDir.exists()) 
-            reposDir.mkdirs();
+        reposDir_ = new File(TEST_REPOS_PATH);
+        if (! reposDir_.exists()) 
+            reposDir_.mkdirs();
         
         System.setProperty(
                 TeamspaceManager.REPOS_BASE_PATH_PROPERTY, TEST_REPOS_PATH);
@@ -43,12 +45,34 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         List<TeamspaceRO> teamspaces = admin.teamspacesForUser(userId);
         assertEquals(2, teamspaces.size());
-                
+        
         admin.removeTeamspace(teamspaceId);        
         admin.removeTeamspace(teamspaceId + "2");
         
         assertEquals(0, admin.teamspacesForUser(userId).size());
 	}
+    
+    public void testWorkspaceUri() 
+        throws ServiceException, TeamspaceAlreadyExistsException {
+        
+        TeamspaceAdmin admin = lookupTeamspaceAdmin();
+        
+        String userId = "mindquarry-user";
+        UserRO creator = admin.createUser(userId, "aSecretPassword", 
+                "Mindquarry User", "surname", "an email", "the skills");
+        
+        String teamspaceId = "mindquarry-teamspace";
+        TeamspaceRO teamspace = admin.createTeamspace(teamspaceId, 
+                "Mindquarry Teamspace", "a greate description", creator);
+        
+        
+        String expectedWorkspaceUri = 
+            "file://" + reposDir_.toURI().getPath() + teamspaceId + "/";
+        
+        assertEquals(expectedWorkspaceUri, teamspace.getWorkspaceUri());
+                
+        admin.removeTeamspace(teamspaceId);
+    }
     
     public void testCreateAndRemoveUser() 
         throws ServiceException, TeamspaceAlreadyExistsException {

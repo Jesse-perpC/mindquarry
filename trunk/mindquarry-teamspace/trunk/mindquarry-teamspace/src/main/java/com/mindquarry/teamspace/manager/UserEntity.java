@@ -5,9 +5,9 @@ import java.util.Set;
 
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.teamspace.User;
+import com.mindquarry.teamspace.UserRO;
 
-public class UserEntity extends EntityBase implements User {
+public class UserEntity extends EntityBase implements UserRO {
     
     private String password;
     

@@ -11,7 +11,7 @@ package com.mindquarry.teamspace;
 public interface TeamspaceAdmin extends TeamspaceQuery {
 
     /**
-     * creates a new teamspace
+     * creates a new teamspace and the associated workspace (svn repo)
      * @param teamspaceId
      * @param name of the teamspace
      * @param a String describing the teamspace

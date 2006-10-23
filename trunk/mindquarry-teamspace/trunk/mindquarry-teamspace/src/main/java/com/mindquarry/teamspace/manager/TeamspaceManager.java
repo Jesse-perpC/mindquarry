@@ -20,9 +20,12 @@ import org.apache.avalon.framework.service.Serviceable;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.dma.admin.DmaRepository;
+import com.mindquarry.dma.admin.DmaRepositoryFactory;
 import com.mindquarry.teamspace.Authentication;
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.teamspace.UserRO;
 
@@ -36,6 +39,8 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
     Serviceable, Configurable, Initializable {
 
     static final String REPOS_BASE_PATH_PROPERTY = "mindquarry.reposbasepath";
+
+    static private final String FILE_PROTOCOL_PREFIX = "file://";
     
     static final String ADMIN_USER_ID = "admin";
     static final String ADMIN_PWD = "admin";
@@ -45,6 +50,8 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
     
     private SessionFactory sessionFactory_;
     
+    private DmaRepositoryFactory dmaRepositoryFactory_;
+    
     private File reposBaseDirectory_;
     
     /**
@@ -52,8 +59,22 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
      * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
      */
     public void service(ServiceManager serviceManager) throws ServiceException {
+        sessionFactory_ = lookupSessionFactory(serviceManager);
+        dmaRepositoryFactory_ = lookupDmaRepoFactory(serviceManager);
+    }
+    
+    private SessionFactory lookupSessionFactory(
+            ServiceManager serviceManager) throws ServiceException {
+        
         String name = SessionFactory.class.getName();
-        sessionFactory_ = (SessionFactory) serviceManager.lookup(name);
+        return (SessionFactory) serviceManager.lookup(name);
+    }
+    
+    private DmaRepositoryFactory lookupDmaRepoFactory(
+            ServiceManager serviceManager) throws ServiceException {
+        
+        String name = DmaRepositoryFactory.class.getName();
+        return (DmaRepositoryFactory) serviceManager.lookup(name);
     }
 
     /**
@@ -98,13 +119,18 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         return null != queryUserById(session, ADMIN_USER_ID);
     }
 
-    public TeamspaceRO createTeamspace(String id, String name, 
+    public TeamspaceRO createTeamspace(String teamspaceId, String name, 
             String description, UserRO teamspaceCreator) {
+
+        DmaRepository dmaRepository = dmaRepository(teamspaceId);        
+        if (! dmaRepository.exists())
+            dmaRepository.create();
         
         TeamspaceEntity teamspace = new TeamspaceEntity();
-        teamspace.setId(id);
+        teamspace.setId(teamspaceId);
         teamspace.setName(name);
         teamspace.setDescription(description);
+        teamspace.setWorkspaceUri(createWorkspaceUri(dmaRepository));
         addUserToTeamspace(teamspaceCreator, teamspace);
         
         Session session = currentSession();
@@ -115,8 +141,14 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
     }
 
     public void removeTeamspace(String teamspaceId) {
+        
         Session session = currentSession();
         TeamspaceEntity teamspace = queryTeamspaceById(session, teamspaceId);
+        
+        if (null == teamspace)
+            throw new TeamspaceException(
+                    "the teamspace " + teamspaceId + " does not exist."  );
+        
         List<UserRO> users = queryMembersForTeamspace(session, teamspace);
         for (UserRO user : users) {
             removeUserFromTeamspace(user, teamspace);
@@ -124,6 +156,25 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         }
         session.delete(teamspace);
         session.commit();
+        
+        DmaRepository dmaRepository = dmaRepository(teamspaceId);
+        dmaRepository.remove();
+    }
+    
+    private String createWorkspaceUri(DmaRepository dmaRepository) {
+        StringBuilder uriSB = new StringBuilder();
+        uriSB.append(FILE_PROTOCOL_PREFIX);
+        uriSB.append(new File(dmaRepository.getPath()).toURI().getPath());
+        return uriSB.toString();
+    }
+
+    private DmaRepository dmaRepository(String teamspaceId) {
+        StringBuilder repoPathSB = new StringBuilder();
+        repoPathSB.append(reposBaseDirectory_.getAbsolutePath());
+        repoPathSB.append(File.separatorChar);
+        repoPathSB.append(teamspaceId);
+        repoPathSB.append(File.separatorChar);
+        return dmaRepositoryFactory_.newRepository(repoPathSB.toString());
     }
 
     public List<TeamspaceRO> teamspacesForUser(String userId) {
@@ -277,14 +328,6 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
             return (UserEntity) queryResult.get(0);            
         else
             return null;
-    }
-
-    public String workspaceUri(String id) {
-        Session session = currentSession();
-        TeamspaceRO teamspace = queryTeamspaceById(session, id);
-        String result = teamspace.getWorkspaceUri();
-        session.commit();
-        return result;
     }
     
     private Session currentSession() {
