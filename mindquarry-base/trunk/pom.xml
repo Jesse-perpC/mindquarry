@@ -37,17 +37,6 @@
 	
 	<repositories>
 		<repository>
-			<id>apache.snapshot</id>
-			<name>Apache Snapshot Repository</name>
-			<url>http://svn.apache.org/maven-snapshot-repository</url>
-		</repository>
-		<repository>
-			<id>apache-cvs</id>
-			<name>Apache Maven Repository</name>
-			<url>http://svn.apache.org/repository</url>
-			<layout>legacy</layout>
-		</repository>
-		<repository>
 			<id>mindquarry.releases</id>
 			<name>Mindquarry Repository</name>
 			<url>http://www.mindquarry.com/releases/</url>
@@ -58,6 +47,17 @@
 			<name>Mindquarry Snapshot Repository</name>
 			<url>http://www.mindquarry.com/snapshots/</url>
 			<layout>default</layout>
+		</repository>
+		<repository>
+			<id>apache.snapshot</id>
+			<name>Apache Snapshot Repository</name>
+			<url>http://svn.apache.org/maven-snapshot-repository</url>
+		</repository>
+		<repository>
+			<id>apache-cvs</id>
+			<name>Apache Maven Repository</name>
+			<url>http://svn.apache.org/repository</url>
+			<layout>legacy</layout>
 		</repository>
 	</repositories>
 
