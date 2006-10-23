@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
 
+<!-- 
+	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved 
+-->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 	<map:components>
 		<map:actions>
@@ -10,10 +12,12 @@
 			</map:action>
 			<map:action name="httpauth" src="com.mindquarry.webapp.auth.HttpAuthAction" />
 		</map:actions>
+
 		<map:selectors>
 			<map:selector name="lightbox-request" src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
 			<map:selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
 		</map:selectors>
+
 		<map:transformers default="xslt">    
     		<map:transformer name="browser-update" src="org.apache.cocoon.ajax.BrowserUpdateTransformer"/>
   		</map:transformers>
@@ -57,6 +61,7 @@
 		        	</map:transform>
 		        </map:otherwise>
 				</map:select>
+				
 				<map:select type="ajax-request">
 				    <map:when test="true">
 				      <map:serialize type="xml"/>
@@ -77,15 +82,14 @@
 	
 
 	<map:pipelines>
-
 		<!-- resources pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="css/*.css">
 				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/teamspace/css/{1}.css">
+					<map:when test="css/{1}.css">
 					<!-- if it exists, load it from this sitemap's resources -->
 						<map:read
-							src="resource://com/mindquarry/teamspace/css/{1}.css" />
+							src="css/{1}.css" />
 					</map:when>
 					<!-- if not, look in the super block -->
 					<map:otherwise>
@@ -93,44 +97,48 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
+			
 			<map:match pattern="scripts/*.js">
 				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/teamspace/scripts/{1}.js">
+					<map:when test="scripts/{1}.js">
 						<map:read
-							src="resource://com/mindquarry/teamspace/scripts/{1}.js" />
+							src="scripts/{1}.js" />
 					</map:when>
 					<map:otherwise>
 						<map:read src="block:super:/scripts/{1}.js" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
+			
 			<map:match pattern="images/*.*">
 				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/teamspace/images/{1}.{2}">
+					<map:when test="images/{1}.{2}">
 						<map:read
-							src="resource://com/mindquarry/teamspace/images/{1}.{2}" />
+							src="images/{1}.{2}" />
 					</map:when>
 					<map:otherwise>
 						<map:read src="block:super:/images/{1}.{2}" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
+			
 			<map:match pattern="buttons/*.*">
 				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/teamspace/buttons/{1}_button.{2}">
+					<map:when test="buttons/{1}_button.{2}">
 						<map:read
-							src="resource://com/mindquarry/teamspace/buttons/{1}_button.{2}" />
+							src="buttons/{1}_button.{2}" />
 					</map:when>
 					<map:otherwise>
 						<map:read src="block:super:/buttons/{1}.{2}" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
+			
 			<map:match pattern="icons/*x*/*/*.png">
 				<map:select type="resource-exists">
-					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{2}/{3}/{4}.png">
+					<map:when test="icons/{1}x{2}/{3}/{4}.png">
 						<map:read
-							src="resource://org/tango-project/tango-icon-theme/{1}x{2}/{3}/{4}.png" />
+							src="icons/{1}x{2}/{3}/{4}.png" />
 					</map:when>
 					<map:otherwise>
 						<map:read src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
@@ -155,14 +163,14 @@
 					</map:when>
 					<map:otherwise>
 						<map:read
-							src="resource://com/mindquarry/teamspace/images/anonymous-user.png" />
+							src="images/anonymous-user.png" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
 			
 			<map:match pattern="teams/*.png">
 				<map:read
-					src="resource://com/mindquarry/teamspace/images/anonymous-project.png" />
+					src="images/anonymous-project.png" />
 			</map:match>
 		</map:pipeline>
 		
@@ -199,7 +207,6 @@
  				</map:act>
 			</map:match>
 			
-			
 			<map:match pattern="views/teamspaceXMLView">
 				<map:act type="httpauth">
 					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
@@ -226,7 +233,6 @@
 		
 		<!-- creating users and teamspace / use noncaching pipeline -->
 		<map:pipeline type="noncaching">
-		
 			<map:match pattern="createUser/">
 				<map:act type="httpauth">
 					<map:call function="handleForm">
@@ -286,7 +292,5 @@
 				<map:read src="block:super:/{1}" />
 			</map:match>
 		</map:pipeline>
-
 	</map:pipelines>
-
 </map:sitemap>
