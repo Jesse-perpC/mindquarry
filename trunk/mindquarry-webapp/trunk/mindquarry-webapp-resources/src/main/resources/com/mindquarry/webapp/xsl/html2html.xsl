@@ -61,7 +61,6 @@
 			<!-- NOTE: {pathToBlock}css/screen.css (without resources) does not
 				 work for the welcome block which is mounted at / -->
 			<link rel="stylesheet" href="{$pathToRoot}resources/css/screen.css" media="screen,projection" type="text/css" />
-			<link rel="stylesheet" href="{$pathToRoot}resources/css/nifty.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
