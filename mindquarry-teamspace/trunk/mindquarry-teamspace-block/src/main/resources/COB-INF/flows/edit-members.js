@@ -29,7 +29,7 @@ function processEditMembersForm(form) {
 	setCreateUserEmbeddedMode();
 	form.showForm("edit-members.instance");
 	
-	cocoon.redirectTo("/");
+	cocoon.redirectTo("/teamspace/");
 }
 
 function loadModelWithMembership() {
