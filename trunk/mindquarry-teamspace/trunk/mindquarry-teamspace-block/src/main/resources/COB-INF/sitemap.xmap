@@ -19,11 +19,7 @@
   		</map:transformers>
 	</map:components>
 	
-	<map:views>
-		<map:view name="content" from-label="content">
-			<map:serialize type="xml"/>
-		</map:view>
-		
+	<map:views>		
 		<map:view name="content" from-label="content">
 			<map:serialize type="xml"/>
 		</map:view>
@@ -34,8 +30,7 @@
 		
 		<map:view name="form" from-label="form">
 			<map:serialize type="xml"/>
-		</map:view>
-		
+		</map:view>		
 	</map:views>
 
 	<map:flow language="javascript">
