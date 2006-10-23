@@ -31,6 +31,6 @@
     <module>../mindquarry-workspace</module>
     <module>../mindquarry-wiki</module>
     <module>../mindquarry-tasks</module>
-    <module>../mindquarry-ductforms</module>
+    <module>../mindquarry-ductforms/mindquarry-dforms</module>
   </modules>
 </project>
