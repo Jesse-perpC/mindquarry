@@ -6,6 +6,7 @@
 			<xsl:apply-templates select="teamspace/id" />
 		</teamspaces>
 	</xsl:template>
+	
 	<xsl:template match="teamspace/id">
 		<teamspace><xsl:value-of select="normalize-space(.)" /></teamspace>
 	</xsl:template>
