@@ -180,7 +180,7 @@
 				<map:act type="httpauth">
 					<map:call function="listTeamspacesForUser">
 						<map:parameter name="username" value="{username}" />
-						<map:parameter name="view" value="views/teamspaceView"/>
+						<map:parameter name="target" value="views/teamspaceView"/>
 					</map:call>
 				</map:act>
 			</map:match>
@@ -189,7 +189,7 @@
 				<map:act type="httpauth">
 					<map:call function="listTeamspacesForUser">
 						<map:parameter name="username" value="{1}" />
-						<map:parameter name="view" value="views/teamspaceXMLView" />
+						<map:parameter name="target" value="views/teamspaceXMLView" />
 					</map:call>
 				</map:act>
 			</map:match>
