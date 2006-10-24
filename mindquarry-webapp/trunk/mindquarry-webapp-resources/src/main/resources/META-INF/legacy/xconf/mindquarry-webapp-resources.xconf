@@ -7,4 +7,12 @@
 	<!-- Include roles -->
 	<include
 		src="resource://com/mindquarry/webapp/mindquarry-webapp-resources.roles" />
+
+	<input-modules>
+		<component-instance logger="mindquarry.modules.uri"
+			name="params-as-uri"
+			class="com.mindquarry.webapp.modules.ParamsToURIModule">
+			<encoding>UTF-8</encoding>
+		</component-instance>
+	</input-modules>
 </components>
