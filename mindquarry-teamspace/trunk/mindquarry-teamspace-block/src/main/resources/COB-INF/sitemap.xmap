@@ -11,6 +11,8 @@
 				<seconds>0</seconds>
 			</map:action>
 			<map:action name="httpauth" src="com.mindquarry.webapp.auth.HttpAuthAction" />
+			<map:action name="log"
+				src="com.mindquarry.webapp.acting.DebugLogAction" />
 		</map:actions>
 
 		<map:selectors>
@@ -47,14 +49,14 @@
 		<map:resource name="layouting">
 			<map:select type="lightbox-request">
 				<map:when test="true">
-					<map:transform src="resource://com/mindquarry/webapp/xsl/html2lightbox.xsl">
+					<map:transform src="block:/xslt/html2lightbox.xsl">
 		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
 						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
 		        	</map:transform>
 		        </map:when>
 		        <map:otherwise>
-		      		<map:transform src="resource://com/mindquarry/webapp/xsl/html2html.xsl">
+		      		<map:transform src="block:/xslt/html2html.xsl">
 		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
 						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
@@ -94,6 +96,23 @@
 					<!-- if not, look in the super block -->
 					<map:otherwise>
 						<map:read src="block:super:/css/{1}.css" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+			
+			<map:match pattern="xslt/*.xsl">
+				<map:act type="log" src=">>[teamspace] xslt/{1}.xsl" />
+				<map:select type="resource-exists">
+					<map:when test="xslt/{1}.xsl">
+						<map:act type="log" src=">>[teamspace] local" />
+					<!-- if it exists, load it from this sitemap's resources -->
+						<map:read
+							src="xslt/{1}.xsl" />
+					</map:when>
+					<!-- if not, look in the super block -->
+					<map:otherwise>
+						<map:act type="log" src=">>[teamspace] -> super" />
+						<map:read src="block:super:/xslt/{1}.xsl" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
@@ -185,15 +204,6 @@
 				</map:act>
 			</map:match>
 			
-			<map:match pattern="*.xml">
-				<map:act type="httpauth">
-					<map:call function="listTeamspacesForUser">
-						<map:parameter name="username" value="{1}" />
-						<map:parameter name="target" value="views/teamspaceXMLView" />
-					</map:call>
-				</map:act>
-			</map:match>
-			
 			<map:match pattern="views/teamspaceView">
 				<map:act type="httpauth">
 					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
@@ -205,6 +215,15 @@
 	   				<map:call resource="form2html" />
 	 				<map:call resource="layouting" />
  				</map:act>
+			</map:match>
+			
+			<map:match pattern="teamlist.xml">
+				<map:act type="httpauth">
+					<map:call function="listTeamspacesForUser">
+						<map:parameter name="username" value="{username}" />
+						<map:parameter name="target" value="views/teamspaceXMLView" />
+					</map:call>
+				</map:act>
 			</map:match>
 			
 			<map:match pattern="views/teamspaceXMLView">

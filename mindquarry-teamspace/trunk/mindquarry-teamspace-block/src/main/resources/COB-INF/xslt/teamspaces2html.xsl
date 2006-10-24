@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:import
-		href="resource://com/mindquarry/webapp/xsl/contextpath.xsl" />
+		href="block:/xslt/contextpath.xsl" />
 
 	<xsl:template match="/teamspaces">
 		<html>
