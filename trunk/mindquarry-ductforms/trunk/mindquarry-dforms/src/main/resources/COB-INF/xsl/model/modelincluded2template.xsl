@@ -8,6 +8,8 @@
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:html="http://www.w3.org/1999/xhtml">
 
+	<xsl:param name="documentID" />
+
 	<xsl:key name="usedfields" match="df:instance/*"
 		use="local-name(.)" />
 	<xsl:key name="datatypes" match="df:datatype" use="@id" />
@@ -31,7 +33,7 @@
 	<xsl:template match="df:instance">
 		<ft:form method="POST">
 			<xsl:attribute name="action">
-				<xsl:text>#{$cocoon/continuation/id}.continue</xsl:text>
+				<xsl:value-of select="$documentID" /><xsl:text>.xml.#{$cocoon/continuation/id}.continue</xsl:text>
 			</xsl:attribute>
 
 			<xsl:apply-templates select="*" />
