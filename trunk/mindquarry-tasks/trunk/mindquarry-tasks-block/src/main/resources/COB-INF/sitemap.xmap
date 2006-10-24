@@ -10,17 +10,30 @@
 		<map:actions>
 			<map:action name="log"
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
+			<map:action name="log-params"
+				src="com.mindquarry.webapp.acting.LogParametersAction" />
 		</map:actions>
 	</map:components>
 
 	<map:pipelines>
+		<!-- <map:pipeline type="noncaching">
+			<map:match pattern="xslt/*.xsl">
+			<map:select type="resource-exists">
+			<map:when test="xsl/{1}.xsl">
+			<map:read
+			src="xsl/{1}.xsl" />
+			</map:when>
+			<map:otherwise>
+			<map:read src="block:super:/xslt/{1}.xsl" />
+			</map:otherwise>
+			</map:select>
+			</map:match>	
+			</map:pipeline> -->
+
 		<map:pipeline type="noncaching">
 
 			<!-- @virtual: for even more specific sub-blocks ;-) -->
 			<map:match pattern="tasks-dforms-model-directory.xml">
-				<map:act type="log"
-					src=">>[tasks] tasks-dforms-model-directory.xml" />
-
 				<map:generate src="dforms-model" type="directory" />
 				<map:transform
 					src="block:super:/directory2resourceincludes.xsl" />
@@ -29,10 +42,7 @@
 
 			<!-- @override: provide the model as directory listing for the dforms block -->
 			<map:match pattern="dforms-model-directory.xml">
-				<map:act type="log"
-					src=">>[tasks] dforms-model-directory.xml" />
 				<!-- we want our models and the inherited models -->
-
 				<map:aggregate element="resources">
 					<map:part
 						src="block:super:/dforms-model-directory.xml" />
@@ -53,66 +63,34 @@
 				+-->
 			<map:match pattern="*/*.xml">
 				<map:read
-					src="block:super:/show-document.xml?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}">
-					<!-- <map:parameter name="baseURI"
-						value="jcr:///teamspaces/{1}/tasks/" />
-						<map:parameter name="documentID" value="{2}" /> -->
-					<!-- <map:parameter name="suffix" value=".xml" /> -->
-				</map:read>
-
-				<!--
-					
-					
-					<map:select type="resource-exists">
-					if it exists, show the task 
-					<map:when
-					test="jcr:///teamspaces/{1}/tasks/{2}.xml">
-					<map:read
-					src="block:super:/show-document.xml">
-					<map:parameter name="baseURI"
-					value="jcr:///teamspaces/{1}/tasks/" />
-					<map:parameter name="documentID"
-					value="{2}" />
-					<map:parameter name="suffix" value=".xml" /> 
-					</map:read>
-					</map:when>
-					else edit the task 
-					<map:otherwise>
-					<map:read
-					src="block:super:/edit-document.xml">
-					<map:parameter name="baseURI"
-					value="jcr:///teamspaces/{1}/tasks/" />
-					<map:parameter name="documentID"
-					value="{2}" />
-					<map:parameter name="suffix" value=".xml" /> 
-					</map:read>
-					<map:redirect-to uri="{1}/{2}.xml.edit" /> 
-					</map:otherwise>
-					</map:select>
-				-->
+					src="block:super:/show-document.xml?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+			</map:match>
+			
+			<map:match pattern="*/*.xml.edit">
+				<map:read
+					src="block:super:/edit-document.xml?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />			
 			</map:match>
 
 
 			<!-- =========================================================== -->
 
-
 			<!-- @override: for inheriting sitemap resources -->
 			<map:match pattern="resource/**">
-				<map:act type="log" src=">>[tasks] resource/**" />
-
 				<map:select type="resource-exists">
 					<!-- if it exists, load it from this sitemap's resources -->
 					<map:when test="{1}">
-						<map:act type="log" src=">>[tasks] exists" />
 						<map:read src="{1}" />
 					</map:when>
 					<!-- if not, look in the super block -->
 					<map:otherwise>
-						<map:act type="log"
-							src=">>[tasks] does not exist -> super block" />
 						<map:read src="block:super:/resource/{1}" />
 					</map:otherwise>
 				</map:select>
+			</map:match>
+
+			<map:match pattern="*/*.continue">
+				<map:act type="log-params" />
+				<map:read src="block:super:/{2}.continue?{params-as-uri:request-param}" />
 			</map:match>
 
 			<!--+
@@ -120,8 +98,6 @@
 				| NOTE: This must be the last matcher!
 				+-->
 			<map:match pattern="**">
-				<map:act type="log" src=">> tasks **" />
-
 				<map:read src="block:super:/{1}" />
 			</map:match>
 
