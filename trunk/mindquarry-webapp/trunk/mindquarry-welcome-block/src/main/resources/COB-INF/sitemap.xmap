@@ -7,20 +7,6 @@
 	<map:pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
-			<map:match pattern="css/*.css">
-				<map:select type="resource-exists">
-					<map:when test="css/{1}.css">
-					<!-- if it exists, load it from this sitemap's resources -->
-						<map:read
-							src="css/{1}.css" />
-					</map:when>
-					<!-- if not, look in the super block -->
-					<map:otherwise>
-						<map:read src="block:super:/css/{1}.css" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
 			<map:match pattern="xslt/*.xsl">
 				<map:select type="resource-exists">
 					<map:when test="xslt/{1}.xsl">
@@ -35,38 +21,17 @@
 				</map:select>
 			</map:match>
 			
-			<map:match pattern="images/*.*">
+			<!-- URLs css/* etc. do not work in the welcome block
+				 (css/ will be mis-identified as a block) -->
+
+			<map:match pattern="*.css">
 				<map:select type="resource-exists">
-					<map:when test="images/{1}.{2}">
+					<map:when test="css/{1}.css">
 						<map:read
-							src="images/{1}.{2}" />
+							src="css/{1}.css" />
 					</map:when>
 					<map:otherwise>
-						<map:read src="block:super:/images/{1}.{2}" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="buttons/*.*">
-				<map:select type="resource-exists">
-					<map:when test="buttons/{1}_button.{2}">
-						<map:read
-							src="buttons/{1}_button.{2}" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/buttons/{1}.{2}" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="icons/*x*/*/*.png">
-				<map:select type="resource-exists">
-					<map:when test="icons/{1}x{2}/{3}/{4}.png">
-						<map:read
-							src="icons/{1}x{2}/{3}/{4}.png" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
+						<map:read src="block:super:/css/{1}.css" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
@@ -79,17 +44,16 @@
 					src="block:/xslt/html2html.xsl">
 	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+	        		<!-- empty css path -->
+	        		<map:parameter name="cssPath" value=""/>
 					<map:parameter name="user.agent" value="{request-header:User-Agent}" />
 				</map:transform>
 				<map:serialize type="xhtml" />
 			</map:match>
 
-			<!--+
-				| forward any unknown stuff to the super block 
-				| NOTE: This must be the last matcher!
-				+-->
-			<map:match pattern="**">
-				<map:read src="block:super:/{1}" />
+			<!-- redirect stupid urls /foobar to the index page -->
+			<map:match pattern="*">
+				<map:redirect-to uri="" />
 			</map:match>
 		</map:pipeline>
 	</map:pipelines>
