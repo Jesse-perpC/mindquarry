@@ -101,17 +101,14 @@
 			</map:match>
 			
 			<map:match pattern="xslt/*.xsl">
-				<map:act type="log" src=">>[teamspace] xslt/{1}.xsl" />
 				<map:select type="resource-exists">
 					<map:when test="xslt/{1}.xsl">
-						<map:act type="log" src=">>[teamspace] local" />
 					<!-- if it exists, load it from this sitemap's resources -->
 						<map:read
 							src="xslt/{1}.xsl" />
 					</map:when>
 					<!-- if not, look in the super block -->
 					<map:otherwise>
-						<map:act type="log" src=">>[teamspace] -> super" />
 						<map:read src="block:super:/xslt/{1}.xsl" />
 					</map:otherwise>
 				</map:select>
