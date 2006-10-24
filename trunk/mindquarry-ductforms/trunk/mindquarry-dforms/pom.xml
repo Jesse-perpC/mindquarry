@@ -36,6 +36,11 @@
 			<version>1.0.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-html-impl</artifactId>
+			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
