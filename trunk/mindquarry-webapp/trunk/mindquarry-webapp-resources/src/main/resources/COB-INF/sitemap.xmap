@@ -1,40 +1,48 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+	<map:components>
+		<map:actions>
+			<map:action name="log"
+				src="com.mindquarry.webapp.acting.DebugLogAction" />
+		</map:actions>
+	</map:components>
+
 	<map:pipelines>
 		<map:pipeline>
 			<map:match pattern="scripts/*.js">
 				<map:read
-					src="resource://com/mindquarry/webapp/scripts/{1}.js" />
+					src="scripts/{1}.js" />
 			</map:match>
 			
 			<map:match pattern="css/*.css">
 				<map:read
-					src="resource://com/mindquarry/webapp/css/{1}.css" />
+					src="css/{1}.css" />
 			</map:match>
 			
-			<map:match pattern="images/*.png">
+			<map:match pattern="xslt/*.xsl">
+				<map:act type="log" src=">>[resources] xslt/{1}.xsl" />
 				<map:read
-					src="resource://com/mindquarry/webapp/images/{1}.png" />
+					src="xslt/{1}.xsl" />
+			</map:match>
+			
+			<map:match pattern="images/*.*">
+				<map:read
+					src="images/{1}.{2}" />
 			</map:match>
 					
-			<map:match pattern="images/*.gif">
-				<map:read
-					src="resource://com/mindquarry/webapp/images/{1}.gif" />
-			</map:match>
-
 			<map:match pattern="icons/*.*">
 				<map:read
-					src="resource://com/mindquarry/webapp/icons/{1}_icon.{2}" />
+					src="icons/{1}_icon.{2}" />
 			</map:match>
 			
 			<map:match pattern="icons/*/feed.png">
 				<map:read 
-					src="resource://com/mindquarry/webapp/icons/feed/feed-icon-{1}.png" />
+					src="icons/feed/feed-icon-{1}.png" />
 			</map:match>
 				
 			<map:match pattern="buttons/*x*/*.*">
 				<map:read
-					src="resource://com/mindquarry/webapp/buttons/{3}-button-{1}.{4}" />
+					src="buttons/{3}-button-{1}.{4}" />
 			</map:match>
 			
 			<!-- icons from tango jar -->
