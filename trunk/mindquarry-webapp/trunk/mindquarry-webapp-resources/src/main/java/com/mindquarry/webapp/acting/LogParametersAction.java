@@ -3,6 +3,7 @@
  */
 package com.mindquarry.webapp.acting;
 
+import java.util.Enumeration;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
@@ -10,6 +11,7 @@ import org.apache.avalon.framework.thread.ThreadSafe;
 import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
+import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 /**
@@ -26,12 +28,17 @@ public class LogParametersAction extends AbstractAction implements ThreadSafe {
     public Map act(Redirector redirector, SourceResolver resolver,
             Map objectModel, String src, Parameters par) throws Exception {
 
-        Map requestParams = ObjectModelHelper.getRequest(objectModel).getParameters();
-        System.err.println("logging parameters... " + requestParams.size());
-        for (Object key : requestParams.keySet()) {
-            String name = (String) key;
-            System.err.println("LogParameters: " + name + " = " + requestParams.get(name));
-            
+        Request req = ObjectModelHelper.getRequest(objectModel);
+        Enumeration names = req.getParameterNames();
+        if (!names.hasMoreElements()) {
+        System.err.println("logging zero parameters... ");
+        }
+        while(names.hasMoreElements()) {
+            String name = names.nextElement().toString();
+            String[] values = req.getParameterValues(name);
+            for (int i = 0; i < values.length; i++) {
+                System.err.println("LogParameters: " + name + " = " + values[i]);                
+            }
         }
 //        String[] paramNames = par.getNames();
 //        System.err.println("logging parameters... " + paramNames.length);

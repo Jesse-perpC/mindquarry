@@ -44,12 +44,12 @@ public class ParamsToURIModule extends AbstractMetaModule {
                         .getAttributeNames(modeConf, objectModel);
                 while (names.hasNext()) {
                     String n = (String) names.next();
-                    Object value = module
-                            .getAttribute(n, modeConf, objectModel);
+                    Object[] values = module
+                            .getAttributeValues(n, modeConf, objectModel);
 
-                    if (value instanceof String) {
-                        String strValue = (String) value;
-
+                    for (int i = 0; i < values.length; i++) {
+                        String strValue = values[i].toString();
+                        
                         uri.append(n);
                         uri.append("=");
                         
