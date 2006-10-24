@@ -134,8 +134,10 @@
 			<!-- the generated form template including only the selected fields -->
 			<map:match pattern="*.xml.template">
 				<map:generate src="cocoon:/{1}.xml.model" />
-				<map:transform
-					src="xsl/model/modelincluded2template.xsl" />
+				<map:transform src="xsl/model/modelincluded2template.xsl">
+					<map:parameter name="documentID"
+						value="{request-param:documentID}" />
+				</map:transform>
 				<map:serialize type="xml" />
 			</map:match>
 
