@@ -11,8 +11,7 @@
 	
 	<xsl:param name="user.agent" select="''"/>
 
-	<xsl:param name="block-path.this" select="''" />
-	<xsl:param name="block-path.super" select="''" />
+	<xsl:param name="cssPath" select="'css/'" />
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -58,9 +57,7 @@
 		
 			<xsl:apply-templates />
 			
-			<!-- NOTE: {pathToBlock}css/screen.css (without resources) does not
-				 work for the welcome block which is mounted at / -->
-			<link rel="stylesheet" href="{$pathToRoot}resources/css/screen.css" media="screen,projection" type="text/css" />
+			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
@@ -90,13 +87,6 @@
 					
 					<div id="beta-comment">Alpha 1</div>
 				</div>
-				
-				<!-- <div>
-					pathToRoot: '<xsl:value-of select="$pathToRoot" />'<br/>
-					pathToBlock: '<xsl:value-of select="$pathToBlock" />'<br/>
-					fullPath: '<xsl:value-of select="$fullPath" />'<br/>
-					sitemapPath: '<xsl:value-of select="$sitemapPath" />'<br/>
-				</div> -->
 				
 				<!-- layouting the content -->
 				<div id="webapp-content">
