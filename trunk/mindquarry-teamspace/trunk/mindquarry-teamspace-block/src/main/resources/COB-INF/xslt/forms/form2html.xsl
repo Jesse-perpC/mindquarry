@@ -6,7 +6,7 @@
 	exclude-result-prefixes="fi">
 
 	<xsl:import
-		href="resource://com/mindquarry/webapp/xsl/contextpath.xsl" />
+		href="cocoon:/xslt/contextpath.xsl" />
 
 	<!-- styling of the page -->
 	<xsl:import
