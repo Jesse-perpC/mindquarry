@@ -82,7 +82,6 @@
 		</map:resource>
 	</map:resources>
 	
-
 	<map:pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
@@ -226,7 +225,10 @@
 			<map:match pattern="views/teamspaceXMLView">
 				<map:act type="httpauth">
 					<map:generate src="jx/teamspace-view.jx" type="jx" label="content"/>
-					<map:transform src="xslt/teamspaces2xml.xsl" />
+					<map:transform src="xslt/teamspaces2xml.xsl">
+						<map:parameter name="reposURI" 
+							value="{system-property:mindquarry.reposURI}" />
+					</map:transform>
 					<map:serialize type="xml" />
  				</map:act>
 			</map:match>
