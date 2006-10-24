@@ -1,0 +1,104 @@
+#webapp-header {
+  background-image:url(../images/gray-header-gray.png);
+}
+
+#webapp-sections a.navFiles {
+  background-image:url(../images/gray-header-red.png);
+}
+
+#webapp-sections a.navWiki {
+  background-image:url(../images/gray-header-blue.png);
+}
+
+#webapp-sections a.navTasks {
+  background-image:url(../images/gray-header-green.png);
+}
+
+#webapp-sections a.navTalk {
+  background-image:url(../images/gray-header-yellow.png);
+}
+
+#webapp-sections a.navTeams {
+  background-image:url(../images/gray-header-orange.png);
+}
+
+#innercontent table.welcome td {
+	vertical-align:top;
+	padding:5px;
+	width:20%;
+	font-size:11pt;
+}
+
+#innercontent a.orangebutton {
+	background-image:url(resources/buttons/133x46/orange.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.redbutton {
+	background-image:url(resources/buttons/133x46/red.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.bluebutton {
+	background-image:url(resources/buttons/133x46/blue.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.greenbutton {
+	background-image:url(resources/buttons/133x46/green.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.yellowbutton {
+	background-image:url(resources/buttons/133x46/yellow.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent img {
+	border:0px;
+}
