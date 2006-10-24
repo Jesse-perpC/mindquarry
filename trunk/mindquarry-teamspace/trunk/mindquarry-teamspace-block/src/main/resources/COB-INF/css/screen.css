@@ -1,3 +1,6 @@
+/* import stylesheet from webapp resources block */
+@import "../../resources/css/screen.css";
+
 body #background-repeater {
 	left:0px;
 	background-color:#fff;
