@@ -25,11 +25,35 @@
 		</map:resource>
 	</map:resources>
 
+	<map:flow language="javascript">
+		<map:script src="flow/ductforms.js" />		
+	</map:flow>
+	
 	<map:pipelines>
+		<!-- <map:pipeline type="noncaching">
+			<map:match pattern="xslt/*.xsl">
+				<map:select type="resource-exists">
+					<map:when test="xsl/{1}.xsl">
+						<map:read
+							src="xsl/{1}.xsl" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/xslt/{1}.xsl" />
+					</map:otherwise>
+				</map:select>
+			</map:match>	
+		</map:pipeline> -->
+		
 		<map:pipeline type="noncaching">
 
 			<!-- internal -->
-			<map:match pattern="model.xml.model">
+			<!-- TODO: rename this or the other, file-specific matchers
+				(eg. *.xml) so that there is no clash between mytask24.xml
+				and this generic model provider here
+				
+				Note: this is also referenced via cocoon:/model.xml in
+				addfield.xsl -->
+			<map:match pattern="model.xml">
 				<map:act type="log" src=">>[dforms] model.xml" />
 
 				<map:generate src="block:/dforms-model-directory.xml" />
@@ -39,9 +63,6 @@
 			<!-- internal -->
 			<!-- @virtual: getting basic model stuff -->
 			<map:match pattern="dforms-model-directory.xml">
-				<map:act type="log"
-					src=">>[dforms] dforms-model-directory.xml" />
-
 				<map:generate src="model" type="directory" />
 				<!-- Note: for some reason the generic
 					src="block:/directory2resourceincludes.xsl" reference
@@ -54,10 +75,32 @@
 			<!-- for child blocks to create includes of files in directories
 				with the correct block:/resource/* source format -->
 			<map:match pattern="directory2resourceincludes.xsl">
-				<map:act type="log"
-					src=">>[dforms] directory2resourceincludes.xsl" />
-
 				<map:read src="xsl/directory2resourceincludes.xsl" />
+			</map:match>
+
+			<!--+ the true content of the model, here required fields have been added and
+				| redundant declaration of the fields included is added
+				+-->
+			<map:match pattern="*.xml.plain">
+				<map:act type="log" src=">>[dforms] {1}.xml.plain" />
+				<map:act type="log"	src=">>[dforms] xml.plain {request-param:baseURI} {request-param:documentID}" />
+				<map:select type="resource-exists">
+					<!-- if it exists, show the document -->
+					<map:when
+						test="{request-param:baseURI}{request-param:documentID}.xml">
+						<map:generate
+							src="{request-param:baseURI}{request-param:documentID}.xml" />
+						<map:transform
+							src="xsl/model/addfield.xsl" />
+						<map:serialize type="xml" />
+					</map:when>
+					<!-- else (if not) show the minimal document model including the required fields from the complete model -->
+					<map:otherwise>
+						<map:generate src="cocoon:/model.xml" />
+						<map:transform src="xsl/model/plainmodel.xsl" />
+						<map:serialize type="xml" />
+					</map:otherwise>
+				</map:select>
 			</map:match>
 
 			<!-- internal -->
@@ -65,55 +108,152 @@
 				| and the aggregated models. This includes everything that is
 				| and could be.
 				+-->
-			<!-- <map:match pattern="*.xml.model">
+			<map:match pattern="*.xml.model">
+				<map:act type="log" src=">>[dforms] {1}.xml.model" />
 				<map:generate src="cocoon:/model.xml" />
-				<map:transform
-				src="xslt/ductforms/model2modelinclude.xsl">
-				<map:parameter name="instance"
-				value="cocoon:/{1}.xml.plain">
-				</map:parameter>
+				<map:transform src="xsl/model/model2modelinclude.xsl">
+					<map:parameter name="instance"
+						value="cocoon:/{1}.xml.plain">
+					</map:parameter>
 				</map:transform>
 				<map:transform type="xinclude" />
-				<map:transform src="xslt/ductforms/cleanmodel.xsl" />
+				<map:transform src="xsl/model/cleanmodel.xsl" />
 				<map:serialize type="xml" />
-				</map:match> -->
+			</map:match>
 
 			<!-- internal -->
 			<!-- the generated form model including all possible fields  -->
-			<!-- <map:match pattern="*.xml.form">
+			<map:match pattern="*.xml.form">
+				<map:act type="log" src=">>[dforms] {1}.xml.form" />
+				<map:generate src="cocoon:/{1}.xml.model" />
+				<map:transform src="xsl/model/modelincluded2form.xsl" />
+				<map:serialize type="xml" />
+			</map:match>
+
+			<!-- internal -->
+			<!-- the generated form template including only the selected fields -->
+			<map:match pattern="*.xml.template">
 				<map:generate src="cocoon:/{1}.xml.model" />
 				<map:transform
-				src="xslt/ductforms/modelincluded2form.xsl" />
+					src="xsl/model/modelincluded2template.xsl" />
 				<map:serialize type="xml" />
-				</map:match> -->
+			</map:match>
+
+			<!-- internal -->
+			<!-- the form rendering pipeline called by the form controller -->
+			<map:match pattern="*.xml.instance">
+				<map:act type="log" src=">>[dforms] {1}.xml.instance" />
+
+				<!-- <map:generate src="cocoon:/{1}.xml.template" /> -->
+				<!-- get the form template from a dynamic pipeline -->
+				<map:generate type="jx" src="cocoon:/{1}.xml.template"
+					label="content1">
+					<map:parameter name="locale"
+						value="{flow-attribute:locale}" />
+				</map:generate>
+
+				<!-- beautify our forms -->
+				<!-- TODO: this could be overriden by the children -->
+				<map:transform src="xsl/instance2html.xsl">
+					<map:parameter name="page" value="{1}" />
+				</map:transform>
+
+				<!-- standard cocoon form2html stylesheet + dojo-editor -->
+				<map:transform src="xsl/forms/form2html.xsl">
+	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+				</map:transform>
+
+				<!-- convert escaped html in dojo-editor content (marked with
+					htmllize tags) into real html (nekohtml from cocoon-html) -->
+				<!-- <map:transform type="nekohtml">
+					<map:parameter name="tags" value="htmllize" />
+					</map:transform> -->
+
+				<map:act type="log"
+					src=">>[dforms] {1}.xml.instance htmllize" />
+				<map:transform src="xsl/forms/htmllize.xsl" />
+
+				<map:serialize type="html" />
+			</map:match>
 
 			<!-- internal, for child -->
 			<map:match pattern="show-document.xml">
-				<map:act type="request">
+				<map:act type="log" src=">>[dforms] show-document.xml" />
+				<!-- <map:act type="log"	src=">>[dforms] show-document.xml {request-param:baseURI} {request-param:documentID}" /> -->
+				<!-- <map:act type="request">
 					<map:parameter name="parameters" value="true" />
 					<map:act type="log-params" />
-				</map:act>
+					<map:act type="log" src="{request-param:baseURI}{request-param:documentID}.xml" />
+					</map:act> -->
 
-				<map:generate src="xsl/model/saveclean.xsl" />
-				<map:serialize type="xml" />
+				<!-- <map:generate src="{request-param:baseURI}{request-param:documentID}.xml" />
+					<map:serialize type="xml" /> -->
 
-				<!-- <map:call function="handleForm">
-					<map:parameter name="function"
-					value="showPage" />
-					<map:parameter name="baseURI" value="{1}" />
-					<map:parameter name="documentID" value="{1}" />
+				<!-- <map:read
+					src="cocoon:/{request-param:documentID}.xml.instance" /> -->
+
+				<map:call function="handleForm">
+					<map:parameter name="function" value="showPage" />
+					<map:parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<map:parameter name="documentID"
+						value="{request-param:documentID}" />
 					<map:parameter name="definitionURI"
-					value="cocoon:/{1}.xml.form" />
-					</map:call> -->
+						value="cocoon:/{request-param:documentID}.xml.form" />
+				</map:call>
+			</map:match>
+
+			<!-- internal, for child -->
+			<map:match pattern="edit-document.xml">
+				<map:act type="log"	src=">>[dforms] edit-document.xml {request-param:baseURI} {request-param:documentID}" />
+				<map:call function="handleForm">
+					<map:parameter name="function" value="editPage" />
+					<map:parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<map:parameter name="documentID"
+						value="{request-param:documentID}" />
+					<map:parameter name="definitionURI"
+						value="cocoon:/{request-param:documentID}.xml.form" />
+				</map:call>
+			</map:match>
+
+			<!-- internal, for child -->
+			<map:match pattern="show-or-edit-document.xml">
+				<map:select type="resource-exists">
+					<!-- if it exists, show the document  -->
+					<map:when
+						test="{request-param:baseURI}{request-param:documentID}.xml">
+						<map:read
+							src="show-document.xml?baseURI={url-encode:{request-param:baseURI}}&amp;documentID={url-encode:{request-param:documentID}}" />
+					</map:when>
+					<!-- else edit the document -->
+					<map:otherwise>
+						<map:read
+							src="edit-document.xml?baseURI={url-encode:{request-param:baseURI}}&amp;documentID={url-encode:{request-param:documentID}}" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+			
+			<!-- =========================================================== -->
+
+			<!-- Continue a scenario. The continuation id is passed in the URL
+				(typically used for GET requests) -->
+			<map:match pattern="*.continue">
+				<map:act type="log-params" />
+				<map:call continuation="{1}" />
+			</map:match>
+
+			<!-- Continue a scenario. The continuation id is passed as a request
+				parameter (typically used for POST request) -->
+			<map:match pattern="continue">
+				<map:call continuation="{1}" />
 			</map:match>
 
 			<!-- =========================================================== -->
 
-
 			<!-- @virtual: for inheriting sitemap resources -->
 			<map:match pattern="resource/**">
-				<map:act type="log" src=">>[dforms] resource/**" />
-
 				<map:read src="{1}" />
 			</map:match>
 

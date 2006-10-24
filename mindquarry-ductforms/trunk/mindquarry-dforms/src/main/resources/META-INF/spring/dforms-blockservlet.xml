@@ -20,7 +20,7 @@
 
 		<property name="connections">
 			<map>
-				<entry key="super"
+				<entry key="resources"
 					value-ref="com.mindquarry.webapp.resources-block" />
 			</map>
 		</property>
