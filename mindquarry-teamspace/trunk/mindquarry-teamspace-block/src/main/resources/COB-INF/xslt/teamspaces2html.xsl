@@ -2,8 +2,7 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:import
-		href="block:/xslt/contextpath.xsl" />
+	<xsl:import href="block:/xslt/contextpath.xsl" />
 
 	<xsl:template match="/teamspaces">
 		<html>
@@ -11,19 +10,11 @@
 				<title>Teamspaces</title>
 				<link rel="stylesheet"
 					href="{$pathToBlock}css/teamspace.css" type="text/css" />
-				<link rel="stylesheet" href="css/screen.css" 
-					media="screen,projection" type="text/css" />
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/edit-members.css" type="text/css" />
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/create-teamspace.css" type="text/css" />
-				<link rel="stylesheet" 
-					href="{$pathToBlock}css/lightbox.css" type="text/css" />
-				<link rel="stylesheet" 
-					href="{$pathToBlock}css/nifty.css" type="text/css" />
 				
-				<script type="text/javascript" 
-					src="{$pathToBlock}scripts/lightbox.js" >//</script>
 				<script type="text/javascript" 
 					src="{$pathToBlock}scripts/slider.js" >//</script>
 				<script type="text/javascript" 

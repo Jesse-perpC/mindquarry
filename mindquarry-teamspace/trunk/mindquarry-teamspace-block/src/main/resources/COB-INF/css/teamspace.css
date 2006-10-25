@@ -1,39 +1,3 @@
-#webapp-header {
-	background-image:
-		url(../images/orange-header-orange.png)
-		;
-}
-
-#webapp-sections a.navFiles {
-	background-image:
-		url(../images/orange-header-red.png)
-		;
-}
-
-#webapp-sections a.navWiki {
-	background-image:
-		url(../images/orange-header-blue.png)
-		;
-}
-
-#webapp-sections a.navTasks {
-	background-image:
-		url(../images/orange-header-green.png)
-		;
-}
-
-#webapp-sections a.navTalk {
-	background-image:
-		url(../images/orange-header-yellow.png)
-		;
-}
-
-#webapp-sections a.navTeams {
-	background-image:
-		url(../images/orange-header-orange.png)
-		;
-}
-
 a.edit_members_button:link, a.edit_members_button:visited {
 	background-image: url(../buttons/edit_member.gif);
 	display: block;
