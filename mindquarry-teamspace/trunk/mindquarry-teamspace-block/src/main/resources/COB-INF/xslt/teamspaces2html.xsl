@@ -65,7 +65,13 @@
 			</div>
 			
 			<div class="name">
-				<img class="icon" src="{$pathToBlock}teams/goshaky.png" />
+				<img class="icon">
+					<xsl:attribute name="src">
+						<xsl:value-of select="$pathToBlock"/>
+						<xsl:value-of select="id"/>
+						<xsl:text>.png</xsl:text>
+					</xsl:attribute>
+				</img>
 				<h2 class="name"><xsl:value-of select="name" /></h2>
 				<span class="description"><xsl:value-of select="description" /></span>
 			</div>
