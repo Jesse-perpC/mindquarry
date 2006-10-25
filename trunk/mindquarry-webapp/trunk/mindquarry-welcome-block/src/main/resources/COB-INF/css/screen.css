@@ -1,3 +1,27 @@
 /* import stylesheet from webapp resources block */
 @import "../resources/css/screen.css";
 
+#webapp-header {
+  background-image:url(../resources/images/gray-header-gray.png);
+}
+
+#webapp-sections a.navFiles {
+  background-image:url(../resources/images/gray-header-red.png);
+}
+
+#webapp-sections a.navWiki {
+  background-image:url(../resources/images/gray-header-blue.png);
+}
+
+#webapp-sections a.navTasks {
+  background-image:url(../resources/images/gray-header-green.png);
+}
+
+#webapp-sections a.navTalk {
+  background-image:url(../resources/images/gray-header-yellow.png);
+}
+
+#webapp-sections a.navTeams {
+  background-image:url(../resources/images/gray-header-orange.png);
+}
+
