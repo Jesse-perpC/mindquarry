@@ -1,0 +1,78 @@
+/*
+	Overwritten in order to get the different paths to the images which
+	do not include the /images dir as in the standard headerandlines.css
+ */
+
+/* HEADER */
+
+#webapp-header {
+	background-image: url(../header.png);
+}
+
+#webapp-sections a.navFiles {
+	background-image: url(../header-files.png);
+}
+
+#webapp-sections a.navWiki {
+	background-image: url(../header-wiki.png);
+}
+
+#webapp-sections a.navTasks {
+	background-image: url(../header-tasks.png);
+}
+
+#webapp-sections a.navTalk {
+	background-image: url(../header-talk.png);
+}
+
+#webapp-sections a.navTeams {
+	background-image: url(../header-teams.png);
+}
+
+/* LINES */
+
+#background-repeater {
+	background-image:url(../repeater.png);
+}
+
+#background-lines {
+	background-image:url(../lines.png);
+}
+
+/* BORDERS */
+
+#background-s {
+	background-image:url(../images/border-s.gif);
+}
+
+#background-n {
+	background-image:url(../border-n.gif);
+}
+
+#background-w {
+	background-image:url(../border-w.gif);
+}
+
+#background-e {
+	background-image:url(../border-e.gif);
+}
+
+#background-nw {
+	background-image:url(../border-nw.gif);
+}
+
+#background-ne {
+	background-image:url(../border-ne.gif);
+}
+
+#background-sw {
+	background-image:url(../border-sw.gif);
+}
+
+#background-se {
+	background-image:url(../border-se.gif);
+}
+
+#background-nw {
+	background-image:url(../border-nw.gif);
+}

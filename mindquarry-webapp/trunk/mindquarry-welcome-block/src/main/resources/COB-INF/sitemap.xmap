@@ -35,6 +35,43 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
+
+			<map:match pattern="*.js">
+				<map:select type="resource-exists">
+					<map:when test="scripts/{1}.js">
+						<map:read
+							src="scripts/{1}.js" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/scripts/{1}.js" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+
+			<map:match pattern="*.png">
+				<map:select type="resource-exists">
+					<map:when test="images/{1}.png">
+						<map:read
+							src="images/{1}.png" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/images/{1}.png" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+
+			<map:match pattern="*.gif">
+				<map:select type="resource-exists">
+					<map:when test="images/{1}.gif">
+						<map:read
+							src="images/{1}.gif" />
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/images/{1}.gif" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+
 		</map:pipeline>
 
 		<map:pipeline>
@@ -44,8 +81,9 @@
 					src="block:/xslt/html2html.xsl">
 	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-	        		<!-- empty css path -->
+	        		<!-- empty css/scripts path -->
 	        		<map:parameter name="cssPath" value=""/>
+	        		<map:parameter name="scriptPath" value=""/>
 					<map:parameter name="user.agent" value="{request-header:User-Agent}" />
 				</map:transform>
 				<map:serialize type="xhtml" />
