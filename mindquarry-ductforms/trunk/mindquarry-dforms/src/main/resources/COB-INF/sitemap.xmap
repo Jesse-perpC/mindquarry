@@ -168,15 +168,15 @@
 
 				<!-- convert escaped html in dojo-editor content (marked with
 					htmllize tags) into real html (nekohtml from cocoon-html) -->
-				<!-- <map:transform type="nekohtml">
+				<map:transform type="nekohtml">
 					<map:parameter name="tags" value="htmllize" />
-					</map:transform> -->
+				</map:transform>
 
 				<map:act type="log"
 					src=">>[dforms] {1}.xml.instance htmllize" />
 				<map:transform src="xsl/forms/htmllize.xsl" />
 
-				<map:serialize type="html" />
+				<map:serialize type="xhtml" />
 			</map:match>
 
 			<!-- internal, for child -->
