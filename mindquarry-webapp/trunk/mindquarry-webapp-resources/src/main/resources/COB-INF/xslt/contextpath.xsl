@@ -15,7 +15,7 @@
 		 and will be the relative path to the Cocoon servlet root,
 		 eg. ../../../ -->
 	<xsl:param name="pathToRoot">
-		<xsl:call-template name="generate.contextpath.without.trailing.slash">
+		<xsl:call-template name="generate.contextpath.without.beginning.slash">
 			<xsl:with-param name="path">
 				<xsl:value-of select="$fullPath"/>
 			</xsl:with-param>
@@ -26,22 +26,20 @@
 		 and will be the relative path to the BlockServlet root,
 		 eg. ../../ -->
 	<xsl:param name="pathToBlock">
-		<xsl:call-template name="generate.contextpath.without.trailing.slash">
+		<xsl:call-template name="generate.contextpath.without.beginning.slash">
 			<xsl:with-param name="path">
 				<xsl:value-of select="$sitemapPath"/>
 			</xsl:with-param>
 		</xsl:call-template>
 	</xsl:param>
 	
-	<!-- removes the trailing slash before calling generate.contextpath -->	
-	<xsl:template name="generate.contextpath.without.trailing.slash">
+	<!-- removes a starting slash before calling generate.contextpath -->	
+	<xsl:template name="generate.contextpath.without.beginning.slash">
 		<xsl:param name="path" />
 		<xsl:choose>
-			<!-- ends-with() not supported (as well as replace), XPath 2.0 ??? -->
-			<!-- test="ends-with($path, '/')" -->
-			<xsl:when test="substring($path, string-length($path), 1) = '/'">
+			<xsl:when test="starts-with($path, '/')">
 				<xsl:call-template name="generate.contextpath">
-					<xsl:with-param name="path" select="substring($path, 1, string-length($path)-1)"/>
+					<xsl:with-param name="path" select="substring($path, 2)"/>
 				</xsl:call-template>
 			</xsl:when>
 			<xsl:otherwise>

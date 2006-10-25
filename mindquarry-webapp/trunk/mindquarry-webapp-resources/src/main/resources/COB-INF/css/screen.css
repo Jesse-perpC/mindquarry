@@ -42,13 +42,11 @@ body {
 #background-repeater {
 	left:0px;
 	background-color:#fff;
-	background-image:url(../images/greyrepeater.png);
 	background-repeat:repeat-y;
 }
 
 
 #background-lines {
-	background-image:url(../images/greylines.png);
 	background-repeat:no-repeat;
 }
 
