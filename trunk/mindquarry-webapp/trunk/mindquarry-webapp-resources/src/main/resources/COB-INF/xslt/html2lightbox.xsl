@@ -5,10 +5,6 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
 
-	<xsl:import href="contextpath.xsl"/>
-	
-	<xsl:param name="user.agent" select="''"/>
-
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />

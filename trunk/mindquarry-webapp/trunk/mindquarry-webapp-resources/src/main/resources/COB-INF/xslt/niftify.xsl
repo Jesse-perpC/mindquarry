@@ -22,5 +22,13 @@
 			</b>
 		</div>
 	</xsl:template>
+	
+	<xsl:template match="xhtml:head|head" mode="nifty">
+		<!-- only include the nifty.css if there are actually
+		nifty divs in the html to niftify -->
+		<xsl:if test="//xhtml:div[@class='nifty']|//div[@class='nifty']">
+			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}nifty.css" />
+		</xsl:if>
+	</xsl:template>
 
 </xsl:stylesheet>

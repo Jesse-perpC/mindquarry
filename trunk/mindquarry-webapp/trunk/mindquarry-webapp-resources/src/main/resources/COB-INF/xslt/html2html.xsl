@@ -6,12 +6,17 @@
 	xmlns:wa="http://www.mindquarry.com/ns/schema/webapp"
 	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:import href="contextpath.xsl"/>
 	<xsl:import href="niftify.xsl"/>
+	<xsl:import href="lightbox.xsl"/>
 	
 	<xsl:param name="user.agent" select="''"/>
 
 	<xsl:param name="cssPath" select="'css/'" />
+	<xsl:param name="scriptPath" select="'scripts/'" />
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -19,6 +24,9 @@
 		</xsl:copy>
 	</xsl:template>
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:template match="us:text">
 		<xsl:choose>
 			<xsl:when test="contains($user.agent, @value)">
@@ -33,6 +41,9 @@
 		</xsl:choose>
 	</xsl:template>
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:template match="us:attribute">
 		<xsl:attribute name="{@name}">
 			<xsl:choose>
@@ -46,6 +57,9 @@
 		</xsl:attribute>
 	</xsl:template>
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:template match="xhtml:html|html">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<xsl:apply-templates />
@@ -54,20 +68,39 @@
 
 	<xsl:template match="xhtml:head|head">
 		<head>
-		
-			<xsl:apply-templates />
+			<xsl:apply-templates select="." mode="nifty" />
 			
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
+			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
+
+			<xsl:apply-templates />
+			
+			<xsl:apply-templates select="." mode="lightbox" />
+
 		</head>
 	</xsl:template>
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:template match="xhtml:script[normalize-space(.)='']|script[normalize-space(.)='']">
 	              <xsl:copy>
                                 <xsl:copy-of select="@*" />
                                 <xsl:text>//</xsl:text>
 	              </xsl:copy>
 	</xsl:template>
+	
+	<xsl:template match="xhtml:textarea[normalize-space(.)='']|textarea[normalize-space(.)='']">
+	              <xsl:copy>
+                                <xsl:copy-of select="@*" />
+                                <xsl:text>
+</xsl:text>
+	              </xsl:copy>
+	</xsl:template>
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:template match="xhtml:title|title">
 		<title>Mindquarry: <xsl:value-of select="." /></title>
 	</xsl:template>
@@ -133,7 +166,10 @@
 		</body>
 	</xsl:template>
 	
-	
+
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->	
 	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
 		<div class="nifty">
 			<b class="rtop">
@@ -162,6 +198,9 @@
 		</xsl:attribute>
 	</xsl:template>
 
+<!-- 
+	NEVER! NEVER! use alt-f to re-format this code.
+ -->
 	<xsl:template match="@*[../@us:context=local-name(.)]">
 		<xsl:attribute name="{local-name(.)}">
 			<xsl:value-of select="$pathToBlock" />
