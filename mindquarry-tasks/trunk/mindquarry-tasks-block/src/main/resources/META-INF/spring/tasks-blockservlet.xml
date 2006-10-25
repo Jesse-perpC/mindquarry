@@ -23,6 +23,9 @@
 				<!-- inherit from the dforms block -->
 				<entry key="super"
 					value-ref="com.mindquarry.dforms.dforms-block" />
+
+				<entry key="resources"
+					value-ref="com.mindquarry.webapp.resources-block" />
 			</map>
 		</property>
 
