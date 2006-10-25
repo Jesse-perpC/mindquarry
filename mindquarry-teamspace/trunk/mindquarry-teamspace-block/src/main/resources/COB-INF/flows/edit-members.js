@@ -124,8 +124,7 @@ function removeMember(event) {
 	var rowIndex = fetchRowIndex(event);
 	var modelUser =	editModel.members[rowIndex];
 	
-	membership_.removeMember(modelUser.userId);
-	addUserToEndOfList(modelUser, editModel.nonMembers);
+	removeUserFromMembers(modelUser);
 }
 
 function addMember(event) {	
@@ -135,6 +134,11 @@ function addMember(event) {
 	var modelUser =	editModel.nonMembers[rowIndex];
 	
 	addUserToMembers(modelUser);
+}
+
+function removeUserFromMembers(user) {
+	membership_.removeMember(user.userId);
+	addUserToEndOfList(user, editModel.nonMembers);
 }
 
 function addUserToMembers(user) {
