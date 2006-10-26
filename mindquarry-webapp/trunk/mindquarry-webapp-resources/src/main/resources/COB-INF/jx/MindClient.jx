@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
+-->
+<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+<jnlp spec="1.5+" codebase="http://localhost:8888/resources/client"
+	href="MindClient.jnlp">
+
+	<information>
+		<title>Mindquarry Desktop Application</title>
+		<vendor>Mindquarry GmbH</vendor>
+		<homepage href="index.html" />
+
+		<description>Mindquarry Desktop Client</description>
+		<description kind="short">
+			The Mindquarry Desktop client ...
+		</description>
+
+		<icon href="../images/mq-logo.png" />
+		<!--icon kind="splash" href="images/splash.gif" /-->
+
+		<offline-allowed />
+
+		<shortcut online="false">
+			<desktop />
+			<menu submenu="Mindquarry" />
+		</shortcut>
+	</information>
+
+	<security>
+		<all-permissions />
+	</security>
+
+	<resources os="Windows" arch="x86">
+		<j2se version="1.5.0+"
+			href="http://java.sun.com/products/autodl/j2se"
+			initial-heap-size="32m" max-heap-size="64m" />
+
+		<jar href="dist/win32/MindClient-win32.jar" />
+		<nativelib href="dist/win32/swt-native-win32.jar" />
+	</resources>
+
+	<application-desc main-class="com.mindquarry.client.MindClient">
+		<argument><jx:out value="${username}" /></argument>
+		<argument>password</argument>
+		<argument>endpoint</argument>
+	</application-desc>
+</jnlp>
+</jx:template>
