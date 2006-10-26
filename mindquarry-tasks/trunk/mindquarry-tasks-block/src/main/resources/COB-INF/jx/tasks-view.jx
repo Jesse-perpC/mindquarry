@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+	<teamspaces>
+		<jx:forEach var="item" items="${teamspaces}">
+			<teamspace>
+				<id><jx:out value="${item.id}" /></id>
+				<name><jx:out value="${item.name}" /></name>
+				<description>
+					<jx:out value="${teamspace.description}" />
+				</description>
+			</teamspace>
+		</jx:forEach>
+	</teamspaces>
+</jx:template>

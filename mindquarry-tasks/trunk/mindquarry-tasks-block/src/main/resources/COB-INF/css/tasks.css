@@ -1,0 +1,32 @@
+ul.tasks-list {
+	list-style: none;
+	margin: 0px;
+	clear:both;
+	padding: 0px;
+}
+
+div.name h2 {
+	display:inline;
+	font-weight:bold;
+	color:black;
+	font-size:12pt;
+	margin-right:5px;
+}
+
+div.name img {
+	float:left;
+}
+
+div.name span {
+	font-weight:normal;
+	color:#666666;
+	font-size:10pt;
+}
+
+div.name {
+	height:60px;
+	margin-right:320px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+}
+
