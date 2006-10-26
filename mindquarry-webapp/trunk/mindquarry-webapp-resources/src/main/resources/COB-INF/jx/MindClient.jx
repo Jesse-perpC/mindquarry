@@ -12,12 +12,10 @@
 		<homepage href="${endpoint}" />
 
 		<description>Mindquarry Desktop Client</description>
-		<description kind="short">
-			The Mindquarry Desktop client ...
-		</description>
+		<description kind="short">The Mindquarry desktop client application.</description>
 
-		<icon href="../images/mq-logo.png" />
-		<!--icon kind="splash" href="images/splash.gif" /-->
+		<icon href="../icons/mindquarry.gif" />
+		<!--icon kind="splash" href="mq-splash.gif" /-->
 
 		<offline-allowed />
 
