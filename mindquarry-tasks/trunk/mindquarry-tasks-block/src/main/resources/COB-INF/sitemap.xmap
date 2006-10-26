@@ -60,7 +60,7 @@
 	</map:resources>
 
 	<map:flow language="javascript">
-		<map:script src="flow/tasks-view.js" />
+		<map:script src="flows/tasks-view.js" />
 	</map:flow>
 
 	<map:pipelines>
