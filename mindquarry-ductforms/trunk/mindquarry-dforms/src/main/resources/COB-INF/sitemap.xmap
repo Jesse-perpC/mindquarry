@@ -26,7 +26,7 @@
 	</map:resources>
 
 	<map:flow language="javascript">
-		<map:script src="flow/ductforms.js" />		
+		<map:script src="flows/ductforms.js" />		
 	</map:flow>
 	
 	<map:pipelines>
