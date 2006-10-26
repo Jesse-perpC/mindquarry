@@ -4,13 +4,12 @@
 	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
 -->
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
-<jnlp spec="1.5+" codebase="http://localhost:8888/resources/client"
-	href="MindClient.jnlp">
+<jnlp spec="1.5+" codebase="${endpoint}${ctxPath}/client/">
 
 	<information>
 		<title>Mindquarry Desktop Application</title>
 		<vendor>Mindquarry GmbH</vendor>
-		<homepage href="index.html" />
+		<homepage href="${endpoint}" />
 
 		<description>Mindquarry Desktop Client</description>
 		<description kind="short">
@@ -44,7 +43,7 @@
 	<application-desc main-class="com.mindquarry.client.MindClient">
 		<argument><jx:out value="${username}" /></argument>
 		<argument>password</argument>
-		<argument>endpoint</argument>
+		<argument><jx:out value="${endpoint}" /></argument>
 	</application-desc>
 </jnlp>
 </jx:template>
