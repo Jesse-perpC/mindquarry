@@ -23,6 +23,12 @@
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:copy>
 	</xsl:template>
+	
+	<xsl:template match="xhtml:*">
+		<xsl:element name="{local-name(.)}">
+			<xsl:apply-templates select="@*|node()" />
+		</xsl:element>
+	</xsl:template>
 
 <!-- 
 	NEVER! NEVER! use alt-f to re-format this code.
