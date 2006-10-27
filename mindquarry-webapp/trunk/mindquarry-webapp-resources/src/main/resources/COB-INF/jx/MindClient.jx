@@ -4,91 +4,86 @@
 	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
 -->
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
-<jnlp spec="1.5+" codebase="${endpoint}${ctxPath}/client/">
+	<jnlp spec="1.5+" codebase="${endpoint}${ctxPath}/client/">
 
-	<information>
-		<title>Mindquarry Desktop Application</title>
-		<vendor>Mindquarry GmbH</vendor>
-		<homepage href="${endpoint}" />
+		<information>
+			<title>Mindquarry Desktop Application</title>
+			<vendor>Mindquarry GmbH</vendor>
+			<homepage href="${endpoint}" />
 
-		<description>Mindquarry Desktop Client</description>
-		<description kind="short">The Mindquarry desktop client application.</description>
+			<description>Mindquarry Desktop Client</description>
+			<description kind="short">
+				The Mindquarry desktop client application.
+			</description>
 
-		<icon href="../icons/mindquarry.gif" />
-		<!--icon kind="splash" href="mq-splash.gif" /-->
+			<icon href="../icons/mindquarry.gif" />
+			<icon kind="splash" href="../images/mq-splash.gif" />
 
-		<offline-allowed />
+			<offline-allowed />
 
-		<shortcut online="false">
-			<desktop />
-			<menu submenu="Mindquarry" />
-		</shortcut>
-	</information>
+			<shortcut online="false">
+				<desktop />
+				<menu submenu="Mindquarry" />
+			</shortcut>
+		</information>
 
-	<security>
-		<all-permissions />
-	</security>
-	
-	<resources>
-        	<!-- MindClient resources -->
-		<jar href="dist/MindClient.jar" />
+		<security>
+			<all-permissions />
+		</security>
 
-        	<!-- jakarta-commons resources -->
-		<jar href="dist/commons/commons-codec-1.3.jar" />
-		<jar href="dist/commons/commons-httpclient-3.0.1.jar" />
-		<jar href="dist/commons/commons-io-1.2.jar" />
-		<jar href="dist/commons/commons-logging-1.1.jar" />
+		<resources>
+			<!-- MindClient resources -->
+			<jar href="dist/MindClient.jar"/>
 
-		<!-- JavaSVN resources -->
-		<jar href="dist/javasvn/ganymed.jar" />
-		<jar href="dist/javasvn/javasvn.jar" />
-		<jar href="dist/javasvn/javasvn-javahl.jar" />
+			<!-- jakarta-commons resources -->
+			<jar href="dist/commons/commons-codec-1.3.jar" />
+			<jar href="dist/commons/commons-httpclient-3.0.1.jar" />
+			<jar href="dist/commons/commons-io-1.2.jar" />
+			<jar href="dist/commons/commons-logging-1.1.jar" />
 
-		<!-- Spring resources -->
-		<jar href="dist/spring/spring.jar" />
-		<jar href="dist/spring/spring-aspects.jar" />
-		<jar href="dist/spring/spring-mock.jar" />
-		<jar href="dist/spring/spring-resources.jar" />
+			<!-- JavaSVN resources -->
+			<jar href="dist/javasvn/ganymed.jar" />
+			<jar href="dist/javasvn/javasvn.jar" />
+			<jar href="dist/javasvn/javasvn-javahl.jar" />
 
-		<jar href="dist/spring/modules/spring-aop.jar" />
-		<jar href="dist/spring/modules/spring-beans.jar" />
-		<jar href="dist/spring/modules/spring-context.jar" />
-		<jar href="dist/spring/modules/spring-core.jar" />
-		<jar href="dist/spring/modules/spring-dao.jar" />
-		<jar href="dist/spring/modules/spring-hibernate2.jar" />
-		<jar href="dist/spring/modules/spring-hibernate3.jar" />
-		<jar href="dist/spring/modules/spring-ibatis.jar" />
-		<jar href="dist/spring/modules/spring-jca.jar" />
-		<jar href="dist/spring/modules/spring-jdbc.jar" />
-		<jar href="dist/spring/modules/spring-jdo.jar" />
-		<jar href="dist/spring/modules/spring-jms.jar" />
-		<jar href="dist/spring/modules/spring-jmx.jar" />
-		<jar href="dist/spring/modules/spring-jpa.jar" />
-		<jar href="dist/spring/modules/spring-portlet.jar" />
-		<jar href="dist/spring/modules/spring-remoting.jar" />
-		<jar href="dist/spring/modules/spring-struts.jar" />
-		<jar href="dist/spring/modules/spring-support.jar" />
-		<jar href="dist/spring/modules/spring-toplink.jar" />
-		<jar href="dist/spring/modules/spring-web.jar" />
-		<jar href="dist/spring/modules/spring-webmvc.jar" />
+			<!-- Spring resources -->
+			<jar href="dist/spring/spring.jar" />
+			<jar href="dist/spring/spring-mock.jar" />
+			<jar href="dist/spring/spring-resources.jar" />
 
-		<jar href="dist/spring/weavers/spring-agent.jar" />
-		<jar href="dist/spring/weavers/spring-tomcat-weaver.jar" />
-	</resources>
+			<jar href="dist/spring/modules/spring-beans.jar" />
+			<jar href="dist/spring/modules/spring-context.jar" />
+			<jar href="dist/spring/modules/spring-core.jar" />
+			<jar href="dist/spring/modules/spring-support.jar" />
+			
+			<!-- Eclipse resources -->
+			<jar href="dist/eclipse/org.eclipse.core.commands.jar" />
+			<jar href="dist/eclipse/org.eclipse.equinox.common.jar" />
+			<jar href="dist/eclipse/org.eclipse.jface.jar" />
+		</resources>
 
-	<resources os="Windows" arch="x86">
-		<j2se version="1.5.0+"
-			href="http://java.sun.com/products/autodl/j2se"
-			initial-heap-size="32m" max-heap-size="64m" />
+		<resources os="Windows">
+			<j2se version="1.5.0+"
+				href="http://java.sun.com/products/autodl/j2se"
+				initial-heap-size="32m" max-heap-size="64m" />
+
+			<jar href="dist/win32/swt-win32.jar" />
+			<nativelib href="dist/win32/swt-native-win32.jar" />
+		</resources>
 		
-		<jar href="dist/win32/swt-win32.jar" />
-		<nativelib href="dist/win32/swt-native-win32.jar" />
-	</resources>
+		<resources os="Linux">
+			<j2se version="1.5.0+"
+				href="http://java.sun.com/products/autodl/j2se"
+				initial-heap-size="32m" max-heap-size="64m" />
 
-	<application-desc main-class="com.mindquarry.client.MindClient">
-		<argument><jx:out value="${username}" /></argument>
-		<argument>password</argument>
-		<argument><jx:out value="${endpoint}" /></argument>
-	</application-desc>
-</jnlp>
+			<jar href="dist/linux/swt-linux.jar" />
+			<nativelib href="dist/linux/swt-native-linux-gtk.jar" />
+		</resources>
+
+		<application-desc
+			main-class="com.mindquarry.client.MindClient">
+			<argument><jx:out value="${endpoint}" /></argument>
+			<argument><jx:out value="${username}" /></argument>
+		</application-desc>
+	</jnlp>
 </jx:template>
