@@ -101,9 +101,11 @@ function createUser() {
 	var uploadWidget = form_.lookupWidget("/createUserModel/photo");
 	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
     var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
-    if (!source.exists()&&uploadWidget.getValue()) {
+    try {
     	uploadWidget.getValue().copyToSource(source);
-    	//print("copied image to " + source.getURI());
+    	print("copied image to " + source.getURI());
+    } catch (e) {
+    	print("unable to save image");
     }
 	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
