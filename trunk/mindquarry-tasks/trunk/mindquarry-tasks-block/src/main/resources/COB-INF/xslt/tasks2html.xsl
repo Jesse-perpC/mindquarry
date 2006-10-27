@@ -10,8 +10,6 @@
 				<title>Tasks</title>
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/tasks.css" type="text/css" />
-				<link rel="stylesheet" 
-					href="{$pathToBlock}css/nifty.css" type="text/css" />
 			</head>
 			<body>
 				<h1>Manage Your Tasks</h1>
@@ -38,9 +36,7 @@
 						</xsl:attribute>
 					</img>
 					<h2 class="name"><xsl:value-of select="name" /></h2>
-					<!-- <a href="browser/{id}/">browse files</a>
-					<br/>
-					<a href="changes/{id}/">recent changes</a> -->
+					<a href="{id}/">List all tasks</a>
 					<span class="description"><xsl:value-of select="description" /></span>
 				</div>
 			</div>

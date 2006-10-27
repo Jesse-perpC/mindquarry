@@ -20,6 +20,16 @@
 			<map:selector name="lightbox-request" src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
 			<map:selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
 		</map:selectors>
+
+		<map:generators default="file">
+			<map:generator name="collection"
+				src="org.apache.cocoon.generation.TraversableGenerator" />
+		</map:generators>
+
+		<map:transformers>
+			<map:transformer name="clear"
+				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
+		</map:transformers>
 	</map:components>
 
 	<map:resources>
@@ -29,7 +39,7 @@
         		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
 				<map:parameter name="user.agent" value="{request-header:User-Agent}" />
         	</map:transform>
-	    	<map:serialize type="xhtml"/>
+	    	<map:serialize type="html"/>
 		</map:resource>
 	</map:resources>
 
@@ -167,8 +177,10 @@
 
 		</map:pipeline>
 
-		<!-- tasks overview / use noncaching -->
 		<map:pipeline type="noncaching">
+		
+			<!-- teamspaces-tasks overview -->
+			
 			<map:match pattern="">
 				<map:act type="httpauth">
 					<map:call function="tasksView">
@@ -185,6 +197,37 @@
 	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
 				</map:transform>
 				<map:call resource="layouting" />
+			</map:match>
+			
+			<!-- list the tasks for a specific teamspace -->
+			
+			<!-- TODO: this does not check if you are allowed to access
+					   that teamspace -->
+			<map:match pattern="*/">
+				<map:select type="resource-exists">
+					<map:when test="jcr:///teamspaces/{1}/tasks/">
+						<map:generate src="cocoon:/{1}/list" />
+						<map:call resource="layouting" />
+					</map:when>
+					<map:otherwise>
+						<map:generate src="jx/createdir.jx" type="jx">
+							<map:parameter name="dir" value="jcr:///teamspaces/{1}/tasks" />
+						</map:generate>
+						<!-- <map:serialize type="xml" />-->
+						<map:transform type="write-source" />
+						<map:transform type="clear" src="cocoon:/{1}/list"/>
+						<map:call resource="layouting" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+
+			<!-- internal matcher -->
+			<map:match pattern="*/list">
+				<map:generate type="collection" src="jcr:///teamspaces/{1}/tasks/" />
+				<map:transform src="xslt/collection2tasklist.xsl">
+					<map:parameter name="teamspaceID" value="{1}" />
+				</map:transform>
+				<map:serialize type="html" />
 			</map:match>
 		</map:pipeline>
 
