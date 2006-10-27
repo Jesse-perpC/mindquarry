@@ -202,10 +202,6 @@
 					<map:parameter name="tags" value="htmllize" />
 				</map:transform>
 
-				<!-- <map:act type="log"
-					src=">>[dforms] {1}.xml.instance htmllize" />
-				<map:transform src="xsl/forms/htmllize.xsl" /> -->
-
 				<map:call resource="layouting" />
 			</map:match>
 
