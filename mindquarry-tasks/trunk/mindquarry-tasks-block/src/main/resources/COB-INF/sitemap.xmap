@@ -24,38 +24,12 @@
 
 	<map:resources>
 		<map:resource name="layouting">
-			<map:select type="lightbox-request">
-				<map:when test="true">
-					<map:transform src="block:resources:/xslt/html2lightbox.xsl">
-		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
-		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
-		        	</map:transform>
-		        </map:when>
-		        <map:otherwise>
-		      		<map:transform src="block:resources:/xslt/html2html.xsl">
-		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
-		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
-		        	</map:transform>
-		        </map:otherwise>
-				</map:select>
-				
-				<map:select type="ajax-request">
-				    <map:when test="true">
-				      <map:serialize type="xml"/>
-				    </map:when>
-				    <map:otherwise>
-				      <map:serialize type="xhtml"/>
-				    </map:otherwise>
-			</map:select>
-		</map:resource>
-		
-		<map:resource name="form2html">
-			<map:transform src="xslt/forms/form2html.xsl" label="form">
+      		<map:transform src="block:resources:/xslt/html2html.xsl">
         		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
         		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-			</map:transform>
+				<map:parameter name="user.agent" value="{request-header:User-Agent}" />
+        	</map:transform>
+	    	<map:serialize type="xhtml"/>
 		</map:resource>
 	</map:resources>
 
@@ -175,19 +149,22 @@
 				| /teamspaces/<teamspace-id>/tasks/<task-id>.xml
 				+-->
 			<map:match pattern="*/*.xml">
-				<map:generate
-					src="block:super:/show-document.xml?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
-				<map:call resource="layouting" />
+				<map:read
+					src="block:super:/show-or-edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+				<!-- <map:call resource="layouting" />-->
 			</map:match>
 			
 			<map:match pattern="*/*.xml.edit">
-				<map:generate
-					src="block:super:/edit-document.xml?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />			
-				<map:act type="log" src="fullPath: {block-path:}{request:pathInfo}" />
-				<map:act type="log" src="sitemapPath: {request:pathInfo}" />
-				<map:call resource="layouting" />
+				<map:read
+					src="block:super:/edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />			
+				<!-- <map:call resource="layouting" /> -->
 			</map:match>
 			
+			<map:match pattern="*/*.xml.*.continue">
+				<map:act type="log-params" />
+				<map:read src="block:super:/{3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
+			</map:match>
+
 		</map:pipeline>
 
 		<!-- tasks overview / use noncaching -->
@@ -226,11 +203,6 @@
 						<map:read src="block:super:/resource/{1}" />
 					</map:otherwise>
 				</map:select>
-			</map:match>
-
-			<map:match pattern="*/*.xml.*.continue">
-				<map:act type="log-params" />
-				<map:read src="block:super:/{3}.continue?baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
 			</map:match>
 
 			<!--+
