@@ -56,7 +56,7 @@
 		        	</map:transform>
 		        </map:when>
 		        <map:otherwise>
-		      		<map:transform src="block:/xslt/html2html.xsl">
+		      		<map:transform src="block:/xslt/html2html.xsl" type="xalan">
 		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
 						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
@@ -69,7 +69,8 @@
 				      <map:serialize type="xml"/>
 				    </map:when>
 				    <map:otherwise>
-				      <map:serialize type="xhtml"/>
+				      <!-- no uploads in xhtml pages, sorry -->
+				      <map:serialize type="html"/>
 				    </map:otherwise>
 			</map:select>
 		</map:resource>
