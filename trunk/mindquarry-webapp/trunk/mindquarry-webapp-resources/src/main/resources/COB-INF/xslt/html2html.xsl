@@ -2,9 +2,9 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
-	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:wa="http://www.mindquarry.com/ns/schema/webapp"
-	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
+	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch"
+	exclude-result-prefixes="#default xhtml wa us">
 
 <!-- 
 	NEVER! NEVER! use alt-f to re-format this code.
@@ -61,7 +61,7 @@
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
 	<xsl:template match="xhtml:html|html">
-		<html xmlns="http://www.w3.org/1999/xhtml">
+		<html>
 			<xsl:apply-templates />
 		</html>
 	</xsl:template>
