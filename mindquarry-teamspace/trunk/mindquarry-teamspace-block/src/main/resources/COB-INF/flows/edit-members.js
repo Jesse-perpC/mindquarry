@@ -63,9 +63,37 @@ function processCreateUserForm(form) {
 	setCreateUserStandaloneMode();
 	
 	form.showForm("edit-members.instance");
+	if (form.submitId == "cancel") {
+		print("do not create users");
+	} else {
+		var userModel = model_.createUserModel;
+		print("trying to upload an image");
+		var uploadWidget = form_.lookupWidget("/createUserModel/photo");
+		print("found widget: " + uploadWidget);
+		var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
+	    var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
+	    print("found source: " + source);
+	    var value = uploadWidget.getValue();
+	    print("value: " + value);
+	    try {
+	    	value.copyToSource(source);
+	    	print("copied image to " + source.getURI());
+	    } catch (e) {
+	    	print("unable to save image " + e);
+	    	e.printStackTrace();
+	    }
+		
+		var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
+		var teamspaceAdmin = cocoon.getComponent(lookupName);
+		
+		var user = teamspaceAdmin.createUser(
+				userModel.userId, userModel.password, userModel.name, 
+				userModel.surname, userModel.email, userModel.skills);
+		
+		print("successfully created user: " + user);
+	}
 	
-	//print("creating user...");
-
+	
 	cocoon.redirectTo("/teamspace/");
 }
 
@@ -97,15 +125,20 @@ function setCreateUserEmbeddedMode() {
 
 function createUser() {
 	var userModel = model_.createUserModel;
-	
+	print("trying to upload an image");
 	var uploadWidget = form_.lookupWidget("/createUserModel/photo");
+	print("found widget: " + uploadWidget);
 	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
     var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
+    print("found source: " + source);
+    var value = uploadWidget.getValue();
+    print("value: " + value);
     try {
-    	uploadWidget.getValue().copyToSource(source);
+    	value.copyToSource(source);
     	print("copied image to " + source.getURI());
     } catch (e) {
-    	print("unable to save image");
+    	print("unable to save image " + e);
+    	e.printStackTrace();
     }
 	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";

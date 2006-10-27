@@ -144,7 +144,7 @@
 					</fd:validation>
 				</fd:field>
 				
-				<fd:upload id="photo" mime-types="image/png" required="false">
+				<fd:upload id="photo" required="false" validate="false">
 				  <fd:label>Photo</fd:label>
 				</fd:upload>
 				
@@ -166,12 +166,14 @@
 				</fd:field>
 
 				<fd:submit id="createUserSubmit" state="invisible">
-					<fd:label>Create User</fd:label>
+					<fd:label>Create user</fd:label>
+					<!-- 
 					<fd:on-action>
 						<fd:javascript>
 							createUser();
 						</fd:javascript>
 					</fd:on-action>
+					 -->
 				</fd:submit>
 
 				<fd:submit id="cancelSubmit" state="invisible" validate="false">
