@@ -72,7 +72,7 @@
 			
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
-			<link rel="icon" href="{$pathToRoot}/resources/icons/logo-red-gradient-256-colors.ico" type="image/x-icon" />
+			<link rel="icon" href="{$pathToRoot}resources/icons/logo-red-gradient-256-colors.ico" type="image/x-icon" />
 
 			<xsl:apply-templates />
 			
