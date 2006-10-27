@@ -4,8 +4,13 @@
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	exclude-result-prefixes="fi">
 
-  <xsl:import
-		href="block:resources:/xslt/contextpath.xsl" />
+  <xsl:import href="block:resources:/xslt/contextpath.xsl" />
+
+  <!-- resources directory for Dojo js, css and the like -->
+  <xsl:param name="resources-uri">
+		<xsl:value-of select="$pathToRoot" />
+		<xsl:text>resources/_cocoon/resources</xsl:text>
+  </xsl:param>
 
   <!-- styling of the page -->
   <xsl:include href="resource://org/apache/cocoon/forms/resources/forms-page-styling.xsl"/>
@@ -16,12 +21,6 @@
   <!--  styling of dojo editor (from lenya) -->
   <xsl:include href="dojo-editor.xsl"/>
    
-  <!-- resources directory for Dojo js, css and the like -->
-  <xsl:param name="resources-uri">
-		<xsl:value-of select="$pathToRoot" />
-		<xsl:text>resources/_cocoon/resources</xsl:text>
-  </xsl:param>
-
   <xsl:template match="head">
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
