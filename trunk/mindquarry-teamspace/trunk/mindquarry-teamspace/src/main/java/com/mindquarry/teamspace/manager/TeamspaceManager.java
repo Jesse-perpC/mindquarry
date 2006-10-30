@@ -3,28 +3,17 @@
  */
 package com.mindquarry.teamspace.manager;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
-
-import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
-import com.mindquarry.dma.admin.DmaRepository;
-import com.mindquarry.dma.admin.DmaRepositoryFactory;
 import com.mindquarry.teamspace.Authentication;
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.teamspace.TeamspaceDefinition;
 import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.teamspace.UserRO;
@@ -35,81 +24,35 @@ import com.mindquarry.teamspace.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">your full name</a>
  */
-class TeamspaceManager implements TeamspaceAdmin, Authentication, 
-    Serviceable, Configurable, Initializable {
-
-    static final String REPOS_BASE_PATH_PROPERTY = "mindquarry.reposbasepath";
-
-    static private final String FILE_PROTOCOL_PREFIX = "file://";
+public class TeamspaceManager implements TeamspaceAdmin, Authentication {
     
     static final String ADMIN_USER_ID = "admin";
     static final String ADMIN_PWD = "admin";
     static final String ADMIN_NAME = "Administrator";
     
-    private String reposBasePath_;
+    private SessionFactory sessionFactory_;    
     
-    private SessionFactory sessionFactory_;
-    
-    private DmaRepositoryFactory dmaRepositoryFactory_;
-    
-    private File reposBaseDirectory_;
-    
+    private DefaultListenerRegistry listenerRegistry_;
+
     /**
-     * {@inheritDoc}
-     * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
+     * Setter for listenerRegistry.
+     *
+     * @param listenerRegistry the listenerRegistry to set
      */
-    public void service(ServiceManager serviceManager) throws ServiceException {
-        sessionFactory_ = lookupSessionFactory(serviceManager);
-        dmaRepositoryFactory_ = lookupDmaRepoFactory(serviceManager);
-    }
-    
-    private SessionFactory lookupSessionFactory(
-            ServiceManager serviceManager) throws ServiceException {
-        
-        String name = SessionFactory.class.getName();
-        return (SessionFactory) serviceManager.lookup(name);
-    }
-    
-    private DmaRepositoryFactory lookupDmaRepoFactory(
-            ServiceManager serviceManager) throws ServiceException {
-        
-        String name = DmaRepositoryFactory.class.getName();
-        return (DmaRepositoryFactory) serviceManager.lookup(name);
+    public void setListenerRegistry(DefaultListenerRegistry listenerRegistry) {
+        listenerRegistry_ = listenerRegistry;
     }
 
     /**
-     * {@inheritDoc}
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
+     * Setter for sessionFactory.
+     *
+     * @param sessionFactory the sessionFactory to set
      */
-    public void configure(Configuration configuration) 
-        throws ConfigurationException {
-        
-        reposBasePath_ = configuration.getAttribute("reposbasepath", null);
-
-        if (null != System.getProperty(REPOS_BASE_PATH_PROPERTY))
-            reposBasePath_ = System.getProperty(REPOS_BASE_PATH_PROPERTY);
-        
-        if (null == reposBasePath_) 
-            throw new ConfigurationException(
-                    "'mindquarry.reposbasepath' is not set, whether as " +
-                    "container configuration nor as system property. " +
-                    "It must be set to a valid, " +
-                    "existing base directory for repositories");
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        sessionFactory_ = sessionFactory;
     }
-
-    /**
-     * @throws Exception
-     */
-    public void initialize() throws Exception {
-        
-        reposBaseDirectory_ = new File(reposBasePath_);       
-        
-        if (! reposBaseDirectory_.exists() 
-                || ! reposBaseDirectory_.isDirectory()) 
-            throw new InitializationException(
-                    "'mindquarry.reposbasepath' is not set to a valid, " +
-                    "existing base directory for repositories.");
-        
+    
+    public void initialize() {        
         if (! existsAdminUser())
             createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null, null);
     }
@@ -119,18 +62,16 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         return null != queryUserById(session, ADMIN_USER_ID);
     }
 
-    public TeamspaceRO createTeamspace(String teamspaceId, String name, 
-            String description, UserRO teamspaceCreator) {
-
-        DmaRepository dmaRepository = dmaRepository(teamspaceId);        
-        if (! dmaRepository.exists())
-            dmaRepository.create();
+    public TeamspaceDefinition createTeamspace(String teamspaceId, 
+            String name, String description, UserRO teamspaceCreator) {
         
         TeamspaceEntity teamspace = new TeamspaceEntity();
         teamspace.setId(teamspaceId);
         teamspace.setName(name);
         teamspace.setDescription(description);
-        teamspace.setWorkspaceUri(createWorkspaceUri(dmaRepository));
+        
+        listenerRegistry_.signalBeforeTeamspaceCreated(teamspace);
+        
         addUserToTeamspace(teamspaceCreator, teamspace);
         
         Session session = currentSession();
@@ -138,6 +79,12 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         session.update(teamspaceCreator);
         session.commit();
         return teamspace;
+    }
+    
+    public void updateTeamspace(TeamspaceDefinition teamspace) {
+        Session session = currentSession();
+        session.update(teamspace);
+        session.commit();
     }
 
     public void removeTeamspace(String teamspaceId) {
@@ -157,24 +104,7 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         session.delete(teamspace);
         session.commit();
         
-        DmaRepository dmaRepository = dmaRepository(teamspaceId);
-        dmaRepository.remove();
-    }
-    
-    private String createWorkspaceUri(DmaRepository dmaRepository) {
-        StringBuilder uriSB = new StringBuilder();
-        uriSB.append(FILE_PROTOCOL_PREFIX);
-        uriSB.append(new File(dmaRepository.getPath()).toURI().getPath());
-        return uriSB.toString();
-    }
-
-    private DmaRepository dmaRepository(String teamspaceId) {
-        StringBuilder repoPathSB = new StringBuilder();
-        repoPathSB.append(reposBaseDirectory_.getAbsolutePath());
-        repoPathSB.append(File.separatorChar);
-        repoPathSB.append(teamspaceId);
-        repoPathSB.append(File.separatorChar);
-        return dmaRepositoryFactory_.newRepository(repoPathSB.toString());
+        listenerRegistry_.signalAfterTeamspaceRemoved(teamspace);
     }
 
     public List<TeamspaceRO> teamspacesForUser(String userId) {
@@ -339,7 +269,17 @@ class TeamspaceManager implements TeamspaceAdmin, Authentication,
         return queryUserById(session, userId);
     }
     
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceForId(java.lang.String)
+     */
     public TeamspaceRO teamspaceForId(String teamspaceId) {
+        return teamspaceDefinitionForId(teamspaceId);
+    }
+    
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceAdmin#teamspaceDefinitionForId(java.lang.String)
+     */
+    public TeamspaceDefinition teamspaceDefinitionForId(String teamspaceId) {
         Session session = currentSession();
         return queryTeamspaceById(session, teamspaceId);
     }

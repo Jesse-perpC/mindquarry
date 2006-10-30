@@ -34,13 +34,6 @@ public interface TeamspaceRO {
      * @return the name
      */
     public String getName();
-
-    /**
-     * Getter for workspaceUri.
-     *
-     * @return the workspaceUri
-     */
-    public String getWorkspaceUri();
     
     /**
      * Getter for users.
