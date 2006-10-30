@@ -43,64 +43,62 @@
 	<xsl:template match="teamspace">
 		<li>
 			<div class="nifty">
-			
-			<a class="details-collapsed" href="#" title="Click here to show project details">more</a>
-			
-			<div style="margin-left:24px">
-			
-			<ul class="members">
-				<xsl:if test="users/user">
-					<xsl:apply-templates select="users" />
-				</xsl:if>
-			</ul>
-			
-			<div class="edit-buttons">
-				<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox">
-						Edit Members
-				</a>
+				<a class="details-collapsed" href="#" title="Click here to show project details">more</a>
 				
-				<a href="#" class="edit_subprojects_button">
-						Edit Related Teams
-				</a>
-			</div>
-			
-			<div class="name">
-				<img class="icon">
-					<xsl:attribute name="src">
-						<xsl:value-of select="$pathToBlock"/>
-						<xsl:value-of select="id"/>
-						<xsl:text>.png</xsl:text>
-					</xsl:attribute>
-				</img>
-				<h2 class="name"><xsl:value-of select="name" /></h2>
-				<span class="description"><xsl:value-of select="description" /></span>
-			</div>
-			
-			<ul class="tags">
-				<li><a href="#">docbook</a></li>
-				<li><a href="#">techdoc</a></li>
-				<li><a href="#">xml</a></li>
-				<li><a href="#">source</a></li>
-				<li><a href="#">open</a></li>
-			</ul>
-		
-			<div class="details" style="display:none;">
-				<h3>Team Members</h3>
-				<xsl:choose>
-					<xsl:when test="users/user">
-						<xsl:apply-templates select="users/user" mode="detail" />
-					</xsl:when>
-					<xsl:otherwise>
-						No team members assigned.
-					</xsl:otherwise>
-				</xsl:choose>
-			</div>
-			
-			<div class="details" style="display:none;">
-				<h3>Related Teams</h3>
-				not implemented yet.
-			</div>
-			</div>
+				<div style="margin-left:24px">
+					<ul class="members">
+						<xsl:if test="users/user">
+							<xsl:apply-templates select="users" />
+						</xsl:if>
+					</ul>
+					
+					<div class="edit-buttons">
+						<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox">
+								Edit Members
+						</a>
+						
+						<a href="#" class="edit_subprojects_button">
+								Edit Related Teams
+						</a>
+					</div>
+					
+					<div class="name">
+						<img class="icon">
+							<xsl:attribute name="src">
+								<xsl:value-of select="$pathToBlock"/>
+								<xsl:value-of select="id"/>
+								<xsl:text>.png</xsl:text>
+							</xsl:attribute>
+						</img>
+						<h2 class="name"><xsl:value-of select="name" /></h2>
+						<span class="description"><xsl:value-of select="description" /></span>
+					</div>
+					
+					<ul class="tags">
+						<li><a href="#">docbook</a></li>
+						<li><a href="#">techdoc</a></li>
+						<li><a href="#">xml</a></li>
+						<li><a href="#">source</a></li>
+						<li><a href="#">open</a></li>
+					</ul>
+				
+					<div class="details" style="display:none;">
+						<h3>Team Members</h3>
+						<xsl:choose>
+							<xsl:when test="users/user">
+								<xsl:apply-templates select="users/user" mode="detail" />
+							</xsl:when>
+							<xsl:otherwise>
+								No team members assigned.
+							</xsl:otherwise>
+						</xsl:choose>
+					</div>
+					
+					<div class="details" style="display:none;">
+						<h3>Related Teams</h3>
+						not implemented yet.
+					</div>
+				</div>
 			</div>
 		</li>
 	</xsl:template>
