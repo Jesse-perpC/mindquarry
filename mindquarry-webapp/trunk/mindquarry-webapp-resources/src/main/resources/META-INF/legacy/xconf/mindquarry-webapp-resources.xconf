@@ -4,10 +4,6 @@
 -->
 
 <components>
-	<!-- Include roles -->
-	<include
-		src="resource://com/mindquarry/webapp/mindquarry-webapp-resources.roles" />
-
 	<input-modules>
 		<component-instance logger="mindquarry.modules.uri"
 			name="params-as-uri"
