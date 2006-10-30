@@ -1,6 +1,7 @@
 dojo.require("dojo.io.BrowserIO");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
+dojo.require("dojo.dom");
 dojo.require("dojo.lfx.html");
 
 /* doing some init stuff */
@@ -22,7 +23,7 @@ doExpandOrCollapse = function(event)	{
 		detailsButton.className = "details-expanded";
 	}
 	
-	var childs = detailsButton.nextSibling.childNodes;
+	var childs = dojo.dom.getNextSiblingElement(detailsButton).childNodes;
 	for(i=0; i<childs.length; i++) {
 		var child = childs[i];
 		var anims = new Array();
