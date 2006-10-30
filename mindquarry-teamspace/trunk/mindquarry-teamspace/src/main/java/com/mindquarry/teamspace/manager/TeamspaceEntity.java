@@ -4,11 +4,13 @@
 package com.mindquarry.teamspace.manager;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import com.mindquarry.common.persistence.EntityBase;
-import com.mindquarry.teamspace.TeamspaceRO;
+import com.mindquarry.teamspace.TeamspaceDefinition;
 import com.mindquarry.teamspace.UserRO;
 
 
@@ -18,12 +20,12 @@ import com.mindquarry.teamspace.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">your full name</a>
  */
-public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
+public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
 
     private String name;
     private String description;
-    private String workspaceUri;
     private List<UserRO> users;
+    private Map<String, String> properties;
 
     
     /**
@@ -33,7 +35,7 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
         this.id = "".intern();
         this.name = "".intern();
         this.description = "".intern();
-        this.workspaceUri = "".intern();
+        this.properties = new HashMap<String, String>();
         this.users = new LinkedList<UserRO>();
     }
 
@@ -43,14 +45,11 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
      * @param description
      * @param workspaceUri
      */
-    public TeamspaceEntity(String id, String name, 
-            String description, String workspaceUri) {
-        
+    public TeamspaceEntity(String id, String name, String description) {
+        this();
         this.id = id;
         this.name = name;
         this.description = description;
-        this.workspaceUri = workspaceUri;
-        this.users = new LinkedList<UserRO>();
     }
     
     /**
@@ -60,6 +59,9 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
         return description;
     }
     
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceDefinition#setDescription(java.lang.String)
+     */
     public void setDescription(String description) {
         this.description = description;
     }
@@ -72,20 +74,11 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
     }
     
     
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceDefinition#setName(java.lang.String)
+     */
     public void setName(String name) {
         this.name = name;
-    }
-    
-    /**
-     * @see com.mindquarry.teamspace.TeamspaceRO#getWorkspaceUri()
-     */
-    public String getWorkspaceUri() {
-        return workspaceUri;
-    }
-    
-    
-    public void setWorkspaceUri(String workspaceUri) {
-        this.workspaceUri = workspaceUri;
     }
     
     
@@ -96,5 +89,37 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceRO {
     
     void setUsers(List<UserRO> value) {
         this.users = value;
+    }
+
+    /**
+     * Getter for properties.
+     *
+     * @return the properties
+     */
+    public Map<String, String> getProperties() {
+        return properties;
+    }
+
+    /**
+     * Setter for properties.
+     *
+     * @param properties the properties to set
+     */
+    public void setProperties(Map<String, String> properties) {
+        this.properties = properties;
+    }
+
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceDefinition#getProperty(java.lang.String)
+     */
+    public String getProperty(String key) {
+        return properties.get(key);
+    }
+
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceDefinition#setProperty(java.lang.String, java.lang.String)
+     */
+    public void setProperty(String key, String value) {
+        properties.put(key, value);
     }
 }

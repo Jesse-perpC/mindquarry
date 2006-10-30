@@ -10,7 +10,16 @@
 
 		<map-to xml="teamspace"
 			ns-uri="http://www.mindquarry.com/ns/schema/teamspace" />
-		
+
+		<field name="properties" collection="map">
+			<bind-xml name="property" location="properties">
+				<class name="org.exolab.castor.mapping.MapItem">
+					<field name="key" type="java.lang.String" />
+					<field name="value" type="java.lang.String" />
+				</class>
+			</bind-xml>
+		</field>
+
 		<field name="users" transient="true" type="java.util.Set" />
 	</class>
 
@@ -19,10 +28,11 @@
 
 		<map-to xml="user"
 			ns-uri="http://www.mindquarry.com/ns/schema/user" />
-		
+
 		<field name="teamspaceReferences" type="java.lang.String"
-			collection="set" >
-			<bind-xml name="teamspace-reference" location="teamspace-references" />
+			collection="set">
+			<bind-xml name="teamspace-reference"
+				location="teamspace-references" />
 		</field>
 	</class>
 

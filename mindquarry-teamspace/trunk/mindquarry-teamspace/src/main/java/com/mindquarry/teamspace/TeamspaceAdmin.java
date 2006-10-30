@@ -17,9 +17,13 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
      * @param a String describing the teamspace
      * @param the user that triggered the creation of the new teamspace 
      */
-	TeamspaceRO createTeamspace(String id, String name, 
+	TeamspaceDefinition createTeamspace(String id, String name, 
                 String description, UserRO teamspaceCreator);
 	
+    TeamspaceDefinition teamspaceDefinitionForId(String teamspaceId);
+    
+    void updateTeamspace(TeamspaceDefinition teamspace);
+    
 	void removeTeamspace(String teamspaceId);
     
     /**
@@ -42,8 +46,8 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
      * @param the new password
      * @returns true if change succeeds otherwise false
      */
-    boolean changePassword(String userId, 
-            String oldPassword, String newPassword);
+    //boolean changePassword(String userId, 
+    //        String oldPassword, String newPassword);
     
     void removeUser(String userId);
 }

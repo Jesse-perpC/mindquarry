@@ -8,9 +8,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>com.mindquarry</groupId>
-		<artifactId>mindquarry</artifactId>
-		<version>1</version>
+		<artifactId>mindquarry-teamspace-root</artifactId>
+		<groupId>com.mindquarry.teamspace</groupId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.mindquarry.teamspace</groupId>

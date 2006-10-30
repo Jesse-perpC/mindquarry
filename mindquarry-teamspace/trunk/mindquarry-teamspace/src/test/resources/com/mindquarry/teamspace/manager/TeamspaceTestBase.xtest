@@ -35,11 +35,6 @@
 		<role name="com.mindquarry.persistence.castor.config.PersistenceConfiguration"
 			default-class="com.mindquarry.persistence.castor.config.PersistenceConfiguration" />
 			
-		<role name="com.mindquarry.dma.admin.DmaRepositoryFactory"
-			default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
-			
-		<role name="com.mindquarry.teamspace.TeamspaceAdmin"
-			default-class="com.mindquarry.teamspace.manager.TeamspaceManager" />
 	</roles>
 	<components>
 		<source-factories>
