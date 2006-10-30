@@ -11,6 +11,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
 import org.springframework.context.support.GenericApplicationContext;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 
@@ -52,34 +53,14 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         
         List<Resource> resultList = new LinkedList<Resource>();
         
-        ClassLoader classLoader = this.getClass().getClassLoader();
-        Enumeration<URL> resourceUrls;
-        try {
-            resourceUrls = classLoader.getResources(
-                    "META-INF/spring/context.xml");
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        String[] resourceNames = new String[] {
+                "META-INF/spring/teamspace-context.xml"
+        };
         
-        while (resourceUrls.hasMoreElements()) {
-            URL resourceUrl = resourceUrls.nextElement();
-            resultList.add(new UrlResource(resourceUrl));
-        }
+        for (String resourceName : resourceNames)
+            resultList.add(new ClassPathResource(resourceName));
         
         return resultList.toArray(new Resource[resultList.size()]);
-        
-//        
-//        
-//        ServletContextResourcePatternResolver resolver2 = 
-//            new ServletContextResourcePatternResolver(new DefaultResourceLoader());
-//        PathMatchingResourcePatternResolver resolver = 
-//            new PathMatchingResourcePatternResolver(SessionFactory.class.getClassLoader());
-//           
-//        try {
-//            return resolver2.getResources("classpath:META-INF/spring/*.xml");
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        }
     }
     
 	public void testCreateAndRemoveTeamspace() 
