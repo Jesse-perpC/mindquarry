@@ -4,14 +4,17 @@
 		<id>mindquarry</id>
 		<tasks>
 			<task>
+				<id>task1</id>
 				<title>Basisfunktionaliät in der Task-Komponente bereitstellen</title>
 				<status>Finished</status>
 			</task>
 			<task>
+				<id>task2</id>
 				<title>tasklist.xml bereitstellen</title>
 				<status>Running</status>
 			</task>
 			<task>
+				<id>task3</id>
 				<title>Liste der Tasks im Desktopclient anzeigen</title>
 			</task>
 		</tasks>
@@ -20,9 +23,11 @@
 		<id>hpv</id>
 		<tasks>
 			<task>
+				<id>task1</id>
 				<title>Neue Webseite online stellen</title>
 			</task>
 			<task>
+				<id>task2</id>
 				<title>OSBF vorbereiten</title>
 			</task>
 		</tasks>
