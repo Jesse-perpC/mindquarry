@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<tasks>
+<tasks xmlns="http://www.mindquarry.com/ns/schema/task">
 	<teamspace>
 		<id>mindquarry</id>
 		<task>
