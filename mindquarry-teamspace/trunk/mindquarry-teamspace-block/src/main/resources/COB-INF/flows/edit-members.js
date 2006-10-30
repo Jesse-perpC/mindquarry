@@ -63,7 +63,8 @@ function processCreateUserForm(form) {
 	setCreateUserStandaloneMode();
 	
 	form.showForm("edit-members.instance");
-	if (form.submitId == "cancel") {
+	print(form.submitId);
+	if (form.submitId == "cancelSubmit") {
 		print("do not create users");
 	} else {
 		var userModel = model_.createUserModel;
@@ -80,7 +81,6 @@ function processCreateUserForm(form) {
 	    	print("copied image to " + source.getURI());
 	    } catch (e) {
 	    	print("unable to save image " + e);
-	    	e.printStackTrace();
 	    }
 		
 		var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
