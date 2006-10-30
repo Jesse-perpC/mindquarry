@@ -21,18 +21,20 @@
 				mime-type="text/html" name="html" pool-max="32"
 				src="org.apache.cocoon.serialization.HTMLSerializer">
 				<doctype-public>
-					-//W3C//DTD HTML 4.01 Transitional//EN
+				-//W3C//DTD HTML 4.01 Transitional//EN
 				</doctype-public>
 				<doctype-system>
-					http://www.w3.org/TR/html4/loose.dtd
+				http://www.w3.org/TR/html4/loose.dtd
 				</doctype-system>
 				<encoding>UTF-8</encoding>
-			</map:serializer> -->
+				</map:serializer> -->
 		</map:serializers>
 
 		<map:selectors>
-			<map:selector name="lightbox-request" src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
-			<map:selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
+			<map:selector name="lightbox-request"
+				src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
+			<map:selector name="ajax-request"
+				src="org.apache.cocoon.ajax.AjaxRequestSelector" />
 		</map:selectors>
 	</map:components>
 
@@ -44,35 +46,24 @@
 		</map:resource>
 
 		<map:resource name="layouting">
-      		<map:transform src="block:resources:/xslt/html2html.xsl">
-        		<map:parameter name="fullPath" value="{request-param:callerFullPath}"/>
-        		<map:parameter name="sitemapPath" value="{request-param:callerSitemapPath}"/>
-				<map:parameter name="user.agent" value="{request-header:User-Agent}" />
-        	</map:transform>
-	    	<map:serialize type="html"/>
+			<map:transform src="block:resources:/xslt/html2html.xsl">
+				<map:parameter name="fullPath"
+					value="{request-param:callerFullPath}" />
+				<map:parameter name="sitemapPath"
+					value="{request-param:callerSitemapPath}" />
+				<map:parameter name="user.agent"
+					value="{request-header:User-Agent}" />
+			</map:transform>
+			<map:serialize type="html" />
 		</map:resource>
 
 	</map:resources>
 
 	<map:flow language="javascript">
-		<map:script src="flows/ductforms.js" />		
+		<map:script src="flows/ductforms.js" />
 	</map:flow>
-	
+
 	<map:pipelines>
-		<!-- <map:pipeline type="noncaching">
-			<map:match pattern="xslt/*.xsl">
-				<map:select type="resource-exists">
-					<map:when test="xsl/{1}.xsl">
-						<map:read
-							src="xsl/{1}.xsl" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/xslt/{1}.xsl" />
-					</map:otherwise>
-				</map:select>
-			</map:match>	
-		</map:pipeline> -->
-		
 		<map:pipeline type="noncaching">
 
 			<!-- internal -->
@@ -83,8 +74,6 @@
 				Note: this is also referenced via cocoon:/model.xml in
 				addfield.xsl -->
 			<map:match pattern="model.xml">
-				<map:act type="log" src=">>[dforms] model.xml" />
-
 				<map:generate src="block:/dforms-model-directory.xml" />
 				<map:call resource="directories2model" />
 			</map:match>
@@ -111,16 +100,13 @@
 				| redundant declaration of the fields included is added
 				+-->
 			<map:match pattern="*.xml.plain">
-				<map:act type="log" src=">>[dforms] {1}.xml.plain" />
-				<map:act type="log"	src=">>[dforms] xml.plain {request-param:baseURI} {request-param:documentID}" />
 				<map:select type="resource-exists">
 					<!-- if it exists, show the document -->
 					<map:when
 						test="{request-param:baseURI}{request-param:documentID}.xml">
 						<map:generate
 							src="{request-param:baseURI}{request-param:documentID}.xml" />
-						<map:transform
-							src="xsl/model/addfield.xsl" />
+						<map:transform src="xsl/model/addfield.xsl" />
 						<map:serialize type="xml" />
 					</map:when>
 					<!-- else (if not) show the minimal document model including the required fields from the complete model -->
@@ -138,7 +124,6 @@
 				| and could be.
 				+-->
 			<map:match pattern="*.xml.model">
-				<map:act type="log" src=">>[dforms] {1}.xml.model" />
 				<map:generate src="cocoon:/model.xml" />
 				<map:transform src="xsl/model/model2modelinclude.xsl">
 					<map:parameter name="instance"
@@ -153,7 +138,6 @@
 			<!-- internal -->
 			<!-- the generated form model including all possible fields  -->
 			<map:match pattern="*.xml.form">
-				<map:act type="log" src=">>[dforms] {1}.xml.form" />
 				<map:generate src="cocoon:/{1}.xml.model" />
 				<map:transform src="xsl/model/modelincluded2form.xsl" />
 				<map:serialize type="xml" />
@@ -163,7 +147,8 @@
 			<!-- the generated form template including only the selected fields -->
 			<map:match pattern="*.xml.template">
 				<map:generate src="cocoon:/{1}.xml.model" />
-				<map:transform src="xsl/model/modelincluded2template.xsl">
+				<map:transform
+					src="xsl/model/modelincluded2template.xsl">
 					<map:parameter name="documentID"
 						value="{request-param:documentID}" />
 				</map:transform>
@@ -173,7 +158,6 @@
 			<!-- internal -->
 			<!-- the form rendering pipeline called by the form controller -->
 			<map:match pattern="*.xml.instance">
-				<map:act type="log" src=">>[dforms] {1}.xml.instance" />
 				<map:act type="log-params" />
 
 				<!-- <map:generate src="cocoon:/{1}.xml.template" /> -->
@@ -192,8 +176,10 @@
 
 				<!-- standard cocoon form2html stylesheet + dojo-editor -->
 				<map:transform src="xsl/forms/form2html.xsl">
-	        		<map:parameter name="fullPath" value="{request-param:callerFullPath}"/>
-	        		<map:parameter name="sitemapPath" value="{request-param:callerSitemapPath}"/>
+					<map:parameter name="fullPath"
+						value="{request-param:callerFullPath}" />
+					<map:parameter name="sitemapPath"
+						value="{request-param:callerSitemapPath}" />
 				</map:transform>
 
 				<!-- convert escaped html in dojo-editor content (marked with
@@ -207,7 +193,6 @@
 
 			<!-- internal, for child -->
 			<map:match pattern="show-document.xml">
-				<map:act type="log" src=">>[dforms] show-document.xml" />
 				<map:call function="handleForm">
 					<map:parameter name="function" value="showPage" />
 					<map:parameter name="baseURI"
@@ -221,7 +206,6 @@
 
 			<!-- internal, for child -->
 			<map:match pattern="edit-document.xml">
-				<map:act type="log"	src=">>[dforms] edit-document.xml {request-param:baseURI} {request-param:documentID}" />
 				<map:act type="log-params" />
 				<map:call function="handleForm">
 					<map:parameter name="function" value="editPage" />
@@ -241,17 +225,15 @@
 					<!-- if it exists, show the document  -->
 					<map:when
 						test="{request-param:baseURI}{request-param:documentID}.xml">
-						<map:read
-							src="cocoon:/show-document.xml" />
+						<map:read src="cocoon:/show-document.xml" />
 					</map:when>
 					<!-- else edit the document -->
 					<map:otherwise>
-						<map:read
-							src="cocoon:/edit-document.xml" />
+						<map:read src="cocoon:/edit-document.xml" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
-			
+
 			<!-- =========================================================== -->
 
 			<!-- Continue a scenario. The continuation id is passed in the URL
