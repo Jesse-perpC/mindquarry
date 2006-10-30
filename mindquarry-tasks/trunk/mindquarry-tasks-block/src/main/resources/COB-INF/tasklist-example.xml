@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<tasks>
+	<teamspace>
+		<id>mindquarry</id>
+		<tasks>
+			<task>
+				<title>Basisfunktionaliät in der Task-Komponente bereitstellen</title>
+				<status>Finished</status>
+			</task>
+			<task>
+				<title>tasklist.xml bereitstellen</title>
+				<status>Running</status>
+			</task>
+			<task>
+				<title>Liste der Tasks im Desktopclient anzeigen</title>
+			</task>
+		</tasks>
+	</teamspace>
+	<teamspace>
+		<id>hpv</id>
+		<tasks>
+			<task>
+				<title>Neue Webseite online stellen</title>
+			</task>
+			<task>
+				<title>OSBF vorbereiten</title>
+			</task>
+		</tasks>
+	</teamspace>
+</tasks>

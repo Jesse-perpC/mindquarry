@@ -185,12 +185,12 @@
 				<map:act type="httpauth">
 					<map:call function="tasksView">
 						<map:parameter name="username" value="{username}" />						
-						<map:parameter name="target" value="views/tasksView"/>
+						<map:parameter name="target" value="views/teamspacesWithTasks"/>
 					</map:call>
 				</map:act>
 			</map:match>
 			
-			<map:match pattern="views/tasksView">
+			<map:match pattern="views/teamspacesWithTasks">
 				<map:generate src="jx/tasks-view.jx" type="jx" />
 				<map:transform src="xslt/tasks2html.xsl">
 	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
@@ -199,6 +199,31 @@
 				<map:call resource="layouting" />
 			</map:match>
 			
+			<!-- TODO: this should be REST style, one pipeline for the stuff
+					   above and below, different output depending on the
+					   requested content-type -->
+			
+			<map:match pattern="tasklist.xml">
+				<map:read src="tasklist-example.xml" />
+				<!-- <map:act type="httpauth">
+					<map:call function="tasksView">
+						<map:parameter name="username" value="{username}" />						
+						<map:parameter name="target" value="views/teamspacesWithTasksXML"/>
+					</map:call>
+				</map:act> -->
+			</map:match>
+			
+			<map:match pattern="views/teamspacesWithTasksXML">
+				<map:generate src="jx/tasks-view.jx" type="jx" />
+				<map:serialize type="xml" />
+			</map:match>
+
+			<!-- <map:match pattern="views/taskList">
+				<map:generate src="jx/tasks-view.jx" type="jx" />
+				<map:transform src="xslt/tasks2xml.xsl" />
+				<map:serialize type="xml" />
+			</map:match> -->
+
 			<!-- list the tasks for a specific teamspace -->
 			
 			<!-- TODO: this does not check if you are allowed to access
