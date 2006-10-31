@@ -1,19 +1,8 @@
 package com.mindquarry.teamspace.manager;
 
-import java.io.IOException;
-import java.net.URL;
-import java.util.Enumeration;
-import java.util.LinkedList;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.xml.XmlBeanDefinitionReader;
-import org.springframework.context.support.GenericApplicationContext;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
-import org.springframework.core.io.UrlResource;
 
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
@@ -25,44 +14,7 @@ import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.teamspace.UserRO;
 
 public class TeamspaceManagerTest extends TeamspaceTestBase {
-   
-    // add spring bean definitions to component configuration settings
-    protected void addSettings(BeanDefinitionRegistry registry) {
-                
-        GenericApplicationContext ctx = new GenericApplicationContext();
-        XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
-        
-        Resource[] springConfigResources = findSpringConfigResources();
-        
-        for (Resource resource : springConfigResources)
-            xmlReader.loadBeanDefinitions(resource);
-        
-        
-        for (String beanName : ctx.getBeanDefinitionNames()) {
-            BeanDefinition beanDefinition = ctx.getBeanDefinition(beanName);
-            registry.registerBeanDefinition(beanName, beanDefinition);
-            
-            for (String alias : ctx.getAliases(beanName)) 
-                registry.registerAlias(beanName, alias);
-        }
-
-        super.addSettings(registry);
-    }
-
-    private Resource[] findSpringConfigResources() {
-        
-        List<Resource> resultList = new LinkedList<Resource>();
-        
-        String[] resourceNames = new String[] {
-                "META-INF/spring/teamspace-context.xml"
-        };
-        
-        for (String resourceName : resourceNames)
-            resultList.add(new ClassPathResource(resourceName));
-        
-        return resultList.toArray(new Resource[resultList.size()]);
-    }
-    
+      
 	public void testCreateAndRemoveTeamspace() 
         throws ServiceException, TeamspaceAlreadyExistsException {
         
@@ -76,14 +28,11 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 		admin.createTeamspace(teamspaceId, "Mindquarry Teamspace", 
                 "a greate description", creator);
         
-        admin.createTeamspace(teamspaceId + "2", "Mindquarry Teamspace", 
-                "a greate description", creator);
-        
         List<TeamspaceRO> teamspaces = admin.teamspacesForUser(userId);
-        assertEquals(2, teamspaces.size());
+        assertEquals(1, teamspaces.size());
+        assertEquals(1, teamspaces.get(0).getUsers().size());
         
-        admin.removeTeamspace(teamspaceId);        
-        admin.removeTeamspace(teamspaceId + "2");
+        admin.removeTeamspace(teamspaceId);
         
         assertEquals(0, admin.teamspacesForUser(userId).size());
 	}

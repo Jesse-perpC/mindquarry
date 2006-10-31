@@ -5,7 +5,6 @@ package com.mindquarry.teamspace.manager;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -36,20 +35,7 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
         this.name = "".intern();
         this.description = "".intern();
         this.properties = new HashMap<String, String>();
-        this.users = new LinkedList<UserRO>();
-    }
-
-    /**
-     * @param id
-     * @param name
-     * @param description
-     * @param workspaceUri
-     */
-    public TeamspaceEntity(String id, String name, String description) {
-        this();
-        this.id = id;
-        this.name = name;
-        this.description = description;
+        this.users = Collections.emptyList();
     }
     
     /**
@@ -82,9 +68,8 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
     }
     
     
-    public List<UserRO> getUsers() {
-        List<UserRO> userList = new LinkedList<UserRO>(users);   
-        return Collections.unmodifiableList(userList);
+    public List<UserRO> getUsers() { 
+        return Collections.unmodifiableList(users);
     }
     
     void setUsers(List<UserRO> value) {

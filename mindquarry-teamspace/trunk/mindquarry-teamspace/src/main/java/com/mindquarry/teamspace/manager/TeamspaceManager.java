@@ -3,11 +3,16 @@
  */
 package com.mindquarry.teamspace.manager;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationHandler;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Proxy;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
+import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.teamspace.Authentication;
@@ -33,6 +38,8 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
     private SessionFactory sessionFactory_;    
     
     private DefaultListenerRegistry listenerRegistry_;
+    
+    private Constructor membersListProxyConstructor_;
 
     /**
      * Setter for listenerRegistry.
@@ -55,6 +62,22 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
     public void initialize() {        
         if (! existsAdminUser())
             createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null, null);
+        
+        Class proxyClazz = Proxy.getProxyClass(
+                this.getClass().getClassLoader(), 
+                new Class[] {List.class});
+        
+        Class[] constrParamType = new Class[] {InvocationHandler.class};
+        try {
+            membersListProxyConstructor_ = 
+                proxyClazz.getConstructor(constrParamType);
+        } catch (SecurityException e) {
+            throw new InitializationException(
+                    "could not get constructor method from dynamic proxy", e);
+        } catch (NoSuchMethodException e) {
+            throw new InitializationException(
+                    "could not get constructor method from dynamic proxy", e);
+        }
     }
     
     private boolean existsAdminUser() {
@@ -117,14 +140,6 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
         else
             result = queryTeamspacesForUser(userId);
         
-        
-        for (TeamspaceRO teamspace : result) {
-            TeamspaceEntity teamspaceEntity = (TeamspaceEntity) teamspace;
-            List<UserRO> users = queryMembersForTeamspace(
-                session, teamspaceEntity);
-            teamspaceEntity.setUsers(users);
-        }
-        
         session.commit();
         return result;
     }
@@ -158,6 +173,13 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
             }            
         }
         
+        session.commit();
+        return result;
+    }
+    
+    List<UserRO> queryMembersForTeamspace(TeamspaceRO teamspace) {
+        Session session = currentSession();
+        List<UserRO> result = queryMembersForTeamspace(session, teamspace);
         session.commit();
         return result;
     }
@@ -242,11 +264,39 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
      * @returns a teamspace object if it can be found otherwise null
      */
     private TeamspaceEntity queryTeamspaceById(Session session, String id) {
+        TeamspaceEntity result = null;
         List queryResult = session.query("getTeamspaceById", new Object[] {id});
-        if (queryResult.size() == 1)
-            return (TeamspaceEntity) queryResult.get(0);
-        else
-            return null;
+        if (queryResult.size() == 1) {
+            result = (TeamspaceEntity) queryResult.get(0);
+            result.setUsers(createLazyLoadMembersList(result));
+        }
+        return result;
+    }
+    
+    private List<UserRO> createLazyLoadMembersList(TeamspaceRO teamspace) {
+        
+        ListLoading<UserRO> loader = new MembersLoading(teamspace, this);
+        
+        LazyLoadListInvocationHandler<UserRO> invocationHandler;
+        invocationHandler = new LazyLoadListInvocationHandler<UserRO>(loader);
+        
+        Object[] params = new Object[] {invocationHandler};
+        try {
+            Object proxy = membersListProxyConstructor_.newInstance(params);
+            return (List<UserRO>) proxy;
+        } catch (IllegalArgumentException e) {
+            throw new InitializationException(
+                    "could not create lazyLoadList proxy", e);
+        } catch (InstantiationException e) {
+            throw new InitializationException(
+                    "could not create lazyLoadList proxy", e);
+        } catch (IllegalAccessException e) {
+            throw new InitializationException(
+                    "could not create lazyLoadList proxy", e);
+        } catch (InvocationTargetException e) {
+            throw new InitializationException(
+                    "could not create lazyLoadList proxy", e);
+        }
     }
     
     /**
