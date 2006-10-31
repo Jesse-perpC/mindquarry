@@ -2,152 +2,169 @@
 <!--
 	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
 -->
-<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
 
 	<!-- TASKS -->
 
-	<map:components>
-		<map:actions>
-			<map:action name="log"
+	<components>
+		<actions>
+			<action name="log"
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
-			<map:action name="log-params"
+			<action name="log-params"
 				src="com.mindquarry.webapp.acting.LogParametersAction" />
 
-			<map:action name="httpauth" src="com.mindquarry.webapp.auth.HttpAuthAction" />
-		</map:actions>
+			<action name="httpauth"
+				src="com.mindquarry.webapp.auth.HttpAuthAction" />
+		</actions>
 
-		<map:selectors>
-			<map:selector name="lightbox-request" src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
-			<map:selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
-		</map:selectors>
+		<selectors>
+			<selector name="lightbox-request"
+				src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
+			<selector name="ajax-request"
+				src="org.apache.cocoon.ajax.AjaxRequestSelector" />
+			
+			<selector name="REST"
+				src="org.apache.cocoon.selection.RegexpHeaderSelector">
+				<header-name>accept</header-name>
+				<pattern name="xhtml">application/xhtml\+xml</pattern>
+				<pattern name="html">text/html</pattern>
+				<pattern name="xml">text/xml</pattern>
+			</selector>
+		</selectors>
 
-		<map:generators default="file">
-			<map:generator name="collection"
+		<generators default="file">
+			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
-		</map:generators>
+		</generators>
 
-		<map:transformers>
-			<map:transformer name="clear"
+		<transformers>
+			<transformer name="clear"
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
-		</map:transformers>
-	</map:components>
+		</transformers>
+	</components>
 
-	<map:resources>
-		<map:resource name="layouting">
-      		<map:transform src="block:resources:/xslt/html2html.xsl">
-        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
-        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-				<map:parameter name="user.agent" value="{request-header:User-Agent}" />
-        	</map:transform>
-	    	<map:serialize type="html"/>
-		</map:resource>
-	</map:resources>
+	<resources>
+		<resource name="layouting">
+			<transform src="block:resources:/xslt/html2html.xsl">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+				<parameter name="user.agent"
+					value="{request-header:User-Agent}" />
+			</transform>
+			<serialize type="html" />
+		</resource>
+	</resources>
 
-	<map:flow language="javascript">
-		<map:script src="flows/tasks-view.js" />
-	</map:flow>
+	<flow language="javascript">
+		<!-- TODO: this is generic and could be put into webapp-resources,
+				   but how to reference it? block:super:/flows/teamspaces-for-user.js -->
+		<script src="flows/teamspaces-for-user.js" />
+	</flow>
 
-	<map:pipelines>
+	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
-		<map:pipeline type="noncaching">
-			<map:match pattern="css/*.css">
-				<map:select type="resource-exists">
-					<map:when test="css/{1}.css">
-					<!-- if it exists, load it from this sitemap's resources -->
-						<map:read
-							src="css/{1}.css" />
-					</map:when>
+		<pipeline type="noncaching">
+			<match pattern="css/*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="css/{1}.css" />
+					</when>
 					<!-- if not, look in the super block -->
-					<map:otherwise>
-						<map:read src="block:resources:/css/{1}.css" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="xslt/*.xsl">
-				<map:select type="resource-exists">
-					<map:when test="xslt/{1}.xsl">
-					<!-- if it exists, load it from this sitemap's resources -->
-						<map:read
-							src="xslt/{1}.xsl" />
-					</map:when>
-					<!-- if not, look in the resources block -->
-					<map:otherwise>
-						<map:read src="block:resources:/xslt/{1}.xsl" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="scripts/*.js">
-				<map:select type="resource-exists">
-					<map:when test="scripts/{1}.js">
-						<map:read
-							src="scripts/{1}.js" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:resources:/scripts/{1}.js" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="images/*.*">
-				<map:select type="resource-exists">
-					<map:when test="images/{1}.{2}">
-						<map:read
-							src="images/{1}.{2}" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:resources:/images/{1}.{2}" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="buttons/*.*">
-				<map:select type="resource-exists">
-					<map:when test="buttons/{1}_button.{2}">
-						<map:read
-							src="buttons/{1}_button.{2}" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:resources:/buttons/{1}.{2}" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-			
-			<map:match pattern="icons/*x*/*/*.png">
-				<map:select type="resource-exists">
-					<map:when test="icons/{1}x{2}/{3}/{4}.png">
-						<map:read
-							src="icons/{1}x{2}/{3}/{4}.png" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:resources:/icons/{1}x{2}/{3}/{4}.png" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-		</map:pipeline>
+					<otherwise>
+						<read src="block:resources:/css/{1}.css" />
+					</otherwise>
+				</select>
+			</match>
 
-		<map:pipeline type="noncaching">
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xslt/{1}.xsl" />
+					</when>
+					<!-- if not, look in the resources block -->
+					<otherwise>
+						<read src="block:resources:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js" />
+					</when>
+					<otherwise>
+						<read src="block:resources:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="images/*.*">
+				<select type="resource-exists">
+					<when test="images/{1}.{2}">
+						<read src="images/{1}.{2}" />
+					</when>
+					<otherwise>
+						<read src="block:resources:/images/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}" />
+					</when>
+					<otherwise>
+						<read
+							src="block:resources:/buttons/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="icons/*x*/*/*.png">
+				<select type="resource-exists">
+					<when test="icons/{1}x{2}/{3}/{4}.png">
+						<read src="icons/{1}x{2}/{3}/{4}.png" />
+					</when>
+					<otherwise>
+						<read
+							src="block:resources:/icons/{1}x{2}/{3}/{4}.png" />
+					</otherwise>
+				</select>
+			</match>
+		</pipeline>
+
+		<!-- overriding dforms block matcher -->
+		<pipeline type="noncaching">
 
 			<!-- @virtual: for even more specific sub-blocks ;-) -->
-			<map:match pattern="tasks-dforms-model-directory.xml">
-				<map:generate src="dforms-model" type="directory" />
-				<map:transform
+			<match pattern="tasks-dforms-model-directory.xml">
+				<generate src="dforms-model" type="directory" />
+				<transform
 					src="block:super:/directory2resourceincludes.xsl" />
-				<map:serialize type="xml" />
-			</map:match>
+				<serialize type="xml" />
+			</match>
 
 			<!-- @override: provide the model as directory listing for the dforms block -->
-			<map:match pattern="dforms-model-directory.xml">
+			<match pattern="dforms-model-directory.xml">
 				<!-- we want our models and the inherited models -->
-				<map:aggregate element="resources">
-					<map:part
+				<aggregate element="resources">
+					<part
 						src="block:super:/dforms-model-directory.xml" />
-					<map:part
+					<part
 						src="block:/tasks-dforms-model-directory.xml" />
-				</map:aggregate>
-				<map:serialize type="xml" />
-			</map:match>
+				</aggregate>
+				<serialize type="xml" />
+			</match>
+			
+		</pipeline>
+		
+		<pipeline type="noncaching">
 
 			<!-- public -->
 
@@ -158,131 +175,173 @@
 				| JCR path for the task:
 				| /teamspaces/<teamspace-id>/tasks/<task-id>.xml
 				+-->
-			<map:match pattern="*/*.xml">
-				<map:read
+			<match pattern="*/*.xml">
+				<read
 					src="block:super:/show-or-edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
-				<!-- <map:call resource="layouting" />-->
-			</map:match>
-			
-			<map:match pattern="*/*.xml.edit">
-				<map:read
-					src="block:super:/edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />			
-				<!-- <map:call resource="layouting" /> -->
-			</map:match>
-			
-			<map:match pattern="*/*.xml.*.continue">
-				<map:act type="log-params" />
-				<map:read src="block:super:/{3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
-			</map:match>
+				<!-- <call resource="layouting" />-->
+			</match>
 
-		</map:pipeline>
+			<match pattern="*/*.xml.edit">
+				<read
+					src="block:super:/edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+				<!-- <call resource="layouting" /> -->
+			</match>
 
-		<map:pipeline type="noncaching">
+			<match pattern="*/*.xml.*.continue">
+				<act type="log-params" />
+				<read
+					src="block:super:/{3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
+			</match>
+
+		</pipeline>
 		
-			<!-- teamspaces-tasks overview -->
-			
-			<map:match pattern="">
-				<map:act type="httpauth">
-					<map:call function="tasksView">
-						<map:parameter name="username" value="{username}" />						
-						<map:parameter name="target" value="views/teamspacesWithTasks"/>
-					</map:call>
-				</map:act>
-			</map:match>
-			
-			<map:match pattern="views/teamspacesWithTasks">
-				<map:generate src="jx/tasks-view.jx" type="jx" />
-				<map:transform src="xslt/tasks2html.xsl">
-	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
-	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-				</map:transform>
-				<map:call resource="layouting" />
-			</map:match>
-			
-			<!-- TODO: this should be REST style, one pipeline for the stuff
-					   above and below, different output depending on the
-					   requested content-type -->
-			
-			<map:match pattern="tasklist.xml">
-				<map:read src="tasklist-example.xml" />
-				<!-- <map:act type="httpauth">
-					<map:call function="tasksView">
-						<map:parameter name="username" value="{username}" />						
-						<map:parameter name="target" value="views/teamspacesWithTasksXML"/>
-					</map:call>
-				</map:act> -->
-			</map:match>
-			
-			<map:match pattern="views/teamspacesWithTasksXML">
-				<map:generate src="jx/tasks-view.jx" type="jx" />
-				<map:serialize type="xml" />
-			</map:match>
+		<!-- REST REST REST REST REST REST REST REST REST REST REST REST -->
+		
+		<!-- special REST content type pipelines, these are internal -->
+		<pipeline type="noncaching" internal-only="true">
 
-			<!-- <map:match pattern="views/taskList">
-				<map:generate src="jx/tasks-view.jx" type="jx" />
-				<map:transform src="xslt/tasks2xml.xsl" />
-				<map:serialize type="xml" />
-			</map:match> -->
+			<match pattern="tasklist.xml">
+				<read src="tasklist-example.xml" />
+			</match>
 
-			<!-- list the tasks for a specific teamspace -->
+			<!-- teamspacesTasksOverview -->
+
+			<!-- raw XML -->
+			<match pattern="internal/pipe/list.xml">
+				<!-- TODO: httpauth should be a servlet filter, providing
+					 the auth. username or error information -->
+				<act type="httpauth">
+					<call function="listTeamspacesForUser">
+						<parameter name="username"
+							value="{username}" />
+						<parameter name="target"
+							value="internal/pipe/flowed/teamspaces-task-overview.xml" />
+					</call>
+				</act>
+			</match>
 			
-			<!-- TODO: this does not check if you are allowed to access
-					   that teamspace -->
-			<map:match pattern="*/">
-				<map:select type="resource-exists">
-					<map:when test="jcr:///teamspaces/{1}/tasks/">
-						<map:generate src="cocoon:/{1}/list" />
-						<map:call resource="layouting" />
-					</map:when>
-					<map:otherwise>
-						<map:generate src="jx/createdir.jx" type="jx">
-							<map:parameter name="dir" value="jcr:///teamspaces/{1}/tasks" />
-						</map:generate>
-						<!-- <map:serialize type="xml" />-->
-						<map:transform type="write-source" />
-						<map:transform type="clear" src="cocoon:/{1}/list"/>
-						<map:call resource="layouting" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+			<!-- target pipeline for httpauth -->
+			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
+				<!-- TODO: this can be made generic, put into webapp-resources -->
+				<generate src="jx/teamspaces.jx" type="jx" />
+				<transform src="xslt/xml/teamspaces2tasks.xsl" />
+				<serialize type="xml" />
+			</match>
 
-			<!-- internal matcher -->
-			<map:match pattern="*/list">
-				<map:generate type="collection" src="jcr:///teamspaces/{1}/tasks/" />
-				<map:transform src="xslt/collection2tasklist.xsl">
-					<map:parameter name="teamspaceID" value="{1}" />
-				</map:transform>
-				<map:serialize type="html" />
-			</map:match>
-		</map:pipeline>
+			<!-- HTML -->
+			<match pattern="internal/pipe/list.html">
+				<generate src="cocoon:/internal/pipe/list.xml" />
+				<transform src="xslt/html/teamspace-task-overview.xsl">
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+				</transform>
+				<call resource="layouting" />
+			</match>
 
-			<!-- =========================================================== -->
+			<!-- tasksForTeamspace -->
+			
+			<!-- raw XML-->
+			<match pattern="internal/pipe/*/list.xml">
+				<!-- TODO: do authorization here -->
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/tasks/">
+						<generate src="cocoon:/internal/pipe/{1}/existing-list.xml" />
+						<serialize type="xml" />
+					</when>
+					<otherwise>
+						<generate src="jx/createdir.jx" type="jx">
+							<parameter name="dir"
+								value="jcr:///teamspaces/{1}/tasks" />
+						</generate>
+						<transform type="write-source" />
+						<transform type="clear"
+							src="cocoon:/internal/pipe/{1}/existing-list.xml" />
+						<serialize type="xml" />
+					</otherwise>
+				</select>
+			</match>
 
-		<map:pipeline type="noncaching">
+			<match pattern="internal/pipe/*/existing-list.xml">
+				<generate type="collection"	src="jcr:///teamspaces/{1}/tasks/" />
+				<transform src="xslt/xml/collection2tasklist.xsl" />
+				<serialize type="xml" />
+			</match>
+			
+			<!-- HTML -->
+			<match pattern="internal/pipe/*/list.html">
+				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
+				<transform src="xslt/html/tasks-for-teamspace.xsl">
+					<parameter name="teamspaceID" value="{1}" />
+				</transform>
+				<call resource="layouting" />
+			</match>
+			
+		</pipeline>
+
+		<!-- Let's do it the REST way -->
+		<pipeline type="noncaching">
+
+			<!-- list of teamspaces with the tasks overview (teamspacesTaskOverview) -->
+			<match pattern="">
+				<select type="REST">
+					<when test="html">
+						<read src="cocoon:/internal/pipe/list.html" />
+					</when>
+					<when test="xml">
+						<read src="cocoon:/internal/pipe/list.xml" />
+					</when>
+					<otherwise>
+						<read src="cocoon:/internal/pipe/list.html" />
+					</otherwise>
+				</select>
+			</match>
+
+			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->
+			<match pattern="*/">
+				<select type="REST">
+					<when test="html">
+						<read src="cocoon:/internal/pipe/{1}/list.html" />
+					</when>
+					<when test="xml">
+						<read src="cocoon:/internal/pipe/{1}/list.xml" />
+					</when>
+					<otherwise>
+						<read src="cocoon:/internal/pipe/{1}/list.html" />
+					</otherwise>
+				</select>
+			</match>
+
+		</pipeline>
+
+		<!-- =========================================================== -->
+
+		<pipeline type="noncaching">
 			<!-- @override: for inheriting sitemap resources -->
-			<map:match pattern="resource/**">
-				<map:select type="resource-exists">
+			<match pattern="resource/**">
+				<select type="resource-exists">
 					<!-- if it exists, load it from this sitemap's resources -->
-					<map:when test="{1}">
-						<map:read src="{1}" />
-					</map:when>
+					<when test="{1}">
+						<read src="{1}" />
+					</when>
 					<!-- if not, look in the super block -->
-					<map:otherwise>
-						<map:read src="block:super:/resource/{1}" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+					<otherwise>
+						<read src="block:super:/resource/{1}" />
+					</otherwise>
+				</select>
+			</match>
 
 			<!--+
 				| forward any unknown stuff to the super block 
 				| NOTE: This must be the last matcher!
 				+-->
-			<map:match pattern="**">
-				<map:read src="block:super:/{1}" />
-			</map:match>
+			<match pattern="**">
+				<read src="block:super:/{1}" />
+			</match>
 
-		</map:pipeline>
-	</map:pipelines>
+		</pipeline>
+	</pipelines>
 
-</map:sitemap>
+</sitemap>
 
