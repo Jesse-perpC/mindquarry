@@ -18,7 +18,7 @@
 					<xsl:apply-templates>
 						<xsl:sort select="name" />
 					</xsl:apply-templates>
-				</ul>				
+				</ul>
 			</body>
 		</html>
 	</xsl:template>
@@ -36,7 +36,7 @@
 						</xsl:attribute>
 					</img>
 					<h2 class="name"><xsl:value-of select="name" /></h2>
-					<a href="{id}/">List all tasks</a>
+					<a href="{$pathToBlock}{id}/">List all tasks</a>
 					<span class="description"><xsl:value-of select="description" /></span>
 				</div>
 			</div>

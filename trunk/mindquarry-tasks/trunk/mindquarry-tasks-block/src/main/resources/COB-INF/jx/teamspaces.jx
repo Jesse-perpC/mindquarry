@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
-	<tasks>
+	<teamspaces>
 		<jx:forEach var="item" items="${teamspaces}">
 			<teamspace>
 				<id><jx:out value="${item.id}" /></id>
@@ -10,5 +10,5 @@
 				</description>
 			</teamspace>
 		</jx:forEach>
-	</tasks>
+	</teamspaces>
 </jx:template>

@@ -2,7 +2,7 @@
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
  
-function tasksView() {
+function listTeamspacesForUser() {
 
    	var teamspaceQueryName = "com.mindquarry.teamspace.TeamspaceQuery";
     var teamspaceQuery = cocoon.getComponent(teamspaceQueryName);
