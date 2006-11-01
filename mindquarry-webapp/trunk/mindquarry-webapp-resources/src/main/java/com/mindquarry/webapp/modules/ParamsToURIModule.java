@@ -46,17 +46,38 @@ public class ParamsToURIModule extends AbstractMetaModule {
                     String n = (String) names.next();
                     Object[] values = module
                             .getAttributeValues(n, modeConf, objectModel);
-
-                    for (int i = 0; i < values.length; i++) {
-                        String strValue = values[i].toString();
-                        
-                        uri.append(n);
-                        uri.append("=");
-                        
-                        // encode URI
-                        uri.append(NetUtils.encode(strValue, encoding));
-                        
-                        uri.append("&");
+                    
+                    if (values != null) {
+                        for (int i = 0; i < values.length; i++) {
+                            if (values[i] != null) {
+                                String strValue = values[i].toString();
+                                
+                                uri.append(n);
+                                uri.append("=");
+                                
+                                // encode URI
+                                uri.append(NetUtils.encode(strValue, encoding));
+                                
+                                uri.append("&");
+                            }
+                        }
+                    } else {
+                        try {
+                            Object value = module.getAttribute(n, modeConf, objectModel);
+                            if (value != null) {
+                                String strValue = value.toString();
+                                
+                                uri.append(n);
+                                uri.append("=");
+                                
+                                // encode URI
+                                uri.append(NetUtils.encode(strValue, encoding));
+                                
+                                uri.append("&");
+                            }
+                        } catch (Exception e) {
+                            // attribute could not be resolved
+                        }
                     }
                 }
             } catch (UnsupportedEncodingException e) {
