@@ -168,10 +168,6 @@
 		<!-- teamspacesTasksOverview -->
 		<pipeline type="noncaching" internal-only="true">
 
-			<match pattern="tasklist.xml">
-				<read src="tasklist-example.xml" />
-			</match>
-
 			<!-- raw XML -->
 			<match pattern="internal/pipe/list.xml">
 				<!-- TODO: httpauth should be a servlet filter, providing
