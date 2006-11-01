@@ -1,4 +1,4 @@
-<df:datatype id="status" required="false"
+<df:datatype id="status" required="true"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
@@ -11,9 +11,9 @@
 			Useful for tracking issues or status of documents
 		</fd:help>
 		<fd:selection-list>
-			<fd:item value="stop" />
-			<fd:item value="start" />
-			<fd:item value="pause" />
+			<fd:item value="new" />
+			<fd:item value="running" />
+			<fd:item value="paused" />
 			<fd:item value="done" />
 		</fd:selection-list>
 	</fd:field>
