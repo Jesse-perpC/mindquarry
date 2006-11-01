@@ -1,4 +1,4 @@
-/*
+/**
  * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
  */
 package com.mindquarry.webapp.acting;
@@ -15,16 +15,13 @@ import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 /**
+ * An action that logs all active sitemap parameters.
+ * 
  * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
  *         Alexander Klimetschek</a>
  * 
  */
 public class LogParametersAction extends AbstractAction implements ThreadSafe {
-
-    /**
-     * An action that logs all active sitemap parameters.
-     * 
-     */
     public Map act(Redirector redirector, SourceResolver resolver,
             Map objectModel, String src, Parameters par) throws Exception {
 
