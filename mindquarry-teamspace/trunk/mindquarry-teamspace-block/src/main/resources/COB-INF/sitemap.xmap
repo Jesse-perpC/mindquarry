@@ -257,7 +257,7 @@
 					<!-- check request type: REST / HTML or other -->
 					<map:select type="REST">
 						<!--  handle REST request -->
-						<map:when test="html">
+						<map:when test="xml">
 							<map:call function="teamspacesByID">
 								<map:parameter name="teamspaceID"
 									value="{../1}" />
