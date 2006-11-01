@@ -5,7 +5,9 @@
 	xmlns:html="http://www.w3.org/1999/xhtml"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	exclude-result-prefixes="#default html">
-	<xsl:param name="page" />
+	
+	<xsl:param name="baseURI" />
+	<xsl:param name="documentID" />
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -43,9 +45,9 @@
 	
 	
 	<xsl:template match="html:div[fi:action[@state='output' and @id='ductform.ductforms_save']]">
-		<ul>
-			<li><a href="{$page}.xml.edit">edit</a></li>
-			<li><a href="./">list</a></li>
-		</ul>
+		<a href="{$documentID}.edit">Edit</a>
+		<br/>
+		<br/>
+		<a href="./">List tasks</a>
 	</xsl:template>
 </xsl:stylesheet>

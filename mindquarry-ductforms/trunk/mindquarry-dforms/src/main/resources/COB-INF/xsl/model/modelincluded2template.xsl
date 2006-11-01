@@ -33,7 +33,7 @@
 	<xsl:template match="df:instance">
 		<ft:form method="POST">
 			<xsl:attribute name="action">
-				<xsl:value-of select="$documentID" /><xsl:text>.xml.#{$cocoon/continuation/id}.continue</xsl:text>
+				<xsl:value-of select="$documentID" /><xsl:text>.edit.#{$cocoon/continuation/id}.continue</xsl:text>
 			</xsl:attribute>
 
 			<xsl:apply-templates select="*" />

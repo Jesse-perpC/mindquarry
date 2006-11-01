@@ -39,7 +39,7 @@ function editPage(form) {
 	
 	print("############   redirecting to show page");
 	// show the display variant of the form
-	cocoon.redirectTo("cocoon:/show-document.xml?baseURI=" + baseURI + "&documentID=" + documentID, false);
+	cocoon.redirectTo("cocoon:/show-document?baseURI=" + baseURI + "&documentID=" + documentID, false);
 }
 
 // this simply displays the form in readonly mode (called from sitemap)
