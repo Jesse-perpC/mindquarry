@@ -171,7 +171,10 @@
 				<!-- beautify our forms -->
 				<!-- TODO: this could be overriden by the children -->
 				<map:transform src="xsl/instance2html.xsl">
-					<map:parameter name="page" value="{1}" />
+					<map:parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<map:parameter name="documentID"
+						value="{request-param:documentID}" />
 				</map:transform>
 
 				<!-- standard cocoon form2html stylesheet + dojo-editor -->
@@ -192,7 +195,7 @@
 			</map:match>
 
 			<!-- internal, for child -->
-			<map:match pattern="show-document.xml">
+			<map:match pattern="show-document">
 				<map:call function="handleForm">
 					<map:parameter name="function" value="showPage" />
 					<map:parameter name="baseURI"
@@ -205,7 +208,7 @@
 			</map:match>
 
 			<!-- internal, for child -->
-			<map:match pattern="edit-document.xml">
+			<map:match pattern="edit-document">
 				<map:act type="log-params" />
 				<map:call function="handleForm">
 					<map:parameter name="function" value="editPage" />
@@ -219,21 +222,27 @@
 			</map:match>
 
 			<!-- internal, for child -->
-			<map:match pattern="show-or-edit-document.xml">
+			<map:match pattern="show-or-edit-document">
 				<map:act type="log-params" />
 				<map:select type="resource-exists">
 					<!-- if it exists, show the document  -->
 					<map:when
 						test="{request-param:baseURI}{request-param:documentID}.xml">
-						<map:read src="cocoon:/show-document.xml" />
+						<map:read src="cocoon:/show-document" />
 					</map:when>
 					<!-- else edit the document -->
 					<map:otherwise>
-						<map:read src="cocoon:/edit-document.xml" />
+						<map:read src="cocoon:/edit-document" />
 					</map:otherwise>
 				</map:select>
 			</map:match>
 
+			<!-- internal, for child to retrieve xml -->
+			<map:match pattern="document">
+				<map:act type="log-params" />
+				<map:read src="cocoon:/{request-param:documentID}.xml.plain" />
+			</map:match>
+			
 			<!-- =========================================================== -->
 
 			<!-- Continue a scenario. The continuation id is passed in the URL
