@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<tasks xmlns="http://www.mindquarry.com/ns/schema/task">
+<tasks-overview xmlns="http://www.mindquarry.com/ns/schema/task">
 	<teamspace>
 		<id>mindquarry</id>
 		<task>
@@ -30,4 +30,4 @@
 			<title>OSBF vorbereiten</title>
 		</task>
 	</teamspace>
-</tasks>
+</tasks-overview>
