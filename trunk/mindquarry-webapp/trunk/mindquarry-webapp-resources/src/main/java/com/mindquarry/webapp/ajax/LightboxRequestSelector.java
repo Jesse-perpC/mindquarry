@@ -1,3 +1,6 @@
+/**
+ * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
+ */
 package com.mindquarry.webapp.ajax;
 
 import java.util.Map;

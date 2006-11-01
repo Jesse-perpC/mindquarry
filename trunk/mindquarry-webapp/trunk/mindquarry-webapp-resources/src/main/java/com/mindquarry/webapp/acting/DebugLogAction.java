@@ -1,4 +1,4 @@
-/*
+/**
  * Coypright (c) 2006 Mindquarry GmbH, Potsdam, Germany 
  */
 package com.mindquarry.webapp.acting;
@@ -12,16 +12,13 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.SourceResolver;
 
 /**
+ * An action that logs the string in the src attribute.
+ * 
  * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
  *         Alexander Klimetschek</a>
  * 
  */
 public class DebugLogAction extends AbstractAction implements ThreadSafe {
-
-    /**
-     * An action that logs the string in the src attribute.
-     * 
-     */
     public Map act(Redirector redirector, SourceResolver resolver,
             Map objectModel, String src, Parameters par) throws Exception {
 
