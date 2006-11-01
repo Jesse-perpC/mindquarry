@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
-        xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+        xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+        xmlns:xlink="http://www.w3.org/1999/xlink">
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 		
@@ -20,7 +21,7 @@
 					</xsl:apply-templates>
 				</ul>
 				
-		        <a href="task{count(*)+1}.xml">Create new task (task<xsl:value-of select="count(*)+1"/>)</a>
+		        <a href="task{count(*)+1}">Create new task (task<xsl:value-of select="count(*)+1"/>)</a>
 		        <br/>
 		        <br/>
 				<a href="..">Overview for all your teamspaces</a>				
@@ -30,7 +31,7 @@
 
     <xsl:template match="task">
 		<li>
-			<a href="{id}.xml"><xsl:value-of select="id" /></a>
+			<a href="{@xlink:href}"><xsl:value-of select="@xlink:href" /></a>
 		</li>
     </xsl:template>
 

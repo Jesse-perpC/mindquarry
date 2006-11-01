@@ -164,47 +164,16 @@
 			
 		</pipeline>
 		
-		<pipeline type="noncaching">
-
-			<!-- public -->
-
-			<!--+
-				| URL for a task in a certain teamspace:
-				| .../tasks/<teamspace-id>/<task-id>.xml
-				|
-				| JCR path for the task:
-				| /teamspaces/<teamspace-id>/tasks/<task-id>.xml
-				+-->
-			<match pattern="*/*.xml">
-				<read
-					src="block:super:/show-or-edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
-				<!-- <call resource="layouting" />-->
-			</match>
-
-			<match pattern="*/*.xml.edit">
-				<read
-					src="block:super:/edit-document.xml?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
-				<!-- <call resource="layouting" /> -->
-			</match>
-
-			<match pattern="*/*.xml.*.continue">
-				<act type="log-params" />
-				<read
-					src="block:super:/{3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
-			</match>
-
-		</pipeline>
-		
 		<!-- REST REST REST REST REST REST REST REST REST REST REST REST -->
 		
 		<!-- special REST content type pipelines, these are internal -->
+
+		<!-- teamspacesTasksOverview -->
 		<pipeline type="noncaching" internal-only="true">
 
 			<match pattern="tasklist.xml">
 				<read src="tasklist-example.xml" />
 			</match>
-
-			<!-- teamspacesTasksOverview -->
 
 			<!-- raw XML -->
 			<match pattern="internal/pipe/list.xml">
@@ -220,17 +189,32 @@
 				</act>
 			</match>
 			
-			<!-- target pipeline for httpauth -->
+			<!-- target pipeline for list.xml -->
 			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
-				<transform src="xslt/xml/teamspaces2tasks.xsl" />
+				<transform src="xslt/xml/teamspaces2tasks.xsl">
+					<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+				</transform>
 				<serialize type="xml" />
 			</match>
 
-			<!-- HTML -->
+			<!-- HTML (which is different from the xml content) -->
 			<match pattern="internal/pipe/list.html">
-				<generate src="cocoon:/internal/pipe/list.xml" />
+				<act type="httpauth">
+					<call function="listTeamspacesForUser">
+						<parameter name="username"
+							value="{username}" />
+						<parameter name="target"
+							value="internal/pipe/flowed/teamspaces-task-overview.html" />
+					</call>
+				</act>
+			</match>
+
+			<!-- target pipeline for list.html -->
+			<match pattern="internal/pipe/flowed/teamspaces-task-overview.html">
+				<!-- TODO: this can be made generic, put into webapp-resources -->
+				<generate src="jx/teamspaces.jx" type="jx" />
 				<transform src="xslt/html/teamspace-task-overview.xsl">
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
@@ -240,7 +224,10 @@
 				<call resource="layouting" />
 			</match>
 
-			<!-- tasksForTeamspace -->
+		</pipeline>
+		
+		<!-- tasksForTeamspace -->
+		<pipeline type="noncaching" internal-only="true">
 			
 			<!-- raw XML-->
 			<match pattern="internal/pipe/*/list.xml">
@@ -265,7 +252,9 @@
 
 			<match pattern="internal/pipe/*/existing-list.xml">
 				<generate type="collection"	src="jcr:///teamspaces/{1}/tasks/" />
-				<transform src="xslt/xml/collection2tasklist.xsl" />
+				<transform src="xslt/xml/collection2tasklist.xsl">
+					<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+				</transform>
 				<serialize type="xml" />
 			</match>
 			
@@ -277,7 +266,6 @@
 				</transform>
 				<call resource="layouting" />
 			</match>
-			
 		</pipeline>
 
 		<!-- Let's do it the REST way -->
@@ -309,6 +297,46 @@
 					</when>
 					<otherwise>
 						<read src="cocoon:/internal/pipe/{1}/list.html" />
+					</otherwise>
+				</select>
+			</match>
+
+			<!--+
+				| URL for a task in a certain teamspace:
+				| .../tasks/<teamspace-id>/<task-id>
+				|
+				| JCR path for the task:
+				| /teamspaces/<teamspace-id>/tasks/<task-id>
+				+-->
+				
+			<match pattern="*/*.edit.*.continue">
+				<act type="log-params" />
+				<read
+					src="block:super:/{3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
+			</match>
+
+			<match pattern="*/*.edit">
+				<!-- only html version available -->
+				<read
+					src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+			</match>
+
+			<match pattern="*/*">
+				<select type="REST">
+					<when test="html">
+						<read
+							src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+					</when>
+					<when test="xml">
+						<generate src="block:super:/document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+						<transform src="xml/ductform2task.xsl">
+							<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+						</transform>
+						<serialize type="xml" />
+					</when>
+					<otherwise>
+						<read
+							src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
 					</otherwise>
 				</select>
 			</match>

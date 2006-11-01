@@ -4,7 +4,7 @@
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 		
-	<xsl:template match="/tasks">
+	<xsl:template match="/teamspaces">
 		<html>
 			<head>
 				<title>Tasks</title>
