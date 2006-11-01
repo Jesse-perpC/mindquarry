@@ -249,25 +249,6 @@
 					</map:select>
 				</map:act>
 			</map:match>
-
-			<!-- single teamspace -->
-			<map:match pattern="*">
-				<map:act type="httpauth">
-
-					<!-- check request type: REST / HTML or other -->
-					<map:select type="REST">
-						<!--  handle REST request -->
-						<map:when test="xml">
-							<map:call function="teamspacesByID">
-								<map:parameter name="teamspaceID"
-									value="{../1}" />
-								<map:parameter name="target"
-									value="views/teamspaceXMLView" />
-							</map:call>
-						</map:when>
-					</map:select>
-				</map:act>
-			</map:match>
 		</map:pipeline>
 
 		<!-- use noncaching pipeline -->
@@ -312,7 +293,7 @@
 		</map:pipeline>
 
 		<!-- use noncaching pipeline -->
-		<map:pipeline type="noncaching" internal-only="true">
+		<map:pipeline type="noncaching">
 			<map:match pattern="*/editMembers/">
 				<map:act type="httpauth">
 					<map:call function="handleForm">
@@ -378,6 +359,25 @@
 				<map:act type="setnohttpcache" />
 				<map:act type="httpauth">
 					<map:call continuation="{../1}" />
+				</map:act>
+			</map:match>
+			
+			<!-- single teamspace -->
+			<map:match pattern="*">
+				<map:act type="httpauth">
+
+					<!-- check request type: REST / HTML or other -->
+					<map:select type="REST">
+						<!--  handle REST request -->
+						<map:when test="xml">
+							<map:call function="teamspacesByID">
+								<map:parameter name="teamspaceID"
+									value="{../1}" />
+								<map:parameter name="target"
+									value="views/teamspaceXMLView" />
+							</map:call>
+						</map:when>
+					</map:select>
 				</map:act>
 			</map:match>
 
