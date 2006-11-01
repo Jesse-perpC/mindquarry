@@ -196,6 +196,8 @@
 				<transform src="xslt/xml/teamspaces2tasks.xsl">
 					<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
 				</transform>
+				<transform type="xinclude" />
+				<transform src="xslt/xml/flatten-tasks-element.xsl" />
 				<serialize type="xml" />
 			</match>
 
@@ -329,7 +331,7 @@
 					</when>
 					<when test="xml">
 						<generate src="block:super:/document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
-						<transform src="xml/ductform2task.xsl">
+						<transform src="xslt/xml/ductform2task.xsl">
 							<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
 						</transform>
 						<serialize type="xml" />

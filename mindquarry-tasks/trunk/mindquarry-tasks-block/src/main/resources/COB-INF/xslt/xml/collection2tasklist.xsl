@@ -2,7 +2,8 @@
 <xsl:stylesheet version="1.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 		xmlns:collection="http://apache.org/cocoon/collection/1.0"
-		xmlns:xlink="http://www.w3.org/1999/xlink">
+		xmlns:xlink="http://www.w3.org/1999/xlink"
+		exclude-result-prefixes="collection">
 
     <xsl:param name="base" />
 
