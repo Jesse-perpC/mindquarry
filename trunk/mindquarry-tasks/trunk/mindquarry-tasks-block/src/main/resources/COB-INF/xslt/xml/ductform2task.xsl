@@ -11,9 +11,6 @@
 		</task>
 	</xsl:template>
 
-	<!-- clear the ductforms element hint -->
-	<xsl:template match="ductforms" priority="3" />
-
 
 	<!-- Remove the unused namespace prefix decls
 		 from ductforms (fi, df, etc.) - exclude-result-prefixes
