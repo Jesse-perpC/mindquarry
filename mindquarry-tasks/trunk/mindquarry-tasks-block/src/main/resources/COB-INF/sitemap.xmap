@@ -22,7 +22,7 @@
 				src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
 			<selector name="ajax-request"
 				src="org.apache.cocoon.ajax.AjaxRequestSelector" />
-			
+
 			<selector name="REST"
 				src="org.apache.cocoon.selection.RegexpHeaderSelector">
 				<header-name>accept</header-name>
@@ -59,7 +59,7 @@
 
 	<flow language="javascript">
 		<!-- TODO: this is generic and could be put into webapp-resources,
-				   but how to reference it? block:super:/flows/teamspaces-for-user.js -->
+			but how to reference it? block:super:/flows/teamspaces-for-user.js -->
 		<script src="flows/teamspaces-for-user.js" />
 	</flow>
 
@@ -120,8 +120,7 @@
 						<read src="buttons/{1}_button.{2}" />
 					</when>
 					<otherwise>
-						<read
-							src="block:resources:/buttons/{1}.{2}" />
+						<read src="block:resources:/buttons/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -154,18 +153,16 @@
 			<match pattern="dforms-model-directory.xml">
 				<!-- we want our models and the inherited models -->
 				<aggregate element="resources">
-					<part
-						src="block:super:/dforms-model-directory.xml" />
-					<part
-						src="block:/tasks-dforms-model-directory.xml" />
+					<part src="block:super:/dforms-model-directory.xml" />
+					<part src="block:/tasks-dforms-model-directory.xml" />
 				</aggregate>
 				<serialize type="xml" />
 			</match>
-			
+
 		</pipeline>
-		
+
 		<!-- REST REST REST REST REST REST REST REST REST REST REST REST -->
-		
+
 		<!-- special REST content type pipelines, these are internal -->
 
 		<!-- teamspacesTasksOverview -->
@@ -178,23 +175,24 @@
 			<!-- raw XML -->
 			<match pattern="internal/pipe/list.xml">
 				<!-- TODO: httpauth should be a servlet filter, providing
-					 the auth. username or error information -->
+					the auth. username or error information -->
 				<act type="httpauth">
 					<call function="listTeamspacesForUser">
-						<parameter name="username"
-							value="{username}" />
+						<parameter name="username" value="{username}" />
 						<parameter name="target"
 							value="internal/pipe/flowed/teamspaces-task-overview.xml" />
 					</call>
 				</act>
 			</match>
-			
+
 			<!-- target pipeline for list.xml -->
-			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
+			<match
+				pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
 				<transform src="xslt/xml/teamspaces2tasks.xsl">
-					<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+					<parameter name="base"
+						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
 				</transform>
 				<transform type="xinclude" />
 				<transform src="xslt/xml/flatten-tasks-element.xsl" />
@@ -205,8 +203,7 @@
 			<match pattern="internal/pipe/list.html">
 				<act type="httpauth">
 					<call function="listTeamspacesForUser">
-						<parameter name="username"
-							value="{username}" />
+						<parameter name="username" value="{username}" />
 						<parameter name="target"
 							value="internal/pipe/flowed/teamspaces-task-overview.html" />
 					</call>
@@ -214,10 +211,12 @@
 			</match>
 
 			<!-- target pipeline for list.html -->
-			<match pattern="internal/pipe/flowed/teamspaces-task-overview.html">
+			<match
+				pattern="internal/pipe/flowed/teamspaces-task-overview.html">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
-				<transform src="xslt/html/teamspace-task-overview.xsl">
+				<transform
+					src="xslt/html/teamspace-task-overview.xsl">
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
@@ -227,16 +226,17 @@
 			</match>
 
 		</pipeline>
-		
+
 		<!-- tasksForTeamspace -->
 		<pipeline type="noncaching" internal-only="true">
-			
+
 			<!-- raw XML-->
 			<match pattern="internal/pipe/*/list.xml">
 				<!-- TODO: do authorization here -->
 				<select type="resource-exists">
 					<when test="jcr:///teamspaces/{1}/tasks/">
-						<generate src="cocoon:/internal/pipe/{1}/existing-list.xml" />
+						<generate
+							src="cocoon:/internal/pipe/{1}/existing-list.xml" />
 						<serialize type="xml" />
 					</when>
 					<otherwise>
@@ -253,13 +253,15 @@
 			</match>
 
 			<match pattern="internal/pipe/*/existing-list.xml">
-				<generate type="collection"	src="jcr:///teamspaces/{1}/tasks/" />
+				<generate type="collection"
+					src="jcr:///teamspaces/{1}/tasks/" />
 				<transform src="xslt/xml/collection2tasklist.xsl">
-					<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+					<parameter name="base"
+						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
 				</transform>
 				<serialize type="xml" />
 			</match>
-			
+
 			<!-- HTML -->
 			<match pattern="internal/pipe/*/list.html">
 				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
@@ -310,7 +312,7 @@
 				| JCR path for the task:
 				| /teamspaces/<teamspace-id>/tasks/<task-id>
 				+-->
-				
+
 			<match pattern="*/*.edit.*.continue">
 				<act type="log-params" />
 				<read
@@ -324,22 +326,40 @@
 			</match>
 
 			<match pattern="*/*">
-				<select type="REST">
-					<when test="html">
-						<read
-							src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+				<select type="request-method">
+					<when test="GET">
+					
+						<select type="REST">
+							<when test="html">
+								<read
+									src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+							</when>
+							<when test="xml">
+								<generate
+									src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
+								<transform
+									src="xslt/xml/ductform2task.xsl">
+									<parameter name="base"
+										value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+								</transform>
+								<serialize type="xml" />
+							</when>
+						</select>
+						
 					</when>
-					<when test="xml">
-						<generate src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
-						<transform src="xslt/xml/ductform2task.xsl">
-							<parameter name="base" value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+					<when test="PUT">
+						<act type="log" src="put" />
+						<generate type="stream">
+							<parameter name="defaultContentType"
+								value="text/xml" />
+						</generate>
+						<transform src="xslt/xml/task2ductform.xsl" />
+						<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+							<parameter name="path" value="jcr:///teamspaces/{1}/tasks/{2}.xml" />
 						</transform>
+						<transform type="write-source" />
 						<serialize type="xml" />
 					</when>
-					<otherwise>
-						<read
-							src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
-					</otherwise>
 				</select>
 			</match>
 
