@@ -131,8 +131,10 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
     }
 
     public List<TeamspaceRO> teamspacesForUser(String userId) {
-        Session session = currentSession();
+        assert isValidUserId(userId) : 
+            "the userId: " + userId + " is not valid";
         
+        Session session = currentSession();        
         List<TeamspaceRO> result;
         
         if (ADMIN_USER_ID.equals(userId))
@@ -142,6 +144,10 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
         
         session.commit();
         return result;
+    }
+    
+    private boolean isValidUserId(String userId) {
+        return (null != userId) && (! "".equals(userId));
     }
 
     private List<TeamspaceRO> queryAllTeamspaces() {

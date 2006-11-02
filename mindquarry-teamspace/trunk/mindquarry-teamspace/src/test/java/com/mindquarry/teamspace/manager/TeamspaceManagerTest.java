@@ -141,10 +141,6 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         assertEquals(2, updatedMembership.getNonMembers().size());
     }
     
-    private TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {
-        return (TeamspaceAdmin) lookup(TeamspaceAdmin.class.getName());
-    }
-    
     private TeamspaceListenerRegistry lookupTeamspaceListenerRegistry() 
         throws ServiceException {
         

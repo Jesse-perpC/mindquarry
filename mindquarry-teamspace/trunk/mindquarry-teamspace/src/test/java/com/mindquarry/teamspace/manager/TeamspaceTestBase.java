@@ -19,6 +19,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
 import com.mindquarry.jcr.jackrabbit.JCRTestBase;
+import com.mindquarry.teamspace.TeamspaceAdmin;
 
 
 
@@ -82,6 +83,10 @@ abstract class TeamspaceTestBase extends JCRTestBase {
 
         URL xtestResource = classLoader().getResource(xtestResourceName);
         this.prepare(xtestResource.openStream());
+    }
+    
+    protected TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {
+        return (TeamspaceAdmin) lookup(TeamspaceAdmin.class.getName());
     }
     
     private ClassLoader classLoader() {
