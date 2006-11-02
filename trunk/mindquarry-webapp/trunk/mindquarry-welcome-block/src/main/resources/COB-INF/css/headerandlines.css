@@ -6,73 +6,73 @@
 /* HEADER */
 
 #webapp-header {
-	background-image: url(../header.png);
+	background-image: url(header.png);
 }
 
 #webapp-sections a.navFiles {
-	background-image: url(../header-files.png);
+	background-image: url(header-files.png);
 }
 
 #webapp-sections a.navWiki {
-	background-image: url(../header-wiki.png);
+	background-image: url(header-wiki.png);
 }
 
 #webapp-sections a.navTasks {
-	background-image: url(../header-tasks.png);
+	background-image: url(header-tasks.png);
 }
 
 #webapp-sections a.navTalk {
-	background-image: url(../header-talk.png);
+	background-image: url(header-talk.png);
 }
 
 #webapp-sections a.navTeams {
-	background-image: url(../header-teams.png);
+	background-image: url(header-teams.png);
 }
 
-/* LINES */
+/* LINES
 
 #background-repeater {
-	background-image:url(../repeater.png);
+	background-image:url(repeater.png);
 }
 
 #background-lines {
-	background-image:url(../lines.png);
+	background-image:url(lines.png);
 }
 
-/* BORDERS */
+/* BORDERS
 
 #background-s {
-	background-image:url(../border-s.gif);
+	background-image:url(border-s.gif);
 }
 
 #background-n {
-	background-image:url(../border-n.gif);
+	background-image:url(border-n.gif);
 }
 
 #background-w {
-	background-image:url(../border-w.gif);
+	background-image:url(border-w.gif);
 }
 
 #background-e {
-	background-image:url(../border-e.gif);
+	background-image:url(border-e.gif);
 }
 
 #background-nw {
-	background-image:url(../border-nw.gif);
+	background-image:url(border-nw.gif);
 }
 
 #background-ne {
-	background-image:url(../border-ne.gif);
+	background-image:url(border-ne.gif);
 }
 
 #background-sw {
-	background-image:url(../border-sw.gif);
+	background-image:url(border-sw.gif);
 }
 
 #background-se {
-	background-image:url(../border-se.gif);
+	background-image:url(border-se.gif);
 }
 
 #background-nw {
-	background-image:url(../border-nw.gif);
+	background-image:url(border-nw.gif);
 }
