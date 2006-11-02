@@ -190,7 +190,10 @@
 				<map:transform type="nekohtml">
 					<map:parameter name="tags" value="htmllize" />
 				</map:transform>
+				
+				<map:transform src="xsl/remove-htmllize.xsl" />
 
+				<!-- <map:serialize type="html" />-->
 				<map:call resource="layouting" />
 			</map:match>
 
