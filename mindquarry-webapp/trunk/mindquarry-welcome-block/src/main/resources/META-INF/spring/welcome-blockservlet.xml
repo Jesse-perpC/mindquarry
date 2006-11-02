@@ -8,7 +8,7 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
        
 	<bean id="com.mindquarry.webapp.welcome-block" class="org.apache.cocoon.blocks.BlockServlet">
-		<property name="mountPath" value="/"/>
+		<property name="mountPath" value=""/>
 		
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
 		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
