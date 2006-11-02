@@ -198,7 +198,6 @@
 			<match pattern="internal/pipe/list.html">
 				<!-- httpauth done here again to provide the username -->
 				<act type="httpauth">
-					<act type="log" src="***** User: {username}" />
 					<call function="listTeamspacesForUser">
 						<parameter name="username" value="{username}" />
 						<parameter name="target"
@@ -229,6 +228,7 @@
 
 			<!-- raw XML-->
 			<match pattern="internal/pipe/*/list.xml">
+				<act type="log" src="***** list.xml {1}" />
 				<!-- TODO: do authorization here -->
 				<select type="resource-exists">
 					<when test="jcr:///teamspaces/{1}/tasks/">
@@ -250,6 +250,7 @@
 			</match>
 
 			<match pattern="internal/pipe/*/existing-list.xml">
+				<act type="log" src="***** existing-list.xml {1}" />
 				<generate type="collection"
 					src="jcr:///teamspaces/{1}/tasks/" />
 				<transform src="xslt/xml/collection2tasklist.xsl">
@@ -261,6 +262,7 @@
 
 			<!-- HTML -->
 			<match pattern="internal/pipe/*/list.html">
+				<act type="log" src="***** list.html {1}" />
 				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
 				<transform src="xslt/html/tasks-for-teamspace.xsl">
 					<parameter name="teamspaceID" value="{1}" />
@@ -275,7 +277,6 @@
 			<!-- list of teamspaces with the tasks overview (teamspacesTaskOverview) -->
 			<match pattern="">
 				<act type="httpauth">
-					<act type="log" src="***** User: {username}" />
 					<select type="REST">
 						<when test="html">
 							<read src="cocoon:/internal/pipe/list.html" />
@@ -295,13 +296,14 @@
 				<act type="httpauth">
 					<select type="REST">
 						<when test="html">
-							<read src="cocoon:/internal/pipe/{1}/list.html" />
+							<act type="log" src="***** html {../1}" />
+							<read src="cocoon:/internal/pipe/{../1}/list.html" />
 						</when>
 						<when test="xml">
-							<read src="cocoon:/internal/pipe/{1}/list.xml" />
+							<read src="cocoon:/internal/pipe/{../1}/list.xml" />
 						</when>
 						<otherwise>
-							<read src="cocoon:/internal/pipe/{1}/list.html" />
+							<read src="cocoon:/internal/pipe/{../1}/list.html" />
 						</otherwise>
 					</select>
 				</act>
@@ -319,7 +321,7 @@
 				<act type="log-params" />
 				<act type="httpauth">
 					<read
-						src="block:super:/{3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" />
+						src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" />
 				</act>
 			</match>
 
@@ -327,7 +329,7 @@
 				<!-- only html version available -->
 				<act type="httpauth">
 					<read
-						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
 				</act>
 			</match>
 
@@ -339,15 +341,15 @@
 							<select type="REST">
 								<when test="html">
 									<read
-										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
 								</when>
 								<when test="xml">
 									<generate
-										src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
+										src="jcr:///teamspaces/{../1}/tasks/{../2}.xml" />
 									<transform
 										src="xslt/xml/ductform2task.xsl">
 										<parameter name="base"
-											value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+											value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{../1}/" />
 									</transform>
 									<serialize type="xml" />
 								</when>
@@ -362,7 +364,7 @@
 							</generate>
 							<transform src="xslt/xml/task2ductform.xsl" />
 							<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
-								<parameter name="path" value="jcr:///teamspaces/{1}/tasks/{2}.xml" />
+								<parameter name="path" value="jcr:///teamspaces/{../1}/tasks/{../2}.xml" />
 							</transform>
 							<transform type="write-source" />
 							<serialize type="xml" />
