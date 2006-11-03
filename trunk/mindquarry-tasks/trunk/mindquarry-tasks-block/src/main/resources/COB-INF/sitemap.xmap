@@ -63,16 +63,8 @@
 		<script src="flows/teamspaces-for-user.js" />
 	</flow>
 	
-		<views>
-		<view name="content" from-label="content">
-			<serialize type="xml" />
-		</view>
-
-		<view name="html" from-label="html">
-			<serialize type="xml" />
-		</view>
-
-		<view name="form" from-label="form">
+	<views>
+		<view name="xml" from-label="xml">
 			<serialize type="xml" />
 		</view>
 	</views>
@@ -275,6 +267,9 @@
 			<!-- HTML -->
 			<match pattern="internal/pipe/*/list.html">
 				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl" label="xml">
+					<parameter name="path" value="jcr:///teamspaces/{1}/tasks/" />
+				</transform>
 				<transform src="xslt/html/tasks-for-teamspace.xsl">
 					<parameter name="teamspaceID" value="{1}" />
 				</transform>
