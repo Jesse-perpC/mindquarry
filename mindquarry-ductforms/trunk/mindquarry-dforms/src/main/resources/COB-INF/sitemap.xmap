@@ -68,6 +68,18 @@
 		<script src="flows/ductforms.js" />
 	</flow>
 
+	<views>
+		<view name="form" from-label="form">
+			<serialize type="xml" />
+		</view>
+		<view name="viewA" from-label="viewA">
+			<serialize type="xml" />
+		</view>
+		<view name="viewB" from-label="viewB">
+			<serialize type="xml" />
+		</view>
+	</views>
+
 	<pipelines>
 		<pipeline type="noncaching">
 
@@ -127,13 +139,13 @@
 				+-->
 			<match pattern="*.xml.model">
 				<generate src="cocoon:/model.xml" />
-				<transform src="xsl/model/model2modelinclude.xsl">
+				<transform src="xsl/model/model2modelinclude.xsl" label="viewA">
 					<parameter name="instance"
 						value="cocoon:/{1}.xml.plain">
 					</parameter>
 				</transform>
-				<transform type="xinclude" />
-				<transform src="xsl/model/cleanmodel.xsl" />
+				<transform type="xinclude"/>
+				<transform src="xsl/model/cleanmodel.xsl" label="viewB"/>
 				<serialize type="xml" />
 			</match>
 
@@ -154,7 +166,7 @@
 					<parameter name="documentID"
 						value="{request-param:documentID}" />
 				</transform>
-				<serialize type="xml" />
+				<serialize type="xml"/>
 			</match>
 
 			<!-- internal -->
@@ -165,7 +177,7 @@
 				<!-- <generate src="cocoon:/{1}.xml.template" /> -->
 				<!-- get the form template from a dynamic pipeline -->
 				<generate type="jx" src="cocoon:/{1}.xml.template"
-					label="content1">
+					label="form">
 					<parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</generate>
@@ -201,6 +213,7 @@
 
 			<!-- internal, for child -->
 			<match pattern="show-document">
+				<!-- <read src="cocoon:/{request-param:documentID}.xml.template" />-->
 				<call function="handleForm">
 					<parameter name="function" value="showPage" />
 					<parameter name="baseURI"
