@@ -98,6 +98,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.mindquarry.wiki</groupId>
+			<artifactId>mindquarry-wiki-block</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-welcome-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
