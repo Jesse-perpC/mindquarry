@@ -212,7 +212,7 @@
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
 				<transform
-					src="xslt/html/teamspace-task-overview.xsl">
+					src="xslt/html/teamspaces-task-overview.xsl">
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
@@ -349,7 +349,7 @@
 									<transform
 										src="xslt/xml/ductform2task.xsl">
 										<parameter name="base"
-											value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{../1}/" />
+											value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{../1}/{../2}" />
 									</transform>
 									<serialize type="xml" />
 								</when>

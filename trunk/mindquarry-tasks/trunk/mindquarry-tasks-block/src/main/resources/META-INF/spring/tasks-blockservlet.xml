@@ -15,7 +15,6 @@
 		<property name="servletClass"
 			value="org.apache.cocoon.sitemap.SitemapServlet" />
 
-		<!-- does not work yet, context urls cannot be an absolute file system path -->
 		<property name="blockContextURL" value="/blocks/mindquarry-tasks-block"/>
 
 		<property name="connections">
