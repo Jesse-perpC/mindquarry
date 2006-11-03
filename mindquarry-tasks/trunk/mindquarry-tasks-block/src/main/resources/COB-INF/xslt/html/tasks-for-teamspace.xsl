@@ -31,7 +31,7 @@
 
     <xsl:template match="task">
 		<li>
-			<a href="{@xlink:href}"><xsl:value-of select="@xlink:href" /></a>
+			<a href="{@xlink:href}"><xsl:value-of select="title" /></a> [<xsl:value-of select="status" />]
 		</li>
     </xsl:template>
 
