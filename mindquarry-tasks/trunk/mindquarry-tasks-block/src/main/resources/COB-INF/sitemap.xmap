@@ -143,9 +143,9 @@
 
 			<!-- @virtual: for even more specific sub-blocks ;-) -->
 			<match pattern="tasks-dforms-model-directory.xml">
-				<generate src="dforms-model" type="directory" />
+				<generate type="collection" src="dforms-model" />
 				<transform
-					src="block:super:/directory2resourceincludes.xsl" />
+					src="block:super:/collection2resourceincludes.xsl" />
 				<serialize type="xml" />
 			</match>
 
