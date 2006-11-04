@@ -215,10 +215,12 @@
 			<!-- target pipeline for list.html -->
 			<match
 				pattern="internal/pipe/flowed/teamspaces-task-overview.html">
-				<!-- TODO: this can be made generic, put into webapp-resources -->
-				<generate src="jx/teamspaces.jx" type="jx" />
+				<generate src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl" label="xml">
+					<parameter name="basePath" value="jcr:///teamspaces/" />
+				</transform>
 				<transform
-					src="xslt/html/teamspaces-task-overview.xsl" label="content">
+					src="xslt/html/teamspaces-task-overview.xsl">
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
@@ -258,20 +260,26 @@
 				<generate type="collection"
 					src="jcr:///teamspaces/{1}/tasks/" />
 				<transform src="xslt/xml/collection2tasklist.xsl">
-					<parameter name="base"
-						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/" />
+					<parameter name="basePath"
+						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+					<parameter name="teamspace"
+						value="{1}" />
 				</transform>
 				<serialize type="xml" />
 			</match>
 
 			<!-- HTML -->
 			<match pattern="internal/pipe/*/list.html">
-				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
+				<generate src="cocoon:/internal/pipe/{1}/list.xml" label="xml"/>
 				<transform src="xslt/xml/include-basic-task-data.xsl" label="xml">
-					<parameter name="path" value="jcr:///teamspaces/{1}/tasks/" />
+					<parameter name="basePath" value="jcr:///teamspaces/" />
 				</transform>
 				<transform src="xslt/html/tasks-for-teamspace.xsl">
 					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
 				</transform>
 				<call resource="layouting" />
 			</match>

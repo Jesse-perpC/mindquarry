@@ -1,4 +1,37 @@
-ul.tasks-list {
+a.create_task_button:link, a.create_task_button:visited {
+	background-image: url(../buttons/create_task.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+div.summary {
+	margin-left: 62px;
+	font-weight:normal;
+	color:#666666;
+	font-size:10pt;
+}
+
+div.task-area {
+	margin-left: 240px;
+}
+
+ul.task-list {
+	margin: 0px;
+	clear:both;
+	padding: 0px;
+}
+
+/* similar to workspace / teamspace */
+
+ul.teamspace-list {
 	list-style: none;
 	margin: 0px;
 	clear:both;
@@ -28,5 +61,35 @@ div.name {
 	margin-right:320px;
 	overflow:hidden;
 	text-overflow: ellipsis;
+}
+
+/* same as in workspace.css, should be shared in one css file */
+div.links {
+	float:right;
+	margin-top: -60px;
+	width:200px;
+}
+
+div.links ul {
+	list-style: none; /* modified for tasks */
+}
+
+div.links ul li {
+	padding-bottom: 5px;
+}
+
+div.links ul a {
+	font-size:13.3333px;
+	font-weight:400;
+	color:#666666;
+}
+
+img.icon {
+	height:48px;
+	width:48px;
+	border:1px solid black;
+	padding:2px;
+	background-color:white;
+	margin-right:5px;
 }
 

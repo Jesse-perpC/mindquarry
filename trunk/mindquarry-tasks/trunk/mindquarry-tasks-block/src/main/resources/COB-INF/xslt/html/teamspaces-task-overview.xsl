@@ -1,10 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+	xmlns:xlink="http://www.w3.org/1999/xlink">
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 		
-	<xsl:template match="/teamspaces">
+	<xsl:template match="/tasks">
 		<html>
 			<head>
 				<title>Tasks</title>
@@ -14,7 +15,7 @@
 			<body>
 				<h1>Manage Your Tasks</h1>
 				
-				<ul class="tasks-list">
+				<ul class="teamspace-list">
 					<xsl:apply-templates>
 						<xsl:sort select="name" />
 					</xsl:apply-templates>
@@ -31,13 +32,26 @@
 						<xsl:attribute name="src">
 							<xsl:value-of select="$pathToRoot"/>							
 							<xsl:text>teamspace/</xsl:text>
-							<xsl:value-of select="id"/>
+							<xsl:value-of select="@xlink:href"/>
 							<xsl:text>.png</xsl:text>
 						</xsl:attribute>
 					</img>
 					<h2 class="name"><xsl:value-of select="name" /></h2>
-					<a href="{$pathToBlock}{id}/">List all tasks</a>
 					<span class="description"><xsl:value-of select="description" /></span>
+					
+				</div>
+				<div class="links">
+					<ul>
+	        			<li><a class="create_task_button" href="{@xlink:href}/task{count(*)+1}">Create task</a></li>
+						<li><a href="{$pathToBlock}{@xlink:href}/">List all tasks</a></li>
+					</ul>
+				</div>
+				<div class="summary">
+					<a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="count(task)" /> Tasks</a>
+					(<xsl:value-of select="count(task[status='new'])" /> New,
+					<xsl:value-of select="count(task[status='running'])" /> Running,
+					<xsl:value-of select="count(task[status='paused'])" /> Paused and
+					<xsl:value-of select="count(task[status='done'])" /> Done)
 				</div>
 			</div>
 		</li>

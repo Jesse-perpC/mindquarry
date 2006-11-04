@@ -11,20 +11,27 @@
 		<html>
 			<head>
 				<title>Tasks for <xsl:value-of select="$teamspaceID" /></title>
+				<link rel="stylesheet" 
+					href="{$pathToBlock}css/tasks.css" type="text/css" />
 			</head>
 			<body>
 				<h1>Manage Tasks for <xsl:value-of select="$teamspaceID" /></h1>
 				
-				<ul class="tasks-list">
-					<xsl:apply-templates>
-						<xsl:sort select="id" />
-					</xsl:apply-templates>
-				</ul>
-				
-		        <a href="task{count(*)+1}">Create new task (task<xsl:value-of select="count(*)+1"/>)</a>
-		        <br/>
-		        <br/>
-				<a href="..">Overview for all your teamspaces</a>				
+				<div class="task-area">				
+					<ul class="task-list">
+						<xsl:apply-templates>
+							<xsl:sort select="id" />
+						</xsl:apply-templates>
+					</ul>
+					
+			        <br/>
+		        	<a class="create_task_button" href="task{count(*)+1}">Create task</a>
+			        <br/>
+			        <br/>
+					<a href="..">Back to overview</a>				
+			        <br/>
+			        <br/>
+			    </div>
 			</body>
 		</html>
     </xsl:template>

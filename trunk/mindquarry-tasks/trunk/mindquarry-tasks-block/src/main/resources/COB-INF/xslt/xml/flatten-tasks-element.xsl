@@ -8,7 +8,7 @@
 	</xsl:template>
 
 	<xsl:template match="task">
-		<task xlink:href="{../../@xlink:href}/{@xlink:href}" />
+		<task id="{@xlink:href}" xlink:href="{../../@xlink:href}/{@xlink:href}" />
 	</xsl:template>
 
 	<xsl:template match="@*|node()">
