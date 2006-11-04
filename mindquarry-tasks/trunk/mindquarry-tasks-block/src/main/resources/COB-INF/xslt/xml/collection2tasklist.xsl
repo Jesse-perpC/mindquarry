@@ -5,16 +5,17 @@
 		xmlns:xlink="http://www.w3.org/1999/xlink"
 		exclude-result-prefixes="collection">
 
-    <xsl:param name="base" />
+    <xsl:param name="basePath" />
+    <xsl:param name="teamspace" />
 
     <xsl:template match="/collection:collection">
-    	<tasks xml:base="{$base}">
+    	<tasks xml:base="{$basePath}{$teamspace}/" xlink:href="{$teamspace}">
     		<xsl:apply-templates />
     	</tasks>
     </xsl:template>
 
     <xsl:template match="collection:resource">
-		<task xlink:href="{substring-before(@name, '.xml')}" />
+		<task xlink:href="{substring-before(@name, '.xml')}" id="{substring-before(@name, '.xml')}"/>
     </xsl:template>
 
 </xsl:stylesheet>
