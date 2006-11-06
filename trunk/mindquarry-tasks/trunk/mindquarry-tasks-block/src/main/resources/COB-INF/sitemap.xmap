@@ -111,6 +111,17 @@
 					</otherwise>
 				</select>
 			</match>
+			
+			<match pattern="images/status/*.png">
+				<select type="resource-exists">
+					<when test="images/status/{1}.png">
+						<read src="images/status/{1}.png" />
+					</when>
+					<otherwise>
+						<read src="images/status/done.png" />
+					</otherwise>
+				</select>
+			</match>
 
 			<match pattern="images/*.*">
 				<select type="resource-exists">
@@ -219,9 +230,11 @@
 			<match
 				pattern="internal/pipe/flowed/teamspaces-task-overview.html">
 				<generate src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml" />
+				
 				<transform src="xslt/xml/include-basic-task-data.xsl" label="xml">
 					<parameter name="basePath" value="jcr:///teamspaces/" />
 				</transform>
+				
 				<transform
 					src="xslt/html/teamspaces-task-overview.xsl">
 					<parameter name="fullPath"

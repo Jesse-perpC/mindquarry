@@ -6,7 +6,7 @@
 				<id><jx:out value="${item.id}" /></id>
 				<name><jx:out value="${item.name}" /></name>
 				<description>
-					<jx:out value="${teamspace.description}" />
+					<jx:out value="${item.description}" />
 				</description>
 			</teamspace>
 		</jx:forEach>
