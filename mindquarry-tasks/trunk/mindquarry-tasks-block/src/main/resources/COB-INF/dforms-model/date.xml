@@ -1,0 +1,15 @@
+<df:datatype id="date"
+	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
+	<fd:field>
+		<fd:datatype base="date" />
+		<fd:label>Date</fd:label>
+		<fd:hint>The relevant date of this document</fd:hint>
+		<fd:help>Date infornation can be used to order events</fd:help>
+	</fd:field>
+	<ft:widget>
+		<fi:styling type="date" />
+	</ft:widget>
+</df:datatype>
