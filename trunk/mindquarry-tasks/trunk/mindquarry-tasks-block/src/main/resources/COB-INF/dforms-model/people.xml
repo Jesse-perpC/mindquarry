@@ -1,4 +1,4 @@
-<df:datatype id="people"
+<df:datatype id="people" position="6"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"

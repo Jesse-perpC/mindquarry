@@ -96,14 +96,22 @@ div.task-area table th {
 	background:#cccccc;
 }
 
+tr.highlight:hover {
+	background-color:#dce3ff;
+}
+
 /* same as in workspace.css, should be shared in one css file */
 div.links, div.firstlinks {
 	float:right;
 	width:200px;
 }
 
+div.firstlinks {
+	margin-top: -16px;
+}
+
 div.links {
-		margin-top: -60px;
+	margin-top: -60px;
 }
 
 div.links ul, div.firstlinks ul {
@@ -128,4 +136,3 @@ img.icon {
 	background-color:white;
 	margin-right:5px;
 }
-

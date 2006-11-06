@@ -19,19 +19,23 @@
 			<!-- copy existing link/script stuff -->
 			<xsl:apply-templates />
 			
-			<link rel="stylesheet" href="{$pathToBlock}css/tasks.css" media="screen,projection" type="text/css" />
-			<link rel="stylesheet" href="{$pathToBlock}css/task-view.css" media="screen,projection" type="text/css" />
+			<link rel="stylesheet" href="{$pathToBlock}css/task-view.css" 
+				media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
 	<xsl:template match="form[@id='ductform' and @state='output']">
-		<h1>Task "<xsl:value-of select="/html/head/title" />"</h1>
+		<h1>Details for Task: <xsl:value-of select="/html/head/title" /></h1>
 		<div class="nifty">
+			<div id="actions">
+				<a class="edit_task_button" href="{$editDocumentLink}">Edit Task</a>
+			</div>
+			
 			<xsl:copy-of select="." />
-			<br/>
-			<a class="create_task_button" href="{$editDocumentLink}">Edit Task</a>
+						
+			<div id="footbar">
+				<a href="./">List tasks</a>
+			</div>
 		</div>
-		<br/>
-		<a href="./">List tasks</a>
 	</xsl:template>
 </xsl:stylesheet>
