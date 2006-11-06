@@ -340,6 +340,7 @@
 					<!-- TODO: depending on the state of the continuation the
 						 result might be either the view or edit variant -->
 					<transform src="xslt/html/task-edit.xsl">
+						<parameter name="viewDocumentLink" value="{../2}" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
@@ -355,6 +356,7 @@
 					<generate
 						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 					<transform src="xslt/html/task-edit.xsl">
+						<parameter name="viewDocumentLink" value="{../2}" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"

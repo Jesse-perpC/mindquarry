@@ -6,6 +6,8 @@
         
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 		
+    <xsl:param name="viewDocumentLink" />
+
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
@@ -18,4 +20,11 @@
 		</head>
 	</xsl:template>
 
+	<xsl:template match="form[@id='ductform' and @state='active']">
+		<h1>Editing Task "<xsl:value-of select="//div[@id='block.ductform.title']/span/input/@value" />"</h1>
+		<div class="nifty">
+			<xsl:copy-of select="." />
+		</div>
+		<a href="{$viewDocumentLink}">Cancel</a>
+	</xsl:template>
 </xsl:stylesheet>
