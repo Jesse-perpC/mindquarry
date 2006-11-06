@@ -20,7 +20,15 @@
 	<!-- Apart from creating a WAR-archive this tells the cocoon deployer
 	     plugin to use our own web.xml stuff from src/main/webapp -->
 	<packaging>war</packaging>
-	
+<pluginRepositories>
+  <pluginRepository>
+    <id>codehaus snapshot repository</id>
+    <url>http://snapshots.repository.codehaus.org/</url>
+    <releases>
+      <enabled>true</enabled>
+    </releases>
+  </pluginRepository>
+</pluginRepositories>
 	<build>
 		<finalName>mindquarry-webapplication</finalName>
 		<plugins>
@@ -53,6 +61,11 @@
 					</scanTargets>
 				</configuration>
 			</plugin>
+<plugin>
+        <groupId>org.codehaus.cargo</groupId>
+        <artifactId>cargo-maven2-plugin</artifactId>
+        <version>0.3-SNAPSHOT</version>
+</plugin>
 		</plugins>
 	</build>
 	
