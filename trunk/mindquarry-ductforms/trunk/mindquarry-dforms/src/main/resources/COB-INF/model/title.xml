@@ -1,4 +1,4 @@
-<df:datatype id="title"
+<df:datatype id="title" position="1"
 	required="true"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"

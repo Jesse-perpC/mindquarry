@@ -47,6 +47,7 @@
 		<resource name="directories2model">
 			<transform src="xsl/model/wrap-as-model.xsl" />
 			<transform type="include" />
+			<transform src="xsl/model/sort-model.xsl" />
 			<serialize type="xml" />
 		</resource>
 	</resources>
