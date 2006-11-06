@@ -49,7 +49,7 @@
 		<xsl:variable name="datatype"
 			select="key('datatypes',$name)" />
 
-		<html:div class="form_block">
+		<html:div class="form_block" id="block.ductform.{$name}">
 			
 			<html:label for="ductform.{$name}">
 				<xsl:apply-templates select="($datatype//fd:hint)[1]" />
@@ -93,10 +93,10 @@
 
 	<xsl:template name="extra">
 		<xsl:param name="suffix" />
-		<html:div class="form_block">
-			<html:label for="ductforms_{$suffix}:input">
+		<html:div class="form_block" id="block.ductform.{$suffix}">
+			<!-- <html:label for="ductforms_{$suffix}:input">
 				<ft:widget-label id="ductforms_{$suffix}" />
-			</html:label>
+			</html:label> -->
 			<ft:widget id="ductforms_{$suffix}" />
 		</html:div>
 	</xsl:template>
