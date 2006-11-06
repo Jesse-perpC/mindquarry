@@ -15,7 +15,7 @@
 			<body>
 				<h1>Manage Your Tasks</h1>
 				
-				<ul class="teamspace-list">
+				<ul class="list">
 					<xsl:apply-templates>
 						<xsl:sort select="name" />
 					</xsl:apply-templates>
@@ -38,15 +38,16 @@
 					</img>
 					<h2 class="name"><xsl:value-of select="name" /></h2>
 					<span class="description"><xsl:value-of select="description" /></span>
-					
 				</div>
+				
 				<div class="links">
 					<ul>
 	        			<li><a class="create_task_button" href="{@xlink:href}/task{count(*)+1}">Create task</a></li>
-						<li><a href="{$pathToBlock}{@xlink:href}/">List all tasks</a></li>
 					</ul>
 				</div>
+				
 				<div class="summary">
+					Teamspace <b><xsl:value-of select="name" /></b> contains 
 					<a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="count(task)" /> Tasks</a>
 					(<xsl:value-of select="count(task[status='new'])" /> New,
 					<xsl:value-of select="count(task[status='running'])" /> Running,

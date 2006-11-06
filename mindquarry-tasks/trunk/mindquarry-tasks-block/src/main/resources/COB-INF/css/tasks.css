@@ -13,14 +13,19 @@ a.create_task_button:link, a.create_task_button:visited {
 }
 
 div.summary {
-	margin-left: 62px;
+	margin-top: 10px;
 	font-weight:normal;
 	color:#666666;
 	font-size:10pt;
+	clear:both;
 }
 
-div.task-area {
-	margin-left: 240px;
+div.task-area table{
+	border:1px solid black;
+}
+
+div.footbar {
+	clear:both;
 }
 
 ul.task-list {
@@ -31,7 +36,7 @@ ul.task-list {
 
 /* similar to workspace / teamspace */
 
-ul.teamspace-list {
+ul.list {
 	list-style: none;
 	margin: 0px;
 	clear:both;
@@ -63,22 +68,53 @@ div.name {
 	text-overflow: ellipsis;
 }
 
+div.task-area {
+	margin-right:320px;
+}
+
+td.task_status {
+	width:100px;
+}
+
+img.task_status {
+	height:22px;
+	width:22px;
+	display:block;
+	float:left;
+	margin-right:5px;
+}
+
+div.task-area table {
+	border:0px;
+	font-size:11pt;
+	text-align:left;
+	margin-bottom:15px;
+	width:100%;
+}
+
+div.task-area table th {
+	background:#cccccc;
+}
+
 /* same as in workspace.css, should be shared in one css file */
-div.links {
+div.links, div.firstlinks {
 	float:right;
-	margin-top: -60px;
 	width:200px;
 }
 
-div.links ul {
+div.links {
+		margin-top: -60px;
+}
+
+div.links ul, div.firstlinks ul {
 	list-style: none; /* modified for tasks */
 }
 
-div.links ul li {
+div.links ul li, div.firstlinks ul li {
 	padding-bottom: 5px;
 }
 
-div.links ul a {
+div.links ul a, div.firstlinks ul a  {
 	font-size:13.3333px;
 	font-weight:400;
 	color:#666666;
