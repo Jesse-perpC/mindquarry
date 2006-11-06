@@ -159,7 +159,6 @@
 			<!-- internal -->
 			<!-- the form rendering pipeline called by the form controller -->
 			<match pattern="*.xml.instance">
-				<act type="log-params" />
 
 				<!-- <generate src="cocoon:/{1}.xml.template" /> -->
 				<!-- get the form template from a dynamic pipeline -->
@@ -213,7 +212,6 @@
 
 			<!-- internal, for child -->
 			<match pattern="edit-document">
-				<act type="log-params" />
 				<call function="handleForm">
 					<parameter name="function" value="editPage" />
 					<parameter name="baseURI"
@@ -227,7 +225,6 @@
 
 			<!-- internal, for child -->
 			<match pattern="show-or-edit-document">
-				<act type="log-params" />
 				<select type="resource-exists">
 					<!-- if it exists, show the document  -->
 					<when
@@ -243,7 +240,6 @@
 
 			<!-- internal, for child to retrieve xml -->
 			<match pattern="document">
-				<act type="log-params" />
 				<read src="cocoon:/{request-param:documentID}.xml.plain" />
 			</match>
 			
@@ -252,7 +248,6 @@
 			<!-- Continue a scenario. The continuation id is passed in the URL
 				(typically used for GET requests) -->
 			<match pattern="*.continue">
-				<act type="log-params" />
 				<call continuation="{1}" />
 			</match>
 
