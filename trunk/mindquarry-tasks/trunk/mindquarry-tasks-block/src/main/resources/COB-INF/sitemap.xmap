@@ -333,16 +333,17 @@
 			<match pattern="*/*.edit.*.continue">
 				<act type="log-params" />
 				<act type="httpauth">
-					<read
-						src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" />
+					<generate src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" />
+					<call resource="layouting" />
 				</act>
 			</match>
 
 			<match pattern="*/*.edit">
 				<!-- only html version available -->
 				<act type="httpauth">
-					<read
+					<generate
 						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
+					<call resource="layouting" />
 				</act>
 			</match>
 
@@ -354,8 +355,9 @@
 							<select type="REST">
 								<when test="html">
 									<act type="log-params" />
-									<read
-										src="block:super:/show-or-edit-document?cocoon-view={request-param:cocoon-view}&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
+									<generate
+										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
+									<call resource="layouting" />
 								</when>
 								<when test="xml">
 									<generate
