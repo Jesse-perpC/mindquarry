@@ -67,6 +67,9 @@
 		<view name="xml" from-label="xml">
 			<serialize type="xml" />
 		</view>
+		<view name="raw" from-label="raw">
+			<serialize type="xml" />
+		</view>
 	</views>
 
 	<pipelines>
@@ -333,7 +336,7 @@
 			<match pattern="*/*.edit.*.continue">
 				<act type="log-params" />
 				<act type="httpauth">
-					<generate src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" />
+					<generate src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
 					<call resource="layouting" />
 				</act>
 			</match>
@@ -342,7 +345,7 @@
 				<!-- only html version available -->
 				<act type="httpauth">
 					<generate
-						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
+						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 					<call resource="layouting" />
 				</act>
 			</match>
@@ -356,7 +359,7 @@
 								<when test="html">
 									<act type="log-params" />
 									<generate
-										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" />
+										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 									<call resource="layouting" />
 								</when>
 								<when test="xml">
