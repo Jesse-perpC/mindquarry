@@ -49,19 +49,6 @@
 			<transform type="include" />
 			<serialize type="xml" />
 		</resource>
-
-		<resource name="layouting">
-			<transform src="block:resources:/xslt/html2html.xsl">
-				<parameter name="fullPath"
-					value="{request-param:callerFullPath}" />
-				<parameter name="sitemapPath"
-					value="{request-param:callerSitemapPath}" />
-				<parameter name="user.agent"
-					value="{request-header:User-Agent}" />
-			</transform>
-			<serialize type="html" />
-		</resource>
-
 	</resources>
 
 	<flow language="javascript">
@@ -207,8 +194,7 @@
 				
 				<transform src="xsl/remove-htmllize.xsl" />
 
-				<!-- <serialize type="html" />-->
-				<call resource="layouting" />
+				<serialize type="xml" />
 			</match>
 
 			<!-- internal, for child -->
