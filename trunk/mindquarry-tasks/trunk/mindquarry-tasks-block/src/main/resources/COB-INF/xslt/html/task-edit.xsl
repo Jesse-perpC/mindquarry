@@ -16,12 +16,15 @@
 	
 	<xsl:template match="xhtml:head|head">
 		<head>
-			<link rel="stylesheet" href="{$pathToBlock}css/tasks-edit.css" media="screen,projection" type="text/css" />
+			<!-- copy existing link/script stuff -->
+			<xsl:apply-templates />
+			
+			<link rel="stylesheet" href="{$pathToBlock}css/task-edit.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
 	<xsl:template match="form[@id='ductform' and @state='active']">
-		<h1>Editing Task "<xsl:value-of select="//div[@id='block.ductform.title']/span/input/@value" />"</h1>
+		<h1>Editing Task "<xsl:value-of select="//div[@id='block_ductform_title']/span/input/@value" />"</h1>
 		<div class="nifty">
 			<xsl:copy-of select="." />
 		</div>

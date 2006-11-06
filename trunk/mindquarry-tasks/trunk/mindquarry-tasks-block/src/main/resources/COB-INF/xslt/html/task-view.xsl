@@ -16,8 +16,11 @@
 	
 	<xsl:template match="xhtml:head|head">
 		<head>
+			<!-- copy existing link/script stuff -->
+			<xsl:apply-templates />
+			
 			<link rel="stylesheet" href="{$pathToBlock}css/tasks.css" media="screen,projection" type="text/css" />
-			<link rel="stylesheet" href="{$pathToBlock}css/tasks-view.css" media="screen,projection" type="text/css" />
+			<link rel="stylesheet" href="{$pathToBlock}css/task-view.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
