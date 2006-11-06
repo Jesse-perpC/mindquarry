@@ -16,14 +16,18 @@
 	
 	<xsl:template match="xhtml:head|head">
 		<head>
+			<link rel="stylesheet" href="{$pathToBlock}css/tasks.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}css/tasks-view.css" media="screen,projection" type="text/css" />
 		</head>
 	</xsl:template>
 
 	<xsl:template match="form[@id='ductform' and @state='output']">
-		<xsl:copy-of select="." />
-		<a href="{$editDocumentLink}">Edit</a>
-		<br/>
+		<h1>Task "<xsl:value-of select="/html/head/title" />"</h1>
+		<div class="nifty">
+			<xsl:copy-of select="." />
+			<br/>
+			<a class="create_task_button" href="{$editDocumentLink}">Edit Task</a>
+		</div>
 		<br/>
 		<a href="./">List tasks</a>
 	</xsl:template>
