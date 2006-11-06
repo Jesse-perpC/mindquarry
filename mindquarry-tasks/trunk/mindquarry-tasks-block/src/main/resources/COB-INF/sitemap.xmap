@@ -337,6 +337,14 @@
 				<act type="log-params" />
 				<act type="httpauth">
 					<generate src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
+					<!-- TODO: depending on the state of the continuation the
+						 result might be either the view or edit variant -->
+					<transform src="xslt/html/task-edit.xsl">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+					</transform>
 					<call resource="layouting" />
 				</act>
 			</match>
@@ -346,6 +354,12 @@
 				<act type="httpauth">
 					<generate
 						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+					<transform src="xslt/html/task-edit.xsl">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+					</transform>
 					<call resource="layouting" />
 				</act>
 			</match>
@@ -360,6 +374,13 @@
 									<act type="log-params" />
 									<generate
 										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+									<transform src="xslt/html/task-view.xsl">
+										<parameter name="editDocumentLink" value="{../2}.edit" />
+										<parameter name="fullPath"
+											value="{block-path:}{request:pathInfo}" />
+										<parameter name="sitemapPath"
+											value="{request:pathInfo}" />
+									</transform>
 									<call resource="layouting" />
 								</when>
 								<when test="xml">
