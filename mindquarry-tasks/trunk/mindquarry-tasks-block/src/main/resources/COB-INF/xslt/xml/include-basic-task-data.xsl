@@ -18,6 +18,7 @@
 			<xsl:variable name="doc" select="document(concat($basePath, ../@xlink:href, '/tasks/', @id, '.xml'))" />
 			<title><xsl:value-of select="$doc//title" /></title>
 			<status><xsl:value-of select="$doc//status" /></status>
+			<summary><xsl:value-of select="$doc//summary" /></summary>
 		</task>
 	</xsl:template>
 

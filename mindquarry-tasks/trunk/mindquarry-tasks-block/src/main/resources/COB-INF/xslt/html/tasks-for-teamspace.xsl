@@ -48,8 +48,10 @@
     </xsl:template>
 
     <xsl:template match="task">
-		<tr>
-			<td><img src="{$pathToBlock}images/status/{normalize-space(status)}.png" class="task_status"/><a href="{@xlink:href}"><xsl:value-of select="title" /></a></td>
+		<tr class="highlight">
+			<td>
+				<img src="{$pathToBlock}images/status/{normalize-space(status)}.png" class="task_status"/>
+				<a href="{@xlink:href}"><xsl:value-of select="title" /></a><br/><xsl:value-of select="summary" /></td>
 			<td class="task_status"><xsl:value-of select="status" /></td>
 		</tr>
     </xsl:template>
