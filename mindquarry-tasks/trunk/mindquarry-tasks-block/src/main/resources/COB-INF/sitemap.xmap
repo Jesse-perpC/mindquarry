@@ -347,7 +347,6 @@
 				+-->
 
 			<match pattern="*/*.edit.*.continue">
-				<act type="log-params" />
 				<act type="httpauth">
 					<generate src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
 					<!-- TODO: depending on the state of the continuation the
@@ -386,7 +385,6 @@
 						
 							<select type="REST">
 								<when test="html">
-									<act type="log-params" />
 									<generate
 										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 									<transform src="xslt/html/task-view.xsl">
@@ -412,7 +410,6 @@
 							
 						</when>
 						<when test="PUT">
-							<act type="log" src="put" />
 							<generate type="stream">
 								<parameter name="defaultContentType"
 									value="text/xml" />
