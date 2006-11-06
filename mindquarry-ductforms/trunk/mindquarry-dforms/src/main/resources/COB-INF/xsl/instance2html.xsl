@@ -42,10 +42,4 @@
 
 	<xsl:template match="fi:action[@state='output']" />	
 	
-	<xsl:template match="html:div[fi:action[@state='output' and @id='ductform.ductforms_save']]">
-		<a href="{$documentID}.edit">Edit</a>
-		<br/>
-		<br/>
-		<a href="./">List tasks</a>
-	</xsl:template>
 </xsl:stylesheet>
