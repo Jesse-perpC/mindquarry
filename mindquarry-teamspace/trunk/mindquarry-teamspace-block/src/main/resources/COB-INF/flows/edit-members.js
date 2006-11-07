@@ -172,6 +172,8 @@ function addMember(event) {
 }
 
 function removeUserFromMembers(user) {
+	var editModel = model_.editMembersModel;
+	
 	membership_.removeMember(user.userId);
 	addUserToEndOfList(user, editModel.nonMembers);
 }
