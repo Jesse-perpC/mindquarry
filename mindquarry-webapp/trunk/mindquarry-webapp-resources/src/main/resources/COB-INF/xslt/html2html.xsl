@@ -186,8 +186,9 @@
 			</b>
 			<div class="content">
 				<xsl:apply-templates />
+				<br style="clear:both"/>
 			</div>
-			<b class="rbottom">
+			<b class="rbottom" >
 				<b class="r1"><xsl:comment>b</xsl:comment></b>
 				<b class="rleft"><xsl:comment>bl</xsl:comment></b>
 				<b class="rright"><xsl:comment>br</xsl:comment></b>
