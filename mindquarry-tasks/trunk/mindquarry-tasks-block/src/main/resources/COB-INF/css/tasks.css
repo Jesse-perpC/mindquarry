@@ -93,11 +93,11 @@ div.task-area table {
 }
 
 div.task-area table th {
-	background:#cccccc;
+	background:#bee5b8;
 }
 
 tr.highlight:hover {
-	background-color:#dce3ff;
+	background-color:#bee5b8;
 }
 
 /* same as in workspace.css, should be shared in one css file */
