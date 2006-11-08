@@ -55,14 +55,24 @@
 			</transform>
 			<serialize type="html" />
 		</resource>
+
+		<resource name="form2html">
+			<transform src="xslt/forms/form2html.xsl" label="form">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+		</resource>
 	</resources>
 
 	<flow language="javascript">
 		<!-- TODO: this is generic and could be put into webapp-resources,
 			but how to reference it? block:super:/flows/teamspaces-for-user.js -->
 		<script src="flows/teamspaces-for-user.js" />
+		<script src="flows/task-query.js" />
 	</flow>
-	
+
 	<views>
 		<view name="xml" from-label="xml">
 			<serialize type="xml" />
@@ -111,7 +121,7 @@
 					</otherwise>
 				</select>
 			</match>
-			
+
 			<match pattern="images/status/*.png">
 				<select type="resource-exists">
 					<when test="images/status/{1}.png">
@@ -178,7 +188,15 @@
 				</aggregate>
 				<serialize type="xml" />
 			</match>
+		</pipeline>
 
+		<!-- provides the files for forms -->
+		<pipeline type="noncaching" internal-only="true">
+			<match pattern="internal/pipe/forms/*.xml">
+				<generate type="jx" src="forms/{1}.xml" />
+				<call resource="form2html" />
+				<call resource="layouting" />
+			</match>
 		</pipeline>
 
 		<!-- REST REST REST REST REST REST REST REST REST REST REST REST -->
@@ -229,12 +247,15 @@
 			<!-- target pipeline for list.html -->
 			<match
 				pattern="internal/pipe/flowed/teamspaces-task-overview.html">
-				<generate src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml" />
-				
-				<transform src="xslt/xml/include-basic-task-data.xsl" label="xml">
-					<parameter name="basePath" value="jcr:///teamspaces/" />
+				<generate
+					src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml" />
+
+				<transform src="xslt/xml/include-basic-task-data.xsl"
+					label="xml">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
 				</transform>
-				
+
 				<transform
 					src="xslt/html/teamspaces-task-overview.xsl">
 					<parameter name="fullPath"
@@ -278,17 +299,19 @@
 				<transform src="xslt/xml/collection2tasklist.xsl">
 					<parameter name="basePath"
 						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
-					<parameter name="teamspace"
-						value="{1}" />
+					<parameter name="teamspace" value="{1}" />
 				</transform>
 				<serialize type="xml" />
 			</match>
 
 			<!-- HTML -->
 			<match pattern="internal/pipe/*/list.html">
-				<generate src="cocoon:/internal/pipe/{1}/list.xml" label="xml"/>
-				<transform src="xslt/xml/include-basic-task-data.xsl" label="xml">
-					<parameter name="basePath" value="jcr:///teamspaces/" />
+				<generate src="cocoon:/internal/pipe/{1}/list.xml"
+					label="xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl"
+					label="xml">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
 				</transform>
 				<transform src="xslt/html/tasks-for-teamspace.xsl">
 					<parameter name="teamspaceID" value="{1}" />
@@ -321,18 +344,38 @@
 				</act>
 			</match>
 
+			<!-- test for the query widget -->
+			<match pattern="query">
+				<call function="displayQueryForm">
+					<parameter name="definitionURI"
+						value="forms/task-query-form.xml" />
+					<parameter name="formData"
+						value="forms/form-test-instance.xml" />
+					<parameter name="templatePipeline"
+						value="internal/pipe/forms/task-query-form-template.xml" />
+					<parameter name="redirect" value="cocoon:/" />
+				</call>
+			</match>
+
+			<match pattern="query.*.continue">
+				<call continuation="{1}" />
+			</match>
+
 			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->
 			<match pattern="*/">
 				<act type="httpauth">
 					<select type="REST">
 						<when test="html">
-							<read src="cocoon:/internal/pipe/{../1}/list.html" />
+							<read
+								src="cocoon:/internal/pipe/{../1}/list.html" />
 						</when>
 						<when test="xml">
-							<read src="cocoon:/internal/pipe/{../1}/list.xml" />
+							<read
+								src="cocoon:/internal/pipe/{../1}/list.xml" />
 						</when>
 						<otherwise>
-							<read src="cocoon:/internal/pipe/{../1}/list.html" />
+							<read
+								src="cocoon:/internal/pipe/{../1}/list.html" />
 						</otherwise>
 					</select>
 				</act>
@@ -348,11 +391,14 @@
 
 			<match pattern="*/*.edit.*.continue">
 				<act type="httpauth">
-					<generate src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
+					<generate
+						src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}"
+						label="raw" />
 					<!-- TODO: depending on the state of the continuation the
-						 result might be either the view or edit variant -->
+						result might be either the view or edit variant -->
 					<transform src="xslt/html/task-edit.xsl">
-						<parameter name="viewDocumentLink" value="{../2}" />
+						<parameter name="viewDocumentLink"
+							value="{../2}" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
@@ -366,9 +412,11 @@
 				<!-- only html version available -->
 				<act type="httpauth">
 					<generate
-						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}"
+						label="raw" />
 					<transform src="xslt/html/task-edit.xsl">
-						<parameter name="viewDocumentLink" value="{../2}" />
+						<parameter name="viewDocumentLink"
+							value="{../2}" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
@@ -382,13 +430,16 @@
 				<act type="httpauth">
 					<select type="request-method">
 						<when test="GET">
-						
+
 							<select type="REST">
 								<when test="html">
 									<generate
-										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
-									<transform src="xslt/html/task-view.xsl">
-										<parameter name="editDocumentLink" value="{../2}.edit" />
+										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}"
+										label="raw" />
+									<transform
+										src="xslt/html/task-view.xsl">
+										<parameter
+											name="editDocumentLink" value="{../2}.edit" />
 										<parameter name="fullPath"
 											value="{block-path:}{request:pathInfo}" />
 										<parameter name="sitemapPath"
@@ -407,7 +458,7 @@
 									<serialize type="xml" />
 								</when>
 							</select>
-							
+
 						</when>
 						<when test="PUT">
 							<generate type="stream">
@@ -415,8 +466,10 @@
 									value="text/xml" />
 							</generate>
 							<transform src="xslt/xml/task2ductform.xsl" />
-							<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
-								<parameter name="path" value="jcr:///teamspaces/{../1}/tasks/{../2}.xml" />
+							<transform
+								src="xslt/xml/wrap-for-sourcewriting.xsl">
+								<parameter name="path"
+									value="jcr:///teamspaces/{../1}/tasks/{../2}.xml" />
 							</transform>
 							<transform type="write-source" />
 							<serialize type="xml" />
@@ -424,7 +477,6 @@
 					</select>
 				</act>
 			</match>
-
 		</pipeline>
 
 		<!-- =========================================================== -->

@@ -1,0 +1,62 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+
+	<head>
+		<title>Query Editor</title>
+	</head>
+	<body>
+		<ft:form-template action="query.#{$cocoon/continuation/id}.continue" method="POST">
+			<ft:repeater id="parts"
+				xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+				<table>
+					<thead>
+						<tr>
+							<th>
+								<ft:repeater-widget-label
+									widget-id="field" />
+							</th>
+							<th>
+								<ft:repeater-widget-label
+									widget-id="selector" />
+							</th>
+							<th>
+								<ft:repeater-widget-label
+									widget-id="value" />
+							</th>
+						</tr>
+					</thead>
+					<tbody>
+						<ft:repeater-rows>
+							<tr
+								class="forms-row-${repeaterLoop.index % 2}">
+								<td>
+									<ft:widget id="field" />
+								</td>
+								<td>
+									<ft:widget id="selector" />
+								</td>
+								<td>
+									<ft:widget id="value" />
+								</td>
+								<td>
+									<ft:widget id="delete" />
+								</td>
+							</tr>
+						</ft:repeater-rows>
+					</tbody>
+				</table>
+			</ft:repeater>
+			<div>
+				<ft:widget id="addPart" />
+			</div>
+			<div>
+				<ft:widget id="executeQuery"/>
+				<ft:widget id="xpath"/>
+			</div>
+		</ft:form-template>
+	</body>
+</html>

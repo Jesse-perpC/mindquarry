@@ -1,0 +1,107 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:repeater id="parts">
+			<fd:datatype base="boolean" />
+			<fd:label>Query Parts</fd:label>
+			
+			<!-- query part widgets -->
+			<fd:widgets>
+				<!-- field name configuration -->
+				<fd:field id="field" required="true">
+					<!-- basic configuration -->
+					<fd:label>Field Name</fd:label>
+					<fd:datatype base="string" />
+
+					<!-- selectable values -->
+					<fd:selection-list>
+						<fd:item value="Title" />
+						<fd:item value="Summary" />
+						<fd:item value="Status" />
+						<fd:item value="Date" />
+						<fd:item value="Description" />
+						<fd:item value="People" />
+					</fd:selection-list>
+
+					<!-- helper information -->
+					<fd:hint>
+						Name of the field that should be evaluated.
+					</fd:hint>
+					<fd:help>
+						Can be used for selecting a field that is used
+						in a query.
+					</fd:help>
+				</fd:field>
+
+				<!-- selector configuration -->
+				<fd:field id="selector" required="true">
+					<!-- basic configuration -->
+					<fd:label>Selector</fd:label>
+					<fd:datatype base="string" />
+
+					<!-- selectable values -->
+					<fd:selection-list>
+						<fd:item value="contains" />
+						<fd:item value="equals" />
+					</fd:selection-list>
+
+					<!-- helper information -->
+					<fd:hint>
+						Selector that is used for evaluating the
+						specified field.
+					</fd:hint>
+					<fd:help>
+						Can be used for specifing selection criteria.
+					</fd:help>
+				</fd:field>
+
+				<!-- value configuration -->
+				<fd:field id="value" required="true">
+					<!-- basic configuration -->
+					<fd:label>Value</fd:label>
+					<fd:datatype base="string" />
+
+					<!-- helper information -->
+					<fd:hint>
+						The value that is used in the field evaluation
+						according to the specified selection criteria.
+					</fd:hint>
+					<fd:help>
+						Can be used for specifing values to be used in
+						the selection criteria.
+					</fd:help>
+				</fd:field>
+				<fd:row-action id="delete" command="delete">
+					<fd:label>Remove</fd:label>
+				</fd:row-action>
+			</fd:widgets>
+			
+			<!-- helper information -->
+			<fd:hint>Parts of a query.</fd:hint>
+			<fd:help>
+				Use this field for configuring the parts of a query.
+			</fd:help>
+		</fd:repeater>
+
+		<!-- add field to query action -->
+		<fd:repeater-action repeater="parts" id="addPart" command="add-row">
+			<fd:label>Add Rule</fd:label>
+			<fd:on-action>
+				<fd:javascript>executeQuery(event);</fd:javascript>
+			</fd:on-action>
+		</fd:repeater-action>
+
+		<!-- execute query action -->		
+		<fd:action id="executeQuery">
+			<fd:label>Execute Query</fd:label>
+			<fd:on-action>
+				<fd:javascript>print("test");executeQuery(event);</fd:javascript>
+			</fd:on-action>
+		</fd:action>
+		
+		<fd:field id="xpath" required="true" state="output">
+					<!-- basic configuration -->
+				<fd:label>XPath Statement</fd:label>
+				<fd:datatype base="string" />
+		</fd:field>
+	</fd:widgets>
+</fd:form>
