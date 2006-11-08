@@ -31,11 +31,25 @@
 				<a class="edit_task_button" href="{$editDocumentLink}">Edit Task</a>
 			</div>
 			
-			<xsl:copy-of select="." />
-						
+			<table>
+				<xsl:apply-templates 
+					select="div[@class='form_block']"/>
+			</table>
+									
 			<div id="footbar">
-				<a href="./">List tasks</a>
+				<a id="back" href="./" title="go back to task overview">Back to tasks list</a>
 			</div>
 		</div>
+	</xsl:template>
+	
+	<xsl:template match="div[@class='form_block' and not(@id='block_ductform_ductforms')]">
+		<tr>
+			<th><xsl:value-of select="label" /></th>
+			<td>
+				<xsl:value-of select="span" />
+				<xsl:apply-templates select="div" />
+				<xsl:apply-templates select="table" />
+			</td>
+		</tr>
 	</xsl:template>
 </xsl:stylesheet>

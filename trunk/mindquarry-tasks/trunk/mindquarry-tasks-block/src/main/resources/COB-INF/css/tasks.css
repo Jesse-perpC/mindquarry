@@ -3,9 +3,11 @@ a.create_task_button:link, a.create_task_button:visited {
 	display: block;
 	width: 140px;
 	height: 32px;
+	
 	text-decoration: none;
 	text-align: center;
 	color: white;
+	
 	background-repeat: no-repeat;
 	font-size: 10pt;
 	padding-top: 9px;
@@ -18,10 +20,6 @@ div.summary {
 	color:#666666;
 	font-size:10pt;
 	clear:both;
-}
-
-div.task-area table{
-	border:1px solid black;
 }
 
 div.footbar {
@@ -86,7 +84,7 @@ img.task_status {
 
 div.task-area table {
 	border:0px;
-	font-size:11pt;
+	font-size:10pt;
 	text-align:left;
 	margin-bottom:15px;
 	width:100%;
@@ -98,6 +96,18 @@ div.task-area table th {
 
 tr.highlight:hover {
 	background-color:#bee5b8;
+}
+
+a#back {
+	display:block;
+	background:url(../icons/22x22/actions/go-previous.png);
+	height:22px;
+	width:22px;
+	overflow:hidden;
+	/*color:none;*/
+	font-size:0px;
+	float:left;
+	background-repeat:no-repeat;
 }
 
 /* same as in workspace.css, should be shared in one css file */
