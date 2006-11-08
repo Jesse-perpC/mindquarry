@@ -1,7 +1,6 @@
 /*
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
 function processCreateTeamspaceForm(form) {
