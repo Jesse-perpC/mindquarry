@@ -40,7 +40,8 @@
 					</div>
 
 					<div class="footbar">
-						<a href="..">Back to overview</a>				
+						<a href=".." id="back" title="back to teamspace overview">
+							Back to overview</a>				
 					</div>
 				</div>
 			</body>

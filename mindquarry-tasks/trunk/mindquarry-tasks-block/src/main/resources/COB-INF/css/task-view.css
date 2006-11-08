@@ -3,7 +3,7 @@
 }
 
 a.edit_task_button:link, a.edit_task_button:visited {
-	background-image: url(../buttons/create_task.png);
+	background-image: url(../buttons/edit_task.png);
 	display: block;
 	width: 140px;
 	height: 32px;
@@ -16,12 +16,16 @@ a.edit_task_button:link, a.edit_task_button:visited {
 	padding-left: 13px;
 }
 
-#block_ductform_title label {
-	font-weight: bold;
+table {
+	border:0px;
+	text-align:left;
+	margin-bottom:15px;
+	width:100%;
 }
 
-#block_ductform_summary label {
-	font-weight: bold;
+th {
+	text-align:left;
+	vertical-align:top;
 }
 
 div#actions {
@@ -29,6 +33,18 @@ div#actions {
 }
 
 div#footbar {
+	margin-top:10px;
 	clear:both;
-	display:none;
+}
+
+a#back {
+	display:block;
+	background:url(../icons/22x22/actions/go-previous.png);
+	height:22px;
+	width:22px;
+	overflow:hidden;
+	/*color:none;*/
+	font-size:0px;
+	float:left;
+	background-repeat:no-repeat;
 }
