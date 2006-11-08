@@ -137,7 +137,7 @@
 			<!-- internal -->
 			<!-- the generated form model including all possible fields  -->
 			<match pattern="*.xml.form">
-				<generate src="cocoon:/{1}.xml.model" />
+				<generate src="cocoon:/complete-model.xml" />
 				<transform src="xsl/model/modelincluded2form.xsl" />
 				<serialize type="xml" />
 			</match>
