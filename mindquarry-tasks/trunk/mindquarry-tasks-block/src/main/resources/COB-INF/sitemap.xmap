@@ -30,6 +30,11 @@
 				<pattern name="html">text/html</pattern>
 				<pattern name="xml">text/xml</pattern>
 			</selector>
+
+			<selector name="regexp-request-param"
+				src="org.apache.cocoon.selection.RegexpRequestParameterSelector">
+				<pattern name="number">^[0-9a-f]+$</pattern>
+			</selector>
 		</selectors>
 
 		<generators default="file">
@@ -389,34 +394,24 @@
 				| /teamspaces/<teamspace-id>/tasks/<task-id>
 				+-->
 
-			<match pattern="*/*.edit.*.continue">
-				<act type="httpauth">
-					<generate
-						src="block:super:/{../3}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}"
-						label="raw" />
-					<!-- TODO: depending on the state of the continuation the
-						result might be either the view or edit variant -->
-					<transform src="xslt/html/task-edit.xsl">
-						<parameter name="viewDocumentLink"
-							value="{../2}" />
-						<parameter name="fullPath"
-							value="{block-path:}{request:pathInfo}" />
-						<parameter name="sitemapPath"
-							value="{request:pathInfo}" />
-					</transform>
-					<call resource="layouting" />
-				</act>
-			</match>
-
 			<match pattern="*/*.edit">
 				<!-- only html version available -->
 				<act type="httpauth">
-					<generate
-						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}"
-						label="raw" />
-					<transform src="xslt/html/task-edit.xsl">
-						<parameter name="viewDocumentLink"
-							value="{../2}" />
+					<select type="regexp-request-param">
+						<parameter name="parameter-name" value="continuation-id" />
+						<when test="number">
+							<!-- it's a continuation -->
+							<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
+						</when>
+						<otherwise>
+							<!-- first entrance into form editing -->
+							<generate
+								src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+						</otherwise>
+					</select>
+					<transform src="xslt/html/task-view-or-edit.xsl" label="raw">
+						<parameter name="viewDocumentLink" value="{../2}" />
+						<parameter name="editDocumentLink" value="{../2}.edit" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
@@ -434,12 +429,10 @@
 							<select type="REST">
 								<when test="html">
 									<generate
-										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}"
-										label="raw" />
-									<transform
-										src="xslt/html/task-view.xsl">
-										<parameter
-											name="editDocumentLink" value="{../2}.edit" />
+										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+									<transform src="xslt/html/task-view-or-edit.xsl">
+										<parameter name="viewDocumentLink" value="{../2}" />
+										<parameter name="editDocumentLink" value="{../2}.edit" />
 										<parameter name="fullPath"
 											value="{block-path:}{request:pathInfo}" />
 										<parameter name="sitemapPath"

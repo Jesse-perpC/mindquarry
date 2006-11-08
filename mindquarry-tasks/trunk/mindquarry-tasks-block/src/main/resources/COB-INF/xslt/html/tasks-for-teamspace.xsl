@@ -52,8 +52,28 @@
 		<tr class="highlight">
 			<td>
 				<img src="{$pathToBlock}images/status/{normalize-space(status)}.png" class="task_status"/>
-				<a href="{@xlink:href}"><xsl:value-of select="title" /></a><br/><xsl:value-of select="summary" /></td>
-			<td class="task_status"><xsl:value-of select="status" /></td>
+				<a href="{@xlink:href}">
+				<xsl:choose>
+					<xsl:when test="string-length(title) > 0">
+						<xsl:value-of select="title" />
+					</xsl:when>
+					<xsl:otherwise>
+						&lt;no title&gt;
+					</xsl:otherwise>
+				</xsl:choose>
+				</a>
+				<br/>
+				<xsl:value-of select="summary" /></td>
+			<td class="task_status">
+				<xsl:choose>
+					<xsl:when test="string-length(status) > 0">
+						<xsl:value-of select="status" />
+					</xsl:when>
+					<xsl:otherwise>
+						&lt;no status&gt;
+					</xsl:otherwise>
+				</xsl:choose>
+			</td>
 		</tr>
     </xsl:template>
 </xsl:stylesheet>
