@@ -7,7 +7,7 @@
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
 
 	<xsl:param name="required"
-		select="document('cocoon:/model.xml')/df:model/df:datatype[@required='true']" />
+		select="document('cocoon:/complete-model.xml')/df:model/df:datatype[@required='true']" />
 
 	<xsl:param name="existing" select="/ductform/*" />
 

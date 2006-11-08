@@ -57,7 +57,7 @@
 	</flow>
 
 	<views>
-		<view name="form" from-label="form">
+		<view name="raw" from-label="raw">
 			<serialize type="xml" />
 		</view>
 		<view name="viewA" from-label="viewA">
@@ -72,13 +72,9 @@
 		<pipeline type="noncaching">
 
 			<!-- internal -->
-			<!-- TODO: rename this or the other, file-specific matchers
-				(eg. *.xml) so that there is no clash between mytask24.xml
-				and this generic model provider here
-				
-				Note: this is also referenced via cocoon:/model.xml in
-				addfield.xsl -->
-			<match pattern="model.xml">
+			<!-- Note: this is also referenced via a document()
+				 call in addfield.xsl -->
+			<match pattern="complete-model.xml">
 				<generate src="block:/dforms-model-directory.xml" />
 				<call resource="directories2model" />
 			</match>
@@ -86,7 +82,8 @@
 			<!-- internal -->
 			<!-- @virtual: getting basic model stuff -->
 			<match pattern="dforms-model-directory.xml">
-				<generate type="collection" src="model" />
+				<!-- <generate type="collection" src="model" label="raw"/> -->
+				<generate src="model-index.xml" label="raw"/>
 				<transform src="xsl/collection2resourceincludes.xsl" />
 				<serialize type="xml" />
 			</match>
@@ -113,7 +110,7 @@
 					</when>
 					<!-- else (if not) show the minimal document model including the required fields from the complete model -->
 					<otherwise>
-						<generate src="cocoon:/model.xml" />
+						<generate src="cocoon:/complete-model.xml" />
 						<transform src="xsl/model/plainmodel.xsl" />
 						<serialize type="xml" />
 					</otherwise>
@@ -126,7 +123,7 @@
 				| and could be.
 				+-->
 			<match pattern="*.xml.model">
-				<generate src="cocoon:/model.xml" />
+				<generate src="cocoon:/complete-model.xml" />
 				<transform src="xsl/model/model2modelinclude.xsl" label="viewA">
 					<parameter name="instance"
 						value="cocoon:/{1}.xml.plain">
@@ -163,8 +160,7 @@
 
 				<!-- <generate src="cocoon:/{1}.xml.template" /> -->
 				<!-- get the form template from a dynamic pipeline -->
-				<generate type="jx" src="cocoon:/{1}.xml.template"
-					label="form">
+				<generate type="jx" src="cocoon:/{1}.xml.template" label="raw">
 					<parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</generate>
