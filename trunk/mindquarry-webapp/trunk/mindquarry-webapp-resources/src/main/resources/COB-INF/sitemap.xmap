@@ -20,7 +20,7 @@
 
 	<map:pipelines>
 		<map:pipeline>
-			<map:match pattern="client/*.jnlp">
+			<map:match pattern="client/client.jnlp">
 				<map:act type="httpauth">
 					<map:call function="sendJNLP">
 						<map:parameter name="target"
