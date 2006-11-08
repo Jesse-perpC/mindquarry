@@ -30,8 +30,9 @@ function editPage(form) {
 	form_ = null;
 	documentPath_ = null;
 	
-	// show the display variant of the form
-	cocoon.redirectTo("cocoon:/show-document?baseURI=" + baseURI + "&documentID=" + documentID, false);
+	// show the display variant after editing
+	form.lookupWidget("/").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);	
+	loadAndShow(form, filename);
 }
 
 // this simply displays the form in readonly mode (called from sitemap)

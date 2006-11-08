@@ -6,9 +6,8 @@
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml">
-
-	<xsl:param name="documentID" />
+	xmlns:html="http://www.w3.org/1999/xhtml"
+	exclude-result-prefixes="df fd ft fi jx html">
 
 	<xsl:key name="usedfields" match="df:instance/*"
 		use="local-name(.)" />
@@ -31,10 +30,10 @@
 	</xsl:template>
 
 	<xsl:template match="df:instance">
-		<ft:form method="POST">
-			<xsl:attribute name="action">
-				<xsl:value-of select="$documentID" /><xsl:text>.edit.#{$cocoon/continuation/id}.continue</xsl:text>
-			</xsl:attribute>
+		<!-- action must be modified in sub-blocks afterwards, because only
+			 they know the correct URL -->
+		<ft:form method="POST" action="">
+			<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 
 			<xsl:apply-templates select="*" />
 
