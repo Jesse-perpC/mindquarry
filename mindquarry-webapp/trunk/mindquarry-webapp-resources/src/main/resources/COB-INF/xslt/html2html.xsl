@@ -164,6 +164,7 @@
 						<li><a href="{$pathToRoot}wiki/">Wiki</a></li>
 						<li><a href="{$pathToRoot}tasks/">Tasks</a></li>
 						<li><a href="{$pathToRoot}talk/">Talk</a></li>
+						<li><a href="{$pathToRoot}resources/client/client.jnlp">Client</a></li>
 						<li><a href="{$pathToRoot}help/">Help</a></li>
 						<li><a href="http://www.mindquarry.com">Visit Mindquarry.com</a></li>
 						<li><a href="http://www.mindquarry.com/support/">Get Support</a></li>

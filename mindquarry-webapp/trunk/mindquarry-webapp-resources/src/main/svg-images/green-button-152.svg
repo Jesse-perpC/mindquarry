@@ -13,8 +13,8 @@
    height="1052.3622047"
    id="svg11783"
    sodipodi:version="0.32"
-   inkscape:version="0.44"
-   sodipodi:docbase="/Users/lars/Documents/Teamspaces/mindquarry-webapp/mindquarry-webapp-resources/src/main/svg-images"
+   inkscape:version="0.44.1"
+   sodipodi:docbase="C:\Dokumente und Einstellungen\alexs\Eigene Dateien\MQ-Workspaces\mindquarry-webapp\mindquarry-webapp-resources\src\main\svg-images"
    sodipodi:docname="green-button-152.svg">
   <defs
      id="defs11785">
@@ -125,10 +125,10 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
      inkscape:cx="181.55264"
-     inkscape:cy="1075.6289"
+     inkscape:cy="1015.0197"
      inkscape:document-units="px"
-     inkscape:current-layer="layer3"
-     inkscape:window-width="829"
+     inkscape:current-layer="layer1"
+     inkscape:window-width="925"
      inkscape:window-height="665"
      inkscape:window-x="20"
      inkscape:window-y="45" />
@@ -149,7 +149,7 @@
      id="layer1"
      style="display:inline">
     <rect
-       style="fill:#21ff04;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
+       style="fill:#41d62d;fill-opacity:1;stroke:none;stroke-width:2.5;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-dashoffset:0;stroke-opacity:1"
        id="rect107676"
        width="150"
        height="30"
