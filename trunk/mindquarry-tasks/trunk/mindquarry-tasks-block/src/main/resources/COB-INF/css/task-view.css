@@ -17,7 +17,11 @@ a.edit_task_button:link, a.edit_task_button:visited {
 }
 
 #block_ductform_title label {
-	display:none;
+	font-weight: bold;
+}
+
+#block_ductform_summary label {
+	font-weight: bold;
 }
 
 div#actions {
