@@ -2,11 +2,37 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
 var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
 var form_;
-var documentPath_;
+
+function setWidgetStates(form, isEdit) {
+	// hide all widgets first
+	var allWidgets = form.lookupWidget("/").getChildren();
+	for (; allWidgets.hasNext(); ) {
+		allWidgets.next().setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+	}
+	
+	var ductformsWidget = form.lookupWidget("/ductforms");
+	// show the field selector in edit mode
+	if (isEdit) {
+		ductformsWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	}
+	
+	// show only selected fields
+	var ductfields = ductformsWidget.getValue();
+	for (var i=0;i<ductfields.length;i++) {
+		form.lookupWidget("/" + ductfields[i]).setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	}
+
+	if (isEdit) {
+		form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	}
+}
 
 // helper function
-function loadAndShow(form, filename) {
+function loadAndShow(form, filename, isEdit) {
 	form.loadXML("cocoon:/" + filename + ".plain");
+	
+	setWidgetStates(form, isEdit);
+	
 	form.showForm(filename + ".instance");
 }
 
@@ -18,9 +44,8 @@ function editPage(form) {
 	
 	// save form and page for auto-reload or AJAX calls
 	form_ = form;
-	documentPath_ = baseURI + filename;
 
-	loadAndShow(form, filename);
+	loadAndShow(form, filename, true);
 	
 	// the form includes all possible fields, but only some of them are
 	// actually used. the best solution would be to strip out forms
@@ -28,11 +53,10 @@ function editPage(form) {
 	
 	// reset form and page for auto-reload or AJAX calls
 	form_ = null;
-	documentPath_ = null;
 	
 	// show the display variant after editing
 	form.lookupWidget("/").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);	
-	loadAndShow(form, filename);
+	loadAndShow(form, filename, false);
 }
 
 // this simply displays the form in readonly mode (called from sitemap)
@@ -42,19 +66,19 @@ function showPage(form) {
 	
 	// no auto-reload or AJAX calls are allowed in display mode
 	form_ = null;
-	documentPath_ = null;
 	
 	// set status to output only
 	form.lookupWidget("/").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
 	
-	loadAndShow(form, filename);
+	loadAndShow(form, filename, false);
 }
 
 // called by auto-reload or AJAX for mutivalue fields
 function upd(event) {
-	if (form_ && documentPath_) {
-		form_.saveXML(documentPath_, CLEAN_MODEL_XSL);
+	if (form_) {
+		setWidgetStates(form_, true);
 	}
+
 	cocoon.exit();
 }
 

@@ -18,70 +18,45 @@
 		<html:html>
 			<html:head>
 				<html:title>
-					<xsl:value-of select="df:instance/title" />
+					Editing Thing
 				</html:title>
 				<jx:import
 					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 			</html:head>
 			<html:body>
-				<xsl:apply-templates select="df:instance" />
+				<!-- action must be modified in sub-blocks afterwards, because only
+			 they know the correct URL -->
+				<ft:form method="POST" action="">
+					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
+				
+					<xsl:apply-templates select="df:datatype" />
+
+
+					<xsl:call-template name="extra">
+						<xsl:with-param name="suffix">save</xsl:with-param>
+					</xsl:call-template>
+				</ft:form>
 			</html:body>
 		</html:html>
 	</xsl:template>
 
-	<xsl:template match="df:instance">
-		<!-- action must be modified in sub-blocks afterwards, because only
-			 they know the correct URL -->
-		<ft:form method="POST" action="">
-			<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
-
-			<xsl:apply-templates select="*" />
-
-			<xsl:call-template name="extra">
-				<xsl:with-param name="suffix">save</xsl:with-param>
-			</xsl:call-template>
-		</ft:form>
-	</xsl:template>
-
-	<xsl:template match="*">
-		<xsl:variable name="name" select="local-name(.)" />
-		<xsl:variable name="datatype"
-			select="key('datatypes',$name)" />
-
-		<html:div class="form_block" id="block_ductform_{$name}">
-			
-			<html:label for="ductform.{$name}">
-				<xsl:apply-templates select="($datatype//fd:hint)[1]" />
-				<ft:widget-label id="{$name}" />
+	<xsl:template match="df:datatype">
+		<html:div class="form_block" id="block_ductform_{@id}">
+			<html:label for="ductform.{@id}">
+				<xsl:apply-templates select="(fd:hint)[1]" />
+				<ft:widget-label id="{@id}" />
 			</html:label>
-
-			<xsl:choose>
-				<xsl:when test="$datatype/ft:repeater">
-					<ft:repeater id="{$name}">
-						<xsl:copy-of select="($datatype/ft:repeater)[1]/@*|($datatype/ft:repeater)[1]/node()" />
-					</ft:repeater>
-				</xsl:when>
-				<xsl:otherwise>
-					<ft:widget id="{$name}">
-						<xsl:copy-of select="($datatype/ft:widget)[1]/@*" />
-						<xsl:copy-of
-							select="($datatype/ft:widget)[1]/node()" />
-						<xsl:apply-templates select="." mode="styling" />
-					</ft:widget>
-				</xsl:otherwise>
-			</xsl:choose>
-			
-			<xsl:for-each select="$datatype/fd:repeater-action">
-				<ft:widget id="{$name}{@id}" />
-			</xsl:for-each>
+			<xsl:apply-templates select="*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']" />
 		</html:div>
 	</xsl:template>
-
-	<xsl:template match="*" mode="styling" />
-
-	<xsl:template match="ductforms_add|ductforms_delete"
-		mode="styling">
-		<fi:styling submit-on-change="true" />
+	
+	<xsl:template match="df:datatype/*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']">
+		<xsl:copy>
+			<xsl:attribute name="id">
+				<xsl:value-of select="../@id" />
+			</xsl:attribute>
+			<xsl:copy-of select="node()|@*" />
+		</xsl:copy>
 	</xsl:template>
 
 	<xsl:template match="fd:hint">
@@ -92,6 +67,13 @@
 
 	<xsl:template name="extra">
 		<xsl:param name="suffix" />
+		<html:div class="form_block" id="block_ductform_ductforms">
+			<html:label for="ductform.ductforms">
+				<xsl:apply-templates select="(fd:hint)[1]" />
+				<ft:widget-label id="ductforms" />
+			</html:label>
+			<ft:widget id="ductforms"/>
+		</html:div>
 		<html:div class="form_block" id="block_ductform_{$suffix}">
 			<!-- <html:label for="ductforms_{$suffix}:input">
 				<ft:widget-label id="ductforms_{$suffix}" />
