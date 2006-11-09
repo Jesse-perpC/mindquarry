@@ -76,7 +76,7 @@
 
 	<xsl:template match="xhtml:form/@action|form/@action">
 		<xsl:attribute name="action">
-			<xsl:value-of select="$editDocumentLink" />
+			<xsl:value-of select="$viewDocumentLink" />
 		</xsl:attribute>
 	</xsl:template>
 

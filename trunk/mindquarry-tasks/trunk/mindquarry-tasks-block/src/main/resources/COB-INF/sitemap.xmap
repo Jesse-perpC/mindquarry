@@ -395,20 +395,10 @@
 				+-->
 
 			<match pattern="*/*.edit">
-				<!-- only html version available -->
 				<act type="httpauth">
-					<select type="regexp-request-param">
-						<parameter name="parameter-name" value="continuation-id" />
-						<when test="number">
-							<!-- it's a continuation -->
-							<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
-						</when>
-						<otherwise>
-							<!-- first entrance into form editing -->
-							<generate
-								src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
-						</otherwise>
-					</select>
+					<!-- first entrance into form editing -->
+					<generate
+						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 					<transform src="xslt/html/task-view-or-edit.xsl" label="raw">
 						<parameter name="viewDocumentLink" value="{../2}" />
 						<parameter name="editDocumentLink" value="{../2}.edit" />
@@ -424,10 +414,11 @@
 			<match pattern="*/*">
 				<act type="httpauth">
 					<select type="request-method">
+					
 						<when test="GET">
-
 							<select type="REST">
 								<when test="html">
+									<!-- normal viewing (or editing when new) -->
 									<generate
 										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 									<transform src="xslt/html/task-view-or-edit.xsl">
@@ -451,8 +442,32 @@
 									<serialize type="xml" />
 								</when>
 							</select>
-
 						</when>
+
+						<when test="POST">
+							<select type="regexp-request-param">
+								<parameter name="parameter-name" value="continuation-id" />
+								<when test="number">
+									<!-- it's a continuation (editing) -->
+									<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
+								</when>
+								<otherwise>
+									<!-- normal viewing (or editing when new) -->
+									<generate
+										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+								</otherwise>
+							</select>
+							<transform src="xslt/html/task-view-or-edit.xsl">
+								<parameter name="viewDocumentLink" value="{../2}" />
+								<parameter name="editDocumentLink" value="{../2}.edit" />
+								<parameter name="fullPath"
+									value="{block-path:}{request:pathInfo}" />
+								<parameter name="sitemapPath"
+									value="{request:pathInfo}" />
+							</transform>
+							<call resource="layouting" />
+						</when>
+						
 						<when test="PUT">
 							<generate type="stream">
 								<parameter name="defaultContentType"
@@ -467,6 +482,7 @@
 							<transform type="write-source" />
 							<serialize type="xml" />
 						</when>
+						
 					</select>
 				</act>
 			</match>
