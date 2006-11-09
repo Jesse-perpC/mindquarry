@@ -126,13 +126,6 @@
 				+ generated form template including only the selected fields -->
 			<match pattern="*.xml.template">
 				<generate src="cocoon:/complete-model.xml" />
-				<transform src="xsl/model/model2modelinclude.xsl">
-					<parameter name="instance"
-						value="cocoon:/{1}.xml.plain">
-					</parameter>
-				</transform>
-				<transform type="xinclude" />
-				<transform src="xsl/model/cleanmodel.xsl" />
 				<transform src="xsl/model/modelincluded2template.xsl" />
 				<serialize type="xml" />
 			</match>
@@ -141,7 +134,6 @@
 			<!-- the form rendering pipeline called by the form controller -->
 			<match pattern="*.xml.instance">
 
-				<!-- <generate src="cocoon:/{1}.xml.template" /> -->
 				<!-- get the form template from a dynamic pipeline -->
 				<generate type="jx" src="cocoon:/{1}.xml.template"
 					label="raw">

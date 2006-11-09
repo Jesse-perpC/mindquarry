@@ -38,5 +38,6 @@
       </xsl:copy>
   </xsl:template>
   
+  <xsl:template match="div[@class='form_block'][not(fi:*)]" />
 
 </xsl:stylesheet>
