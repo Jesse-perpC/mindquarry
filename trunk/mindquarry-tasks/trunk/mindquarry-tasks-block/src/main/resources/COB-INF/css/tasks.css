@@ -98,6 +98,18 @@ tr.highlight:hover {
 	background-color:#bee5b8;
 }
 
+a.task_edit_link {
+	/*visibility:hidden;*/
+	/*display:none;*/
+	color:white;
+}
+
+a.task_edit_link:hover {
+	/*visibility:visible;*/
+	/*display:inline;*/
+	color:blue;
+}
+
 a#back {
 	display:block;
 	background:url(../icons/22x22/actions/go-previous.png);

@@ -20,6 +20,9 @@
 			<!-- copy existing link/script stuff -->
 			<xsl:apply-templates />
 
+			<link rel="stylesheet"
+				href="{$pathToBlock}css/tasks.css" media="screen,projection"
+				type="text/css" />
 			<xsl:choose>
 				<xsl:when test="/html/body/form/@state='output'">
 					<link rel="stylesheet"
@@ -67,8 +70,17 @@
 					<h1>Editing Task "<xsl:value-of select="form//div[@id='block_ductform_title']/span/input/@value" />"</h1>
 					<div class="nifty">
 						<xsl:apply-templates select="form" />
+
+						<br/>
+						<div>
+							<a href="{$viewDocumentLink}">Cancel</a>
+						</div>
+						<br/>
+						<div class="footbar">
+							<a href="." id="back" title="back to teamspace overview">
+								Back to overview</a>				
+						</div>
 					</div>
-					<a href="{$viewDocumentLink}">Cancel</a>
 				</xsl:otherwise>
 			</xsl:choose>
 		</body>
