@@ -98,16 +98,12 @@ tr.highlight:hover {
 	background-color:#bee5b8;
 }
 
-a.task_edit_link {
-	/*visibility:hidden;*/
-	/*display:none;*/
-	color:white;
+tr a.task_edit_link {
+	visibility:hidden;
 }
 
-a.task_edit_link:hover {
-	/*visibility:visible;*/
-	/*display:inline;*/
-	color:blue;
+tr:hover a.task_edit_link {
+	visibility:visible;
 }
 
 a#back {
