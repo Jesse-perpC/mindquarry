@@ -125,22 +125,16 @@ function setCreateUserEmbeddedMode() {
 
 function createUser() {
 	var userModel = model_.createUserModel;
-	print("trying to upload an image");
 	var uploadWidget = form_.lookupWidget("/createUserModel/photo");
-	print("found widget: " + uploadWidget);
 	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
     var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
-    print("found source: " + source);
     var value = uploadWidget.getValue();
-    print("value: " + value);
-    try {
+    
+	try {
     	value.copyToSource(source);
-    	print("copied image to " + source.getURI());
     } catch (e) {
-    	print("unable to save image " + e);
     	e.printStackTrace();
     }
-	
 	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
 	var teamspaceAdmin = cocoon.getComponent(lookupName);
 	
