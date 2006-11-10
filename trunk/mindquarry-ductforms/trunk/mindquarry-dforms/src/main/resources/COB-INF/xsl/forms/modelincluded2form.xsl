@@ -14,7 +14,7 @@
 					<fd:label>Fields</fd:label>
 					<fd:datatype base="string" />
 					<fd:selection-list>
-						<xsl:apply-templates select="/df:model/df:datatype" mode="ductforms_add"/>
+						<xsl:apply-templates select="df:datatype" mode="ductforms_add"/>
 					</fd:selection-list>
 					<fd:on-value-changed>
 						<fd:javascript>upd(event);</fd:javascript>
@@ -22,7 +22,11 @@
 				</fd:multivaluefield>
 
 				<xsl:apply-templates select="df:datatype" />
-				<xsl:call-template name="extra" />
+
+				<fd:submit id="ductforms_save" validate="true">
+					<fd:label>Save</fd:label>
+					<fd:help>Save the data you entered</fd:help>
+				</fd:submit>
 			</fd:widgets>
 		</fd:form>
 	</xsl:template>
@@ -53,13 +57,6 @@
 				<xsl:copy-of select="@*[not(local-name(.)='id' or local-name(.)='repeater')]|node()" />
 			</xsl:copy>
 		</xsl:for-each>
-	</xsl:template>
-
-	<xsl:template name="extra">
-		<fd:submit id="ductforms_save" validate="true">
-			<fd:label>Save</fd:label>
-			<fd:help>Save the data you entered</fd:help>
-		</fd:submit>
 	</xsl:template>
 
 	<xsl:template match="df:datatype" mode="ductforms_add">
