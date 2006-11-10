@@ -57,7 +57,7 @@
 	right:8px;
 	top:8px;
 	display:block;
-	width:170px;
+	width:90px;
 	border:5px solid #cccccc;
 	background:#eeeeee;
 	z-index:100;
@@ -74,11 +74,11 @@
 	display:none;
 	width:160px;
 }
-
+/*
 #beta-comment:hover #beta-comment-password, #beta-comment:hover #beta-comment-username, #beta-comment:hover label {
 	display:block;
 }
-
+*/
 #beta-comment-submit, #beta-comment-reset {
 	clear:left;float:right;
 	margin:2px;
@@ -88,6 +88,10 @@
 	background:none;
 	text-decoration:underline;
 	color:blue;
+}
+
+#beta-comment-submit {
+	display:none;
 }
 
 a#beta-comment {
