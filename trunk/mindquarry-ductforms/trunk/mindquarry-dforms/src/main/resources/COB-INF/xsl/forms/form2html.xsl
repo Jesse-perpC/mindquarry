@@ -25,6 +25,7 @@
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
       <xsl:apply-templates select="." mode="forms-field"/>
+      <script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script>
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
       <xsl:apply-templates/>
 	</xsl:copy>

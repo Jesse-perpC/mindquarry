@@ -2,6 +2,48 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
 var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
 var form_;
+var fullURI_;
+
+/////////////////////////////////////////////////////////
+// specific actions
+/////////////////////////////////////////////////////////
+
+// called by auto-reload or AJAX for mutivalue fields
+function fieldsChanged(event) {
+	print("*** fieldsChanged");
+	if (form_) {
+		setWidgetStates(form_, true);
+	}
+}
+
+function switchEditView(event) {
+	print("*** switchEditView");
+	if (form_) {
+		print("  switchEditView");
+		var formWidget = form_.lookupWidget("/title");
+		print(formWidget.getState());
+		if (formWidget.getState() == Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT) {
+			//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			setWidgetStates(form_, true);
+		} else {
+			//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+			setWidgetStates(form_, false);
+		}
+	}
+}
+
+function save(event) {
+	if (form_ && fullURI_) {
+		// the form includes all possible fields, but only some of them are
+		// actually used. the best solution would be to strip out forms
+		form_.saveXML(fullURI_, CLEAN_MODEL_XSL);
+		switchEditView(event);
+	}
+}
+
+/////////////////////////////////////////////////////////
+// form handling
+/////////////////////////////////////////////////////////
 
 function setWidgetStates(form, isEdit) {
 	// hide all widgets first
@@ -11,76 +53,59 @@ function setWidgetStates(form, isEdit) {
 	}
 	
 	var ductformsWidget = form.lookupWidget("/ductforms");
-	// show the field selector in edit mode
-	if (isEdit) {
-		ductformsWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-	}
 	
 	// show only selected fields
 	var ductfields = ductformsWidget.getValue();
-	for (var i=0;i<ductfields.length;i++) {
-		form.lookupWidget("/" + ductfields[i]).setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	for (var i=0; i<ductfields.length; i++) {
+		if (isEdit) {
+			form.lookupWidget("/" + ductfields[i]).setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		} else {
+			form.lookupWidget("/" + ductfields[i]).setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+		}
 	}
 
 	if (isEdit) {
+		// show the field selector in edit mode
+		ductformsWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+
+		// save button only in edit mode
 		form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
+
+	// the switch button should be always active
+	form.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 }
 
-// helper function
-function loadAndShow(form, filename, isEdit) {
+function setFormState(form, isEdit) {
+	// hide all widgets first
+	var allWidgets = form.lookupWidget("/").getChildren();
+	for (; allWidgets.hasNext(); ) {
+		allWidgets.next().setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+	}
+}
+
+// called from sitemap via handleForm()
+function showDForm(form) {
+	var filename = cocoon.parameters["documentID"] + ".xml";
+	
+	// save form and uri for actions
+	form_ = form;
+	fullURI_ = cocoon.parameters["baseURI"] + filename;
+
+	// load file from internal pipeline
 	form.loadXML("cocoon:/" + filename + ".plain");
 	
-	setWidgetStates(form, isEdit);
-	
+	// set initial state to output
+	setWidgetStates(form, false);
+
+	print("before showForm");
 	form.showForm(filename + ".instance");
+	print("after showForm");
 }
 
-// this triggers the edit variant of the form (called from sitemap)
-function editPage(form) {
-	var baseURI = cocoon.parameters["baseURI"];
-	var documentID = cocoon.parameters["documentID"];
-	var filename = documentID + ".xml";
-	
-	// save form and page for auto-reload or AJAX calls
-	form_ = form;
-
-	loadAndShow(form, filename, true);
-	
-	// the form includes all possible fields, but only some of them are
-	// actually used. the best solution would be to strip out forms
-	form.saveXML(baseURI + filename, CLEAN_MODEL_XSL);
-	
-	// reset form and page for auto-reload or AJAX calls
-	form_ = null;
-	
-	// show the display variant after editing
-	form.lookupWidget("/").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);	
-	loadAndShow(form, filename, false);
-}
-
-// this simply displays the form in readonly mode (called from sitemap)
-function showPage(form) {
-	var documentID = cocoon.parameters["documentID"];
-	var filename = documentID + ".xml";
-	
-	// no auto-reload or AJAX calls are allowed in display mode
-	form_ = null;
-	
-	// set status to output only
-	form.lookupWidget("/").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
-	
-	loadAndShow(form, filename, false);
-}
-
-// called by auto-reload or AJAX for mutivalue fields
-function upd(event) {
-	if (form_) {
-		setWidgetStates(form_, true);
-	}
-
-	cocoon.exit();
-}
+/////////////////////////////////////////////////////////
+// overwriting standard Form.js functions
+/////////////////////////////////////////////////////////
 
 // ok, I admit Javascript seriously rocks. I am overloading this function
 // with another parameter to support transformations of the xml document

@@ -32,9 +32,14 @@
 			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
 					 they know the correct URL -->
-				<ft:form method="POST" action="">
+				<ft:form method="POST" action="" ajax="true">
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 				
+					<!-- the switch button -->
+					<xhtml:div class="form_block" id="block_ductform_switch">
+						<ft:widget id="ductforms_switch" />
+					</xhtml:div>
+
 					<!-- all fields/widgets grouped for nice layouting -->
 					<fi:group>
 						<fi:styling layout="{$widgetArrangementOrDefault}" />
