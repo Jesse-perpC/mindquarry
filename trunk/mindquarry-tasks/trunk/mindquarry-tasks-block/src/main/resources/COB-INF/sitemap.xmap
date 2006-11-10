@@ -420,7 +420,7 @@
 								<when test="html">
 									<!-- normal viewing (or editing when new) -->
 									<generate
-										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+										src="block:super:/show-or-edit-document?widgetArrangement=column&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 									<transform src="xslt/html/task-view-or-edit.xsl">
 										<parameter name="viewDocumentLink" value="{../2}" />
 										<parameter name="editDocumentLink" value="{../2}.edit" />

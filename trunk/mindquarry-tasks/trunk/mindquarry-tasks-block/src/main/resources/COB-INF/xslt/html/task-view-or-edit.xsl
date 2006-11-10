@@ -12,13 +12,12 @@
 		<xsl:choose>
 			<xsl:when test="/html/body/form/@state='output'">
 				Details for task: 
-				<xsl:value-of select="/html/body/form//div[@id='block_ductform_title']/span" />
 			</xsl:when>
 			<xsl:otherwise>
 				Editing task: 
-				<xsl:value-of select="/html/body/form//div[@id='block_ductform_title']/span/input/@value" />
 			</xsl:otherwise>
 		</xsl:choose>
+		<xsl:value-of select="/html/head/title" />
 	</xsl:variable>
 
 	<xsl:template match="@*|node()">
@@ -71,9 +70,7 @@
 							</a>
 						</div>
 			
-						<table>
-							<xsl:apply-templates select="form//div[@class='form_block']" mode="output"/>
-						</table>
+						<xsl:apply-templates/>
 			
 						<div id="footbar">
 							<a id="back" href="./"
@@ -111,23 +108,5 @@
 			<xsl:value-of select="$viewDocumentLink" />
 		</xsl:attribute>
 	</xsl:template>
-
-	<!-- state=output only -->
-	<xsl:template
-		match="div[@class='form_block' and not(@id='block_ductform_ductforms')]" mode="output">
-		<tr>
-			<th>
-				<xsl:value-of select="label" />
-			</th>
-			<td>
-				<xsl:value-of select="span" />
-				<xsl:apply-templates select="div" mode="output"/>
-				<xsl:apply-templates select="table" mode="output" />
-			</td>
-		</tr>
-	</xsl:template>
-	
-	<xsl:template
-		match="div[@class='form_block' and (@id='block_ductform_ductforms')]" mode="output" />
 
 </xsl:stylesheet>
