@@ -8,13 +8,26 @@
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="df fd ft fi jx xhtml">
+	
+	<xsl:param name="widgetArrangement" />
+	
+	<xsl:variable name="widgetArrangementOrDefault">
+		<xsl:choose>
+			<xsl:when test="string-length(normalize-space($widgetArrangement)) > 0">
+				<xsl:value-of select="normalize-space($widgetArrangement)" />
+			</xsl:when>
+			<xsl:otherwise>columns</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
 	<xsl:template match="/df:model">
 		<xhtml:html>
 			<xhtml:head>
 				<xhtml:title>DForm</xhtml:title>
+				
 				<jx:import
 					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+					
 			</xhtml:head>
 			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
@@ -22,8 +35,9 @@
 				<ft:form method="POST" action="">
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 				
+					<!-- all fields/widgets grouped for nice layouting -->
 					<fi:group>
-						<fi:styling layout="columns" />
+						<fi:styling layout="{$widgetArrangementOrDefault}" />
 						<fi:items>
 							<xsl:apply-templates select="df:datatype" />
 						</fi:items>
@@ -48,15 +62,9 @@
 	</xsl:template>
 
 	<xsl:template match="df:datatype">
-		<xhtml:div class="form_block" id="block_ductform_{@id}">
-			<xhtml:label for="ductform.{@id}">
-				<xsl:apply-templates select="(fd:hint)[1]" />
-				<ft:widget-label id="{@id}" />
-			</xhtml:label>
-			<xsl:apply-templates select="*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']" />
-		</xhtml:div>
+		<xsl:apply-templates select="*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']" />
 	</xsl:template>
-	
+
 	<xsl:template match="df:datatype/*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']">
 		<xsl:copy>
 			<xsl:attribute name="id">

@@ -38,6 +38,14 @@
       </xsl:copy>
   </xsl:template>
   
+  <!-- put the required ductform field title into the html title -->
+  <xsl:template match="title">
+  	<title>
+  		<xsl:value-of select="/html/body//fi:field[@id='ductform.title']/fi:value" />
+  	</title>
+  </xsl:template>
+  
+  <!-- remove invisible stuff (non-selected fields) -->
   <xsl:template match="div[@class='form_block'][not(fi:*)]" />
 
 </xsl:stylesheet>
