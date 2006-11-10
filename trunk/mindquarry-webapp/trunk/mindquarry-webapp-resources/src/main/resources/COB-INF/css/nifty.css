@@ -5,14 +5,14 @@ div.nifty {
 	margin-bottom:10px;
 }
 
-.content {
+.niftycontent {
 	border-left: 1px solid #999999;
 	border-right: 1px solid #999999;
 	margin:0px;
 	padding:0px 10px;
 }
 
-b.rbottom b.r1, b.rtop b.r1, .content {
+b.rbottom b.r1, b.rtop b.r1, .niftycontent {
 	background:white;
 }
 

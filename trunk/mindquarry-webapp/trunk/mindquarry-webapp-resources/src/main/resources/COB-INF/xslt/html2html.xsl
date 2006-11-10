@@ -9,7 +9,6 @@
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
 	<xsl:import href="contextpath.xsl"/>
-	<xsl:import href="niftify.xsl"/>
 	<xsl:import href="lightbox.xsl"/>
 	
 	<xsl:output indent="no"/>
@@ -90,6 +89,14 @@
 
 		</head>
 	</xsl:template>
+
+	<xsl:template match="xhtml:head|head" mode="nifty">
+		<!-- only include the nifty.css if there are actually
+		nifty divs in the html to niftify -->
+		<xsl:if test="//xhtml:div[@class='nifty']|//div[@class='nifty']">
+			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}nifty.css" />
+		</xsl:if>
+	</xsl:template>	
 
 <!-- 
 	NEVER! NEVER! use alt-f to re-format this code.
@@ -189,7 +196,7 @@
 				<b class="rleft"><xsl:comment>tr</xsl:comment></b>
 				<b class="rright"><xsl:comment>tl</xsl:comment></b>
 			</b>
-			<div class="content">
+			<div class="niftycontent">
 				<xsl:apply-templates />
 				<br style="clear:both"/>
 			</div>
@@ -200,7 +207,7 @@
 			</b>
 		</div>
 	</xsl:template>
-	
+
 	<!-- look for attributes whose parent element has an
 		 attribute us:context with a value that equals the 
 		 local name of the processed attribute -->
