@@ -35,12 +35,12 @@
 				</serializer> -->
 		</serializers>
 
-		<selectors>
-			<selector name="lightbox-request"
-				src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
-			<selector name="ajax-request"
-				src="org.apache.cocoon.ajax.AjaxRequestSelector" />
-		</selectors>
+		<transformers>
+			<transformer name="clear"
+				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
+			<transformer name="browser-update"
+				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
+		</transformers>
 	</components>
 
 	<resources>
@@ -63,6 +63,21 @@
 	</views>
 
 	<pipelines>
+		<pipeline type="noncaching">
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="scripts/{1}.js" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:resources:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+		</pipeline>
+		
 		<pipeline type="noncaching">
 
 			<!-- internal -->
@@ -143,6 +158,10 @@
 				
 				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" label="raw" />
 
+				<transform type="browser-update" />
+				
+				<transform type="log" />
+				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
 				<transform src="xsl/forms/form2html.xsl">
@@ -165,10 +184,9 @@
 			</match>
 
 			<!-- internal, for child -->
-			<match pattern="show-document">
-				<!-- <read src="cocoon:/{request-param:documentID}.xml.template" />-->
+			<match pattern="dform">
 				<call function="handleForm">
-					<parameter name="function" value="showPage" />
+					<parameter name="function" value="showDForm" />
 					<parameter name="baseURI"
 						value="{request-param:baseURI}" />
 					<parameter name="documentID"
@@ -176,34 +194,17 @@
 					<parameter name="definitionURI"
 						value="block:/{request-param:documentID}.xml.form" />
 				</call>
-			</match>
-
-			<!-- internal, for child -->
-			<match pattern="edit-document">
-				<call function="handleForm">
-					<parameter name="function" value="editPage" />
-					<parameter name="baseURI"
-						value="{request-param:baseURI}" />
-					<parameter name="documentID"
-						value="{request-param:documentID}" />
-					<parameter name="definitionURI"
-						value="cocoon:/{request-param:documentID}.xml.form" />
-				</call>
-			</match>
-
-			<!-- internal, for child -->
-			<match pattern="show-or-edit-document">
-				<select type="resource-exists">
-					<!-- if it exists, show the document  -->
+				<!-- <select type="resource-exists">
+					if it exists, show the document
 					<when
 						test="{request-param:baseURI}{request-param:documentID}.xml">
 						<read src="cocoon:/show-document" />
 					</when>
-					<!-- else edit the document -->
+					else edit the document
 					<otherwise>
 						<read src="cocoon:/edit-document" />
 					</otherwise>
-				</select>
+				</select> -->
 			</match>
 
 			<!-- internal, for child to retrieve xml -->
