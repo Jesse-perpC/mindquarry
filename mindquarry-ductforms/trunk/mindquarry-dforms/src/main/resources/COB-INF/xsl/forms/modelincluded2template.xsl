@@ -6,48 +6,55 @@
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
-	xmlns:html="http://www.w3.org/1999/xhtml"
-	exclude-result-prefixes="df fd ft fi jx html">
-
-	<xsl:key name="usedfields" match="df:instance/*"
-		use="local-name(.)" />
-	<xsl:key name="datatypes" match="df:datatype" use="@id" />
-
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	exclude-result-prefixes="df fd ft fi jx xhtml">
 
 	<xsl:template match="/df:model">
-		<html:html>
-			<html:head>
-				<html:title>
-					Editing Thing
-				</html:title>
+		<xhtml:html>
+			<xhtml:head>
+				<xhtml:title>DForm</xhtml:title>
 				<jx:import
 					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
-			</html:head>
-			<html:body>
+			</xhtml:head>
+			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
-			 they know the correct URL -->
+					 they know the correct URL -->
 				<ft:form method="POST" action="">
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 				
-					<xsl:apply-templates select="df:datatype" />
+					<fi:group>
+						<fi:styling layout="columns" />
+						<fi:items>
+							<xsl:apply-templates select="df:datatype" />
+						</fi:items>
+					</fi:group>
 
-
-					<xsl:call-template name="extra">
-						<xsl:with-param name="suffix">save</xsl:with-param>
-					</xsl:call-template>
+					<!-- field chooser -->
+					<xhtml:div class="form_block" id="block_ductform_ductforms">
+						<xhtml:label for="ductform.ductforms">
+							<xsl:apply-templates select="(fd:hint)[1]" />
+							<ft:widget-label id="ductforms" />
+						</xhtml:label>
+						<ft:widget id="ductforms"/>
+					</xhtml:div>
+					
+					<!-- the save button -->
+					<xhtml:div class="form_block" id="block_ductform_save">
+						<ft:widget id="ductforms_save" />
+					</xhtml:div>
 				</ft:form>
-			</html:body>
-		</html:html>
+			</xhtml:body>
+		</xhtml:html>
 	</xsl:template>
 
 	<xsl:template match="df:datatype">
-		<html:div class="form_block" id="block_ductform_{@id}">
-			<html:label for="ductform.{@id}">
+		<xhtml:div class="form_block" id="block_ductform_{@id}">
+			<xhtml:label for="ductform.{@id}">
 				<xsl:apply-templates select="(fd:hint)[1]" />
 				<ft:widget-label id="{@id}" />
-			</html:label>
+			</xhtml:label>
 			<xsl:apply-templates select="*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']" />
-		</html:div>
+		</xhtml:div>
 	</xsl:template>
 	
 	<xsl:template match="df:datatype/*[namespace-uri(.)='http://apache.org/cocoon/forms/1.0#template']">
@@ -65,20 +72,4 @@
 		</xsl:attribute>
 	</xsl:template>
 
-	<xsl:template name="extra">
-		<xsl:param name="suffix" />
-		<html:div class="form_block" id="block_ductform_ductforms">
-			<html:label for="ductform.ductforms">
-				<xsl:apply-templates select="(fd:hint)[1]" />
-				<ft:widget-label id="ductforms" />
-			</html:label>
-			<ft:widget id="ductforms"/>
-		</html:div>
-		<html:div class="form_block" id="block_ductform_{$suffix}">
-			<!-- <html:label for="ductforms_{$suffix}:input">
-				<ft:widget-label id="ductforms_{$suffix}" />
-			</html:label> -->
-			<ft:widget id="ductforms_{$suffix}" />
-		</html:div>
-	</xsl:template>
 </xsl:stylesheet>

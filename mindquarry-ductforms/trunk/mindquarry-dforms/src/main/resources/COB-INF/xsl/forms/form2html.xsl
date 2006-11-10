@@ -20,7 +20,7 @@
 
   <!--  styling of dojo editor (from lenya) -->
   <xsl:include href="dojo-editor.xsl"/>
-   
+
   <xsl:template match="head">
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
