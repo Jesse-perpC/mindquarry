@@ -83,7 +83,7 @@
 
 		<map:pipeline>
 			<map:match pattern="">
-				<map:generate src="html/index.html" />
+				<map:generate src="html/login.html" />
 				<map:transform
 					src="block:/xslt/html2html.xsl">
 	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
@@ -96,9 +96,9 @@
 				<map:serialize type="html" />
 			</map:match>
 			
-			<map:match pattern="logout">
+			<map:match pattern="welcome">
 				<map:act type="httpauth">
-					<map:generate src="html/logout.html" />
+					<map:generate src="html/index.html" />
 				<map:transform
 					src="block:/xslt/html2html.xsl">
 	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>

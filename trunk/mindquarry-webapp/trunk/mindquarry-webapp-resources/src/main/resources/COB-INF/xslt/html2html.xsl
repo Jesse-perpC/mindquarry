@@ -135,9 +135,10 @@
 						<li><a class="navFiles" href="{$pathToRoot}workspace/">Files</a></li>
 						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
 					</ul>
-					
-					<div id="beta-comment">Alpha 1 <a href="{$pathToRoot}logout" onclick="logout(this); return false">logout <xsl:value-of select="$userName" /></a></div>
 				</div>
+				
+				
+				<a id="beta-comment" class="httpauth" href="{$pathToRoot}/welcome">Authenticate</a>
 				
 				<!-- layouting the content -->
 				<div id="webapp-content">
