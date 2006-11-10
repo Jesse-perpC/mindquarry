@@ -137,7 +137,7 @@ lightbox.prototype = {
 		document.getElementById('overlay').style.display = display;
 		
 		if(this.content.substring(0,1) == "#") {
-			$(this.content.substr(1)).style.display = display;
+			document.getElementById(this.content.substr(1)).style.display = display;
 		}
 		else {
 			placeholder = document.getElementById('lightboxplaceholder');

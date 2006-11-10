@@ -52,55 +52,84 @@ body {
 
 
 #background-s {
-	background-image:url(../images/border-s.gif);
 	background-repeat:repeat-x;
 	background-position:bottom;
 }
 
 #background-n {
-	background-image:url(../images/border-n.gif);
 	background-repeat:repeat-x;
 }
 
 #background-w {
-	background-image:url(../images/border-w.gif);
 	background-repeat:repeat-y;
 }
 
 #background-e {
-	background-image:url(../images/border-e.gif);
 	background-repeat:repeat-y;
 	background-position:right;
 }
 
 #background-nw {
-	background-image:url(../images/border-nw.gif);
 	background-repeat:no-repeat;
 }
 
 #background-ne {
-	background-image:url(../images/border-ne.gif);
 	background-repeat:no-repeat;
 	background-position:right top;
 }
 
 #background-sw {
-	background-image:url(../images/border-sw.gif);
 	background-repeat:no-repeat;
 	background-position:left bottom;
 }
 
 #background-se {
-	background-image:url(../images/border-se.gif);
 	background-repeat:no-repeat;
 	background-position:bottom right;
 }
 
 #background-nw {
-	background-image:url(../images/border-nw.gif);
 	background-repeat:no-repeat;
 }
 
 #innercontent {
 	padding:30px;
+}
+
+/* BORDERS */
+
+#background-s {
+	background-image:url(../images/border-s.gif);
+}
+
+#background-n {
+	background-image:url(../images/border-n.gif);
+}
+
+#background-w {
+	background-image:url(../images/border-w.gif);
+}
+
+#background-e {
+	background-image:url(../images/border-e.gif);
+}
+
+#background-nw {
+	background-image:url(../images/border-nw.gif);
+}
+
+#background-ne {
+	background-image:url(../images/border-ne.gif);
+}
+
+#background-sw {
+	background-image:url(../images/border-sw.gif);
+}
+
+#background-se {
+	background-image:url(../images/border-se.gif);
+}
+
+#background-nw {
+	background-image:url(../images/border-nw.gif);
 }
