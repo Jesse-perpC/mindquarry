@@ -4,6 +4,13 @@
 	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
 -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+	<map:components>
+		<map:actions>
+			<map:action name="httpauth"
+					src="com.mindquarry.webapp.auth.HttpAuthAction" />
+		</map:actions>
+	</map:components>
+
 	<map:pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
 		<map:pipeline type="noncaching">
@@ -86,7 +93,23 @@
 	        		<map:parameter name="scriptPath" value=""/>
 					<map:parameter name="user.agent" value="{request-header:User-Agent}" />
 				</map:transform>
-				<map:serialize type="xhtml" />
+				<map:serialize type="html" />
+			</map:match>
+			
+			<map:match pattern="logout">
+				<map:act type="httpauth">
+					<map:generate src="html/logout.html" />
+				<map:transform
+					src="block:/xslt/html2html.xsl">
+	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+	        		<!-- empty css/scripts path -->
+	        		<map:parameter name="cssPath" value=""/>
+	        		<map:parameter name="scriptPath" value=""/>
+					<map:parameter name="user.agent" value="{request-header:User-Agent}" />
+				</map:transform>
+				<map:serialize type="html" />
+				</map:act>
 			</map:match>
 
 			<!-- redirect stupid urls /foobar to the index page -->
