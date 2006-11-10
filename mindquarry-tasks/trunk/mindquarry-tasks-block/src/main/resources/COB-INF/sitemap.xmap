@@ -48,8 +48,7 @@
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 		</transformers>
-		
-		
+				
 	</components>
 
 	<resources>
@@ -151,7 +150,7 @@
 						<read src="scripts/{1}.js" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/scripts/{1}.js" />
+						<read src="block:super:/scripts/{1}.js" />
 					</otherwise>
 				</select>
 			</match>
@@ -421,23 +420,6 @@
 				| /teamspaces/<teamspace-id>/tasks/<task-id>
 				+-->
 
-			<match pattern="*/*.edit">
-				<act type="httpauth">
-					<!-- first entrance into form editing -->
-					<generate
-						src="block:super:/edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
-					<transform src="xslt/html/task-view-or-edit.xsl" label="raw">
-						<parameter name="viewDocumentLink" value="{../2}" />
-						<parameter name="editDocumentLink" value="{../2}.edit" />
-						<parameter name="fullPath"
-							value="{block-path:}{request:pathInfo}" />
-						<parameter name="sitemapPath"
-							value="{request:pathInfo}" />
-					</transform>
-					<call resource="layouting" />
-				</act>
-			</match>
-
 			<match pattern="*/*">
 				<act type="httpauth">
 					<select type="request-method">
@@ -447,7 +429,7 @@
 								<when test="html">
 									<!-- normal viewing (or editing when new) -->
 									<generate
-										src="block:super:/show-or-edit-document?widgetArrangement=column&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+										src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 									<transform src="xslt/html/task-view-or-edit.xsl">
 										<parameter name="viewDocumentLink" value="{../2}" />
 										<parameter name="editDocumentLink" value="{../2}.edit" />
@@ -481,7 +463,7 @@
 								<otherwise>
 									<!-- normal viewing (or editing when new) -->
 									<generate
-										src="block:super:/show-or-edit-document?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
+										src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
 								</otherwise>
 							</select>
 							<transform src="xslt/html/task-view-or-edit.xsl">

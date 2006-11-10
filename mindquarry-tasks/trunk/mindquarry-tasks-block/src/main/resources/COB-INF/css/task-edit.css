@@ -22,7 +22,8 @@ table.forms {
 	width:100%;
 }
 
-label.active {
+label {
 	font-weight:bold;
 }
+
 
