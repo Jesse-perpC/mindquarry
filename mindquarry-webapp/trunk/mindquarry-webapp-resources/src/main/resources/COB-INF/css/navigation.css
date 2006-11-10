@@ -51,10 +51,54 @@
 /*  white-space:nowrap;*/
 }
 
+
 #beta-comment {
-	font-size:10pt;
-	color: white;
 	position:absolute;
-	top:8px;
 	right:8px;
+	top:8px;
+	display:block;
+	width:170px;
+	border:5px solid #cccccc;
+	background:#eeeeee;
+	z-index:100;
+	text-align:left;
+	font-size:8pt;
+	padding:2px;
 }
+
+#beta-comment label {
+	font-size:8pt;
+}
+
+#beta-comment-password, #beta-comment-username, #beta-comment label {
+	display:none;
+	width:160px;
+}
+
+#beta-comment:hover #beta-comment-password, #beta-comment:hover #beta-comment-username, #beta-comment:hover label {
+	display:block;
+}
+
+#beta-comment-submit, #beta-comment-reset {
+	clear:left;float:right;
+	margin:2px;
+	display:block;
+	width:80px;
+	border:0px;
+	background:none;
+	text-decoration:underline;
+	color:blue;
+}
+
+a#beta-comment {
+	display:none;
+}
+
+#welcome-password, #welcome-username, #welcome label {
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	width:160px;
+}
+
+

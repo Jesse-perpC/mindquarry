@@ -21,7 +21,7 @@ html, body, #webapp-content {
 }
 
 #webapp-content {
-	z-index:100;
+	z-index:50;
 }
 
 /*
