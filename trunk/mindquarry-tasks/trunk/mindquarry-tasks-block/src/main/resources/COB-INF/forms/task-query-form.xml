@@ -27,8 +27,7 @@
 						Name of the field that should be evaluated.
 					</fd:hint>
 					<fd:help>
-						Can be used for selecting a field that is used
-						in a query.
+						Can be used for selecting a field that is used in a query.
 					</fd:help>
 				</fd:field>
 
@@ -40,14 +39,13 @@
 
 					<!-- selectable values -->
 					<fd:selection-list>
-						<fd:item value="contains" />
 						<fd:item value="equals" />
+						<fd:item value="contains" />
 					</fd:selection-list>
 
 					<!-- helper information -->
 					<fd:hint>
-						Selector that is used for evaluating the
-						specified field.
+						Selector that is used for evaluating the specified field.
 					</fd:hint>
 					<fd:help>
 						Can be used for specifing selection criteria.
@@ -59,15 +57,20 @@
 					<!-- basic configuration -->
 					<fd:label>Value</fd:label>
 					<fd:datatype base="string" />
+					<fd:validation>
+						<fd:length min="1">
+							<fd:failmessage>
+								Value field must contain one ore more characters.
+							</fd:failmessage>
+						</fd:length>
+					</fd:validation>
 
 					<!-- helper information -->
 					<fd:hint>
-						The value that is used in the field evaluation
-						according to the specified selection criteria.
+						The value that is used in the field evaluation according to the specified selection criteria.
 					</fd:hint>
 					<fd:help>
-						Can be used for specifing values to be used in
-						the selection criteria.
+						Can be used for specifing values to be used in the selection criteria.
 					</fd:help>
 				</fd:field>
 				<fd:row-action id="delete" command="delete">
@@ -85,23 +88,16 @@
 		<!-- add field to query action -->
 		<fd:repeater-action repeater="parts" id="addPart" command="add-row">
 			<fd:label>Add Rule</fd:label>
-			<fd:on-action>
-				<fd:javascript>executeQuery(event);</fd:javascript>
-			</fd:on-action>
 		</fd:repeater-action>
 
 		<!-- execute query action -->		
 		<fd:action id="executeQuery">
 			<fd:label>Execute Query</fd:label>
 			<fd:on-action>
-				<fd:javascript>print("test");executeQuery(event);</fd:javascript>
+				<fd:javascript>
+					executeQuery(event);
+				</fd:javascript>
 			</fd:on-action>
 		</fd:action>
-		
-		<fd:field id="xpath" required="true" state="output">
-					<!-- basic configuration -->
-				<fd:label>XPath Statement</fd:label>
-				<fd:datatype base="string" />
-		</fd:field>
 	</fd:widgets>
 </fd:form>
