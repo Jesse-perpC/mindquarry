@@ -5,7 +5,6 @@
 	xmlns:wa="http://www.mindquarry.com/ns/schema/webapp"
 	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch"
 	exclude-result-prefixes="#default xhtml wa us">
-
 <!-- 
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
@@ -13,10 +12,13 @@
 	<xsl:import href="niftify.xsl"/>
 	<xsl:import href="lightbox.xsl"/>
 	
+	<xsl:output indent="no"/>
+	
 	<xsl:param name="user.agent" select="''"/>
 
 	<xsl:param name="cssPath" select="'css/'" />
 	<xsl:param name="scriptPath" select="'scripts/'" />
+	<xsl:param name="userName" select="''"/>
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -83,6 +85,8 @@
 			<xsl:apply-templates />
 			
 			<xsl:apply-templates select="." mode="lightbox" />
+			
+			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
 
 		</head>
 	</xsl:template>
@@ -125,7 +129,7 @@
 						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
 					</ul>
 					
-					<div id="beta-comment">Alpha 1</div>
+					<div id="beta-comment">Alpha 1 <a href="{$pathToRoot}logout" onclick="logout(this); return false">logout <xsl:value-of select="$userName" /></a></div>
 				</div>
 				
 				<!-- layouting the content -->
