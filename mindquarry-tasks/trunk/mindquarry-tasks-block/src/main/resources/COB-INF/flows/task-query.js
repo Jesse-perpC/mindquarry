@@ -16,12 +16,12 @@ function executeQuery(event) {
 	
 	// retrieve model
 	var model = form_.getModel();
-    var repeater = form_.lookupWidget("/parts");
+    var partRepeater = form_.lookupWidget("/parts");
     
 	// build query
     var query = "jcr:///teamspaces/*/tasks?" + "/*";
 
-    var rowCount = repeater.getSize();
+    var rowCount = partRepeater.getSize();
     if (rowCount > 0) {
     	query = query + "[";
     	
@@ -30,11 +30,10 @@ function executeQuery(event) {
 	    	if(i > 0) {
 	    		query = query + " and "
 	    	}
-	    	
 	    	// evaluate query item
-	    	var fieldWidget = repeater.getWidget(i, "field");
-	    	var selectorWidget = repeater.getWidget(i, "selector");
-	    	var valueWidget = repeater.getWidget(i, "value");
+	    	var fieldWidget = partRepeater.getWidget(i, "field");
+	    	var selectorWidget = partRepeater.getWidget(i, "selector");
+	    	var valueWidget = partRepeater.getWidget(i, "value");
 	    		    	
 			if (selectorWidget.getValue() == "equals") {
 				query = query + ".//" + fieldWidget.getValue().toLowerCase()
@@ -47,6 +46,10 @@ function executeQuery(event) {
 	    }
 	    query = query + "]";
 	}
+	// clear previous results (if necessary)
+	var resultRepeater = form_.lookupWidget("/results");
+	resultRepeater.clear();
+			
 	// execute query
 	var srcResolver;
 	try {
@@ -57,19 +60,26 @@ function executeQuery(event) {
 		var results = source.getChildren();
 		for(var i = 0; i < results.size(); i++) {
 			var source = results.get(i);
-			
-			var bf = Packages.javax.xml.parsers.DocumentBuilderFactory.newInstance();
-		    var builder = bf.newDocumentBuilder();
-		    var doc = builder.parse(source.getInputStream());
 		    
-		    var format = new Packages.org.apache.xml.serialize.OutputFormat();
-		    format.setLineWidth(65);
-		    format.setIndenting(true);
-		    format.setIndent(2);
+		    var os = Packages.java.io.ByteArrayOutputStream();
+		    Packages.org.apache.commons.io.IOUtils.copy(source.getInputStream(), os);
 		    
-		    var serializer = new Packages.org.apache.xml.serialize.XMLSerializer(Packages.java.lang.System.out, format);
-		    serializer.serialize(doc);
+		    // display results
+			var resultItem = resultRepeater.addRow().getChild("resultItem");
+			resultItem.setValue(new Packages.java.lang.String(os.toByteArray()));
 		}
+		
+		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(resultRepeater);
+		var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
+		
+		var transformerHandler = tf.newTransformerHandler();
+        var transformer = transformerHandler.getTransformer();
+        transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.INDENT, "true");
+        transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.METHOD, "xml");
+        var os2 = Packages.java.io.ByteArrayOutputStream();
+        transformerHandler.setResult(new Packages.javax.xml.transform.stream.StreamResult(os2));
+        xmlAdapter.toSAX(transformerHandler);
+        print(os2);
 	} finally {
 		if (source != null) {
 			srcResolver.release(source);
