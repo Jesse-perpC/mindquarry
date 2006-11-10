@@ -1,9 +1,8 @@
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
 		<fd:repeater id="parts">
-			<fd:datatype base="boolean" />
 			<fd:label>Query Parts</fd:label>
-			
+
 			<!-- query part widgets -->
 			<fd:widgets>
 				<!-- field name configuration -->
@@ -70,14 +69,16 @@
 						The value that is used in the field evaluation according to the specified selection criteria.
 					</fd:hint>
 					<fd:help>
-						Can be used for specifing values to be used in the selection criteria.
+						Can be used for specifing values to be used in
+						the selection criteria.
 					</fd:help>
 				</fd:field>
+				
 				<fd:row-action id="delete" command="delete">
 					<fd:label>Remove</fd:label>
 				</fd:row-action>
 			</fd:widgets>
-			
+
 			<!-- helper information -->
 			<fd:hint>Parts of a query.</fd:hint>
 			<fd:help>
@@ -86,18 +87,32 @@
 		</fd:repeater>
 
 		<!-- add field to query action -->
-		<fd:repeater-action repeater="parts" id="addPart" command="add-row">
+		<fd:repeater-action repeater="parts" id="addPart"
+			command="add-row">
 			<fd:label>Add Rule</fd:label>
 		</fd:repeater-action>
 
-		<!-- execute query action -->		
+		<!-- execute query action -->
 		<fd:action id="executeQuery">
 			<fd:label>Execute Query</fd:label>
 			<fd:on-action>
-				<fd:javascript>
-					executeQuery(event);
-				</fd:javascript>
+				<fd:javascript>executeQuery(event);</fd:javascript>
 			</fd:on-action>
 		</fd:action>
+
+		<fd:repeater id="results" state="output">
+			<!-- query part widgets -->
+			<fd:widgets>
+				<fd:field id="resultItem" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+			</fd:widgets>
+			
+			<!-- helper information -->
+			<fd:hint>Results of the query execution.</fd:hint>
+			<fd:help>
+				Use this field for configuring the parts of a query.
+			</fd:help>
+		</fd:repeater>
 	</fd:widgets>
 </fd:form>

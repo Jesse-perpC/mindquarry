@@ -45,24 +45,53 @@
 		<transformers>
 			<transformer name="clear"
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
+			<transformer name="browser-update"
+				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 		</transformers>
+		
+		
 	</components>
 
 	<resources>
-		<resource name="layouting">
-			<transform src="block:resources:/xslt/html2html.xsl">
-				<parameter name="fullPath"
-					value="{block-path:}{request:pathInfo}" />
-				<parameter name="sitemapPath"
-					value="{request:pathInfo}" />
-				<parameter name="user.agent"
-					value="{request-header:User-Agent}" />
-			</transform>
-			<serialize type="html" />
-		</resource>
+		<map:resource name="layouting" xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+			<map:select type="lightbox-request">
+				<map:when test="true">
+					<map:transform
+						src="block:/xslt/html2lightbox.xsl">
+						<map:parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<map:parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<map:parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+					</map:transform>
+					<map:serialize type="xml" />
+				</map:when>
+				<map:otherwise>
+					<map:transform src="block:/xslt/html2html.xsl"
+						type="xalan">
+						<map:parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<map:parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<map:parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+					</map:transform>
+				</map:otherwise>
+			</map:select>
 
-		<resource name="form2html">
-			<transform src="xslt/forms/form2html.xsl" label="form">
+			<map:select type="ajax-request">
+				<map:when test="true">
+					<map:serialize type="xml" />
+				</map:when>
+				<map:otherwise>
+					<map:serialize type="html" />
+				</map:otherwise>
+			</map:select>
+		</map:resource>
+
+		<resource name="queryform2html.xsl">
+			<transform src="xslt/forms/queryform2html.xsl" label="form">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
@@ -199,7 +228,8 @@
 		<pipeline type="noncaching" internal-only="true">
 			<match pattern="internal/pipe/forms/*.xml">
 				<generate type="jx" src="forms/{1}.xml" />
-				<call resource="form2html" />
+				<transform type="browser-update" />
+				<call resource="queryform2html.xsl" />
 				<call resource="layouting" />
 			</match>
 		</pipeline>
@@ -354,11 +384,8 @@
 				<call function="displayQueryForm">
 					<parameter name="definitionURI"
 						value="forms/task-query-form.xml" />
-					<parameter name="formData"
-						value="forms/form-test-instance.xml" />
 					<parameter name="templatePipeline"
 						value="internal/pipe/forms/task-query-form-template.xml" />
-					<parameter name="redirect" value="cocoon:/" />
 				</call>
 			</match>
 

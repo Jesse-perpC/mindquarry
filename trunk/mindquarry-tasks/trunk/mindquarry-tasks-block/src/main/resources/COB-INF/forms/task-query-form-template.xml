@@ -9,7 +9,10 @@
 		<title>Query Editor</title>
 	</head>
 	<body>
-		<ft:form-template action="query.#{$cocoon/continuation/id}.continue" method="POST">
+		<ft:form-template
+			action="query.#{$cocoon/continuation/id}.continue" method="POST"
+			ajax="true">
+			
 			<ft:repeater id="parts"
 				xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 				<table>
@@ -50,13 +53,22 @@
 					</tbody>
 				</table>
 			</ft:repeater>
+			
 			<div>
 				<ft:widget id="addPart" />
+				<ft:widget id="executeQuery" />
 			</div>
-			<div>
-				<ft:widget id="executeQuery"/>
-				<ft:widget id="xpath"/>
-			</div>
+			
+			<ft:repeater id="results"
+				xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+				<div>
+					<ft:repeater-rows>
+						<div>
+							<ft:widget id="resultItem" />
+						</div>
+					</ft:repeater-rows>
+				</div>
+			</ft:repeater>
 		</ft:form-template>
 	</body>
 </html>
