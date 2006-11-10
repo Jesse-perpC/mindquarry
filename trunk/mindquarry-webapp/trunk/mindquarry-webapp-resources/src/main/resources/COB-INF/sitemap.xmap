@@ -54,7 +54,6 @@
 			</map:match>
 
 			<map:match pattern="xslt/*.xsl">
-				<map:act type="log" src=">>[resources] xslt/{1}.xsl" />
 				<map:read src="xslt/{1}.xsl" />
 			</map:match>
 
