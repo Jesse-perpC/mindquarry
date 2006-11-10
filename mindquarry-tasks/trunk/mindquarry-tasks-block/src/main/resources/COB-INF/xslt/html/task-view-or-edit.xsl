@@ -1,13 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 
 	<xsl:param name="viewDocumentLink" />
 	<xsl:param name="editDocumentLink" />
+	
+	<xsl:variable name="taskTitle">
+		<xsl:choose>
+			<xsl:when test="/html/body/form/@state='output'">
+				Details for task: 
+				<xsl:value-of select="/html/body/form//div[@id='block_ductform_title']/span" />
+			</xsl:when>
+			<xsl:otherwise>
+				Editing task: 
+				<xsl:value-of select="/html/body/form//div[@id='block_ductform_title']/span/input/@value" />
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:variable>
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -15,8 +27,8 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="xhtml:head|head">
-		<head>
+	<xsl:template match="head">
+		<head>			
 			<!-- copy existing link/script stuff -->
 			<xsl:apply-templates />
 
@@ -38,13 +50,18 @@
 		</head>
 	</xsl:template>
 
-	<xsl:template match="xhtml:body|body">
+	<xsl:template match="title">
+		<title>
+			<xsl:value-of select="$taskTitle" />
+		</title>
+	</xsl:template>
+
+	<xsl:template match="body">
 		<body>
 			<xsl:choose>
 				<xsl:when test="/html/body/form/@state='output'">
 					<h1>
-						Details for Task:
-						<xsl:value-of select="/html/head/title" />
+						<xsl:value-of select="$taskTitle" />
 					</h1>
 					<div class="nifty">
 						<div id="actions">
@@ -67,7 +84,10 @@
 					</div>
 				</xsl:when>
 				<xsl:otherwise>
-					<h1>Editing Task "<xsl:value-of select="form//div[@id='block_ductform_title']/span/input/@value" />"</h1>
+					<h1>
+						<xsl:value-of select="$taskTitle" />
+					</h1>
+
 					<div class="nifty">
 						<xsl:apply-templates select="form" />
 
@@ -86,7 +106,7 @@
 		</body>
 	</xsl:template>
 
-	<xsl:template match="xhtml:form/@action|form/@action">
+	<xsl:template match="form/@action">
 		<xsl:attribute name="action">
 			<xsl:value-of select="$viewDocumentLink" />
 		</xsl:attribute>
