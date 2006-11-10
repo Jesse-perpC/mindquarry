@@ -30,7 +30,6 @@
 					<div class="task-area">
 						<table class="task-list">
 							<tr>
-								<th></th>
 								<th>Task</th>
 								<th>Status</th>
 							</tr>
@@ -51,9 +50,6 @@
 
     <xsl:template match="task">
 		<tr class="highlight">
-			<td>
-				<a class="task_edit_link" href="{@xlink:href}.edit">Edit</a>
-			</td>
 			<td>
 				<img src="{$pathToBlock}images/status/{normalize-space(status)}.png" class="task_status"/>
 				<a href="{@xlink:href}">

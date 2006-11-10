@@ -88,11 +88,6 @@
 					<div class="nifty">
 						<xsl:apply-templates select="form" />
 
-						<br/>
-						<div>
-							<a href="{$viewDocumentLink}">Cancel</a>
-						</div>
-						<br/>
 						<div class="footbar">
 							<a href="." id="back" title="back to teamspace overview">
 								Back to overview</a>				
