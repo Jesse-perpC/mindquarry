@@ -12,7 +12,7 @@
   <xsl:template match="body" mode="forms-dojospan"/>
   
   <xsl:template match="fi:field[@state='output'][./fi:styling[@type='dojospan']]" priority="2">
-  	<span id="{@id}" name="{@id}" title="{fi:hint}" dojoType="autoactivefield">
+  	<span id="{@id}" name="{@id}" title="{fi:hint}" dojoType="autoactivefield" class="forms field output">
 		<xsl:apply-templates select="fi:value/node()"/>
   	</span>
   </xsl:template>

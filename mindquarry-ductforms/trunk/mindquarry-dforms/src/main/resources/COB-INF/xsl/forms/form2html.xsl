@@ -74,14 +74,28 @@
   
   
   <xsl:template match="fi:group[fi:styling/@layout='default']" mode="group-layout">
-  	<dl title="{normalize-space(fi:hint)}" class="ductform">
+  	<dl title="{normalize-space(fi:hint)}" class="ductform"> 
   		<xsl:apply-templates select="fi:items/*" mode="default" />
   	</dl>
   </xsl:template>
   
   <xsl:template match="fi:*" mode="default">
     <dt><xsl:apply-templates select="." mode="label"/></dt>
-    <dd><xsl:apply-templates select="." /></dd>
+    <dd>
+    	<xsl:apply-templates select="." />
+    </dd>
+  </xsl:template>
+  
+ <xsl:template match="fi:help">
+    <xsl:variable name="id" select="concat(../@id, ':help')"/>
+    <div class="forms-help forms help" id="{$id}" style="visibility:hidden; position:absolute;">
+    	<span style="float:right"><a href="#" onClick="document.getElementById('{$id}').style.visibility = 'hidden';return false;"><img align="top" alt="close" src="{$resources-uri}/forms/img/close.gif" height="6" width="6"/></a></span>
+      <xsl:apply-templates select="node()"/>
+    </div>
+    <a id="{$id}:a" href="#" onclick="forms_createPopupWindow('{$id}').showPopup('{$id}:a');return false;" class="help">
+      <!-- TODO: i18n key for helppopup -->
+      <img src="{$pathToRoot}resources/icons/16x16/apps/help-browser.png" alt="helppopup"/>
+    </a>
   </xsl:template>
 
 </xsl:stylesheet>
