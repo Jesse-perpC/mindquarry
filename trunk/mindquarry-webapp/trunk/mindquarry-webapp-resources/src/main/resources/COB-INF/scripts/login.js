@@ -33,7 +33,7 @@ function createXMLObject() {
 	return xmlhttp;
 }
 
-window.onload = function()
+dojo.addOnLoad(function()
 {
 	var lastfoo = false;
     var anchors = document.getElementsByTagName("a");
@@ -45,7 +45,7 @@ window.onload = function()
     if (lastfoo) {
     	createForm(anchors[lastfoo]);
     }
-}
+});
 
 function createForm(httpauth)
 {
