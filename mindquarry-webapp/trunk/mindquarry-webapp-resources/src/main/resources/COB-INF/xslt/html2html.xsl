@@ -76,7 +76,7 @@
 	<xsl:template match="xhtml:head|head">
 		<head>
 			<xsl:apply-templates select="." mode="nifty" />
-			
+			<script type="text/javascript" src="{$pathToRoot}resources/_cocoon/resources/dojo/dojo.js" >//</script>
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
 			<link rel="icon" href="{$pathToRoot}resources/icons/logo-red-gradient-256-colors.ico" type="image/x-icon" />
