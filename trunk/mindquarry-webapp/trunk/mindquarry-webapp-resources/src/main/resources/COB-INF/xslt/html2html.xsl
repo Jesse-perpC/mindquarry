@@ -25,7 +25,7 @@
 		</xsl:copy>
 	</xsl:template>
 	
-	<xsl:template match="xhtml:*">
+	<xsl:template match="*">
 		<xsl:element name="{local-name(.)}">
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:element>
