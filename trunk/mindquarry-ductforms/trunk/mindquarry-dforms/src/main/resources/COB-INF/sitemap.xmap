@@ -160,8 +160,6 @@
 
 				<transform type="browser-update" />
 				
-				<transform type="log" />
-				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
 				<transform src="xsl/forms/form2html.xsl">
