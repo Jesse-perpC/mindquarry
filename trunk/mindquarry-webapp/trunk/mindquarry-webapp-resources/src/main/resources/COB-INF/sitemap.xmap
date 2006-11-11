@@ -115,7 +115,11 @@
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
 			</map:match>
 
-			<!-- cooon resources (don't know if this is needed?) -->
+			<map:match pattern="_cocoon/resources/dojo/mindquarry/**">
+				<map:read
+					src="scripts/dojo/mindquarry/{1}" />
+			</map:match>
+			<!-- cooon resources (needed for dojo scripts, etc) -->
 			<map:match pattern="_cocoon/resources/*/**">
 				<map:read
 					src="resource://org/apache/cocoon/{1}/resources/{2}" />
