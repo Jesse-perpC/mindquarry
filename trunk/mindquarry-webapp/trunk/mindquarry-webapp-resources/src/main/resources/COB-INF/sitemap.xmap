@@ -95,6 +95,11 @@
 					src="resource://org/tango-project/tango-icon-theme/{1}/actions/{2}.png" />
 			</map:match>
 
+			<map:match pattern="icons/*/apps/*.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/apps/{2}.png" />
+			</map:match>
+
 			<map:match pattern="icons/*/text/html.png">
 				<map:read
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />

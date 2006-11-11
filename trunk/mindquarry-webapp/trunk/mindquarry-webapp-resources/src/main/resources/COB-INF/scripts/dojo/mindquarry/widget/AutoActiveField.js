@@ -6,9 +6,6 @@ dojo.require("dojo.event");
 
 dojo.widget.tags.addParseTreeHandler("dojo:AutoActiveField");
 dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
-
-var submitagain = true;
-
 mindquarry.widget.AutoActiveField = function() {
 	dojo.widget.DomWidget.call(this);
 	
@@ -31,12 +28,7 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
     
     onClick: function(event) {
         event.preventDefault();
-        if (submitagain) {
-        	submitagain = false;
-        	this.cform.submit("ductform.ductforms_switch" ,{activate : this.domNode.id});
-        	// If real submit has to occur, it's taken care of in submit()
-        	setTimeout(function() {submitagain = true}, 1000);
-        }
+        this.cform.submit("ductform.ductforms_switch" ,{activate : this.domNode.id});
         return false;
     }
 	

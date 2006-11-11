@@ -76,6 +76,7 @@
 	<xsl:template match="xhtml:head|head">
 		<head>
 			<xsl:apply-templates select="." mode="nifty" />
+			<script type="text/javascript">djConfig = { isDebug: false };</script>
 			<script type="text/javascript" src="{$pathToRoot}resources/_cocoon/resources/dojo/dojo.js" >//</script>
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
