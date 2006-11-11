@@ -20,13 +20,16 @@
 
   <!--  styling of dojo editor (from lenya) -->
   <xsl:include href="dojo-editor.xsl"/>
+  <!--  styling of dojo span  -->
+  <xsl:include href="dojo-span.xsl" />
 
   <xsl:template match="head">
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
       <xsl:apply-templates select="." mode="forms-field"/>
-      <script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script>
+      <!-- script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script-->
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
+      <xsl:apply-templates select="." mode="forms-dojospan"/>
       <xsl:apply-templates/>
 	</xsl:copy>
   </xsl:template>
@@ -35,7 +38,7 @@
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
       <xsl:apply-templates select="." mode="forms-field"/>
-      <xsl:apply-templates/>
+      <xsl:apply-templates/> 
       </xsl:copy>
   </xsl:template>
   

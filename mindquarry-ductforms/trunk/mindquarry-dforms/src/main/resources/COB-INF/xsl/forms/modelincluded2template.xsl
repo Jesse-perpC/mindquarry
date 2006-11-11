@@ -26,8 +26,7 @@
 				<xhtml:title>DForm</xhtml:title>
 				
 				<jx:import
-					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
-					
+					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />	
 			</xhtml:head>
 			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
