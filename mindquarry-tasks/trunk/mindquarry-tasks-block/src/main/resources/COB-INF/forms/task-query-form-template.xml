@@ -64,7 +64,16 @@
 				<div>
 					<ft:repeater-rows>
 						<div>
-							<ft:widget id="resultItem" />
+							<ft:widget id="resultID" />
+						</div>
+						<div>
+							<ft:widget id="resultTitle" />
+						</div>
+						<div>
+							<ft:widget id="resultStatus" />
+						</div>
+						<div>
+							<ft:widget id="resultSummary" />
 						</div>
 					</ft:repeater-rows>
 				</div>

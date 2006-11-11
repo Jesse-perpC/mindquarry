@@ -61,25 +61,28 @@ function executeQuery(event) {
 		for(var i = 0; i < results.size(); i++) {
 			var source = results.get(i);
 		    
+		    // transform results to repeater format
 		    var os = Packages.java.io.ByteArrayOutputStream();
-		    Packages.org.apache.commons.io.IOUtils.copy(source.getInputStream(), os);
+		    var xmlSource = new Packages.javax.xml.transform.stream.StreamSource(
+		    				source.getInputStream());
+		    var xsltSource = new Packages.javax.xml.transform.stream.StreamSource(
+		    				srcResolver.resolveURI("xslt/forms/queryresult2form.xsl").getInputStream());
 		    
-		    // display results
-			var resultItem = resultRepeater.addRow().getChild("resultItem");
-			resultItem.setValue(new Packages.java.lang.String(os.toByteArray()));
+		    var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
+	        var transformer = tf.newTransformer(xsltSource);
+	        transformer.setParameter("id", source.getName());
+	        transformer.transform(xmlSource, 
+	        	new Packages.javax.xml.transform.stream.StreamResult(os));
+	        
+	        // add query result to results repeater
+			var row = resultRepeater.addRow();
+			var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(row);
+			
+			var parser = Packages.org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
+			parser.setContentHandler(xmlAdapter);
+			parser.parse(new Packages.org.xml.sax.InputSource(
+				new Packages.java.io.ByteArrayInputStream(os.toByteArray())));
 		}
-		
-		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(resultRepeater);
-		var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
-		
-		var transformerHandler = tf.newTransformerHandler();
-        var transformer = transformerHandler.getTransformer();
-        transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.INDENT, "true");
-        transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.METHOD, "xml");
-        var os2 = Packages.java.io.ByteArrayOutputStream();
-        transformerHandler.setResult(new Packages.javax.xml.transform.stream.StreamResult(os2));
-        xmlAdapter.toSAX(transformerHandler);
-        print(os2);
 	} finally {
 		if (source != null) {
 			srcResolver.release(source);
