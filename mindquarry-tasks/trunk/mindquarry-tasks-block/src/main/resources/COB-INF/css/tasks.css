@@ -154,3 +154,8 @@ img.icon {
 	background-color:white;
 	margin-right:5px;
 }
+
+
+dl.ductform dt label {
+	color:#339933;
+}
