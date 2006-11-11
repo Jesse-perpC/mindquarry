@@ -103,7 +103,16 @@
 		<fd:repeater id="results" state="output">
 			<!-- query part widgets -->
 			<fd:widgets>
-				<fd:field id="resultItem" required="true" state="output">
+				<fd:field id="resultID" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="resultTitle" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="resultStatus" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="resultSummary" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
 			</fd:widgets>
