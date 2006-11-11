@@ -71,5 +71,17 @@
   
   <!-- remove invisible stuff (non-selected fields) -->
   <xsl:template match="div[@class='form_block'][not(fi:*)]" />
+  
+  
+  <xsl:template match="fi:group[fi:styling/@layout='default']" mode="group-layout">
+  	<dl title="{normalize-space(fi:hint)}">
+  		<xsl:apply-templates select="fi:items/*" mode="default" />
+  	</dl>
+  </xsl:template>
+  
+  <xsl:template match="fi:*" mode="default">
+    <dt><xsl:apply-templates select="." mode="label"/></dt>
+    <dd><xsl:apply-templates select="." /></dd>
+  </xsl:template>
 
 </xsl:stylesheet>

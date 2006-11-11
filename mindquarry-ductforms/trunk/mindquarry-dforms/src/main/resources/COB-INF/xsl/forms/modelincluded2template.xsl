@@ -16,7 +16,7 @@
 			<xsl:when test="string-length(normalize-space($widgetArrangement)) > 0">
 				<xsl:value-of select="normalize-space($widgetArrangement)" />
 			</xsl:when>
-			<xsl:otherwise>columns</xsl:otherwise>
+			<xsl:otherwise>default</xsl:otherwise>
 		</xsl:choose>
 	</xsl:variable>
 
