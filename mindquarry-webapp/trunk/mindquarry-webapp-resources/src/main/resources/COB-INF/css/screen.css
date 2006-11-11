@@ -133,3 +133,58 @@ body {
 #background-nw {
 	background-image:url(../images/border-nw.gif);
 }
+
+
+
+
+
+
+/*
+FORMS
+*/
+	
+dl.ductform {
+	width:100%;
+}
+
+dl.ductform dt label {
+	font-size:9pt;
+	font-weight:normal;
+	color:#666666;
+}
+
+dl.ductform dd {
+	font-size:14pt;
+	color:#333333;
+	margin-bottom:5px;
+	clear:right;
+}
+
+dl.ductform dd input,  dl.ductform dd span.output {
+	font-size:14pt;
+	color:#333333;
+	margin-bottom:15px;
+	border-width:1px;
+	border-style:inset;
+	border-color:#333333;
+	width:100%;
+	display:block;
+	padding:2px;
+	float:right;
+}
+
+dl.ductform dd span.output {
+	border-color:white;
+	border-style:solid;
+}
+
+dl.ductform a.help {
+	display:block;
+	margin-left:-30px;
+	padding-top:6px;
+}
+
+dl.ductform a.help img {
+	border:0px;
+	display:block;
+}
