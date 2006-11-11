@@ -19,15 +19,24 @@ function fieldsChanged(event) {
 function switchEditView(event) {
 	print("*** switchEditView");
 	if (form_) {
-		print("  switchEditView");
-		var formWidget = form_.lookupWidget("/title");
-		print(formWidget.getState());
-		if (formWidget.getState() == Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT) {
-			//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-			setWidgetStates(form_, true);
+		if (cocoon.request.activate) {
+			//print("activating: " + cocoon.request.activate.substring(9))
+			var selectedWidget = form_.lookupWidget("/" + cocoon.request.activate.substring(9));
+			if (selectedWidget) {
+				selectedWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+				form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			}
 		} else {
-			//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
-			setWidgetStates(form_, false);
+			print("  switchEditView");
+			var formWidget = form_.lookupWidget("/title");
+			print(formWidget.getState());
+			if (formWidget.getState() == Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT) {
+				//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+				setWidgetStates(form_, true);
+			} else {
+				//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+				setWidgetStates(form_, false);
+			}
 		}
 	}
 }
