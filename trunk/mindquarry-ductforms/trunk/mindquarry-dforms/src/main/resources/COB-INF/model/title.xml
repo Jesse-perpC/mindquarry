@@ -10,5 +10,7 @@
 		<fd:hint>Title of the document</fd:hint>
 		<fd:help>A title identifies the document's content</fd:help>
 	</fd:field>
-	<ft:widget />
+	<ft:widget>
+		<fi:styling type="dojospan"/>
+	</ft:widget>
 </df:datatype>
