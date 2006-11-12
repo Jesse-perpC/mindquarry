@@ -26,4 +26,23 @@ label {
 	font-weight:bold;
 }
 
+#block_ductform_switch {
+	border-top:1px solid white;
+}
 
+a.edit_task_button:link, a.edit_task_button:visited, #block_ductform_switch input {
+	background-image: url(../buttons/edit_task.png);
+	display: block;
+	width: 154px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 0px;
+	padding-left: 13px;
+	border:0px;
+	float:right;
+	clear:both;
+}
