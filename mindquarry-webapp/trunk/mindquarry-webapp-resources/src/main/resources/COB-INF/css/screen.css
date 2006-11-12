@@ -188,3 +188,38 @@ dl.ductform a.help img {
 	border:0px;
 	display:block;
 }
+
+div.togglebutton, div.togglebuttonpushed {
+	float:left;
+	border:2px outset #dddddd;
+	background:#dddddd;
+	padding:3px;
+	margin:2px;
+	height:20px;
+	width:100px;
+	text-align:center;
+}
+
+div.togglebutton {
+	border-style:outset;
+}
+
+div.togglebutton:hover, div.togglebuttonpushed:hover {
+	background:#eeeeee;
+}
+
+div.togglebuttonpushed {
+	border-style:inset;
+}
+
+div.togglebutton input {
+	/*display:none;*/
+}
+
+div.togglebutton label, div.togglebuttonpushed label {
+	font-size:10pt;
+	font-weight:normal;
+}
+div.form_block {
+	clear:both;
+}
