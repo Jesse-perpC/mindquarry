@@ -11,11 +11,21 @@
 			Useful for tracking issues or status of documents
 		</fd:help>
 		<fd:selection-list>
-			<fd:item value="new" />
-			<fd:item value="running" />
-			<fd:item value="paused" />
-			<fd:item value="done" />
+			<fd:item value="new">
+				<fd:label>New</fd:label>
+			</fd:item>
+			<fd:item value="running">
+				<fd:label>Running</fd:label>
+			</fd:item>
+			<fd:item value="paused">
+				<fd:label>Paused</fd:label>
+			</fd:item>
+			<fd:item value="done">
+				<fd:label>Done</fd:label>
+			</fd:item>
 		</fd:selection-list>
 	</fd:field>
-	<ft:widget />
+	<ft:widget>
+		<fi:styling list-type="buttons" />
+	</ft:widget>
 </df:datatype>
