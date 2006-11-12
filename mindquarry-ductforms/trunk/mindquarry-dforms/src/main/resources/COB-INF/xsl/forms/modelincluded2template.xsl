@@ -37,6 +37,8 @@
 					<!-- the switch button -->
 					<xhtml:div class="form_block" id="block_ductform_switch">
 						<ft:widget id="ductforms_switch" />
+						<!-- the save button -->
+							<ft:widget id="ductforms_save" />
 					</xhtml:div>
 
 					<!-- all fields/widgets grouped for nice layouting -->
@@ -48,17 +50,14 @@
 					</fi:group>
 
 					<!-- field chooser -->
-					<fi:group>
-						<fi:styling layout="{$widgetArrangementOrDefault}" />
-						<fi:items>
+					<dl class="ductform" id="contentselector">
+						<dt><label>Select Content</label></dt>
+						<dd>
 							<ft:widget id="ductforms">
 								<fi:styling list-type="buttons" />
 							</ft:widget>
-					
-							<!-- the save button -->
-							<ft:widget id="ductforms_save" />
-						</fi:items>
-					</fi:group>
+						</dd>
+					</dl>
 				</ft:form>
 			</xhtml:body>
 		</xhtml:html>

@@ -79,10 +79,12 @@ function setWidgetStates(form, isEdit) {
 
 		// save button only in edit mode
 		form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	} else {
+	
+		// the switch button should not be always active
+		form.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
-
-	// the switch button should be always active
-	form.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	
 }
 
 function setFormState(form, isEdit) {
