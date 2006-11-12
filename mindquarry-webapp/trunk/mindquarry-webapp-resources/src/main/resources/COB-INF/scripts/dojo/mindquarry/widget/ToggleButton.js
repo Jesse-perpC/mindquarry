@@ -10,6 +10,7 @@ dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
 mindquarry.widget.ToggleButton = function() {
 	dojo.widget.DomWidget.call(this);
 	var checkbox = null;
+	var parentname;
 }
 
 dojo.inherits(mindquarry.widget.ToggleButton, dojo.widget.DomWidget);
@@ -22,15 +23,17 @@ dojo.lang.extend(mindquarry.widget.ToggleButton, {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
 	    this.checkbox = dojo.dom.getFirstChildElement(this.domNode, "input");
+	    this.parentname = this.domNode.parentNode.id;
 	    
 	    dojo.event.connect(this.domNode, "onclick", this, "onClick");
-	    //dojo.event.connect(this.checkbox, "onvaluechange", this, "adjustClasses");
+	    //dojo.event.connect(this.checkbox, "onchange", this, "adjustClasses");
     },
     
     onClick: function(event) {
         event.preventDefault();
         this.checkbox.checked = !this.checkbox.checked;
         this.adjustClasses(event);
+        cocoon.forms.submitForm(this.domNode, this.parentname);
     },
     
     adjustClasses: function(event) {
