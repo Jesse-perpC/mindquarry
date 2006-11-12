@@ -22,6 +22,9 @@
   <xsl:include href="dojo-editor.xsl"/>
   <!--  styling of dojo span  -->
   <xsl:include href="dojo-span.xsl" />
+  <!-- styling of toggle buttons -->
+  <xsl:include href="dojo-buttons.xsl" />
+  
 
   <xsl:template match="head">
   	<xsl:copy>
@@ -30,6 +33,7 @@
       <!-- script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script-->
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
       <xsl:apply-templates select="." mode="forms-dojospan"/>
+      <xsl:apply-templates select="." mode="forms-dojobuttons"/>
       <xsl:apply-templates/>
 	</xsl:copy>
   </xsl:template>
@@ -97,5 +101,6 @@
       <img src="{$pathToRoot}resources/icons/16x16/apps/help-browser.png" alt="helppopup"/>
     </a>
   </xsl:template>
+  
 
 </xsl:stylesheet>

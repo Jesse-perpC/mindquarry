@@ -53,7 +53,9 @@
 							<xsl:apply-templates select="(fd:hint)[1]" />
 							<ft:widget-label id="ductforms" />
 						</xhtml:label>
-						<ft:widget id="ductforms"/>
+						<ft:widget id="ductforms">
+							<fi:styling list-type="buttons" />
+						</ft:widget>
 					</xhtml:div>
 					
 					<!-- the save button -->
