@@ -7,75 +7,82 @@
 
 	<head>
 		<title>Query Editor</title>
+		<link rel="stylesheet" href="../css/tasks.css" type="text/css" />
 	</head>
 	<body>
 		<ft:form-template
 			action="query.#{$cocoon/continuation/id}.continue" method="POST"
 			ajax="true">
 			
-			<ft:repeater id="parts"
-				xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-				<table>
-					<thead>
-						<tr>
-							<th>
-								<ft:repeater-widget-label
-									widget-id="field" />
-							</th>
-							<th>
-								<ft:repeater-widget-label
-									widget-id="selector" />
-							</th>
-							<th>
-								<ft:repeater-widget-label
-									widget-id="value" />
-							</th>
-						</tr>
-					</thead>
-					<tbody>
-						<ft:repeater-rows>
-							<tr
-								class="forms-row-${repeaterLoop.index % 2}">
-								<td>
-									<ft:widget id="field" />
-								</td>
-								<td>
-									<ft:widget id="selector" />
-								</td>
-								<td>
-									<ft:widget id="value" />
-								</td>
-								<td>
-									<ft:widget id="delete" />
-								</td>
+			<div class="nifty">
+				<ft:repeater id="parts"
+					xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+					<table>
+						<!--thead>
+							<tr>
+								<th>
+									<ft:repeater-widget-label
+										widget-id="field" />
+								</th>
+								<th>
+									<ft:repeater-widget-label
+										widget-id="selector" />
+								</th>
+								<th>
+									<ft:repeater-widget-label
+										widget-id="value" />
+								</th>
 							</tr>
-						</ft:repeater-rows>
-					</tbody>
-				</table>
-			</ft:repeater>
+						</thead-->
+						<tbody>
+							<ft:repeater-rows>
+								<tr
+									class="forms-row-${repeaterLoop.index % 2}">
+									<td>
+										<ft:widget id="field" />
+									</td>
+									<td>
+										<ft:widget id="selector" />
+									</td>
+									<td>
+										<ft:widget id="value" />
+									</td>
+									<td>
+										<ft:widget id="delete" />
+									</td>
+								</tr>
+							</ft:repeater-rows>
+						</tbody>
+					</table>
+				</ft:repeater>
 			
-			<div>
-				<ft:widget id="addPart" />
-				<ft:widget id="executeQuery" />
+				<div>
+					<ft:widget id="addPart" />
+					<ft:widget id="executeQuery" />
+				</div>
 			</div>
 			
 			<ft:repeater id="results"
 				xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-				<div>
-					<ft:repeater-rows>
-						<div>
-							<ft:widget id="resultID" />
-						</div>
-						<div>
-							<ft:widget id="resultTitle" />
-						</div>
-						<div>
-							<ft:widget id="resultStatus" />
-						</div>
-						<div>
-							<ft:widget id="resultSummary" />
-						</div>
-					</ft:repeater-rows>
+				<div class="nifty">
+					<div class="task-area">
+						<table class="task-list">
+							<tr><th>Task</th><th>Status</th></tr>
+							
+							<ft:repeater-rows>
+								<tr class="highlight">
+									<td>
+										(<ft:widget id="resultID" />)
+										<ft:widget id="resultTitle" /><br/>
+										<ft:widget id="resultSummary" />
+									</td>
+									<td>
+										<ft:widget id="resultStatus" />
+									</td>								
+								</tr>
+							</ft:repeater-rows>
+						</table>
+					</div>
 				</div>
 			</ft:repeater>
 		</ft:form-template>
