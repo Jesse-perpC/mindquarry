@@ -157,10 +157,14 @@ dl.ductform dd {
 	font-size:14pt;
 	color:#333333;
 	margin-bottom:5px;
-	clear:right;
+	clear:both;
 }
 
-dl.ductform dd input,  dl.ductform dd span.output {
+dl.ductform dt {
+	clear:both;
+}
+
+dl.ductform dd input.field,  dl.ductform dd span.output {
 	font-size:14pt;
 	color:#333333;
 	margin-bottom:15px;
@@ -217,7 +221,7 @@ div.togglebuttonpushed {
 }
 
 div.togglebutton input, div.togglebuttonpushed input {
-	display:none;
+	display:none!important;
 }
 
 div.togglebutton label, div.togglebuttonpushed label {
