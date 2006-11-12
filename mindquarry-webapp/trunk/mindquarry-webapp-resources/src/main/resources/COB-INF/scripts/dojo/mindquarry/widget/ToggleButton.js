@@ -6,13 +6,13 @@ dojo.require("dojo.event");
 
 dojo.widget.tags.addParseTreeHandler("dojo:ToggleButton");
 dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
-mindquarry.widget.AutoActiveField = function() {
+mindquarry.widget.ToggleButton = function() {
 	dojo.widget.DomWidget.call(this);
 }
 
-dojo.inherits(mindquarry.widget.AutoActiveField, dojo.widget.DomWidget);
+dojo.inherits(mindquarry.widget.ToggleButton, dojo.widget.DomWidget);
 
-dojo.lang.extend(mindquarry.widget.AutoActiveField, {
+dojo.lang.extend(mindquarry.widget.ToggleButton, {
 	widgetType: "ToggleButton",
 	isContainer: true,
 	
