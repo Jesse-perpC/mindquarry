@@ -10,8 +10,8 @@
   <xsl:param name="resources-uri">
 		<xsl:value-of select="$pathToRoot" />
 		<xsl:text>resources/_cocoon/resources</xsl:text>
-  </xsl:param>
-
+  </xsl:param> 
+ 
   <!-- styling of the page -->
   <xsl:include href="resource://org/apache/cocoon/forms/resources/forms-page-styling.xsl"/>
   <!-- styling of the widgets -->
@@ -24,8 +24,7 @@
   <xsl:include href="dojo-span.xsl" />
   <!-- styling of toggle buttons -->
   <xsl:include href="dojo-buttons.xsl" />
-  
-
+ 
   <xsl:template match="head">
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
@@ -33,7 +32,7 @@
       <!-- script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script-->
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
       <xsl:apply-templates select="." mode="forms-dojospan"/>
-      <!-- xsl:apply-templates select="." mode="forms-dojobuttons"/-->
+      <xsl:apply-templates select="." mode="forms-dojobuttons"/>
       <xsl:apply-templates/>
 	</xsl:copy>
   </xsl:template>

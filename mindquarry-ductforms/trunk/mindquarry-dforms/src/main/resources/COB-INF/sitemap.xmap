@@ -227,6 +227,19 @@
 
 			<!-- =========================================================== -->
 
+			<match pattern="resource/icons/ductform.ductforms/*.png">
+				<select type="resource-exists">
+					<when test="model/{1}.png">
+						<read src="model/{1}.png" />
+					</when>
+					<otherwise>
+						<read src="model/title.png" />
+					</otherwise>
+				</select>
+			</match>
+
+
+
 			<!-- @virtual: for inheriting sitemap resources -->
 			<match pattern="resource/**">
 				<read src="{1}" />
