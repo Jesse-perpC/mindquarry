@@ -62,23 +62,21 @@
 					<h1>
 						<xsl:value-of select="$taskTitle" />
 					</h1>
-					<div class="nifty">
-						<div id="actions">
+						<div id="actions" class="nifty">
 							<a class="edit_task_button"
 								href="{$editDocumentLink}">
 								Edit Task
 							</a>
 						</div>
-			
+						<div class="nifty">
 						<xsl:apply-templates/>
-			
-						<div id="footbar">
+						</div>
+						<div id="footbar" class="nifty">
 							<a id="back" href="./"
 								title="go back to task overview">
 								Back to tasks list
 							</a>
 						</div>
-					</div>
 				</xsl:when>
 				<xsl:otherwise>
 					<h1>
@@ -87,11 +85,11 @@
 
 					<div class="nifty">
 						<xsl:apply-templates select="form" />
-
-						<div class="footbar">
-							<a href="." id="back" title="back to teamspace overview">
-								Back to overview</a>				
-						</div>
+					</div>
+					
+					<div class="nifty">
+						<a href="." id="back" title="back to teamspace overview">
+							Back to overview</a>				
 					</div>
 				</xsl:otherwise>
 			</xsl:choose>

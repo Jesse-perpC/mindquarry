@@ -109,11 +109,11 @@ tr:hover a.task_edit_link {
 a#back {
 	display:block;
 	background:url(../icons/22x22/actions/go-previous.png);
-	height:22px;
-	width:22px;
 	overflow:hidden;
 	/*color:none;*/
-	font-size:0px;
+	height:24px;
+	padding:1px;
+	padding-left:24px;
 	float:left;
 	background-repeat:no-repeat;
 }
