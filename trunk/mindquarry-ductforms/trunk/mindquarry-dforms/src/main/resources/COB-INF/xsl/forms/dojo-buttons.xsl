@@ -32,7 +32,7 @@
     <xsl:variable name="id" select="@id"/>
     <xsl:variable name="values" select="fi:values/fi:value/text()"/>
     <xsl:variable name="state" select="@state" />
-
+    
     <div id="{@id}" title="{fi:hint}" class="togglebuttons">
       <xsl:for-each select="fi:selection-list/fi:item">
       	<div dojoType="togglebutton" style="background-image:url({$pathToBlock}resource/icons/{$id}/{@value}.png);">
@@ -60,9 +60,41 @@
 	        </xsl:apply-templates>
         </div>
       </xsl:for-each>
-      <xsl:apply-templates select="." mode="common"/>
     </div>
-    <hr style="clear:both"/>
+    
+    
+    <xsl:apply-templates select="." mode="common"/>
+  </xsl:template>
+  
+  <xsl:template match="fi:field[fi:selection-list][fi:styling/@list-type='buttons'][@state='active']" priority="2">
+    <xsl:variable name="id" select="@id"/>
+    <xsl:variable name="value" select="fi:value"/>
+    <xsl:variable name="state" select="@state" />
+    <div id="{@id}" title="{fi:hint}" class="togglebuttons">
+      <xsl:for-each select="fi:selection-list/fi:item">
+      	<div dojoType="togglebutton" style="background-image:url({$pathToBlock}resource/icons/{$id}/{@value}.png);">
+	        <xsl:variable name="item-id" select="concat($id, ':', position())"/>
+      		<xsl:choose>
+	      		<xsl:when test="@value = $value">
+		            <xsl:attribute name="class">togglebuttonpushed</xsl:attribute>
+		         </xsl:when>
+		         <xsl:otherwise>
+		         	<xsl:attribute name="class">togglebutton</xsl:attribute>
+		         </xsl:otherwise>
+	         </xsl:choose>
+	         <input type="radio" id="{$item-id}" name="{$id}" value="{@value}">
+                <xsl:if test="@value = $value">
+                  <xsl:attribute name="checked">checked</xsl:attribute>
+                </xsl:if>
+                <xsl:apply-templates select="../.." mode="styling"/>
+             </input>
+	        <xsl:apply-templates select="." mode="label">
+	          <xsl:with-param name="id" select="$item-id"/>
+	        </xsl:apply-templates>
+        </div>
+      </xsl:for-each>
+    </div>
+    <xsl:apply-templates select="." mode="common"/>
   </xsl:template>
 
 </xsl:stylesheet>
