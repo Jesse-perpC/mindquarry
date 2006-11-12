@@ -24,8 +24,8 @@
 				<xsl:apply-templates select="df:datatype" />
 
 				<fd:action id="ductforms_switch">
-					<fd:label>Switch Edit/View Mode</fd:label>
-					<fd:help>Switch between edit and view mode</fd:help>
+					<fd:label>Edit</fd:label>
+					<fd:help>Switch to edit mode</fd:help>
 					<fd:on-action>
 						<fd:javascript>switchEditView(event);</fd:javascript>
 					</fd:on-action>
