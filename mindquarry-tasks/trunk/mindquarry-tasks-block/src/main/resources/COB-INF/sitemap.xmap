@@ -500,6 +500,21 @@
 		<!-- =========================================================== -->
 
 		<pipeline type="noncaching">
+			
+			<!-- @override: for inheriting sitemap resources -->
+			<match pattern="resource/icons/ductform.ductforms/*.png">
+				<select type="resource-exists">
+					<!-- if it exists, load it from this sitemap's resources -->
+					<when test="dforms-model/{1}.png">
+						<read src="dforms-model/{1}.png" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/resource/icons/ductform.ductforms/{1}.png" />
+					</otherwise>
+				</select>
+			</match>
+			
 			<!-- @override: for inheriting sitemap resources -->
 			<match pattern="resource/**">
 				<select type="resource-exists">
