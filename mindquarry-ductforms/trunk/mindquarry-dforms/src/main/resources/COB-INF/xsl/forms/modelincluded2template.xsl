@@ -48,20 +48,17 @@
 					</fi:group>
 
 					<!-- field chooser -->
-					<xhtml:div class="form_block" id="block_ductform_ductforms">
-						<xhtml:label for="ductform.ductforms">
-							<xsl:apply-templates select="(fd:hint)[1]" />
-							<ft:widget-label id="ductforms" />
-						</xhtml:label>
-						<ft:widget id="ductforms">
-							<fi:styling list-type="buttons" />
-						</ft:widget>
-					</xhtml:div>
+					<fi:group>
+						<fi:styling layout="{$widgetArrangementOrDefault}" />
+						<fi:items>
+							<ft:widget id="ductforms">
+								<fi:styling list-type="buttons" />
+							</ft:widget>
 					
-					<!-- the save button -->
-					<xhtml:div class="form_block" id="block_ductform_save">
-						<ft:widget id="ductforms_save" />
-					</xhtml:div>
+							<!-- the save button -->
+							<ft:widget id="ductforms_save" />
+						</fi:items>
+					</fi:group>
 				</ft:form>
 			</xhtml:body>
 		</xhtml:html>
