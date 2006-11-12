@@ -46,10 +46,14 @@
 						<fi:styling layout="{$widgetArrangementOrDefault}" />
 						<fi:items>
 							<xsl:apply-templates select="df:datatype" />
+							
+							<ft:widget id="ductforms">
+								<fi:styling list-type="buttons" />
+							</ft:widget>
 						</fi:items>
 					</fi:group>
 
-					<!-- field chooser -->
+					<!-- field chooser 
 					<dl class="ductform" id="contentselector">
 						<dt><label>Select Content</label></dt>
 						<dd>
@@ -58,6 +62,7 @@
 							</ft:widget>
 						</dd>
 					</dl>
+					-->
 				</ft:form>
 			</xhtml:body>
 		</xhtml:html>
