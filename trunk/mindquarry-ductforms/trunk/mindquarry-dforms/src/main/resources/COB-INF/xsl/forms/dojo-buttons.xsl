@@ -35,7 +35,7 @@
 
     <div id="{@id}" title="{fi:hint}" class="togglebuttons">
       <xsl:for-each select="fi:selection-list/fi:item">
-      	<div dojoType="ToggleButton">
+      	<div dojoType="togglebutton" style="background-image:url({$pathToBlock}resource/icons/{$id}/{@value}.png);">
 	        <xsl:variable name="value" select="@value"/>
 	        <xsl:variable name="item-id" select="concat($id, ':', position())"/>
       		<xsl:choose>
