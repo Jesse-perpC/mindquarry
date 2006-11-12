@@ -33,11 +33,19 @@
     <xsl:variable name="values" select="fi:values/fi:value/text()"/>
     <xsl:variable name="state" select="@state" />
 
-    <span id="{@id}" title="{fi:hint}">
+    <div id="{@id}" title="{fi:hint}" class="togglebuttons">
       <xsl:for-each select="fi:selection-list/fi:item">
-      	<div class="togglebutton" dojoType="ToggleButton">
+      	<div dojoType="ToggleButton">
 	        <xsl:variable name="value" select="@value"/>
 	        <xsl:variable name="item-id" select="concat($id, ':', position())"/>
+      		<xsl:choose>
+	      		<xsl:when test="$values[. = $value]">
+		            <xsl:attribute name="class">togglebuttonpushed</xsl:attribute>
+		         </xsl:when>
+		         <xsl:otherwise>
+		         	<xsl:attribute name="class">togglebutton</xsl:attribute>
+		         </xsl:otherwise>
+	         </xsl:choose>
 	        <input id="{$item-id}" type="checkbox" value="{@value}" name="{$id}">
 	          <xsl:apply-templates select="." mode="css"/>
 	          <xsl:if test="$state = 'disabled'">
@@ -53,7 +61,8 @@
         </div>
       </xsl:for-each>
       <xsl:apply-templates select="." mode="common"/>
-    </span>
+    </div>
+    <hr style="clear:both"/>
   </xsl:template>
 
 </xsl:stylesheet>

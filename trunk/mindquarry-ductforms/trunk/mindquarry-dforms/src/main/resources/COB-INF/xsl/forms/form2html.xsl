@@ -33,7 +33,7 @@
       <!-- script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script-->
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
       <xsl:apply-templates select="." mode="forms-dojospan"/>
-      <xsl:apply-templates select="." mode="forms-dojobuttons"/>
+      <!-- xsl:apply-templates select="." mode="forms-dojobuttons"/-->
       <xsl:apply-templates/>
 	</xsl:copy>
   </xsl:template>
