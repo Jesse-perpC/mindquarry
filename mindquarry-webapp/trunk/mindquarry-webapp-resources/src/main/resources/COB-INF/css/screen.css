@@ -212,8 +212,8 @@ div.togglebuttonpushed {
 	border-style:inset;
 }
 
-div.togglebutton input {
-	/*display:none;*/
+div.togglebutton input, div.togglebuttonpushed input {
+	display:none;
 }
 
 div.togglebutton label, div.togglebuttonpushed label {
