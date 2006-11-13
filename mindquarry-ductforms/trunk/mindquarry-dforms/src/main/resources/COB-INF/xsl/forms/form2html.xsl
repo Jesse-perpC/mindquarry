@@ -99,6 +99,18 @@
     </dd>
   </xsl:template>
   
+  <xsl:template match="fi:field[fi:styling/@styling='link']">
+  	<a href="{normalize-space(fi:value)}">
+  		<xsl:apply-templates select="following-sibling::fi:field[fi:styling/@styling='linkcontent']" mode="value" />
+  	</a>
+  </xsl:template>
+  
+  <xsl:template match="fi:field[fi:styling/@styling='linkcontent']"/>
+  
+  <xsl:template match="fi:field[fi:styling/@styling='linkcontent']" mode="value">
+  	<span id="{@id}"><xsl:value-of select="fi:value" /></span>
+  </xsl:template>
+  
  <xsl:template match="fi:help">
     <xsl:variable name="id" select="concat(../@id, ':help')"/>
     <div class="forms-help forms help" id="{$id}" style="visibility:hidden; position:absolute;">
