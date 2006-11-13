@@ -14,12 +14,27 @@ a.create_task_button:link, a.create_task_button:visited {
 	padding-left: 13px;
 }
 
+a.create_filter_button:link, a.create_filter_button:visited {
+	background-image: url(../buttons/create_filter.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
 div.summary {
 	margin-top: 10px;
 	font-weight:normal;
 	color:#666666;
 	font-size:10pt;
-	clear:both;
 }
 
 div.footbar {
@@ -160,3 +175,13 @@ dl.ductform dt label {
 	color:#339933;
 }
 
+div.queries h3 {
+	font-size: 12px;
+	border-bottom: 1px solid grey;
+}
+
+div.queries {
+	color: #666666;
+	font-size: 12px;
+	clear:both;
+}
