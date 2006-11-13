@@ -39,6 +39,21 @@
   	<description>Multipart MIME handling filter for Cocoon</description>
   	<filter-class>org.apache.cocoon.servlet.multipart.MultipartFilter</filter-class>
   </filter>
+  
+  
+    <!--+
+      | Declare a filter for authentication
+      +-->
+
+  <filter>
+  	<filter-name>MindquarryAuthenticationFilter</filter-name>
+  	<display-name>Mindquarry Authentication filter</display-name>
+  	<filter-class>com.mindquarry.webapp.servlet.AuthenticationFilter</filter-class>
+  	<init-param>
+  		<param-name>realm</param-name>
+  		<param-value>Mindquarry Server</param-value>
+  	</init-param>
+  </filter>
 
   <!--+
       | Declare a filter for debugging incomming request
@@ -59,6 +74,11 @@
 
   <filter-mapping>
   	<filter-name>CocoonMultipartFilter</filter-name>
+  	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
+  </filter-mapping>
+  
+  <filter-mapping>
+  	<filter-name>MindquarryAuthenticationFilter</filter-name>
   	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
   </filter-mapping>
 
