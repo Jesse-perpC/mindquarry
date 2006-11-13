@@ -99,16 +99,17 @@
 			<map:match pattern="welcome">
 				<map:act type="httpauth">
 					<map:generate src="html/index.html" />
-				<map:transform
-					src="block:/xslt/html2html.xsl">
-	        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
-	        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
-	        		<!-- empty css/scripts path -->
-	        		<map:parameter name="cssPath" value=""/>
-	        		<map:parameter name="scriptPath" value=""/>
-					<map:parameter name="user.agent" value="{request-header:User-Agent}" />
-				</map:transform>
-				<map:serialize type="html" />
+					<map:transform
+						src="block:/xslt/html2html.xsl">
+		        		<map:parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+		        		<map:parameter name="sitemapPath" value="{request:pathInfo}"/>
+		        		<!-- empty css/scripts path -->
+		        		<map:parameter name="cssPath" value=""/>
+		        		<map:parameter name="scriptPath" value=""/>
+						<map:parameter name="user.agent" value="{request-header:User-Agent}" />
+						<map:parameter name="username" value="{username}" />
+					</map:transform>
+					<map:serialize type="html" />
 				</map:act>
 			</map:match>
 
