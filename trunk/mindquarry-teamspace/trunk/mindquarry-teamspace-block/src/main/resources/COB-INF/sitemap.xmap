@@ -81,7 +81,8 @@
 							value="{request:pathInfo}" />
 						<map:parameter name="user.agent"
 							value="{request-header:User-Agent}" />
-						<map:parameter name="username" value="{username}" />
+						<map:parameter name="username"
+							value="{request-attr:username}" />
 					</map:transform>
 				</map:otherwise>
 			</map:select>
