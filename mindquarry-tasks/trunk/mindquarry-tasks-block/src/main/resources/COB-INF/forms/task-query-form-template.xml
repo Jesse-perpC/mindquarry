@@ -7,7 +7,8 @@
 
 	<head>
 		<title>Query Editor</title>
-		<link rel="stylesheet" href="../css/tasks.css" type="text/css" />
+		
+		<link rel="stylesheet" href="../css/query.css" type="text/css" />
 	</head>
 	<body>
 		<ft:form-template
@@ -15,6 +16,9 @@
 			ajax="true">
 			
 			<div class="nifty">
+				<div>
+					<ft:widget id="aggregator" />
+				</div>
 				<ft:repeater id="parts"
 					xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 					<table>
@@ -62,10 +66,9 @@
 				</div>
 			</div>
 			
-			<ft:repeater id="results"
-				xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-				<div class="nifty">
-					<div class="task-area">
+			<div class="nifty">
+				<ft:repeater id="results"
+					xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 						<table class="task-list">
 							<tr><th>Task</th><th>Status</th></tr>
 							
@@ -82,9 +85,8 @@
 								</tr>
 							</ft:repeater-rows>
 						</table>
-					</div>
-				</div>
-			</ft:repeater>
+				</ft:repeater>
+			</div>
 		</ft:form-template>
 	</body>
 </html>
