@@ -24,6 +24,8 @@
   <xsl:include href="dojo-span.xsl" />
   <!-- styling of toggle buttons -->
   <xsl:include href="dojo-buttons.xsl" />
+  <!-- styling of calendar -->
+  <xsl:include href="dojo-calendar.xsl" />
  
   <xsl:template match="head">
   	<xsl:copy>
@@ -33,6 +35,7 @@
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
       <xsl:apply-templates select="." mode="forms-dojospan"/>
       <xsl:apply-templates select="." mode="forms-dojobuttons"/>
+      <xsl:apply-templates select="." mode="forms-dojocalendar"/>
       <xsl:apply-templates/>
 	</xsl:copy>
   </xsl:template>
@@ -46,7 +49,7 @@
     <script type="text/javascript">
         dojo.addOnLoad(forms_onload);
         dojo.require("cocoon.forms.*");
-    </script>
+    </script> 
     
     <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/>
     <script src="{$resources-uri}/forms/mattkruse-lib/PopupWindow.js" type="text/javascript"/>
@@ -86,7 +89,7 @@
   <xsl:template match="fi:group[fi:styling/@layout='default']" mode="group-layout">
   	<dl title="{normalize-space(fi:hint)}" class="ductform"> 
   		<xsl:apply-templates select="fi:items/*" mode="default" />
-  	</dl>
+  	</dl> 
   </xsl:template>
   
   <xsl:template match="fi:*" mode="default">
