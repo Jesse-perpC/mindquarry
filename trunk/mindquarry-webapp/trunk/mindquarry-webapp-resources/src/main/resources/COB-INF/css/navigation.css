@@ -51,8 +51,9 @@
 /*  white-space:nowrap;*/
 }
 
+/* LOGIN / OUT FORM at the top right */
 
-#beta-comment {
+#login-out-form {
 	position:absolute;
 	right:8px;
 	top:8px;
@@ -66,35 +67,37 @@
 	padding:2px;
 }
 
-#beta-comment label {
-	font-size:8pt;
+#login-out-form-username-display {
+	text-align:center;
 }
 
-#beta-comment-password, #beta-comment-username, #beta-comment label {
+#login-out-form-password, #login-out-form-username, #login-out-form label {
 	display:none;
 	width:160px;
 }
 /*
-#beta-comment:hover #beta-comment-password, #beta-comment:hover #beta-comment-username, #beta-comment:hover label {
+#login-out-form:hover #login-out-form-password, #login-out-form:hover #login-out-form-username, #login-out-form:hover label {
 	display:block;
 }
 */
-#beta-comment-submit, #beta-comment-reset {
+#login-out-form-submit, #login-out-form-reset {
 	clear:left;float:right;
 	margin:2px;
 	display:block;
 	width:80px;
 	border:0px;
 	background:none;
+	font-size:8pt;
 	text-decoration:underline;
 	color:blue;
+	cursor:pointer;
 }
 
-#beta-comment-submit {
+#login-out-form-submit {
 	display:none;
 }
 
-a#beta-comment {
+a#login-out-form {
 	display:none;
 }
 
