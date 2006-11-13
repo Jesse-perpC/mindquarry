@@ -52,42 +52,43 @@
 	</components>
 
 	<resources>
-		<map:resource name="layouting" xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-			<map:select type="lightbox-request">
-				<map:when test="true">
-					<map:transform
+		<resource name="layouting" xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+			<select type="lightbox-request">
+				<when test="true">
+					<transform
 						src="block:/xslt/html2lightbox.xsl">
-						<map:parameter name="fullPath"
+						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
-						<map:parameter name="sitemapPath"
+						<parameter name="sitemapPath"
 							value="{request:pathInfo}" />
-						<map:parameter name="user.agent"
+						<parameter name="user.agent"
 							value="{request-header:User-Agent}" />
-					</map:transform>
-					<map:serialize type="xml" />
-				</map:when>
-				<map:otherwise>
-					<map:transform src="block:/xslt/html2html.xsl"
+					</transform>
+					<serialize type="xml" />
+				</when>
+				<otherwise>
+					<transform src="block:/xslt/html2html.xsl"
 						type="xalan">
-						<map:parameter name="fullPath"
+						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
-						<map:parameter name="sitemapPath"
+						<parameter name="sitemapPath"
 							value="{request:pathInfo}" />
-						<map:parameter name="user.agent"
+						<parameter name="user.agent"
 							value="{request-header:User-Agent}" />
-					</map:transform>
-				</map:otherwise>
-			</map:select>
+						<parameter name="username" value="{username}" />
+					</transform>
+				</otherwise>
+			</select>
 
-			<map:select type="ajax-request">
-				<map:when test="true">
-					<map:serialize type="xml" />
-				</map:when>
-				<map:otherwise>
-					<map:serialize type="html" />
-				</map:otherwise>
-			</map:select>
-		</map:resource>
+			<select type="ajax-request">
+				<when test="true">
+					<serialize type="xml" />
+				</when>
+				<otherwise>
+					<serialize type="html" />
+				</otherwise>
+			</select>
+		</resource>
 
 		<resource name="queryform2html.xsl">
 			<transform src="xslt/forms/queryform2html.xsl" label="form">
