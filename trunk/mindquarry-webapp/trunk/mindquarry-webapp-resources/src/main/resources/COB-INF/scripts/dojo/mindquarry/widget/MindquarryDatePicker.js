@@ -1,7 +1,7 @@
 dojo.provide("mindquarry.widget.MindquarryDatePicker");
 
 dojo.require("dojo.widget.*");
-dojo.require("dojo.widget.html.*");
+dojo.require("dojo.widget.html.DatePicker");
 dojo.require("dojo.html");
 dojo.require("dojo.event");
 
@@ -9,13 +9,15 @@ dojo.widget.tags.addParseTreeHandler("dojo:MindquarryDatePicker");
 dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
 
 mindquarry.widget.MindquarryDatePicker = function() {
-	//dojo.widget.html.DatePicker.call(this);
-	
-	var cform = null;
-	alert("date picker");
+	dojo.widget.html.DatePicker.call(this);
+	this.widgetType = "MindquarryDatePicker";
+	//alert("date picker");
 }
 
 dojo.inherits(mindquarry.widget.MindquarryDatePicker, dojo.widget.html.DatePicker);
+
+//dojo.inherits(mindquarry.widget.MindquarryDatePicker, dojo.widget.html.DatePicker);
+
 
 dojo.lang.extend(mindquarry.widget.MindquarryDatePicker, {
 	widgetType: "MindquarryDatePicker",
@@ -27,4 +29,6 @@ dojo.lang.extend(mindquarry.widget.MindquarryDatePicker, {
 	    
 	    dojo.event.connect(this.domNode, "onclick", this, "onClick");
     },
+    
+    onClicj : function(event) {}
 });
