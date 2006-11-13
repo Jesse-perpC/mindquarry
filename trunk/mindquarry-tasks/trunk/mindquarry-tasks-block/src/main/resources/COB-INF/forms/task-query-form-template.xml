@@ -6,9 +6,7 @@
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 
 	<head>
-		<title>Query Editor</title>
-		
-		<link rel="stylesheet" href="../css/query.css" type="text/css" />
+		<title>Task Query Editor</title>
 	</head>
 	<body>
 		<ft:form-template
@@ -75,11 +73,21 @@
 							<ft:repeater-rows>
 								<tr class="highlight">
 									<td>
-										(<ft:widget id="resultID" />)
-										<ft:widget id="resultTitle" /><br/>
+										<img class="task_status"/>
+										
+										<!-- needed for link to real task view -->
+										<ft:widget id="resultLink">
+											<fi:styling styling="link" />
+										</ft:widget>
+										<ft:widget id="resultTitle">
+											<fi:styling styling="linkcontent"/>
+										</ft:widget>
+										<br/>
+										
 										<ft:widget id="resultSummary" />
 									</td>
-									<td>
+									
+									<td class="task_status">
 										<ft:widget id="resultStatus" />
 									</td>								
 								</tr>

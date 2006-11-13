@@ -2,13 +2,14 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:param name="id" select="''" />
+	<xsl:param name="taskID" select="''" />
+	<xsl:param name="teamspaceID" select="''" />
 
 	<xsl:template match="ductform">
 		<item>
-			<resultID>
-				<xsl:value-of select="$id" />
-			</resultID>
+			<resultLink>
+				<xsl:value-of select="$teamspaceID" />/<xsl:value-of select="$taskID" />
+			</resultLink>
 			<xsl:apply-templates />
 		</item>
 	</xsl:template>
