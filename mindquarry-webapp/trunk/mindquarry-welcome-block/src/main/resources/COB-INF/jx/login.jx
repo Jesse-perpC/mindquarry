@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
+-->
+<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+	<html>
+		<head>
+			<title>Login</title>
+		</head>
+		<body>
+			<h1>Login</h1>
+			<div class="loginform"
+				style="width:400px;margin-left:auto;margin-right:auto;">
+				<p>You are not logged in. Please enter your username and password.</p>
+				<div id="loginform">
+					<a href="loginrequest?targetUri=${cocoon.request.targetUri}" class="httpauth" id="login">Authenticate</a>
+				</div>
+			</div>
+		</body>
+	</html>
+</jx:template>
