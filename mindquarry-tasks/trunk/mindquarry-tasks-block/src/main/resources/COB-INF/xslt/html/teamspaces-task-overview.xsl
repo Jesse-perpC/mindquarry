@@ -38,21 +38,29 @@
 					</img>
 					<h2 class="name"><xsl:value-of select="name" /></h2>
 					<span class="description"><xsl:value-of select="description" /></span>
+					
+					<div class="summary">
+						Teamspace <b><xsl:value-of select="name" /></b> contains 
+						<a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="count(task)" /> Tasks</a>
+						(<xsl:value-of select="count(task[status='new'])" /> New,
+						<xsl:value-of select="count(task[status='running'])" /> Running,
+						<xsl:value-of select="count(task[status='paused'])" /> Paused and
+						<xsl:value-of select="count(task[status='done'])" /> Done)
+					</div>
 				</div>
 				
 				<div class="links">
 					<ul>
 	        			<li><a class="create_task_button" href="{@xlink:href}/task{count(*)+1}">Create task</a></li>
+	        			<li><a class="create_filter_button" href="{@xlink:href}/query">Create filter</a></li>
 					</ul>
 				</div>
 				
-				<div class="summary">
-					Teamspace <b><xsl:value-of select="name" /></b> contains 
-					<a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="count(task)" /> Tasks</a>
-					(<xsl:value-of select="count(task[status='new'])" /> New,
-					<xsl:value-of select="count(task[status='running'])" /> Running,
-					<xsl:value-of select="count(task[status='paused'])" /> Paused and
-					<xsl:value-of select="count(task[status='done'])" /> Done)
+				<div class="queries">
+					<h3>Saved Filters</h3>
+					<ul>
+						<li>test</li>
+					</ul>
 				</div>
 			</div>
 		</li>

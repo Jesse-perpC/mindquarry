@@ -226,9 +226,16 @@
 		<pipeline type="noncaching" internal-only="true">
 			<match pattern="internal/pipe/forms/*.xml">
 				<generate type="jx" src="forms/{1}.xml" />
+				
 				<transform type="browser-update" />
 				<call resource="form2html.xsl" />
-				<transform src="xslt/forms/includeQueryStyling.xsl" />
+				
+				<transform src="xslt/forms/includeQueryStyling.xsl">
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+				</transform>
 				<call resource="layouting" />
 			</match>
 		</pipeline>
@@ -379,10 +386,10 @@
 			</match>
 
 			<!-- test for the query widget -->
-			<match pattern="query">
+			<match pattern="*/query">
 				<act type="httpauth">
 					<call function="displayQueryForm">
-						<parameter name="username" value="{username}" />
+						<parameter name="teamspaceID" value="{../1}" />
 						<parameter name="definitionURI"
 							value="forms/task-query-form.xml" />
 						<parameter name="templatePipeline"
@@ -391,8 +398,8 @@
 				</act>
 			</match>
 
-			<match pattern="query.*.continue">
-				<call continuation="{1}" />
+			<match pattern="*/query.*.continue">
+				<call continuation="{2}" />
 			</match>
 
 			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->
