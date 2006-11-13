@@ -4,7 +4,13 @@
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<fd:field>
-		<fd:datatype base="date" />
+		<fd:datatype base="date">
+			<fd:convertor type="formatting">
+		    <fd:patterns>
+		      <fd:pattern>MM/dd/yy</fd:pattern>
+		    </fd:patterns>
+		  </fd:convertor>
+		</fd:datatype>
 		<fd:label>Date</fd:label>
 		<fd:hint>The relevant date of this document</fd:hint>
 		<fd:help>Date infornation can be used to order events</fd:help>
