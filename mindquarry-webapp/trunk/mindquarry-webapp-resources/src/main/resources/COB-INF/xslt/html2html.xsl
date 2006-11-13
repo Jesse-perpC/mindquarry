@@ -139,8 +139,18 @@
 					</ul>
 				</div>
 				
+				<xsl:if test="string-length($username) > 0">
+					<div class="http-logout">
+						<div class="username-display">
+							<xsl:value-of select="$username" />
+						</div>
+					</div>
+				</xsl:if>
 				
-				<a id="login-out-form" class="httpauth" href="{$pathToRoot}welcome"><xsl:value-of select="$username" /></a>
+				
+				<!-- 
+				<div class="http-logout" id="logout-form"><xsl:value-of select="$username" /></div>
+				-->
 				
 				<!-- layouting the content -->
 				<div id="webapp-content">

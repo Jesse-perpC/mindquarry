@@ -35,31 +35,37 @@ function createXMLObject() {
 
 dojo.addOnLoad(function()
 {	
-	var lastfoo = false;
+	var index = -1;
     var anchors = document.getElementsByTagName("a");
-    for (var foo = 0; foo < anchors.length; foo++) {
-        if (anchors[foo].className == "httpauth") {
-        	lastfoo = foo;
+    for (var i = 0; i < anchors.length; i++) {
+        if (anchors[i].className == "httpauth") {
+        	index = i;
         }
     }
-    if (lastfoo) {
-    	createForm(anchors[lastfoo]);
+    if (index >= 0) {
+    	createLoginForm(anchors[index]);
+    }
+
+	index = -1;
+    anchors = document.getElementsByTagName("div");
+    for (var i = 0; i < anchors.length; i++) {
+        if (anchors[i].className == "http-logout") {
+        	index = i;
+        }
+    }
+    if (index >= 0) {
+    	createLogoutForm(anchors[index]);
     }
 });
 
-function createForm(httpauth)
+function createLoginForm(httpauth)
 {
     var form = document.createElement("form");
     form.action = httpauth.href;
     form.method = "get";
     form.onsubmit = function() {login(form); return false;};
     form.id = httpauth.id;
-    
-    var usernameDisplay = document.createElement("div");
-    usernameDisplay.id = httpauth.id + "-username-display";
-    usernameDisplay.textContent = httpauth.textContent;
-    form.appendChild(usernameDisplay);
-    
+
     var username = document.createElement("label");
     var usernameInput = document.createElement("input");
     usernameInput.name = "username";
@@ -83,16 +89,18 @@ function createForm(httpauth)
     form.appendChild(username);
     form.appendChild(password);
     form.appendChild(submit);
-    
-    var logoutLink = document.createElement("input");
-    logoutLink.type = "reset"
-    logoutLink.href = "#";
-    logoutLink.onclick = logout;
-    logoutLink.value ="Log out";
-    logoutLink.classname = "logout";
-    logoutLink.id = httpauth.id + "-reset";
-    form.appendChild(logoutLink);
+
     httpauth.parentNode.replaceChild(form, httpauth);
+}
+
+function createLogoutForm(httplogout)
+{
+	var logoutDiv = document.createElement("div");
+    logoutDiv.onclick = logout;
+    logoutDiv.id = "http-logout-link";
+	logoutDiv.innerHTML = "Log out";
+	
+    httplogout.appendChild(logoutDiv);
 }
 
 function getHTTPObject() {
@@ -126,11 +134,11 @@ function login(form)
     var password = document.getElementById(form.id + "-password").value;
 
     var http = getHTTPObject();
-    http.open("get", "loginrequest", false, username, password);    
+    http.open("get", "/?request=login", false, username, password);    
     http.send(null);
     
 	if (http.status == 200) {
-		document.location = form.action.split("=")[1];
+		document.location = form.action.split("targetUri=")[1];
 	} else {
         alert("Incorrect username and/or password!");
     }
@@ -139,7 +147,7 @@ function login(form)
 function logout()
 {
     var http = getHTTPObject();
-    http.open("get", this.parentNode.action, false, "null", "null");
+    http.open("get", "/", false, "null", "null");
     http.send(null);
     document.location = "/logoutpage";
     return false;
