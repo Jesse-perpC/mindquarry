@@ -47,9 +47,8 @@ public class AuthenticationFilter implements Filter {
         beanFactory_ = WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext);
         
-        log_ = (Logger) beanFactory_.getBean(ProcessingUtil.LOGGER_ROLE);
-        realm_ = "Protected Resource";
-        
+        log_ = (Logger) beanFactory_.getBean(ProcessingUtil.LOGGER_ROLE);        
+        realm_ = config.getInitParameter("realm");        
 
         String authenticationBeanName = Authentication.class.getName();
         if (! beanFactory_.containsBean(authenticationBeanName)) {
@@ -85,36 +84,57 @@ public class AuthenticationFilter implements Filter {
         
         if (isProtected(targetUri)) {            
             String authenticatedUser = authenticateUser(request);
-            if (authenticatedUser == null) {
-                // not authenticated.
-                response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                //response.sendRedirect("/login?targetUri=" + targetUri);
-                // break this request, 
-                // leave filter chain and don't go to the servlet
-                return;
-            } else {
-                // authenticated. make username available as request attribute
-                request.setAttribute("username", authenticatedUser);
+            if (targetUri.equals("/loginrequest")) {
+                if (authenticatedUser == null) {
+                    // not authenticated.
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                }
+                else {
+                    // authenticated. redirect to original target
+                    String originalUrl = request.getParameter("targetUri");
+                    String redirectUrl = response.encodeRedirectURL(
+                            (originalUrl != null ? originalUrl : ""));
+                    response.sendRedirect(redirectUrl);
+                }
+            }
+            else {
+                if (authenticatedUser == null) {
+                    // not authenticated.
+                    if (isHtmlRequest(request)) {
+                        String redirectUrl = response.encodeRedirectURL(
+                                "/loginpage?" + "targetUri=" + targetUri);
+                        response.sendRedirect(redirectUrl);
+                    } else {
+                        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+                    }
+                    return;
+                } else {
+                    // authenticated. make username available as request attribute
+                    request.setAttribute("username", authenticatedUser);
+                }
             }
         }
         chain.doFilter(servletRequest, servletResponse);
     }
     
-    private boolean isProtected(String targetUri) {
-        if (targetUri.equals("/login"))
-            return false;
-        if (targetUri.endsWith(".css"))
-            return false;
-        if (targetUri.endsWith(".png"))
-            return false;
-        if (targetUri.endsWith(".jpg"))
-            return false;
-        if (targetUri.endsWith(".gif"))
-            return false;
-        if (targetUri.endsWith(".js"))
-            return false;
+    private boolean isHtmlRequest(HttpServletRequest request) {
+        boolean result = true;
+        String accept = request.getHeader("Accept");
         
-        return true;
+        if (accept != null) {
+            result = accept.contains("text/html") 
+                || accept.contains("application/xhtml+xml")
+                || accept.contains("*/*"); // e.g. for IE 6
+        }
+        return result;
+    }
+    
+    private boolean isProtected(String targetUri) {
+        // images might contain protected content (user photos, diagrams)
+        if (targetUri.matches("/loginpage(.)*$|/logoutpage$|(.)*\\.(css|js)$|/[^/]+\\.(png|jpg|gif)$"))
+            return false;
+        else
+            return true;
     }
     
     private String[] authTupleFromAuthHeader(String authHeader) {
