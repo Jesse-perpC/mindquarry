@@ -76,6 +76,10 @@
 					</otherwise>
 				</select>
 			</match>
+
+			<match pattern="xslt/**.xsl">
+				<read src="xsl/{1}.xsl" />
+			</match>
 		</pipeline>
 		
 		<pipeline type="noncaching">
