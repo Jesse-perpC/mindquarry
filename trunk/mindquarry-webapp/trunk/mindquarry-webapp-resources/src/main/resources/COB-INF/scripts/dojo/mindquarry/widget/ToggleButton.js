@@ -68,5 +68,4 @@ dojo.lang.extend(mindquarry.widget.ToggleButton, {
         	//this.domNode.classname="togglebutton";
         }
     }
-	
 });
