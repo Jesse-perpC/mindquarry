@@ -39,7 +39,7 @@
         <xsl:when test="fi:datatype[@type='date']/fi:convertor/@pattern">
           <xsl:value-of select="fi:datatype[@type='date']/fi:convertor/@pattern"/>
         </xsl:when>
-        <xsl:otherwise>yyyy-MM-dd</xsl:otherwise>
+        <xsl:otherwise>MM/dd/YY</xsl:otherwise>
       </xsl:choose>
     </xsl:variable>
     

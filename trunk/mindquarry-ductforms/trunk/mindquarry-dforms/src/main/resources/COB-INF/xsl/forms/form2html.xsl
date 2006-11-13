@@ -89,7 +89,7 @@
   <xsl:template match="fi:group[fi:styling/@layout='default']" mode="group-layout">
   	<dl title="{normalize-space(fi:hint)}" class="ductform"> 
   		<xsl:apply-templates select="fi:items/*" mode="default" />
-  	</dl> 
+  	</dl>
   </xsl:template>
   
   <xsl:template match="fi:*" mode="default">
