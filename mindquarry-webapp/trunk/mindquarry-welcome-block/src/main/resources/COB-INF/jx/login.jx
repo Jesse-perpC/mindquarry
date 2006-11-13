@@ -6,6 +6,9 @@
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
 	<html>
 		<head>
+			<noscript>
+				<meta http-equiv="refresh" content="1; url=/?request=login&amp;targetUri=${cocoon.request.targetUri}" />
+			</noscript>
 			<title>Login</title>
 		</head>
 		<body>
