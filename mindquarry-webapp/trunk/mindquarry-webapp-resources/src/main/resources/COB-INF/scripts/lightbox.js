@@ -19,6 +19,7 @@ dojo.require("dojo.lfx.html");
 
 var detect = navigator.userAgent.toLowerCase();
 var OS,browser,version,total,thestring;
+var lightboxnodes = new Array();
 
 /*-----------------------------------------------------------------------------------------------*/
 
@@ -87,7 +88,7 @@ lightbox.prototype = {
 	},
 	
 	// Turn everything on - mainly the IE fixes
-	activate: function(){
+	activate: function() {
 		if (browser == 'Internet Explorer'){
 			this.getScroll();
 			this.prepareIE('100%', 'hidden');
@@ -131,11 +132,18 @@ lightbox.prototype = {
 		window.scrollTo(x, y); 
 	},
 	
-	displayLightbox: function(display){
-		document.getElementById('overlay').style.display = display;
-		
-		if(this.content.substring(0,1) == "#") {
-			document.getElementById(this.content.substr(1)).style.display = display;
+	displayLightbox: function(display) {
+		var overlay = document.getElementById('overlay');
+		overlay.style.display = display;
+		dojo.event.connect(overlay, "onclick", this, "deactivate");
+		var hashIndex = this.content.indexOf("#");
+		if(hashIndex!=-1) {
+			var contentId = this.content.substr(hashIndex+1);
+			var contentHolder = document.getElementById(contentId);
+			placeholder = document.getElementById('lightboxplaceholder');
+			placeholder.style.display = display;
+			dojo.dom.removeChildren(placeholder);
+			dojo.dom.copyChildren(contentHolder, placeholder, false);
 		}
 		else {
 			placeholder = document.getElementById('lightboxplaceholder');
@@ -174,7 +182,11 @@ function initialize(){
 	lboxcandidates = document.getElementsByTagName('a');
 	for(i = 0; i < lboxcandidates.length; i++) {
 		if (lboxcandidates[i].getAttribute('rel')=='lightbox') {
-			valid = new lightbox(lboxcandidates[i]);
+			//do not create two lightboxes for one element
+			if (!dojo.lang.inArray(lightboxnodes, lboxcandidates[i])) {
+				valid = new lightbox(lboxcandidates[i]);
+				lightboxnodes[lightboxnodes.length] = lboxcandidates[i];
+			}
 		}
 	}
 }
@@ -183,14 +195,41 @@ function initialize(){
 // Overlay holds the shadow
 // Lightbox is the centered square that the content is put into.
 function addLightboxMarkup() {
-	bod 				= document.getElementsByTagName('body')[0];
-	overlay 			= document.createElement('div');
-	overlay.id			= 'overlay';
-	lightboxplaceholder 			= document.createElement('div');
-	lightboxplaceholder.id			= 'lightboxplaceholder';
-	bod.appendChild(overlay);
-	bod.appendChild(lightboxplaceholder);
+	if (document.getElementById('overlay')==null) {
+		bod 				= document.getElementsByTagName('body')[0];
+		overlay 			= document.createElement('div');
+		overlay.id			= 'overlay';
+		lightboxplaceholder 			= document.createElement('div');
+		lightboxplaceholder.id			= 'lightboxplaceholder';
+		bod.appendChild(overlay);
+		bod.appendChild(lightboxplaceholder);
+	}
 }
+/*
+overwriting dojo function
+*/
+cocoon.ajax.insertionHelper.parseDojoWidgets = function(element) {
+		initialize();
+	    // Find a parent widget (if any) so that Dojo can maintain its widget tree
+	    var parentWidget = this.findParentWidget(element);
+		var parser = new dojo.xml.Parse();
+
+		// FIXME: parser.parseElement() parses the _children_ of an element, whereas we want here
+		// the element itself to be parsed. Parsing its parent is not an option as we don't want
+		// to parse the siblings. So place it in a temporary div that we'll trash afterwards.
+		var div = document.createElement("DIV");
+		element.parentNode.replaceChild(div, element);
+		div.appendChild(element);
+		var frag = parser.parseElement(div, null, true);
+		dojo.widget.getParser().createComponents(frag, parentWidget);
+		// Get again the first child of the div, which may no more be the original one
+		// if it's a widget
+		element = div.firstChild;
+		div.parentNode.replaceChild(element, div);
+		parentWidget && parentWidget.onResized();
+
+		return element;
+	}
 
 dojo.event.connect(dojo.hostenv, "loaded", "initialize");
 dojo.event.connect(dojo.hostenv, "loaded", "getBrowserInfo");
