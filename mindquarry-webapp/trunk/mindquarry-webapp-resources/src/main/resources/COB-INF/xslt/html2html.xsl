@@ -14,6 +14,7 @@
 	<xsl:output indent="no"/>
 	
 	<xsl:param name="user.agent" select="''"/>
+	<xsl:param name="username" select="''"/>
 
 	<xsl:param name="cssPath" select="'css/'" />
 	<xsl:param name="scriptPath" select="'scripts/'" />
@@ -139,7 +140,7 @@
 				</div>
 				
 				
-				<a id="beta-comment" class="httpauth" href="{$pathToRoot}/welcome">Authenticate</a>
+				<a id="login-out-form" class="httpauth" href="{$pathToRoot}welcome"><xsl:value-of select="$username" /></a>
 				
 				<!-- layouting the content -->
 				<div id="webapp-content">

@@ -54,6 +54,12 @@ function createForm(httpauth)
     form.method = "get";
     form.onsubmit = login;
     form.id = httpauth.id;
+    
+    var usernameDisplay = document.createElement("div");
+    usernameDisplay.id = httpauth.id + "-username-display";
+    usernameDisplay.textContent = httpauth.textContent;
+    form.appendChild(usernameDisplay);
+    
     var username = document.createElement("label");
     var usernameInput = document.createElement("input");
     usernameInput.name = "username";
@@ -61,6 +67,7 @@ function createForm(httpauth)
     usernameInput.id = httpauth.id + "-username";
     username.appendChild(document.createTextNode("Username"));
     username.appendChild(usernameInput);
+    
     var password = document.createElement("label");
     var passwordInput = document.createElement("input");
     passwordInput.name = "password";
@@ -68,6 +75,7 @@ function createForm(httpauth)
     passwordInput.id = httpauth.id + "-password";
     password.appendChild(document.createTextNode("Password"));
     password.appendChild(passwordInput);
+    
     var submit = document.createElement("input");
     submit.type = "submit";
     submit.value = "Log in";
@@ -75,6 +83,7 @@ function createForm(httpauth)
     form.appendChild(username);
     form.appendChild(password);
     form.appendChild(submit);
+    
     var logoutLink = document.createElement("input");
     logoutLink.type = "reset"
     logoutLink.href = "#";
