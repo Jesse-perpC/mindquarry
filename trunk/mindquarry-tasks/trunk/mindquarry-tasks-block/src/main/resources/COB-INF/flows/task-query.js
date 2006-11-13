@@ -17,6 +17,7 @@ function executeQuery(event) {
 	// retrieve model
 	var model = form_.getModel();
     var partRepeater = form_.lookupWidget("/parts");
+    var aggregator = form_.lookupWidget("/aggregator").getValue();
     
 	// build query
     var query = "jcr:///teamspaces/*/tasks?" + "/*";
@@ -28,7 +29,7 @@ function executeQuery(event) {
 	    for(var i = 0; i < rowCount; i++) {
 	    	// check if this is the first query item, if not prepend an 'and'
 	    	if(i > 0) {
-	    		query = query + " and "
+	    		query = query + " " + aggregator + " ";
 	    	}
 	    	// evaluate query item
 	    	var fieldWidget = partRepeater.getWidget(i, "field");
@@ -46,6 +47,7 @@ function executeQuery(event) {
 	    }
 	    query = query + "]";
 	}
+	print(query);
 	// clear previous results (if necessary)
 	var resultRepeater = form_.lookupWidget("/results");
 	resultRepeater.clear();
@@ -53,7 +55,8 @@ function executeQuery(event) {
 	// execute query
 	var srcResolver;
 	try {
-		srcResolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
+		srcResolver = cocoon.getComponent(
+				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
 		source = srcResolver.resolveURI(query);
 		
 		// process result

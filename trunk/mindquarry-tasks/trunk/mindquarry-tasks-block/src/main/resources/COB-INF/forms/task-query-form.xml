@@ -1,5 +1,27 @@
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
+		<!-- query aggregator field -->
+		<fd:field id="aggregator" required="true">
+			<!-- basic configuration -->
+			<fd:label>Aggregator</fd:label>
+			<fd:datatype base="string" />
+
+			<!-- selectable values -->
+			<fd:selection-list>
+				<fd:item value="and" />
+				<fd:item value="or" />
+			</fd:selection-list>
+
+			<!-- helper information -->
+			<fd:hint>
+				The aagreator that is used for assembling the query.
+			</fd:hint>
+			<fd:help>
+				Can be used for building for creating different link types for query parts.
+			</fd:help>
+		</fd:field>
+				
+		<!-- query part repeater -->
 		<fd:repeater id="parts">
 			<fd:label>Query Parts</fd:label>
 
