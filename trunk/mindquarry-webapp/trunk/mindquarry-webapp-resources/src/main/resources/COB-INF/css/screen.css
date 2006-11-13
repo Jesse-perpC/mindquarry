@@ -5,6 +5,20 @@
 /* Content Page Rules*/
 @import "content.css";
 
+a:link {
+	color:#0000cc;
+}
+
+a:visited {
+	color:#6666cc;
+	text-decoration:none;border-bottom:1px dotted #6666cc; 
+}
+
+a:hover {
+	color:#3333ff;
+	text-decoration:none;
+}
+
 /* Main Rules */
 p, div,  td {
   font-family:Lucida Grande, Bitstream Vera Sans, Verdana, Sans, Arial,sans-serif;
