@@ -1,0 +1,35 @@
+table.task-list {
+	border:0px;
+	font-size:10pt;
+	text-align:left;
+	margin-bottom:15px;
+	width:100%;
+}
+
+table.task-list th {
+	background:#bee5b8;
+}
+
+table.task-list tr.highlight:hover {
+	background-color:#bee5b8;
+}
+
+a.help {
+	margin-left:4px;
+}
+
+a.help img {
+	border:0px;
+}
+
+img.task_status {
+	height:22px;
+	width:22px;
+	display:block;
+	float:left;
+	margin-right:5px;
+}
+
+td.task_status {
+	width:100px;
+}

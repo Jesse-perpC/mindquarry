@@ -3,9 +3,6 @@
 	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
 -->
 <sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
-
-	<!-- TASKS -->
-
 	<components>
 		<actions>
 			<action name="log"
@@ -47,8 +44,7 @@
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
-		</transformers>
-				
+		</transformers>		
 	</components>
 
 	<resources>
@@ -80,6 +76,7 @@
 				</otherwise>
 			</select>
 
+			<!-- check AJAX request attribute -->
 			<select type="ajax-request">
 				<when test="true">
 					<serialize type="xml" />
@@ -90,8 +87,9 @@
 			</select>
 		</resource>
 
-		<resource name="queryform2html.xsl">
-			<transform src="xslt/forms/queryform2html.xsl" label="form">
+		<!-- load form2html stylesheet from DForms block -->
+		<resource name="form2html.xsl">
+			<transform src="block:super:/xslt/forms/form2html.xsl" label="form">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
@@ -229,7 +227,8 @@
 			<match pattern="internal/pipe/forms/*.xml">
 				<generate type="jx" src="forms/{1}.xml" />
 				<transform type="browser-update" />
-				<call resource="queryform2html.xsl" />
+				<call resource="form2html.xsl" />
+				<transform src="xslt/forms/includeQueryStyling.xsl" />
 				<call resource="layouting" />
 			</match>
 		</pipeline>
@@ -381,12 +380,15 @@
 
 			<!-- test for the query widget -->
 			<match pattern="query">
-				<call function="displayQueryForm">
-					<parameter name="definitionURI"
-						value="forms/task-query-form.xml" />
-					<parameter name="templatePipeline"
-						value="internal/pipe/forms/task-query-form-template.xml" />
-				</call>
+				<act type="httpauth">
+					<call function="displayQueryForm">
+						<parameter name="username" value="{username}" />
+						<parameter name="definitionURI"
+							value="forms/task-query-form.xml" />
+						<parameter name="templatePipeline"
+							value="internal/pipe/forms/task-query-form-template.xml" />
+					</call>
+				</act>
 			</match>
 
 			<match pattern="query.*.continue">
@@ -550,9 +552,7 @@
 			<match pattern="**">
 				<read src="block:super:/{1}" />
 			</match>
-
 		</pipeline>
 	</pipelines>
-
 </sitemap>
 

@@ -1,7 +1,7 @@
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
 		<!-- query aggregator field -->
-		<fd:field id="aggregator" required="true">
+		<fd:field id="aggregator">
 			<!-- basic configuration -->
 			<fd:label>Aggregator</fd:label>
 			<fd:datatype base="string" />
@@ -14,10 +14,10 @@
 
 			<!-- helper information -->
 			<fd:hint>
-				The aagreator that is used for assembling the query.
+				The aggregator that is used for assembling the query.
 			</fd:hint>
 			<fd:help>
-				Can be used for building for creating different link types for query parts.
+				Can be used for building different link types between query parts.
 			</fd:help>
 		</fd:field>
 				
@@ -28,7 +28,7 @@
 			<!-- query part widgets -->
 			<fd:widgets>
 				<!-- field name configuration -->
-				<fd:field id="field" required="true">
+				<fd:field id="field">
 					<!-- basic configuration -->
 					<fd:label>Field Name</fd:label>
 					<fd:datatype base="string" />
@@ -53,7 +53,7 @@
 				</fd:field>
 
 				<!-- selector configuration -->
-				<fd:field id="selector" required="true">
+				<fd:field id="selector">
 					<!-- basic configuration -->
 					<fd:label>Selector</fd:label>
 					<fd:datatype base="string" />
@@ -74,7 +74,7 @@
 				</fd:field>
 
 				<!-- value configuration -->
-				<fd:field id="value" required="true">
+				<fd:field id="value">
 					<!-- basic configuration -->
 					<fd:label>Value</fd:label>
 					<fd:datatype base="string" />
@@ -125,7 +125,7 @@
 		<fd:repeater id="results" state="output">
 			<!-- query part widgets -->
 			<fd:widgets>
-				<fd:field id="resultID" required="true" state="output">
+				<fd:field id="resultLink" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
 				<fd:field id="resultTitle" required="true" state="output">
