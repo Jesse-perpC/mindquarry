@@ -51,9 +51,9 @@
 /*  white-space:nowrap;*/
 }
 
-/* LOGIN / OUT FORM at the top right */
+/* Logout and user at the top right */
 
-#login-out-form {
+.http-logout {
 	position:absolute;
 	right:8px;
 	top:8px;
@@ -67,41 +67,22 @@
 	padding:2px;
 }
 
-#login-out-form-username-display {
+.username-display {
 	text-align:center;
 }
 
-#login-out-form-password, #login-out-form-username, #login-out-form label {
-	display:none;
-	width:160px;
-}
-/*
-#login-out-form:hover #login-out-form-password, #login-out-form:hover #login-out-form-username, #login-out-form:hover label {
-	display:block;
-}
-*/
-#login-out-form-submit, #login-out-form-reset {
-	clear:left;float:right;
-	margin:2px;
-	display:block;
-	width:80px;
-	border:0px;
-	background:none;
+#http-logout-link {
+	text-align:center;
 	font-size:8pt;
 	text-decoration:underline;
 	color:blue;
 	cursor:pointer;
+	height:10px;
 }
 
-#login-out-form-submit {
-	display:none;
-}
+/* LOGIN form */
 
-a#login-out-form {
-	display:none;
-}
-
-#login-password, #login-username, #login label {
+#login-form-password, #login-form-username, #login-form label, #loginform form {
 	display:block;
 	margin-left:auto;
 	margin-right:auto;

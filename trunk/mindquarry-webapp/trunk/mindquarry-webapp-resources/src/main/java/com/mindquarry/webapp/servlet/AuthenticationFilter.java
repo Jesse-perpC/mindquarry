@@ -82,25 +82,25 @@ public class AuthenticationFilter implements Filter {
         
         String targetUri = getTargetURI(request);
         
-        if (isProtected(targetUri)) {            
+        if (isProtected(targetUri)) {
             String authenticatedUser = authenticateUser(request);
-            if (targetUri.equals("/loginrequest")) {
+            if (isLoginRequest(request)) {
                 if (authenticatedUser == null) {
                     // not authenticated.
-                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-                }
-                else {
+                    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);                    
+                } else {
                     // authenticated. redirect to original target
                     String originalUrl = request.getParameter("targetUri");
                     String redirectUrl = response.encodeRedirectURL(
                             (originalUrl != null ? originalUrl : ""));
                     response.sendRedirect(redirectUrl);
                 }
+                return;
             }
             else {
                 if (authenticatedUser == null) {
                     // not authenticated.
-                    if (isHtmlRequest(request)) {
+                    if (isGuiBrowserRequest(request)) {
                         String redirectUrl = response.encodeRedirectURL(
                                 "/loginpage?" + "targetUri=" + targetUri);
                         response.sendRedirect(redirectUrl);
@@ -117,14 +117,28 @@ public class AuthenticationFilter implements Filter {
         chain.doFilter(servletRequest, servletResponse);
     }
     
-    private boolean isHtmlRequest(HttpServletRequest request) {
+    private boolean isLoginRequest(HttpServletRequest request) {
+        String targetUri = getTargetURI(request);
+        return targetUri.equals("/") && 
+            "login".equals(request.getParameter("request"));
+    }
+    
+    private boolean isGuiBrowserRequest(HttpServletRequest request) {
         boolean result = true;
         String accept = request.getHeader("Accept");
+        String userAgent = request.getHeader("User-Agent");
         
         if (accept != null) {
             result = accept.contains("text/html") 
                 || accept.contains("application/xhtml+xml")
                 || accept.contains("*/*"); // e.g. for IE 6
+            
+            if (result && userAgent != null) {
+                result = userAgent.contains("MSIE")
+                    || userAgent.contains("Gecko")
+                    || userAgent.contains("Opera")
+                    || userAgent.contains("Safari");
+            }
         }
         return result;
     }
