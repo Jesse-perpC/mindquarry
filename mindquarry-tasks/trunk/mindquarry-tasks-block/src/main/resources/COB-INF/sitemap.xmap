@@ -75,7 +75,7 @@
 							value="{request:pathInfo}" />
 						<parameter name="user.agent"
 							value="{request-header:User-Agent}" />
-						<parameter name="username" value="{username}" />
+						<parameter name="username" value="{request-attr:username}" />
 					</transform>
 				</otherwise>
 			</select>
