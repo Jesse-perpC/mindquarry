@@ -34,7 +34,7 @@ function createXMLObject() {
 }
 
 dojo.addOnLoad(function()
-{
+{	
 	var lastfoo = false;
     var anchors = document.getElementsByTagName("a");
     for (var foo = 0; foo < anchors.length; foo++) {
@@ -52,7 +52,7 @@ function createForm(httpauth)
     var form = document.createElement("form");
     form.action = httpauth.href;
     form.method = "get";
-    form.onsubmit = login;
+    form.onsubmit = function() {login(form); return false;};
     form.id = httpauth.id;
     
     var usernameDisplay = document.createElement("div");
@@ -120,26 +120,27 @@ function getHTTPObject() {
 	return xmlhttp;
 }
 
-function login()
+function login(form)
 {
-    var username = document.getElementById(this.id + "-username").value;
-    var password = document.getElementById(this.id + "-password").value;
+    var username = document.getElementById(form.id + "-username").value;
+    var password = document.getElementById(form.id + "-password").value;
+
     var http = getHTTPObject();
-    http.open("get", this.action, false, username, password);
-    http.send("");
+    http.open("get", "loginrequest", false, username, password);    
+    http.send(null);
+    
 	if (http.status == 200) {
-		document.location = this.action;
+		document.location = form.action.split("=")[1];
 	} else {
         alert("Incorrect username and/or password!");
     }
-    return false;
 }
 
 function logout()
 {
     var http = getHTTPObject();
     http.open("get", this.parentNode.action, false, "null", "null");
-    http.send("");
-    alert("You have been logged out.");
+    http.send(null);
+    document.location = "/logoutpage";
     return false;
 }
