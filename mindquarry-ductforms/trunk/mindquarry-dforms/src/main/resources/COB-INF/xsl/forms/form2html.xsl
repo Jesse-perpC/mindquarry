@@ -50,9 +50,11 @@
         dojo.addOnLoad(forms_onload);
         dojo.require("cocoon.forms.*");
     </script> 
+    <script src="{$pathToRoot}/resources/scripts/lightbox.js" />
+    <link rel="stylesheet" type="text/css" href="{$pathToRoot}/resources/css/lightbox.css" />
     
-    <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/>
-    <script src="{$resources-uri}/forms/mattkruse-lib/PopupWindow.js" type="text/javascript"/>
+    <!-- <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/> -->
+    <!-- <script src="{$resources-uri}/forms/mattkruse-lib/PopupWindow.js" type="text/javascript"/>-->
     <!-- script src="{$resources-uri}/forms/mattkruse-lib/OptionTransfer.js" type="text/javascript"/-->
     <!-- script src="{$resources-uri}/forms/mattkruse-lib/selectbox.js" type="text/javascript"/-->
     <!-- xsl:apply-templates select="." mode="forms-calendar"/-->
@@ -113,11 +115,10 @@
   
  <xsl:template match="fi:help">
     <xsl:variable name="id" select="concat(../@id, ':help')"/>
-    <div class="forms-help forms help" id="{$id}" style="visibility:hidden; position:absolute;">
-    	<span style="float:right"><a href="#" onClick="document.getElementById('{$id}').style.visibility = 'hidden';return false;"><img align="top" alt="close" src="{$resources-uri}/forms/img/close.gif" height="6" width="6"/></a></span>
-      <xsl:apply-templates select="node()"/>
+    <div class="forms-help forms help" id="{$id}" style="display:none">
+    	<xsl:apply-templates select="node()"/>
     </div>
-    <a id="{$id}:a" href="#" onclick="forms_createPopupWindow('{$id}').showPopup('{$id}:a');return false;" class="help">
+    <a id="{$id}:a" href="#{$id}" rel="lightbox" class="help">
       <!-- TODO: i18n key for helppopup -->
       <img src="{$pathToRoot}resources/icons/16x16/apps/help-browser.png" alt="helppopup"/>
     </a>
