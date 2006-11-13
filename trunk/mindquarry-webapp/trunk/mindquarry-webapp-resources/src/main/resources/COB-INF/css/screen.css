@@ -11,7 +11,6 @@ a:link {
 
 a:visited {
 	color:#6666cc;
-	text-decoration:none;border-bottom:1px dotted #6666cc; 
 }
 
 a:hover {
@@ -50,6 +49,7 @@ html>body, html>body #webapp-content {
 body {
 	margin: 0;
 	background-color:#efefef;
+	color:black;
 	font-family: Arial, sans-serif;
 }
 
