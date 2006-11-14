@@ -25,8 +25,7 @@
 			<map:selector name="REST"
 				src="org.apache.cocoon.selection.RegexpHeaderSelector">
 				<header-name>accept</header-name>
-				<pattern name="xhtml">application/xhtml\+xml</pattern>
-				<pattern name="html">text/html</pattern>
+				<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
 				<pattern name="xml">text/xml</pattern>
 			</map:selector>
 		</map:selectors>
@@ -237,17 +236,6 @@
 									value="views/teamspacesXMLView" />
 							</map:call>
 						</map:when>
-
-						<!-- handle other stuff (like HTML request) -->
-						<map:otherwise>
-							<map:call
-								function="listTeamspacesForUser">
-								<map:parameter name="username"
-									value="{username}" />
-								<map:parameter name="target"
-									value="views/teamspacesView" />
-							</map:call>
-						</map:otherwise>
 					</map:select>
 				</map:act>
 			</map:match>
