@@ -103,14 +103,28 @@ div.task-area table {
 	text-align:left;
 	margin-bottom:15px;
 	width:100%;
+	padding:0px;
+	border-spacing:0px;
 }
 
 div.task-area table th {
-	background:#bee5b8;
+	background-color:#bee5b8;
+	color:black;
 }
 
-tr.highlight:hover {
-	background-color:#bee5b8;
+tr.highlight td {
+    background-color:white;
+	color:#333333;
+	border-top:1px solid white;
+	border-bottom:1px solid white;
+	padding-top:2px;
+}
+
+tr.highlight:hover td {
+	border-bottom-color:#bee5b8;
+	border-top-color:#dff7da;
+	background-color:#cff6c9;
+	color:#666666;
 }
 
 tr a.task_edit_link {
