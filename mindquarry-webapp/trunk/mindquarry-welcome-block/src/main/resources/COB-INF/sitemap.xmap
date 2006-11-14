@@ -109,13 +109,12 @@
 
 		<map:pipeline>
 			<map:match pattern="loginpage">
-				<map:generate src="jx/login.jx" type="jx"
-					label="content" />
+				<map:generate src="jx/login.jx" type="jx" />
 				<map:call resource="layouting" />
 			</map:match>
 
 			<map:match pattern="logoutpage">
-				<map:generate src="html/logout.html" />
+				<map:generate src="jx/logout.jx" type="jx" />
 				<map:call resource="layouting" />
 			</map:match>
 
