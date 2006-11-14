@@ -180,7 +180,7 @@ dl.ductform dt {
 	clear:both;
 }
 
-dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea.field {
+dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea.field, dl.ductform dd div.RichTextEditable {
 	font-size:14pt;
 	color:#333333;
 	background-color:white;
@@ -188,6 +188,25 @@ dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea
 	border-width:1px;
 	border-style:inset;
 	border-color:#333333;
+	width:100%;
+	display:block;
+	padding:2px;
+	float:right;
+}
+
+dl.ductform dd div.RichTextEditable {
+    margin-top:2px;
+    height:200px;
+}
+
+dl.ductform dd div.EditorToolbarSmallBg {
+    width:100%;
+	display:block;
+	padding:2px;
+	float:right;
+	border-width:1px;
+	border-style:solid;
+	border-color:#ffffff;
 	width:100%;
 	display:block;
 	padding:2px;
@@ -208,6 +227,13 @@ dl.ductform a.help {
 dl.ductform a.help img {
 	border:0px;
 	display:block;
+}
+
+#ductform.description {
+    display:block;
+    border:2px solid black;
+    height:100px;
+    width:100%;
 }
 
 div.togglebutton, div.togglebuttonpushed {
