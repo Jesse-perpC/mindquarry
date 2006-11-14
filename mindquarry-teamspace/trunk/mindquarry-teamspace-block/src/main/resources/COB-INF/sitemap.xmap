@@ -10,8 +10,6 @@
 				src="org.apache.cocoon.acting.HttpCacheAction">
 				<seconds>0</seconds>
 			</map:action>
-			<map:action name="httpauth"
-				src="com.mindquarry.webapp.auth.HttpAuthAction" />
 			<map:action name="log"
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
 		</map:actions>
@@ -210,34 +208,31 @@
 		<map:pipeline type="noncaching">
 			<!-- teamspace list -->
 			<map:match pattern="">
-				<map:act type="httpauth">
+				<!-- check request type: REST / HTML or other -->
+				<map:select type="REST">
 
-					<!-- check request type: REST / HTML or other -->
-					<map:select type="REST">
+					<!--  handle HTML request -->
+					<map:when test="html">
+						<map:call
+							function="listTeamspacesForUser">
+							<map:parameter name="username"
+								value="{request-attr:username}" />
+							<map:parameter name="target"
+								value="views/teamspacesView" />
+						</map:call>
+					</map:when>
 
-						<!--  handle HTML request -->
-						<map:when test="html">
-							<map:call
-								function="listTeamspacesForUser">
-								<map:parameter name="username"
-									value="{username}" />
-								<map:parameter name="target"
-									value="views/teamspacesView" />
-							</map:call>
-						</map:when>
-
-						<!--  handle REST request -->
-						<map:when test="xml">
-							<map:call
-								function="listTeamspacesForUser">
-								<map:parameter name="username"
-									value="{username}" />
-								<map:parameter name="target"
-									value="views/teamspacesXMLView" />
-							</map:call>
-						</map:when>
-					</map:select>
-				</map:act>
+					<!--  handle REST request -->
+					<map:when test="xml">
+						<map:call
+							function="listTeamspacesForUser">
+							<map:parameter name="username"
+								value="{request-attr:username}" />
+							<map:parameter name="target"
+								value="views/teamspacesXMLView" />
+						</map:call>
+					</map:when>
+				</map:select>
 			</map:match>
 		</map:pipeline>
 
@@ -292,44 +287,38 @@
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="*/editMembers/">
-				<map:act type="httpauth">
-					<map:call function="handleForm">
-						<map:parameter name="function"
-							value="processEditMembersForm" />
-						<map:parameter name="definitionURI"
-							value="forms/edit-members-form.xml" />
-						<map:parameter name="teamId" value="{../1}" />
-					</map:call>
-				</map:act>
+				<map:call function="handleForm">
+					<map:parameter name="function"
+						value="processEditMembersForm" />
+					<map:parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<map:parameter name="teamId" value="{1}" />
+				</map:call>
 			</map:match>
 		</map:pipeline>
 
 		<!-- creating users and teamspace / use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="createUser/">
-				<map:act type="httpauth">
-					<map:call function="handleForm">
-						<map:parameter name="function"
-							value="processCreateUserForm" />
-						<map:parameter name="definitionURI"
-							value="forms/edit-members-form.xml" />
-						<map:parameter name="username"
-							value="{username}" />
-					</map:call>
-				</map:act>
+				<map:call function="handleForm">
+					<map:parameter name="function"
+						value="processCreateUserForm" />
+					<map:parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<map:parameter name="username"
+						value="{request-attr:username}" />
+				</map:call>
 			</map:match>
 
 			<map:match pattern="createTeamspace/">
-				<map:act type="httpauth">
-					<map:call function="handleForm">
-						<map:parameter name="function"
-							value="processCreateTeamspaceForm" />
-						<map:parameter name="definitionURI"
-							value="forms/create-teamspace-form.xml" />
-						<map:parameter name="username"
-							value="{username}" />
-					</map:call>
-				</map:act>
+				<map:call function="handleForm">
+					<map:parameter name="function"
+						value="processCreateTeamspaceForm" />
+					<map:parameter name="definitionURI"
+						value="forms/create-teamspace-form.xml" />
+					<map:parameter name="username"
+						value="{request-attr:username}" />
+				</map:call>
 			</map:match>
 		</map:pipeline>
 
@@ -348,34 +337,27 @@
 				(typically used for GET requests) -->
 			<map:match pattern="**/*.continue">
 				<map:act type="setnohttpcache" />
-				<map:act type="httpauth">
-					<map:call continuation="{../2}" />
-				</map:act>
+				<map:call continuation="{2}" />
 			</map:match>
 			<map:match pattern="*.continue">
 				<map:act type="setnohttpcache" />
-				<map:act type="httpauth">
-					<map:call continuation="{../1}" />
-				</map:act>
+				<map:call continuation="{1}" />
 			</map:match>
 			
 			<!-- single teamspace -->
 			<map:match pattern="*">
-				<map:act type="httpauth">
-
-					<!-- check request type: REST / HTML or other -->
-					<map:select type="REST">
-						<!--  handle REST request -->
-						<map:when test="xml">
-							<map:call function="teamspacesByID">
-								<map:parameter name="teamspaceID"
-									value="{../1}" />
-								<map:parameter name="target"
-									value="views/teamspaceXMLView" />
-							</map:call>
-						</map:when>
-					</map:select>
-				</map:act>
+				<!-- check request type: REST / HTML or other -->
+				<map:select type="REST">
+					<!--  handle REST request -->
+					<map:when test="xml">
+						<map:call function="teamspacesByID">
+							<map:parameter name="teamspaceID"
+								value="{1}" />
+							<map:parameter name="target"
+								value="views/teamspaceXMLView" />
+						</map:call>
+					</map:when>
+				</map:select>
 			</map:match>
 			
 			<!-- single teamspace -->
