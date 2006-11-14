@@ -134,6 +134,7 @@
 			<!-- the generated form model including all possible fields  -->
 			<match pattern="*.xml.form">
 				<generate src="cocoon:/complete-model.xml" />
+				<act type="log-params"/>
 				<transform src="xsl/forms/modelincluded2form.xsl">
 					<parameter name="teamspace" value="{request-param:teamspace}"/>
 					<parameter name="username" value="{request-param:username}"/>
@@ -213,6 +214,7 @@
 			</match>
 
 			<match pattern="dform-debug">
+				<!--
 				<call function="handleForm">
 					<parameter name="function" value="showDForm" />
 					<parameter name="baseURI"
@@ -222,6 +224,8 @@
 					<parameter name="definitionURI"
 						value="block:/{request-param:documentID}.xml.form" />
 				</call>
+				-->
+				<read src="block:/{request-param:documentID}.xml.form?teamspace={url-encode:{request-param:callerTeamspace}}&amp;username={url-encode:{request-param:callerUsername}}" />
 			</match>
 
 			<!-- internal, for child to retrieve xml -->
