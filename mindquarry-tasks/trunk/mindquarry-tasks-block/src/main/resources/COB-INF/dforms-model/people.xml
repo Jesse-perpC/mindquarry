@@ -26,6 +26,9 @@
 			<fd:hint>Remove a person that is no longer relevant to this document</fd:hint>
 		</fd:row-action>
 		</fd:widgets>
+		<fd:attributes>
+			<fd:attribute name="related" value="peopleadd"/>
+		</fd:attributes>
 	</fd:repeater>
 	<fd:repeater-action id="add" command="add-row">
 		<fd:label>Add Person</fd:label>
@@ -33,32 +36,39 @@
 	
 	
 	<ft:repeater>
-		<div>
-			<fi:label>People</fi:label>
+		<div class="repeater">
+			<fi:label class="hidden">People</fi:label>
+			<jx:choose>
+				<jx:when test="${repeater.getSize() == 0}">
+					<p>There are no people assigned to this task</p>
+				</jx:when>
+				<jx:otherwise>
+					<table>
+						<tbody>
+								<tr>
+									<th class="peopleperson">
+										<ft:repeater-widget-label widget-id="peopleperson" />
+									</th>
+									<th class="peoplerole">
+										<ft:repeater-widget-label widget-id="peoplerole" />
+									</th>
+								</tr>
+								<ft:repeater-rows>
+									<tr class="forms-row-${repeaterLoop.index % 2}">
+										<td class="peopleperson">
+											<ft:widget id="peopleperson" />
+										</td>
+										<td class="peoplerole">
+											<ft:widget id="peoplerole" />
+											<ft:widget id="delete"/>
+										</td>
+									</tr>
+							</ft:repeater-rows>
+						</tbody>
+					</table>
+				</jx:otherwise>
+			</jx:choose>
 			<ft:widget id="../peopleadd"/>
-			<table>
-				<tbody>
-					<tr>
-						<th class="peopleperson">
-							<ft:repeater-widget-label widget-id="peopleperson" />
-						</th>
-						<th class="peoplerole">
-							<ft:repeater-widget-label widget-id="peoplerole" />
-						</th>
-					</tr>
-					<ft:repeater-rows>
-						<tr class="forms-row-${repeaterLoop.index % 2}">
-							<td class="peopleperson">
-								<ft:widget id="peopleperson" />
-							</td>
-							<td class="peoplerole">
-								<ft:widget id="peoplerole" />
-								<ft:widget id="delete"/>
-							</td>
-						</tr>
-					</ft:repeater-rows>
-				</tbody>
-			</table>
 		</div>
 	</ft:repeater>
 	

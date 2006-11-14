@@ -2,7 +2,7 @@
 	display: none;
 }
 
-a.edit_task_button:link, a.edit_task_button:visited,  {
+a.edit_task_button:link, a.edit_task_button:visited  {
 	background-image: url(../buttons/edit_task.png);
 	display: block;
 	width: 140px;
@@ -33,10 +33,6 @@ table.forms {
 th {
 	text-align:left;
 	vertical-align:top;
-}
-
-label.output {
-	font-weight:bold;
 }
 
 div#actions {
