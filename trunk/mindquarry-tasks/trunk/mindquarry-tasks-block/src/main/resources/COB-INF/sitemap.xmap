@@ -23,8 +23,7 @@
 			<selector name="REST"
 				src="org.apache.cocoon.selection.RegexpHeaderSelector">
 				<header-name>accept</header-name>
-				<pattern name="xhtml">application/xhtml\+xml</pattern>
-				<pattern name="html">text/html</pattern>
+				<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
 				<pattern name="xml">text/xml</pattern>
 			</selector>
 
@@ -409,9 +408,6 @@
 						<when test="xml">
 							<read src="cocoon:/internal/pipe/list.xml" />
 						</when>
-						<otherwise>
-							<read src="cocoon:/internal/pipe/list.html" />
-						</otherwise>
 					</select>
 				</act>
 			</match>
@@ -445,10 +441,6 @@
 							<read
 								src="cocoon:/internal/pipe/{../1}/list.xml" />
 						</when>
-						<otherwise>
-							<read
-								src="cocoon:/internal/pipe/{../1}/list.html" />
-						</otherwise>
 					</select>
 				</act>
 			</match>
