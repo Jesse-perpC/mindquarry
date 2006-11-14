@@ -101,14 +101,6 @@ function createLoginForm(httpauth)
 
 function createLogoutLink(httplogout)
 {
-/*
-	var logoutDiv = document.createElement("div");
-    logoutDiv.onclick = function() {logout();};
-    logoutDiv.id = "http-logout-link";
-	logoutDiv.innerHTML = "Log out";
-	
-    httplogout.appendChild(logoutDiv);
-*/
     httplogout.onclick = function() {logout();};
     httplogout.id = "http-logout-link";
 	httplogout.innerHTML = "Log out";
@@ -172,5 +164,14 @@ function logout()
     http.open("get", "/", false, "null", "null");
     http.send(null);
     
-    document.location = "/logoutpage?targetUri=" + window.location.pathname;
+    try {
+	    // in IE the above does not work, so we use that special function
+	    // "ClearAuthenticationCache" available only in some browsers
+	    // including the IE; for eg. Firefox, who cannot handle this command,
+	    // we have the try-catch statement
+	    document.execCommand("ClearAuthenticationCache");
+	} catch (e) {
+	}
+	    
+    window.location = "/logoutpage?targetUri=" + window.location.pathname;
 }
