@@ -19,8 +19,8 @@ a:hover {
 }
 
 /* Main Rules */
-p, div,  td {
-  font-family:Lucida Grande, Bitstream Vera Sans, Verdana, Sans, Arial,sans-serif;
+p, div,  td, textarea {
+  font-family:"Lucida Grande", "Bitstream Vera Sans", Verdana, Sans, Arial, sans-serif;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -165,11 +165,13 @@ dl.ductform dt label {
 	font-size:9pt;
 	font-weight:normal;
 	color:#666666;
+	background-color:white;
 }
 
 dl.ductform dd {
 	font-size:14pt;
 	color:#333333;
+	background-color:white;
 	margin-bottom:5px;
 	clear:both;
 }
@@ -178,9 +180,10 @@ dl.ductform dt {
 	clear:both;
 }
 
-dl.ductform dd input.field,  dl.ductform dd span.output {
+dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea.field {
 	font-size:14pt;
 	color:#333333;
+	background-color:white;
 	margin-bottom:15px;
 	border-width:1px;
 	border-style:inset;
@@ -209,7 +212,7 @@ dl.ductform a.help img {
 
 div.togglebutton, div.togglebuttonpushed {
 	float:left;
-	border:2px outset #dddddd;
+	border:1px outset #dddddd;
 	background-color:#dddddd;
 	padding-top:4px;
 	padding-right:4px;
