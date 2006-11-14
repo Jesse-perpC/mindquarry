@@ -5,12 +5,6 @@
 
 	<xsl:param name="basePath" />
 
-	<xsl:template match="tasks">
-		<xsl:copy>
-			<xsl:apply-templates />
-		</xsl:copy>
-	</xsl:template>
-
 	<!-- access the JCR (via path param) and get the title -->	
 	<xsl:template match="task">
 		<task xlink:href="{@id}">

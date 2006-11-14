@@ -24,6 +24,7 @@
 					<div class="firstlinks">
 						<ul>
 		        			<li><a class="create_task_button" href="task{count(*)+1}">Create task</a></li>
+	        			<li><a class="create_filter_button" href="filters/new">Create filter</a></li>
 						</ul>
 					</div>
 				
@@ -33,9 +34,24 @@
 								<th>Task</th>
 								<th>Status</th>
 							</tr>
-							<xsl:apply-templates>
+							<xsl:apply-templates select="task">
 								<xsl:sort select="id" />
 							</xsl:apply-templates>
+						</table>
+					</div>
+
+					<div class="task-area">
+						<table class="task-list">
+							<tr>
+								<th>Filter</th>
+							</tr>
+							<xsl:for-each select="filter">
+								<tr>
+									<td>
+										<a href="{@xlink:href}"><xsl:value-of select="title"/></a>
+									</td>
+								</tr>
+							</xsl:for-each>
 						</table>
 					</div>
 

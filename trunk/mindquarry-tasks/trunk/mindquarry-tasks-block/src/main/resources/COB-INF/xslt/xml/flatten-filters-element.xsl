@@ -3,7 +3,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
-	<xsl:template match="teamspace/filters">
+	<xsl:template match="filters">
 		<xsl:apply-templates />
 	</xsl:template>
 
