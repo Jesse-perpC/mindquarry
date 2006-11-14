@@ -4,13 +4,6 @@
 	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
 -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-	<map:components>
-		<map:actions>
-			<map:action name="httpauth"
-				src="com.mindquarry.webapp.auth.HttpAuthAction" />
-		</map:actions>
-	</map:components>
-
 	<map:views>
 		<map:view name="content" from-label="content">
 			<map:serialize type="xml" />
