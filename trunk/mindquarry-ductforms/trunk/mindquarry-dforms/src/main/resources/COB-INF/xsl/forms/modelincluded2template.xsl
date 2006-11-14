@@ -31,7 +31,7 @@
 			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
 					 they know the correct URL -->
-				<ft:form method="POST" action="" ajax="true">
+				<ft:form method="POST" action="">
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 				
 					<!-- the switch button -->

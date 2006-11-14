@@ -94,12 +94,19 @@
   	</dl>
   </xsl:template>
   
-  <xsl:template match="fi:*" mode="default">
+  <xsl:template match="fi:*|fi:items/*" mode="default">
     <dt><xsl:apply-templates select="." mode="label"/></dt>
     <dd>
     	<xsl:apply-templates select="." />
     </dd>
   </xsl:template>
+  
+  <xsl:template match="node() | @*" mode="default">
+    <xsl:copy>
+      <xsl:apply-templates select="node() | @*" mode="default"/>
+    </xsl:copy>
+  </xsl:template>
+  
   
   <xsl:template match="fi:field[fi:styling/@styling='link']">
   	<a href="{normalize-space(fi:value)}">
@@ -124,5 +131,22 @@
     </a>
   </xsl:template>
   
+  <xsl:template match="fi:items/*/fi:label"/>
+  
+  <xsl:template match="fi:items/*" mode="label">
+    <xsl:param name="id"/>
+    
+    <xsl:variable name="resolvedId">
+      <xsl:choose>
+        <xsl:when test="$id != ''"><xsl:value-of select="$id"/></xsl:when>
+        <xsl:otherwise><xsl:value-of select="concat(@id, ':input')"/></xsl:otherwise>
+      </xsl:choose>
+    </xsl:variable>
+    
+    <label for="{$resolvedId}" title="{fi:hint}">
+      <xsl:apply-templates select="." mode="css"/>
+      <xsl:copy-of select="fi:label/node()"/>
+    </label>
+  </xsl:template>
 
 </xsl:stylesheet>

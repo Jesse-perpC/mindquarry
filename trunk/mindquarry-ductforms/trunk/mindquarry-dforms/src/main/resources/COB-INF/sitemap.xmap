@@ -156,11 +156,11 @@
 			<match pattern="*.xml.instance">
 
 				<!-- get the form template from a dynamic pipeline -->
-				<generate type="jx" src="cocoon:/{1}.xml.template">
+				<generate type="jx" src="cocoon:/{1}.xml.template" label="raw" >
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
 				
-				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" label="raw" />
+				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
 
 				<transform type="browser-update" />
 				
@@ -207,6 +207,18 @@
 						<read src="cocoon:/edit-document" />
 					</otherwise>
 				</select> -->
+			</match>
+
+			<match pattern="dform-debug">
+				<call function="handleForm">
+					<parameter name="function" value="showDForm" />
+					<parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<parameter name="documentID"
+						value="{request-param:documentID}" />
+					<parameter name="definitionURI"
+						value="block:/{request-param:documentID}.xml.form" />
+				</call>
 			</match>
 
 			<!-- internal, for child to retrieve xml -->
