@@ -15,6 +15,7 @@ dojo.require("dojo.event");
 dojo.require("cocoon.ajax.common");
 dojo.require("cocoon.ajax.insertion");
 dojo.require("dojo.lfx.html");
+dojo.require("dojo.widget.Editor2");
 /*-------------------------------GLOBAL VARIABLES------------------------------------*/
 
 var detect = navigator.userAgent.toLowerCase();
