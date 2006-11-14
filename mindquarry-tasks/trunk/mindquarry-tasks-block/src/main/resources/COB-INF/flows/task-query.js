@@ -12,6 +12,39 @@ function displayQueryForm() {
 	form_.showForm(cocoon.parameters["templatePipeline"]);
 }
 
+function displaySavedFilter() {
+    var filterID = cocoon.parameters["filterID"];
+    teamspaceID_ = cocoon.parameters["teamspaceID"];
+    
+    // retrieve saved filter
+	var pfSource;
+	var srcResolver;
+	try {
+		// resolve filter directory
+		srcResolver = cocoon.getComponent(
+				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
+		pfSource = srcResolver.resolveURI("jcr:///teamspaces/" + teamspaceID_ + 
+										"/tasks/filters/" + filterID);
+		
+		form_ = new Form(cocoon.parameters["definitionURI"]);
+		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
+								form_.lookupWidget("/queryBuilder"));
+	
+    	// load saved filter data
+    	var parser = Packages.org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
+    	parser.setContentHandler(xmlAdapter);
+    	parser.parse(new Packages.org.xml.sax.InputSource(pfSource.getInputStream()));
+    	
+    	executeQuery();
+    	form_.showForm(cocoon.parameters["templatePipeline"]);
+	} finally {
+		if (pfSource != null) {
+			srcResolver.release(pfSource);
+		}
+		cocoon.releaseComponent(srcResolver);
+	}
+}
+
 function buildQuery() {
 	var partRepeater = form_.lookupWidget("/queryBuilder/parts");
     var aggregator = form_.lookupWidget("/queryBuilder/aggregator").getValue();
@@ -47,15 +80,14 @@ function buildQuery() {
 	return(query);
 }
 
-function executeQuery(event) {
+function executeQuery() {
 	// validate query widget
 	form_.lookupWidget("/queryBuilder/parts").validate();
 	if(!form_.lookupWidget("/queryBuilder/parts").isValid()) return;
 	
 	// create query
 	var query = buildQuery();
-    print(query);
-    
+        
     // clear previous results (if necessary)
 	var resultRepeater = form_.lookupWidget("/results");
 	resultRepeater.clear();
@@ -106,7 +138,7 @@ function executeQuery(event) {
 	}
 }
 
-function saveQuery(event) {
+function saveQuery() {
 	// validate query name widget
 	var nameWidget = form_.lookupWidget("/queryBuilder/queryName");
 	nameWidget.validate();

@@ -120,7 +120,7 @@
 				<fd:action id="saveQuery">
 					<fd:label>Save Query</fd:label>
 					<fd:on-action>
-						<fd:javascript>saveQuery(event);</fd:javascript>
+						<fd:javascript>saveQuery();</fd:javascript>
 					</fd:on-action>
 				</fd:action>
 				
@@ -152,7 +152,7 @@
 		<fd:action id="executeQuery">
 			<fd:label>Execute Query</fd:label>
 			<fd:on-action>
-				<fd:javascript>executeQuery(event);</fd:javascript>
+				<fd:javascript>executeQuery();</fd:javascript>
 			</fd:on-action>
 		</fd:action>
 		
