@@ -4,8 +4,6 @@
 		<map:actions>
 			<map:action name="log"
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
-			<map:action name="httpauth"
-				src="com.mindquarry.webapp.auth.HttpAuthAction" />
 		</map:actions>
 		<map:serializers>
 			<map:serializer name="jnlp" 
@@ -21,18 +19,16 @@
 	<map:pipelines>
 		<map:pipeline>
 			<map:match pattern="client/client.jnlp">
-				<map:act type="httpauth">
-					<map:call function="sendJNLP">
-						<map:parameter name="target"
-							value="views/JNLPView" />
-						<map:parameter name="username"
-							value="{username}" />
-						<map:parameter name="endpoint"
-							value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
-						<map:parameter name="ctxPath"
-							value="{request:servletPath}" />
-					</map:call>
-				</map:act>
+				<map:call function="sendJNLP">
+					<map:parameter name="target"
+						value="views/JNLPView" />
+					<map:parameter name="username"
+						value="{request-attr:username}" />
+					<map:parameter name="endpoint"
+						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
+					<map:parameter name="ctxPath"
+						value="{request:servletPath}" />
+				</map:call>
 			</map:match>
 
 			<map:match pattern="views/JNLPView">
