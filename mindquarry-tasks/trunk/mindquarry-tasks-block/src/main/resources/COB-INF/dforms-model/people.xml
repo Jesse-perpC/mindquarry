@@ -14,7 +14,7 @@
 		<fd:widgets>
 			<fd:field id="peopleperson">
 				<fd:datatype base="string" />
-				<!--fd:selection-list src="cocoon://teamspace/foobar/users.xml" dynamic="true"/-->
+				<fd:selection-list src="block:/users.xml" cache="request" type="flow"/>
 				<fd:label>Person</fd:label>
 			</fd:field>
 			<fd:field id="peoplerole">

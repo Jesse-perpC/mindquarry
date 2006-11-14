@@ -503,12 +503,12 @@
 							<parameter name="parameter-name" value="continuation-id" />
 							<when test="number">
 								<!-- it's a continuation (editing) -->
-								<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" label="raw"/>
+								<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="raw"/>
 							</when>
 							<otherwise>
 								<!-- normal viewing (or editing when new) -->
 								<generate
-									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" label="raw" />
+									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="raw" />
 							</otherwise>
 						</select>
 						<transform src="xslt/html/task-view-or-edit.xsl">
