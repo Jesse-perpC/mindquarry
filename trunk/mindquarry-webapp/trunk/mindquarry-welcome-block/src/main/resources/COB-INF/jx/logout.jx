@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
+-->
+<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+	<html>
+		<head>
+			<title>Logout successful</title>
+		</head>
+		<body>
+			<h1>Logout successful</h1>
+			<div class="logout-block">
+				<p>You have been sucessfully logged out. Thanks for using the Mindquarry system!</p>
+
+				<a href="/loginpage?targetUri=${cocoon.request.targetUri}">Log in again</a>
+			</div>
+			<br/>
+		</body>
+	</html>
+</jx:template>

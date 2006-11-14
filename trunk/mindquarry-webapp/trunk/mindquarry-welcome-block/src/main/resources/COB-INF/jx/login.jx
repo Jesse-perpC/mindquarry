@@ -13,12 +13,14 @@
 		</head>
 		<body>
 			<h1>Login</h1>
-			<div class="loginform"
-				style="width:400px;margin-left:auto;margin-right:auto;">
-				<p>You are not logged in. Please enter your username and password.</p>
-				<div id="loginform">
-					<a href="/?request=login&amp;targetUri=${cocoon.request.targetUri}" class="httpauth" id="login-form">Authenticate for ${cocoon.request.targetUri}</a>
+			<div class="login-block">
+				<p>You are not logged in. Please enter your username and password to proceed.</p>
+				<div>
+					<a href="/?request=login&amp;targetUri=${cocoon.request.targetUri}" class="httpauth" id="login-form">
+						Click here to login
+					</a>
 				</div>
+				<p>You will be redirected to ${cocoon.request.targetUri}.</p>
 			</div>
 		</body>
 	</html>
