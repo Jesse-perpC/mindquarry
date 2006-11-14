@@ -161,7 +161,7 @@ dl.ductform {
 	width:100%;
 }
 
-dl.ductform dt label {
+dl.ductform dt label, dl.ductform dd div.repeater th {
 	font-size:9pt;
 	font-weight:normal;
 	color:#666666;
@@ -180,6 +180,10 @@ dl.ductform dt {
 	clear:both;
 }
 
+dl.ductform dd label.hidden {
+    display:none;
+}
+
 dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea.field, dl.ductform dd div.RichTextEditable {
 	font-size:14pt;
 	color:#333333;
@@ -192,6 +196,36 @@ dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea
 	display:block;
 	padding:2px;
 	float:right;
+}
+
+dl.ductform dd div.repeater input.field,  dl.ductform dd div.repeater span.output, dl.ductform dd div.repeater input.action {
+    display:block;
+    width:150px;
+    float:left;
+    margin-bottom:2px;
+}
+
+dl.ductform dd div.repeater input.output {
+    display:none;
+}
+
+dl.ductform dd div.repeater table {
+    border:1px solid #666666;
+	padding:0px;
+	border-spacing:0px;
+}
+
+dl.ductform dd div.repeater th {
+    text-align:left;
+    font-weight:normal;
+    background-color:#eeeeee;
+    padding:2px;
+}
+
+dl.ductform dd div.repeater td {
+    text-align:left;
+    font-weight:normal;
+    padding:2px;
 }
 
 dl.ductform dd div.RichTextEditable {
