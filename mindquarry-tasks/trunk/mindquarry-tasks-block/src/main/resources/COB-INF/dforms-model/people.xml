@@ -1,6 +1,7 @@
 <df:datatype id="people" position="6"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<fd:repeater>
@@ -13,6 +14,7 @@
 		<fd:widgets>
 			<fd:field id="peopleperson">
 				<fd:datatype base="string" />
+				<!--fd:selection-list src="cocoon://teamspace/foobar/users.xml" dynamic="true"/-->
 				<fd:label>Person</fd:label>
 			</fd:field>
 			<fd:field id="peoplerole">
@@ -29,30 +31,36 @@
 		<fd:label>Add Person</fd:label>
 	</fd:repeater-action>
 	
+	
 	<ft:repeater>
-		<table>
-			<tbody>
-				<tr>
-					<th>
-						<ft:repeater-widget-label widget-id="peopleperson" />
-					</th>
-					<th>
-						<ft:repeater-widget-label widget-id="peoplerole" />
-					</th>
-				</tr>
-				<ft:repeater-rows>
-					<tr class="forms-row-${repeaterLoop.index % 2}">
-						<td>
-							<ft:widget id="peopleperson" />
-						</td>
-						<td>
-							<ft:widget id="peoplerole" />
-							<ft:widget id="delete"/>
-						</td>
+		<div>
+			<fi:label>People</fi:label>
+			<ft:widget id="../peopleadd"/>
+			<table>
+				<tbody>
+					<tr>
+						<th class="peopleperson">
+							<ft:repeater-widget-label widget-id="peopleperson" />
+						</th>
+						<th class="peoplerole">
+							<ft:repeater-widget-label widget-id="peoplerole" />
+						</th>
 					</tr>
-				</ft:repeater-rows>
-			</tbody>
-		</table>
+					<ft:repeater-rows>
+						<tr class="forms-row-${repeaterLoop.index % 2}">
+							<td class="peopleperson">
+								<ft:widget id="peopleperson" />
+							</td>
+							<td class="peoplerole">
+								<ft:widget id="peoplerole" />
+								<ft:widget id="delete"/>
+							</td>
+						</tr>
+					</ft:repeater-rows>
+				</tbody>
+			</table>
+		</div>
 	</ft:repeater>
+	
 	 
 </df:datatype>

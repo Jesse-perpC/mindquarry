@@ -429,6 +429,12 @@
 				| JCR path for the task:
 				| /teamspaces/<teamspace-id>/tasks/<task-id>
 				+-->
+				
+			<match pattern="*/*.debug">
+				<generate
+					src="block:super:/dform-debug?cocoon-view=raw&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+				<serialize tpye="xml" />
+			</match>
 
 			<match pattern="*/*">
 				<act type="httpauth">
