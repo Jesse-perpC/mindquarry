@@ -59,10 +59,15 @@
 				<div class="queries">
 					<h3>Saved Filters</h3>
 					<ul>
+						<xsl:call-template name="filters" />
 						<li>test</li>
 					</ul>
 				</div>
 			</div>
 		</li>
+	</xsl:template>
+	
+	<xsl:template name="filters">
+		
 	</xsl:template>
 </xsl:stylesheet>

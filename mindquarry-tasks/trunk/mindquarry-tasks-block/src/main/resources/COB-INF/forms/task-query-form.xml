@@ -1,82 +1,133 @@
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
-		<!-- query aggregator field -->
-		<fd:field id="aggregator">
-			<!-- basic configuration -->
-			<fd:label>Aggregator</fd:label>
-			<fd:datatype base="string" />
-
-			<!-- selectable values -->
-			<fd:selection-list>
-				<fd:item value="and" />
-				<fd:item value="or" />
-			</fd:selection-list>
-
-			<!-- helper information -->
-			<fd:hint>
-				The aggregator that is used for assembling the query.
-			</fd:hint>
-			<fd:help>
-				Can be used for building different link types between query parts.
-			</fd:help>
-		</fd:field>
-				
-		<!-- query part repeater -->
-		<fd:repeater id="parts">
-			<fd:label>Query Parts</fd:label>
-
-			<!-- query part widgets -->
+		<fd:group id="queryBuilder">
 			<fd:widgets>
-				<!-- field name configuration -->
-				<fd:field id="field">
+				<!-- query aggregator field -->
+				<fd:field id="aggregator">
 					<!-- basic configuration -->
-					<fd:label>Field Name</fd:label>
+					<fd:label>Aggregator</fd:label>
 					<fd:datatype base="string" />
-
+		
 					<!-- selectable values -->
 					<fd:selection-list>
-						<fd:item value="Title" />
-						<fd:item value="Summary" />
-						<fd:item value="Status" />
-						<fd:item value="Date" />
-						<fd:item value="Description" />
-						<fd:item value="People" />
+						<fd:item value="and" />
+						<fd:item value="or" />
 					</fd:selection-list>
-
+		
 					<!-- helper information -->
 					<fd:hint>
-						Name of the field that should be evaluated.
+						The aggregator that is used for assembling the query.
 					</fd:hint>
 					<fd:help>
-						Can be used for selecting a field that is used in a query.
+						Can be used for building different link types between query parts.
 					</fd:help>
 				</fd:field>
-
-				<!-- selector configuration -->
-				<fd:field id="selector">
-					<!-- basic configuration -->
-					<fd:label>Selector</fd:label>
-					<fd:datatype base="string" />
-
-					<!-- selectable values -->
-					<fd:selection-list>
-						<fd:item value="equals" />
-						<fd:item value="contains" />
-					</fd:selection-list>
-
+						
+				<!-- query part repeater -->
+				<fd:repeater id="parts">
+					<fd:label>Query Parts</fd:label>
+		
+					<!-- query part widgets -->
+					<fd:widgets>
+						<!-- field name configuration -->
+						<fd:field id="field">
+							<!-- basic configuration -->
+							<fd:label>Field Name</fd:label>
+							<fd:datatype base="string" />
+		
+							<!-- selectable values -->
+							<fd:selection-list>
+								<fd:item value="Title" />
+								<fd:item value="Summary" />
+								<fd:item value="Status" />
+								<fd:item value="Date" />
+								<fd:item value="Description" />
+								<fd:item value="People" />
+							</fd:selection-list>
+		
+							<!-- helper information -->
+							<fd:hint>
+								Name of the field that should be evaluated.
+							</fd:hint>
+							<fd:help>
+								Can be used for selecting a field that is used in a query.
+							</fd:help>
+						</fd:field>
+		
+						<!-- selector configuration -->
+						<fd:field id="selector">
+							<!-- basic configuration -->
+							<fd:label>Selector</fd:label>
+							<fd:datatype base="string" />
+		
+							<!-- selectable values -->
+							<fd:selection-list>
+								<fd:item value="equals" />
+								<fd:item value="contains" />
+							</fd:selection-list>
+		
+							<!-- helper information -->
+							<fd:hint>
+								Selector that is used for evaluating the specified field.
+							</fd:hint>
+							<fd:help>
+								Can be used for specifing selection criteria.
+							</fd:help>
+						</fd:field>
+		
+						<!-- value configuration -->
+						<fd:field id="value" required="true">
+							<!-- basic configuration -->
+							<fd:label>Value</fd:label>
+							<fd:datatype base="string" />
+							<fd:validation>
+								<fd:length min="1">
+									<fd:failmessage>
+										Value field must contain one ore more characters.
+									</fd:failmessage>
+								</fd:length>
+							</fd:validation>
+		
+							<!-- helper information -->
+							<fd:hint>
+								The value that is used in the field evaluation according to the specified selection criteria.
+							</fd:hint>
+							<fd:help>
+								Can be used for specifing values to be used in
+								the selection criteria.
+							</fd:help>
+						</fd:field>
+						
+						<fd:row-action id="delete" command="delete">
+							<fd:label>Remove</fd:label>
+						</fd:row-action>
+					</fd:widgets>
+		
 					<!-- helper information -->
-					<fd:hint>
-						Selector that is used for evaluating the specified field.
-					</fd:hint>
+					<fd:hint>Parts of a query.</fd:hint>
 					<fd:help>
-						Can be used for specifing selection criteria.
+						Use this field for configuring the parts of a query.
 					</fd:help>
-				</fd:field>
-
-				<!-- value configuration -->
-				<fd:field id="value">
+				</fd:repeater>
+				
+				<!-- add field to query action -->
+				<fd:repeater-action repeater="parts" id="addPart"
+					command="add-row">
+					<fd:label>Add Rule</fd:label>
+				</fd:repeater-action>
+				
+				<!-- save query action -->
+				<fd:action id="saveQuery">
+					<fd:label>Save Query</fd:label>
+					<fd:on-action>
+						<fd:javascript>saveQuery(event);</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+				
+				<!-- query name configuration -->
+				<fd:field id="queryName" required="true">
 					<!-- basic configuration -->
-					<fd:label>Value</fd:label>
+					<fd:label>Query Name</fd:label>
 					<fd:datatype base="string" />
 					<fd:validation>
 						<fd:length min="1">
@@ -85,34 +136,17 @@
 							</fd:failmessage>
 						</fd:length>
 					</fd:validation>
-
+		
 					<!-- helper information -->
 					<fd:hint>
-						The value that is used in the field evaluation according to the specified selection criteria.
+						Name of the query.
 					</fd:hint>
 					<fd:help>
-						Can be used for specifing values to be used in
-						the selection criteria.
+						Can be used for setting the name of a stored query a query.
 					</fd:help>
 				</fd:field>
-				
-				<fd:row-action id="delete" command="delete">
-					<fd:label>Remove</fd:label>
-				</fd:row-action>
 			</fd:widgets>
-
-			<!-- helper information -->
-			<fd:hint>Parts of a query.</fd:hint>
-			<fd:help>
-				Use this field for configuring the parts of a query.
-			</fd:help>
-		</fd:repeater>
-
-		<!-- add field to query action -->
-		<fd:repeater-action repeater="parts" id="addPart"
-			command="add-row">
-			<fd:label>Add Rule</fd:label>
-		</fd:repeater-action>
+		</fd:group>
 
 		<!-- execute query action -->
 		<fd:action id="executeQuery">
@@ -121,7 +155,8 @@
 				<fd:javascript>executeQuery(event);</fd:javascript>
 			</fd:on-action>
 		</fd:action>
-
+		
+		<!-- repeater for displaying query results -->
 		<fd:repeater id="results" state="output">
 			<!-- query part widgets -->
 			<fd:widgets>

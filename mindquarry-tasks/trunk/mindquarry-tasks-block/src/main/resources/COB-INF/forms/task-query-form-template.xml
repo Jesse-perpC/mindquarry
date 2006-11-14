@@ -13,54 +13,52 @@
 			action="query.#{$cocoon/continuation/id}.continue" method="POST"
 			ajax="true">
 			
-			<div class="nifty">
-				<div>
-					<ft:widget id="aggregator" />
-				</div>
-				<ft:repeater id="parts"
-					xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-					<table>
-						<!--thead>
-							<tr>
-								<th>
-									<ft:repeater-widget-label
-										widget-id="field" />
-								</th>
-								<th>
-									<ft:repeater-widget-label
-										widget-id="selector" />
-								</th>
-								<th>
-									<ft:repeater-widget-label
-										widget-id="value" />
-								</th>
-							</tr>
-						</thead-->
-						<tbody>
-							<ft:repeater-rows>
-								<tr
-									class="forms-row-${repeaterLoop.index % 2}">
-									<td>
-										<ft:widget id="field" />
-									</td>
-									<td>
-										<ft:widget id="selector" />
-									</td>
-									<td>
-										<ft:widget id="value" />
-									</td>
-									<td>
-										<ft:widget id="delete" />
-									</td>
-								</tr>
-							</ft:repeater-rows>
-						</tbody>
-					</table>
-				</ft:repeater>
+			<h1>Create Filter</h1>
 			
-				<div>
-					<ft:widget id="addPart" />
+			<div class="nifty">
+				<ft:group id="queryBuilder">
+					<div>
+						<ft:widget id="aggregator" />
+						<ft:widget id="addPart" />
+					</div>
+					<ft:repeater id="parts"
+						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+						<table>
+							<tbody>
+								<ft:repeater-rows>
+									<tr
+										class="forms-row-${repeaterLoop.index % 2}">
+										<td>
+											<ft:widget id="field" />
+										</td>
+										<td>
+											<ft:widget id="selector" />
+										</td>
+										<td>
+											<ft:widget id="value" />
+										</td>
+										<td>
+											<ft:widget id="delete" />
+										</td>
+									</tr>
+								</ft:repeater-rows>
+							</tbody>
+						</table>
+					</ft:repeater>
+				</ft:group>
+							
+				<div class="actions">
+					<ft:group id="queryBuilder">
+						<ft:widget-label id="queryName" />
+						<ft:widget id="queryName" />
+					</ft:group>
+				</div>
+				
+				<div class="actions">
 					<ft:widget id="executeQuery" />
+					<ft:group id="queryBuilder">
+						<ft:widget id="saveQuery" />
+					</ft:group>
 				</div>
 			</div>
 			

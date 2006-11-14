@@ -12,21 +12,11 @@ function displayQueryForm() {
 	form_.showForm(cocoon.parameters["templatePipeline"]);
 }
 
-function executeQuery(event) {
-	// validate query widget
-	form_.getWidget().validate();
-	if(!form_.getWidget().isValid()) return;
-		
-	// retrieve model
-	var model = form_.getModel();
-    var partRepeater = form_.lookupWidget("/parts");
-    var aggregator = form_.lookupWidget("/aggregator").getValue();
+function buildQuery() {
+	var partRepeater = form_.lookupWidget("/queryBuilder/parts");
+    var aggregator = form_.lookupWidget("/queryBuilder/aggregator").getValue();
     
-    // clear previous results (if necessary)
-	var resultRepeater = form_.lookupWidget("/results");
-	resultRepeater.clear();
-    
-   	// build query
+	// build query
     var query = "jcr:///teamspaces/" + teamspaceID_ + "/tasks?" + "/*";
 
     var rowCount = partRepeater.getSize();
@@ -54,20 +44,35 @@ function executeQuery(event) {
 	    }
 	    query = query + "]";
 	}
-	// uncomment this for debug output of created XPath queries
-	//print(query);
-					
-	// execute query
+	return(query);
+}
+
+function executeQuery(event) {
+	// validate query widget
+	form_.lookupWidget("/queryBuilder/parts").validate();
+	if(!form_.lookupWidget("/queryBuilder/parts").isValid()) return;
+	
+	// create query
+	var query = buildQuery();
+    print(query);
+    
+    // clear previous results (if necessary)
+	var resultRepeater = form_.lookupWidget("/results");
+	resultRepeater.clear();
+    
+   	// execute query
+   	var querySource;
 	var srcResolver;
 	try {
 		srcResolver = cocoon.getComponent(
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
-		source = srcResolver.resolveURI(query);
+		querySource = srcResolver.resolveURI(query);
 		
 		// process result
-		var results = source.getChildren();
+		var results = querySource.getChildren();
 		for(var i = 0; i < results.size(); i++) {
 			var source = results.get(i);
+		    if(source.isCollection()) continue;
 		    
 		    // transform results to repeater format
 		    var os = Packages.java.io.ByteArrayOutputStream();
@@ -94,8 +99,61 @@ function executeQuery(event) {
 				new Packages.java.io.ByteArrayInputStream(os.toByteArray())));
 		}
 	} finally {
-		if (source != null) {
-			srcResolver.release(source);
+		if (querySource != null) {
+			srcResolver.release(querySource);
+		}
+		cocoon.releaseComponent(srcResolver);
+	}
+}
+
+function saveQuery(event) {
+	// validate query name widget
+	var nameWidget = form_.lookupWidget("/queryBuilder/queryName");
+	nameWidget.validate();
+	
+	if(!nameWidget.isValid()) return;
+	
+	// save query
+	var fdSource;
+	var srcResolver;
+	try {
+		// resolve filter directory
+		srcResolver = cocoon.getComponent(
+				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
+		fdSource = srcResolver.resolveURI("jcr:///teamspaces/" + teamspaceID_ + 
+										"/tasks/filters");
+		
+		// if filter dir not yet exist, create it
+		var fNumber = 0;
+		if(!fdSource.exists()) fdSource.makeCollection();
+		
+		// loop persistent filters and find the highest filter number
+		var pFilters = fdSource.getChildren();
+		for(var i = 0; i < pFilters.size(); i++) {
+			var pFilter = pFilters.get(i);
+			if(pFilter.getName() > fNumber) {
+				fNumber = pFilter.getName(); 
+			}
+		}
+		fNumber++;
+		
+		// save filter definition
+		var pfTitleSource = srcResolver.resolveURI("jcr:///teamspaces/" + 
+							teamspaceID_ + "/tasks/filters/" + fNumber);
+		var os = pfTitleSource.getOutputStream();
+		
+		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
+								form_.lookupWidget("/queryBuilder"));
+		var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
+		var transformerHandler = tf.newTransformerHandler();
+        var transformer = transformerHandler.getTransformer();
+        transformerHandler.setResult(new Packages.javax.xml.transform.stream.StreamResult(os));
+        xmlAdapter.toSAX(transformerHandler);
+        os.flush();
+        os.close();
+	} finally {
+		if (fdSource != null) {
+			srcResolver.release(fdSource);
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
