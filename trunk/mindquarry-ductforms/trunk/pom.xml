@@ -23,8 +23,6 @@
 
 	<modules>
 		<module>mindquarry-dforms</module>
-		<module>ductforms-example</module>
-		<module>ductforms-jcr-example</module>
 	</modules>
 
 	<scm>
