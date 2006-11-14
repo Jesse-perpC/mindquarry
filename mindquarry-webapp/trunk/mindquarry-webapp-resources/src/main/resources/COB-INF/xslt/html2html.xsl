@@ -140,17 +140,13 @@
 				</div>
 				
 				<xsl:if test="string-length($username) > 0">
-					<div class="http-logout">
+					<div class="user-status">
 						<div class="username-display">
 							<xsl:value-of select="$username" />
 						</div>
+						<div class="http-logout" id="http-logout-hint">(Close browser to logout)</div>
 					</div>
 				</xsl:if>
-				
-				
-				<!-- 
-				<div class="http-logout" id="logout-form"><xsl:value-of select="$username" /></div>
-				-->
 				
 				<!-- layouting the content -->
 				<div id="webapp-content">

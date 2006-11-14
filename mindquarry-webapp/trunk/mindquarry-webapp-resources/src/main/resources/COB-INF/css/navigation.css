@@ -53,12 +53,12 @@
 
 /* Logout and user at the top right */
 
-.http-logout {
+.user-status {
 	position:absolute;
 	right:8px;
 	top:8px;
 	display:block;
-	width:90px;
+	width:120px;
 	border:5px solid #cccccc;
 	background:#eeeeee;
 	z-index:100;
@@ -71,6 +71,7 @@
 	text-align:center;
 }
 
+/* javascript browsers */
 #http-logout-link {
 	text-align:center;
 	font-size:8pt;
@@ -80,13 +81,40 @@
 	height:10px;
 }
 
-/* LOGIN form */
+/* non javascript browsers */
+#http-logout-hint {
+	text-align:center;
+	font-size:7pt;
+}
 
-#login-form-password, #login-form-username, #login-form label, #loginform form {
+/* Login form and logout page */
+
+#login-form {
 	display:block;
 	margin-left:auto;
 	margin-right:auto;
-	width:160px;
+	width:240px;
+	height:100px;
 }
 
+#login-form-password, #login-form-username, #login-form label {
+	display:block;
+}
 
+#login-form-submit {
+	margin-top: 15px;
+}
+
+.login-block, .logout-block {
+	width:400px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 2px solid #cccccc;
+}
+
+.login-block p, .login-block a, .logout-block p, .logout-block a {
+	display:block;
+	text-align:center;
+}
