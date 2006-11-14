@@ -25,6 +25,7 @@ function switchEditView(event) {
 			if (selectedWidget) {
 				selectedWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 				form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+				form_.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 			}
 		} else {
 			print("  switchEditView");
