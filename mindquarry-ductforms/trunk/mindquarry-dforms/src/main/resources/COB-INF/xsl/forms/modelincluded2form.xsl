@@ -10,9 +10,19 @@
 	
 	<xsl:key name="datatypes" match="df:datatype" use="@id" />
 
-	<xsl:template match="df:attribute">
-		<xsl:attribute name="{@name}">
-			<xsl:apply-templates select="*"/>
+	<xsl:template match="@*[contains(.,'}')]">
+		<xsl:variable name="before"><xsl:value-of select="substring-before(.,'{')"/></xsl:variable>
+		<xsl:variable name="after"><xsl:value-of select="substring-after(.,'}')"/></xsl:variable>
+		<xsl:variable name="afterfirst"><xsl:value-of select="substring-after(.,'{')"/></xsl:variable>
+		<xsl:variable name="beforesecond"><xsl:value-of select="substring-before($afterfirst,'}')"/></xsl:variable>
+		<xsl:attribute name="{local-name(.)}">
+			<xsl:value-of select="$before"/>
+				<xsl:choose>
+					<xsl:when test="$beforesecond='teamspace'"><xsl:value-of select="$teamspace"/></xsl:when>
+					<xsl:when test="$beforesecond='username'"><xsl:value-of select="$username"/></xsl:when>
+					<xsl:otherwise><xsl:value-of select="$beforesecond"/></xsl:otherwise>
+				</xsl:choose>
+			<xsl:value-of select="$after"/>
 		</xsl:attribute>
 	</xsl:template>
 	
@@ -20,8 +30,12 @@
 		<xsl:copy-of select="text()"/>
 	</xsl:template>
 	
-	<xsl:template match="df:variable[.='teamspace']">
+	<xsl:template match="df:variable[normalize-space(.)='teamspace']">
 		<xsl:value-of select="$teamspace"/>
+	</xsl:template>
+	
+	<xsl:template match="df:variable[normalize-space(.)='username']">
+		<xsl:value-of select="username"/>
 	</xsl:template>
 
 	<xsl:template match="/df:model">
