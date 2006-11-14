@@ -59,7 +59,10 @@ function setWidgetStates(form, isEdit) {
 	// hide all widgets first
 	var allWidgets = form.lookupWidget("/").getChildren();
 	for (; allWidgets.hasNext(); ) {
-		allWidgets.next().setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		var widget = allWidgets.next();
+		print(widget + " invisible");
+		widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		//allWidgets.next().setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 	}
 	
 	var ductformsWidget = form.lookupWidget("/ductforms");
@@ -67,10 +70,30 @@ function setWidgetStates(form, isEdit) {
 	// show only selected fields
 	var ductfields = ductformsWidget.getValue();
 	for (var i=0; i<ductfields.length; i++) {
-		if (isEdit) {
-			form.lookupWidget("/" + ductfields[i]).setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		var widget = form.lookupWidget("/" + ductfields[i]);
+		var attribute = widget.getAttribute("related");
+		if (attribute!=null) {
+			var related = attribute.split(",");
 		} else {
-			form.lookupWidget("/" + ductfields[i]).setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+			var related = new Array();
+		}
+		if (isEdit) {
+			widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			for (var j=0;j<related.length;j++) {
+				var relwidget = form.lookupWidget("/" + related[j]);
+				relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+				print("also activate related " + relwidget);
+			}
+		} else {
+			widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+			for (var j=0;j<related.length;j++) {
+				var relwidget = form.lookupWidget("/" + related[j]);
+				if (relwidget instanceof Packages.org.apache.cocoon.forms.formmodel.Action) {
+					relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
+				} else {
+					relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT;
+				}
+			}
 		}
 	}
 

@@ -131,7 +131,7 @@
     </a>
   </xsl:template>
   
-  <xsl:template match="fi:items/*/fi:label"/>
+  <xsl:template match="fi:items/div/fi:label"/>
   
   <xsl:template match="fi:items/*" mode="label">
     <xsl:param name="id"/>
