@@ -58,12 +58,15 @@ function save(event) {
 function setWidgetStates(form, isEdit) {
 	// hide all widgets first
 	var allWidgets = form.lookupWidget("/").getChildren();
+	//create a hashtable before actually setting the state
+	var widgetMap = new java.util.Hashtable();
 	for (; allWidgets.hasNext(); ) {
 		var widget = allWidgets.next();
 		print(widget + " invisible");
-		widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-		//allWidgets.next().setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-	}
+		widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		
+		//widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		}
 	
 	var ductformsWidget = form.lookupWidget("/ductforms");
 	
@@ -78,19 +81,24 @@ function setWidgetStates(form, isEdit) {
 			var related = new Array();
 		}
 		if (isEdit) {
-			widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			//widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 			for (var j=0;j<related.length;j++) {
 				var relwidget = form.lookupWidget("/" + related[j]);
-				relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+				widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+				//relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
 				print("also activate related " + relwidget);
 			}
 		} else {
-			widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+			widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+			//widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
 			for (var j=0;j<related.length;j++) {
 				var relwidget = form.lookupWidget("/" + related[j]);
 				if (relwidget instanceof Packages.org.apache.cocoon.forms.formmodel.Action) {
-					relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
+					widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+					//relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 				} else {
+					widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
 					relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT;
 				}
 			}
@@ -99,16 +107,26 @@ function setWidgetStates(form, isEdit) {
 
 	if (isEdit) {
 		// show the field selector in edit mode
-		ductformsWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-
+		//ductformsWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		widgetMap.put(ductformsWidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 		// save button only in edit mode
-		form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		widgetMap.put(form.lookupWidget("/ductforms_save"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		//form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	} else {
-	
 		// the switch button should not be always active
-		form.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		widgetMap.put(form.lookupWidget("/ductforms_switch"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		//form.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
 	
+	//cycle through the widget map and set the states accordingly
+	var widgetList = widgetMap.keySet().toArray();
+	for each (var widget in widgetList) {
+		var state = widgetMap.get(widget);
+		if (widget.getState()!=state) {
+			print("adjusting state of " + widget);
+			widget.setState(state);
+		}
+	}
 }
 
 function setFormState(form, isEdit) {
