@@ -25,10 +25,22 @@
 	<xsl:template match="head">
 		<xsl:copy>
 			<xsl:apply-templates select="." mode="forms-page" />
-			<xsl:apply-templates select="." mode="forms-field" />
+			<xsl:apply-templates select="." mode="forms-field-mindquarry" />
 			<xsl:apply-templates />
 		</xsl:copy>
 	</xsl:template>
+	
+  <xsl:template match="head" mode="forms-field-mindquarry">
+    <!-- copy any pre-initialization code which can be used e.g. to setup dojo debugging with
+         <script> djConfig = {isDebug: true} </script> -->
+    <xsl:copy-of select="fi:init/node()"/>
+    <script src="{$resources-uri}/ajax/cocoon.js" type="text/javascript"/>
+    <script src="{$resources-uri}/forms/js/forms-lib.js" type="text/javascript"/>
+    <script type="text/javascript">
+        dojo.addOnLoad(forms_onload);
+        dojo.require("cocoon.forms.*");
+    </script>
+   </xsl:template>
 
 	<xsl:template match="body">
 		<xsl:copy>
