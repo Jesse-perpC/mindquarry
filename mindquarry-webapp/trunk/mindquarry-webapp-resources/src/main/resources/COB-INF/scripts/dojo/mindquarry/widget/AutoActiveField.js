@@ -22,13 +22,21 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
 	    this.cform = parentWidget;
-	    
 	    dojo.event.connect(this.domNode, "onclick", this, "onClick");
     },
     
     onClick: function(event) {
         event.preventDefault();
-        this.cform.submit("ductform.ductforms_switch" ,{activate : this.domNode.id});
+        if (this.cform==null) {
+        	var form = cocoon.forms.getForm(this.domNode);
+        	var dojoId = form.getAttribute("dojoWidgetId");
+        	if (dojoId) {
+        		this.cform = dojo.widget.byId(dojoId);
+        	}
+        }
+        if (this.cform!=null) {
+        	this.cform.submit("ductform.ductforms_switch" ,{activate : this.domNode.id});
+        }
         return false;
     }
 	
