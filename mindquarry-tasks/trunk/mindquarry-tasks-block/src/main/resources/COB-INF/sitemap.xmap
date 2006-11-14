@@ -368,13 +368,23 @@
 
 			<!-- HTML -->
 			<match pattern="internal/pipe/*/list.html">
-				<generate src="cocoon:/internal/pipe/{1}/list.xml"
-					label="xml" />
-				<transform src="xslt/xml/include-basic-task-data.xsl"
+				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
+				
+				<transform src="xslt/xml/include-filters-for-tasks.xsl"/>
+				<transform type="xinclude" />
+				<transform src="xslt/xml/flatten-filters-element.xsl"/>
+				
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+				<transform src="xslt/xml/include-basic-filter-data.xsl"
 					label="xml">
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
 				</transform>
+
 				<transform src="xslt/html/tasks-for-teamspace.xsl">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="fullPath"
