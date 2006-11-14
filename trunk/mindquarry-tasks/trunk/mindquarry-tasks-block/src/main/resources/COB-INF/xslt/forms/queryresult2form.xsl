@@ -8,7 +8,7 @@
 	<xsl:template match="ductform">
 		<item>
 			<resultLink>
-				<xsl:value-of select="$teamspaceID" />/<xsl:value-of select="$taskID" />
+				../<xsl:value-of select="$taskID" />
 			</resultLink>
 			<xsl:apply-templates />
 		</item>

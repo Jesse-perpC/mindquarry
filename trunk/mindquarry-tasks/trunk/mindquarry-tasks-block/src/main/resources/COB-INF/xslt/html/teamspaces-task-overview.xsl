@@ -52,7 +52,7 @@
 				<div class="links">
 					<ul>
 	        			<li><a class="create_task_button" href="{@xlink:href}/task{count(*)+1}">Create task</a></li>
-	        			<li><a class="create_filter_button" href="{@xlink:href}/query">Create filter</a></li>
+	        			<li><a class="create_filter_button" href="{@xlink:href}/filters/new">Create filter</a></li>
 					</ul>
 				</div>
 				

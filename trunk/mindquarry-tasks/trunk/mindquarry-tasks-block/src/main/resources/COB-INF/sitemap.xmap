@@ -9,9 +9,6 @@
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
 			<action name="log-params"
 				src="com.mindquarry.webapp.acting.LogParametersAction" />
-
-			<action name="httpauth"
-				src="com.mindquarry.webapp.auth.HttpAuthAction" />
 		</actions>
 
 		<selectors>
@@ -275,14 +272,11 @@
 
 			<!-- raw XML -->
 			<match pattern="internal/pipe/list.xml">
-				<!-- httpauth done here again to provide the username -->
-				<act type="httpauth">
-					<call function="listTeamspacesForUser">
-						<parameter name="username" value="{username}" />
-						<parameter name="target"
-							value="internal/pipe/flowed/teamspaces-task-overview.xml" />
-					</call>
-				</act>
+				<call function="listTeamspacesForUser">
+					<parameter name="username" value="{request-attr:username}" />
+					<parameter name="target"
+						value="internal/pipe/flowed/teamspaces-task-overview.xml" />
+				</call>
 			</match>
 
 			<!-- target pipeline for list.xml -->
@@ -301,14 +295,11 @@
 
 			<!-- HTML (which is different from the xml content) -->
 			<match pattern="internal/pipe/list.html">
-				<!-- httpauth done here again to provide the username -->
-				<act type="httpauth">
-					<call function="listTeamspacesForUser">
-						<parameter name="username" value="{username}" />
-						<parameter name="target"
-							value="internal/pipe/flowed/teamspaces-task-overview.html" />
-					</call>
-				</act>
+				<call function="listTeamspacesForUser">
+					<parameter name="username" value="{request-attr:username}" />
+					<parameter name="target"
+						value="internal/pipe/flowed/teamspaces-task-overview.html" />
+				</call>
 			</match>
 
 			<!-- target pipeline for list.html -->
@@ -400,43 +391,37 @@
 
 			<!-- list of teamspaces with the tasks overview (teamspacesTaskOverview) -->
 			<match pattern="">
-				<act type="httpauth">
-					<select type="REST">
-						<when test="html">
-							<read src="cocoon:/internal/pipe/list.html" />
-						</when>
-						<when test="xml">
-							<read src="cocoon:/internal/pipe/list.xml" />
-						</when>
-					</select>
-				</act>
+				<select type="REST">
+					<when test="html">
+						<read src="cocoon:/internal/pipe/list.html" />
+					</when>
+					<when test="xml">
+						<read src="cocoon:/internal/pipe/list.xml" />
+					</when>
+				</select>
 			</match>
 
 			<!-- filter editor site -->
-			<match pattern="*/query">
-				<act type="httpauth">
-					<call function="displayQueryForm">
-						<parameter name="teamspaceID" value="{../1}" />
-						<parameter name="definitionURI"
-							value="forms/task-query-form.xml" />
-						<parameter name="templatePipeline"
-							value="internal/pipe/forms/task-query-form-template.xml" />
-					</call>
-				</act>
+			<match pattern="*/filters/new">
+				<call function="displayQueryForm">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="definitionURI"
+						value="forms/task-query-form.xml" />
+					<parameter name="templatePipeline"
+						value="internal/pipe/forms/task-query-form-template.xml" />
+				</call>
 			</match>
 			
 			<!-- filter editor site -->
 			<match pattern="*/filters/*">
-				<act type="httpauth">
-					<call function="displaySavedFilter">
-						<parameter name="teamspaceID" value="{../1}" />
-						<parameter name="filterID" value="{../2}" />
-						<parameter name="definitionURI"
-							value="forms/task-query-form.xml" />
-						<parameter name="templatePipeline"
-							value="internal/pipe/forms/task-query-form-template.xml" />
-					</call>
-				</act>
+				<call function="displaySavedFilter">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="filterID" value="{2}" />
+					<parameter name="definitionURI"
+						value="forms/task-query-form.xml" />
+					<parameter name="templatePipeline"
+						value="internal/pipe/forms/task-query-form-template.xml" />
+				</call>
 			</match>
 
 			<match pattern="*/query.*.continue">
@@ -445,18 +430,16 @@
 
 			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->
 			<match pattern="*/">
-				<act type="httpauth">
-					<select type="REST">
-						<when test="html">
-							<read
-								src="cocoon:/internal/pipe/{../1}/list.html" />
-						</when>
-						<when test="xml">
-							<read
-								src="cocoon:/internal/pipe/{../1}/list.xml" />
-						</when>
-					</select>
-				</act>
+				<select type="REST">
+					<when test="html">
+						<read
+							src="cocoon:/internal/pipe/{1}/list.html" />
+					</when>
+					<when test="xml">
+						<read
+							src="cocoon:/internal/pipe/{1}/list.xml" />
+					</when>
+				</select>
 			</match>
 
 			<!--+
@@ -474,79 +457,77 @@
 			</match>
 
 			<match pattern="*/*">
-				<act type="httpauth">
-					<select type="request-method">
-					
-						<when test="GET">
-							<select type="REST">
-								<when test="html">
-									<!-- normal viewing (or editing when new) -->
-									<generate
-										src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
-									<transform src="xslt/html/task-view-or-edit.xsl">
-										<parameter name="viewDocumentLink" value="{../2}" />
-										<parameter name="editDocumentLink" value="{../2}.edit" />
-										<parameter name="fullPath"
-											value="{block-path:}{request:pathInfo}" />
-										<parameter name="sitemapPath"
-											value="{request:pathInfo}" />
-									</transform>
-									<call resource="layouting" />
-								</when>
-								<when test="xml">
-									<generate
-										src="jcr:///teamspaces/{../1}/tasks/{../2}.xml" />
-									<transform
-										src="xslt/xml/ductform2task.xsl">
-										<parameter name="base"
-											value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{../1}/{../2}" />
-									</transform>
-									<serialize type="xml" />
-								</when>
-							</select>
-						</when>
+				<select type="request-method">
+				
+					<when test="GET">
+						<select type="REST">
+							<when test="html">
+								<!-- normal viewing (or editing when new) -->
+								<generate
+									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" label="raw" />
+								<transform src="xslt/html/task-view-or-edit.xsl">
+									<parameter name="viewDocumentLink" value="{2}" />
+									<parameter name="editDocumentLink" value="{2}.edit" />
+									<parameter name="fullPath"
+										value="{block-path:}{request:pathInfo}" />
+									<parameter name="sitemapPath"
+										value="{request:pathInfo}" />
+								</transform>
+								<call resource="layouting" />
+							</when>
+							<when test="xml">
+								<generate
+									src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
+								<transform
+									src="xslt/xml/ductform2task.xsl">
+									<parameter name="base"
+										value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/{2}" />
+								</transform>
+								<serialize type="xml" />
+							</when>
+						</select>
+					</when>
 
-						<when test="POST">
-							<select type="regexp-request-param">
-								<parameter name="parameter-name" value="continuation-id" />
-								<when test="number">
-									<!-- it's a continuation (editing) -->
-									<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}&amp;{params-as-uri:request-param}" label="raw"/>
-								</when>
-								<otherwise>
-									<!-- normal viewing (or editing when new) -->
-									<generate
-										src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{../1}/tasks/}&amp;documentID={url-encode:{../2}}" label="raw" />
-								</otherwise>
-							</select>
-							<transform src="xslt/html/task-view-or-edit.xsl">
-								<parameter name="viewDocumentLink" value="{../2}" />
-								<parameter name="editDocumentLink" value="{../2}.edit" />
-								<parameter name="fullPath"
-									value="{block-path:}{request:pathInfo}" />
-								<parameter name="sitemapPath"
-									value="{request:pathInfo}" />
-							</transform>
-							<call resource="layouting" />
-						</when>
-						
-						<when test="PUT">
-							<generate type="stream">
-								<parameter name="defaultContentType"
-									value="text/xml" />
-							</generate>
-							<transform src="xslt/xml/task2ductform.xsl" />
-							<transform
-								src="xslt/xml/wrap-for-sourcewriting.xsl">
-								<parameter name="path"
-									value="jcr:///teamspaces/{../1}/tasks/{../2}.xml" />
-							</transform>
-							<transform type="write-source" />
-							<serialize type="xml" />
-						</when>
-						
-					</select>
-				</act>
+					<when test="POST">
+						<select type="regexp-request-param">
+							<parameter name="parameter-name" value="continuation-id" />
+							<when test="number">
+								<!-- it's a continuation (editing) -->
+								<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}" label="raw"/>
+							</when>
+							<otherwise>
+								<!-- normal viewing (or editing when new) -->
+								<generate
+									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" label="raw" />
+							</otherwise>
+						</select>
+						<transform src="xslt/html/task-view-or-edit.xsl">
+							<parameter name="viewDocumentLink" value="{2}" />
+							<parameter name="editDocumentLink" value="{2}.edit" />
+							<parameter name="fullPath"
+								value="{block-path:}{request:pathInfo}" />
+							<parameter name="sitemapPath"
+								value="{request:pathInfo}" />
+						</transform>
+						<call resource="layouting" />
+					</when>
+					
+					<when test="PUT">
+						<generate type="stream">
+							<parameter name="defaultContentType"
+								value="text/xml" />
+						</generate>
+						<transform src="xslt/xml/task2ductform.xsl" />
+						<transform
+							src="xslt/xml/wrap-for-sourcewriting.xsl">
+							<parameter name="path"
+								value="jcr:///teamspaces/{1}/tasks/{2}.xml" />
+						</transform>
+						<transform type="write-source" />
+						<serialize type="xml" />
+					</when>
+					
+				</select>
 			</match>
 		</pipeline>
 
