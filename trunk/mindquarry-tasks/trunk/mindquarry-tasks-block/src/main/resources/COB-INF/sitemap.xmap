@@ -223,6 +223,8 @@
 
 		<!-- provides the files for forms -->
 		<pipeline type="noncaching" internal-only="true">
+			
+			<!-- internal pipeline for the filter editor -->
 			<match pattern="internal/pipe/forms/*.xml">
 				<generate type="jx" src="forms/{1}.xml" />
 				
@@ -284,8 +286,7 @@
 			</match>
 
 			<!-- target pipeline for list.xml -->
-			<match
-				pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
+			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
 				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
@@ -311,8 +312,7 @@
 			</match>
 
 			<!-- target pipeline for list.html -->
-			<match
-				pattern="internal/pipe/flowed/teamspaces-task-overview.html">
+			<match pattern="internal/pipe/flowed/teamspaces-task-overview.html">
 				<generate
 					src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml"/>
 
@@ -412,11 +412,25 @@
 				</act>
 			</match>
 
-			<!-- filter site -->
+			<!-- filter editor site -->
 			<match pattern="*/query">
 				<act type="httpauth">
 					<call function="displayQueryForm">
 						<parameter name="teamspaceID" value="{../1}" />
+						<parameter name="definitionURI"
+							value="forms/task-query-form.xml" />
+						<parameter name="templatePipeline"
+							value="internal/pipe/forms/task-query-form-template.xml" />
+					</call>
+				</act>
+			</match>
+			
+			<!-- filter editor site -->
+			<match pattern="*/filters/*">
+				<act type="httpauth">
+					<call function="displaySavedFilter">
+						<parameter name="teamspaceID" value="{../1}" />
+						<parameter name="filterID" value="{../2}" />
 						<parameter name="definitionURI"
 							value="forms/task-query-form.xml" />
 						<parameter name="templatePipeline"

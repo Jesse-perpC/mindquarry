@@ -31,17 +31,13 @@
 			<xsl:attribute name="src">
 				<xsl:choose>
 					<xsl:when test="../following-sibling::node()/span='new'">
-						<xsl:value-of select="$pathToBlock" />images/status/new.png
-					</xsl:when>
+						<xsl:value-of select="$pathToBlock" />images/status/new.png</xsl:when>
 					<xsl:when test="../following-sibling::node()/span='running'">
-						<xsl:value-of select="$pathToBlock" />images/status/running.png
-					</xsl:when>
+						<xsl:value-of select="$pathToBlock" />images/status/running.png</xsl:when>
 					<xsl:when test="../following-sibling::node()/span='paused'">
-						<xsl:value-of select="$pathToBlock" />images/status/paused.png
-					</xsl:when>
+						<xsl:value-of select="$pathToBlock" />images/status/paused.png</xsl:when>
 					<xsl:when test="../following-sibling::node()/span='done'">
-						<xsl:value-of select="$pathToBlock" />images/status/done.png
-					</xsl:when>
+						<xsl:value-of select="$pathToBlock" />images/status/done.png</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
 		</img>
