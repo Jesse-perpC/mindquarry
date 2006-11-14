@@ -60,7 +60,6 @@
 					<h3>Saved Filters</h3>
 					<ul>
 						<xsl:call-template name="filters" />
-						<li>test</li>
 					</ul>
 				</div>
 			</div>
@@ -68,6 +67,10 @@
 	</xsl:template>
 	
 	<xsl:template name="filters">
-		
+		<xsl:for-each select="filter">
+			<li>
+				<a href="{../@xlink:href}/{@xlink:href}"><xsl:value-of select="title"/></a>
+			</li>
+		</xsl:for-each>
 	</xsl:template>
 </xsl:stylesheet>

@@ -243,6 +243,31 @@
 		<!-- REST REST REST REST REST REST REST REST REST REST REST REST -->
 
 		<!-- special REST content type pipelines, these are internal -->
+		
+		<!-- filters -->
+		<pipeline type="noncaching" internal-only="true">
+			<!-- raw XML, only list of filters -->
+			<match pattern="internal/pipe/filters/*/list.xml">
+				<generate type="collection"
+					src="jcr:///teamspaces/{1}/tasks/filters" />
+				<transform src="xslt/xml/collection2filterlist.xsl">
+					<parameter name="basePath"
+						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+					<parameter name="teamspace" value="{1}" />
+				</transform>
+				<serialize type="xml" />
+			</match>
+			
+			<!-- XML with more details -->
+			<match pattern="internal/pipe/filters/*/list-with-details.xml">
+				<generate src="cocoon:/internal/pipe/filters/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-filter-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				<serialize type="xml" />
+			</match>
+		</pipeline>
 
 		<!-- teamspacesTasksOverview -->
 		<pipeline type="noncaching" internal-only="true">
@@ -264,12 +289,13 @@
 				pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
-				<transform src="xslt/xml/teamspaces2tasks.xsl">
+				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
 					<parameter name="base"
 						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
 				</transform>
 				<transform type="xinclude" />
 				<transform src="xslt/xml/flatten-tasks-element.xsl" />
+				<transform src="xslt/xml/flatten-filters-element.xsl" />
 				<serialize type="xml" />
 			</match>
 
@@ -289,9 +315,14 @@
 			<match
 				pattern="internal/pipe/flowed/teamspaces-task-overview.html">
 				<generate
-					src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml" />
+					src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml"/>
 
-				<transform src="xslt/xml/include-basic-task-data.xsl"
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+				<transform src="xslt/xml/include-basic-filter-data.xsl"
 					label="xml">
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
@@ -385,7 +416,7 @@
 				</act>
 			</match>
 
-			<!-- test for the query widget -->
+			<!-- filter site -->
 			<match pattern="*/query">
 				<act type="httpauth">
 					<call function="displayQueryForm">
