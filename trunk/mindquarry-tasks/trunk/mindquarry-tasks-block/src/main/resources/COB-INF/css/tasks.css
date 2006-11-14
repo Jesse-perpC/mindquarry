@@ -185,13 +185,13 @@ img.icon {
 }
 
 
-dl.ductform dt label {
+dl.ductform dt label, dl.ductform dd div.repeater th {
 	color:#339933;
 }
 
 div.queries h3 {
 	font-size: 12px;
-	border-bottom: 1px solid grey;
+	border-bottom: 1px solid gray;
 }
 
 div.queries {
