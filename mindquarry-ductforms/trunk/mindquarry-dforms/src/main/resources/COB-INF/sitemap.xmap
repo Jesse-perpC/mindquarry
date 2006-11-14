@@ -134,7 +134,10 @@
 			<!-- the generated form model including all possible fields  -->
 			<match pattern="*.xml.form">
 				<generate src="cocoon:/complete-model.xml" />
-				<transform src="xsl/forms/modelincluded2form.xsl" />
+				<transform src="xsl/forms/modelincluded2form.xsl">
+					<parameter name="teamspace" value="{request-param:teamspace}"/>
+					<parameter name="username" value="{request-param:username}"/>
+				</transform>
 				<serialize type="xml" />
 			</match>
 
@@ -194,7 +197,7 @@
 					<parameter name="documentID"
 						value="{request-param:documentID}" />
 					<parameter name="definitionURI"
-						value="block:/{request-param:documentID}.xml.form" />
+						value="block:/{request-param:documentID}.xml.form?teamspace={url-encode:{request-param:callerTeamspace}}&amp;username={url-encode:{request-param:callerUsername}}" />
 				</call>
 				<!-- <select type="resource-exists">
 					if it exists, show the document
