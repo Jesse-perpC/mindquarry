@@ -22,7 +22,7 @@
   <xsl:template match="head" mode="forms-dojoarea">
   
     <script type="text/javascript">
-        dojo.require("dojo.widget.Editor");
+        dojo.require("dojo.widget.Editor2");
     </script>
   </xsl:template>
 
@@ -40,18 +40,8 @@
   </xsl:template>
   
   <xsl:template match="fi:field[fi:styling[@type='dojoarea']]" priority="1">
-    <textarea dojoType="Editor" id="{@id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}"
-      >
-      <xsl:attribute name="items">
-      	<xsl:choose>
-      		<xsl:when test="fi:styling[@dojo]">
-       			<xsl:apply-templates select="fi:styling[@dojo]" mode="dojo" /> 
-      		</xsl:when>
-      		<xsl:otherwise>
-				<xsl:text>bold;italic;underline;strikethrough;</xsl:text>
-      		</xsl:otherwise>
-      	</xsl:choose>
-      </xsl:attribute>
+    <textarea 
+      dojoType="Editor2">
       <xsl:apply-templates select="fi:value/node()" mode="dojoarea-copy"/>
     </textarea>
   </xsl:template>
