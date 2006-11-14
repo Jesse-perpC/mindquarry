@@ -5,7 +5,24 @@
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 
+	<xsl:param name="teamspace" select="''"/>
+	<xsl:param name="username" select="''"/>
+	
 	<xsl:key name="datatypes" match="df:datatype" use="@id" />
+
+	<xsl:template match="df:attribute">
+		<xsl:attribute name="{@name}">
+			<xsl:apply-templates select="*"/>
+		</xsl:attribute>
+	</xsl:template>
+	
+	<xsl:template match="df:text">
+		<xsl:copy-of select="text()"/>
+	</xsl:template>
+	
+	<xsl:template match="df:variable[.='teamspace']">
+		<xsl:value-of select="$teamspace"/>
+	</xsl:template>
 
 	<xsl:template match="/df:model">
 		<fd:form id="ductform">
@@ -42,16 +59,22 @@
 		</fd:form>
 	</xsl:template>
 
+	<xsl:template match="node() | @*">
+		<xsl:copy>
+			<xsl:apply-templates select="node() | @*"/>
+		</xsl:copy>
+	</xsl:template>
+	
 	<!-- the three supported widget types (field, boolean, repeater) -->
 	<xsl:template match="df:datatype[fd:field]">
 		<fd:field id="{@id}">
-			<xsl:copy-of select="fd:field/*|fd:field/@*" />
+			<xsl:apply-templates select="fd:field/*|fd:field/@*" />
 		</fd:field>
 	</xsl:template>
 
 	<xsl:template match="df:datatype[fd:booleanfield]">
 		<fd:booleanfield id="{@id}">
-			<xsl:copy-of select="fd:booleanfield/*|fd:booleanfield/@*" />
+			<xsl:apply-templates select="fd:booleanfield/*|fd:booleanfield/@*" />
 		</fd:booleanfield>
 	</xsl:template>
 	
@@ -59,20 +82,20 @@
 	<xsl:template match="df:datatype[fd:repeater]">
 		<xsl:variable name="id" select="@id"/>
 		<fd:repeater id="{@id}">
-			<xsl:copy-of select="fd:repeater/*|fd:repeater/@*" />
+			<xsl:apply-templates select="fd:repeater/*|fd:repeater/@*" />
 		</fd:repeater>
 		<xsl:for-each select="fd:repeater-action">
 			<xsl:copy>
 				<xsl:attribute name="id"><xsl:value-of select="$id" /><xsl:value-of select="@id" /></xsl:attribute>
 				<xsl:attribute name="repeater"><xsl:value-of select="$id" /></xsl:attribute>
-				<xsl:copy-of select="@*[not(local-name(.)='id' or local-name(.)='repeater')]|node()" />
+				<xsl:apply-templates select="@*[not(local-name(.)='id' or local-name(.)='repeater')]|node()" />
 			</xsl:copy>
 		</xsl:for-each>
 	</xsl:template>
 
 	<xsl:template match="df:datatype" mode="addfields">
 		<fd:item value="{@id}">
-			<xsl:copy-of select="(.//fd:label)[1]" />
+			<xsl:apply-templates select="(.//fd:label)[1]" />
 		</fd:item>
 	</xsl:template>
 
