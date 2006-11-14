@@ -92,8 +92,6 @@ function processCreateUserForm(form) {
 		
 		print("successfully created user: " + user);
 	}
-	
-	
 	cocoon.redirectTo("/teamspace/");
 }
 
