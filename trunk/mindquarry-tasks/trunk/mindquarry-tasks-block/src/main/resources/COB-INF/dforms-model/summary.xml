@@ -6,6 +6,8 @@
 	<fd:field>
 		<fd:datatype base="string" />
 		<fd:label>Summary</fd:label>
+		<fd:help>The summary provides a quick glance at the contents of the task. It should be short, concise and to the point.
+		</fd:help>
 	</fd:field>
 
 	<ft:widget>
