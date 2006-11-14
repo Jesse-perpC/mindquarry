@@ -462,7 +462,7 @@
 				
 			<match pattern="*/*.debug">
 				<generate
-					src="block:super:/dform-debug?cocoon-view=raw&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}" />
+					src="block:super:/dform-debug?cocoon-view=raw&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
 				<serialize tpye="xml" />
 			</match>
 

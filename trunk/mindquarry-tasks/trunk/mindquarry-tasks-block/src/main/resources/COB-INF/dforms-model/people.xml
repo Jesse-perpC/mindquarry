@@ -14,13 +14,7 @@
 		<fd:widgets>
 			<fd:field id="peopleperson">
 				<fd:datatype base="string" />
-				<fd:selection-list cache="request">
-					<!-- e.g. src="block:teams:/foobar/users.xml"  -->
-					<df:attribute name="src">
-						<df:text>block:teams:/</df:text>
-						<df:variable>teamspace</df:variable>
-						<df:text>/users.xml</df:text>
-					</df:attribute>
+				<fd:selection-list src="block:teams:/{teamspace}/users.xml" cache="request">
 				</fd:selection-list>
 				<fd:label>Person</fd:label>
 			</fd:field>
