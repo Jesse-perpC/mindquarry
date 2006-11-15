@@ -10,6 +10,8 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
+    <bean id="" class="" />
+    
     <!-- configure text filters like this -->
     <bean id="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.filter.SlideTextFilter">
         <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
