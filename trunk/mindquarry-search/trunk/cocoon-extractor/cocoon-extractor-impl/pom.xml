@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <parent>
     <artifactId>cocoon-extractor</artifactId>
     <groupId>com.mindquarry.search.cocoon</groupId>
@@ -8,6 +9,18 @@
   <artifactId>cocoon-extractor-impl</artifactId>
   <name>Extractor Block Implementation</name>
   <version>1.0.0-M2-SNAPSHOT</version>
+  <build>
+    <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.0.1</version>
+          <configuration>
+            <source>1.4</source>
+            <target>1.4</target>
+          </configuration>
+        </plugin>        
+    </plugins>
+  </build>
   <dependencies>
     <dependency>
       <groupId>org.apache.cocoon</groupId>
@@ -25,6 +38,16 @@
       <groupId>slide</groupId>
       <artifactId>slide-kernel</artifactId>
       <version>2.1</version>
+    </dependency>
+    <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jmimemagic</groupId>
+      <artifactId>jmimemagic</artifactId>
+      <version>0.0.4a</version>
     </dependency>
   </dependencies>
   <properties>

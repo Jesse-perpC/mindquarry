@@ -6,13 +6,19 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.activation.MimetypesFileTypeMap;
+
+import org.apache.avalon.framework.parameters.Parameters;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.environment.SourceResolver;
 import org.apache.cocoon.generation.FileGenerator;
 import org.apache.cocoon.generation.Generator;
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
+
+import sun.net.www.MimeTable;
 
 import com.mindquarry.search.cocoon.filters.TextFilter;
 
@@ -52,14 +58,18 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 	}
 
 	private Map filter() {
-		TextFilter filter = this.textFilters.get(this.inputSource
-				.getMimeType());
+		String mimeType = this.inputSource
+						.getMimeType();
+		if (mimeType==null) {
+			mimeType = MimetypesFileTypeMap.getDefaultFileTypeMap().getContentType(this.inputSource.getURI());
+		}
+		TextFilter filter = this.textFilters.get(mimeType);
 		if (filter == null) {
 			try {
 				filter = (TextFilter) this.manager
 						.lookup("com.mindquarry.search.TextFilter/"
-								+ this.inputSource.getMimeType());
-				this.textFilters.put(this.inputSource.getMimeType(), filter);
+								+ mimeType);
+				this.textFilters.put(mimeType, filter);
 				return filter.doFilter(this.inputSource.getInputStream());
 			} catch (ServiceException e) {
 				getLogger().error("Could not lookup filter", e);
@@ -80,6 +90,11 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 			this.manager.release(i.next());
 		}
 		this.textFilters.clear();
+	}
+
+	public void setup(SourceResolver arg0, Map arg1, String arg2, Parameters arg3) throws ProcessingException, SAXException, IOException {
+		super.setup(arg0, arg1, arg2, arg3);
+		this.textFilters = new HashMap<String, TextFilter>();
 	}
 
 }
