@@ -411,7 +411,12 @@
 				</select>
 			</match>
 
-			<!-- filter editor site -->
+			<!-- filter continuation -->
+			<match pattern="*/filters/*.continue">
+				<call continuation="{2}" />
+			</match>
+			
+			<!-- create new filter -->
 			<match pattern="*/filters/new">
 				<call function="displayQueryForm">
 					<parameter name="teamspaceID" value="{1}" />
@@ -422,7 +427,7 @@
 				</call>
 			</match>
 			
-			<!-- filter editor site -->
+			<!-- display saved filter -->
 			<match pattern="*/filters/*">
 				<call function="displaySavedFilter">
 					<parameter name="teamspaceID" value="{1}" />
@@ -432,10 +437,6 @@
 					<parameter name="templatePipeline"
 						value="internal/pipe/forms/task-query-form-template.xml" />
 				</call>
-			</match>
-
-			<match pattern="*/query.*.continue">
-				<call continuation="{2}" />
 			</match>
 
 			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->

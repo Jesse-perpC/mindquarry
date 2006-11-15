@@ -10,7 +10,7 @@
 	</head>
 	<body>
 		<ft:form-template
-			action="query.#{$cocoon/continuation/id}.continue" method="POST"
+			action="#{$cocoon/continuation/id}.continue" method="POST"
 			ajax="true">
 			
 			<h1>Create Filter</h1>
