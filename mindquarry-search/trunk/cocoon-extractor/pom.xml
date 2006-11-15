@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+     Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved 
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  <parent>
+    <artifactId>cocoon-blocks-modules</artifactId>
+    <groupId>org.apache.cocoon</groupId>
+    <version>2-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mindquarry.search.cocoon</groupId>
+  <artifactId>cocoon-extractor</artifactId>
+  <packaging>pom</packaging>
+  <name>Extractor Block [modules]</name>
+  <version>2-SNAPSHOT</version>
+  <modules>
+    <module>cocoon-extractor-impl</module>
+    <!--<module>cocoon-forms-sample</module>-->
+  </modules>
+</project>
