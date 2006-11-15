@@ -39,6 +39,29 @@
       <artifactId>slide-kernel</artifactId>
       <version>2.1</version>
     </dependency>
+    <!-- slide does not include depdencies -->
+    <dependency>
+      <groupId>poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>2.5.1-final-20040804</version>  
+    </dependency>
+    <dependency>
+      <groupId>pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>0.6.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.textmining</groupId>
+      <artifactId>tm-extractors</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
+      <version>0.9.4</version>
+    </dependency>
+    
+    <!-- libraries for mime-type-guessing -->
     <dependency>
         <groupId>javax.activation</groupId>
         <artifactId>activation</artifactId>
