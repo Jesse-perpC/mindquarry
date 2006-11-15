@@ -16,19 +16,19 @@
 	<artifactId>mindquarry-webapplication</artifactId>
 	<name>Mindquarry Webapplication</name>
 	<version>0.0.1-SNAPSHOT</version>
-	
+
 	<!-- Apart from creating a WAR-archive this tells the cocoon deployer
-	     plugin to use our own web.xml stuff from src/main/webapp -->
+		plugin to use our own web.xml stuff from src/main/webapp -->
 	<packaging>war</packaging>
-<pluginRepositories>
-  <pluginRepository>
-    <id>codehaus snapshot repository</id>
-    <url>http://snapshots.repository.codehaus.org/</url>
-    <releases>
-      <enabled>true</enabled>
-    </releases>
-  </pluginRepository>
-</pluginRepositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<id>codehaus snapshot repository</id>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<releases>
+				<enabled>true</enabled>
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
 	<build>
 		<finalName>mindquarry-webapplication</finalName>
 		<plugins>
@@ -40,7 +40,7 @@
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
 				<artifactId>maven-jetty-plugin</artifactId>
-				<version>6.0.0rc3</version>
+				<version>6.0.1</version>
 				<configuration>
 					<connectors>
 						<connector
@@ -52,34 +52,40 @@
 					<webAppSourceDirectory>
 						target/mindquarry-webapplication
 					</webAppSourceDirectory>
-					<classesDirectory>${basedir}/src/main/resources</classesDirectory>
+					<classesDirectory>
+						${basedir}/src/main/resources
+					</classesDirectory>
 					<contextPath>/</contextPath>
 					<scanIntervalSeconds>15</scanIntervalSeconds>
 					<scanTargets>
-			            <scanTarget>${basedir}/src/main/resources/COB-INF/sitemap.xmap</scanTarget>
-			            <scanTarget>${basedir}/src/main/resources/META-INF/</scanTarget>
+						<scanTarget>
+							${basedir}/src/main/resources/COB-INF/sitemap.xmap
+						</scanTarget>
+						<scanTarget>
+							${basedir}/src/main/resources/META-INF/
+						</scanTarget>
 					</scanTargets>
 				</configuration>
 			</plugin>
-<plugin>
-        <groupId>org.codehaus.cargo</groupId>
-        <artifactId>cargo-maven2-plugin</artifactId>
-        <version>0.3-SNAPSHOT</version>
-</plugin>
+			<plugin>
+				<groupId>org.codehaus.cargo</groupId>
+				<artifactId>cargo-maven2-plugin</artifactId>
+				<version>0.3-SNAPSHOT</version>
+			</plugin>
 		</plugins>
 	</build>
-	
+
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-core</artifactId>
 			<version>2.2.0-M2-SNAPSHOT</version>
-		<exclusions>
-			<exclusion>
-				<artifactId>xerces</artifactId>
-				<groupId>xerces</groupId>
-			</exclusion>
-		</exclusions>
+			<exclusions>
+				<exclusion>
+					<artifactId>xerces</artifactId>
+					<groupId>xerces</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
@@ -103,25 +109,25 @@
 			<artifactId>mindquarry-teamspace-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.mindquarry.tasks</groupId>
 			<artifactId>mindquarry-tasks-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.mindquarry.wiki</groupId>
 			<artifactId>mindquarry-wiki-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.mindquarry.search</groupId>
 			<artifactId>mindquarry-solr-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-welcome-block</artifactId>
@@ -145,5 +151,5 @@
 		<developerConnection>
 			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/
 		</developerConnection>
-	</scm>	
+	</scm>
 </project>
