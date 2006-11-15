@@ -186,7 +186,7 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 		}
 
 		private boolean isIgnorable(int i) {
-			return Character.isIdentifierIgnorable((int) i)||i<14;
+			return Character.isIdentifierIgnorable((int) i)||i<17;
 		}
 
 		public int read(char[] cbuf, int off, int len) throws IOException {
