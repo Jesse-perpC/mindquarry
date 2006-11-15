@@ -8,17 +8,21 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
     <!-- configure text filters like this -->
-    <bean id="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.filter.SlideTextFilter">
-        <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
+    <bean name="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="mswordextractor"/>
     </bean>
     
-    <bean id="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.filter.SlideTextFilter">
-        <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
+    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="mswordextractor"/>
     </bean>
     
     <!-- configure slide extractors like this -->
-    <bean id="com.mindquarry.search.filter.SlideWordTextFilter" class="org.apache.slide.extractor.MSWordExtractor" />
+    <bean id="mswordextractor" class="org.apache.slide.extractor.MSWordExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
 </beans>
