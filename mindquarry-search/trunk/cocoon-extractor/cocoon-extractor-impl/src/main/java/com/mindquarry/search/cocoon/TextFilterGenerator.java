@@ -10,7 +10,7 @@ import java.util.Map;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.generation.FileGenerator;
 import org.apache.cocoon.generation.Generator;
-import org.apache.cocoon.xml.AttributesImpl;
+import org.xml.sax.helpers.AttributesImpl;
 import org.xml.sax.SAXException;
 
 import com.mindquarry.search.cocoon.filters.TextFilter;
@@ -22,11 +22,15 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 			ProcessingException {
 		Map contents = filter();
 		this.contentHandler.startDocument();
+		AttributesImpl atts = new AttributesImpl();
+		atts.addAttribute(null, "mime-type", "mime-type", "CDATA", this.inputSource.getMimeType());
 		this.contentHandler.startElement(null, "document", "document", new AttributesImpl());
 		for (Iterator i=contents.keySet().iterator();i.hasNext();) {
 			Object key = i.next();
 			Reader value = (Reader) contents.get(key);
-			this.contentHandler.startElement(null, key.toString(), key.toString(), new AttributesImpl());
+			atts = new AttributesImpl();
+			//atts.addAttribute(null, "text-filter", "text-filter", "CDATA", value)
+			this.contentHandler.startElement(null, key.toString(), key.toString(), atts);
 			
 			int read = 0;
 			char[] cont = {};
