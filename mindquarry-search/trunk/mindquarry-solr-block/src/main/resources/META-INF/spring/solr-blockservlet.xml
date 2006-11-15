@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean id="com.mindquarry.search.solr.solr-block"
+		class="org.apache.cocoon.blocks.BlockServlet">
+		<property name="mountPath" value="/solr" />
+
+		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
+		<property name="servletClass"
+			value="org.apache.solr.servlet.SolrServlet" />
+
+		<property name="blockContextURL" value="/blocks/mindquarry-solr-block"/>
+	</bean>
+	
+	<bean id="com.mindquarry.search.solr.solr-update-block"
+		class="org.apache.cocoon.blocks.BlockServlet">
+		<property name="mountPath" value="/solr-update" />
+
+		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
+		<property name="servletClass"
+			value="org.apache.solr.servlet.SolrUpdateServlet" />
+
+		<property name="blockContextURL" value="/blocks/mindquarry-solr-block"/>
+	</bean>
+</beans>
