@@ -159,6 +159,7 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
         for (Object teamspaceObj : queriedTeamspaces) {            
             TeamspaceEntity teamspace = (TeamspaceEntity) teamspaceObj;
+            teamspace.setUsers(createLazyLoadMembersList(teamspace));
             result.add(teamspace);
         }
         
