@@ -14,17 +14,13 @@
     if (index >= 0) {
     	createLoginForm(anchors[index]);
     }
+    
+    var httplogout = document.getElementById("http-logout-hint");
+    var pathToWebappRootElement = document.getElementById("path-to-webapp-root");
 
-	index = -1;
-    anchors = document.getElementsByTagName("div");
-    for (var i = 0; i < anchors.length; i++) {
-        if (anchors[i].className == "http-logout") {
-        	index = i;
-        }
-    }
-    if (index >= 0) {
-    	createLogoutLink(anchors[index]);
-    }
+	if (httplogout && pathToWebappRootElement) {
+	    createLogoutLink(httplogout, pathToWebappRootElement);
+	}
 });
 
 function createLoginForm(httpauth)
@@ -99,9 +95,9 @@ function createLoginForm(httpauth)
     httpauth.parentNode.replaceChild(form, httpauth);
 }
 
-function createLogoutLink(httplogout)
+function createLogoutLink(httplogout, pathToWebappRoot)
 {
-    httplogout.onclick = function() {logout();};
+    httplogout.onclick = function() {logout(pathToWebappRoot.href);};
     httplogout.id = "http-logout-link";
 	httplogout.innerHTML = "Log out";
 }
@@ -141,7 +137,7 @@ function login(form)
     // call the special login request page provided by the server that
     // does the authentication and will store the correct credentials in the
     // cache of the browser
-    http.open("get", "/?request=login", false, username, password);    
+    http.open("get", "./?request=login", false, username, password);    
     http.send(null);
     
     // we are not interested in the response, only the status
@@ -154,24 +150,27 @@ function login(form)
     }
 }
 
-function logout()
+function logout(pathToWebappRoot)
 {
-    var http = getHTTPObject();
-    
-    // do a authentication with wrong username / password so that after the
-    // not-authorized response from the server the browser will clear those
-    // credentials from the cache => we are "logged out"
-    http.open("get", "/", false, "null", "null");
-    http.send(null);
-    
     try {
-	    // in IE the above does not work, so we use that special function
-	    // "ClearAuthenticationCache" available only in some browsers
+	    // "ClearAuthenticationCache" is only available in some browsers
 	    // including the IE; for eg. Firefox, who cannot handle this command,
 	    // we have the try-catch statement
+	    
+	    // works in IE
 	    document.execCommand("ClearAuthenticationCache");
+	    
 	} catch (e) {
+		// other browsers, like Firefox, Safari, etc.
+		
+	    var http = getHTTPObject();
+	    
+	    // do a authentication with wrong username / password so that after the
+	    // not-authorized response from the server the browser will clear those
+	    // credentials from the cache => we are "logged out"
+	    http.open("get", pathToWebappRoot, false, "null", "null");
+	    http.send(null);    
 	}
 	    
-    window.location = "/logoutpage?targetUri=" + window.location.pathname;
+    window.location = pathToWebappRoot + "logoutpage?targetUri=" + window.location.pathname;
 }

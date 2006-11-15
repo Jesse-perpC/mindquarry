@@ -67,7 +67,7 @@ public class AuthenticationFilter implements Filter {
      * is done, with ?LOGIN_REQUEST_PARAM=LOGIN_REQUEST_VALUE. Must be used in
      * the login page.
      */
-    public static final String LOGIN_REQUEST_URI = "/";
+    public static final String LOGIN_REQUEST_URI = "";
 
     /**
      * Name of the request parameter that is used to indicate an actual first
@@ -86,13 +86,13 @@ public class AuthenticationFilter implements Filter {
      * param) or a form that uses Javascript XMLHttpRequest to call that URI.
      * This is an unprotected page.
      */
-    public static final String LOGIN_PAGE = "/loginpage";
+    public static final String LOGIN_PAGE = "loginpage";
 
     /**
      * URI of the logout page that should simply display that the logout was
      * successful (and my be a link to re-login). This is an unprotected page.
      */
-    public static final String LOGOUT_PAGE = "/logoutpage";
+    public static final String LOGOUT_PAGE = "logoutpage";
 
     /**
      * Name of the GET request parameter which holds the actual URI when
@@ -156,10 +156,8 @@ public class AuthenticationFilter implements Filter {
         // always send an authentication request in order to avoid one round trip 
         response.setHeader("WWW-Authenticate", "BASIC realm=\""+ realm_ +"\"");
         
-        String targetUri = getTargetURI(request);
-        
         // only do authentication for protected URIs, eg. excluded login page
-        if (isProtected(targetUri)) {
+        if (isProtected(request)) {
             String authenticatedUser = authenticateUser(request);
             
             // the special login request is done to actually perform the
@@ -175,7 +173,7 @@ public class AuthenticationFilter implements Filter {
                     // authenticated. redirect to original target
                     String originalUrl = request.getParameter(TARGET_URI_PARAM);
                     String redirectUrl = response.encodeRedirectURL(
-                            (originalUrl != null ? originalUrl : ""));
+                            (originalUrl != null ? originalUrl : "."));
                     response.sendRedirect(redirectUrl);
                 }
                 
@@ -196,8 +194,8 @@ public class AuthenticationFilter implements Filter {
                     // standard browser with preemptive sending auth data, thus
                     // it must be the first request -> go to login page
                     if (isGuiBrowserRequest(request)) {
-                        String redirectUrl = response.encodeRedirectURL(
-                                LOGIN_PAGE + "?" + TARGET_URI_PARAM + "=" + targetUri);
+                        String loginUrl = buildLoginUrlForRequest(request);                        
+                        String redirectUrl = response.encodeRedirectURL(loginUrl);
                         response.sendRedirect(redirectUrl);
                     } else {
                         // trigger simple client auth. or re-authentication
@@ -219,11 +217,29 @@ public class AuthenticationFilter implements Filter {
     }
     
     /**
+     * builds an url to the loginpage - 
+     * the requestUri of the current request is appended 
+     * as 'targetUri' parameter. hence we can send an redirect
+     * to the orginial request uri after successful login 
+     */
+    private String buildLoginUrlForRequest(HttpServletRequest request) {
+        StringBuilder loginUrlSB = new StringBuilder();
+        loginUrlSB.append(request.getContextPath());
+        loginUrlSB.append('/');
+        loginUrlSB.append(LOGIN_PAGE);
+        loginUrlSB.append('?');
+        loginUrlSB.append(TARGET_URI_PARAM);
+        loginUrlSB.append('=');
+        loginUrlSB.append(requestAsRedirectUri(request));
+        return loginUrlSB.toString();
+    }
+    
+    /**
      * Tests if the request is a special login request, used by the
      * XMLHttpRequest of the Java-based login form.
      */
     private boolean isLoginRequest(HttpServletRequest request) {
-        String targetUri = getTargetURI(request);
+        String targetUri = servletRelativeUri(request);
         return targetUri.equals(LOGIN_REQUEST_URI) && 
             LOGIN_REQUEST_VALUE.equals(request.getParameter(LOGIN_REQUEST_PARAM));
     }
@@ -276,7 +292,8 @@ public class AuthenticationFilter implements Filter {
      * the login and logout pages as well as stylesheets, scripts and images for
      * those pages.
      */
-    private boolean isProtected(String targetUri) {
+    private boolean isProtected(HttpServletRequest request) {
+        String targetUri = servletRelativeUri(request);
         // (1) The login page is allowed.
         
         // (2) The logout page is allowed.
@@ -288,7 +305,7 @@ public class AuthenticationFilter implements Filter {
         
         // Other images might contain protected content (photos or diagrams)
         
-        if (targetUri.matches(LOGIN_PAGE + "(.)*$|" + LOGOUT_PAGE + "(.)*$|(.)*\\.(css|js)$|/[^/]+\\.(png|jpg|gif)$"))
+        if (targetUri.matches(LOGIN_PAGE + "(.)*$|" + LOGOUT_PAGE + "(.)*$|(.)*\\.(css|js)$|[^/]+\\.(png|jpg|gif)$"))
             return false;
         else
             return true;
@@ -339,28 +356,19 @@ public class AuthenticationFilter implements Filter {
         return (Authentication) beanFactory_.getBean(lookupName);
     }
 
-    /** TODO: this does not handle servlet contexts in a container! */
-    protected String getTargetURI(HttpServletRequest request) {
+    private String servletRelativeUri(HttpServletRequest request) {
 
+        String servletRequestUri = request.getPathInfo();
+        
+        if (servletRequestUri.startsWith("/"))
+            return servletRequestUri.substring(1);
+        else
+            return servletRequestUri;
+    }
+
+    private String requestAsRedirectUri(HttpServletRequest request) {
         // get the part after http://host:port
         // without query string / parameter
-        String currentURI = request.getRequestURI();
-
-        // search index of a second slash
-        // if present the context is not empty or "/"
-        int lastSlash = currentURI.lastIndexOf("/", 1); // search index of "/",
-
-        // target URI is the part after context root name and following
-        // slash, e.g. everything after /dancewear/ or /
-        String targetURI;
-        if (lastSlash != -1) {
-            // get everything after the context root
-            targetURI = currentURI
-                    .substring(lastSlash, currentURI.length());
-        } else {
-            // context root is empty ("/")
-            targetURI = currentURI; 
-        }
-        return targetURI;
+        return request.getRequestURI();
     }
 }
