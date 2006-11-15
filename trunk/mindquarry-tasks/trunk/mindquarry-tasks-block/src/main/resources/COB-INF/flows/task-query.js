@@ -13,6 +13,7 @@ function displayQueryForm() {
 }
 
 function displaySavedFilter() {
+	print("hallo ballo");
     var filterID = cocoon.parameters["filterID"];
     teamspaceID_ = cocoon.parameters["teamspaceID"];
     

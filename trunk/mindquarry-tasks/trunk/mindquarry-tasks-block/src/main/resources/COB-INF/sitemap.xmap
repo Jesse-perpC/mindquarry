@@ -545,6 +545,12 @@
 
 		<pipeline type="noncaching">
 			
+			<!-- icons for people -->
+			<match pattern="resource/icons/ductform.people.*.peopleperson/*.png">
+				<read src="block:teams:/users/{2}.png" />
+			</match>
+			
+			<!-- icons for status -->
 			<match pattern="resource/icons/ductform.status/*.png">
 				<select type="resource-exists">
 					<!-- if it exists, load it from this sitemap's resources -->
