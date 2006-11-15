@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <parent>
+    <artifactId>cocoon-extractor</artifactId>
+    <groupId>com.mindquarry.search.cocoon</groupId>
+    <version>2-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cocoon-extractor-sample</artifactId>
+  <name>Extractor Block Samples</name>
+  <version>1.0.0-M2-SNAPSHOT</version>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-core</artifactId>
+      <version>2.2.0-M2-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-core</artifactId>
+      <version>2.2.0-M2-SNAPSHOT</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.mindquarry.search.cocoon</groupId>
+      <artifactId>cocoon-extractor-impl</artifactId>
+      <version>1.0.0-M2-SNAPSHOT</version>
+    </dependency>
+  </dependencies>
+  <properties>
+    <docs.name>Cocoon Extractor</docs.name>
+    <docs.version>1.0</docs.version>
+  </properties>
+</project>
