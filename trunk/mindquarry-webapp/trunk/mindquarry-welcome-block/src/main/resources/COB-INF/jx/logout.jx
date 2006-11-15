@@ -13,7 +13,7 @@
 			<div class="logout-block">
 				<p>You have been sucessfully logged out. Thanks for using the Mindquarry system!</p>
 
-				<a href="/loginpage?targetUri=${cocoon.request.targetUri}">Log in again</a>
+				<a href="${cocoon.request.contextPath}/loginpage?targetUri=${cocoon.request.targetUri}">Log in again</a>
 			</div>
 			<br/>
 		</body>

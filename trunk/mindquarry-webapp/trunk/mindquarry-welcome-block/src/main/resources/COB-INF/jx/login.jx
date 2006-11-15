@@ -7,7 +7,7 @@
 	<html>
 		<head>
 			<noscript>
-				<meta http-equiv="refresh" content="1; url=/?request=login&amp;targetUri=${cocoon.request.targetUri}" />
+				<meta http-equiv="refresh" content="1; url=${cocoon.request.contextPath}/?request=login&amp;targetUri=${cocoon.request.targetUri}" />
 			</noscript>
 			<title>Login</title>
 		</head>
@@ -16,11 +16,11 @@
 			<div class="login-block">
 				<p>You are not logged in. Please enter your username and password to proceed.</p>
 				<div>
-					<a href="/?request=login&amp;targetUri=${cocoon.request.targetUri}" class="httpauth" id="login-form">
+					<a href="${cocoon.request.contextPath}/?request=login&amp;targetUri=${cocoon.request.targetUri}" class="httpauth" id="login-form">
 						Click here to login
 					</a>
 				</div>
-				<p>You will be redirected to ${cocoon.request.targetUri}.</p>
+				<p>You will be redirected to ${cocoon.request.targetUri}</p>
 			</div>
 		</body>
 	</html>
