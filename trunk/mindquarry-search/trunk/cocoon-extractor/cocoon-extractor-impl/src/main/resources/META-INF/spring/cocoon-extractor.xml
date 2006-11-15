@@ -10,6 +10,7 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
     
+    <!-- configure text filters like this -->
     <bean id="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.filter.SlideTextFilter">
         <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
     </bean>
@@ -18,5 +19,6 @@
         <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
     </bean>
     
+    <!-- configure slide extractors like this -->
     <bean id="com.mindquarry.search.filter.SlideWordTextFilter" class="org.apache.slide.extractor.MSWordExtractor" />
 </beans>
