@@ -10,18 +10,6 @@
   <version>1.0.0-M2-SNAPSHOT</version>
   <dependencies>
     <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-core</artifactId>
-      <version>2.2.0-M2-SNAPSHOT</version>
-    </dependency>
-    <dependency>
-      <groupId>org.apache.cocoon</groupId>
-      <artifactId>cocoon-core</artifactId>
-      <version>2.2.0-M2-SNAPSHOT</version>
-      <type>test-jar</type>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
       <groupId>com.mindquarry.search.cocoon</groupId>
       <artifactId>cocoon-extractor-impl</artifactId>
       <version>1.0.0-M2-SNAPSHOT</version>

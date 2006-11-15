@@ -16,6 +16,6 @@
   <version>2-SNAPSHOT</version>
   <modules>
     <module>cocoon-extractor-impl</module>
-    <!--<module>cocoon-forms-sample</module>-->
+    <module>cocoon-extractor-sample</module>
   </modules>
 </project>
