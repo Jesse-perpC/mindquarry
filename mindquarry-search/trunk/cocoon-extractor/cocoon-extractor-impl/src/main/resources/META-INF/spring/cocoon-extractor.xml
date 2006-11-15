@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<!--
+    Configuration for dforms-block that concrete implementations can inherit from.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+    
+    <bean id="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.filter.SlideTextFilter">
+        <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
+    </bean>
+    
+    <bean id="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.filter.SlideTextFilter">
+        <property name="extractor" ref="com.mindquarry.search.filter.SlideWordTextFilter"/>
+    </bean>
+    
+    <bean id="com.mindquarry.search.filter.SlideWordTextFilter" class="org.apache.slide.extractor.MSWordExtractor" />
+</beans>
