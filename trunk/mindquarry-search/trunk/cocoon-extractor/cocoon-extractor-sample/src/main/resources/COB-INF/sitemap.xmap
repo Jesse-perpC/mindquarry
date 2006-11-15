@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<components>
+		<generators default="file">
+			<generator name="textfilter"
+				src="com.mindquarry.search.cocoon.TextFilterGenerator" />
+		</generators>
+	</components>
+
+	<pipelines>
+		<pipeline type="noncaching" >
+			<match pattern="">
+				<generate type="textfilter" src="simple.doc" />
+				<serialize type="xml"/>
+			</match>
+		</pipeline>
+	</pipelines>
+</sitemap>
+
