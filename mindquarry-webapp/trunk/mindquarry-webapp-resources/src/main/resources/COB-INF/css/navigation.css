@@ -53,7 +53,7 @@
 
 /* Logout and user at the top right */
 
-.user-status {
+#user-status {
 	position:absolute;
 	right:8px;
 	top:8px;
@@ -85,6 +85,10 @@
 #http-logout-hint {
 	text-align:center;
 	font-size:7pt;
+}
+
+#path-to-webapp-root {
+	display:none;
 }
 
 /* Login form and logout page */
