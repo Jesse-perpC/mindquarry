@@ -117,6 +117,12 @@
 		</dependency>
 		
 		<dependency>
+			<groupId>com.mindquarry.search</groupId>
+			<artifactId>mindquarry-solr-block</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		
+		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-welcome-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
