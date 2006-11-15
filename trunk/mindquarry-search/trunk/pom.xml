@@ -19,7 +19,7 @@
 	<name>Mindquarry Search Root</name>
 
 	<modules>
-    <module>mindquarry-solar-block</module>
+    <module>mindquarry-solr-block</module>
   </modules>
 
 	<scm>
