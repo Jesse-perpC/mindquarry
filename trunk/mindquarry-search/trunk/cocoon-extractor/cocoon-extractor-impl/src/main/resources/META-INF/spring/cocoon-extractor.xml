@@ -19,8 +19,57 @@
         <property name="extractor" ref="mswordextractor"/>
     </bean>
     
+    <!-- pdf -->
+    <bean name="com.mindquarry.search.TextFilter/application/pdf" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="pdfextractor"/>
+    </bean>
+    
+    <!-- excel -->
+    <bean name="com.mindquarry.search.TextFilter/application/msexcel" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="excelextractor"/>
+    </bean>
+    
+    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-excel" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="excelextractor"/>
+    </bean>
+    
+    
+    <!-- powerpoint -->
+    <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="powerpointextractor"/>
+    </bean>
+    
+    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="powerpointextractor"/>
+    </bean>
+    
+    <!-- xml -->
+    <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+        <property name="extractor" ref="xmlextractor"/>
+    </bean>
+    
     <!-- configure slide extractors like this -->
     <bean id="mswordextractor" class="org.apache.slide.extractor.MSWordExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="msexcelextractor" class="org.apache.slide.extractor.MSExcelExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="mspowerpointextractor" class="org.apache.slide.extractor.MSPowerpointExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="pdfextractor" class="org.apache.slide.extractor.PDFExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="xmlextractor" class="org.apache.slide.extractor.SimpleXmlExtractor">
         <constructor-arg index="0" type="java.lang.String" value=""/>
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
