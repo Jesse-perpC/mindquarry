@@ -19,5 +19,5 @@ public interface TextFilter {
 	 * @param stream the input stream to filter
 	 * @return the extracted data
 	 */
-	Map<String, Reader> doFilter(InputStream stream);
+	Map<String, Reader> doFilter(InputStream stream) throws Exception;
 }

@@ -17,7 +17,7 @@ import org.xml.sax.helpers.AttributesImpl;
 import com.mindquarry.search.cocoon.filters.TextFilter;
 
 public class TextFilterGenerator extends FileGenerator implements Generator {
-	private Map textFilters;
+	private Map<String, TextFilter> textFilters;
 
 	public void generate() throws IOException, SAXException,
 			ProcessingException {
@@ -52,7 +52,7 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 	}
 
 	private Map filter() {
-		TextFilter filter = (TextFilter) this.textFilters.get(this.inputSource
+		TextFilter filter = this.textFilters.get(this.inputSource
 				.getMimeType());
 		if (filter == null) {
 			try {
@@ -60,7 +60,6 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 						.lookup("com.mindquarry.search.TextFilter/"
 								+ this.inputSource.getMimeType());
 				this.textFilters.put(this.inputSource.getMimeType(), filter);
-
 				return filter.doFilter(this.inputSource.getInputStream());
 			} catch (ServiceException e) {
 				getLogger().error("Could not lookup filter", e);
@@ -68,6 +67,8 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 				getLogger().error("Document not found", e);
 			} catch (IOException e) {
 				getLogger().error("Could not read document", e);
+			} catch (Exception e) {
+				getLogger().error("Extracing content failed", e);
 			}
 		}
 		return new HashMap();
@@ -75,7 +76,7 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 
 	public void dispose() {
 		super.dispose();
-		for (Iterator i = this.textFilters.values().iterator(); i.hasNext();) {
+		for (Iterator<TextFilter> i = this.textFilters.values().iterator(); i.hasNext();) {
 			this.manager.release(i.next());
 		}
 		this.textFilters.clear();
