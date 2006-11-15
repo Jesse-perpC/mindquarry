@@ -53,20 +53,6 @@
 	</build>
 
 	<dependencies>
-		<!-- Mindquarry dependencies -->
-		<dependency>
-			<groupId>com.mindquarry.webapp</groupId>
-			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		
-		<!-- Cocoon dependencies -->
-		<dependency>
-			<groupId>org.apache.cocoon</groupId>
-			<artifactId>cocoon-core</artifactId>
-			<version>2.2.0-M2-SNAPSHOT</version>
-		</dependency>
-		
 		<!-- Lucene dependencies -->
 		<dependency>
 			<groupId>org.apache.lucene</groupId>
