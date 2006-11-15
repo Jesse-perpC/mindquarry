@@ -20,6 +20,7 @@
 
 	<modules>
     <module>mindquarry-solr-block</module>
+    <module>cocoon-extractor</module>
   </modules>
 
 	<scm>
