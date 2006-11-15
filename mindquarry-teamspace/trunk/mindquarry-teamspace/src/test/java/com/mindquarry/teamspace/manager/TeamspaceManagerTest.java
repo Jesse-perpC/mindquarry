@@ -37,6 +37,27 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         assertEquals(0, admin.teamspacesForUser(userId).size());
 	}
     
+    public void testCreateAndRemoveTeamspaceAsAdmin() throws ServiceException,
+            TeamspaceAlreadyExistsException {
+
+        TeamspaceAdmin admin = lookupTeamspaceAdmin();
+        
+        String userId = "admin";
+        UserRO creator = admin.userForId(userId);
+
+        String teamspaceId = "mindquarry-teamspace";
+        admin.createTeamspace(teamspaceId, "Mindquarry Teamspace",
+                "a greate description", creator);
+
+        List<TeamspaceRO> teamspaces = admin.teamspacesForUser(userId);
+        assertEquals(1, teamspaces.size());
+        assertEquals(1, teamspaces.get(0).getUsers().size());
+
+        admin.removeTeamspace(teamspaceId);
+
+        assertEquals(0, admin.teamspacesForUser(userId).size());
+    }
+    
     public void testProperties() 
         throws ServiceException, TeamspaceAlreadyExistsException {
         

@@ -32,7 +32,7 @@
 	</queryInfo>
 	<queryInfo>
 		<key>getAllTeamspaces</key>
-		<query>/teamspaces/?//metadata.xml</query>
+		<query>/teamspaces?//metadata.xml</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
 </configuration>
