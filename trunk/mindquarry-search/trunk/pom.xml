@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- 
+     Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved 
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1</version>
+	</parent>
+
+	<groupId>com.mindquarry.search</groupId>
+	<artifactId>mindquarry-search</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<name>Mindquarry Search Root</name>
+
+	<modules>
+    <module>mindquarry-solar-block</module>
+  </modules>
+
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/
+		</developerConnection>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-search/tags
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
