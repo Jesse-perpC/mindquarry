@@ -30,6 +30,7 @@
     <module>../mindquarry-workspace</module>
     <module>../mindquarry-wiki</module>
     <module>../mindquarry-tasks</module>
+    <module>../mindquarry-search</module>
     <module>../mindquarry-ductforms/mindquarry-dforms</module>
   </modules>
 </project>
