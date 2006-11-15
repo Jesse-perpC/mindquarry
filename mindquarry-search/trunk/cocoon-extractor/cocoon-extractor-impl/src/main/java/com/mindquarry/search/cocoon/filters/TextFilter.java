@@ -6,6 +6,14 @@ import java.util.Map;
 
 public interface TextFilter {
 	/**
+	 * Use this for the full text
+	 */
+	public static final String CONTENT = "content";
+	public static final String TITLE = "title";
+	public static final String ABSTRACT = "abstract";
+	public static final String AUTHOR = "author";
+	
+	/**
 	 * The keys of the returned map are the field names, the values are
 	 * Readers containing the content
 	 * @param stream the input stream to filter
