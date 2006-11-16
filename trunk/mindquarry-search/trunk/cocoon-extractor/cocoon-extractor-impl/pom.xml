@@ -7,7 +7,7 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cocoon-extractor-impl</artifactId>
-  <name>Extractor Block Implementation</name>
+  <name>Cocoon Extractor Block Implementation</name>
   <version>1.0.0-M2-SNAPSHOT</version>
   <build>
     <plugins>
