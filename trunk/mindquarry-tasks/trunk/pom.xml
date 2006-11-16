@@ -14,7 +14,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Mindquarry Tasks Root</name>
+	<name>Mindquarry Tasks [Root]</name>
 
 	<modules>
     <module>mindquarry-tasks-block</module>
