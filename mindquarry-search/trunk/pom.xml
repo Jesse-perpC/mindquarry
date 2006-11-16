@@ -16,7 +16,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
-	<name>Mindquarry Search Root</name>
+	<name>Mindquarry Search [Root]</name>
 
 	<modules>
     <module>mindquarry-solr-block</module>

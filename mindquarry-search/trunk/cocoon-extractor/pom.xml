@@ -12,7 +12,7 @@
   <groupId>com.mindquarry.search.cocoon</groupId>
   <artifactId>cocoon-extractor</artifactId>
   <packaging>pom</packaging>
-  <name>Extractor Block [modules]</name>
+  <name>Cocoon Text Extractor Block [Root]</name>
   <version>2-SNAPSHOT</version>
   	<profiles>
 		<profile>
