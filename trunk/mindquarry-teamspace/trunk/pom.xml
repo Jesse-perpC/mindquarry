@@ -13,7 +13,7 @@
 		<version>1</version>
 	</parent>
 
-	<name>Mindquarry Teamspace Root</name>
+	<name>Mindquarry Teamspace [Root]</name>
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-teamspace-root</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
