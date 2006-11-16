@@ -6,7 +6,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
 
-	<name>Mindquarry Datamodel Task Root</name>
+	<name>Mindquarry Datamodel Task [Root]</name>
 
 	<artifactId>task</artifactId>
 
