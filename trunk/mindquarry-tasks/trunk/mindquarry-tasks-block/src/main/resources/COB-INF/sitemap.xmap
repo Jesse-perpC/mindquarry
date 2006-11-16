@@ -9,6 +9,8 @@
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
 			<action name="log-params"
 				src="com.mindquarry.webapp.acting.LogParametersAction" />
+			<action name="authorise"
+				src="com.mindquarry.webapp.acting.AuthorisationAction" />
 		</actions>
 
 		<selectors>
@@ -418,6 +420,7 @@
 			
 			<!-- create new filter -->
 			<match pattern="*/filters/new">
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/new"/>
 				<call function="displayQueryForm">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="definitionURI"
@@ -429,6 +432,7 @@
 			
 			<!-- display saved filter -->
 			<match pattern="*/filters/*">
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/{1}"/>
 				<call function="displaySavedFilter">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="filterID" value="{2}" />
@@ -441,6 +445,7 @@
 
 			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->
 			<match pattern="*/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasklist"/>
 				<select type="REST">
 					<when test="html">
 						<read
@@ -462,12 +467,15 @@
 				+-->
 				
 			<match pattern="*/*.debug">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
 				<generate
 					src="block:super:/dform-debug?cocoon-view=raw&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
 				<serialize tpye="xml" />
 			</match>
 
 			<match pattern="*/*">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
+				
 				<select type="request-method">
 				
 					<when test="GET">
@@ -548,6 +556,7 @@
 			
 			<!-- icons for people -->
 			<match pattern="resource/icons/ductform.people.*.peopleperson/*.png">
+				<act type="authorise" src="jcr:///teamspaces/{1}/user"/>
 				<read src="block:teams:/users/{2}.png" />
 			</match>
 			
