@@ -11,11 +11,14 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.teamspace.Authentication;
+import com.mindquarry.teamspace.Authorisation;
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceDefinition;
@@ -29,7 +32,8 @@ import com.mindquarry.teamspace.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">your full name</a>
  */
-public class TeamspaceManager implements TeamspaceAdmin, Authentication {
+public class TeamspaceManager implements TeamspaceAdmin, Authentication,
+    Authorisation {
     
     static final String ADMIN_USER_ID = "admin";
     static final String ADMIN_PWD = "admin";
@@ -423,5 +427,26 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication {
             return true;
         else
             return false;
+    }
+
+    /**
+     * @see com.mindquarry.teamspace.Authorisation#authorise(java.lang.String, java.lang.String, java.lang.String)
+     */
+    public boolean authorise(String userId, String uri, String method) {
+        // check if user is in teamspace
+
+        // simple regular expression that looks for the teamspace name...
+        Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
+        Matcher m = p.matcher(uri);
+        if (m.matches()) {
+            String requestedTeamspaceID = m.group(1); //"mindquarry";
+            // ...and checks if the user is in that teamspace
+            for (TeamspaceRO teamspace: teamspacesForUser(userId)) {
+                if (teamspace.getId().equals(requestedTeamspaceID)) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

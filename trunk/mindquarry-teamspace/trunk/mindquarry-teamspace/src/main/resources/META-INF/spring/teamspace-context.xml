@@ -28,7 +28,10 @@
 	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
 		   alias="com.mindquarry.teamspace.Authentication" />
 		   		   
-		   
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+		alias="com.mindquarry.teamspace.Authorisation" />
+
+	
 	<bean id="com.mindquarry.teamspace.manager.DefaultListenerRegistry" 
 		class="com.mindquarry.teamspace.manager.DefaultListenerRegistry" 
 		scope="singleton" />
