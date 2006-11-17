@@ -15,7 +15,7 @@
 		<property name="servletClass"
 			value="org.apache.solr.servlet.SolrServlet" />
 
-		<property name="blockContextURL" value="/blocks/mindquarry-solr-block"/>
+		<property name="blockContextURL" value="blockcontext:/mindquarry-solr-block/"/>
 	</bean>
 	
 	<bean id="com.mindquarry.search.solr.solr-update-block"
@@ -26,6 +26,6 @@
 		<property name="servletClass"
 			value="org.apache.solr.servlet.SolrUpdateServlet" />
 
-		<property name="blockContextURL" value="/blocks/mindquarry-solr-block"/>
+		<property name="blockContextURL" value="blockcontext:/mindquarry-solr-block/"/>
 	</bean>
 </beans>
