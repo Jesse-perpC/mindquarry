@@ -117,6 +117,12 @@
 			<version>2.2.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>excalibur-component</groupId>
 			<artifactId>excalibur-component</artifactId>
 			<version>1.2</version>
