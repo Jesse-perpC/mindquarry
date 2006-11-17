@@ -15,7 +15,7 @@
 		<property name="servletClass"
 			value="org.apache.cocoon.sitemap.SitemapServlet" />
 
-		<property name="blockContextURL" value="/blocks/mindquarry-tasks-block"/>
+		<property name="blockContextURL" value="blockcontext:/mindquarry-tasks-block/"/>
 
 		<property name="connections">
 			<map>
