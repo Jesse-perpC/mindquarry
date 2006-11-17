@@ -1,0 +1,2 @@
+# this does not work with Tomcat (only in development environment)
+lib-dir: context:paranoid-lib

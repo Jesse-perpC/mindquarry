@@ -6,26 +6,63 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-
-	<bean id="com.mindquarry.search.solr.solr-block"
+	
+	<!--bean id="com.mindquarry.search.solr.solr-admin-block"
 		class="org.apache.cocoon.blocks.BlockServlet">
 		<property name="mountPath" value="/solr" />
 
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
 		<property name="servletClass"
-			value="org.apache.solr.servlet.SolrServlet" />
+			value="org.apache.cocoon.sitemap.SitemapServlet" />
 
 		<property name="blockContextURL" value="blockcontext:/mindquarry-solr-block/"/>
+	</bean-->
+
+	<bean id="com.mindquarry.search.solr.solr-select-block"
+		class="org.apache.cocoon.blocks.BlockServlet">
+		<property name="mountPath" value="/solr-select" />
+
+		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
+		<property name="servletClass"
+			value="org.apache.cocoon.bootstrap.servlet.ShieldingServlet" />
+
+		<property name="blockContextURL"
+			value="blockcontext:/mindquarry-solr-block/" />
+
+		<property name="properties">
+			<map>
+				<entry key="servlet-class"
+					value="org.apache.solr.servlet.SolrServlet" />
+				<entry key="bootstrap-classpath-file"
+					value="/paranoid-classpath.txt" />
+				<entry key="bootstrap-classloader-debug" value="true" />
+				<entry key="bootstrap-classloader-factory"
+					value="org.apache.cocoon.classloader.DefaultClassLoaderFactory" />
+			</map>
+		</property>
 	</bean>
-	
+
 	<bean id="com.mindquarry.search.solr.solr-update-block"
 		class="org.apache.cocoon.blocks.BlockServlet">
 		<property name="mountPath" value="/solr-update" />
 
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
 		<property name="servletClass"
-			value="org.apache.solr.servlet.SolrUpdateServlet" />
+			value="org.apache.cocoon.bootstrap.servlet.ShieldingServlet" />
 
-		<property name="blockContextURL" value="blockcontext:/mindquarry-solr-block/"/>
+		<property name="blockContextURL"
+			value="blockcontext:/mindquarry-solr-block/" />
+
+		<property name="properties">
+			<map>
+				<entry key="servlet-class"
+					value="org.apache.solr.servlet.SolrUpdateServlet" />
+				<entry key="bootstrap-classpath-file"
+					value="/paranoid-classpath.txt" />
+				<entry key="bootstrap-classloader-debug" value="true" />
+				<entry key="bootstrap-classloader-factory"
+					value="org.apache.cocoon.classloader.DefaultClassLoaderFactory" />
+			</map>
+		</property>
 	</bean>
 </beans>
