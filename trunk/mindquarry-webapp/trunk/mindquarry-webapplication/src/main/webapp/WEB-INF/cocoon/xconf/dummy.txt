@@ -1,2 +1,0 @@
-# This file exist because the xconf/ directory must be copied into
-# the final webapp war and this only happens if it is not empty

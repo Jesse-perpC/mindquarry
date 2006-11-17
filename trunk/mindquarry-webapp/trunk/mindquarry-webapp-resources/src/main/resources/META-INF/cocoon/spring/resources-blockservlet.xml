@@ -7,19 +7,12 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
        
-	<bean id="com.mindquarry.webapp.welcome-block" class="org.apache.cocoon.blocks.BlockServlet">
-		<property name="mountPath" value=""/>
+	<bean id="com.mindquarry.webapp.resources-block" class="org.apache.cocoon.blocks.BlockServlet">
+		<property name="mountPath" value="/resources"/>
 		
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
 		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
 		
-		<property name="blockContextURL" value="/blocks/mindquarry-welcome-block"/>
-
-		<property name="connections">
-			<map>
-				<entry key="super"
-					value-ref="com.mindquarry.webapp.resources-block" />
-			</map>
-		</property>
+		<property name="blockContextURL" value="blockcontext:/mindquarry-webapp-resources/"/>
 	</bean>
 </beans>
