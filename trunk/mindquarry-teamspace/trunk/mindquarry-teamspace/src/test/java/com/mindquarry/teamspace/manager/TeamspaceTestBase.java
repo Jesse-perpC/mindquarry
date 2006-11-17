@@ -57,7 +57,7 @@ abstract class TeamspaceTestBase extends JCRTestBase {
         List<Resource> resultList = new LinkedList<Resource>();
         
         String[] resourceNames = new String[] {
-                "META-INF/spring/teamspace-context.xml"
+                "META-INF/cocoon/spring/teamspace-context.xml"
         };
         
         for (String resourceName : resourceNames)
