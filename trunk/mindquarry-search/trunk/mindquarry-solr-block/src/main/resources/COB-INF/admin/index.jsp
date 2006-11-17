@@ -26,7 +26,7 @@
 <%-- do a verbatim include so we can use the local vars --%>
 <%@include file="header.jsp" %>
 
-<br clear="all">
+<br clear="all"/>
 <table>
 
 <tr>
@@ -37,7 +37,7 @@
     [<a href="get-file.jsp?file=schema.xml">Schema</a>]
     [<a href="get-file.jsp?file=solrconfig.xml">Config</a>]
     [<a href="analysis.jsp?highlight=on">Analysis</a>]
-    <br>
+    <br />
     [<a href="stats.jsp">Statistics</a>]
     [<a href="registry.jsp">Info</a>]
     [<a href="distributiondump.jsp">Distribution</a>]
@@ -49,7 +49,7 @@
 
 <tr>
   <td>
-    <strong>App server:</strong><br>
+    <strong>App server:</strong><br/>
   </td>
   <td>
     [<a href="get-properties.jsp">Java Properties</a>]
@@ -83,7 +83,7 @@
 -->
 <jsp:include page="get-file.jsp?file=admin-extra.html&optional=y" flush="true"/>
 
-</table><P>
+</table><p/>
 
 
 <table>
@@ -91,7 +91,7 @@
   <td>
 	<h3>Make a Query</h3>
   </td>
-  <td>
+  <td/>
 
   <td>
 	[<a href="form.jsp">Full Interface</a>]
@@ -99,21 +99,21 @@
 </tr>
 <tr>
   <td>
-  StyleSheet:<br>Query:
+  StyleSheet:<br/>Query:
   </td>
-  <td colspan=2>
-	<form name=queryForm method="GET" action="../select/">
-        <input class="std" name="stylesheet" type="text" value=""><br>
+  <td colspan="2">
+	<form name="queryForm" method="GET" action="../select/">
+        <input class="std" name="stylesheet" type="text" value=""/><br/>
         <textarea class="std" rows="4" cols="40" name="q"><%= defaultSearch %></textarea>
-        <input name="version" type="hidden" value="2.1">
-	<input name="start" type="hidden" value="0">
-	<input name="rows" type="hidden" value="10">
-	<input name="indent" type="hidden" value="on">
-        <br><input class="stdbutton" type="button" value="search" onclick="if (queryForm.q.value.length==0) alert('no empty queries, please'); else queryForm.submit();">
+        <input name="version" type="hidden" value="2.1"/>
+	<input name="start" type="hidden" value="0"/>
+	<input name="rows" type="hidden" value="10"/>
+	<input name="indent" type="hidden" value="on"/>
+        <br/><input class="stdbutton" type="button" value="search" onclick="if (queryForm.q.value.length==0) alert('no empty queries, please'); else queryForm.submit();" />
 	</form>
   </td>
 </tr>
-</table><p>
+</table><p/>
 
 <table>
 <tr>
@@ -124,7 +124,7 @@
 	[<a href="http://incubator.apache.org/solr/">Documentation</a>]
 	[<a href="http://issues.apache.org/jira/browse/SOLR">Issue Tracker</a>]
 	[<a href="mailto:solr-user@lucene.apache.org">Send Email</a>]
-	<br>
+	<br/>
         [<a href="http://lucene.apache.org/java/docs/queryparsersyntax.html">Lucene Query Syntax</a>]
   </td>
 <!--
