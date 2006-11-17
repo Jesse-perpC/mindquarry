@@ -63,6 +63,12 @@
 
 	<pluginRepositories>
 	    <pluginRepository>
+			<id>mindquarry.snapshots</id>
+			<name>Mindquarry Snapshot Repository</name>
+			<url>http://www.mindquarry.com/snapshots/</url>
+			<layout>default</layout>
+	    </pluginRepository>
+            <pluginRepository>
 			<id>mindquarry.releases</id>
 			<name>Mindquarry Repository</name>
 			<url>http://www.mindquarry.com/releases/</url>
