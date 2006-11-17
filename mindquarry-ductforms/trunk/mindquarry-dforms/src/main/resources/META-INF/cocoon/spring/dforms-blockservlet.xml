@@ -16,7 +16,7 @@
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
 		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
 		
-		<property name="blockContextURL" value="/blocks/mindquarry-dforms"/>
+		<property name="blockContextURL" value="blockcontext:/mindquarry-dforms/"/>
 
 		<property name="connections">
 			<map>
