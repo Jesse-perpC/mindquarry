@@ -7,17 +7,6 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 	
-	<!--bean id="com.mindquarry.search.solr.solr-admin-block"
-		class="org.apache.cocoon.blocks.BlockServlet">
-		<property name="mountPath" value="/solr" />
-
-		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
-		<property name="servletClass"
-			value="org.apache.cocoon.sitemap.SitemapServlet" />
-
-		<property name="blockContextURL" value="blockcontext:/mindquarry-solr-block/"/>
-	</bean-->
-
 	<bean id="com.mindquarry.search.solr.solr-select-block"
 		class="org.apache.cocoon.blocks.BlockServlet">
 		<property name="mountPath" value="/solr-select" />
