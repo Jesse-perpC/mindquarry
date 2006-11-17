@@ -82,7 +82,7 @@
 			</match>
 		</pipeline>
 		
-		<pipeline type="noncaching" ä>
+		<pipeline type="noncaching">
 
 			<!-- internal -->
 			<!-- Note: this is also referenced via a document()
