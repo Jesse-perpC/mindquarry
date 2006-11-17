@@ -12,6 +12,8 @@
 			</map:action>
 			<map:action name="log"
 				src="com.mindquarry.webapp.acting.DebugLogAction" />
+			<action name="authorise"
+				src="com.mindquarry.webapp.acting.AuthorisationAction" />
 		</map:actions>
 
 		<map:selectors>
@@ -287,6 +289,7 @@
 		<!-- use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="*/editMembers/">
+				<map:act type="authorise" src="jcr:///teamspaces/{1}/editMember/"/>
 				<map:call function="handleForm">
 					<map:parameter name="function"
 						value="processEditMembersForm" />
@@ -346,6 +349,7 @@
 			
 			<!-- single teamspace -->
 			<map:match pattern="*">
+				<map:act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
 				<!-- check request type: REST / HTML or other -->
 				<map:select type="REST">
 					<!--  handle REST request -->
@@ -362,6 +366,7 @@
 			
 			<!-- single teamspace -->
 			<map:match pattern="*/users.xml">
+				<map:act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/>
 				<map:call function="teamspacesByID">
 					<map:parameter name="teamspaceID"
 						value="{1}" />
