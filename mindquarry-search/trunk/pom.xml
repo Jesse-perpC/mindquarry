@@ -19,6 +19,7 @@
 	<name>Mindquarry Search [Root]</name>
 
 	<modules>
+    <module>mindquarry-solr</module>
     <module>mindquarry-solr-block</module>
     <module>cocoon-extractor</module>
   </modules>
