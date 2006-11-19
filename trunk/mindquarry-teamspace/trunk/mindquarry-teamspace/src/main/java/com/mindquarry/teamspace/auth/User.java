@@ -1,9 +1,7 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace.manager;
-
-import java.util.List;
+package com.mindquarry.teamspace.auth;
 
 /**
  * Add summary documentation here.
@@ -11,7 +9,6 @@ import java.util.List;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface ListLoading<T> {
+public class User extends AbstractUser {
 
-    List<T> load();
 }
