@@ -19,7 +19,26 @@
 		<pipeline type="noncaching">
 			<match pattern="">
 				<generate src="admin/index.jsp" type="jsp"/>
-				<serialize />
+				<transform type="log" />
+				<serialize type="html"/>
+			</match>
+
+			<match pattern="*.jsp">
+				<generate src="admin/{1}.jsp" type="jsp"/>
+				<transform type="log" />
+				<serialize type="html"/>
+			</match>
+
+			<match pattern="*.png">
+				<read src="admin/{1}.png"/>
+			</match>
+
+			<match pattern="*.gif">
+				<read src="admin/{1}.gif"/>
+			</match>
+
+			<match pattern="*.css">
+				<read src="admin/{1}.css"/>
 			</match>
 		</pipeline>
 	</pipelines>
