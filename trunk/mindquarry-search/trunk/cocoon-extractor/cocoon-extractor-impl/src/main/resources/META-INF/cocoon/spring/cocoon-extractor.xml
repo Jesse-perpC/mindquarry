@@ -11,40 +11,40 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
     <!-- configure text filters like this -->
-    <bean name="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="mswordextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="mswordextractor"/>
     </bean>
     
     <!-- pdf -->
-    <bean name="com.mindquarry.search.TextFilter/application/pdf" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/pdf" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="pdfextractor"/>
     </bean>
     
     <!-- excel -->
-    <bean name="com.mindquarry.search.TextFilter/application/msexcel" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/msexcel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="excelextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-excel" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-excel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="excelextractor"/>
     </bean>
     
     
     <!-- powerpoint -->
-    <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="powerpointextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="powerpointextractor"/>
     </bean>
     
     <!-- xml -->
-    <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="xmlextractor"/>
     </bean>
     
