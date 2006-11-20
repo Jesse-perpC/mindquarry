@@ -4,6 +4,7 @@
 package com.mindquarry.teamspace.auth;
 
 
+
 /**
  * Add summary documentation here.
  *
@@ -11,9 +12,11 @@ package com.mindquarry.teamspace.auth;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class Right extends AbstractRight {
-       
+    
     final Resource resource;
     final String operation;
+    final AbstractUserSet allowed;
+    final AbstractUserSet denied;
     
     /**
      * @param name
@@ -22,5 +25,7 @@ public class Right extends AbstractRight {
         super(name);
         this.resource = resource;
         this.operation = operation;
+        this.allowed = new AbstractUserSet();
+        this.denied = new AbstractUserSet();
     }
 }

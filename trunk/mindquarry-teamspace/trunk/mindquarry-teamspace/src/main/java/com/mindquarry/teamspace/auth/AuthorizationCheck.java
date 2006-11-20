@@ -12,4 +12,6 @@ package com.mindquarry.teamspace.auth;
 public interface AuthorizationCheck {
 
     boolean mayPerform(String resource, String operation, String userId);
+    
+    boolean mayPerform(String resource, String operation, AbstractUser user);
 }

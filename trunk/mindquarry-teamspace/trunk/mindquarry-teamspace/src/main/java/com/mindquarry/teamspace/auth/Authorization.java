@@ -6,7 +6,6 @@ package com.mindquarry.teamspace.auth;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,27 +19,56 @@ import java.util.Map;
 public class Authorization implements AuthorizationCheck, 
     AuthorizationAdmin, UserAdmin {
 
+    private Map<String, User> usersMap;
+    private Map<String, Group> groupsMap;
     private Resource resourcesRoot;
-    private List<Right> rights = new LinkedList<Right>();
-    private Map<String, List<Right>> userRightsMap = new HashMap<String, List<Right>>(); 
     
     public Authorization() {
+        this.usersMap = new HashMap<String, User>();
+        this.groupsMap = new HashMap<String, Group>();
         this.resourcesRoot = new Resource("root");
     }
     
     public boolean mayPerform(
             String resourceUri, String operation, String userId) {
         
-        Resource resource = navigateToResource(resourceUri);
+        AbstractUser user = userById(userId);
+        return this.mayPerform(resourceUri, operation, user);
+    }
+
+    public boolean mayPerform(
+            String resourceUri, String operation, AbstractUser user) {
         
-        List<Right> userRights = userRightsMap.get(userId);
-        if (userRights != null) {
-            for (Right right : userRights) {
-                if (right.resource.equals(resourceUri))
-                    return true;
+        Iterator<String> pathItemsIt = pathItemsFromUri(resourceUri).iterator();
+        
+        Resource resource = resourcesRoot;
+        boolean result = true;
+        boolean isEmptyRightList = true;
+        
+        while (pathItemsIt.hasNext()) {
+            String pathItem = pathItemsIt.next();            
+            if (! resource.hasChild(pathItem)) {
+                break;
             }
+            
+            Resource child = resource.getChild(pathItem);
+            if (isEmptyRightList && ! child.rights.isEmpty()) {
+                isEmptyRightList = false;
+                result = false;
+            }
+            
+            Right right = child.rightForOperation(operation);
+            if (right != null) {
+                if (right.allowed.contains(user)) {
+                    result = true;
+                }
+                else if (result && right.denied.contains(user)) {
+                    result = false;
+                }
+            }
+            resource = child;
         }
-        return false;
+        return result;
     }
 
     public Right createRight(String resourceUri, String operation) {
@@ -52,22 +80,35 @@ public class Authorization implements AuthorizationCheck,
     public Right createRight(
             String name, String resourceUri, String operation) {        
         
-        Resource resource = navigateToResource(resourceUri);        
-        Right result = new Right(name, resource, operation);       
-        rights.add(result);        
+        Resource resource = navigateToResource(resourceUri);
+        Right result = new Right(name, resource, operation);
+        resource.rights.add(result);
         return result;
     }
 
-    public void grant(Right right, String userId) {
-        List<Right> userRights = new LinkedList<Right>();
-        userRights.add(right);
-        userRightsMap.put(userId, userRights);
+    public void addAllowance(Right right, AbstractUser user) {
+        right.allowed.add(user);
+    }
+
+    public void removeAllowance(Right right, AbstractUser user) {
+        right.allowed.remove(user);
+    }
+
+    public void addDenial(Right right, AbstractUser user) {
+        right.denied.add(user);
+    }
+
+    public void removeDenial(Right right, AbstractUser user) {
+        right.denied.remove(user);
+    }
+    
+    private List<String> pathItemsFromUri(String resourceUri) {
+        String[] pathItems = resourceUri.replaceFirst("/", "").split("/");
+        return Arrays.asList(pathItems);
     }
     
     private Resource navigateToResource(String resourceUri) {
-        String[] pathItems = resourceUri.replaceFirst("/", "").split("/");
-        Iterator<String> pathItemsIt = Arrays.asList(pathItems).iterator();
-        
+        Iterator<String> pathItemsIt = pathItemsFromUri(resourceUri).iterator();        
         return navigateToResource(resourcesRoot, pathItemsIt);
     }
     
@@ -86,5 +127,42 @@ public class Authorization implements AuthorizationCheck,
             result = navigateToResource(child, pathItemsIt);
         }
         return result;
+    }
+
+    public Group createGroup(String groupId) {
+        Group result = new Group(groupId);
+        groupsMap.put(groupId, result);
+        return result;
+    }
+
+    public Group groupById(String groupId) {
+        return groupsMap.get(groupId);
+    }
+
+    public void deleteGroup(Group group) {
+        groupsMap.remove(group.id);
+    }
+
+    public User createUser(String userId) {
+        User result = new User(userId);
+        usersMap.put(userId, result);
+        return result;
+    }
+
+    public User userById(String userId) {
+        return usersMap.get(userId);
+    }
+
+    public void deleteUser(User user) {
+        usersMap.remove(user.id);
+    }
+
+    public void addUser(AbstractUser user, Group group) {
+        group.add(user);
+        
+    }
+
+    public void removeUser(AbstractUser user, Group group) {
+       group.remove(user);
     }
 }

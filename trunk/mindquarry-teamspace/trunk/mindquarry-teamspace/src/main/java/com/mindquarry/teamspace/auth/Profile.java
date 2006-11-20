@@ -11,6 +11,8 @@ package com.mindquarry.teamspace.auth;
  */
 public class Profile extends AbstractRight {
 
+    
+    
     Profile(String name) {
         super(name);
     }

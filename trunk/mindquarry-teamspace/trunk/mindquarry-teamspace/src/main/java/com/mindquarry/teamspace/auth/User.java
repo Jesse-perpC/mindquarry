@@ -9,6 +9,9 @@ package com.mindquarry.teamspace.auth;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class User extends AbstractUser {
+final class User extends AbstractUser {
 
+    User(String userId) {
+        super(userId);
+    }
 }

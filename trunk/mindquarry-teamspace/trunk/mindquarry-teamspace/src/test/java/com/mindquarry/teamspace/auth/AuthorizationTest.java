@@ -14,7 +14,6 @@ import junit.framework.TestCase;
 public class AuthorizationTest extends TestCase {
 
     private Authorization auth;
-    private String userId = "testUser";
     
     protected void setUp() throws Exception {
         super.setUp();
@@ -22,22 +21,73 @@ public class AuthorizationTest extends TestCase {
     }
     
     public void testResource() {
-//        String resource = "/teamspaces/foo-team";
-//        String operation = "READ";
-//        Right right = this.auth.createRight(resource, operation);
-//        this.auth.grant(right, userId);
-//        assertTrue(this.auth.mayPerform(resource, operation, userId));
+        User user = this.auth.createUser("testUser");
+        String resource = "/teamspaces/foo-team";
+        String operation = "READ";
+        Right right = this.auth.createRight(resource, operation);
+        this.auth.addAllowance(right, user);
+        assertTrue(this.auth.mayPerform(resource, operation, user));      
     }
     
     public void testResourceTree() {
-//        String operation = "READ";
-//        
-//        String explicitGrantedResource = "/teamspaces/foo-team";
-//        String implicitGrantedResource = "/teamspaces/foo-team/wiki";
-//        
-//        Right right = this.auth.createRight(explicitGrantedResource, operation);
-//        this.auth.grant(right, userId);
-//        
-//        assertTrue(this.auth.mayPerform(implicitGrantedResource, operation, userId));
+        String operation = "READ";
+        User grantedUser = this.auth.createUser("grantedUser");
+        User otherUser = this.auth.createUser("otherUser");
+        
+        String higherLevelResource = "/teamspaces";
+        String explicitGrantedResource = "/teamspaces/foo-team";
+        String implicitGrantedResource = "/teamspaces/foo-team/wiki";
+        
+        Right right = this.auth.createRight(explicitGrantedResource, operation);
+        this.auth.addAllowance(right, grantedUser);
+        
+        assertTrue(this.auth.mayPerform(higherLevelResource, operation, grantedUser));
+        assertTrue(this.auth.mayPerform(higherLevelResource, operation, otherUser));
+        
+        assertTrue(this.auth.mayPerform(explicitGrantedResource, operation, grantedUser));
+        assertFalse(this.auth.mayPerform(explicitGrantedResource, operation, otherUser));
+        
+        assertTrue(this.auth.mayPerform(implicitGrantedResource, operation, grantedUser));
+        assertFalse(this.auth.mayPerform(explicitGrantedResource, operation, otherUser));
+    }
+    
+    public void testDeniedRights() {
+        String operation = "READ";
+        User fooUser = this.auth.createUser("fooUser");
+        User fooTasksOnlyUser = this.auth.createUser("fooTasksUser");
+        
+        String fooTeamspace = "/teamspaces/foo-team";
+        String fooTeamspaceWiki = "/teamspaces/foo-team/wiki";
+        String fooTeamspaceTasks = "/teamspaces/foo-team/tasks";
+        
+        Right fooReadRight = this.auth.createRight(fooTeamspace, operation);
+        this.auth.addAllowance(fooReadRight, fooUser);
+        this.auth.addAllowance(fooReadRight, fooTasksOnlyUser);
+                
+        Right fooWikiRight = this.auth.createRight(fooTeamspaceWiki, operation);
+        this.auth.addDenial(fooWikiRight, fooTasksOnlyUser);
+        
+        assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));
+        assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooTasksOnlyUser));
+        
+        assertTrue(this.auth.mayPerform(fooTeamspaceTasks, operation, fooUser));
+        assertTrue(this.auth.mayPerform(fooTeamspaceTasks, operation, fooTasksOnlyUser));
+        
+        assertTrue(this.auth.mayPerform(fooTeamspaceWiki, operation, fooUser));
+        assertFalse(this.auth.mayPerform(fooTeamspaceWiki, operation, fooTasksOnlyUser));
+    }
+    
+    public void testGroupAllowances() {
+        String operation = "READ";
+        User fooUser = this.auth.createUser("fooUser");
+        Group fooGroup = this.auth.createGroup("fooGroup");
+        this.auth.addUser(fooUser, fooGroup);
+        
+        String fooTeamspace = "/teamspaces/foo-team";
+        
+        Right fooReadRight = this.auth.createRight(fooTeamspace, operation);        
+        this.auth.addAllowance(fooReadRight, fooGroup);
+                
+        assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));        
     }
 }
