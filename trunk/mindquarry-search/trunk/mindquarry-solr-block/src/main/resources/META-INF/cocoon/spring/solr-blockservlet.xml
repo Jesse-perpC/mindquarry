@@ -19,6 +19,7 @@
 
 		<property name="properties">
 			<map>
+				<entry key="shielded-group" value="solr-servlets" />
 				<entry key="servlet-class"
 					value="org.apache.cocoon.sitemap.SitemapServlet" />
 				<entry key="bootstrap-classpath-file"
@@ -42,6 +43,7 @@
 
 		<property name="properties">
 			<map>
+				<entry key="shielded-group" value="solr-servlets" />
 				<entry key="servlet-class"
 					value="org.apache.solr.servlet.SolrServlet" />
 				<entry key="bootstrap-classpath-file"
@@ -65,6 +67,7 @@
 
 		<property name="properties">
 			<map>
+				<entry key="shielded-group" value="solr-servlets" />
 				<entry key="servlet-class"
 					value="org.apache.solr.servlet.SolrUpdateServlet" />
 				<entry key="bootstrap-classpath-file"
