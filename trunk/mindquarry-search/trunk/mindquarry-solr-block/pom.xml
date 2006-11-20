@@ -54,6 +54,12 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.search</groupId>
 			<artifactId>mindquarry-solr</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
@@ -63,6 +69,11 @@
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-jsp-impl</artifactId>
 			<version>1.0.0-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-httpclient</groupId>
+			<artifactId>commons-httpclient</artifactId>
+			<version>3.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
