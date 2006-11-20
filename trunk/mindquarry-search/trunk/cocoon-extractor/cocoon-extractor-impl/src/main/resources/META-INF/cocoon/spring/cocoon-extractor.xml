@@ -26,27 +26,27 @@
     
     <!-- excel -->
     <bean name="com.mindquarry.search.TextFilter/application/msexcel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="excelextractor"/>
+        <property name="extractor" ref="msexcelextractor"/>
     </bean>
     
     <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-excel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="excelextractor"/>
+        <property name="extractor" ref="msexcelextractor"/>
     </bean>
     
     
     <!-- powerpoint -->
     <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="powerpointextractor"/>
+        <property name="extractor" ref="mspowerpointextractor"/>
     </bean>
     
     <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="powerpointextractor"/>
+        <property name="extractor" ref="mspowerpointextractor"/>
     </bean>
     
     <!-- xml -->
-    <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+    <!--<bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="xmlextractor"/>
-    </bean>
+    </bean>-->
     
     <!-- configure slide extractors like this -->
     <bean id="mswordextractor" class="org.apache.slide.extractor.MSWordExtractor">
@@ -59,7 +59,7 @@
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
     </bean>
-    <bean id="mspowerpointextractor" class="org.apache.slide.extractor.MSPowerpointExtractor">
+    <bean id="mspowerpointextractor" class="org.apache.slide.extractor.MSPowerPointExtractor">
         <constructor-arg index="0" type="java.lang.String" value=""/>
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
@@ -69,9 +69,9 @@
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
     </bean>
-    <bean id="xmlextractor" class="org.apache.slide.extractor.SimpleXmlExtractor">
+    <!--<bean id="xmlextractor" class="org.apache.slide.extractor.SimpleXmlExtractor">
         <constructor-arg index="0" type="java.lang.String" value=""/>
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
-    </bean>
+    </bean>-->
 </beans>
