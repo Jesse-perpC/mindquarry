@@ -22,6 +22,7 @@ import javax.jcr.query.QueryResult;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -32,6 +33,7 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
+import com.mindquarry.common.index.Indexer;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
 
@@ -54,7 +56,7 @@ import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JCRSourceFactory implements ThreadSafe, SourceFactory,
+public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, SourceFactory,
         Configurable, Serviceable {
     /**
      * The reference to the JCR Repository to use as interface.
@@ -80,6 +82,11 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      * The namespace-prefix mappings for this factory.
      */
     public static Map<String, String> configuredMappings;
+    
+    /**
+     * The indexer to be used by this class.
+     */
+    protected Indexer indexer;
 
     // =========================================================================
     // Servicable interface
@@ -92,6 +99,12 @@ public class JCRSourceFactory implements ThreadSafe, SourceFactory,
      */
     public void service(ServiceManager manager) throws ServiceException {
         this.manager = manager;
+        
+        try {
+            indexer = (Indexer) manager.lookup(Indexer.ROLE);
+        } catch (Exception e) {
+            getLogger().info("Indexer could not be found!", e);
+        }
 
         // the repository is lazily initialized to avoid circular dependency
         // between SourceResolver and JackrabbitRepository that leads to a
