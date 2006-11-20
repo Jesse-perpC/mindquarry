@@ -15,6 +15,11 @@
       <artifactId>cocoon-extractor-impl</artifactId>
       <version>1.0.0-M2-SNAPSHOT</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-blocks-fw-impl</artifactId>
+      <version>1.0.0-SNAPSHOT</version>
+    </dependency>
   </dependencies>
   <build>
     <finalName>cocoon-extractor</finalName>
