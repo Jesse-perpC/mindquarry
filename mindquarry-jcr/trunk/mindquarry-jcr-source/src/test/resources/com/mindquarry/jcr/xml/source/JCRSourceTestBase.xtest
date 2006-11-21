@@ -14,8 +14,8 @@
 		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
 			shorthand="jcr-initializer" />
 			
-		<role name="com.mindquarry.common.index.Indexer"
-			default-class="com.mindquarry.search.index.EmptyIndexer" />
+		<role name="com.mindquarry.common.index.IndexClient"
+			default-class="com.mindquarry.search.index.EmptyIndexClient" />
 
 		<!-- configure a serializer for XML output -->
 		<role name="org.apache.cocoon.serialization.Serializer"
