@@ -4,6 +4,7 @@
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	xmlns:wa="http://www.mindquarry.com/ns/schema/webapp"
 	xmlns:us="http://www.mindquarry.com/ns/schema/userswitch"
+	xmlns:bu="http://apache.org/cocoon/browser-update/1.0"
 	exclude-result-prefixes="#default xhtml wa us">
 <!-- 
 	NEVER! NEVER! use alt-f to re-format this code.
@@ -21,6 +22,13 @@
 	<xsl:param name="userName" select="''"/>
 
 	<xsl:template match="@*|node()">
+		<xsl:copy>
+			<xsl:apply-templates select="@*|node()" />
+		</xsl:copy>
+	</xsl:template>
+	
+	<!-- do not remove the prefix for the cocoon AJAX Browser Update namespace -->
+	<xsl:template match="bu:*">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:copy>
