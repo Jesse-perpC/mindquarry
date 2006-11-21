@@ -70,7 +70,16 @@
     <xsl:variable name="id" select="@id"/>
     <xsl:variable name="value" select="fi:value"/>
     <xsl:variable name="state" select="@state" />
-    <div id="{@id}" title="{fi:hint}" class="togglebuttons">
+    <div id="{@id}" title="{fi:hint}">
+      <xsl:choose>
+        <xsl:when test="fi:styling/@type='dropdown'">
+          <xsl:attribute name="dojoType">dropdownbuttons</xsl:attribute>
+          <xsl:attribute name="class">dropdownbuttons</xsl:attribute>
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:attribute name="class">togglebuttons</xsl:attribute>
+        </xsl:otherwise>
+      </xsl:choose>
       <xsl:for-each select="fi:selection-list/fi:item">
       	<div dojoType="togglebutton" style="background-image:url({$pathToBlock}resource/icons/{$id}/{@value}.png);">
 	        <xsl:variable name="item-id" select="concat($id, ':', position())"/>
