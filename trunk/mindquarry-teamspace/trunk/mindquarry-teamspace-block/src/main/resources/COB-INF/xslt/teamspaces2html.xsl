@@ -66,7 +66,7 @@
 						<img class="icon">
 							<xsl:attribute name="src">
 								<xsl:value-of select="$pathToBlock"/>
-								<xsl:value-of select="id"/>
+								<xsl:value-of select="normalize-space(id)"/>
 								<xsl:text>.png</xsl:text>
 							</xsl:attribute>
 						</img>
