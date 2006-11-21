@@ -10,7 +10,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.PostMethod;
 
-import com.mindquarry.common.index.AbstractAsyncIndexer;
+import com.mindquarry.common.index.AbstractAsyncIndexClient;
 
 /**
  * Add summary documentation here.
@@ -18,7 +18,7 @@ import com.mindquarry.common.index.AbstractAsyncIndexer;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class SolrIndexer extends AbstractAsyncIndexer {
+public class SolrIndexClient extends AbstractAsyncIndexClient {
     private String indexEndpoint;
 
     private String login;
