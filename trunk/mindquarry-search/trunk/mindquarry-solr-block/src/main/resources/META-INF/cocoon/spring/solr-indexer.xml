@@ -7,8 +7,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
 
-	<bean id="com.mindquarry.common.index.Indexer" 
-		class="com.mindquarry.search.index.SolrIndexer">
+	<bean id="com.mindquarry.common.index.IndexClient" 
+		class="com.mindquarry.search.index.SolrIndexClient">
 		
 		<property name="indexEndpoint" value="http://localhost:8888/solr-update" />
 		<property name="login" value="alexs" />
