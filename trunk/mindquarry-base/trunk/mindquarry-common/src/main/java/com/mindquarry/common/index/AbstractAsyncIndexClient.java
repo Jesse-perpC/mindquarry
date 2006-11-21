@@ -11,7 +11,7 @@ import java.io.InputStream;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public abstract class AbstractAsyncIndexer implements Indexer {
+public abstract class AbstractAsyncIndexClient implements IndexClient {
     /**
      * Starts a new thread for asynchronous indexing. The thread calls the
      * {@link indexInternal()} function which must be overridden by child
