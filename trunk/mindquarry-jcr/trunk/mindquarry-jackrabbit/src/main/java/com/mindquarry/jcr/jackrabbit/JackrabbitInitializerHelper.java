@@ -14,6 +14,11 @@ import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.UnsupportedRepositoryOperationException;
+import javax.jcr.observation.Event;
+import javax.jcr.observation.EventIterator;
+import javax.jcr.observation.EventListener;
+import javax.jcr.observation.ObservationManager;
 
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
@@ -62,6 +67,33 @@ public class JackrabbitInitializerHelper {
         registerNodeTypesFromTextFile(nDefs, ntreg, uri);
 
         setupInitialRepositoryStructure(session);
+
+        registerUpdateListener(session);
+    }
+
+    private static void registerUpdateListener(Session session)
+            throws UnsupportedRepositoryOperationException, RepositoryException {
+        ObservationManager om = session.getWorkspace().getObservationManager();
+        om.addEventListener(new EventListener() {
+            /**
+             * @see javax.jcr.observation.EventListener#onEvent(javax.jcr.observation.EventIterator)
+             */
+            public void onEvent(EventIterator ei) {
+                while (ei.hasNext()) {
+                    Event event = ei.nextEvent();
+                    try {
+                        System.out.println("JCR EVENT :: TYPE="
+                                + event.getType() + " :: PATH="
+                                + event.getPath());
+                    } catch (RepositoryException re) {
+                        re.printStackTrace();
+                    }
+                }
+            }
+        }, Event.PROPERTY_ADDED | Event.PROPERTY_REMOVED
+                | Event.PROPERTY_CHANGED | Event.NODE_ADDED
+                | Event.NODE_REMOVED, "/", true, null,
+                new String[] { "xt:document" }, true);
     }
 
     private static void registerNodeTypesFromTextFile(InputStreamReader reader,

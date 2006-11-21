@@ -33,7 +33,7 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
-import com.mindquarry.common.index.Indexer;
+import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
 
@@ -86,7 +86,7 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, 
     /**
      * The indexer to be used by this class.
      */
-    protected Indexer indexer;
+    protected IndexClient indexer;
 
     // =========================================================================
     // Servicable interface
@@ -101,7 +101,7 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, 
         this.manager = manager;
         
         try {
-            indexer = (Indexer) manager.lookup(Indexer.ROLE);
+            indexer = (IndexClient) manager.lookup(IndexClient.ROLE);
         } catch (Exception e) {
             getLogger().info("Indexer could not be found!", e);
         }

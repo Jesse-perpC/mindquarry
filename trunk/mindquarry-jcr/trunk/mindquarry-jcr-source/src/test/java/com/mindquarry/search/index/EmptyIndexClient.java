@@ -5,7 +5,7 @@ package com.mindquarry.search.index;
 
 import java.io.InputStream;
 
-import com.mindquarry.common.index.AbstractAsyncIndexer;
+import com.mindquarry.common.index.AbstractAsyncIndexClient;
 
 /**
  * Add summary documentation here.
@@ -13,7 +13,7 @@ import com.mindquarry.common.index.AbstractAsyncIndexer;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class EmptyIndexer extends AbstractAsyncIndexer {
+public class EmptyIndexClient extends AbstractAsyncIndexClient {
     /**
      * @see com.mindquarry.common.index.AbstractAsyncIndexer#indexInternal(java.io.InputStream, java.lang.String, java.lang.String, java.lang.String)
      */

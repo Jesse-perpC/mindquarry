@@ -29,14 +29,16 @@ import org.apache.excalibur.source.SourceResolver;
 public class JackrabbitInitializer implements Serviceable, Configurable,
 		Initializable {
 
-	public static final String MQ_JCR_XML_NAMESPACE_PREFIX = "xt";
+	public static final String MQ_JCR_XML_NAMESPACE_PREFIX = "xt"; //$NON-NLS-1$
 
-	public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
+	public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt"; //$NON-NLS-1$
 
-	public static final String MQ_JCR_XML_NODETYPES_FILE = "resource://com/mindquarry/jcr/jackrabbit/node-types.txt";
+	public static final String MQ_JCR_XML_NODETYPES_FILE = "resource://com/mindquarry/jcr/jackrabbit/node-types.txt"; //$NON-NLS-1$
 
 	public static final String ROLE = JackrabbitInitializer.class.getName();
 
+    private Session session;
+    
 	private ServiceManager manager;
 
 	private Configuration config;
@@ -78,7 +80,7 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
 
 		Repository repo = (Repository) manager.lookup(Repository.class
 				.getName());
-		Session session = repo.login(new SimpleCredentials(login, password
+		session = repo.login(new SimpleCredentials(login, password
 				.toCharArray()));
 
         InputStreamReader nodeTypeDefReader =
