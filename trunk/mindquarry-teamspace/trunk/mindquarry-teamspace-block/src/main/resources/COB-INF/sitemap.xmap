@@ -366,7 +366,8 @@
 			
 			<!-- single teamspace -->
 			<map:match pattern="*/users.xml">
-				<map:act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/>
+				<!-- TODO: enable this authorisation when the authorisation for internal block calls works -->
+				<!-- <map:act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/> -->
 				<map:call function="teamspacesByID">
 					<map:parameter name="teamspaceID"
 						value="{1}" />
