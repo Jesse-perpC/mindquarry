@@ -305,6 +305,13 @@ div.togglebutton label, div.togglebuttonpushed label {
 	font-size:10pt;
 	font-weight:normal;
 }
+
+
+
+div.dropdownbuttons div.togglebutton, div.dropdownbuttons div.togglebuttonpushed {
+    float:none;
+}
+
 div.form_block {
 	clear:both;
 }
