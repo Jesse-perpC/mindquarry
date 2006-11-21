@@ -23,7 +23,7 @@
   <!--  styling of dojo span  -->
   <xsl:include href="dojo-span.xsl" />
   <!-- styling of toggle buttons -->
-  <xsl:include href="dojo-buttons.xsl" />
+  <xsl:include href="dojo-buttons.xsl" /> 
   <!-- styling of calendar -->
   <xsl:include href="dojo-calendar.xsl" />
  
