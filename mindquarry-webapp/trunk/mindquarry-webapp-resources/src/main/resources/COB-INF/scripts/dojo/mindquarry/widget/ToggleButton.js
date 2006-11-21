@@ -69,3 +69,7 @@ dojo.lang.extend(mindquarry.widget.ToggleButton, {
         }
     }
 });
+
+
+//dojo.provide("mindquarry.widget.DropDownButtons");
+//dojo.widget.tags.addParseTreeHandler("dojo:DropDownButtons");
