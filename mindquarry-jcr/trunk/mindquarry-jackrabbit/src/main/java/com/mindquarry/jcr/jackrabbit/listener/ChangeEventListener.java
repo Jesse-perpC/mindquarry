@@ -48,6 +48,6 @@ public class ChangeEventListener implements EventListener {
         } catch (RepositoryException re) {
             re.printStackTrace();
         }
-        iClient.index(null, null, null, null);
+        iClient.index(changed, deleted);
     }
 }
