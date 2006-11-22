@@ -19,8 +19,6 @@ import org.apache.avalon.framework.service.Serviceable;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
-import com.mindquarry.common.index.IndexClient;
-
 /**
  * Component that initializes the Jackrabbit repository. This means registration
  * of node types as well as default repository structure.
