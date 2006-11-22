@@ -19,6 +19,8 @@ import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.source.TraversableSource;
 
+import com.mindquarry.common.index.IndexClient;
+
 /**
  * Add summary documentation here.
  * 
@@ -32,11 +34,14 @@ public class QueryResultSource implements TraversableSource {
 
     private NodeIterator nit;
 
+    private IndexClient iClient;
+
     public QueryResultSource(JCRSourceFactory factory, Session session,
-            NodeIterator nit) {
+            NodeIterator nit, IndexClient iClient) {
         this.factory = factory;
         this.session = session;
         this.nit = nit;
+        this.iClient = iClient;
     }
 
     /**
@@ -47,10 +52,10 @@ public class QueryResultSource implements TraversableSource {
         try {
             while (nit.hasNext()) {
                 Node node = nit.nextNode();
-                
+
                 if (node.getName().equals(name)) {
                     result = new JCRNodeWrapperSource(factory, session, node
-                            .getPath());
+                            .getPath(), iClient);
                 }
             }
             return result;
@@ -67,7 +72,7 @@ public class QueryResultSource implements TraversableSource {
             Collection<JCRNodeWrapperSource> result = new ArrayList<JCRNodeWrapperSource>();
             while (nit.hasNext()) {
                 result.add(new JCRNodeWrapperSource(factory, session, nit
-                        .nextNode().getPath()));
+                        .nextNode().getPath(), iClient));
             }
             return result;
         } catch (RepositoryException e) {
