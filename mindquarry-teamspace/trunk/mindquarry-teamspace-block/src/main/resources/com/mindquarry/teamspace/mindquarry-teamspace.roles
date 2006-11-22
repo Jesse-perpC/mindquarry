@@ -9,6 +9,9 @@
 		shorthand="jcr-initializer"
 		default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
 	</role>
+	
+	<role name="com.mindquarry.common.index.IndexClient"
+		shorthand="index-client" />
 
 	<!-- configure a serializer for XML output -->
 	<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
@@ -21,6 +24,9 @@
 		default-class="com.mindquarry.persistence.castor.config.PersistenceConfiguration" />
 
 
+	<role name="com.mindquarry.dma.admin.DmaRepositoryFactory"
+		default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
+	
 	<role name="com.mindquarry.dma.admin.DmaRepositoryFactory"
 		default-class="com.mindquarry.dma.admin.svn.SvnRepositoryFactory" />
 		
