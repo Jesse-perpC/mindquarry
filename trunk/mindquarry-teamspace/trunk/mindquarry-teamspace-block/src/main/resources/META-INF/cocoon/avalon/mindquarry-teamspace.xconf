@@ -43,13 +43,18 @@
 	</serializer>
 	
 	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
-			<credentials login="expression" password="expression" />
 			<home src="${mindquarry.jcrbasepath}" />
 			<credentials login="alexander.saar" password="mypwd" />
 			<configuration
 				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
 	</jcr-repository>
+	
 	<jcr-initializer>
 		<credentials login="alexander.saar" password="mypwd" />
 	</jcr-initializer>
+	
+	<index-client class="com.mindquarry.common.index.SolrIndexClient">
+		<solr-credentials login="admin" password="admin" />
+		<solr-endpoint url="http://localhost:8888/solr" />
+	</index-client>
 </components>
