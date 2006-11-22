@@ -11,24 +11,17 @@ import java.util.HashSet;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class AbstractRightSet 
-        extends HashSet<AbstractRight> {
+public class RightSet 
+        extends HashSet<Right> {
 
     private static final long serialVersionUID = -870194348397015787L;
     
     public final Right rightForOperation(String operation) {
         Right result = null;
-        for (AbstractRight abstractRight : this) {
-            if (abstractRight instanceof Right) {
-                Right right = (Right) abstractRight;
-                if (right.operation.equals(operation)) {
-                    result = right;
-                    break;
-                }
-            }
-            else {
-                Profile profile = (Profile) abstractRight;
-                
+        for (Right right : this) {
+            if (right.operation.equals(operation)) {
+                result = right;
+                break;
             }
         }
         return result;

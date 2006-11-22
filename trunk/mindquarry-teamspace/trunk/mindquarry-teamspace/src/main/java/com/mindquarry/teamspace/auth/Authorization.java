@@ -52,17 +52,17 @@ public class Authorization implements AuthorizationCheck,
             }
             
             Resource child = resource.getChild(pathItem);
-            if (isEmptyRightList && ! child.rights.isEmpty()) {
+            if (isEmptyRightList && child.hasRights()) {
                 isEmptyRightList = false;
                 result = false;
             }
             
             Right right = child.rightForOperation(operation);
             if (right != null) {
-                if (right.allowed.contains(user)) {
+                if (right.isAccessAllowed(user)) {
                     result = true;
                 }
-                else if (result && right.denied.contains(user)) {
+                else if (result && right.isAccessDenied(user)) {
                     result = false;
                 }
             }
@@ -82,24 +82,24 @@ public class Authorization implements AuthorizationCheck,
         
         Resource resource = navigateToResource(resourceUri);
         Right result = new Right(name, resource, operation);
-        resource.rights.add(result);
+        resource.addRight(result);
         return result;
     }
 
-    public void addAllowance(Right right, AbstractUser user) {
-        right.allowed.add(user);
+    public void addAllowance(AbstractRight right, AbstractUser user) {
+        right.allowAccessTo(user);
     }
 
-    public void removeAllowance(Right right, AbstractUser user) {
-        right.allowed.remove(user);
+    public void removeAllowance(AbstractRight right, AbstractUser user) {
+        right.removeAllowanceFor(user);
     }
 
-    public void addDenial(Right right, AbstractUser user) {
-        right.denied.add(user);
+    public void addDenial(AbstractRight right, AbstractUser user) {
+        right.denyAccessTo(user);
     }
 
-    public void removeDenial(Right right, AbstractUser user) {
-        right.denied.remove(user);
+    public void removeDenial(AbstractRight right, AbstractUser user) {
+        right.removeDenialFor(user);
     }
     
     private List<String> pathItemsFromUri(String resourceUri) {
@@ -164,5 +164,20 @@ public class Authorization implements AuthorizationCheck,
 
     public void removeUser(AbstractUser user, Group group) {
        group.remove(user);
+    }
+
+
+    public Profile createProfile(String profileId) {
+        return new Profile(profileId);
+    }
+    
+    public void addRight(Right right, Profile profile) {
+        right.addTo(profile);
+        profile.add(right);
+    }
+
+    public void removeRight(Right right, Profile profile) {
+        right.removeFrom(profile);
+        profile.remove(right);
     }
 }

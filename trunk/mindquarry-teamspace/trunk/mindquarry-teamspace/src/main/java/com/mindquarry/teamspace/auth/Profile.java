@@ -9,12 +9,20 @@ package com.mindquarry.teamspace.auth;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class Profile extends AbstractRight {
+final class Profile extends AbstractRight {
 
+    private final RightSet rights;
     
-    
-    Profile(String name) {
-        super(name);
+    Profile(String id) {
+        super(id);
+        rights = new RightSet();
     }
-
+    
+    final void add(Right right) {
+        rights.add(right);
+    }
+    
+    final void remove(Right right) {
+        rights.remove(right);
+    }
 }

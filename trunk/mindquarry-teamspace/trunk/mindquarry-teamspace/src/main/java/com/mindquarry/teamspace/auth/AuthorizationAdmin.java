@@ -15,4 +15,12 @@ public interface AuthorizationAdmin {
     Right createRight(String resource, String operation);
     
     Right createRight(String name, String resource, String operation);
+    
+    
+    Profile createProfile(String profileId);
+    
+    void addRight(Right right, Profile profile);
+    
+    void removeRight(Right right, Profile profile);
 }
+

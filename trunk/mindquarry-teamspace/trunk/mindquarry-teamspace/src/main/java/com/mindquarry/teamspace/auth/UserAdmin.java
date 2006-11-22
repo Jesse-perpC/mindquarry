@@ -30,11 +30,11 @@ public interface UserAdmin {
     void removeUser(AbstractUser user, Group group);
     
     
-    void addAllowance(Right right, AbstractUser user);
+    void addAllowance(AbstractRight right, AbstractUser user);
     
-    void removeAllowance(Right right, AbstractUser user);
+    void removeAllowance(AbstractRight right, AbstractUser user);
     
-    void addDenial(Right right, AbstractUser user);
+    void addDenial(AbstractRight right, AbstractUser user);
     
-    void removeDenial(Right right, AbstractUser user);
+    void removeDenial(AbstractRight right, AbstractUser user);
 }
