@@ -10,7 +10,7 @@ package com.mindquarry.teamspace.auth;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class Group extends AbstractUser {
+final class Group extends AbstractUser {
 
     private final AbstractUserSet members;
     

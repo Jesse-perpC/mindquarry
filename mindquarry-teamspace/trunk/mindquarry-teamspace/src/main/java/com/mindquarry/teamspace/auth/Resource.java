@@ -4,8 +4,6 @@
 package com.mindquarry.teamspace.auth;
 
 import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -17,27 +15,33 @@ import java.util.Map;
 final class Resource {
 
     private String name;
-    List<Right> rights;
+    private final RightSet rights;
     private Map<String, Resource> children; 
     
     Resource(String name) {
         this.name = name;
-        this.rights = new LinkedList<Right>();
+        this.rights = new RightSet();
         this.children = new HashMap<String, Resource>();
     }
     
     final boolean hasChildren() {
-        return this.children.isEmpty();
+        return ! this.children.isEmpty();
+    }
+    
+    final void addRight(Right right) {
+        rights.add(right);
+    }
+    
+    final void removeRight(AbstractRight right) {
+        rights.remove(right);
+    }
+    
+    final boolean hasRights() {
+        return ! this.rights.isEmpty();
     }
     
     final Right rightForOperation(String operation) {
-        Right result = null;
-        for (Right right : rights) {
-            if (right.operation.equals(operation)) {
-                result = right;
-            }
-        }
-        return result;
+        return rights.rightForOperation(operation);
     }
     
     final void addChild(Resource child) {

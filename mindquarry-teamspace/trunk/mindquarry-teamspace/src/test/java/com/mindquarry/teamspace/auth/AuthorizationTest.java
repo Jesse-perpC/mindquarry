@@ -78,9 +78,9 @@ public class AuthorizationTest extends TestCase {
     }
     
     public void testGroupAllowances() {
-        String operation = "READ";
-        User fooUser = this.auth.createUser("fooUser");
-        Group fooGroup = this.auth.createGroup("fooGroup");
+        final String operation = "READ";
+        final User fooUser = this.auth.createUser("fooUser");
+        final Group fooGroup = this.auth.createGroup("fooGroup");
         this.auth.addUser(fooUser, fooGroup);
         
         String fooTeamspace = "/teamspaces/foo-team";
@@ -89,5 +89,27 @@ public class AuthorizationTest extends TestCase {
         this.auth.addAllowance(fooReadRight, fooGroup);
                 
         assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));        
+    }
+    
+    public void testProfileAllowances() {
+        final String readOperation = "READ";
+        final String writeOperation = "WRITE";
+        
+        final User fooUser = this.auth.createUser("fooUser");
+        
+        final String fooTeamspace = "/teamspaces/foo-team";
+        
+        final Right fooReadRight = this.auth.createRight(
+                fooTeamspace, readOperation);
+        final Right fooWriteRight = this.auth.createRight(
+                fooTeamspace, writeOperation);
+        
+        final Profile fooRights = this.auth.createProfile("fooRights");
+        this.auth.addRight(fooReadRight, fooRights);
+        this.auth.addRight(fooWriteRight, fooRights);
+        
+        this.auth.addAllowance(fooRights, fooUser);                
+        assertTrue(this.auth.mayPerform(fooTeamspace, readOperation, fooUser));
+        assertTrue(this.auth.mayPerform(fooTeamspace, writeOperation, fooUser));
     }
 }
