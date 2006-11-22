@@ -81,7 +81,7 @@
   </td>
 </tr>
 -->
-<jsp:include page="get-file.jsp?file=admin-extra.html&optional=y" flush="true"/>
+<!-- jsp:include page="get-file.jsp?file=admin-extra.html&optional=y" flush="true"/> -->
 
 </table><p/>
 
