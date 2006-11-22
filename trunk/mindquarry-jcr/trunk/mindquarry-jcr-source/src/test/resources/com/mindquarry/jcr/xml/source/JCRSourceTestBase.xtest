@@ -15,7 +15,7 @@
 			shorthand="jcr-initializer" />
 			
 		<role name="com.mindquarry.common.index.IndexClient"
-			default-class="com.mindquarry.search.index.EmptyIndexClient" />
+			default-class="com.mindquarry.common.index.SolrIndexClient" />
 
 		<!-- configure a serializer for XML output -->
 		<role name="org.apache.cocoon.serialization.Serializer"

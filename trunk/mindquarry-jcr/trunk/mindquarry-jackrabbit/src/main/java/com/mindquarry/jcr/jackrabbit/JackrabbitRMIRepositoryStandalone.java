@@ -27,6 +27,9 @@ import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.rmi.remote.RemoteRepository;
 import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
 
+import com.mindquarry.common.index.IndexClient;
+import com.mindquarry.common.index.SolrIndexClient;
+
 /**
  * Command line client to be used for working with the Mindquarry persistence
  * layer.
@@ -141,7 +144,7 @@ public class JackrabbitRMIRepositoryStandalone {
             repoConf = createDefaultRepoConf();
         else
             repoConf = new File(repoConfArg).getAbsolutePath();
-        
+
         File repoLoc = new File(line.getOptionValue(O_LOC));
         if (!repoLoc.exists()) {
             repoLoc.mkdir();
@@ -150,8 +153,8 @@ public class JackrabbitRMIRepositoryStandalone {
             throw new IllegalArgumentException(
                     "Repository location is not a directory.");
         }
-        Repository repo = new TransientRepository(repoConf,
-                repoLoc.getAbsolutePath());
+        Repository repo = new TransientRepository(repoConf, repoLoc
+                .getAbsolutePath());
 
         ServerAdapterFactory factory = new ServerAdapterFactory();
         RemoteRepository remoteRepo = factory.getRemoteRepository(repo);
@@ -160,21 +163,22 @@ public class JackrabbitRMIRepositoryStandalone {
         reg.rebind(REMOTE_REPO_NAME, remoteRepo);
 
         String workspace = line.getOptionValue(O_WS);
-        if (null == workspace) 
+        if (null == workspace)
             workspace = "default";
-        
+
         session = repo.login(new SimpleCredentials(line.getOptionValue(O_USER),
                 line.getOptionValue(O_PWD).toCharArray()), workspace);
 
         InputStream nodeTypeDefIn = getClass().getResourceAsStream(
                 MQ_JCR_XML_NODETYPES_FILE);
-        
-        JackrabbitInitializerHelper
-                .setupRepository(session, new InputStreamReader(nodeTypeDefIn),
-                        MQ_JCR_XML_NODETYPES_FILE);
+
+        IndexClient iClient = new SolrIndexClient();
+        JackrabbitInitializerHelper.setupRepository(session,
+                new InputStreamReader(nodeTypeDefIn),
+                MQ_JCR_XML_NODETYPES_FILE, iClient);
         session.save();
     }
-    
+
     private String createDefaultRepoConf() throws IOException {
         InputStream confIn = getClass().getResourceAsStream(REPO_CONF_PATH);
         File tempConfFile = File.createTempFile("repository", "xml");
