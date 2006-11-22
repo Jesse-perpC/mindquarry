@@ -58,7 +58,10 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
         } finally {
             expected.close();
             actual.close();
-        }        
+        }
+        JCRNodeWrapperSource tmpSrc = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users/alexander.saar");
+        persistentSource.delete();
+        tmpSrc.delete();
     }
     
     private boolean isXmlEqual(InputStream expected, InputStream actual)

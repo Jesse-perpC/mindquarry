@@ -16,8 +16,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.UnsupportedRepositoryOperationException;
 import javax.jcr.observation.Event;
-import javax.jcr.observation.EventIterator;
-import javax.jcr.observation.EventListener;
 import javax.jcr.observation.ObservationManager;
 
 import org.apache.excalibur.source.SourceNotFoundException;
@@ -27,6 +25,10 @@ import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl;
 import org.apache.jackrabbit.core.nodetype.NodeTypeRegistry;
 import org.apache.jackrabbit.core.nodetype.compact.CompactNodeTypeDefReader;
 import org.apache.jackrabbit.core.nodetype.compact.ParseException;
+
+import com.mindquarry.common.index.IndexClient;
+import com.mindquarry.jcr.jackrabbit.listener.ChangeEventListener;
+import com.mindquarry.jcr.jackrabbit.listener.FileDeletedEventListener;
 
 /**
  * Helper class for the JackrabbitInitializer.
@@ -40,9 +42,9 @@ public class JackrabbitInitializerHelper {
     public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
 
     public static void setupRepository(Session session,
-            InputStreamReader nDefs, String uri) throws ParseException,
-            RepositoryException, InvalidNodeTypeDefException,
-            SourceNotFoundException, IOException {
+            InputStreamReader nDefs, String uri, IndexClient iClient)
+            throws ParseException, RepositoryException,
+            InvalidNodeTypeDefException, SourceNotFoundException, IOException {
         // register xt:* namespace
         NamespaceRegistry nsRegistry = session.getWorkspace()
                 .getNamespaceRegistry();
@@ -67,33 +69,19 @@ public class JackrabbitInitializerHelper {
         registerNodeTypesFromTextFile(nDefs, ntreg, uri);
 
         setupInitialRepositoryStructure(session);
-
-        registerUpdateListener(session);
+        registerUpdateListener(session, iClient);
     }
 
-    private static void registerUpdateListener(Session session)
+    private static void registerUpdateListener(Session session,
+            IndexClient iClient)
             throws UnsupportedRepositoryOperationException, RepositoryException {
         ObservationManager om = session.getWorkspace().getObservationManager();
-        om.addEventListener(new EventListener() {
-            /**
-             * @see javax.jcr.observation.EventListener#onEvent(javax.jcr.observation.EventIterator)
-             */
-            public void onEvent(EventIterator ei) {
-                while (ei.hasNext()) {
-                    Event event = ei.nextEvent();
-                    try {
-                        System.out.println("JCR EVENT :: TYPE="
-                                + event.getType() + " :: PATH="
-                                + event.getPath());
-                    } catch (RepositoryException re) {
-                        re.printStackTrace();
-                    }
-                }
-            }
-        }, Event.PROPERTY_ADDED | Event.PROPERTY_REMOVED
-                | Event.PROPERTY_CHANGED | Event.NODE_ADDED
-                | Event.NODE_REMOVED, "/", true, null,
-                new String[] { "xt:document" }, true);
+
+        om.addEventListener(new ChangeEventListener(iClient), Event.NODE_ADDED
+                | Event.NODE_REMOVED | Event.PROPERTY_ADDED
+                | Event.PROPERTY_REMOVED | Event.PROPERTY_CHANGED, "/", true,
+                null, new String[] { "nt:folder", "nt:file", "xt:document",
+                        "xt:element", "xt:text" }, true);
     }
 
     private static void registerNodeTypesFromTextFile(InputStreamReader reader,
