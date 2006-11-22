@@ -92,8 +92,6 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
         pMethod.setDoAuthentication(true);
         pMethod.setRequestEntity(new ByteArrayRequestEntity(content));
         httpClient.executeMethod(pMethod);
-        
-        System.out.println("STATUS: " + pMethod.getStatusCode());
     }
 
     /**
