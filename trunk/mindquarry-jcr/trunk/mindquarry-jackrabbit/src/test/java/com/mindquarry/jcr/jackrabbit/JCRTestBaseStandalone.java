@@ -102,9 +102,8 @@ public abstract class JCRTestBaseStandalone extends TestCase {
         InputStream nodeTypeDefIn = getClass().getResourceAsStream(
                 MQ_JCR_XML_NODETYPES_FILE);
 
-        IndexClient iClient = new SolrIndexClient();
         JackrabbitInitializerHelper.setupRepository(session,
-                new InputStreamReader(nodeTypeDefIn), "", iClient); //$NON-NLS-1$
+                new InputStreamReader(nodeTypeDefIn), ""); //$NON-NLS-1$
     }
 
     /**

@@ -14,9 +14,6 @@ import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.UnsupportedRepositoryOperationException;
-import javax.jcr.observation.Event;
-import javax.jcr.observation.ObservationManager;
 
 import org.apache.excalibur.source.SourceNotFoundException;
 import org.apache.jackrabbit.core.nodetype.InvalidNodeTypeDefException;
@@ -25,9 +22,6 @@ import org.apache.jackrabbit.core.nodetype.NodeTypeManagerImpl;
 import org.apache.jackrabbit.core.nodetype.NodeTypeRegistry;
 import org.apache.jackrabbit.core.nodetype.compact.CompactNodeTypeDefReader;
 import org.apache.jackrabbit.core.nodetype.compact.ParseException;
-
-import com.mindquarry.common.index.IndexClient;
-import com.mindquarry.jcr.jackrabbit.listener.ChangeEventListener;
 
 /**
  * Helper class for the JackrabbitInitializer.
@@ -41,7 +35,7 @@ public class JackrabbitInitializerHelper {
     public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
 
     public static void setupRepository(Session session,
-            InputStreamReader nDefs, String uri, IndexClient iClient)
+            InputStreamReader nDefs, String uri)
             throws ParseException, RepositoryException,
             InvalidNodeTypeDefException, SourceNotFoundException, IOException {
         // register xt:* namespace
@@ -68,19 +62,6 @@ public class JackrabbitInitializerHelper {
         registerNodeTypesFromTextFile(nDefs, ntreg, uri);
 
         setupInitialRepositoryStructure(session);
-        registerUpdateListener(session, iClient);
-    }
-
-    private static void registerUpdateListener(Session session,
-            IndexClient iClient)
-            throws UnsupportedRepositoryOperationException, RepositoryException {
-        ObservationManager om = session.getWorkspace().getObservationManager();
-
-        om.addEventListener(new ChangeEventListener(iClient), Event.NODE_ADDED
-                | Event.NODE_REMOVED | Event.PROPERTY_ADDED
-                | Event.PROPERTY_REMOVED | Event.PROPERTY_CHANGED, "/", true,
-                null, new String[] { "nt:folder", "nt:file", "xt:document",
-                        "xt:element", "xt:text" }, true);
     }
 
     private static void registerNodeTypesFromTextFile(InputStreamReader reader,

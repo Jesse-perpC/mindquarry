@@ -91,10 +91,8 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         InputStreamReader nodeTypeDefReader = new InputStreamReader(
                 nodeTypeDefSource.getInputStream());
 
-        // retrieve
-        IndexClient iClient = (IndexClient) manager.lookup(IndexClient.ROLE);
         JackrabbitInitializerHelper.setupRepository(session, nodeTypeDefReader,
-                "", iClient);
+                "");
         session.save();
     }
 }
