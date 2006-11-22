@@ -3,7 +3,9 @@
  */
 package com.mindquarry.common.index;
 
-import java.io.InputStream;
+import java.util.List;
+
+import org.apache.avalon.framework.logger.AbstractLogEnabled;
 
 /**
  * Add summary documentation here.
@@ -11,17 +13,17 @@ import java.io.InputStream;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public abstract class AbstractAsyncIndexClient implements IndexClient {
+public abstract class AbstractAsyncIndexClient extends AbstractLogEnabled
+        implements IndexClient {
     /**
      * Starts a new thread for asynchronous indexing. The thread calls the
      * {@link indexInternal()} function which must be overridden by child
      * classes. Within this class the indexing functionality is implemented.
      * 
-     * @see com.mindquarry.common.index.Indexer#index(java.io.InputStream,
-     *      java.lang.String, java.lang.String, java.lang.String)
+     * @see com.mindquarry.common.index.Indexer#index(List<String>, List<String>)
      */
-    public void index(final InputStream content, final String name,
-            final String location, final String type) {
+    public void index(final List<String> changedPaths,
+            final List<String> deletedPaths) {
         Thread thread = new Thread(new Runnable() {
             /**
              * Calls the internal indexing function.
@@ -29,7 +31,14 @@ public abstract class AbstractAsyncIndexClient implements IndexClient {
              * @see java.lang.Runnable#run()
              */
             public void run() {
-                indexInternal(content, name, location, type);
+                try {
+                    indexInternal(changedPaths, deletedPaths);
+                } catch (Exception e) {
+                    getLogger()
+                            .error(
+                                    "An error occured while indexing client processes the list of changed paths.",
+                                    e);
+                }
             }
         });
         thread.start();
@@ -39,12 +48,7 @@ public abstract class AbstractAsyncIndexClient implements IndexClient {
      * Abstract index function to be overridden by child classes of this
      * abstract indexer. Child classes shall implement indexing functionality
      * within this function.
-     * 
-     * @param content
-     * @param name
-     * @param location
-     * @param type
      */
-    protected abstract void indexInternal(final InputStream content,
-            final String name, final String location, final String type);
+    protected abstract void indexInternal(List<String> changedPaths,
+            List<String> deletedPaths) throws Exception;
 }
