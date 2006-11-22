@@ -29,8 +29,7 @@ public class JackrabbitRepository extends
         try {
             this.manager.lookup(JackrabbitInitializer.ROLE);
         } catch (ServiceException e) {
-            // do nothing here, repository does not get initialized
-            //e.printStackTrace();
+            getLogger().error("Cannot initializes Jackrabbit repository.", e);
         }
     }
 }

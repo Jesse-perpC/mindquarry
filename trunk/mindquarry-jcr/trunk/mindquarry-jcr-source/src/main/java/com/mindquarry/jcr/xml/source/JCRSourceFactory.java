@@ -33,7 +33,6 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
-import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
 
@@ -56,8 +55,8 @@ import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, SourceFactory,
-        Configurable, Serviceable {
+public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
+        SourceFactory, Configurable, Serviceable {
     /**
      * The reference to the JCR Repository to use as interface.
      */
@@ -82,11 +81,6 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, 
      * The namespace-prefix mappings for this factory.
      */
     public static Map<String, String> configuredMappings;
-    
-    /**
-     * The indexer to be used by this class.
-     */
-    protected IndexClient indexer;
 
     // =========================================================================
     // Servicable interface
@@ -99,12 +93,6 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, 
      */
     public void service(ServiceManager manager) throws ServiceException {
         this.manager = manager;
-        
-        try {
-            indexer = (IndexClient) manager.lookup(IndexClient.ROLE);
-        } catch (Exception e) {
-            getLogger().info("Indexer could not be found!", e);
-        }
 
         // the repository is lazily initialized to avoid circular dependency
         // between SourceResolver and JackrabbitRepository that leads to a
@@ -237,7 +225,8 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe, 
 
             QueryManager queryManager = session.getWorkspace()
                     .getQueryManager();
-            Query query = queryManager.createQuery(statement, JaxenQueryHandler.FULL_XPATH);
+            Query query = queryManager.createQuery(statement,
+                    JaxenQueryHandler.FULL_XPATH);
             QueryResult result = query.execute();
 
             return new QueryResultSource(this, session, result.getNodes());

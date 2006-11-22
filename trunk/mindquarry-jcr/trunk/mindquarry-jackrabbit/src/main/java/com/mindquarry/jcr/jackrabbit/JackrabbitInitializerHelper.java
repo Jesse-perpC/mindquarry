@@ -28,7 +28,6 @@ import org.apache.jackrabbit.core.nodetype.compact.ParseException;
 
 import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.jcr.jackrabbit.listener.ChangeEventListener;
-import com.mindquarry.jcr.jackrabbit.listener.FileDeletedEventListener;
 
 /**
  * Helper class for the JackrabbitInitializer.

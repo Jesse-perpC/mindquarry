@@ -14,8 +14,11 @@
 		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
 			shorthand="jcr-initializer" />
 			
-		<role name="com.mindquarry.common.index.IndexClient"
-			default-class="com.mindquarry.common.index.SolrIndexClient" />
+		<role name="com.mindquarry.common.index.IndexClient" 
+			default-class="com.mindquarry.common.index.SolrIndexClient">
+			<solr-credentials login="admin" password="admin" />
+			<solr-endpoint url="http://localhost:8888/solr" />
+		</role>
 
 		<!-- configure a serializer for XML output -->
 		<role name="org.apache.cocoon.serialization.Serializer"
@@ -63,7 +66,6 @@
 		<jcr-repository
 			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
 
-			<credentials login="expression" password="expression" />
 			<home src="target/repository" />
 			<credentials login="alexander.saar" password="mypwd" />
 			<configuration

@@ -4,7 +4,6 @@
 package com.mindquarry.jcr.xml.source;
 
 import java.io.OutputStream;
-import java.util.Collection;
 
 import org.apache.excalibur.source.ModifiableSource;
 
