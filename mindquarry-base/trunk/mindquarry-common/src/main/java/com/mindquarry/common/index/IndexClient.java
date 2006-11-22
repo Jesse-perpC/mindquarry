@@ -3,7 +3,8 @@
  */
 package com.mindquarry.common.index;
 
-import java.io.InputStream;
+import java.util.List;
+
 
 /**
  * Add summary documentation here.
@@ -14,6 +15,5 @@ import java.io.InputStream;
 public interface IndexClient {
     public static final String ROLE = IndexClient.class.getName();
     
-    public void index(InputStream content, String name, String location,
-            String type);
+    public void index(List<String> changedPaths, List<String> deletedPaths);
 }
