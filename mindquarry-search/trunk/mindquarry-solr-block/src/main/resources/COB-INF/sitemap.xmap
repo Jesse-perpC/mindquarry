@@ -9,35 +9,27 @@
 			<action name="log-params" src="com.mindquarry.webapp.acting.LogParametersAction"/>
 			<action name="authorise" src="com.mindquarry.webapp.acting.AuthorisationAction"/>
 		</actions>
-
-		<generators default="file">
-			<generator name="jsp" src="org.apache.cocoon.generation.JSPGenerator"/>
-		</generators>
 	</components>
 
 	<pipelines>
 		<pipeline type="noncaching">
 			<match pattern="">
-				<generate src="admin/index.jsp" type="jsp"/>
-				<transform type="log" />
-				<serialize type="html"/>
+				<redirect-to uri="{block-path:}/admin/index.jsp" />
 			</match>
 
-			<match pattern="*.jsp">
-				<generate src="admin/{1}.jsp" type="jsp"/>
-				<transform type="log" />
-				<serialize type="html"/>
+			<match pattern="admin/*.jsp">
+				<read src="admin/{1}.jsp" type="jsp"/>
 			</match>
 
-			<match pattern="*.png">
+			<match pattern="admin/*.png">
 				<read src="admin/{1}.png"/>
 			</match>
 
-			<match pattern="*.gif">
+			<match pattern="admin/*.gif">
 				<read src="admin/{1}.gif"/>
 			</match>
 
-			<match pattern="*.css">
+			<match pattern="admin/*.css">
 				<read src="admin/{1}.css"/>
 			</match>
 		</pipeline>
