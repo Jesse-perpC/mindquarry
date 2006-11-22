@@ -33,6 +33,7 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
+import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
 
@@ -82,6 +83,11 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      */
     public static Map<String, String> configuredMappings;
 
+    /**
+     * Index client to be used for change notifications
+     */
+    protected IndexClient iClient;
+
     // =========================================================================
     // Servicable interface
     // =========================================================================
@@ -93,6 +99,8 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      */
     public void service(ServiceManager manager) throws ServiceException {
         this.manager = manager;
+
+        iClient = (IndexClient) manager.lookup(IndexClient.ROLE);
 
         // the repository is lazily initialized to avoid circular dependency
         // between SourceResolver and JackrabbitRepository that leads to a
@@ -189,7 +197,7 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      */
     public AbstractJCRNodeSource createSource(Session session, String path)
             throws SourceException {
-        return new JCRNodeWrapperSource(this, session, path);
+        return new JCRNodeWrapperSource(this, session, path, iClient);
     }
 
     /**
@@ -229,7 +237,8 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
                     JaxenQueryHandler.FULL_XPATH);
             QueryResult result = query.execute();
 
-            return new QueryResultSource(this, session, result.getNodes());
+            return new QueryResultSource(this, session, result.getNodes(),
+                    iClient);
         } catch (RepositoryException e) {
             throw new SourceException("Cannot execute query '" + statement
                     + "'", e);

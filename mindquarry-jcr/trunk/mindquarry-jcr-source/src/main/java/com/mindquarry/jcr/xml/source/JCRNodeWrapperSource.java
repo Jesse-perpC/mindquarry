@@ -29,6 +29,7 @@ import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
+import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.jcr.xml.source.helper.FileSourceHelper;
 import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
 import com.mindquarry.jcr.xml.source.helper.stream.JCROutputStream;
@@ -48,7 +49,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      * {@link AbstractJCRNodeSource#AbstractJCRNodeSource(JCRSourceFactory, Session, String)}
      */
     public JCRNodeWrapperSource(JCRSourceFactory factory, Session session,
-            String path) throws SourceException {
+            String path, IndexClient iClient) throws SourceException {
         super(factory, session, path);
     }
 

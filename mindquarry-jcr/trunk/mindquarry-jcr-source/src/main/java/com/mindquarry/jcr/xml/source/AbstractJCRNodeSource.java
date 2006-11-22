@@ -14,7 +14,6 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
-
 /**
  * Base class for all JCR Node Sources as well as the wrapper source.
  * 
@@ -71,7 +70,15 @@ public abstract class AbstractJCRNodeSource implements Source {
                 throw new SourceException("Path '" + path
                         + "' is a property (should be a node)");
             } else {
-                node = (Node) item;
+                // check if it is a file, a folder or the root node
+                Node tmp = (Node) item;
+                if (tmp.isNodeType("nt:folder") || tmp.isNodeType("nt:file")
+                        || tmp.getPath().equals("/")) {
+                    node = (Node) item;
+                } else {
+                    throw new SourceException("Path '" + path
+                            + "' should be a nt:file or nt:folder");
+                }
             }
         } catch (PathNotFoundException e) {
             // node does not exist
