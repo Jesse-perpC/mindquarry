@@ -27,9 +27,6 @@ import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.rmi.remote.RemoteRepository;
 import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
 
-import com.mindquarry.common.index.IndexClient;
-import com.mindquarry.common.index.SolrIndexClient;
-
 /**
  * Command line client to be used for working with the Mindquarry persistence
  * layer.
@@ -172,10 +169,9 @@ public class JackrabbitRMIRepositoryStandalone {
         InputStream nodeTypeDefIn = getClass().getResourceAsStream(
                 MQ_JCR_XML_NODETYPES_FILE);
 
-        IndexClient iClient = new SolrIndexClient();
         JackrabbitInitializerHelper.setupRepository(session,
                 new InputStreamReader(nodeTypeDefIn),
-                MQ_JCR_XML_NODETYPES_FILE, iClient);
+                MQ_JCR_XML_NODETYPES_FILE);
         session.save();
     }
 
