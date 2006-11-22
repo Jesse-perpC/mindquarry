@@ -6,7 +6,9 @@ package com.mindquarry.jcr.xml.source.helper.stream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.GregorianCalendar;
+import java.util.List;
 
 import javax.jcr.AccessDeniedException;
 import javax.jcr.InvalidItemStateException;
@@ -30,6 +32,7 @@ import org.apache.excalibur.source.SourceException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.jcr.xml.source.handler.SAXToJCRNodesConverter;
 import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
 
@@ -46,9 +49,16 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private final Session session;
 
-    public JCROutputStream(Node node, Session session) {
+    private IndexClient iClient;
+
+    private String uri;
+
+    public JCROutputStream(Node node, Session session, IndexClient iClient,
+            String uri) {
         this.node = node;
         this.session = session;
+        this.iClient = iClient;
+        this.uri = uri;
     }
 
     /**
@@ -89,6 +99,11 @@ public class JCROutputStream extends ByteArrayOutputStream {
                         + e.getLocalizedMessage());
             }
         }
+        // use index client to notify the indexer about the delete
+        List<String> deletedPaths = new ArrayList<String>();
+        List<String> changedPaths = new ArrayList<String>();
+        changedPaths.add(uri);
+        iClient.index(changedPaths, deletedPaths);
     }
 
     private void createBinary() throws IOException {
@@ -182,8 +197,9 @@ public class JCROutputStream extends ByteArrayOutputStream {
         }
         return true;
     }
-    
-    private SAXParser createSaxParser() throws ParserConfigurationException, SAXException {
+
+    private SAXParser createSaxParser() throws ParserConfigurationException,
+            SAXException {
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
         parserFactory.setNamespaceAware(true);
         return parserFactory.newSAXParser();

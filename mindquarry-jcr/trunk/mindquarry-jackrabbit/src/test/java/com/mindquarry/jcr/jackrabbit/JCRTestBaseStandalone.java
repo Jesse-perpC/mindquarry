@@ -24,9 +24,6 @@ import org.apache.jackrabbit.core.TransientRepository;
 import org.apache.jackrabbit.rmi.remote.RemoteRepository;
 import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
 
-import com.mindquarry.common.index.IndexClient;
-import com.mindquarry.common.index.SolrIndexClient;
-
 /**
  * Abstract base classes for all JCR XML source test cases.
  * 

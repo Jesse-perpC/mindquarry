@@ -14,6 +14,8 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
+import com.mindquarry.common.index.IndexClient;
+
 /**
  * Base class for all JCR Node Sources as well as the wrapper source.
  * 
@@ -48,6 +50,11 @@ public abstract class AbstractJCRNodeSource implements Source {
      * The full URI of this node including scheme identifier.
      */
     protected String computedURI;
+    
+    /**
+     * Indexing client to be used for update notifications.
+     */
+    protected IndexClient iClient;
 
     /**
      * Basic constructor for initializing what every JCRNodeSource must have.
@@ -59,10 +66,11 @@ public abstract class AbstractJCRNodeSource implements Source {
      * @throws SourceException
      */
     public AbstractJCRNodeSource(JCRSourceFactory factory, Session session,
-            String path) throws SourceException {
+            String path, IndexClient iClient) throws SourceException {
         this.factory = factory;
         this.session = session;
         this.path = path;
+        this.iClient = iClient;
 
         try {
             Item item = session.getItem(path);

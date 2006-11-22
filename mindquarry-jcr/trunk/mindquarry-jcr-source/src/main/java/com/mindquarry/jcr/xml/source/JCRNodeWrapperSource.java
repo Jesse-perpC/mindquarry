@@ -9,6 +9,7 @@ import java.io.OutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
 import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
@@ -50,7 +51,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      */
     public JCRNodeWrapperSource(JCRSourceFactory factory, Session session,
             String path, IndexClient iClient) throws SourceException {
-        super(factory, session, path);
+        super(factory, session, path, iClient);
     }
 
     // =========================================================================
@@ -71,7 +72,8 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
                 } else if (node.isNodeType("nt:file")) {
                     Node child = node.getNode("jcr:content");
                     if (child.isNodeType("xt:document")) {
-                        return XMLFileSourceHelper.getInputStream(factory.manager, node);
+                        return XMLFileSourceHelper.getInputStream(
+                                factory.manager, node);
                     } else if (child.isNodeType("nt:resource")) {
                         return FileSourceHelper.getInputStream(node);
                     } else {
@@ -140,6 +142,12 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
      * @see org.apache.excalibur.source.ModifiableSource#delete()
      */
     public void delete() throws SourceException {
+        // check if the node really exists
+        if (node == null) {
+            throw new SourceException(
+                    "Can not remove a node which does not exist.");
+        }
+        // try to remove the node
         try {
             node.remove();
             node = null;
@@ -148,6 +156,11 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
             throw new SourceException("Can not remove node due to version"
                     + " or constraint problems.", e);
         }
+        // use index client to notify the indexer about the delete
+        List<String> changedPaths = new ArrayList<String>();
+        List<String> deletedPaths = new ArrayList<String>();
+        deletedPaths.add(getURI());
+        iClient.index(changedPaths, deletedPaths);
     }
 
     /**
@@ -164,7 +177,8 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
                     Node child = node.getNode("jcr:content");
                     if (child.isNodeType("xt:document")
                             || child.isNodeType("nt:resource")) {
-                        return new JCROutputStream(node, session);
+                        return new JCROutputStream(node, session, iClient,
+                                getURI());
                     } else {
                         throw new IOException(
                                 "Unable to get an output stream for node type: "
@@ -184,7 +198,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
             }
             try {
                 node = getParent().node.addNode(getName(), "nt:file");
-                return new JCROutputStream(node, session);
+                return new JCROutputStream(node, session, iClient, getURI());
             } catch (ItemExistsException e) {
                 throw new IOException("Resource already exists: "
                         + e.getLocalizedMessage());
