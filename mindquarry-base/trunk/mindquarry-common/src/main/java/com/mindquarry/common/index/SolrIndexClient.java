@@ -73,9 +73,10 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
         }
         Document doc = new Document(pathsEl);
         ByteArrayOutputStream os = new ByteArrayOutputStream();
-        
+
         XMLOutputter op = new XMLOutputter(Format.getPrettyFormat());
         op.output(doc, os);
+        op.output(doc, System.out);
 
         // send content
         sendToIndexer(os.toByteArray());
