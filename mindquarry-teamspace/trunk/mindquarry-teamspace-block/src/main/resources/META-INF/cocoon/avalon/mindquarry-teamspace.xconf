@@ -55,6 +55,6 @@
 	
 	<index-client class="com.mindquarry.common.index.SolrIndexClient">
 		<solr-credentials login="admin" password="admin" />
-		<solr-endpoint url="http://localhost:8888/solr" />
+		<solr-endpoint url="http://localhost:8888/solr/update" />
 	</index-client>
 </components>
