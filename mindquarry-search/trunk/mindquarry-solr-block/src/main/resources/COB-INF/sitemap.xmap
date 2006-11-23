@@ -9,14 +9,15 @@
 			<action name="log-params" src="com.mindquarry.webapp.acting.LogParametersAction"/>
 			<action name="authorise" src="com.mindquarry.webapp.acting.AuthorisationAction"/>
 		</actions>
+
+		<selectors>
+			<selector name="request-method" logger="sitemap.selector.request-method"
+				src="org.apache.cocoon.selection.RequestMethodSelector"/>
+		</selectors>
 	</components>
 
 	<pipelines>
 		<pipeline type="noncaching">
-			<match pattern="">
-				<redirect-to uri="{block-path:}/admin/index.jsp" />
-			</match>
-
 			<match pattern="admin/*.jsp">
 				<read src="admin/{1}.jsp" type="jsp"/>
 			</match>
@@ -31,6 +32,38 @@
 
 			<match pattern="admin/*.css">
 				<read src="admin/{1}.css"/>
+			</match>
+
+			<match pattern="html/*.html">
+				<read src="html/{1}.html"/>
+			</match>
+		</pipeline>
+
+		<pipeline type="noncaching">
+			<match pattern="update">
+				<act type="log" src="0"/>
+
+				<select type="request-method">
+					<when test="POST">
+						<act type="log" src="1"/>
+						<generate type="stream">
+							<parameter name="defaultContentType" value="text/xml"/>
+						</generate>
+
+						<act type="log" src="2"/>
+						<transform src="xslt/xml/list2solr.xsl"/>
+
+						<act type="log" src="3"/>
+						<serialize type="xml"/>
+					</when>
+					<otherwise>
+						<read src="html/only-POST-allowed.html"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="">
+				<redirect-to uri="{block-path:}/admin/index.jsp"/>
 			</match>
 		</pipeline>
 	</pipelines>
