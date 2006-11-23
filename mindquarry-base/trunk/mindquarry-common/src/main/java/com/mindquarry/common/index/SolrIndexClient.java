@@ -76,7 +76,7 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
 
         XMLOutputter op = new XMLOutputter(Format.getPrettyFormat());
         op.output(doc, os);
-        op.output(doc, System.out);
+        // op.output(doc, System.out);
 
         // send content
         sendToIndexer(os.toByteArray());
@@ -93,6 +93,17 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
         pMethod.setDoAuthentication(true);
         pMethod.setRequestEntity(new ByteArrayRequestEntity(content));
         httpClient.executeMethod(pMethod);
+
+        if (pMethod.getStatusCode() == 200) {
+            System.out.println(pMethod.getResponseBodyAsString());
+        } else if (pMethod.getStatusCode() == 401) {
+            getLogger().warn("Authorization problem. Could not connect to index updater.");
+        } else {
+            System.out.println("Unknown error");
+            System.out.println("STATUS: "+ pMethod.getStatusCode());
+            System.out.println("RESPONSE: " + pMethod.getResponseBodyAsString());
+        }
+        pMethod.releaseConnection();
     }
 
     /**
