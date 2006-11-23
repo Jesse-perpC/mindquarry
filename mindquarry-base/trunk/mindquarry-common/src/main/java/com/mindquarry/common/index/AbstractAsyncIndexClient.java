@@ -51,4 +51,13 @@ public abstract class AbstractAsyncIndexClient extends AbstractLogEnabled
      */
     protected abstract void indexInternal(List<String> changedPaths,
             List<String> deletedPaths) throws Exception;
+    
+    public void indexSynch(final List<String> changedPaths,
+            final List<String> deletedPaths) {
+        try {
+            indexInternal(changedPaths, deletedPaths);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 }
