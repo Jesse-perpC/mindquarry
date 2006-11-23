@@ -4,6 +4,7 @@
 package com.mindquarry.common.index;
 
 import java.io.ByteArrayOutputStream;
+import java.net.URI;
 import java.util.List;
 
 import org.apache.avalon.framework.activity.Initializable;
@@ -91,17 +92,26 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
 
         PostMethod pMethod = new PostMethod(solrEndpoint);
         pMethod.setDoAuthentication(true);
+        pMethod.addRequestHeader("accept", "text/xml"); //$NON-NLS-1$ //$NON-NLS-2$
         pMethod.setRequestEntity(new ByteArrayRequestEntity(content));
+
         httpClient.executeMethod(pMethod);
 
         if (pMethod.getStatusCode() == 200) {
             System.out.println(pMethod.getResponseBodyAsString());
         } else if (pMethod.getStatusCode() == 401) {
-            getLogger().warn("Authorization problem. Could not connect to index updater.");
+            getLogger().warn(
+                            "Authorization problem. Could not connect to index updater.");
+        } else if (pMethod.getStatusCode() == 302) {
+            URI redirectLocation = new URI(pMethod
+                    .getResponseHeader("location").getValue());
+            System.out.println(redirectLocation.toString());
+            
         } else {
             System.out.println("Unknown error");
-            System.out.println("STATUS: "+ pMethod.getStatusCode());
-            System.out.println("RESPONSE: " + pMethod.getResponseBodyAsString());
+            System.out.println("STATUS: " + pMethod.getStatusCode());
+            System.out
+                    .println("RESPONSE: " + pMethod.getResponseBodyAsString());
         }
         pMethod.releaseConnection();
     }
@@ -131,5 +141,29 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
 
         cfg = config.getChild("solr-endpoint", false); //$NON-NLS-1$
         solrEndpoint = cfg.getAttribute("url"); //$NON-NLS-1$
+    }
+
+    public String getSolrEndpoint() {
+        return solrEndpoint;
+    }
+
+    public void setSolrEndpoint(String solrEndpoint) {
+        this.solrEndpoint = solrEndpoint;
+    }
+
+    public String getSolrLogin() {
+        return solrLogin;
+    }
+
+    public void setSolrLogin(String solrLogin) {
+        this.solrLogin = solrLogin;
+    }
+
+    public String getSolrPassword() {
+        return solrPassword;
+    }
+
+    public void setSolrPassword(String solrPassword) {
+        this.solrPassword = solrPassword;
     }
 }
