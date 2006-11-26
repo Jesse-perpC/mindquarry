@@ -8,9 +8,12 @@ import java.util.List;
 /**
  * 
  *
- * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public interface TeamspaceQuery {
+    
+    public static final String ROLE = TeamspaceQuery.class.getName();
     
     /**
      * return the list of all teamspaces the user participates in;
@@ -18,10 +21,6 @@ public interface TeamspaceQuery {
      * a list of all participating users. 
      */
     List<TeamspaceRO> teamspacesForUser(String userId);
-    
-    List<UserRO> allUsers();
-    
-    UserRO userForId(String userId);
     
     TeamspaceRO teamspaceForId(String teamspaceId);
     

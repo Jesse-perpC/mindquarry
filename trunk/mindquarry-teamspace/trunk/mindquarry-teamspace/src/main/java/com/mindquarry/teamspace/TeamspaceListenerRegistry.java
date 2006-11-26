@@ -11,6 +11,8 @@ package com.mindquarry.teamspace;
  */
 public interface TeamspaceListenerRegistry {
 
+    public static final String ROLE = TeamspaceListenerRegistry.class.getName();
+    
     void addListener(TeamspaceListener listener);
     
     void removeListener(TeamspaceListener listener);

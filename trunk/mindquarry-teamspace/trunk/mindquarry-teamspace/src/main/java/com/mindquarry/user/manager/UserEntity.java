@@ -1,13 +1,13 @@
-package com.mindquarry.teamspace.manager;
+package com.mindquarry.user.manager;
 
 import java.util.HashSet;
 import java.util.Set;
 
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.teamspace.UserRO;
+import com.mindquarry.user.UserRO;
 
-public class UserEntity extends EntityBase implements UserRO {
+public final class UserEntity extends EntityBase implements UserRO {
     
     private String password;
     
@@ -26,12 +26,12 @@ public class UserEntity extends EntityBase implements UserRO {
      * 
      */
     public UserEntity() {
-        id = "".intern();
-        password = "".intern();
-        name = "".intern();
-        surname = "".intern();
-        email = "".intern();
-        skills = "".intern();
+        id = "";
+        password = "";
+        name = "";
+        surname = "";
+        email = "";
+        skills = "";
         teamspaceReferences = new HashSet<String>();
     }
     
@@ -45,7 +45,7 @@ public class UserEntity extends EntityBase implements UserRO {
     }
 
     /**
-     * @see com.mindquarry.teamspace.UserRO#getPassword()
+     * @see com.mindquarry.user.UserRO#getPassword()
      */
     public String getPassword() {
         return password;
@@ -73,7 +73,7 @@ public class UserEntity extends EntityBase implements UserRO {
     }
 
     /**
-     * @see com.mindquarry.teamspace.UserRO#getSurname()
+     * @see com.mindquarry.user.UserRO#getSurname()
      */
     public String getSurname() {
         return surname;
@@ -96,7 +96,7 @@ public class UserEntity extends EntityBase implements UserRO {
     }
 
     /**
-     * @see com.mindquarry.teamspace.UserRO#isMemberOf(com.mindquarry.teamspace.TeamspaceRO)
+     * @see com.mindquarry.user.UserRO#isMemberOf(com.mindquarry.teamspace.TeamspaceRO)
      */
     public boolean isMemberOf(TeamspaceRO teamspace) {
         return teamspaceReferences.contains(teamspace.getId());
@@ -136,5 +136,21 @@ public class UserEntity extends EntityBase implements UserRO {
      */
     public void setSkills(String skills) {
         this.skills = skills;
+    }
+    
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
+        if (!(other instanceof UserEntity))
+            return false;
+        
+        UserEntity otherUser = (UserEntity) other;
+        return this.id.equals(otherUser.id);
+    }
+    
+    public int hashCode() {
+        int result = 1;
+        result = result * 35 + this.id.hashCode();
+        return result;
     }
 }

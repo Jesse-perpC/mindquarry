@@ -3,8 +3,6 @@
  */
 package com.mindquarry.auth;
 
-import com.mindquarry.auth.manager.Profile;
-import com.mindquarry.auth.manager.RightEntity;
 
 /**
  * Add summary documentation here.
@@ -15,15 +13,15 @@ import com.mindquarry.auth.manager.RightEntity;
 public interface AuthorizationAdmin {
     
     // creates right with name "{operation}: {resource}";
-    RightEntity createRight(String resource, String operation);
+    RightRO createRight(String resource, String operation);
     
-    RightEntity createRight(String name, String resource, String operation);
+    RightRO createRight(String name, String resource, String operation);
     
     
-    Profile createProfile(String profileId);
+    ProfileRO createProfile(String profileId);
     
-    void addRight(RightEntity right, Profile profile);
+    void addRight(RightRO right, ProfileRO profile);
     
-    void removeRight(RightEntity right, Profile profile);
+    void removeRight(RightRO right, ProfileRO profile);
 }
 

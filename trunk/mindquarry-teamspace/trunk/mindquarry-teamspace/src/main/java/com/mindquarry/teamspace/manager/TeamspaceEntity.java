@@ -10,7 +10,7 @@ import java.util.Map;
 
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.TeamspaceDefinition;
-import com.mindquarry.teamspace.UserRO;
+import com.mindquarry.user.UserRO;
 
 
 /**

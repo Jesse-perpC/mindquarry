@@ -5,7 +5,7 @@ package com.mindquarry.auth.manager;
 
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.user.AbstractUserRO;
-import com.mindquarry.user.AbstractUserSet;
+import com.mindquarry.user.manager.AbstractUserSet;
 
 /**
  * Add summary documentation here.
@@ -13,7 +13,7 @@ import com.mindquarry.user.AbstractUserSet;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public abstract class AbstractRight extends EntityBase {
+abstract class AbstractRight extends EntityBase {
 
     private final AbstractUserSet allowed;
     private final AbstractUserSet denied;

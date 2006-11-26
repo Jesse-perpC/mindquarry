@@ -19,7 +19,7 @@ public final class RightSet
     RightEntity rightForOperation(String operation) {
         RightEntity result = null;
         for (RightEntity right : this) {
-            if (right.operation.equals(operation)) {
+            if (right.getOperation().equals(operation)) {
                 result = right;
                 break;
             }

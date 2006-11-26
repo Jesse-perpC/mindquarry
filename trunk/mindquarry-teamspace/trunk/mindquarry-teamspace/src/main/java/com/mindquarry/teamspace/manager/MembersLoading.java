@@ -6,7 +6,7 @@ package com.mindquarry.teamspace.manager;
 import java.util.List;
 
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.teamspace.UserRO;
+import com.mindquarry.user.UserRO;
 
 /**
  * Add summary documentation here.

@@ -5,6 +5,8 @@ package com.mindquarry.teamspace;
 
 import java.util.List;
 
+import com.mindquarry.user.UserRO;
+
 
 /**
  * Add summary documentation here.

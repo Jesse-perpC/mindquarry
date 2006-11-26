@@ -1,9 +1,11 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace;
+package com.mindquarry.user;
 
 import java.util.Set;
+
+import com.mindquarry.teamspace.TeamspaceRO;
 
 /**
  * Add summary documentation here.
@@ -11,14 +13,7 @@ import java.util.Set;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface UserRO {
-
-    /**
-     * Getter for id.
-     *
-     * @return the id
-     */
-    String getId();
+public interface UserRO extends AbstractUserRO {
 
     /**
      * Getter for name.
