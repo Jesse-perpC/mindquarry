@@ -3,6 +3,8 @@
  */
 package com.mindquarry.auth;
 
+import com.mindquarry.user.AbstractUserRO;
+
 
 /**
  * Add summary documentation here.
@@ -23,5 +25,18 @@ public interface AuthorizationAdmin {
     void addRight(RightRO right, ProfileRO profile);
     
     void removeRight(RightRO right, ProfileRO profile);
+    
+    
+    void addAllowance(RightRO right, AbstractUserRO user);
+    void removeAllowance(RightRO right, AbstractUserRO user);
+
+    void addAllowance(ProfileRO profile, AbstractUserRO user);
+    void removeAllowance(ProfileRO profile, AbstractUserRO user);
+    
+    void addDenial(RightRO right, AbstractUserRO user);
+    void removeDenial(RightRO right, AbstractUserRO user);
+    
+    void addDenial(ProfileRO profile, AbstractUserRO user);
+    void removeDenial(ProfileRO profile, AbstractUserRO user);
 }
 
