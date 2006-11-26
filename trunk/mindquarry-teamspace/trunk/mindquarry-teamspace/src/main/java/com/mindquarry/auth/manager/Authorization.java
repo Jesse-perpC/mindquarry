@@ -89,22 +89,6 @@ public class Authorization implements AuthorizationCheck,
         resource.addRight(result);
         return result;
     }
-
-    public void addAllowance(AbstractRight right, AbstractUserRO user) {
-        right.allowAccessTo(user);
-    }
-
-    public void removeAllowance(AbstractRight right, AbstractUserRO user) {
-        right.removeAllowanceFor(user);
-    }
-
-    public void addDenial(AbstractRight right, AbstractUserRO user) {
-        right.denyAccessTo(user);
-    }
-
-    public void removeDenial(AbstractRight right, AbstractUserRO user) {
-        right.removeDenialFor(user);
-    }
     
     private List<String> pathItemsFromUri(String resourceUri) {
         String[] pathItems = resourceUri.replaceFirst("/", "").split("/");
@@ -152,5 +136,53 @@ public class Authorization implements AuthorizationCheck,
         ProfileEntity profileEntity = (ProfileEntity) profile;
         rightEntity.removeFrom(profileEntity);
         profileEntity.remove(rightEntity);
+    }
+
+    public void addAllowance(RightRO right, AbstractUserRO user) {
+        addAllowance((AbstractRight) right, user);
+    }
+
+    public void addAllowance(ProfileRO profile, AbstractUserRO user) {
+        addAllowance((AbstractRight) profile, user);        
+    }
+
+    public void addDenial(RightRO right, AbstractUserRO user) {
+        addDenial((AbstractRight) right, user);
+    }
+
+    public void addDenial(ProfileRO profile, AbstractUserRO user) {
+        addDenial((AbstractRight) profile, user);
+    }
+
+    public void removeAllowance(RightRO right, AbstractUserRO user) {
+        removeAllowance((AbstractRight) right, user);
+    }
+
+    public void removeAllowance(ProfileRO profile, AbstractUserRO user) {
+        removeAllowance((AbstractRight) profile, user);
+    }
+
+    public void removeDenial(RightRO right, AbstractUserRO user) {
+        removeDenial((AbstractRight) right, user);
+    }
+
+    public void removeDenial(ProfileRO profile, AbstractUserRO user) {
+        removeDenial((AbstractRight) profile, user);        
+    }
+
+    private void addAllowance(AbstractRight right, AbstractUserRO user) {
+        right.allowAccessTo(user);
+    }
+
+    private void removeAllowance(AbstractRight right, AbstractUserRO user) {
+        right.removeAllowanceFor(user);
+    }
+
+    private void addDenial(AbstractRight right, AbstractUserRO user) {
+        right.denyAccessTo(user);
+    }
+
+    private void removeDenial(AbstractRight right, AbstractUserRO user) {
+        right.removeDenialFor(user);
     }
 }
