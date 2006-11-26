@@ -14,6 +14,9 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import com.mindquarry.auth.AuthorizationAdmin;
+import com.mindquarry.auth.ProfileRO;
+import com.mindquarry.auth.RightRO;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
@@ -23,6 +26,7 @@ import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceDefinition;
 import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
+import com.mindquarry.user.GroupRO;
 import com.mindquarry.user.UserRO;
 import com.mindquarry.user.manager.UserManager;
 
@@ -38,49 +42,27 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     static final String ADMIN_PWD = "admin";
     static final String ADMIN_NAME = "Administrator";
     
-    private SessionFactory sessionFactory_;
+    /** helds the constructor of a dynamic generated proxy for 
+     * interface java.util.List. a proxy is used for 
+     * lazy loading of team members within a teamspace entity object.*/
+    private static Constructor listProxyConstructor_;
     
-    private DefaultListenerRegistry listenerRegistry_;
-    
-    private Constructor membersListProxyConstructor_;
-    
-    private UserManager userManager_;
-
-    /**
-     * Setter for listenerRegistry.
-     *
-     * @param listenerRegistry the listenerRegistry to set
-     */
-    public void setListenerRegistry(DefaultListenerRegistry listenerRegistry) {
-        listenerRegistry_ = listenerRegistry;
-    }
-
-    /**
-     * Setter for sessionFactory.
-     *
-     * @param sessionFactory the sessionFactory to set
-     */
-    public void setSessionFactory(SessionFactory sessionFactory) {
-        sessionFactory_ = sessionFactory;
+    static {
+        prepareLazyListLoading();
     }
     
     /**
-     * Setter for userManager.
-     *
-     * @param userManager the userManager to set
+     * creates a proxy class for the java.util.List interface
+     * and stores the default constructor of this class in a member variable. 
      */
-    public void setUserManager(UserManager userManager) {
-        userManager_ = userManager;
-    }
-
-    public void initialize() {        
+    static private void prepareLazyListLoading() {
         Class proxyClazz = Proxy.getProxyClass(
-                this.getClass().getClassLoader(), 
+                TeamspaceManager.class.getClassLoader(), 
                 new Class[] {List.class});
         
         Class[] constrParamType = new Class[] {InvocationHandler.class};
         try {
-            membersListProxyConstructor_ = 
+            listProxyConstructor_ = 
                 proxyClazz.getConstructor(constrParamType);
         } catch (SecurityException e) {
             throw new InitializationException(
@@ -88,6 +70,72 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         } catch (NoSuchMethodException e) {
             throw new InitializationException(
                     "could not get constructor method from dynamic proxy", e);
+        }
+    }
+    
+    private SessionFactory sessionFactory_;
+    
+    private DefaultListenerRegistry listenerRegistry_;
+    
+    private UserManager userManager_;
+    
+    private AuthorizationAdmin authAdmin_;
+        
+
+    /**
+     * Setter for listenerRegistry bean, set by spring at object creation
+     */
+    public void setListenerRegistry(DefaultListenerRegistry listenerRegistry) {
+        listenerRegistry_ = listenerRegistry;
+    }
+
+    /**
+     * Setter for sessionFactory bean, set by spring at object creation
+     */
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        sessionFactory_ = sessionFactory;
+    }
+    
+    /**
+     * Setter for userManager bean, set by spring at object creation
+     */
+    public void setUserManager(UserManager userManager) {
+        userManager_ = userManager;
+    }
+
+    /**
+     * Setter for authAdmin.
+     *
+     * @param authAdmin the authAdmin to set
+     */
+    public void setAuthAdmin(AuthorizationAdmin authAdmin) {
+        authAdmin_ = authAdmin;
+    }
+
+    public void initialize() {        
+        prepareLazyListLoading();
+        
+        for (TeamspaceRO teamspace : queryAllTeamspaces()) {
+            GroupRO teamGroup = userManager_.groupById(teamspace.getId());
+            if (teamGroup == null) {
+                teamGroup = userManager_.createGroup(teamspace.getId());
+                List<UserRO> teamMembers = 
+                    userManager_.queryMembersForTeamspace(teamspace.getId());
+                
+                for (UserRO teamMember : teamMembers)
+                    userManager_.addUser(teamMember, teamGroup);
+                
+                String teamspaceUri = "/teamspaces/" + teamspace.getId();
+                RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
+                RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
+                
+                String profileName = teamspace.getId() + "-user";
+                ProfileRO profile = authAdmin_.createProfile(profileName);
+                authAdmin_.addRight(rRight, profile);
+                authAdmin_.addRight(wRight, profile);
+                
+                authAdmin_.addAllowance(profile, teamGroup);
+            }
         }
     }
 
@@ -230,7 +278,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         
         Object[] params = new Object[] {invocationHandler};
         try {
-            Object proxy = membersListProxyConstructor_.newInstance(params);
+            Object proxy = listProxyConstructor_.newInstance(params);
             return (List<UserRO>) proxy;
         } catch (IllegalArgumentException e) {
             throw new InitializationException(
