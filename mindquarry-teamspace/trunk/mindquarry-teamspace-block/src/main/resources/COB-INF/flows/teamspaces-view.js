@@ -1,9 +1,13 @@
 /*
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
+ 
+importPackage(Packages.com.mindquarry.teamspace);
+importPackage(Packages.com.mindquarry.user);
+
 function listTeamspacesForUser() {
-	var teamspaceQueryName = "com.mindquarry.teamspace.TeamspaceQuery";
-    var teamspaceQuery = cocoon.getComponent(teamspaceQueryName);
+
+    var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
     var userId = cocoon.parameters["username"];
     var teamspaces = teamspaceQuery.teamspacesForUser(userId);
@@ -14,8 +18,8 @@ function listTeamspacesForUser() {
 }
 
 function teamspacesByID() {
-	var teamspaceQueryName = "com.mindquarry.teamspace.TeamspaceQuery";
-    var teamspaceQuery = cocoon.getComponent(teamspaceQueryName);
+
+	var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
     var id = cocoon.parameters["teamspaceID"];
     var teamspace = teamspaceQuery.teamspaceForId(id);
