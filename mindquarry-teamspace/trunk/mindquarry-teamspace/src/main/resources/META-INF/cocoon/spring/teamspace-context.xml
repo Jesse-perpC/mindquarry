@@ -7,6 +7,18 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
+	<bean id="com.mindquarry.auth.manager.Authorization" 
+		class="com.mindquarry.auth.manager.Authorization"
+		scope="singleton">
+	</bean>
+	
+	<alias name="com.mindquarry.auth.manager.Authorization" 
+		   alias="com.mindquarry.auth.AuthorizationAdmin" />
+		   
+	<alias name="com.mindquarry.auth.manager.Authorization" 
+		   alias="com.mindquarry.auth.AuthorizationCheck" />
+		   
+	
 	<bean id="com.mindquarry.user.manager.UserManager" 
 		class="com.mindquarry.user.manager.UserManager"
 		init-method="initialize">
@@ -34,6 +46,9 @@
 				 
 		<property name="userManager" 
 				  ref="com.mindquarry.user.manager.UserManager" />
+		
+		<property name="authAdmin" 
+				  ref="com.mindquarry.auth.AuthorizationAdmin" />
 	</bean>	
 	
 	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
