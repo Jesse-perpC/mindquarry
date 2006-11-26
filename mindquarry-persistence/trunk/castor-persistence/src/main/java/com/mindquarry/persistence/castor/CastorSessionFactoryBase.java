@@ -6,6 +6,7 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.exolab.castor.mapping.Mapping;
 
+import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
@@ -30,7 +31,15 @@ public abstract class CastorSessionFactoryBase extends AbstractLogEnabled
         
         for (Class entityClazz : configuration_.entityClazzes()) {
             URL url = entityClazz.getResource("castor-mapping.xml");
-            mapping_.loadMapping(url);
+            if (url != null)
+                mapping_.loadMapping(url);
+            else
+                throw new InitializationException("could not load " +
+                        "castor-mapping file for entity class: " +
+                        entityClazz.getName() + "." +
+                        "The file is expected to find within " +
+                        "the classpath at: " + 
+                        entityClazz.getPackage().getName() + ".");
         }
     }
 
