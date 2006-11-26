@@ -21,7 +21,7 @@ import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
-import com.mindquarry.teamspace.Authentication;
+import com.mindquarry.user.Authentication;
 
 /**
  * Servlet filter that handles HTTP authentication.
