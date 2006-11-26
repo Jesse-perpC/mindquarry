@@ -3,14 +3,17 @@
  */
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
+importPackage(Packages.com.mindquarry.teamspace);
+importPackage(Packages.com.mindquarry.user);
+
 function processCreateTeamspaceForm(form) {
 
-	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
-	var teamspaceAdmin = cocoon.getComponent(lookupName);
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
+	var teamspaceAdmin = cocoon.getComponent(TeamspaceAdmin.ROLE);
 	
 	var userId = cocoon.parameters["username"];
 	//print("userId: " + userId);
-	var user = teamspaceAdmin.userForId(userId);
+	var user = userAdmin.userById(userId);
 	
 	form.showForm("create-teamspace.instance");
 	if (form.submitId == "cancelSubmit") {

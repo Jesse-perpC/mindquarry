@@ -3,6 +3,9 @@
  */
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
+importPackage(Packages.com.mindquarry.teamspace);
+importPackage(Packages.com.mindquarry.user);
+
 var WidgetState = org.apache.cocoon.forms.formmodel.WidgetState;
 var teamspaceQuery_;
 var membership_;
@@ -10,11 +13,10 @@ var model_;
 var form_;
 
 function processEditMembersForm(form) {
+
 	var teamspaceId = cocoon.parameters["teamId"];
-	//print("editing members for team: " + teamspaceId);
-	
-	var lookupName = "com.mindquarry.teamspace.TeamspaceQuery";
-	teamspaceQuery_ = cocoon.getComponent(lookupName);
+
+	teamspaceQuery_ = cocoon.getComponent(TeamspaceQuery.ROLE);
 	
 	var editedTeamspace = teamspaceQuery_.teamspaceForId(teamspaceId);	
 	membership_ = teamspaceQuery_.membership(editedTeamspace);
@@ -83,10 +85,9 @@ function processCreateUserForm(form) {
 	    	print("unable to save image " + e);
 	    }
 		
-		var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
-		var teamspaceAdmin = cocoon.getComponent(lookupName);
+		var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
 		
-		var user = teamspaceAdmin.createUser(
+		var user = userAdmin.createUser(
 				userModel.userId, userModel.password, userModel.name, 
 				userModel.surname, userModel.email, userModel.skills);
 		
@@ -133,10 +134,10 @@ function createUser() {
     } catch (e) {
     	e.printStackTrace();
     }
-	var lookupName = "com.mindquarry.teamspace.TeamspaceAdmin";
-	var teamspaceAdmin = cocoon.getComponent(lookupName);
+
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
 	
-	return teamspaceAdmin.createUser(
+	return userAdmin.createUser(
 			userModel.userId, userModel.password, userModel.name, 
 			userModel.surname, userModel.email, userModel.skills);
 }
