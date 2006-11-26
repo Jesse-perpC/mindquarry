@@ -25,18 +25,24 @@
 	</queryInfo>
 	<queryInfo>
 		<key>getAllUsers</key>
-		<query>/users</query>
-		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
-	</queryInfo>
- 	<queryInfo>
-		<key>getGroupById</key>
-		<query>/groups/{$groupId}</query>
-		<resultEntityClass>com.mindquarry.user.manager.GroupEntity</resultEntityClass>
+		<!-- exclude all documents with a dot, because .png files cannot be parsed -->
+		<query>/users?/*[not(contains(local-name(.),'.'))]</query>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
 		<key>getMembersForTeamspace</key>
 		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference='{$teamspaceId}']</query>
 		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getNonMembersForTeamspace</key>
+		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference!='{$teamspaceId}']</query>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+ 	<queryInfo>
+		<key>getGroupById</key>
+		<query>/groups/{$groupId}</query>
+		<resultEntityClass>com.mindquarry.user.manager.GroupEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
 		<key>getTeamspaceById</key>
