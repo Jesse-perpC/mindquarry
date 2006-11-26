@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace.manager;
+package com.mindquarry.teamspace;
 
 import java.io.IOException;
 import java.net.URL;
@@ -20,13 +20,14 @@ import org.springframework.core.io.Resource;
 
 import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.user.UserAdmin;
 
 
 
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-abstract class TeamspaceTestBase extends JCRTestBase {
+public abstract class TeamspaceTestBase extends JCRTestBase {
     
 
     // add spring bean definitions to component configuration settings
@@ -83,6 +84,10 @@ abstract class TeamspaceTestBase extends JCRTestBase {
 
         URL xtestResource = classLoader().getResource(xtestResourceName);
         this.prepare(xtestResource.openStream());
+    }
+    
+    protected UserAdmin lookupUserAdmin() throws ServiceException {
+        return (UserAdmin) lookup(UserAdmin.class.getName());
     }
     
     protected TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {

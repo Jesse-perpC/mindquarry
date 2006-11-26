@@ -9,6 +9,8 @@ import java.util.List;
 
 import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.AuthorizationCheck;
+import com.mindquarry.auth.ProfileRO;
+import com.mindquarry.auth.RightRO;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.manager.UserManager;
 
@@ -134,17 +136,21 @@ public class Authorization implements AuthorizationCheck,
     }
 
 
-    public Profile createProfile(String profileId) {
-        return new Profile(profileId);
+    public ProfileEntity createProfile(String profileId) {
+        return new ProfileEntity(profileId);
     }
     
-    public void addRight(RightEntity right, Profile profile) {
-        right.addTo(profile);
-        profile.add(right);
+    public void addRight(RightRO right, ProfileRO profile) {
+        RightEntity rightEntity = (RightEntity) right;
+        ProfileEntity profileEntity = (ProfileEntity) profile;        
+        rightEntity.addTo(profileEntity);
+        profileEntity.add(rightEntity);
     }
 
-    public void removeRight(RightEntity right, Profile profile) {
-        right.removeFrom(profile);
-        profile.remove(right);
+    public void removeRight(RightRO right, ProfileRO profile) {
+        RightEntity rightEntity = (RightEntity) right;
+        ProfileEntity profileEntity = (ProfileEntity) profile;
+        rightEntity.removeFrom(profileEntity);
+        profileEntity.remove(rightEntity);
     }
 }

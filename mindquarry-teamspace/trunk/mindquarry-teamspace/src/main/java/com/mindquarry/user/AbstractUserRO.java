@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace.auth;
+package com.mindquarry.user;
 
 /**
  * Add summary documentation here.
@@ -9,9 +9,12 @@ package com.mindquarry.teamspace.auth;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-final class User extends AbstractUser {
+public interface AbstractUserRO {
 
-    User(String userId) {
-        super(userId);
-    }
+    /**
+     * Getter for id.
+     *
+     * @return the id
+     */
+    String getId();
 }

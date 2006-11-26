@@ -10,7 +10,7 @@ package com.mindquarry.teamspace;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public interface TeamspaceListener {
-
+    
     void beforeTeamspaceCreated(TeamspaceDefinition teamspace);
     
     void afterTeamspaceRemoved(TeamspaceDefinition teamspace);

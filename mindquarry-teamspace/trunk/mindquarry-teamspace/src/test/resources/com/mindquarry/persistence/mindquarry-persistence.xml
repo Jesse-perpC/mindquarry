@@ -3,27 +3,40 @@
 	xmlns="http://www.mindquarry.com/ns/schema/persistence">
 	
 	<entity>
-		<className>com.mindquarry.teamspace.manager.UserEntity</className>
+		<className>com.mindquarry.user.manager.UserEntity</className>
 		<path>/users/{$id}</path>
+	</entity>
+	<entity>
+		<className>com.mindquarry.user.manager.GroupEntity</className>
+		<path>/groups/{$id}</path>
 	</entity>
 	<entity>
 		<className>com.mindquarry.teamspace.manager.TeamspaceEntity</className>
 		<path>/teamspaces/{$id}/metadata.xml</path>
 	</entity>
+	<entity>
+		<className>com.mindquarry.auth.manager.ResourceEntity</className>
+		<path>/resources/{$id}</path>
+	</entity>
 	<queryInfo>
 		<key>getUserById</key>
 		<query>/users/{$userId}</query>
-		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
 		<key>getAllUsers</key>
 		<query>/users</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
 	</queryInfo>
+ 	<queryInfo>
+		<key>getGroupById</key>
+		<query>/groups/{$groupId}</query>
+		<resultEntityClass>com.mindquarry.user.manager.GroupEntity</resultEntityClass>
+	</queryInfo>
 	<queryInfo>
 		<key>getMembersForTeamspace</key>
 		<query>/users?/*[.//user:teamspace-references/user:teamspace-reference='{$teamspaceId}']</query>
-		<resultEntityClass>com.mindquarry.teamspace.manager.UserEntity</resultEntityClass>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>
 		<key>getTeamspaceById</key>
@@ -34,5 +47,10 @@
 		<key>getAllTeamspaces</key>
 		<query>/teamspaces?//metadata.xml</query>
 		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getResourceById</key>
+		<query>/resources/{$resourceId}</query>
+		<resultEntityClass>com.mindquarry.auth.manager.ResourceEntity</resultEntityClass>
 	</queryInfo>
 </configuration>

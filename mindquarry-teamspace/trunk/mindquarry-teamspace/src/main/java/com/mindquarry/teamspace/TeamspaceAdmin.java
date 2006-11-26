@@ -3,6 +3,8 @@
  */
 package com.mindquarry.teamspace;
 
+import com.mindquarry.user.UserRO;
+
 
 /**
  * @author bastian
@@ -10,6 +12,8 @@ package com.mindquarry.teamspace;
  */
 public interface TeamspaceAdmin extends TeamspaceQuery {
 
+    public static final String ROLE = TeamspaceAdmin.class.getName();
+    
     /**
      * creates a new teamspace and the associated workspace (svn repo)
      * @param teamspaceId
@@ -25,29 +29,4 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
     void updateTeamspace(TeamspaceDefinition teamspace);
     
 	void removeTeamspace(String teamspaceId);
-    
-    /**
-     * creates a new user account
-     * @param userId
-     * @param password
-     * @param first name of the new user
-     * @param last name of the new user
-     * @param the user's email address
-     * @param the skills of the user
-     */
-	UserRO createUser(String id, String password, 
-            String name, String surName, String email, String skills);
-    
-    /**
-     * change the password of a user if the old password matches
-     * 
-     * @param a user
-     * @param the old password
-     * @param the new password
-     * @returns true if change succeeds otherwise false
-     */
-    //boolean changePassword(String userId, 
-    //        String oldPassword, String newPassword);
-    
-    void removeUser(String userId);
 }

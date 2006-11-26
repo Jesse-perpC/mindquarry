@@ -1,9 +1,15 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace.auth;
+package com.mindquarry.auth.manager;
 
-import junit.framework.TestCase;
+import com.mindquarry.auth.manager.Authorization;
+import com.mindquarry.auth.manager.ProfileEntity;
+import com.mindquarry.auth.manager.RightEntity;
+import com.mindquarry.teamspace.TeamspaceTestBase;
+import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.UserAdmin;
+import com.mindquarry.user.UserRO;
 
 /**
  * Add summary documentation here.
@@ -11,34 +17,41 @@ import junit.framework.TestCase;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class AuthorizationTest extends TestCase {
+public class AuthorizationTest extends TeamspaceTestBase {
 
     private Authorization auth;
+    private UserAdmin userAdmin;
     
     protected void setUp() throws Exception {
         super.setUp();
         this.auth = new Authorization();
+        this.userAdmin = lookupUserAdmin();
+    }
+    
+    private UserRO createUser(String userId) {
+        return this.userAdmin.createUser(userId, "password", 
+                "name", "surname", "email", "skills");
     }
     
     public void testResource() {
-        User user = this.auth.createUser("testUser");
+        UserRO user = this.createUser("testUser");
         String resource = "/teamspaces/foo-team";
         String operation = "READ";
-        Right right = this.auth.createRight(resource, operation);
+        RightEntity right = this.auth.createRight(resource, operation);
         this.auth.addAllowance(right, user);
         assertTrue(this.auth.mayPerform(resource, operation, user));      
     }
     
     public void testResourceTree() {
         String operation = "READ";
-        User grantedUser = this.auth.createUser("grantedUser");
-        User otherUser = this.auth.createUser("otherUser");
+        UserRO grantedUser = this.createUser("grantedUser");
+        UserRO otherUser = this.createUser("otherUser");
         
         String higherLevelResource = "/teamspaces";
         String explicitGrantedResource = "/teamspaces/foo-team";
         String implicitGrantedResource = "/teamspaces/foo-team/wiki";
         
-        Right right = this.auth.createRight(explicitGrantedResource, operation);
+        RightEntity right = this.auth.createRight(explicitGrantedResource, operation);
         this.auth.addAllowance(right, grantedUser);
         
         assertTrue(this.auth.mayPerform(higherLevelResource, operation, grantedUser));
@@ -53,18 +66,18 @@ public class AuthorizationTest extends TestCase {
     
     public void testDeniedRights() {
         String operation = "READ";
-        User fooUser = this.auth.createUser("fooUser");
-        User fooTasksOnlyUser = this.auth.createUser("fooTasksUser");
+        UserRO fooUser = this.createUser("fooUser");
+        UserRO fooTasksOnlyUser = this.createUser("fooTasksUser");
         
         String fooTeamspace = "/teamspaces/foo-team";
         String fooTeamspaceWiki = "/teamspaces/foo-team/wiki";
         String fooTeamspaceTasks = "/teamspaces/foo-team/tasks";
         
-        Right fooReadRight = this.auth.createRight(fooTeamspace, operation);
+        RightEntity fooReadRight = this.auth.createRight(fooTeamspace, operation);
         this.auth.addAllowance(fooReadRight, fooUser);
         this.auth.addAllowance(fooReadRight, fooTasksOnlyUser);
                 
-        Right fooWikiRight = this.auth.createRight(fooTeamspaceWiki, operation);
+        RightEntity fooWikiRight = this.auth.createRight(fooTeamspaceWiki, operation);
         this.auth.addDenial(fooWikiRight, fooTasksOnlyUser);
         
         assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));
@@ -79,13 +92,13 @@ public class AuthorizationTest extends TestCase {
     
     public void testGroupAllowances() {
         final String operation = "READ";
-        final User fooUser = this.auth.createUser("fooUser");
-        final Group fooGroup = this.auth.createGroup("fooGroup");
-        this.auth.addUser(fooUser, fooGroup);
+        final UserRO fooUser = this.createUser("fooUser");
+        final GroupRO fooGroup = this.userAdmin.createGroup("fooGroup");
+        this.userAdmin.addUser(fooUser, fooGroup);
         
         String fooTeamspace = "/teamspaces/foo-team";
         
-        Right fooReadRight = this.auth.createRight(fooTeamspace, operation);        
+        RightEntity fooReadRight = this.auth.createRight(fooTeamspace, operation);        
         this.auth.addAllowance(fooReadRight, fooGroup);
                 
         assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));        
@@ -95,16 +108,16 @@ public class AuthorizationTest extends TestCase {
         final String readOperation = "READ";
         final String writeOperation = "WRITE";
         
-        final User fooUser = this.auth.createUser("fooUser");
+        final UserRO fooUser = this.createUser("fooUser");
         
         final String fooTeamspace = "/teamspaces/foo-team";
         
-        final Right fooReadRight = this.auth.createRight(
+        final RightEntity fooReadRight = this.auth.createRight(
                 fooTeamspace, readOperation);
-        final Right fooWriteRight = this.auth.createRight(
+        final RightEntity fooWriteRight = this.auth.createRight(
                 fooTeamspace, writeOperation);
         
-        final Profile fooRights = this.auth.createProfile("fooRights");
+        final ProfileEntity fooRights = this.auth.createProfile("fooRights");
         this.auth.addRight(fooReadRight, fooRights);
         this.auth.addRight(fooWriteRight, fooRights);
         

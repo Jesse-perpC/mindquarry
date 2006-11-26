@@ -17,14 +17,14 @@ import java.util.regex.Pattern;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
-import com.mindquarry.teamspace.Authentication;
 import com.mindquarry.teamspace.Authorisation;
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceDefinition;
 import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.teamspace.UserRO;
+import com.mindquarry.user.UserRO;
+import com.mindquarry.user.manager.UserManager;
 
 /**
  * Add summary documentation here.
@@ -32,18 +32,19 @@ import com.mindquarry.teamspace.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class TeamspaceManager implements TeamspaceAdmin, Authentication,
-    Authorisation {
+public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     
     static final String ADMIN_USER_ID = "admin";
     static final String ADMIN_PWD = "admin";
     static final String ADMIN_NAME = "Administrator";
     
-    private SessionFactory sessionFactory_;    
+    private SessionFactory sessionFactory_;
     
     private DefaultListenerRegistry listenerRegistry_;
     
     private Constructor membersListProxyConstructor_;
+    
+    private UserManager userManager_;
 
     /**
      * Setter for listenerRegistry.
@@ -63,10 +64,16 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
         sessionFactory_ = sessionFactory;
     }
     
+    /**
+     * Setter for userManager.
+     *
+     * @param userManager the userManager to set
+     */
+    public void setUserManager(UserManager userManager) {
+        userManager_ = userManager;
+    }
+
     public void initialize() {        
-        if (! existsAdminUser())
-            createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null, null);
-        
         Class proxyClazz = Proxy.getProxyClass(
                 this.getClass().getClassLoader(), 
                 new Class[] {List.class});
@@ -83,11 +90,6 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
                     "could not get constructor method from dynamic proxy", e);
         }
     }
-    
-    private boolean existsAdminUser() {
-        Session session = currentSession();
-        return null != queryUserById(session, ADMIN_USER_ID);
-    }
 
     public TeamspaceDefinition createTeamspace(String teamspaceId, 
             String name, String description, UserRO teamspaceCreator) {
@@ -99,11 +101,10 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
         
         listenerRegistry_.signalBeforeTeamspaceCreated(teamspace);
         
-        addUserToTeamspace(teamspaceCreator, teamspace);
+        userManager_.addUserToTeamspace(teamspaceCreator, teamspace.getId());
         
         Session session = currentSession();
         session.persist(teamspace);
-        session.update(teamspaceCreator);
         session.commit();
         return teamspace;
     }
@@ -123,11 +124,10 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
             throw new TeamspaceException(
                     "the teamspace " + teamspaceId + " does not exist."  );
         
-        List<UserRO> users = queryMembersForTeamspace(session, teamspace);
-        for (UserRO user : users) {
-            removeUserFromTeamspace(user, teamspace);
-            session.update(user);
-        }
+        List<UserRO> users = queryMembersForTeamspace(teamspace);
+        for (UserRO user : users)
+            userManager_.removeUserFromTeamspace(user, teamspace.getId());
+        
         session.delete(teamspace);
         session.commit();
         
@@ -135,7 +135,7 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
     }
 
     public List<TeamspaceRO> teamspacesForUser(String userId) {
-        assert isValidUserId(userId) : 
+        assert userManager_.isValidUserId(userId) : 
             "the userId: " + userId + " is not valid";
         
         Session session = currentSession();        
@@ -148,10 +148,6 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
         
         session.commit();
         return result;
-    }
-    
-    private boolean isValidUserId(String userId) {
-        return (null != userId) && (! "".equals(userId));
     }
 
     private List<TeamspaceRO> queryAllTeamspaces() {
@@ -176,7 +172,7 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
         
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
         
-        UserRO user = queryUserById(session, userId);
+        UserRO user = userForId(userId);
         if (user != null) {
             for (String teamRef : user.getTeamspaceReferences()) {
                 TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
@@ -189,86 +185,27 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
     }
     
     List<UserRO> queryMembersForTeamspace(TeamspaceRO teamspace) {
-        Session session = currentSession();
-        List<UserRO> result = queryMembersForTeamspace(session, teamspace);
-        session.commit();
-        return result;
-    }
-
-    private List<UserRO> queryMembersForTeamspace(
-            Session session, TeamspaceRO teamspace) {
-        
-        return queryUsersForTeamspace(
-                "getMembersForTeamspace", session, teamspace);
-    }
-
-    private List<UserRO> queryUsersForTeamspace(
-            String queryKey, Session session, TeamspaceRO teamspace) {
-        
-        List<Object> queryResult = session.query(
-                queryKey, new String[] {teamspace.getId()});
-        
-        List<UserRO> result = new LinkedList<UserRO>();
-        
-        for (Object userObj: queryResult) {
-            UserRO user = (UserRO) userObj;
-            result.add(user);
-        }
-        return result;
+        return userManager_.queryMembersForTeamspace(teamspace.getId());
     }
 
     public UserRO createUser(String id, String password, 
             String name, String surname, String email, String skills) {
         
-        UserEntity user = new UserEntity();
-        user.setId(id);
-        user.setPassword(password);
-        user.setName(name);
-        user.setSurname(surname);
-        user.setEmail(email);
-        user.setSkills(skills);
-        Session session = currentSession();
-        session.persist(user);
-        session.commit();
-        return user;
+        return userManager_.createUser(id, password, 
+                name, surname, email, skills);
     }
     
     public boolean changePassword(String userId, String oldPwd, String newPwd) {
-        Session session = currentSession();
-        UserEntity userEntity = queryUserById(session, userId);
-        
-        boolean succeeded = false;
-        if (userEntity.getPassword().equals(oldPwd)) {
-            userEntity.setPassword(newPwd);
-            succeeded = true;
-        }
-        
-        session.update(userEntity);
-        session.commit();
-        
-        return succeeded;
+        return userManager_.changePassword(userId, oldPwd, newPwd);
     }
 
     public void removeUser(String userId) {
-        Session session = currentSession();
-        UserEntity user = queryUserById(session, userId);
-        session.delete(user);
-        session.commit();
+        UserRO user = userManager_.userById(userId);
+        userManager_.deleteUser(user);
     }
 
     public List<UserRO> allUsers() {
-        Session session = currentSession();
-        
-        List<Object> queriedUsers = session.query(
-                "getAllUsers", new Object[0]);
-        
-        List<UserRO> result = new LinkedList<UserRO>();        
-        
-        for (Object userObj: queriedUsers) {
-            UserRO user = (UserRO) userObj;
-            result.add(user);
-        }
-        return result;
+        return userManager_.allUsers();
     }
     
     /**
@@ -310,24 +247,12 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
         }
     }
     
-    /**
-     * @returns an user object if it can be found otherwise null
-     */
-    private UserEntity queryUserById(Session session, String id) {
-        List queryResult = session.query("getUserById", new Object[] {id});
-        if (queryResult.size() == 1)
-            return (UserEntity) queryResult.get(0);            
-        else
-            return null;
-    }
-    
     private Session currentSession() {
         return sessionFactory_.currentSession();
     }
 
     public UserRO userForId(String userId) {
-        Session session = currentSession();
-        return queryUserById(session, userId);
+        return userManager_.userById(userId);
     }
     
     /**
@@ -377,56 +302,18 @@ public class TeamspaceManager implements TeamspaceAdmin, Authentication,
     // in transactions and sessions before the current one
     public Membership updateMembership(Membership membership) {
 
-        List<UserRO> updatedUsers = new LinkedList<UserRO>();
+        String teamspaceId = membership.teamspace.getId();
         
         // check old members for removal from teamspace
-        for (UserRO user : membership.getRemovedMembers()) {            
-            removeUserFromTeamspace(user, membership.teamspace);                
-            updatedUsers.add(user);
-        }
+        for (UserRO user : membership.getRemovedMembers())    
+            userManager_.removeUserFromTeamspace(user, teamspaceId);
         
         // check new members for adding to teamspace
-        for (UserRO user : membership.getAddedMembers()) {
-            addUserToTeamspace(user, membership.teamspace);
-            updatedUsers.add(user);
-        }
-        
-        Session session = currentSession();
-        for (UserRO updatedUser : updatedUsers) {
-            session.update(updatedUser);
-        }
-        session.commit();
-        
-        TeamspaceRO teamspace = membership.teamspace;
-        
+        for (UserRO user : membership.getAddedMembers())
+            userManager_.addUserToTeamspace(user, teamspaceId);
+                
         // return a new calculated membership
-        return membership(teamspace);
-    }
-    
-    private void removeUserFromTeamspace(
-            UserRO user, TeamspaceRO teamspace) {
-        
-        UserEntity userEntity = (UserEntity) user;        
-        userEntity.teamspaceReferences.remove(teamspace.getId());
-    }
-    
-    private void addUserToTeamspace(
-            UserRO user, TeamspaceRO teamspace) {
-        
-        UserEntity userEntity = (UserEntity) user;        
-        userEntity.teamspaceReferences.add(teamspace.getId());
-    }
-
-    /**
-     * @see com.mindquarry.teamspace.Authentication#authenticate(java.lang.String, java.lang.String)
-     */
-    public boolean authenticate(String userId, String password) {
-        Session session = currentSession();
-        UserEntity user = queryUserById(session, userId);
-        if ((null != user) && (user.getPassword().equals(password)))
-            return true;
-        else
-            return false;
+        return membership(membership.teamspace);
     }
 
     /**

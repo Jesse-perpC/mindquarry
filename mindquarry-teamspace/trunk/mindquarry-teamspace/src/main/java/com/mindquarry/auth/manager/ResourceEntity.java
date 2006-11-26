@@ -6,6 +6,7 @@ package com.mindquarry.auth.manager;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.auth.manager.RightSet;
 import com.mindquarry.common.persistence.EntityBase;
 
@@ -15,7 +16,7 @@ import com.mindquarry.common.persistence.EntityBase;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public final class ResourceEntity extends EntityBase {
+public final class ResourceEntity extends EntityBase implements ResourceRO {
 
     private String name;
     private RightSet rights;

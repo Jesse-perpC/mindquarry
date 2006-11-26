@@ -1,7 +1,12 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.teamspace.auth;
+package com.mindquarry.auth.manager;
+
+import com.mindquarry.auth.ProfileRO;
+import com.mindquarry.auth.manager.RightSet;
+
+
 
 /**
  * Add summary documentation here.
@@ -9,20 +14,20 @@ package com.mindquarry.teamspace.auth;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-final class Profile extends AbstractRight {
+public final class ProfileEntity extends AbstractRight implements ProfileRO {
 
     private final RightSet rights;
     
-    Profile(String id) {
+    public ProfileEntity(String id) {
         super(id);
         rights = new RightSet();
     }
     
-    final void add(Right right) {
+    void add(RightEntity right) {
         rights.add(right);
     }
     
-    final void remove(Right right) {
+    void remove(RightEntity right) {
         rights.remove(right);
     }
 }
