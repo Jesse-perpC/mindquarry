@@ -34,16 +34,21 @@ public class AuthorizationTest extends TeamspaceTestBase {
     }
     
     public void testResource() {
-        UserRO user = this.createUser("testUser");
-        String resource = "/teamspaces/foo-team";
-        String operation = "READ";
-        RightEntity right = this.auth.createRight(resource, operation);
+        final UserRO user = this.createUser("testUser");
+        final String resource = "/teamspaces/foo-team";
+        
+        final String readOperation = "READ";
+        final String writeOperation = "WRITE";
+        
+        RightEntity right = this.auth.createRight(resource, readOperation);
         this.auth.addAllowance(right, user);
-        assertTrue(this.auth.mayPerform(resource, operation, user));      
+        assertTrue(this.auth.mayPerform(resource, readOperation, user));
+        assertFalse(this.auth.mayPerform(resource, writeOperation, user));
     }
     
     public void testResourceTree() {
-        String operation = "READ";
+        final String readOperation = "READ";
+        final String writeOperation = "WRITE";
         UserRO grantedUser = this.createUser("grantedUser");
         UserRO otherUser = this.createUser("otherUser");
         
@@ -51,17 +56,23 @@ public class AuthorizationTest extends TeamspaceTestBase {
         String explicitGrantedResource = "/teamspaces/foo-team";
         String implicitGrantedResource = "/teamspaces/foo-team/wiki";
         
-        RightEntity right = this.auth.createRight(explicitGrantedResource, operation);
+        RightEntity right = this.auth.createRight(explicitGrantedResource, readOperation);
         this.auth.addAllowance(right, grantedUser);
         
-        assertTrue(this.auth.mayPerform(higherLevelResource, operation, grantedUser));
-        assertTrue(this.auth.mayPerform(higherLevelResource, operation, otherUser));
+        assertTrue(this.auth.mayPerform(higherLevelResource, readOperation, grantedUser));
+        assertTrue(this.auth.mayPerform(higherLevelResource, writeOperation, grantedUser));
+        assertTrue(this.auth.mayPerform(higherLevelResource, readOperation, otherUser));
+        assertTrue(this.auth.mayPerform(higherLevelResource, writeOperation, otherUser));
         
-        assertTrue(this.auth.mayPerform(explicitGrantedResource, operation, grantedUser));
-        assertFalse(this.auth.mayPerform(explicitGrantedResource, operation, otherUser));
+        assertTrue(this.auth.mayPerform(explicitGrantedResource, readOperation, grantedUser));
+        assertFalse(this.auth.mayPerform(explicitGrantedResource, writeOperation, grantedUser));
+        assertFalse(this.auth.mayPerform(explicitGrantedResource, readOperation, otherUser));
+        assertFalse(this.auth.mayPerform(explicitGrantedResource, writeOperation, otherUser));
         
-        assertTrue(this.auth.mayPerform(implicitGrantedResource, operation, grantedUser));
-        assertFalse(this.auth.mayPerform(explicitGrantedResource, operation, otherUser));
+        assertTrue(this.auth.mayPerform(implicitGrantedResource, readOperation, grantedUser));
+        assertFalse(this.auth.mayPerform(implicitGrantedResource, writeOperation, grantedUser));
+        assertFalse(this.auth.mayPerform(implicitGrantedResource, readOperation, otherUser));
+        assertFalse(this.auth.mayPerform(implicitGrantedResource, writeOperation, otherUser));
     }
     
     public void testDeniedRights() {
