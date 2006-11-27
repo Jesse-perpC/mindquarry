@@ -169,9 +169,11 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
             try {
                 filter = (TextFilter) this.manager
                         .lookup("com.mindquarry.search.TextFilter/" + mimeType);
+                                
                 this.textFilters.put(mimeType, filter);
             } catch (ServiceException e) {
-                getLogger().error("Could not lookup filter", e);
+                // if no filter was installed, simply return an empty mapping
+                return new HashMap<String, Reader>();
             }
         }
 
