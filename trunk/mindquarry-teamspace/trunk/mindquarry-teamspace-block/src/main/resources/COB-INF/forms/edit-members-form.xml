@@ -84,7 +84,7 @@
 		</fd:group>
 
 
-		<fd:group id="createUserModel" state="invisible">
+		<fd:group id="userModel" state="invisible">
 			<fd:widgets>
 				<fd:field id="userId" required="true">
 					<fd:label>User ID</fd:label>
@@ -167,17 +167,14 @@
 
 				<fd:submit id="createUserSubmit" state="invisible">
 					<fd:label>Create user</fd:label>
-					<!-- 
-					<fd:on-action>
-						<fd:javascript>
-							createUser();
-						</fd:javascript>
-					</fd:on-action>
-					 -->
 				</fd:submit>
 
 				<fd:submit id="cancelSubmit" state="invisible" validate="false">
 					<fd:label>Cancel</fd:label>
+				</fd:submit>
+
+				<fd:submit id="updateUserSubmit">
+					<fd:label>Update user</fd:label>
 				</fd:submit>
 				
 				

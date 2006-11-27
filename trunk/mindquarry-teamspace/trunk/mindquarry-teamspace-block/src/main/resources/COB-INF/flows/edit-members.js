@@ -6,7 +6,10 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 importPackage(Packages.com.mindquarry.teamspace);
 importPackage(Packages.com.mindquarry.user);
 
-var WidgetState = org.apache.cocoon.forms.formmodel.WidgetState;
+importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
+importClass(Packages.org.apache.cocoon.environment.SourceResolver);
+importClass(Packages.org.apache.cocoon.forms.formmodel.WidgetState);
+
 var teamspaceQuery_;
 var membership_;
 var model_;
@@ -57,89 +60,135 @@ function loadModelWithMembership() {
 	}
 }
 
-function processCreateUserForm(form) {
+function processCreateUser(form) {
 	model_ = form.getModel();
 	form_ = form;
 	
-	activateCreateUserForm();
+	activateUserForm();
 	setCreateUserStandaloneMode();
-	
+		
 	form.showForm("edit-members.instance");
-	print(form.submitId);
-	if (form.submitId == "cancelSubmit") {
-		print("do not create users");
-	} else {
-		var userModel = model_.createUserModel;
-		print("trying to upload an image");
-		var uploadWidget = form_.lookupWidget("/createUserModel/photo");
-		print("found widget: " + uploadWidget);
-		var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
-	    var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
-	    print("found source: " + source);
-	    var value = uploadWidget.getValue();
-	    print("value: " + value);
-	    try {
-	    	value.copyToSource(source);
-	    	print("copied image to " + source.getURI());
-	    } catch (e) {
-	    	print("unable to save image " + e);
-	    }
+	
+	if (form.submitId != "cancelSubmit")
+		createUser();
 		
-		var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
-		
-		var user = userAdmin.createUser(
-				userModel.userId, userModel.password, userModel.name, 
-				userModel.surname, userModel.email, userModel.skills);
-		
-		print("successfully created user: " + user);
-	}
 	cocoon.redirectTo("/teamspace/");
 }
 
-function activateCreateUserForm() {
+function processEditUser(form) {
+	model_ = form.getModel();
+	form_ = form;
+	
+	activateUserForm();
+	
+	var targetUri = cocoon.request.getParameter("targetUri");
+	
+	var currentUser = userById(cocoon.request.getAttribute("username"));
+	model_.userModel.userId = currentUser.id;
+	model_.userModel.name = currentUser.name;
+	model_.userModel.surname = currentUser.surname;
+	model_.userModel.email = currentUser.email;
+	model_.userModel.skills = currentUser.skills;
+	
+	form.showForm("edit-user.instance");
+	
+	if (form.submitId != "cancelSubmit") {
+		//createUser();
+	}
+		
+	cocoon.redirectTo(targetUri);
+}
+
+function userById(userId) {
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);	
+	var result = userAdmin.userById(userId);	
+	cocoon.releaseComponent(userAdmin);
+	return result;
+}
+
+function updateUser() {
+
+	var userModel = model_.userModel;
+	
+	if (containsPhotoUpload(form_))
+	    persistUserPhoto(userModel.userId, form_);
+	    	
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
+	
+	var result = userAdmin.createUser(
+			userModel.userId, userModel.password, userModel.name, 
+			userModel.surname, userModel.email, userModel.skills);
+	
+	cocoon.releaseComponent(userAdmin);
+	
+	return result;
+}
+
+function createUser() {
+
+	var userModel = model_.userModel;
+	
+	if (containsPhotoUpload(form_))
+	    persistUserPhoto(userModel.userId, form_);
+	    	
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
+	
+	var result = userAdmin.createUser(
+			userModel.userId, userModel.password, userModel.name, 
+			userModel.surname, userModel.email, userModel.skills);
+	
+	cocoon.releaseComponent(userAdmin);
+	
+	return result;
+}
+
+function containsPhotoUpload(userForm) {
+	var uploadWidget = form_.lookupWidget("/userModel/photo");
+	return (uploadWidget.getValue() != null);
+}
+
+function persistUserPhoto(userId, userForm) {
+	
+	var photoJcrUri = "jcr:///users/" + userId + ".png"		
+	var photoSource = resolveSource(photoJcrUri);
+
+	var uploadWidget = userForm.lookupWidget("/userModel/photo");
+	var uploadValue = uploadWidget.getValue();
+	
+	uploadValue.copyToSource(photoSource);
+}
+
+function resolveSource(uri) {
+	var resolver = cocoon.getComponent(SourceResolver.ROLE);
+    var result = resolver.resolveURI(uri);
+    cocoon.releaseComponent(resolver);
+    return result;
+}
+
+function activateUserForm() {
 	model_.editMembersModel.state = WidgetState.INVISIBLE;
-	model_.createUserModel.state = WidgetState.ACTIVE;
+	model_.userModel.state = WidgetState.ACTIVE;
 }
 
 function activateEditMembersForm() {
 	model_.editMembersModel.state = WidgetState.ACTIVE;
-	model_.createUserModel.state = WidgetState.INVISIBLE;
+	model_.userModel.state = WidgetState.INVISIBLE;
 }
 
 function setCreateUserStandaloneMode() {	
-	model_.createUserModel.createUserSubmit.state = WidgetState.ACTIVE;
-	model_.createUserModel.cancelSubmit.state = WidgetState.ACTIVE;
+	model_.userModel.createUserSubmit.state = WidgetState.ACTIVE;
+	model_.userModel.cancelSubmit.state = WidgetState.ACTIVE;
 	
-	model_.createUserModel.createUserAction.state = WidgetState.INVISIBLE;
-	model_.createUserModel.cancelAction.state = WidgetState.INVISIBLE;
+	model_.userModel.createUserAction.state = WidgetState.INVISIBLE;
+	model_.userModel.cancelAction.state = WidgetState.INVISIBLE;
 }
 
 function setCreateUserEmbeddedMode() {	
-	model_.createUserModel.createUserSubmit.state = WidgetState.INVISIBLE;
-	model_.createUserModel.cancelSubmit.state = WidgetState.INVISIBLE;
-	
-	model_.createUserModel.createUserAction.state = WidgetState.ACTIVE;
-	model_.createUserModel.cancelAction.state = WidgetState.ACTIVE;
-}
-
-function createUser() {
-	var userModel = model_.createUserModel;
-	var uploadWidget = form_.lookupWidget("/createUserModel/photo");
-	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
-    var source = resolver.resolveURI("jcr:///users/" + userModel.userId + ".png");
-    var value = uploadWidget.getValue();
-    
-	try {
-    	value.copyToSource(source);
-    } catch (e) {
-    	e.printStackTrace();
-    }
-
-	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
-	
-	return userAdmin.createUser(
-			userModel.userId, userModel.password, userModel.name, 
-			userModel.surname, userModel.email, userModel.skills);
+	model_.userModel.createUserSubmit.state = WidgetState.INVISIBLE;
+	model_.userModel.cancelSubmit.state = WidgetState.INVISIBLE;
+		
+	model_.userModel.createUserAction.state = WidgetState.ACTIVE;
+	model_.userModel.cancelAction.state = WidgetState.ACTIVE;
 }
 
 function saveMembershipChanges(event) {

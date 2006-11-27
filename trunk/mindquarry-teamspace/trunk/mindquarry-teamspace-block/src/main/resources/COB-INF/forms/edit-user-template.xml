@@ -1,0 +1,75 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+				
+	<head>
+		<title>Edit Members of Teamspace</title>
+		<link rel="stylesheet" us:context="href" type="text/css" 
+			href="css/teamspace.css" />
+		<link rel="stylesheet" us:context="href" type="text/css" 
+			href="css/edit-members.css" />
+	</head>
+	<body>
+	<div>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
+			method="POST" enctype="multipart/form-data">		
+			
+			<ft:group id="userModel">
+				<div id="editUserModel">
+					<h1>Edit User Settings</h1>
+					<table id="create-user-form">
+						<tr>
+							<td class="label"><ft:widget-label id="password" /></td>
+							<td>
+								<ft:widget id="password">
+									<fi:styling type="password"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="password2" /></td>
+							<td>
+								<ft:widget id="password2">
+									<fi:styling type="password"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="photo" /></td>
+							<td><ft:widget id="photo" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="name" /></td>
+							<td><ft:widget id="name" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="surname" /></td>
+							<td><ft:widget id="surname" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="email" /></td>
+							<td><ft:widget id="email" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="skills" /></td>
+							<td>
+								<ft:widget id="skills">
+									<fi:styling type="textarea"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+					</table>
+				
+					
+					<!-- edit user -->
+					<ft:widget id="updateUserSubmit" />
+					
+				</div>
+			</ft:group>
+		</ft:form-template>
+	</div>
+	</body>
+</html>
