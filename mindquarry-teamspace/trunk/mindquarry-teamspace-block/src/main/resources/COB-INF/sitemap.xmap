@@ -246,6 +246,8 @@
 				
 				<map:transform src="xslt/teamspaces2html.xsl"
 					label="html">
+					<map:parameter name="username"
+						value="{request-attr:username}" />
 					<map:parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
 					<map:parameter name="sitemapPath"

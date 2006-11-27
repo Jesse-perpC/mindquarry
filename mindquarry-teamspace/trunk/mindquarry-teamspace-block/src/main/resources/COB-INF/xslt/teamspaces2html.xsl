@@ -3,7 +3,9 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
-
+	
+	<xsl:param name="username" select="''" />
+	
 	<xsl:template match="/teamspaces">
 		<html>
 			<head>
@@ -26,10 +28,12 @@
 			<body>
 				<h1>Manage Your Teams</h1>
 				
-				<a class="create_teamspace_button" href="createTeamspace/" rel="lightbox">
-					New Team</a>
-				<a class="create_user_button" href="createUser/" rel="lightbox">
-					New User</a>
+				<xsl:if test="$username = 'admin'" >
+					<a class="create_teamspace_button" href="createTeamspace/" rel="lightbox">
+						New Team</a>
+					<a class="create_user_button" href="createUser/" rel="lightbox">
+						New User</a>
+				</xsl:if>
 				
 				<ul class="teamspace-list">
 					<xsl:apply-templates>
