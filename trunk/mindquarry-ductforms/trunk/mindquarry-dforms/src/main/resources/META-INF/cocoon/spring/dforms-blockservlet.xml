@@ -24,6 +24,8 @@
 					value-ref="com.mindquarry.webapp.resources-block" />
 				<entry key="teams"
 					value-ref="com.mindquarry.teamspace.teamspace-block" />
+				<entry key="tasks"
+					value-ref="com.mindquarry.tasks.tasks-block" />
 			</map>
 		</property>
 	</bean>
