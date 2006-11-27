@@ -8,6 +8,7 @@ import java.io.Reader;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.slide.common.Domain;
 import org.apache.slide.extractor.ContentExtractor;
 import org.apache.slide.extractor.ExtractorException;
 
@@ -18,7 +19,8 @@ public class SlideTextFilter implements TextFilter {
 	private ContentExtractor extractor;
 	
 	public void setExtractor(ContentExtractor extractor) {
-		this.extractor = extractor;
+		this.extractor = extractor;   
+        Domain.setInitialized(true);
 	}
 
 	public Map<String, Reader> doFilter(InputStream stream) throws FilterException {
