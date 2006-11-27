@@ -31,6 +31,6 @@
     <module>../mindquarry-wiki</module>
     <module>../mindquarry-tasks</module>
     <module>../mindquarry-search</module> 
-    <module>../mindquarry-ductforms/mindquarry-dforms</module>
+    <module>../mindquarry-ductforms</module>
   </modules>
 </project>
