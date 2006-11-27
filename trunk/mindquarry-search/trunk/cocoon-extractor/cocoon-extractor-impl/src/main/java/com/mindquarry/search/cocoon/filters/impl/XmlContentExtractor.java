@@ -41,32 +41,27 @@ import org.xml.sax.SAXParseException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
-
 /**
- * Content extractor that simply extracts all text content of an
- * XML document.
+ * Content extractor that simply extracts all text content of an XML document.
  */
-public class XmlContentExtractor extends AbstractContentExtractor
-{
+public class XmlContentExtractor extends AbstractContentExtractor {
     private final SAXParserFactory parserFactory;
+
     private final EntityResolverImpl entityResolver = new EntityResolverImpl();
-    
-    public XmlContentExtractor(String uri, String contentType)
-    {
+
+    public XmlContentExtractor(String uri, String contentType) {
         super(uri, contentType);
         parserFactory = SAXParserFactory.newInstance();
         parserFactory.setValidating(false);
     }
 
-    public XmlContentExtractor(String uri, String contentType, String namespace)
-    {
+    public XmlContentExtractor(String uri, String contentType, String namespace) {
         super(uri, contentType, namespace);
         parserFactory = SAXParserFactory.newInstance();
         parserFactory.setValidating(false);
     }
 
-    public Reader extract(InputStream content) throws ExtractorException
-    {
+    public Reader extract(InputStream content) throws ExtractorException {
         TextCollector collector = new TextCollector();
 
         try {
@@ -75,7 +70,7 @@ public class XmlContentExtractor extends AbstractContentExtractor
             reader.setContentHandler(collector);
             reader.setErrorHandler(collector);
             reader.setEntityResolver(this.entityResolver);
-            
+
             InputSource source = new InputSource(content);
             source.setSystemId("/slide");
             reader.parse(source);
@@ -86,63 +81,68 @@ public class XmlContentExtractor extends AbstractContentExtractor
         } catch (IOException e) {
             throw new ExtractorException(e.toString());
         }
-        
+
         if (collector.exception != null) {
             throw new ExtractorException(collector.exception.toString());
         }
-        
+
         return new StringReader(collector.buffer.toString());
     }
-    
+
     private static class TextCollector extends DefaultHandler {
         StringBuffer buffer = new StringBuffer();
+
         SAXParseException exception = null;
-        
+
         public void characters(char[] ch, int start, int length)
-                throws SAXException
-        {
+                throws SAXException {
             this.buffer.append(ch, start, length);
         }
+
         public void endElement(String uri, String localName, String qName)
-                throws SAXException
-        {
+                throws SAXException {
             // each end tag breaks words, TODO make this configurable
             this.buffer.append(' ');
         }
-        public void error(SAXParseException e) throws SAXException
-        {
+
+        public void error(SAXParseException e) throws SAXException {
             this.exception = e;
         }
-        public void fatalError(SAXParseException e) throws SAXException
-        {
+
+        public void fatalError(SAXParseException e) throws SAXException {
             this.exception = e;
         }
     }
-    
+
     private static class EntityResolverImpl implements EntityResolver {
-        
+
         public InputSource resolveEntity(String publicId, String systemId)
-                throws SAXException, IOException
-        {
+                throws SAXException, IOException {
             return new InputSource(new StringReader(""));
         }
     }
 
     // HACK: copied from latest version of SimpleXmlExtractor
-    
+
     static final String CONTENT_TYPE_XML = "text/xml";
+
     static final String CONTENT_TYPE_XHTML = "application/xhtml+xml";
-    //html also because xhtml can and most often has the html content type
+
+    // html also because xhtml can and most often has the html content type
     static final String CONTENT_TYPE_HTML = "text/html";
-    static final String CONTENT_TYPE_XML_ALL_CSV = CONTENT_TYPE_XML+","+CONTENT_TYPE_XHTML+","+CONTENT_TYPE_HTML;
-    
-    /* (non-Javadoc)
+
+    static final String CONTENT_TYPE_XML_ALL_CSV = CONTENT_TYPE_XML + ","
+            + CONTENT_TYPE_XHTML + "," + CONTENT_TYPE_HTML;
+
+    /*
+     * (non-Javadoc)
+     * 
      * @see org.apache.slide.extractor.Extractor#getContentType()
      */
     public String getContentType() {
-        if(super.getContentType()==null){
+        if (super.getContentType() == null) {
             return CONTENT_TYPE_XML_ALL_CSV;
-        }   
+        }
         return super.getContentType();
     }
 }
