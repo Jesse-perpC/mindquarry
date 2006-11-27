@@ -12,6 +12,7 @@ import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.Authentication;
 import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
 
@@ -85,7 +86,7 @@ public final class UserManager implements UserAdmin, Authentication {
         return (null != userId) && (! "".equals(userId));
     }
 
-    public UserRO createUser(String id, String password, 
+    public User createUser(String id, String password, 
             String name, String surname, String email, String skills) {
         
         UserEntity user = new UserEntity();
@@ -100,12 +101,12 @@ public final class UserManager implements UserAdmin, Authentication {
         return user;
     }
 
-    public void deleteUser(UserRO user) {
+    public void deleteUser(User user) {
         UserEntity userEntity = (UserEntity) user;
         deleteEntity(userEntity);
     }
 
-    public UserRO userById(String userId) {
+    public User userById(String userId) {
         return queryUserById(userId);
     }
 

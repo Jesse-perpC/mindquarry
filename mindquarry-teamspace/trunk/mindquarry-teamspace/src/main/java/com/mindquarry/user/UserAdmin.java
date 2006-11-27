@@ -24,10 +24,12 @@ public interface UserAdmin extends UserQuery {
      * @param the user's email address
      * @param the skills of the user
      */
-    UserRO createUser(String id, String password, 
+    User createUser(String id, String password, 
             String name, String surName, String email, String skills);
     
-    void deleteUser(UserRO user);
+    User userById(String userId);
+    
+    void deleteUser(User user);
     
     
     GroupRO createGroup(String groupId);
