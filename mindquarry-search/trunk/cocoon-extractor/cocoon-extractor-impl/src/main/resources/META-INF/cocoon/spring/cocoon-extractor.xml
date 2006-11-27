@@ -44,10 +44,14 @@
     </bean>
     
     <!-- xml -->
-    <!--<bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+    <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="xmlextractor"/>
-    </bean>-->
+    </bean>
     
+    <bean name="com.mindquarry.search.TextFilter/application/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="xmlextractor"/>
+    </bean>
+
     <!-- configure slide extractors like this -->
     <bean id="mswordextractor" class="org.apache.slide.extractor.MSWordExtractor">
         <constructor-arg index="0" type="java.lang.String" value=""/>
@@ -69,9 +73,9 @@
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
     </bean>
-    <!--<bean id="xmlextractor" class="org.apache.slide.extractor.SimpleXmlExtractor">
+    <bean id="xmlextractor" class="com.mindquarry.search.cocoon.filters.impl.XmlContentExtractor">
         <constructor-arg index="0" type="java.lang.String" value=""/>
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
-    </bean>-->
+    </bean>
 </beans>
