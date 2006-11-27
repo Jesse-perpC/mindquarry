@@ -56,19 +56,19 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
     protected void indexInternal(List<String> changedPaths,
             List<String> deletedPaths) throws Exception {
 
-        Element chngEl = new org.jdom.Element("changes");
-        Element delEl = new org.jdom.Element("deleted");
+        Element chngEl = new Element("changes"); //$NON-NLS-1$
+        Element delEl = new Element("deleted"); //$NON-NLS-1$
         chngEl.addContent(delEl);
-        Element modEl = new org.jdom.Element("modified");
+        Element modEl = new Element("modified"); //$NON-NLS-1$
         chngEl.addContent(modEl);
 
         for (String path : deletedPaths) {
-            Element pathEl = new Element("path");
+            Element pathEl = new Element("path"); //$NON-NLS-1$
             pathEl.addContent(path);
             delEl.addContent(pathEl);
         }
         for (String path : changedPaths) {
-            Element pathEl = new Element("path");
+            Element pathEl = new Element("path"); //$NON-NLS-1$
             pathEl.addContent(path);
             modEl.addContent(pathEl);
         }
@@ -104,7 +104,7 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
                             "Authorization problem. Could not connect to index updater.");
         } else if (pMethod.getStatusCode() == 302) {
             URI redirectLocation = new URI(pMethod
-                    .getResponseHeader("location").getValue());
+                    .getResponseHeader("location").getValue()); //$NON-NLS-1$
             System.out.println(redirectLocation.toString());
             
         } else {
