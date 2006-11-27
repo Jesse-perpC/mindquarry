@@ -303,6 +303,7 @@
 		<!-- creating users and teamspace / use noncaching pipeline -->
 		<map:pipeline type="noncaching">
 			<map:match pattern="createUser/">
+				<map:act type="authorise" src="jcr:///users"/>
 				<map:call function="handleForm">
 					<map:parameter name="function"
 						value="processCreateUserForm" />
@@ -314,6 +315,7 @@
 			</map:match>
 
 			<map:match pattern="createTeamspace/">
+				<map:act type="authorise" src="jcr:///teamspaces"/>
 				<map:call function="handleForm">
 					<map:parameter name="function"
 						value="processCreateTeamspaceForm" />
@@ -326,7 +328,7 @@
 		</map:pipeline>
 
 		<map:pipeline>
-			<map:match pattern="*.instance">
+			<map:match pattern="*.instance" internal-only="true">
 				<map:generate type="jx" src="forms/{1}-template.xml">
 					<map:parameter name="locale"
 						value="{flow-attribute:locale}" />
