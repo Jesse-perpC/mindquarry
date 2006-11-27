@@ -11,19 +11,26 @@
 	</components>
 
 	<pipelines>
-		<pipeline type="noncaching" >
-			<match pattern="sample.doc">
-				<generate type="textfilter" src="sample.doc" />
+		<pipeline type="noncaching">
+			
+			<match pattern="">
+				<!-- link to all sample.* files -->
+				<generate type="traversable" src="samples">
+					<parameter name="include" value="sample\." />
+				</generate>
+				<transform src="xslt/collection2samplesOverview.xsl" />
+				<serialize type="html"/>
+			</match>
+			
+			<match pattern="sample.*.filtered">
+				<generate type="textfilter" src="samples/sample.{1}" />
 				<serialize type="xml"/>
 			</match>
-			<match pattern="sample.ppt">
-				<generate type="textfilter" src="sample.ppt" />
-				<serialize type="xml"/>
+
+			<match pattern="sample.*">
+				<read src="samples/sample.{1}" />
 			</match>
-			<match pattern="sample.xml">
-				<generate type="textfilter" src="sample.xml" />
-				<serialize type="xml"/>
-			</match>
+
 		</pipeline>
 	</pipelines>
 </sitemap>
