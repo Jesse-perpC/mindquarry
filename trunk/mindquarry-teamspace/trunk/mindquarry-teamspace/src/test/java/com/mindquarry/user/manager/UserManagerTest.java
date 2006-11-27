@@ -6,6 +6,7 @@ import org.apache.avalon.framework.service.ServiceException;
 
 import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
 
@@ -23,7 +24,7 @@ public class UserManagerTest extends TeamspaceTestBase {
         List<UserRO> users = userAdmin.allUsers();
         assertEquals(2, users.size());
         
-        userAdmin.deleteUser(mqUser);
+        userAdmin.deleteUser((User) mqUser);
         assertEquals(1, userAdmin.allUsers().size());
     }
     
@@ -44,6 +45,6 @@ public class UserManagerTest extends TeamspaceTestBase {
         userAdmin.removeUser(mqUser, persistentGroup);
         
         userAdmin.deleteGroup(group);        
-        userAdmin.deleteUser(mqUser);
+        userAdmin.deleteUser((User) mqUser);
     }
 }

@@ -220,9 +220,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
         
-        UserRO user = userForId(userId);
+        UserRO user = userManager_.userById(userId);
         if (user != null) {
-            for (String teamRef : user.getTeamspaceReferences()) {
+            for (String teamRef : user.teamspaces()) {
                 TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
                 result.add(teamspace);
             }            
@@ -234,26 +234,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     
     List<UserRO> queryMembersForTeamspace(TeamspaceRO teamspace) {
         return userManager_.queryMembersForTeamspace(teamspace.getId());
-    }
-
-    public UserRO createUser(String id, String password, 
-            String name, String surname, String email, String skills) {
-        
-        return userManager_.createUser(id, password, 
-                name, surname, email, skills);
-    }
-    
-    public boolean changePassword(String userId, String oldPwd, String newPwd) {
-        return userManager_.changePassword(userId, oldPwd, newPwd);
-    }
-
-    public void removeUser(String userId) {
-        UserRO user = userManager_.userById(userId);
-        userManager_.deleteUser(user);
-    }
-
-    public List<UserRO> allUsers() {
-        return userManager_.allUsers();
     }
     
     /**
@@ -298,10 +278,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private Session currentSession() {
         return sessionFactory_.currentSession();
     }
-
-    public UserRO userForId(String userId) {
-        return userManager_.userById(userId);
-    }
     
     /**
      * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceForId(java.lang.String)
@@ -319,7 +295,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     public Membership membership(TeamspaceRO teamspace) {
-        List<UserRO> users = allUsers();
+        List<UserRO> users = userManager_.allUsers();
         Set<UserRO> members = new HashSet<UserRO>();
         Set<UserRO> nonMembers = new HashSet<UserRO>();
         
@@ -369,22 +345,23 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      */
     public boolean authorise(String userId, String uri, String method) {
         // check if user is in teamspace
-
-        if (uri.equals("jcr:///teamspaces") || uri.equals("jcr:///users"))
-            return userId.equals("admin");
         
-        // simple regular expression that looks for the teamspace name...
-        Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
-        Matcher m = p.matcher(uri);
-        if (m.matches()) {
-            String requestedTeamspaceID = m.group(1); //"mindquarry";
-            // ...and checks if the user is in that teamspace
-            for (TeamspaceRO teamspace: teamspacesForUser(userId)) {
-                if (teamspace.getId().equals(requestedTeamspaceID)) {
-                    return true;
-                }
+        boolean mayPerform = false;
+        
+        if (uri.equals("jcr:///teamspaces") || uri.equals("jcr:///users")) {
+            mayPerform = userId.equals("admin");
+        }
+        else {
+            // simple regular expression that looks for the teamspace name...
+            Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
+            Matcher m = p.matcher(uri);
+            if (m.matches()) {
+                String requestedTeamspaceID = m.group(1); //"mindquarry";
+                // ...and checks if the user is in that teamspace
+                UserRO user = userManager_.userById(userId);
+                mayPerform = user.isMemberOf(requestedTeamspaceID);
             }
         }
-        return false;
+        return mayPerform;
     }
 }
