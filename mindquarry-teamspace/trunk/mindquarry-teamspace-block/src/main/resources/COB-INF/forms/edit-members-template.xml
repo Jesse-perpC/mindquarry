@@ -80,7 +80,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
  			</ft:group>
 			
 			
-			<ft:group id="createUserModel">
+			<ft:group id="userModel">
 				<div id="createUserModel">
 					<h1>Create New User</h1>
 					<table id="create-user-form">
@@ -133,6 +133,9 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 					<!-- standalone -->
 					<ft:widget id="createUserSubmit" />
 					<ft:widget id="cancelSubmit" />
+					
+					<!-- edit user -->
+					<ft:widget id="updateUserSubmit" />
 					
 					<!-- embedded -->
 					<ft:widget id="createUserAction" />
