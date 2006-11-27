@@ -21,7 +21,7 @@
   <modules>
     <module>.</module>
     <!-- persistence layer -->
-    <module>../mindquarry-types/castor-persistence</module>
+    <module>../mindquarry-types</module>
     <module>../mindquarry-jcr</module>
     <!-- central module for deploying the cocoon based webapp -->
     <module>../mindquarry-webapp</module>
