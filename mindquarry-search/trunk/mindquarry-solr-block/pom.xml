@@ -33,19 +33,14 @@
 				<version>6.0.0rc3</version>
 				<configuration>
 					<connectors>
-						<connector
-							implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
 							<port>8888</port>
 							<maxIdleTime>30000</maxIdleTime>
 						</connector>
 					</connectors>
-					<webAppSourceDirectory>
-						target/mindquarry-solr-block
-					</webAppSourceDirectory>
+					<webAppSourceDirectory> target/mindquarry-solr-block </webAppSourceDirectory>
 					<contextPath>/</contextPath>
-					<classesDirectory>
-						${basedir}/src/main/resources
-					</classesDirectory>
+					<classesDirectory> ${basedir}/src/main/resources </classesDirectory>
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 				</configuration>
 			</plugin>
@@ -64,6 +59,11 @@
 			<artifactId>mindquarry-solr</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.search.cocoon</groupId>
+			<artifactId>cocoon-extractor-impl</artifactId>
+			<version>1.0.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
