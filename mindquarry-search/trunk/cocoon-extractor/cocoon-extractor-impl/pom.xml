@@ -77,6 +77,13 @@
       <artifactId>jmimemagic</artifactId>
       <version>0.0.4a</version>
     </dependency>
+    
+    <!-- http client for posting -->
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.0.1</version>
+    </dependency>
   </dependencies>
   <properties>
     <docs.name>Cocoon Extractor</docs.name>

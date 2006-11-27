@@ -21,6 +21,11 @@
 			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
 		</generators>
+		
+		<serializers>
+			<serializer name="indexpost" src="com.mindquarry.search.serializer.IndexPostSerializer"/>
+		</serializers>
+		
 	</components>
 
 	<pipelines>
@@ -58,6 +63,9 @@
 
 						<transform src="xslt/xml/list2xinclude.xsl"/>
 						<transform type="xinclude"/>
+						<transform src="xslt/xml/update2indexformat.xsl">
+							<parameter name="action" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}/solr-update"/>
+						</transform>
 						<serialize type="xml"/>
 					</when>
 					<otherwise>
@@ -70,6 +78,7 @@
 				<generate type="textfilter" src="{request-param:url}"/>
 				<serialize type="xml"/>
 			</match>
+			
 			<match pattern="meta">
 				<generate type="collection" src="{request-param:url}"/>
 				<serialize type="xml"/>
