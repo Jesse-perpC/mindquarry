@@ -11,17 +11,18 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
     
     <!-- configure text filters like this -->
+    <!-- pdf -->
+    <bean name="com.mindquarry.search.TextFilter/application/pdf" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="pdfextractor"/>
+    </bean>
+    
+    <!-- word -->
     <bean name="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="mswordextractor"/>
     </bean>
     
     <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="mswordextractor"/>
-    </bean>
-    
-    <!-- pdf -->
-    <bean name="com.mindquarry.search.TextFilter/application/pdf" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="pdfextractor"/>
     </bean>
     
     <!-- excel -->
@@ -32,7 +33,6 @@
     <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-excel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="msexcelextractor"/>
     </bean>
-    
     
     <!-- powerpoint -->
     <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
@@ -50,6 +50,11 @@
     
     <bean name="com.mindquarry.search.TextFilter/application/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="xmlextractor"/>
+    </bean>
+
+    <!-- text -->
+    <bean name="com.mindquarry.search.TextFilter/text/plain" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="textextractor"/>
     </bean>
 
     <!-- configure slide extractors like this -->
@@ -74,6 +79,11 @@
         <constructor-arg index="2" type="java.lang.String" value=""/>
     </bean>
     <bean id="xmlextractor" class="com.mindquarry.search.cocoon.filters.impl.XmlContentExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="textextractor" class="com.mindquarry.search.cocoon.filters.impl.TextContentExtractor">
         <constructor-arg index="0" type="java.lang.String" value=""/>
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>

@@ -33,7 +33,6 @@ import javax.xml.parsers.SAXParserFactory;
 
 import org.apache.slide.extractor.AbstractContentExtractor;
 import org.apache.slide.extractor.ExtractorException;
-import org.apache.slide.extractor.SimpleXmlExtractor;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;

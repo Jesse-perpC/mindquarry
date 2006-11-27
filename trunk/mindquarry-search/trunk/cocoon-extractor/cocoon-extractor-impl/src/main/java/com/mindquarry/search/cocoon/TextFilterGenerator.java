@@ -12,6 +12,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import javax.activation.FileTypeMap;
 import javax.activation.MimetypesFileTypeMap;
 
 import net.sf.jmimemagic.Magic;
@@ -104,6 +105,12 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
         super.setup(resolver, objectModel, src, par);
 
         this.textFilters = new HashMap<String, TextFilter>();
+        
+        MimetypesFileTypeMap fileTypeMap = new MimetypesFileTypeMap();
+        // add basic file types that are not correctly handled by jmimemage
+        fileTypeMap.addMimeTypes("application/mspowerpoint ppt");
+        fileTypeMap.addMimeTypes("application/msexcel xls");
+        FileTypeMap.setDefaultFileTypeMap(fileTypeMap);
     }
 
     public void dispose() {
