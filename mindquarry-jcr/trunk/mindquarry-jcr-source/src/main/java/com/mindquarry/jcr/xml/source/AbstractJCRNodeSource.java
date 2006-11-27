@@ -50,7 +50,7 @@ public abstract class AbstractJCRNodeSource implements Source {
      * The full URI of this node including scheme identifier.
      */
     protected String computedURI;
-    
+
     /**
      * Indexing client to be used for update notifications.
      */
@@ -122,7 +122,7 @@ public abstract class AbstractJCRNodeSource implements Source {
             return 0;
         }
         try {
-            Property prop = node.getProperty("jcr:lastModified");
+            Property prop = node.getNode("jcr:content").getProperty("jcr:lastModified");
             return prop == null ? 0 : prop.getDate().getTime().getTime();
         } catch (RepositoryException e) {
             return 0;
@@ -141,7 +141,8 @@ public abstract class AbstractJCRNodeSource implements Source {
             return null;
         }
         try {
-            Property prop = node.getProperty("jcr:mimeType");
+            Property prop = node.getNode("jcr:content").getProperty(
+                    "jcr:mimeType");
             return prop == null ? null : prop.getString();
         } catch (RepositoryException re) {
             return null;
