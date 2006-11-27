@@ -12,8 +12,16 @@
 
 	<pipelines>
 		<pipeline type="noncaching" >
-			<match pattern="">
-				<generate type="textfilter" src="simple.doc" />
+			<match pattern="sample.doc">
+				<generate type="textfilter" src="sample.doc" />
+				<serialize type="xml"/>
+			</match>
+			<match pattern="sample.ppt">
+				<generate type="textfilter" src="sample.ppt" />
+				<serialize type="xml"/>
+			</match>
+			<match pattern="sample.xml">
+				<generate type="textfilter" src="sample.xml" />
 				<serialize type="xml"/>
 			</match>
 		</pipeline>
