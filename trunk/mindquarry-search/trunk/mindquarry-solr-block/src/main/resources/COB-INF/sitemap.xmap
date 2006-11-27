@@ -14,6 +14,13 @@
 			<selector name="request-method" logger="sitemap.selector.request-method"
 				src="org.apache.cocoon.selection.RequestMethodSelector"/>
 		</selectors>
+		
+		<generators default="file">
+			<generator name="textfilter"
+				src="com.mindquarry.search.cocoon.TextFilterGenerator" />
+			<generator name="collection"
+				src="org.apache.cocoon.generation.TraversableGenerator" />
+		</generators>
 	</components>
 
 	<pipelines>
@@ -41,25 +48,31 @@
 
 		<pipeline type="noncaching">
 			<match pattern="update">
-				<act type="log" src="0"/>
-
 				<select type="request-method">
 					<when test="POST">
-						<act type="log" src="1"/>
+						<!--generate type="textfilter" src="simple.doc" /-->
+						
 						<generate type="stream">
 							<parameter name="defaultContentType" value="text/xml"/>
 						</generate>
 
-						<act type="log" src="2"/>
-						<transform src="xslt/xml/list2solr.xsl"/>
-
-						<act type="log" src="3"/>
+						<transform src="xslt/xml/list2xinclude.xsl"/>
+						<transform type="xinclude"/>
 						<serialize type="xml"/>
 					</when>
 					<otherwise>
 						<read src="html/only-POST-allowed.html"/>
 					</otherwise>
 				</select>
+			</match>
+			
+			<match pattern="extract">
+				<generate type="textfilter" src="{request-param:url}"/>
+				<serialize type="xml"/>
+			</match>
+			<match pattern="meta">
+				<generate type="collection" src="{request-param:url}"/>
+				<serialize type="xml"/>
 			</match>
 
 			<match pattern="">
