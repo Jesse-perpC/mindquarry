@@ -1,4 +1,8 @@
 <!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<!--
 
 Converts a tasks list :
 
