@@ -9,6 +9,7 @@
   <artifactId>cocoon-extractor-sample</artifactId>
   <name>Cocoon Extractor Block Samples</name>
   <version>1.0.0-M2-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <dependencies>
     <dependency>
       <groupId>com.mindquarry.search.cocoon</groupId>
@@ -32,7 +33,7 @@
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
-        <version>6.0.0rc3</version>
+        <version>6.0.1</version>
         <configuration>
           <connectors>
             <connector
@@ -51,8 +52,4 @@
       </plugin>
     </plugins>
   </build>
-  <properties>
-    <docs.name>Cocoon Extractor</docs.name>
-    <docs.version>1.0</docs.version>
-  </properties>
 </project>
