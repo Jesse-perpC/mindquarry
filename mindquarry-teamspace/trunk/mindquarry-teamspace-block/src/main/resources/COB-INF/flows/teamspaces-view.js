@@ -2,7 +2,7 @@
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
  
-importPackage(Packages.com.mindquarry.teamspace);
+importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
 importPackage(Packages.com.mindquarry.user);
 
 function listTeamspacesForUser() {
