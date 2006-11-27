@@ -370,6 +370,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     public boolean authorise(String userId, String uri, String method) {
         // check if user is in teamspace
 
+        if (uri.equals("jcr:///teamspaces") || uri.equals("jcr:///users"))
+            return userId.equals("admin");
+        
         // simple regular expression that looks for the teamspace name...
         Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
         Matcher m = p.matcher(uri);
