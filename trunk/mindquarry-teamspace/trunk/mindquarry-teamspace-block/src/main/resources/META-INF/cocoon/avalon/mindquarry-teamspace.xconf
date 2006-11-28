@@ -24,6 +24,11 @@
 				<mapping prefix="team"
 					namespace="http://www.mindquarry.com/ns/schema/teamspace" />
 			</mappings>
+			<index>
+				<excludes>
+					<exclude>jcr:///users/</exclude>
+				</excludes>
+			</index>
 		</component-instance>
 
 
