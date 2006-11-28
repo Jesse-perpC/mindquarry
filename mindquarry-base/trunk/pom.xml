@@ -119,6 +119,55 @@
 				</snapshotRepository>
 			</distributionManagement>
 		</profile>
+		<profile>
+			<id>deploybuild</id>
+			<activation>
+				<property>
+					<name>fullrelease</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+					<!-- export our test classes in a separate jar -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<executions>
+					  <execution>
+					    <goals>
+					      <goal>test-jar</goal>
+					    </goals>
+					  </execution>
+					</executions>
+				      </plugin>
+				      <plugin>
+					<!-- export our sources in a separate jar -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-source-plugin</artifactId>
+					<executions>
+					  <execution>
+					    <goals>
+					      <goal>jar</goal>
+					      <goal>test-jar</goal>
+					    </goals>
+					  </execution>
+					</executions>
+				      </plugin>
+				      <plugin>
+					<!-- export our javadocs in a separate jar -->
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-javadoc-plugin</artifactId>
+					<executions>
+					  <execution>
+					    <goals>
+					      <goal>jar</goal>
+					    </goals>
+					  </execution>
+					</executions>
+				      </plugin>
+				</plugins>
+			</build>
+		</profile>
 	</profiles>
 
 	<dependencies>
