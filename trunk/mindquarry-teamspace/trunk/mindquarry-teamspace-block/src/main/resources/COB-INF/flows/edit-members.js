@@ -3,13 +3,6 @@
  */
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
-importPackage(Packages.com.mindquarry.teamspace);
-importPackage(Packages.com.mindquarry.user);
-
-importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
-importClass(Packages.org.apache.cocoon.environment.SourceResolver);
-importClass(Packages.org.apache.cocoon.forms.formmodel.WidgetState);
-
 var teamspaceQuery_;
 var membership_;
 var model_;
@@ -19,7 +12,7 @@ function processEditMembersForm(form) {
 
 	var teamspaceId = cocoon.parameters["teamId"];
 
-	teamspaceQuery_ = cocoon.getComponent(TeamspaceQuery.ROLE);
+	teamspaceQuery_ = cocoon.getComponent(Packages.com.mindquarry.teamspace.TeamspaceQuery.ROLE);
 	
 	var editedTeamspace = teamspaceQuery_.teamspaceForId(teamspaceId);	
 	membership_ = teamspaceQuery_.membership(editedTeamspace);
@@ -159,36 +152,36 @@ function persistUserPhoto(userId, userForm) {
 }
 
 function resolveSource(uri) {
-	var resolver = cocoon.getComponent(SourceResolver.ROLE);
+	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
     var result = resolver.resolveURI(uri);
     cocoon.releaseComponent(resolver);
     return result;
 }
 
 function activateUserForm() {
-	model_.editMembersModel.state = WidgetState.INVISIBLE;
-	model_.userModel.state = WidgetState.ACTIVE;
+	model_.editMembersModel.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
+	model_.userModel.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
 }
 
 function activateEditMembersForm() {
-	model_.editMembersModel.state = WidgetState.ACTIVE;
-	model_.userModel.state = WidgetState.INVISIBLE;
+	model_.editMembersModel.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+	model_.userModel.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 }
 
 function setCreateUserStandaloneMode() {	
-	model_.userModel.createUserSubmit.state = WidgetState.ACTIVE;
-	model_.userModel.cancelSubmit.state = WidgetState.ACTIVE;
+	model_.userModel.createUserSubmit.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+	model_.userModel.cancelSubmit.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
 	
-	model_.userModel.createUserAction.state = WidgetState.INVISIBLE;
-	model_.userModel.cancelAction.state = WidgetState.INVISIBLE;
+	model_.userModel.createUserAction.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
+	model_.userModel.cancelAction.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 }
 
 function setCreateUserEmbeddedMode() {	
-	model_.userModel.createUserSubmit.state = WidgetState.INVISIBLE;
-	model_.userModel.cancelSubmit.state = WidgetState.INVISIBLE;
+	model_.userModel.createUserSubmit.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
+	model_.userModel.cancelSubmit.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 		
-	model_.userModel.createUserAction.state = WidgetState.ACTIVE;
-	model_.userModel.cancelAction.state = WidgetState.ACTIVE;
+	model_.userModel.createUserAction.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+	model_.userModel.cancelAction.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
 }
 
 function saveMembershipChanges(event) {
