@@ -2,6 +2,7 @@
 <xsl:stylesheet version="1.0" 
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform" 
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:bu="http://apache.org/cocoon/browser-update/1.0"
 	exclude-result-prefixes="fi">
 
   <xsl:import href="block:resources:/xslt/contextpath.xsl" />
@@ -17,7 +18,7 @@
   <!-- styling of the widgets -->
   
   <xsl:include href="resource://org/apache/cocoon/forms/resources/forms-advanced-field-styling.xsl"/>
-
+ 
   <!--  styling of dojo editor (from lenya) -->
   <xsl:include href="dojo-editor.xsl"/>
   <!--  styling of dojo span  -->
@@ -83,25 +84,41 @@
   		<xsl:value-of select="/html/body//fi:field[@id='ductform.title']/fi:value" />
   	</title>
   </xsl:template>
-  
+   
   <!-- remove invisible stuff (non-selected fields) -->
   <xsl:template match="div[@class='form_block'][not(fi:*)]" />
   
-  
+  <!---->
   <xsl:template match="fi:group[fi:styling/@layout='default']" mode="group-layout">
-  	<dl title="{normalize-space(fi:hint)}" class="ductform">
+  	<div title="{normalize-space(fi:hint)}" class="ductform">
   		<xsl:apply-templates select="fi:items/*" mode="default" />
-  	</dl>
+  	</div>
   </xsl:template>
   
   <xsl:template match="fi:items//fi:action[@state='output']"></xsl:template>
   
+  <!--  -->
   <xsl:template match="fi:*|fi:items/*" mode="default">
-    <dt><xsl:apply-templates select="." mode="label"/></dt>
-    <dd>
-    	<xsl:apply-templates select="." />
-    </dd>
+  	<dl id="{@id}">
+			<dt><xsl:apply-templates select="." mode="label"/></dt>
+			<dd>
+				<xsl:apply-templates select="." />
+			</dd>
+    </dl>
   </xsl:template>
+
+  <xsl:template match="bu:replace">
+  	<xsl:copy>
+  		<xsl:copy-of select="@id"/>
+			<dl id="{@id}">
+				<dt><xsl:apply-templates select="fi:*" mode="label"/></dt>
+				<dd>
+					<xsl:apply-templates select="fi:*" />
+				</dd>
+			</dl>
+    </xsl:copy>
+  </xsl:template>
+
   
   <xsl:template match="node() | @*" mode="default">
     <xsl:copy>
@@ -135,7 +152,7 @@
       </select>
       <xsl:apply-templates select="." mode="common"/>
     </span>
-  </xsl:template>
+  </xsl:template> 
 
   <xsl:template match="fi:field[fi:styling/@styling='link']">
   	<a href="{normalize-space(fi:value)}">
@@ -160,8 +177,9 @@
     </a>
   </xsl:template>
   
+  <!--
   <xsl:template match="fi:items/fi:label"/>
-  
+  -->  
   <xsl:template match="fi:items/*" mode="label">
     <xsl:param name="id"/>
     
