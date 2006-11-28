@@ -33,6 +33,7 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 import com.mindquarry.common.index.IndexClient;
+import com.mindquarry.jcr.xml.source.JCRSourceFactory;
 import com.mindquarry.jcr.xml.source.handler.SAXToJCRNodesConverter;
 import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
 
@@ -99,11 +100,21 @@ public class JCROutputStream extends ByteArrayOutputStream {
                         + e.getLocalizedMessage());
             }
         }
-        // use index client to notify the indexer about the delete
-        List<String> deletedPaths = new ArrayList<String>();
-        List<String> changedPaths = new ArrayList<String>();
-        changedPaths.add(uri);
-        iClient.index(changedPaths, deletedPaths);
+        // check if the path of the JCR source matches one of the excludes
+        // patterns
+        boolean index = true;
+        for (String exclude : JCRSourceFactory.iExcludes) {
+            if (uri.startsWith(exclude)) {
+                index = false;
+            }
+        }
+        if (index) {
+            // use index client to notify the indexer about the delete
+            List<String> changedPaths = new ArrayList<String>();
+            List<String> deletedPaths = new ArrayList<String>();
+            deletedPaths.add(uri);
+            iClient.index(changedPaths, deletedPaths);
+        }
     }
 
     private void createBinary() throws IOException {

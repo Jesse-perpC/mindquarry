@@ -7,7 +7,9 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.jcr.LoginException;
@@ -82,6 +84,11 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      * The namespace-prefix mappings for this factory.
      */
     public static Map<String, String> configuredMappings;
+    
+    /**
+     * The list of index exclude patterns.
+     */
+    public static List<String> iExcludes;
 
     /**
      * Index client to be used for change notifications
@@ -121,13 +128,22 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
     public void configure(Configuration config) throws ConfigurationException {
         this.config = config;
         if (null == JCRSourceFactory.configuredMappings) {
+            // load namespace mappings
             JCRSourceFactory.configuredMappings = new HashMap<String, String>();
 
             Configuration mappings = config.getChild("mappings"); //$NON-NLS-1$
             for (Configuration mapping : mappings.getChildren("mapping")) { //$NON-NLS-1$
-                String namespace = mapping.getAttribute("namespace");
-                String prefix = mapping.getAttribute("prefix");
-                JCRSourceFactory.configuredMappings.put(namespace, prefix); //$NON-NLS-1$
+                String namespace = mapping.getAttribute("namespace"); //$NON-NLS-1$
+                String prefix = mapping.getAttribute("prefix"); //$NON-NLS-1$
+                JCRSourceFactory.configuredMappings.put(namespace, prefix);
+            }
+            // load index excludes
+            JCRSourceFactory.iExcludes = new ArrayList<String>();
+            
+            Configuration index = config.getChild("index"); //$NON-NLS-1$
+            Configuration excludes = index.getChild("excludes"); //$NON-NLS-1$
+            for (Configuration exclude : excludes.getChildren("exclude")) { //$NON-NLS-1$
+                JCRSourceFactory.iExcludes.add(exclude.getValue());
             }
         }
     }
@@ -155,7 +171,7 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
         Session session;
         try {
             session = repo.login(new SimpleCredentials(config
-                    .getAttribute("login"), config.getAttribute("password")
+                    .getAttribute("login"), config.getAttribute("password") //$NON-NLS-1$ //$NON-NLS-2$
                     .toCharArray()));
         } catch (LoginException e) {
             throw new SourceException("Login to repository failed.", e);
@@ -166,7 +182,7 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
         }
         // check for query syntax (eg. 'jcr:///users#//name' interpreted
         // as 'jcr:///jcr:root/users//name')
-        if (uri.indexOf("?") != -1) {
+        if (uri.indexOf("?") != -1) { //$NON-NLS-1$
             return (QueryResultSource) executeQuery(session, SourceUtil
                     .getPath(uri), SourceUtil.getQuery(uri));
         } else {
@@ -241,7 +257,7 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
                     iClient);
         } catch (RepositoryException e) {
             throw new SourceException("Cannot execute query '" + statement
-                    + "'", e);
+                    + "'", e); //$NON-NLS-1$
         }
     }
 
@@ -254,13 +270,15 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
             return;
         }
         // otherwise try to lookup the repository
-        String remoteRepoUrl = config.getAttribute("rmi", null);
+        String remoteRepoUrl = config.getAttribute("rmi", null); //$NON-NLS-1$
         boolean isRemoteRepositoryConfigured = null != remoteRepoUrl;
 
-        if (isRemoteRepositoryConfigured)
+        if (isRemoteRepositoryConfigured) {
             repo = createClientRepository(remoteRepoUrl);
-        else
+        }
+        else {
             repo = lookupLocalRepository();
+        }
     }
 
     private Repository lookupLocalRepository() {
@@ -278,16 +296,16 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
             return factory.getRepository(remoteRepoUrl);
         } catch (ClassCastException e) {
             throw new InitializationException("could not create client "
-                    + "jcr repository for repository url:" + remoteRepoUrl, e);
+                    + "jcr repository for repository URL:" + remoteRepoUrl, e);
         } catch (MalformedURLException e) {
             throw new InitializationException("could not create client "
-                    + "repository for repository url:" + remoteRepoUrl, e);
+                    + "repository for repository URL:" + remoteRepoUrl, e);
         } catch (RemoteException e) {
             throw new InitializationException("could not create client "
-                    + "repository for repository url:" + remoteRepoUrl, e);
+                    + "repository for repository URL:" + remoteRepoUrl, e);
         } catch (NotBoundException e) {
             throw new InitializationException("could not create client "
-                    + "repository for repository url:" + remoteRepoUrl, e);
+                    + "repository for repository URL:" + remoteRepoUrl, e);
         }
     }
 }

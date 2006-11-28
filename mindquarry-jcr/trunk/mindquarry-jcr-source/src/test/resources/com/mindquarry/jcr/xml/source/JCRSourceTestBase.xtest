@@ -50,6 +50,11 @@
 					<mapping prefix="cnv"
 						namespace="http://www.mindquarry.com/ns/schema/conversation" />
 				</mappings>
+				<index>
+					<excludes>
+						<exclude>jcr:///users/</exclude>
+					</excludes>
+				</index>
 			</component-instance>
 
 			<!-- use the following for working with an RMI repository -->
