@@ -49,12 +49,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.mindquarry.common</groupId>
-			<artifactId>mindquarry-common</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<scope>provided</scope>
-		</dependency>
-		<dependency>
 			<groupId>com.mindquarry.search</groupId>
 			<artifactId>mindquarry-solr</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
