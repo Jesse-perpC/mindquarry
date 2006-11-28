@@ -5,6 +5,14 @@
 -->
 <map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 	<map:components>
+		<map:readers>
+			<map:reader logger="imageop" name="image-op-crop-resize" src="org.apache.cocoon.reading.imageop.ImageOpReader" >
+				<effects>
+					<op type="crop" prefix="crop-" />
+					<op type="resize" prefix="size-" />
+				</effects>
+			</map:reader>
+		</map:readers>
 		<map:actions>
 			<map:action name="setnohttpcache"
 				src="org.apache.cocoon.acting.HttpCacheAction">
@@ -183,22 +191,62 @@
 		</map:pipeline>
 
 		<!-- user pipeline / use noncaching for debugging -->
-		<map:pipeline type="noncaching">
-			<map:match pattern="users/*.png">
+		<map:pipeline type="noncaching"><!-- eg. users/[size]/[name].[type] -->
+			<map:match pattern="users/*/*.*">
 				<map:select type="resource-exists">
-					<map:when test="jcr:///users/{1}.png">
-						<map:read src="jcr:///users/{1}.png" />
-						<!-- 
-							<map:read type="image-op-resize" src="jcr:///users/{1}.png">
-							<map:parameter name="size-width" value="48"/>
-							<map:parameter name="size-height" value="48"/>
-							</map:read>
-						-->
+					<map:when test="jcr:///users/{2}.{3}">
+						<map:read type="image-op-crop-resize" src="jcr:///users/{2}.{3}">
+							<map:parameter name="crop-ratio" value="1"/>
+							<map:parameter name="size-width" value="{1}"/>
+							<map:parameter name="size-height" value="{1}"/>
+							<map:parameter name="output-format" value="{3}"/>
+						</map:read>
+					</map:when>
+					<map:when test="jcr:///users/{2}.png">
+						<map:read type="image-op-crop-resize" src="jcr:///users/{2}.png">
+							<map:parameter name="crop-ratio" value="1"/>
+							<map:parameter name="size-width" value="{1}"/>
+							<map:parameter name="size-height" value="{1}"/>
+							<map:parameter name="output-format" value="{3}"/>
+						</map:read>
+					</map:when>
+					<map:when test="jcr:///users/{2}.gif">
+						<map:read type="image-op-crop-resize" src="jcr:///users/{2}.gif">
+							<map:parameter name="crop-ratio" value="1"/>
+							<map:parameter name="size-width" value="{1}"/>
+							<map:parameter name="size-height" value="{1}"/>
+							<map:parameter name="output-format" value="{3}"/>
+						</map:read>
+					</map:when>
+					<map:when test="jcr:///users/{2}.jpg">
+						<map:read type="image-op-crop-resize" src="jcr:///users/{2}.jpg">
+							<map:parameter name="crop-ratio" value="1"/>
+							<map:parameter name="size-width" value="{1}"/>
+							<map:parameter name="size-height" value="{1}"/>
+							<map:parameter name="output-format" value="{3}"/>
+						</map:read>
+					</map:when>
+					<map:when test="jcr:///users/{2}.bmp">
+						<map:read type="image-op-crop-resize" src="jcr:///users/{2}.bmp">
+							<map:parameter name="crop-ratio" value="1"/>
+							<map:parameter name="size-width" value="{1}"/>
+							<map:parameter name="size-height" value="{1}"/>
+							<map:parameter name="output-format" value="{3}"/>
+						</map:read>
 					</map:when>
 					<map:otherwise>
-						<map:read src="images/anonymous-user.png" />
+						<map:read type="image-op-crop-resize" src="images/anonymous-user.png" >
+							<map:parameter name="crop-ratio" value="1"/>
+							<map:parameter name="size-width" value="{1}"/>
+							<map:parameter name="size-height" value="{1}"/>
+							<map:parameter name="output-format" value="{3}"/>
+						</map:read>
 					</map:otherwise>
 				</map:select>
+			</map:match>
+			
+			<map:match pattern="users/*.*">
+				<map:read src="cocoon:/users/48/{1}.{2}"/>
 			</map:match>
 
 			<map:match pattern="*.png">
