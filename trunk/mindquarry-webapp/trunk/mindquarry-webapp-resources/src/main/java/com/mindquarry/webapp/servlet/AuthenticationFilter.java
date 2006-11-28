@@ -369,6 +369,12 @@ public class AuthenticationFilter implements Filter {
     private String requestAsRedirectUri(HttpServletRequest request) {
         // get the part after http://host:port
         // without query string / parameter
+        
+        // TODO: make this relative, use one of the servlet methods, AFAIK:
+        // /mindquarry-webapplication/servlet/dosomething?param=value
+        // getContextPath() + getServletPath() + getPathInfo() + getQueryString()
+        // (path info is empty)
+        
         return request.getRequestURI();
     }
 }
