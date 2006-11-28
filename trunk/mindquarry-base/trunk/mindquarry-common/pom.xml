@@ -31,6 +31,11 @@
 			<version>2.1</version>
 		</dependency>
 		<dependency>
+			<groupId>avalon-framework</groupId>
+			<artifactId>avalon-framework-api</artifactId>
+			<version>4.3</version>
+		</dependency>
+		<dependency>
 			<groupId>org.apache.excalibur.components.xmlutil</groupId>
 			<artifactId>excalibur-xmlutil</artifactId>
 			<version>2.1</version>
@@ -52,8 +57,8 @@
 					</groupId>
 				</exclusion>
 				<exclusion>
-					<artifactId>avalon-framework-api</artifactId>
 					<groupId>org.apache.avalon.framework</groupId>
+					<artifactId>avalon-framework-api</artifactId>
 				</exclusion>
 			</exclusions>
 		</dependency>
