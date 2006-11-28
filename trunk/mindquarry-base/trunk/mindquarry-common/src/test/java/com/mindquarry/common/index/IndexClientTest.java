@@ -17,9 +17,9 @@ import junit.framework.TestCase;
 public class IndexClientTest extends TestCase {
     public void testIndexUpdate() {
         List<String> deletedPaths = new ArrayList<String>();
-        deletedPaths.add("deletedURI");
+        deletedPaths.add("jcr:///teamspaces/mindquarry/tasks/task3.xml");
         List<String> changedPaths = new ArrayList<String>();
-        changedPaths.add("jcr:///teamspaces/mindquarry/tasks/task3.xml");
+        //changedPaths.add("jcr:///teamspaces/mindquarry/tasks/task3.xml");
 
         SolrIndexClient iClient = new SolrIndexClient();
         iClient.setSolrLogin("admin");
