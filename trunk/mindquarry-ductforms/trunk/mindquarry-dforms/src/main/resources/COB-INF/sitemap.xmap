@@ -40,6 +40,9 @@
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
+			
+			<transformer name="tee"
+				src="org.apache.cocoon.transformation.TeeTransformer" />
 		</transformers>
 	</components>
 
@@ -162,10 +165,12 @@
 				<generate type="jx" src="cocoon:/form-template" label="raw" >
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
+				<transform type="tee" src="file:///tmp/jx.xml" />
 				
 				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
 
 				<transform type="browser-update" />
+				<transform type="tee" src="file:///tmp/bu.xml" />
 				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
@@ -175,6 +180,8 @@
 					<parameter name="sitemapPath"
 						value="{request-param:callerSitemapPath}" />
 				</transform>
+				
+				<transform type="tee" src="file:///tmp/html.xml" />
 
 				<!-- convert escaped html in dojo-editor content (marked with
 					 htmllize tags) into real html (nekohtml from cocoon-html) -->
