@@ -19,7 +19,7 @@
   </parent>
 
   <modules>
-    <module>.</module>
+    <module>./mindquarry-common</module>
     <!-- persistence layer -->
     <module>../mindquarry-types</module>
     <module>../mindquarry-jcr</module>
