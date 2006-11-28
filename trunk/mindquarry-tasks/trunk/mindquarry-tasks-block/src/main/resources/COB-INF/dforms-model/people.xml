@@ -58,9 +58,9 @@
 									<tr class="forms-row-${repeaterLoop.index % 2}">
 										<td class="peopleperson">
 											<ft:widget id="peopleperson">
-												<!--
-												<fi:styling list-type="buttons"/>
-												-->
+												<!---->
+												<fi:styling list-type="iconSelect"/>
+												
 											</ft:widget>
 										</td>
 										<td class="peoplerole">
