@@ -503,7 +503,6 @@
 									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
 								<transform src="xslt/html/task-view-or-edit.xsl">
 									<parameter name="viewDocumentLink" value="{2}" />
-									<parameter name="editDocumentLink" value="{2}.edit" />
 									<parameter name="fullPath"
 										value="{block-path:}{request:pathInfo}" />
 									<parameter name="sitemapPath"
@@ -539,7 +538,6 @@
 						</select>
 						<transform src="xslt/html/task-view-or-edit.xsl">
 							<parameter name="viewDocumentLink" value="{2}" />
-							<parameter name="editDocumentLink" value="{2}.edit" />
 							<parameter name="fullPath"
 								value="{block-path:}{request:pathInfo}" />
 							<parameter name="sitemapPath"
