@@ -231,7 +231,8 @@
 						value="block:/{request-param:documentID}.xml.form" />
 				</call>
 				-->
-				<read src="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+				<!--<read src="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />-->
+				<read src="block:/form-template" />
 			</match>
 
 			<!-- internal, for child to retrieve xml -->
