@@ -109,15 +109,42 @@
     </xsl:copy>
   </xsl:template>
   
-  
+
+  <!--+
+      | fi:field with a selection list (not 'radio' style)
+      | Rendering depends on the attributes of fi:styling :
+      | - if @list-type is "listbox" : produce a list box with @listbox-size visible
+      |   items (default 5)
+      | - otherwise, produce a dropdown menu
+      +-->
+  <xsl:template match="fi:field[@state='active'][fi:selection-list][fi:styling/@list-type = 'iconSelect']" priority="1">
+  	<script type="text/javascript">dojo.require("mindquarry.widget.IconSelect");</script>
+    <xsl:variable name="value" select="fi:value"/>
+    <!-- dropdown or listbox -->
+    <span id="{@id}">
+      <select title="{fi:hint}" id="{@id}:input" name="{@id}" dojoType="IconSelect" iconprefix="{$pathToBlock}resource/icons/">
+        <xsl:apply-templates select="." mode="styling"/>
+        <xsl:for-each select="fi:selection-list/fi:item">
+          <option value="{@value}">
+            <xsl:if test="@value = $value">
+              <xsl:attribute name="selected">selected</xsl:attribute>
+            </xsl:if>
+            <xsl:copy-of select="fi:label/node()"/>
+          </option>
+        </xsl:for-each>
+      </select>
+      <xsl:apply-templates select="." mode="common"/>
+    </span>
+  </xsl:template>
+
   <xsl:template match="fi:field[fi:styling/@styling='link']">
   	<a href="{normalize-space(fi:value)}">
   		<xsl:apply-templates select="following-sibling::fi:field[fi:styling/@styling='linkcontent']" mode="value" />
   	</a>
   </xsl:template>
-  
+
   <xsl:template match="fi:field[fi:styling/@styling='linkcontent']"/>
-  
+
   <xsl:template match="fi:field[fi:styling/@styling='linkcontent']" mode="value">
   	<span id="{@id}"><xsl:value-of select="fi:value" /></span>
   </xsl:template>
