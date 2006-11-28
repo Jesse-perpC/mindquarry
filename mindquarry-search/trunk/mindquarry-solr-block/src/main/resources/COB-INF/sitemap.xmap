@@ -14,18 +14,17 @@
 			<selector name="request-method" logger="sitemap.selector.request-method"
 				src="org.apache.cocoon.selection.RequestMethodSelector"/>
 		</selectors>
-		
+
 		<generators default="file">
-			<generator name="textfilter"
-				src="com.mindquarry.search.cocoon.TextFilterGenerator" />
-			<generator name="collection"
-				src="org.apache.cocoon.generation.TraversableGenerator" />
+			<generator name="textfilter" src="com.mindquarry.search.cocoon.TextFilterGenerator"/>
+			<generator name="collection" src="org.apache.cocoon.generation.TraversableGenerator"/>
 		</generators>
-		
+
 		<serializers>
-			<serializer name="indexpost" src="com.mindquarry.search.serializer.IndexPostSerializer"/>
+			<serializer name="indexpost" src="com.mindquarry.search.serializer.IndexPostSerializer"
+			/>
 		</serializers>
-		
+
 	</components>
 
 	<pipelines>
@@ -55,8 +54,6 @@
 			<match pattern="update">
 				<select type="request-method">
 					<when test="POST">
-						<!--generate type="textfilter" src="simple.doc" /-->
-						
 						<generate type="stream">
 							<parameter name="defaultContentType" value="text/xml"/>
 						</generate>
@@ -64,26 +61,32 @@
 						<transform src="xslt/xml/list2xinclude.xsl"/>
 						<transform type="xinclude"/>
 						<transform src="xslt/xml/update2indexformat.xsl">
-							<parameter name="action" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}/solr-update"/>
+							<parameter name="action"
+								value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}/solr-update"
+							/>
 						</transform>
-						<serialize type="xml"/>
+						<serialize type="indexpost"/>
 					</when>
 					<otherwise>
 						<read src="html/only-POST-allowed.html"/>
 					</otherwise>
 				</select>
 			</match>
-			
+		</pipeline>
+
+		<pipeline type="noncaching" internal-only="true">
 			<match pattern="extract">
 				<generate type="textfilter" src="{request-param:url}"/>
 				<serialize type="xml"/>
 			</match>
-			
+
 			<match pattern="meta">
 				<generate type="collection" src="{request-param:url}"/>
 				<serialize type="xml"/>
 			</match>
+		</pipeline>
 
+		<pipeline type="noncaching">
 			<match pattern="">
 				<redirect-to uri="{block-path:}/admin/index.jsp"/>
 			</match>
