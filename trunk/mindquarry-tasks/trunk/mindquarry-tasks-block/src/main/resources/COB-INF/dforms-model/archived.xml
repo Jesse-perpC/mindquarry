@@ -10,6 +10,6 @@
 		<fd:help>Archived fields do not appear in collections</fd:help>
 	</fd:booleanfield>
 	<ft:widget>
-		<fi:styling list-type="checkbox" />
+		<!--<fi:styling list-type="checkbox" /> not sure this is required -->
 	</ft:widget>
 </df:datatype>
