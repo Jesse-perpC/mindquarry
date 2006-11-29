@@ -1,0 +1,130 @@
+<div class="EditorToolbarDomNode EditorToolbarSmallBg" 
+	unselectable="on" dojoOnMouseDown="preventSelect">
+	<table cellpadding="1" cellspacing="0" border="0">
+		<!--
+			toobar options, in order:
+
+				* wikiword
+				* paste
+				* copy
+				* undo
+				* redo
+				* link
+				* insert image
+				* insert <hr>
+				* font-select
+				* bold
+				* italic
+				* underline
+				* strikethrough
+				* numlist
+				* dotlist
+				* indent
+				* outdent
+				* text color
+				* bg color
+
+		-->
+		<tbody>
+			<tr valign="top" align="left" dojoAttachPoint="oneLineTr">
+				<td>
+					<!-- paste -->
+					<span class="iconContainer" dojoAttachPoint="copyButton"
+						unselectable="on" dojoOnClick="copyClick; buttonClick;">
+						<span title="Copy (Ctrl-C)" class="icon copy" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- copy -->
+					<span class="iconContainer" dojoAttachPoint="pasteButton"
+						dojoOnClick="pasteClick; buttonClick;" unselectable="on">
+						<span title="Paste (Ctrl-V)" class="icon paste" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- undo -->
+					<span class="iconContainer" dojoAttachPoint="undoButton"
+						dojoOnClick="undoClick; buttonClick;" unselectable="on">
+						<!-- FIXME: should we have the text "undo" here? -->
+						<span title="Undo (Ctrl-Z)" class="icon undo" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- redo -->
+					<span class="iconContainer" dojoAttachPoint="redoButton"
+						dojoOnClick="redoClick; buttonClick;" unselectable="on">
+						<span title="Redo (Ctrl-R)" class="icon redo" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td isSpacer="true">
+					<!-- spacer -->
+					<span class="iconContainer">
+						<span class="icon sep" unselectable="on" 
+							style="width: 5px; min-width: 5px;"></span>
+					</span>
+				</td>
+				<td>
+					<!-- link -->
+					<span class="iconContainer" dojoAttachPoint="linkButton"
+						unselectable="on" dojoOnClick="linkClick; buttonClick;">
+						<span title="Create Link" class="icon createlink" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- bold -->
+					<span class="iconContainer" dojoAttachPoint="boldButton"
+						unselectable="on" dojoOnClick="boldClick; buttonClick;">
+						<span title="Toggle Bold (Ctrl-B)" class="icon bold" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- italic -->
+					<span class="iconContainer" dojoAttachPoint="italicButton"
+						dojoOnClick="italicClick; buttonClick;">
+						<span title="Toggle Italic (Ctrl-I)" class="icon italic" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- underline -->
+					<span class="iconContainer" dojoAttachPoint="underlineButton"
+						dojoOnClick="underlineClick; buttonClick;">
+						<span title="Toggle Underline (Ctrl-U)" class="icon underline" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- strikethrough -->
+					<span class="iconContainer" dojoAttachPoint="strikethroughButton"
+						dojoOnClick="strikethroughClick; buttonClick;">
+						<span title="Toggle Strike-Through" 
+							class="icon strikethrough" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td isSpacer="true">
+					<!-- spacer -->
+					<span class="iconContainer">
+						<span class="icon sep" unselectable="on" 
+							style="width: 5px; min-width: 5px;"></span>
+					</span>
+				</td>
+				<td>
+					<!-- insertunorderedlist -->
+					<span class="iconContainer" dojoAttachPoint="insertunorderedlistButton"
+						unselectable="on" 
+						dojoOnClick="insertunorderedlistClick; buttonClick;">
+						<span title="Insert Bullet List" 
+							class="icon insertunorderedlist" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td>
+					<!-- insertorderedlist -->
+					<span class="iconContainer" dojoAttachPoint="insertorderedlistButton"
+						unselectable="on" dojoOnClick="insertorderedlistClick; buttonClick;">
+						<span title="Insert Numbered List" 
+							class="icon insertorderedlist" unselectable="on">&nbsp;</span>
+					</span>
+				</td>
+				<td width="*">&nbsp;</td>
+			</tr>
+		</tbody>
+	</table>
+</div>
