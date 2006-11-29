@@ -29,6 +29,8 @@ public interface UserAdmin extends UserQuery {
     
     User userById(String userId);
     
+    void updateUser(User user);
+    
     void deleteUser(User user);
     
     
