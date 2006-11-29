@@ -1,0 +1,21 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+
+	<jx:import uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml"/>
+
+	<head>
+		<title>Quick Search</title>
+	</head>
+	<body>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" method="POST" ajax="true">
+			<div>
+				<ft:widget id="searchField"/>
+			</div>
+
+			<div>
+				<ft:widget id="executeSearch"/>
+			</div>
+		</ft:form-template>
+	</body>
+</html>

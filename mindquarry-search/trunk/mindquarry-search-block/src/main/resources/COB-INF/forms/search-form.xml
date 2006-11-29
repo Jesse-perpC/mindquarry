@@ -1,0 +1,22 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<!-- query aggregator field -->
+		<fd:field id="searchField">
+			<!-- basic configuration -->
+			<fd:label>Quick Search</fd:label>
+			<fd:datatype base="string"/>
+
+			<!-- helper information -->
+			<fd:hint>Enter your search term here.</fd:hint>
+			<fd:help/>
+		</fd:field>
+
+		<!-- save query action -->
+		<fd:action id="executeSearch">
+			<fd:label>Search</fd:label>
+			<fd:on-action>
+				<fd:javascript>executeSearch();</fd:javascript>
+			</fd:on-action>
+		</fd:action>
+	</fd:widgets>
+</fd:form>
