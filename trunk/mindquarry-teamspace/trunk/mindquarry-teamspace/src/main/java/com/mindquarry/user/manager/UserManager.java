@@ -101,6 +101,11 @@ public final class UserManager implements UserAdmin, Authentication {
         return user;
     }
 
+    public void updateUser(User user) {
+        UserEntity userEntity = (UserEntity) user;
+        updateEntity(userEntity);
+    }
+
     public void deleteUser(User user) {
         UserEntity userEntity = (UserEntity) user;
         deleteEntity(userEntity);
