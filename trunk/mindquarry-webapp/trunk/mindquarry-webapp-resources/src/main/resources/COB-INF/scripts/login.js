@@ -21,7 +21,19 @@
 	if (httplogout && pathToWebappRootElement) {
 	    createLogoutLink(httplogout, pathToWebappRootElement);
 	}
+    var editUserLink = document.getElementById("edit-user-link");
+	if (editUserLink) {
+		modifyEditUserLink(editUserLink);
+	}
 });
+
+function modifyEditUserLink(editUserLink)
+{
+	var href = editUserLink.href.split("targetUri=")[0];
+	href += "targetUri=" + document.location;
+	
+	editUserLink.href = href;
+}
 
 function createLoginForm(httpauth)
 {
