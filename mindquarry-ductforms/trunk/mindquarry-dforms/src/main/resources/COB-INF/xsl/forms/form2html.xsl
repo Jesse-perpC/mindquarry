@@ -18,7 +18,7 @@
   <!-- styling of the widgets -->
   
   <xsl:include href="resource://org/apache/cocoon/forms/resources/forms-advanced-field-styling.xsl"/>
- 
+
   <!--  styling of dojo editor (from lenya) -->
   <xsl:include href="dojo-editor.xsl"/>
   <!--  styling of dojo span  -->
@@ -42,8 +42,6 @@
   </xsl:template>
   
   <xsl:template match="head" mode="forms-field-mindquarry">
-    <!-- copy any pre-initialization code which can be used e.g. to setup dojo debugging with
-         <script> djConfig = {isDebug: true} </script> -->
     <xsl:copy-of select="fi:init/node()"/>
     <script src="{$resources-uri}/ajax/cocoon.js" type="text/javascript"/>
     <script src="{$resources-uri}/forms/js/forms-lib.js" type="text/javascript"/>
@@ -165,20 +163,20 @@
 
   <xsl:template match="fi:field[fi:styling/@styling='linkcontent']"/>
 
-  <xsl:template match="fi:field[fi:styling/@styling='linkcontent']" mode="value">
-  	<span id="{@id}"><xsl:value-of select="fi:value" /></span>
-  </xsl:template>
-  
- <xsl:template match="fi:help">
-    <xsl:variable name="id" select="concat(../@id, ':help')"/>
-    <div class="forms-help forms help" id="{$id}" style="display:none">
-    	<xsl:apply-templates select="node()"/>
-    </div>
-    <a id="{$id}:a" href="#{$id}" rel="lightbox" class="help">
-      <!-- TODO: i18n key for helppopup -->
-      <img src="{$pathToRoot}resources/icons/16x16/apps/help-browser.png" alt="helppopup"/>
-    </a>
-  </xsl:template>
+	<xsl:template match="fi:field[fi:styling/@styling='linkcontent']" mode="value">
+		<span id="{@id}"><xsl:value-of select="fi:value" /></span>
+	</xsl:template>
+                    
+	<xsl:template match="fi:help">
+		<xsl:variable name="id" select="concat(../@id, ':help')"/>
+		<div class="forms-help forms help" id="{$id}" style="display:none">
+			<xsl:apply-templates select="node()"/>
+		</div>
+		<a id="{$id}:a" href="#{$id}" rel="lightbox" class="help">
+			<!-- TODO: i18n key for helppopup -->
+			<img src="{$pathToRoot}resources/icons/16x16/apps/help-browser.png" alt="helppopup"/>
+		</a>
+	</xsl:template>
   
   <!--
   <xsl:template match="fi:items/fi:label"/>
