@@ -1,0 +1,79 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+
+		<fd:group id="changePassword">
+			<fd:widgets>
+				
+				<!-- used to signal the success of changing password -->
+				<fd:output id="message" state="invisible">
+					<fd:datatype base="string" />
+				</fd:output>
+				
+				<fd:field id="current_password" required="true">
+					<fd:label>Current Password</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+				</fd:field>
+
+				<fd:field id="new_password" required="true">
+					<fd:label>Password</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w]{5,}">
+							<fd:failmessage>
+								invalid password; it must contains (at
+								least 5) word characters
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+
+				<fd:field id="new_password_repeat" required="true">
+					<fd:label>Password (repeat)</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:assert
+							test="new_password = new_password_repeat">
+							<fd:failmessage>
+								The password repeat does not match.
+							</fd:failmessage>
+						</fd:assert>
+					</fd:validation>
+				</fd:field>
+
+
+				<fd:action id="changePassword" validate="true">
+					<fd:label>Change Password</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							var parent = event.source.parent; 
+							if (parent.validate()) changePassword();
+						</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+
+			</fd:widgets>
+		</fd:group>
+
+		<fd:group id="uploadPhoto">
+			<fd:widgets>
+				<fd:upload id="photo" required="false"
+					validate="false">
+					<fd:label>Photo</fd:label>
+				</fd:upload>
+
+				<fd:action id="uploadPhoto">
+					<fd:label>Upload</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							uploadPhoto();
+						</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+			</fd:widgets>
+		</fd:group>
+
+		<fd:submit id="ready" validate="false">
+			<fd:label>Ready</fd:label>
+		</fd:submit>
+	</fd:widgets>
+</fd:form>
