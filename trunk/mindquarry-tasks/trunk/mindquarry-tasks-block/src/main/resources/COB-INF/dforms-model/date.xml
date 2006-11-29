@@ -7,7 +7,15 @@
 		<fd:datatype base="date">
 			<fd:convertor type="formatting">
 		    <fd:patterns>
-		      <fd:pattern>MM/dd/yy</fd:pattern>
+		    	<!-- locales for dates are not working properly yet -->
+		    	<!-- NB. You must use 'yyyy' for the year (not 'yy'), or dojo gets confused -->
+		      <fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
+		      <fd:pattern locale="en-UK">dd/MM/yyyy</fd:pattern>
+		      <fd:pattern locale="de">dd/MM/yyyy</fd:pattern>
+		      <fd:pattern locale="fr">dd/MM/yyyy</fd:pattern>
+		      <fd:pattern locale="it">dd/MM/yyyy</fd:pattern>
+		      <fd:pattern locale="es">dd/MM/yyyy</fd:pattern>
+		      <fd:pattern locale="fr">dd-MM-yyyy</fd:pattern>
 		    </fd:patterns>
 		  </fd:convertor>
 		</fd:datatype>
