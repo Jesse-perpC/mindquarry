@@ -111,9 +111,13 @@
   	<xsl:copy>
   		<xsl:copy-of select="@id"/>
 			<dl id="{@id}">
-				<dt><xsl:apply-templates select="fi:*" mode="label"/></dt>
+				<dt>
+					<!-- this shows labels for People and Dependencies incorrectly -->
+					<xsl:apply-templates select="fi:*" mode="label"/>
+				</dt>
 				<dd>
-					<xsl:apply-templates select="fi:*" />
+					<!--<xsl:apply-templates select="fi:*" /> this breaks People and Dependencies -->
+					<xsl:apply-templates />
 				</dd>
 			</dl>
     </xsl:copy>
