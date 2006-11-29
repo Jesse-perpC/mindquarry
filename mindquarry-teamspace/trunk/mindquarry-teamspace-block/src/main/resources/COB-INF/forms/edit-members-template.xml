@@ -89,17 +89,21 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 							<td><ft:widget id="userId" /></td>
 						</tr>
 						<tr>
-							<td class="label"><ft:widget-label id="password" /></td>
+							<td class="label">
+								<ft:widget-label id="new_password" />
+							</td>
 							<td>
-								<ft:widget id="password">
+								<ft:widget id="new_password">
 									<fi:styling type="password"></fi:styling>
 								</ft:widget>
 							</td>
 						</tr>
 						<tr>
-							<td class="label"><ft:widget-label id="password2" /></td>
+							<td class="label">
+								<ft:widget-label id="new_password_repeat" />
+							</td>
 							<td>
-								<ft:widget id="password2">
+								<ft:widget id="new_password_repeat">
 									<fi:styling type="password"></fi:styling>
 								</ft:widget>
 							</td>
@@ -133,9 +137,6 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 					<!-- standalone -->
 					<ft:widget id="createUserSubmit" />
 					<ft:widget id="cancelSubmit" />
-					
-					<!-- edit user -->
-					<ft:widget id="updateUserSubmit" />
 					
 					<!-- embedded -->
 					<ft:widget id="createUserAction" />

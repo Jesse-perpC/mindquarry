@@ -98,7 +98,7 @@
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
-				<fd:field id="password" required="true">
+				<fd:field id="new_password" required="true">
 					<fd:label>Password</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
@@ -110,12 +110,12 @@
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
-				<fd:field id="password2" required="true">
+				<fd:field id="new_password_repeat" required="true">
 					<fd:label>Password (repeat)</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
-				        <fd:assert test="password = password2">
-				          <fd:failmessage>The two passwords are not equal.</fd:failmessage>
+				        <fd:assert test="new_password = new_password_repeat">
+				          <fd:failmessage>The passwordrepeat does not match.</fd:failmessage>
 				        </fd:assert>
 			      </fd:validation>
 				</fd:field>
@@ -171,12 +171,7 @@
 
 				<fd:submit id="cancelSubmit" state="invisible" validate="false">
 					<fd:label>Cancel</fd:label>
-				</fd:submit>
-
-				<fd:submit id="updateUserSubmit">
-					<fd:label>Update user</fd:label>
-				</fd:submit>
-				
+				</fd:submit>				
 				
 				<fd:action id="createUserAction" state="invisible">
 					<fd:label>Create User</fd:label>

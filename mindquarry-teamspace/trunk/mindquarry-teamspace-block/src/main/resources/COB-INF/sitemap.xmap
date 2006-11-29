@@ -62,6 +62,7 @@
 		<map:script src="flows/create-teamspace.js" />
 		<map:script src="flows/teamspaces-view.js" />
 		<map:script src="flows/edit-members.js" />
+		<map:script src="flows/edit-user.js" />
 	</map:flow>
 
 	<map:resources>
@@ -369,7 +370,7 @@
 					<map:parameter name="function"
 						value="processEditUser" />
 					<map:parameter name="definitionURI"
-						value="forms/edit-members-form.xml" />
+						value="forms/edit-user-form.xml" />
 					<map:parameter name="username"
 						value="{request-attr:username}" />
 				</map:call>

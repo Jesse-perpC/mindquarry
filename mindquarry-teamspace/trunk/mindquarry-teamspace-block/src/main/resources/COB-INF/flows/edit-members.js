@@ -2,6 +2,7 @@
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
+cocoon.load("flows/upload-photo.js");
 
 var teamspaceQuery_;
 var membership_;
@@ -68,66 +69,18 @@ function processCreateUser(form) {
 	cocoon.redirectTo("/teamspace/");
 }
 
-function processEditUser(form) {
-	model_ = form.getModel();
-	form_ = form;
-	
-	activateUserForm();
-	
-	var targetUri = cocoon.request.getParameter("targetUri");
-	
-	var currentUser = userById(cocoon.request.getAttribute("username"));
-	model_.userModel.userId = currentUser.id;
-	model_.userModel.name = currentUser.name;
-	model_.userModel.surname = currentUser.surname;
-	model_.userModel.email = currentUser.email;
-	model_.userModel.skills = currentUser.skills;
-	
-	form.showForm("edit-user.instance");
-	
-	if (form.submitId != "cancelSubmit") {
-		//createUser();
-	}
-		
-	cocoon.redirectTo(targetUri);
-}
-
-function userById(userId) {
-	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);	
-	var result = userAdmin.userById(userId);	
-	cocoon.releaseComponent(userAdmin);
-	return result;
-}
-
-function updateUser() {
-
-	var userModel = model_.userModel;
-	
-	if (containsPhotoUpload(form_))
-	    persistUserPhoto(userModel.userId, form_);
-	    	
-	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
-	
-	var result = userAdmin.createUser(
-			userModel.userId, userModel.password, userModel.name, 
-			userModel.surname, userModel.email, userModel.skills);
-	
-	cocoon.releaseComponent(userAdmin);
-	
-	return result;
-}
-
 function createUser() {
 
 	var userModel = model_.userModel;
 	
-	if (containsPhotoUpload(form_))
-	    persistUserPhoto(userModel.userId, form_);
+	var photoWidget = form_.lookupWidget("/userModel/photo");
+	if (containsPhotoUpload(photoWidget))
+	    persistUserPhoto(userModel.userId, photoWidget);
 	    	
 	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
 	
 	var result = userAdmin.createUser(
-			userModel.userId, userModel.password, userModel.name, 
+			userModel.userId, userModel.new_password, userModel.name, 
 			userModel.surname, userModel.email, userModel.skills);
 	
 	cocoon.releaseComponent(userAdmin);
