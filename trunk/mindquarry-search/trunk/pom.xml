@@ -21,6 +21,7 @@
 	<modules>
     <module>mindquarry-solr</module>
     <module>mindquarry-solr-block</module>
+    <module>mindquarry-search-block</module>
     <module>cocoon-extractor</module>
   </modules>
 
