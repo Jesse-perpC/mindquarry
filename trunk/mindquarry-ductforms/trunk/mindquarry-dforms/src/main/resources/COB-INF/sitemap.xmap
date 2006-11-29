@@ -50,6 +50,7 @@
 		<resource name="directories2model">
 			<transform src="xsl/model/wrap-as-model.xsl" />
 			<transform type="include" />
+
 			<transform src="xsl/model/sort-model.xsl" />
 			<serialize type="xml" />
 		</resource>
@@ -80,9 +81,13 @@
 				</select>
 			</match>
 
+
 			<match pattern="xslt/**.xsl">
+
 				<read src="xsl/{1}.xsl" />
+
 			</match>
+
 		</pipeline>
 		
 		<pipeline type="noncaching">
@@ -165,12 +170,12 @@
 				<generate type="jx" src="cocoon:/form-template" label="raw" >
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
-				<transform type="tee" src="file:///tmp/jx.xml" />
+				<!--<transform type="tee" src="file:///tmp/jx.xml" />-->
 				
 				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
 
 				<transform type="browser-update" />
-				<transform type="tee" src="file:///tmp/bu.xml" />
+				<!--<transform type="tee" src="file:///tmp/bu.xml" />-->
 				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
@@ -181,7 +186,7 @@
 						value="{request-param:callerSitemapPath}" />
 				</transform>
 				
-				<transform type="tee" src="file:///tmp/html.xml" />
+				<!--<transform type="tee" src="file:///tmp/html.xml" />-->
 
 				<!-- convert escaped html in dojo-editor content (marked with
 					 htmllize tags) into real html (nekohtml from cocoon-html) -->
