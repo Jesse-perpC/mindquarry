@@ -56,6 +56,10 @@
 				<map:read src="scripts/{1}.js" />
 			</map:match>
 			
+			<map:match pattern="flows/*.js">
+				<map:read src="flows/{1}.js" />
+			</map:match>
+			
 			<map:match pattern="client/dist/**.jar">
 				<map:read src="client/dist/{1}.jar" />
 			</map:match>
