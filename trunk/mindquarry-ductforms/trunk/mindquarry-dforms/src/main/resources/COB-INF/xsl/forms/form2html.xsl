@@ -123,7 +123,6 @@
     </xsl:copy>
   </xsl:template>
 
-  
   <xsl:template match="node() | @*" mode="default">
     <xsl:copy>
       <xsl:apply-templates select="node() | @*" mode="default"/>
