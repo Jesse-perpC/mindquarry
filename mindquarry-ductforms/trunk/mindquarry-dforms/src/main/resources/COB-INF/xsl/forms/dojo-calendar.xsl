@@ -56,7 +56,7 @@
 	      </input>
 	      -->
 	      <!-- input name is the name of the shielded dojo widget -->
-	      <div inputName="{@id}" dojoType="DropdownDatePicker" widgetId="{@id}:input" id="{@id}:input" name="{@id}" value="{fi:value}" title="{normalize-space(fi:hint)}" type="text"/>
+	      <div inputName="{@id}" dojoType="DropdownDatePicker" widgetId="{@id}:input" id="{@id}:input" name="{@id}" date="{fi:value}" title="{normalize-space(fi:hint)}" type="text"/>
 	      <!-- calendar popup -->
 	      <!-- <xsl:choose>
 	        <xsl:when test="@state = 'disabled'">
