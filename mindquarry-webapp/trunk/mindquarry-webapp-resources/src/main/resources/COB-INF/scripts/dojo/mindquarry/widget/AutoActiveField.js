@@ -18,7 +18,7 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
 	widgetType: "AutoActiveField",
 	isContainer: true,
 	
-	    buildRendering: function(args, parserFragment, parentWidget) {
+	buildRendering: function(args, parserFragment, parentWidget) {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
 	    this.cform = parentWidget;
