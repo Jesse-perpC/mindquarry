@@ -175,6 +175,8 @@
 					<parameter name="definitionURI" value="forms/search-form.xml"/>
 					<parameter name="templatePipeline"
 						value="internal/forms/search-form-template.xml"/>
+					<parameter name="endpoint"
+						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
 				</call>
 			</match>
 
