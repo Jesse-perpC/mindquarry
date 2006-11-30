@@ -5,18 +5,14 @@ package com.mindquarry.jcr.xml.source;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.rmi.NotBoundException;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.jcr.LoginException;
-import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 import javax.jcr.query.Query;
 import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
@@ -24,7 +20,6 @@ import javax.jcr.query.QueryResult;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.logger.AbstractLogEnabled;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
@@ -33,15 +28,16 @@ import org.apache.cocoon.components.source.SourceUtil;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
-import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 
 import com.mindquarry.common.index.IndexClient;
-import com.mindquarry.common.init.InitializationException;
+import com.mindquarry.jcr.client.JCRClient;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
 
 /**
- * This implementation extends <code>JCRSourceFactory</code> to provide an
- * XML-izable <code>JCRXMLNodeSource</code>s.
+ * This SourceFactory provides access to a Java Content Repository (JCR)
+ * including an XML-to-JCR-nodes binding. The source implementation returned
+ * is either a JCRNodeWrapperSource for direct node requests or a
+ * QueryResultSource for a query result (including multiple nodes).
  * 
  * <p>
  * An URI for this source is either (i) a direct path in the repository or (ii)
@@ -58,27 +54,12 @@ import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
+public class JCRSourceFactory extends JCRClient implements ThreadSafe,
         SourceFactory, Configurable, Serviceable {
-    /**
-     * The reference to the JCR Repository to use as interface.
-     */
-    protected Repository repo;
-
     /**
      * Scheme, lazily computed at the first call to getSource().
      */
     protected String scheme;
-
-    /**
-     * Used to resolve other components.
-     */
-    protected ServiceManager manager;
-
-    /**
-     * Configuration for this component.
-     */
-    protected Configuration config;
 
     /**
      * The namespace-prefix mappings for this factory.
@@ -105,13 +86,17 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
      */
     public void service(ServiceManager manager) throws ServiceException {
-        this.manager = manager;
+        super.service(manager);
 
         iClient = (IndexClient) manager.lookup(IndexClient.ROLE);
 
         // the repository is lazily initialized to avoid circular dependency
         // between SourceResolver and JackrabbitRepository that leads to a
         // StackOverflowError at initialization time
+    }
+    
+    public ServiceManager getServiceManager() {
+        return this.manager;
     }
 
     // =========================================================================
@@ -126,7 +111,8 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
      */
     public void configure(Configuration config) throws ConfigurationException {
-        this.config = config;
+        super.configure(config);
+        
         if (null == JCRSourceFactory.configuredMappings) {
             // load namespace mappings
             JCRSourceFactory.configuredMappings = new HashMap<String, String>();
@@ -161,7 +147,6 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
      */
     public Source getSource(String uri, Map parameters) throws IOException,
             MalformedURLException {
-        lazyInitRepository();
 
         // extract protocol identifier
         if (scheme == null) {
@@ -170,16 +155,13 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
         // init session
         Session session;
         try {
-            session = repo.login(new SimpleCredentials(config
-                    .getAttribute("login"), config.getAttribute("password") //$NON-NLS-1$ //$NON-NLS-2$
-                    .toCharArray()));
+            session = login();
         } catch (LoginException e) {
             throw new SourceException("Login to repository failed.", e);
         } catch (RepositoryException e) {
             throw new SourceException("Cannot access repository.", e);
-        } catch (ConfigurationException e) {
-            throw new SourceException("Cannot access configuration data.", e);
         }
+        
         // check for query syntax (eg. 'jcr:///users#//name' interpreted
         // as 'jcr:///jcr:root/users//name')
         if (uri.indexOf("?") != -1) { //$NON-NLS-1$
@@ -258,54 +240,6 @@ public class JCRSourceFactory extends AbstractLogEnabled implements ThreadSafe,
         } catch (RepositoryException e) {
             throw new SourceException("Cannot execute query '" + statement
                     + "'", e); //$NON-NLS-1$
-        }
-    }
-
-    /**
-     * Retrieves the reference of the JCR <code>Repository</code> to use.
-     */
-    protected void lazyInitRepository() {
-        // check if already initialized
-        if (repo != null) {
-            return;
-        }
-        // otherwise try to lookup the repository
-        String remoteRepoUrl = config.getAttribute("rmi", null); //$NON-NLS-1$
-        boolean isRemoteRepositoryConfigured = null != remoteRepoUrl;
-
-        if (isRemoteRepositoryConfigured) {
-            repo = createClientRepository(remoteRepoUrl);
-        }
-        else {
-            repo = lookupLocalRepository();
-        }
-    }
-
-    private Repository lookupLocalRepository() {
-        try {
-            return (Repository) manager.lookup(Repository.class.getName());
-        } catch (ServiceException e) {
-            throw new InitializationException(
-                    "Cannot lookup local jcr repository.", e);
-        }
-    }
-
-    private Repository createClientRepository(String remoteRepoUrl) {
-        ClientRepositoryFactory factory = new ClientRepositoryFactory();
-        try {
-            return factory.getRepository(remoteRepoUrl);
-        } catch (ClassCastException e) {
-            throw new InitializationException("could not create client "
-                    + "jcr repository for repository URL:" + remoteRepoUrl, e);
-        } catch (MalformedURLException e) {
-            throw new InitializationException("could not create client "
-                    + "repository for repository URL:" + remoteRepoUrl, e);
-        } catch (RemoteException e) {
-            throw new InitializationException("could not create client "
-                    + "repository for repository URL:" + remoteRepoUrl, e);
-        } catch (NotBoundException e) {
-            throw new InitializationException("could not create client "
-                    + "repository for repository URL:" + remoteRepoUrl, e);
         }
     }
 }

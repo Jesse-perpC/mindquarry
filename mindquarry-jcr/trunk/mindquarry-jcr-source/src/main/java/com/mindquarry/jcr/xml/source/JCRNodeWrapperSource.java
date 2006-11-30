@@ -73,7 +73,7 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
                     Node child = node.getNode("jcr:content");
                     if (child.isNodeType("xt:document")) {
                         return XMLFileSourceHelper.getInputStream(
-                                factory.manager, node);
+                                factory.getServiceManager(), node);
                     } else if (child.isNodeType("nt:resource")) {
                         return FileSourceHelper.getInputStream(node);
                     } else {

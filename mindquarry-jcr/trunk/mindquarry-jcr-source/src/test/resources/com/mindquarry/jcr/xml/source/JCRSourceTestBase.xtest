@@ -20,6 +20,9 @@
 			<solr-endpoint url="http://localhost:8888/solr" />
 		</role>
 
+		<role name="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
+			shorthand="jcr-id-generator" />
+		
 		<!-- configure a serializer for XML output -->
 		<role name="org.apache.cocoon.serialization.Serializer"
 			shorthand="serializer" />
@@ -57,7 +60,8 @@
 				</index>
 			</component-instance>
 
-			<!-- use the following for working with an RMI repository -->
+			<!-- use the following for working with an RMI repository (see also
+				 the jcr-id-generator below) -->
 			<!-- component-instance name="jcr"
 				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
 				login="alexander.saar" password="mypwd"
@@ -82,5 +86,14 @@
 
 			<credentials login="alexander.saar" password="mypwd" />
 		</jcr-initializer>
+
+		<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
+			login="alexander.saar" password="mypwd" />
+
+		<!-- use the following for working with an RMI repository (see also
+			the JCRSourceFactory above) -->
+		<!-- jcr-id-generator class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+			login="alexander.saar" password="mypwd" rmi="rmi://localhost:1099/jackrabbit" -->
+		
 	</components>
 </testcase>
