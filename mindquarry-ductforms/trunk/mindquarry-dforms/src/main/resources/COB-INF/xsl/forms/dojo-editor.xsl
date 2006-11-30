@@ -62,7 +62,7 @@
 					</tr>
 					<tr>
 						<td colspan="2" align="center">
-							<input type="button" onClick="wikiLinkSet(this.form['location'].value);return false;" id="wikiLinkDialogOK" value="OK"/>
+							<input type="button" onClick="mindquarry.widget.wikiLinkSet(this.form['location'].value);return false;" id="wikiLinkDialogOK" value="OK"/>
 							&#160;
 							<input type="button" onClick="return false;" id="wikiLinkDialogCancel" value="Cancel"/>
 						</td>
