@@ -34,6 +34,10 @@ public class JackrabbitInitializerHelper {
 
     public static final String MQ_JCR_XML_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/xt";
 
+    public static final String MQ_JCR_ID_NAMESPACE_PREFIX = "id";
+
+    public static final String MQ_JCR_ID_NAMESPACE_URI = "http://mindquarry.com/ns/cnd/id";
+    
     public static void setupRepository(Session session,
             InputStreamReader nDefs, String uri)
             throws ParseException, RepositoryException,
@@ -47,6 +51,14 @@ public class JackrabbitInitializerHelper {
         } catch (NamespaceException ne) {
             nsRegistry.registerNamespace(MQ_JCR_XML_NAMESPACE_PREFIX,
                     MQ_JCR_XML_NAMESPACE_URI);
+        }
+
+        try {
+            // check if the namespace already exists
+            nsRegistry.getURI(MQ_JCR_ID_NAMESPACE_PREFIX);
+        } catch (NamespaceException ne) {
+            nsRegistry.registerNamespace(MQ_JCR_ID_NAMESPACE_PREFIX,
+                    MQ_JCR_ID_NAMESPACE_URI);
         }
 
         // Get the NodeTypeManager from the Workspace. Note that it must be
