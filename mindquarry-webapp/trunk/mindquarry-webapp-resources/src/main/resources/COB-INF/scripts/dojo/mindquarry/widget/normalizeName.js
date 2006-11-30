@@ -1,8 +1,13 @@
 
 dojo.provide("mindquarry.widget.normalizeName");
 
+// setup the namespace
+var mindquarry = mindquarry || {};
+mindquarry.widget = mindquarry.widget || {};
+
+
 // filters the provided name to exclude illegal characters
-function normalizeName(name) {
+mindquarry.widget.normalizeName = function(name) {
 	var legal = "0123456789_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"; // characters to keep
 	var result = [];
 	
@@ -12,5 +17,6 @@ function normalizeName(name) {
 		var ch = name[i];
 		if (legal.indexOf(ch) != -1) result.push(ch);
 	}
+	
 	return result.join("");
 }
