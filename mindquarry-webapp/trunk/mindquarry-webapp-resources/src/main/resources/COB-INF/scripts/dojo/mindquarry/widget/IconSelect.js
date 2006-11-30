@@ -1,6 +1,3 @@
-// select widget with icons
-
- 
  /*
     IconSelect - extends ComboBox.
     Provides a select-type widget (select from a list)
@@ -9,10 +6,6 @@
  
 dojo.provide("mindquarry.widget.IconSelect");
 dojo.require("dojo.widget.Select");
-
-//dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
-
-//alert("Hey Guys, I am loading !!");
 
 dojo.widget.defineWidget(
     "mindquarry.widget.IconSelect",
