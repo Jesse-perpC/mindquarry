@@ -6,8 +6,10 @@
 
 // The namespace declarations
 <xt = 'http://mindquarry.com/ns/cnd/xt'>
+<id = 'http://mindquarry.com/ns/cnd/id'>
 <nt = 'http://www.jcp.org/jcr/nt/1.0'>
 <jcr = 'http://www.jcp.org/jcr/1.0'>
+<mix = 'http://www.jcp.org/jcr/mix/1.0'>
 
 // define xt:text node
 [xt:text]>nt:unstructured
@@ -31,3 +33,8 @@
 		mandatory
 	+ *(xt:element)=xt:element
 		mandatory
+
+// define id:node node
+[id:node]>nt:hierarchyNode, mix:lockable
+	- id:id(long)='0'
+		primary mandatory autocreated
