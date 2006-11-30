@@ -22,8 +22,10 @@
   <xsl:template match="head" mode="forms-dojoarea">
   
     <script type="text/javascript">
-        //dojo.require("mindquarry.widget.Wiki");
+        dojo.require("mindquarry.widget.wikiLink");
         dojo.require("dojo.widget.Editor2");
+        dojo.require("dojo.widget.Dialog");
+        dojo.require("dojo.widget.ComboBox");
     </script>
   </xsl:template>
 
@@ -33,7 +35,7 @@
       | fi:field with @type 'wiki'
       +-->
 
-  
+  <!-- output view -->
   <xsl:template match="fi:field[@state='output'][fi:styling[@type='wiki']]">
   	<div id="{@id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}">
   	  <htmllize>
@@ -42,27 +44,32 @@
   	</div>
   </xsl:template>
  
+  <!-- active view -->
   <xsl:template match="fi:field[@state='active'][fi:styling[@type='wiki']]">
 		<xsl:variable name="id" select="concat(@id,':input')"/>
     <textarea  id="{$id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}" dojoType="Editor2">
       <xsl:apply-templates select="fi:value/node()" mode="dojoarea-copy"/>
     </textarea>
-    
-    <!-- JQ :
-    	Apparently we need to instansiate the Editor by Script, if we want to use our ouw toolbar as the toolbar is loaded via a template
-    	However when we try this, the widget does not save it's state to the form field.
-    	
-    	We have tried to subclass the Editor2 widget to overide the list of valid commands but the override does not result in
-    	a reduced toolbar, and again it does not save properly
-    	
-    -->
-    
-    <!--<script type="text/javascript">
-    	function tellMe() {alert("changed")};
-			var wiki = dojo.widget.createWidget("Editor2", {shareToolbar: false}, dojo.byId('<xsl:value-of select="$id"/>'));
-			dojo.event.connect(wiki, "onDisplayChanged", "tellMe"); // this does not trigger
-			tellMe();
-    </script>-->
+
+		<div class="wiki-link-dialog" dojoType="Dialog" id="wikiLinkDialog" bgColor="black" bgOpacity="0.7" toggle="fade" toggleDuration="250">
+			<form>
+				<table style="background-color:white;opacity:1;padding:20px;">
+					<tr>
+						<td>Wiki Pages:</td>
+						<td>
+							<input dojoType="combobox" dataUrl="pages.js" style="width: 300px;" name="location" />
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2" align="center">
+							<input type="button" onClick="wikiLinkSet(this.form['location'].value);return false;" id="wikiLinkDialogOK" value="OK"/>
+							&#160;
+							<input type="button" onClick="return false;" id="wikiLinkDialogCancel" value="Cancel"/>
+						</td>
+					</tr>
+				</table>
+			</form>
+		</div>
   </xsl:template>
 
   <xsl:template match="@*|*" mode="dojoarea-copy">
