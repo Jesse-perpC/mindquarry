@@ -10,6 +10,9 @@
 		default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
 	</role>
 	
+	<role name="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
+		shorthand="jcr-id-generator" />
+
 	<role name="com.mindquarry.common.index.IndexClient"
 		shorthand="index-client" />
 
