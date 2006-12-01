@@ -3,9 +3,10 @@
  */
 package com.mindquarry.search.cocoon.filters;
 
-import java.io.InputStream;
 import java.io.Reader;
 import java.util.Map;
+
+import org.apache.excalibur.source.Source;
 
 public interface TextFilter {
 	/**
@@ -13,7 +14,11 @@ public interface TextFilter {
 	 */
 	public static final String CONTENT = "content";
     
-//	public static final String TITLE = "title";
+    /**
+     * Use this for the title, which will be used in search list results etc.
+     */
+    public static final String TITLE = "title";
+    
 //	public static final String ABSTRACT = "abstract";
 //	public static final String AUTHOR = "author";
 	
@@ -23,5 +28,5 @@ public interface TextFilter {
 	 * @param stream the input stream to filter
 	 * @return the extracted data
 	 */
-	Map<String, Reader> doFilter(InputStream stream) throws FilterException;
+	Map<String, Reader> doFilter(Source source) throws FilterException;
 }

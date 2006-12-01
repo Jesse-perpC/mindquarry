@@ -6,7 +6,6 @@ package com.mindquarry.search.cocoon;
 import java.io.File;
 import java.io.FilterReader;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.Reader;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -186,12 +185,7 @@ public class TextFilterGenerator extends FileGenerator implements Generator {
 
         // filter the input stream
         try {
-            InputStream inputStream = source.getInputStream();
-            return filter.doFilter(inputStream);
-        } catch (SourceNotFoundException e) {
-            getLogger().error("Document not found", e);
-        } catch (IOException e) {
-            getLogger().error("Could not read document", e);
+            return filter.doFilter(source);
         } catch (FilterException e) {
             getLogger().error("Extracing content failed", e.getCause());
         }
