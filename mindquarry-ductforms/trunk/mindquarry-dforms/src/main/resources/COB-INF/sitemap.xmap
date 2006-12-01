@@ -211,31 +211,15 @@
 					<parameter name="definitionURI"
 						value="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
 				</call>
-				<!-- <select type="resource-exists">
-					if it exists, show the document
-					<when
-						test="{request-param:baseURI}{request-param:documentID}.xml">
-						<read src="cocoon:/show-document" />
-					</when>
-					else edit the document
-					<otherwise>
-						<read src="cocoon:/edit-document" />
-					</otherwise>
-				</select> -->
 			</match>
 
+			<!-- @virtual: override new document naming script -->
+			<match pattern="uniqueName.js">
+				<read src="flows/uniqueName.js" />
+			</match>
+
+			<!-- internal, for child to debug -->
 			<match pattern="dform-debug">
-				<!--
-				<call function="handleForm">
-					<parameter name="function" value="showDForm" />
-					<parameter name="baseURI"
-						value="{request-param:baseURI}" />
-					<parameter name="documentID"
-						value="{request-param:documentID}" />
-					<parameter name="definitionURI"
-						value="block:/{request-param:documentID}.xml.form" />
-				</call>
-				-->
 				<!--<read src="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />-->
 				<read src="block:/form-template" />
 			</match>
@@ -272,8 +256,6 @@
 					</otherwise>
 				</select>
 			</match>
-
-
 
 			<!-- @virtual: for inheriting sitemap resources -->
 			<match pattern="resource/**">

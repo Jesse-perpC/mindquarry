@@ -1,4 +1,5 @@
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
+cocoon.load("block:resources:/flows/util.js"); // only reloaded on restart!
 
 var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
 var form_;
@@ -10,17 +11,14 @@ var fullURI_;
 
 // called by auto-reload or AJAX for mutivalue fields
 function fieldsChanged(event) {
-	print("*** fieldsChanged");
 	if (form_) {
 		setWidgetStates(form_, true);
 	}
 }
 
 function switchEditView(event) {
-	print("*** switchEditView");
 	if (form_) {
 		if (cocoon.request.activate) {
-			//print("activating: " + cocoon.request.activate.substring(9))
 			var selectedWidget = form_.lookupWidget("/" + cocoon.request.activate.substring(9));
 			if (selectedWidget) {
 				selectedWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
@@ -28,14 +26,10 @@ function switchEditView(event) {
 				form_.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 			}
 		} else {
-			print("  switchEditView");
 			var formWidget = form_.lookupWidget("/title");
-			print(formWidget.getState());
 			if (formWidget.getState() == Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT) {
-				//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 				setWidgetStates(form_, true);
 			} else {
-				//formWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
 				setWidgetStates(form_, false);
 			}
 		}
@@ -62,11 +56,8 @@ function setWidgetStates(form, isEdit) {
 	var widgetMap = new java.util.Hashtable();
 	for (; allWidgets.hasNext(); ) {
 		var widget = allWidgets.next();
-		print(widget + " invisible");
 		widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-		
-		//widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-		}
+	}
 	
 	var ductformsWidget = form.lookupWidget("/ductforms");
 	
@@ -82,21 +73,18 @@ function setWidgetStates(form, isEdit) {
 		}
 		if (isEdit) {
 			widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-			//widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+
 			for (var j=0;j<related.length;j++) {
 				var relwidget = form.lookupWidget("/" + related[j]);
 				widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-				//relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
-				print("also activate related " + relwidget);
 			}
 		} else {
 			widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
-			//widget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+
 			for (var j=0;j<related.length;j++) {
 				var relwidget = form.lookupWidget("/" + related[j]);
 				if (relwidget instanceof Packages.org.apache.cocoon.forms.formmodel.Action) {
 					widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-					//relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 				} else {
 					widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
 					relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT;
@@ -107,15 +95,12 @@ function setWidgetStates(form, isEdit) {
 
 	if (isEdit) {
 		// show the field selector in edit mode
-		//ductformsWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 		widgetMap.put(ductformsWidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 		// save button only in edit mode
 		widgetMap.put(form.lookupWidget("/ductforms_save"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-		//form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	} else {
 		// the switch button should not be always active
 		widgetMap.put(form.lookupWidget("/ductforms_switch"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-		//form.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
 	
 	//cycle through the widget map and set the states accordingly
@@ -123,7 +108,6 @@ function setWidgetStates(form, isEdit) {
 	for each (var widget in widgetList) {
 		var state = widgetMap.get(widget);
 		if (widget.getState()!=state) {
-			print("adjusting state of " + widget);
 			widget.setState(state);
 		}
 	}
@@ -139,6 +123,8 @@ function setFormState(form, isEdit) {
 
 // called from sitemap via handleForm()
 function showDForm(form) {
+    //print( "Unique Name: " + evalJavaScriptSource("block:/uniqueName.js") );
+    
 	var filename = cocoon.parameters["documentID"] + ".xml";
 	
 	// save form and uri for actions
@@ -151,9 +137,7 @@ function showDForm(form) {
 	// set initial state to output
 	setWidgetStates(form, false);
 
-	print("before showForm");
 	form.showForm(filename + ".instance");
-	print("after showForm");
 }
 
 /////////////////////////////////////////////////////////
