@@ -35,6 +35,9 @@
             <field name="content">
                 <xsl:value-of select="document/content"/>
             </field>
+            <field name="title">
+                <xsl:value-of select="document/title"/>
+            </field>
         </doc>
     </xsl:template>
 

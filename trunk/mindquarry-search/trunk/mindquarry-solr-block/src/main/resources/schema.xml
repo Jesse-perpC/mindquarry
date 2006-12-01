@@ -253,6 +253,7 @@
           -->
           <field name="content" type="text" indexed="true" stored="false" multiValued="true"/>
           <field name="location" type="text" indexed="true" stored="true"/>
+          <field name="title" type="text" indexed="true" stored="true"/>
           <field name="type" type="text" indexed="true" stored="true"/>
           <field name="lastModified" type="date" indexed="true" stored="true"/>
 
