@@ -38,13 +38,13 @@ public class DefaultListenerRegistry implements TeamspaceListenerRegistry {
         listeners_.remove(listener);
     }
     
-    void signalBeforeTeamspaceCreated(TeamspaceDefinition teamspace) {
+    void signalBeforeTeamspaceCreated(TeamspaceDefinition teamspace) throws Exception {
         for (TeamspaceListener listener : listeners_) {
             listener.beforeTeamspaceCreated(teamspace);
         }
     }
     
-    void signalAfterTeamspaceRemoved(TeamspaceDefinition teamspace) {
+    void signalAfterTeamspaceRemoved(TeamspaceDefinition teamspace) throws Exception {
         for (TeamspaceListener listener : listeners_) {
             listener.afterTeamspaceRemoved(teamspace);
         }

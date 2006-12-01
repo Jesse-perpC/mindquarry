@@ -20,13 +20,14 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
      * @param name of the teamspace
      * @param a String describing the teamspace
      * @param the user that triggered the creation of the new teamspace 
+     * @throws CouldNotCreateTeamspaceException 
      */
 	TeamspaceDefinition createTeamspace(String id, String name, 
-                String description, UserRO teamspaceCreator);
+                String description, UserRO teamspaceCreator) throws CouldNotCreateTeamspaceException;
 	
     TeamspaceDefinition teamspaceDefinitionForId(String teamspaceId);
     
     void updateTeamspace(TeamspaceDefinition teamspace);
     
-	void removeTeamspace(String teamspaceId);
+	void removeTeamspace(String teamspaceId) throws CouldNotRemoveTeamspaceException;
 }
