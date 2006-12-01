@@ -3,8 +3,8 @@
  */
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 
-importPackage(Packages.com.mindquarry.teamspace);
-importPackage(Packages.com.mindquarry.user);
+importClass(Packages.com.mindquarry.teamspace.TeamspaceAdmin);
+importClass(Packages.com.mindquarry.user.UserAdmin);
 
 function processCreateTeamspaceForm(form) {
 
