@@ -12,6 +12,8 @@ package com.mindquarry.jcr.id;
  */
 public class IDException extends Exception {
 
+    private static final long serialVersionUID = -1804207310873860130L;
+
     public IDException(String message) {
         super(message);
     }

@@ -79,8 +79,9 @@ public abstract class AbstractJCRNodeSource implements Source {
                         + "' is a property (should be a node)");
             } else {
                 // check if it is a file, a folder or the root node
+                // (nt:file and nt:folder extend nt:hierarchyNode, others too)
                 Node tmp = (Node) item;
-                if (tmp.isNodeType("nt:folder") || tmp.isNodeType("nt:file")
+                if (tmp.isNodeType("nt:hierarchyNode")
                         || tmp.getPath().equals("/")) {
                     node = (Node) item;
                 } else {
@@ -122,7 +123,8 @@ public abstract class AbstractJCRNodeSource implements Source {
             return 0;
         }
         try {
-            Property prop = node.getNode("jcr:content").getProperty("jcr:lastModified");
+            Property prop = node.getNode("jcr:content").getProperty(
+                    "jcr:lastModified");
             return prop == null ? 0 : prop.getDate().getTime().getTime();
         } catch (RepositoryException e) {
             return 0;
