@@ -21,37 +21,34 @@
         <property name="extractor" ref="mswordextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-word" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="mswordextractor"/>
-    </bean>
-    
+    <alias name="com.mindquarry.search.TextFilter/application/msword" 
+        alias="com.mindquarry.search.TextFilter/application/vnd.ms-word" />
+
     <!-- excel -->
     <bean name="com.mindquarry.search.TextFilter/application/msexcel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="msexcelextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-excel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="msexcelextractor"/>
-    </bean>
-    
+    <alias name="com.mindquarry.search.TextFilter/application/msexcel" 
+        alias="com.mindquarry.search.TextFilter/application/vnd.ms-excel" />
+
     <!-- powerpoint -->
     <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="mspowerpointextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="mspowerpointextractor"/>
-    </bean>
+    <alias name="com.mindquarry.search.TextFilter/application/mspowerpoint" 
+        alias="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" />
     
     <!-- xml -->
     <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="xmlextractor"/>
+        <property name="titleExtractor" ref="xmltitleextractor"/>
     </bean>
     
-    <bean name="com.mindquarry.search.TextFilter/application/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
-        <property name="extractor" ref="xmlextractor"/>
-    </bean>
-
+    <alias name="com.mindquarry.search.TextFilter/text/xml" 
+        alias="com.mindquarry.search.TextFilter/application/xml" />
+    
     <!-- text -->
     <bean name="com.mindquarry.search.TextFilter/text/plain" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
         <property name="extractor" ref="textextractor"/>
@@ -88,4 +85,7 @@
         <constructor-arg index="1" type="java.lang.String" value=""/>
         <constructor-arg index="2" type="java.lang.String" value=""/>
     </bean>
+
+    <!-- title extractors -->
+    <bean id="xmltitleextractor" class="com.mindquarry.search.cocoon.filters.impl.XmlTitleExtractor" />
 </beans>
