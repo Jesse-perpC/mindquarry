@@ -58,6 +58,9 @@
 		<credentials login="alexander.saar" password="mypwd" />
 	</jcr-initializer>
 	
+	<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
+		login="alexander.saar" password="mypwd" />
+
 	<index-client class="com.mindquarry.common.index.SolrIndexClient">
 		<solr-credentials login="admin" password="admin" />
 		<solr-endpoint url="http://localhost:8888/solr/update" />
