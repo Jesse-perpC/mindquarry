@@ -40,6 +40,10 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
         if (!source.exists()) {
             source.makeCollection();
         }
+        // ensure the id node exists
+        JCRUniqueIDGenerator generator = (JCRUniqueIDGenerator) lookup(JCRUniqueIDGenerator.class
+                .getName());
+        generator.initializePath(jcrPath);
     }
 
     public void testGenerateID() throws ServiceException, IOException,
@@ -56,13 +60,6 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
     }
 
     public void testParallelIDAccess() throws ServiceException, IDException {
-        
-        // do a first dummy call to implicitly create the id node in a non
-        // massive parallel context
-        JCRUniqueIDGenerator generator = (JCRUniqueIDGenerator) lookup(JCRUniqueIDGenerator.class
-                .getName());
-        long value = generator.getNextID(jcrPath);
-        
         final int nThread = 100;
         
         List<Thread> workers = new ArrayList<Thread>();
@@ -86,6 +83,7 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
         Collections.sort(results);
         
         // we must have all values from 1 to 10
+        long value = 0;
         for (Iterator<Long> iter = results.iterator(); iter.hasNext();) {
             long current = iter.next();
             System.out.println(current);
