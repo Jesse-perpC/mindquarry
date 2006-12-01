@@ -226,6 +226,12 @@
 				</aggregate>
 				<serialize type="xml" />
 			</match>
+
+			<!-- @virtual: override new document naming script -->
+			<match pattern="uniqueName.js">
+				<read src="flows/uniqueName.js" />
+			</match>
+			
 		</pipeline>
 
 		<!-- provides the files for forms -->
@@ -247,8 +253,6 @@
 				<call resource="layouting" />
 			</match>
 		</pipeline>
-
-		<!-- REST REST REST REST REST REST REST REST REST REST REST REST -->
 
 		<!-- special REST content type pipelines, these are internal -->
 		
@@ -345,28 +349,10 @@
 
 			<!-- raw XML-->
 			<match pattern="internal/pipe/*/list.xml">
-				<select type="resource-exists">
-					<when test="jcr:///teamspaces/{1}/tasks/">
-						<generate
-							src="cocoon:/internal/pipe/{1}/existing-list.xml" />
-						<serialize type="xml" />
-					</when>
-					<otherwise>
-						<generate src="jx/createdir.jx" type="jx">
-							<parameter name="dir"
-								value="jcr:///teamspaces/{1}/tasks" />
-						</generate>
-						<transform type="write-source" />
-						<transform type="clear"
-							src="cocoon:/internal/pipe/{1}/existing-list.xml" />
-						<serialize type="xml" />
-					</otherwise>
-				</select>
-			</match>
-
-			<match pattern="internal/pipe/*/existing-list.xml">
 				<generate type="collection"
-					src="jcr:///teamspaces/{1}/tasks/" />
+					src="jcr:///teamspaces/{1}/tasks/" label="xml">
+					<parameter name="include" value=".*\.xml" />
+				</generate>
 				<transform src="xslt/xml/collection2tasklist.xsl">
 					<parameter name="basePath"
 						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
