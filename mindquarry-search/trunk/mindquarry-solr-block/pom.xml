@@ -55,6 +55,12 @@
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.lucene</groupId>
+			<artifactId>lucene-core</artifactId>
+			<version>nightly</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.search.cocoon</groupId>
 			<artifactId>cocoon-extractor-impl</artifactId>
 			<version>1.0.0-M2-SNAPSHOT</version>
