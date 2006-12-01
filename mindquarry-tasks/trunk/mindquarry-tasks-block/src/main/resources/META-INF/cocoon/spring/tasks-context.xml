@@ -11,7 +11,6 @@
 		class="com.mindquarry.tasks.TasksManager">
 		<property name="teamspaceListenerRegistry" ref="com.mindquarry.teamspace.TeamspaceListenerRegistry"/>
 		<property name="sourceResolver" ref="org.apache.excalibur.source.SourceResolver" />
-		<!-- org.apache.cocoon.environment.SourceResolver -->
 		<property name="uniqueIDGenerator" ref="com.mindquarry.jcr.id.JCRUniqueIDGenerator" />
 	</bean>
 </beans>
