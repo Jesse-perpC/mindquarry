@@ -22,7 +22,7 @@ function executeSearch() {
     
     // execute search
     var get = new Packages.org.apache.commons.httpclient.methods.GetMethod(
-        endpoint_ + "/solr-select/?wt=json&indent=true&q=" + searchField.getValue());
+        endpoint_ + "/solr-select/?wt=json&indent=true&fl=score&q=" + searchField.getValue());
     get.addRequestHeader("Authorization", cocoon.request.getHeader("Authorization"));
     get.setDoAuthentication(true);
     httpClient.executeMethod(get);
