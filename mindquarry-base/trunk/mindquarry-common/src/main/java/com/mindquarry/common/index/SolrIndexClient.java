@@ -19,6 +19,7 @@ import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.jdom.Comment;
 import org.jdom.Document;
 import org.jdom.Element;
 import org.jdom.output.Format;
@@ -62,11 +63,15 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
         Element modEl = new Element("modified"); //$NON-NLS-1$
         chngEl.addContent(modEl);
 
+        Comment comment = new Comment("list of deleted paths"); //$NON-NLS-1$
+        delEl.addContent(comment);
         for (String path : deletedPaths) {
             Element pathEl = new Element("path"); //$NON-NLS-1$
             pathEl.addContent(path);
             delEl.addContent(pathEl);
         }
+        comment = new Comment("list of changed paths"); //$NON-NLS-1$
+        modEl.addContent(comment);
         for (String path : changedPaths) {
             Element pathEl = new Element("path"); //$NON-NLS-1$
             pathEl.addContent(path);
