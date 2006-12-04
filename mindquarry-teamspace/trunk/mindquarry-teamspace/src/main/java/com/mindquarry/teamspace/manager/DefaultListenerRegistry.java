@@ -6,7 +6,7 @@ package com.mindquarry.teamspace.manager;
 import java.util.HashSet;
 import java.util.Set;
 
-import com.mindquarry.teamspace.TeamspaceDefinition;
+import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceListener;
 import com.mindquarry.teamspace.TeamspaceListenerRegistry;
 
@@ -38,13 +38,13 @@ public class DefaultListenerRegistry implements TeamspaceListenerRegistry {
         listeners_.remove(listener);
     }
     
-    void signalBeforeTeamspaceCreated(TeamspaceDefinition teamspace) throws Exception {
+    void signalBeforeTeamspaceCreated(Teamspace teamspace) throws Exception {
         for (TeamspaceListener listener : listeners_) {
             listener.beforeTeamspaceCreated(teamspace);
         }
     }
     
-    void signalAfterTeamspaceRemoved(TeamspaceDefinition teamspace) throws Exception {
+    void signalAfterTeamspaceRemoved(Teamspace teamspace) throws Exception {
         for (TeamspaceListener listener : listeners_) {
             listener.afterTeamspaceRemoved(teamspace);
         }
