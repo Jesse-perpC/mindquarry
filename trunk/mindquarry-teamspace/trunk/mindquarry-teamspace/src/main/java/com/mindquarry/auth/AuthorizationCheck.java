@@ -6,7 +6,8 @@ package com.mindquarry.auth;
 import com.mindquarry.user.AbstractUserRO;
 
 /**
- * Add summary documentation here.
+ * Check if a particular user is privileged to fulfil 
+ * an operation at a resource.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>

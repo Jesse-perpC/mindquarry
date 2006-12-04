@@ -7,7 +7,11 @@ import com.mindquarry.user.AbstractUserRO;
 
 
 /**
- * Add summary documentation here.
+ * The interface defines the administrative / management contract with
+ * the Authorization component. You can create a Right representing 
+ * a single operation at a resource. Multiple right provides can be
+ * bundled to a profile. Rights as well as profile can be granted 
+ * and withdrawn users and groups.    
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
