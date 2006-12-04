@@ -18,11 +18,6 @@ import com.mindquarry.persistence.castor.source.JcrSourceResolverCocoon;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-/**
- * Add summary documentation here.
- *
- * @author <a href="mailto:your-email-address">your full name</a>
- */
 public class CastorSessionFactoryCocoon extends CastorSessionFactoryBase 
     implements Serviceable {
     
