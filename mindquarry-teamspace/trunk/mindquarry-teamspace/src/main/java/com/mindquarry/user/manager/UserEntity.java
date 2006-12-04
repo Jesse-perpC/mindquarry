@@ -6,6 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
+import org.apache.commons.codec.binary.Base64;
+
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.User;
@@ -30,7 +32,7 @@ public final class UserEntity extends EntityBase implements User {
      */
     public UserEntity() {
         id = "";
-        password = md5("");
+        password = encodePwd("");
         name = "";
         surname = "";
         email = "";
@@ -61,7 +63,7 @@ public final class UserEntity extends EntityBase implements User {
      * @return true if the password matches otherwise false
      */
     public boolean authenticate(String pwd) {
-        return this.password.equals( md5(pwd));
+        return this.password.equals( encodePwd(pwd));
     }
     
     /**
@@ -75,24 +77,31 @@ public final class UserEntity extends EntityBase implements User {
      * the new value is set otherwise false
      */
     public boolean changePassword(String oldPwd, String newPwd) {
-        if (this.password.equals( md5(oldPwd)) && isValidPwd(newPwd)) {
-            this.password = md5(newPwd);
+        if (this.password.equals(encodePwd(oldPwd)) && isValidPwd(newPwd)) {
+            this.password = encodePwd(newPwd);
             return true;
         } else {
             return false;
         }
     }
     
+    private String encodePwd(String pwd) {
+        return base64Encode(md5(pwd));
+    }
+    
     private String md5(String input) {
-        return input;
-//        MessageDigest md5Digest;
-//        try {
-//            md5Digest = MessageDigest.getInstance("MD5");
-//        } catch (NoSuchAlgorithmException e) {
-//            throw new UserException("could not get a md5 message digest", e);
-//        }
-//        md5Digest.update(input.getBytes());
-//        return new String(md5Digest.digest());
+        MessageDigest md5Digest;
+        try {
+            md5Digest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new UserException("could not get a md5 message digest", e);
+        }
+        md5Digest.update(input.getBytes());
+        return new String(md5Digest.digest());
+    }
+    
+    private String base64Encode(String input) {
+        return new String(Base64.encodeBase64(input.getBytes()));
     }
     
     private boolean isValidPwd(String pwd) {
