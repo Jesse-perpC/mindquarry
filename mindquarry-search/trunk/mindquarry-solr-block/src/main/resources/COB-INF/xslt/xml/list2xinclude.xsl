@@ -2,15 +2,20 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:xi="http://www.w3.org/2001/XInclude" version="1.0">
     
+    
     <xsl:template match="changes">
         <update>
-            <add>
-                <xsl:apply-templates select="modified/path"/>
-            </add>
+            <xsl:if test="count(modified/path)>0">
+                <add>
+                    <xsl:apply-templates select="modified/path"/>
+                </add>
+            </xsl:if>
     
-            <delete>
-                <xsl:apply-templates select="deleted/path"/>
-            </delete>
+            <xsl:if test="count(deleted/path)>0">
+                <delete>
+                    <xsl:apply-templates select="deleted/path"/>
+                </delete>
+            </xsl:if>
     
             <commit/>
         </update>
