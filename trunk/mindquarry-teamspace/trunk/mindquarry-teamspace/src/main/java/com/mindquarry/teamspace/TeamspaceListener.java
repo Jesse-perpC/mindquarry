@@ -11,7 +11,7 @@ package com.mindquarry.teamspace;
  */
 public interface TeamspaceListener {
     
-    void beforeTeamspaceCreated(TeamspaceDefinition teamspace) throws Exception;
+    void beforeTeamspaceCreated(Teamspace teamspace) throws Exception;
     
-    void afterTeamspaceRemoved(TeamspaceDefinition teamspace) throws Exception;
+    void afterTeamspaceRemoved(Teamspace teamspace) throws Exception;
 }

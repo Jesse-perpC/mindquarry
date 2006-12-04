@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.mindquarry.common.persistence.EntityBase;
-import com.mindquarry.teamspace.TeamspaceDefinition;
+import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.user.UserRO;
 
 
@@ -19,7 +19,7 @@ import com.mindquarry.user.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
+public class TeamspaceEntity extends EntityBase implements Teamspace {
 
     private String name;
     private String description;
@@ -46,7 +46,7 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
     }
     
     /**
-     * @see com.mindquarry.teamspace.TeamspaceDefinition#setDescription(java.lang.String)
+     * @see com.mindquarry.teamspace.Teamspace#setDescription(java.lang.String)
      */
     public void setDescription(String description) {
         this.description = description;
@@ -61,7 +61,7 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
     
     
     /**
-     * @see com.mindquarry.teamspace.TeamspaceDefinition#setName(java.lang.String)
+     * @see com.mindquarry.teamspace.Teamspace#setName(java.lang.String)
      */
     public void setName(String name) {
         this.name = name;
@@ -95,14 +95,14 @@ public class TeamspaceEntity extends EntityBase implements TeamspaceDefinition {
     }
 
     /**
-     * @see com.mindquarry.teamspace.TeamspaceDefinition#getProperty(java.lang.String)
+     * @see com.mindquarry.teamspace.Teamspace#getProperty(java.lang.String)
      */
     public String getProperty(String key) {
         return properties.get(key);
     }
 
     /**
-     * @see com.mindquarry.teamspace.TeamspaceDefinition#setProperty(java.lang.String, java.lang.String)
+     * @see com.mindquarry.teamspace.Teamspace#setProperty(java.lang.String, java.lang.String)
      */
     public void setProperty(String key, String value) {
         properties.put(key, value);

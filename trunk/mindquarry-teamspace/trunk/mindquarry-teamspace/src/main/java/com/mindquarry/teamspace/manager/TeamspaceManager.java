@@ -25,7 +25,7 @@ import com.mindquarry.teamspace.CouldNotCreateTeamspaceException;
 import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
-import com.mindquarry.teamspace.TeamspaceDefinition;
+import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.GroupRO;
@@ -141,7 +141,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         }
     }
 
-    public TeamspaceDefinition createTeamspace(String teamspaceId, String name,
+    public Teamspace createTeamspace(String teamspaceId, String name,
             String description, UserRO teamspaceCreator)
             throws CouldNotCreateTeamspaceException {
 
@@ -166,7 +166,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         return teamspace;
     }
 
-    public void updateTeamspace(TeamspaceDefinition teamspace) {
+    public void updateTeamspace(Teamspace teamspace) {
         Session session = currentSession();
         session.update(teamspace);
         session.commit();
@@ -298,14 +298,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     /**
      * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceForId(java.lang.String)
      */
-    public TeamspaceRO teamspaceForId(String teamspaceId) {
-        return teamspaceDefinitionForId(teamspaceId);
-    }
-
-    /**
-     * @see com.mindquarry.teamspace.TeamspaceAdmin#teamspaceDefinitionForId(java.lang.String)
-     */
-    public TeamspaceDefinition teamspaceDefinitionForId(String teamspaceId) {
+    public Teamspace teamspaceForId(String teamspaceId) {
         Session session = currentSession();
         return queryTeamspaceById(session, teamspaceId);
     }

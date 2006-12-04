@@ -9,7 +9,7 @@ package com.mindquarry.teamspace;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface TeamspaceDefinition extends TeamspaceRO {
+public interface Teamspace extends TeamspaceRO {
 
     void setName(String value);
     

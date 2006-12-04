@@ -9,7 +9,7 @@ import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
 import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
-import com.mindquarry.teamspace.TeamspaceDefinition;
+import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceListener;
 import com.mindquarry.teamspace.TeamspaceListenerRegistry;
 import com.mindquarry.teamspace.TeamspaceRO;
@@ -78,7 +78,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
                 "Mindquarry User", "surname", "an email", "the skills");
 
         String teamspaceId = "mindquarry-teamspace";
-        TeamspaceDefinition teamspace = teamsAdmin.createTeamspace(teamspaceId,
+        Teamspace teamspace = teamsAdmin.createTeamspace(teamspaceId,
                 "Mindquarry Teamspace", "a greate description", creator);
 
         String propKey = "workspaceUri";
@@ -87,8 +87,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         teamspace.setProperty(propKey, propValue);
         teamsAdmin.updateTeamspace(teamspace);
 
-        TeamspaceDefinition updatedTeamspace = teamsAdmin
-                .teamspaceDefinitionForId(teamspaceId);
+        Teamspace updatedTeamspace = teamsAdmin.teamspaceForId(teamspaceId);
 
         assertEquals(propValue, updatedTeamspace.getProperty(propKey));
 
@@ -168,12 +167,12 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 
         boolean wasCalled = false;
 
-        public void afterTeamspaceRemoved(TeamspaceDefinition teamspace) {
+        public void afterTeamspaceRemoved(Teamspace teamspace) {
             // TODO Auto-generated method stub
 
         }
 
-        public void beforeTeamspaceCreated(TeamspaceDefinition teamspace) {
+        public void beforeTeamspaceCreated(Teamspace teamspace) {
             wasCalled = true;
         }
 
