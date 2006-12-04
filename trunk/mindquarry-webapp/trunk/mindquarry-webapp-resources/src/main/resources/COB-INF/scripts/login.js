@@ -21,11 +21,56 @@
 	if (httplogout && pathToWebappRootElement) {
 	    createLogoutLink(httplogout, pathToWebappRootElement);
 	}
+	
     var editUserLink = document.getElementById("edit-user-link");
 	if (editUserLink) {
 		modifyEditUserLink(editUserLink);
 	}
+
+/*	
+	var changePasswordSubmit = document.getElementById("changePassword.changePassword");
+	if (changePasswordSubmit) {
+		changePasswordSubmit.onclick = function() {
+			onChangePasswordClicked();
+			return false;
+		}
+	}
+	*/
+	
+	/*
+	var pwdChangedElem = document.getElementById("changePassword.pwdChanged");
+	if ((pwdChangedElem != null) && 
+				(pwdChangedElem.firstChild != null)) {
+		alert("test");
+		onChangePasswordClicked();
+	} */
 });
+
+function onChangePasswordClicked() {
+	
+	var newPwdInputId = "changePassword.new_password:input"
+	var newPwd = document.getElementById(newPwdInputId).value;
+	
+	var username = document.getElementById("edit-user-link").firstChild.nodeValue;
+    
+
+	//var editUserForm = document.getElementById("edit-user-form");
+	
+	// ensure password submit before calling form.submit()
+	//var submit_id_elem = editUserForm.elements["forms_submit_id"];
+	//submit_id_elem.value = "changePassword.changePassword";
+
+	//editUserForm.submit();
+	
+	// if password change succeeded
+	if (document.getElementById("changePassword.pwdChanged") != null) {		
+		var http = getHTTPObject();
+		var foo = document.getElementById("edit-user-form");
+		
+    	http.open("get", "/", false, username, newPwd);    
+    	http.send(null);
+	}    
+}
 
 function modifyEditUserLink(editUserLink)
 {
