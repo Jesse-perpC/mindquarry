@@ -4,7 +4,8 @@
 package com.mindquarry.common.persistence;
 
 /**
- * Add summary documentation here.
+ * Defines the implementation independent retrieval of Session objects 
+ * that are proper for for your current context (e.g. a particular transaction).
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
