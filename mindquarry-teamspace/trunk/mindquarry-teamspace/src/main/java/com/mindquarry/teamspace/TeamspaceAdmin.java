@@ -7,7 +7,10 @@ import com.mindquarry.user.UserRO;
 
 
 /**
- * @author bastian
+ * Provides methods to manage teamspaces (e.g. create and delete).
+ *
+ * @author 
+ * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  *
  */
 public interface TeamspaceAdmin extends TeamspaceQuery {

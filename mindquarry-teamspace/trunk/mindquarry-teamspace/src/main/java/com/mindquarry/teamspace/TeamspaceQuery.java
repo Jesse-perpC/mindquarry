@@ -6,7 +6,7 @@ package com.mindquarry.teamspace;
 import java.util.List;
 
 /**
- * 
+ * Provides methods to query teamspace related data.
  *
  * @author 
  * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
