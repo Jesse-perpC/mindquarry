@@ -238,18 +238,6 @@ public class JSONWriter extends TextResponseWriter {
         }
     }
 
-    private static class MultiValueField {
-        final SchemaField sfield;
-
-        final ArrayList<Fieldable> fields;
-
-        MultiValueField(SchemaField sfield, Fieldable firstVal) {
-            this.sfield = sfield;
-            this.fields = new ArrayList<Fieldable>(4);
-            this.fields.add(firstVal);
-        }
-    }
-
     public void writeDoc(String name, Collection<Fieldable> fields,
             Set<String> returnFields, Map pseudoFields) throws IOException {
         writer.write('{');
@@ -605,12 +593,14 @@ public class JSONWriter extends TextResponseWriter {
                 }
                 sb.setLength(lastIdx + 1);
             }
-
         }
         sb.append('Z');
         writeDate(name, sb.toString());
     }
 
+    /**
+     * @see org.apache.solr.request.TextResponseWriter#writeDate(java.lang.String, java.lang.String)
+     */
     public void writeDate(String name, String val) throws IOException {
         writeStr(name, val, false);
     }
@@ -620,16 +610,16 @@ public class JSONWriter extends TextResponseWriter {
         String str = Integer.toHexString(ch & 0xffff);
         switch (str.length()) {
         case 1:
-            sb.append("\\u000");
+            sb.append("\\u000"); //$NON-NLS-1$
             break;
         case 2:
-            sb.append("\\u00");
+            sb.append("\\u00"); //$NON-NLS-1$
             break;
         case 3:
-            sb.append("\\u0");
+            sb.append("\\u0"); //$NON-NLS-1$
             break;
         default:
-            sb.append("\\u");
+            sb.append("\\u"); //$NON-NLS-1$
             break;
         }
         sb.append(str);
