@@ -91,7 +91,8 @@ public final class UserManager implements UserAdmin, Authentication {
         
         UserEntity user = new UserEntity();
         user.setId(id);
-        user.setPassword(password);
+        // the default constructor sets an empty string password
+        user.changePassword("", password);
         user.setName(name);
         user.setSurname(surname);
         user.setEmail(email);
@@ -136,20 +137,6 @@ public final class UserManager implements UserAdmin, Authentication {
     public boolean authenticate(String userId, String password) {
         UserEntity user = queryUserById(userId);
         return ((user != null) && (user.getPassword().equals(password)));
-    }
-    
-    public boolean changePassword(String userId, String oldPwd, String newPwd) {
-        UserEntity userEntity = queryUserById(userId);
-        
-        boolean succeeded = false;
-        if (userEntity.getPassword().equals(oldPwd)) {
-            userEntity.setPassword(newPwd);
-            succeeded = true;
-        }
-        
-        updateEntity(userEntity);
-        
-        return succeeded;
     }
     
     /**

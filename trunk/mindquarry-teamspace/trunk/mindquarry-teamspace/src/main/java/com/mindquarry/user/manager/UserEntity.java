@@ -1,5 +1,7 @@
 package com.mindquarry.user.manager;
 
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
@@ -59,7 +61,7 @@ public final class UserEntity extends EntityBase implements User {
      * @return true if the password matches otherwise false
      */
     public boolean authenticate(String pwd) {
-        return this.password.equals(pwd);
+        return this.password.equals( md5(pwd));
     }
     
     /**
@@ -73,12 +75,23 @@ public final class UserEntity extends EntityBase implements User {
      * the new value is set otherwise false
      */
     public boolean changePassword(String oldPwd, String newPwd) {
-        if (this.password.equals(oldPwd) && isValidPwd(newPwd)) {
-            this.password = newPwd;
+        if (this.password.equals( md5(oldPwd)) && isValidPwd(newPwd)) {
+            this.password = md5(newPwd);
             return true;
         } else {
             return false;
         }
+    }
+    
+    private String md5(String input) {
+        MessageDigest md5Digest;
+        try {
+            md5Digest = MessageDigest.getInstance("MD5");
+        } catch (NoSuchAlgorithmException e) {
+            throw new UserException("could not get a md5 message digest", e);
+        }
+        md5Digest.update(input.getBytes());
+        return new String(md5Digest.digest());
     }
     
     private boolean isValidPwd(String pwd) {
