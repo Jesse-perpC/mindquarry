@@ -57,10 +57,11 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
     protected void indexInternal(List<String> changedPaths,
             List<String> deletedPaths) throws Exception {
 
-        Element chngEl = new Element("changes"); //$NON-NLS-1$
         Element delEl = new Element("deleted"); //$NON-NLS-1$
-        chngEl.addContent(delEl);
         Element modEl = new Element("modified"); //$NON-NLS-1$
+        
+        Element chngEl = new Element("changes"); //$NON-NLS-1$
+        chngEl.addContent(delEl);
         chngEl.addContent(modEl);
 
         Comment comment = new Comment("list of deleted paths"); //$NON-NLS-1$
@@ -70,7 +71,7 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
             pathEl.addContent(path);
             delEl.addContent(pathEl);
         }
-        comment = new Comment("list of changed paths"); //$NON-NLS-1$
+        comment = new Comment("list of modified paths"); //$NON-NLS-1$
         modEl.addContent(comment);
         for (String path : changedPaths) {
             Element pathEl = new Element("path"); //$NON-NLS-1$
@@ -82,7 +83,6 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
 
         XMLOutputter op = new XMLOutputter(Format.getPrettyFormat());
         op.output(doc, os);
-        // op.output(doc, System.out);
 
         // send content
         sendToIndexer(os.toByteArray());
