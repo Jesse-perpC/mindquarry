@@ -5,8 +5,13 @@
 			<fd:widgets>
 				
 				<!-- used to signal the success of changing password -->
-				<fd:output id="message" state="invisible">
+				<fd:output id="pwdChanged" state="invisible">
 					<fd:datatype base="string" />
+					<fd:initial-value>password changed</fd:initial-value>
+				</fd:output>
+				<fd:output id="pwdNotChanged" state="invisible">
+					<fd:datatype base="string" />
+					<fd:initial-value>password could not be changed</fd:initial-value>
 				</fd:output>
 				
 				<fd:field id="current_password" required="true">

@@ -17,7 +17,8 @@
 			<ft:form-template
 				action="#{$cocoon/continuation/id}.continue"
 				ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
-				method="POST" enctype="multipart/form-data">
+				method="POST" enctype="multipart/form-data"
+				id="edit-user-form">
 
 				<div id="editUserModel">
 					<h1>Edit User Settings</h1>
@@ -25,7 +26,8 @@
 					<ft:group id="changePassword">
 						<h3>Change Password</h3>
 						
-						<ft:widget id="message" />
+						<ft:widget id="pwdChanged" />
+						<ft:widget id="pwdNotChanged" />
 						<table>
 							<tr>
 								<td class="label">
