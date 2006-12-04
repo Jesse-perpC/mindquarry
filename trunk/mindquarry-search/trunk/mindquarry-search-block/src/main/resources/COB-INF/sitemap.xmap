@@ -187,10 +187,6 @@
 				<call resource="layouting"/>			
 			</match>
 
-			<match pattern="results">
-				<read src="sample-results.js"/>
-			</match>
-
 			<match pattern="*.continue">
 				<call continuation="{1}"/>
 			</match>

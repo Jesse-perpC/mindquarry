@@ -58,8 +58,8 @@ public class CustomSearchJSONWriter extends JSONWriter {
         }
         writer.write(',');
         writeKey("docs", false); //$NON-NLS-1$
-        writer.write('[');
-        
+        writer.write('{');
+
         incLevel();
         HashMap<String, List<DocWithScore>> sets = new HashMap<String, List<DocWithScore>>();
 
@@ -67,7 +67,7 @@ public class CustomSearchJSONWriter extends JSONWriter {
         for (int i = 0; i < sz; i++) {
             int id = iterator.nextDoc();
             Document doc = searcher.doc(id);
-            
+
             for (Fieldable ff : (List<Fieldable>) doc.getFields()) {
                 String fname = ff.name();
                 String fval = ff.stringValue();
@@ -76,7 +76,12 @@ public class CustomSearchJSONWriter extends JSONWriter {
                     if (!sets.containsKey(fval)) {
                         sets.put(fval, new ArrayList<DocWithScore>());
                     }
-                    sets.get(fval).add(new DocWithScore(doc, iterator.score()));
+                    if (includeScore) {
+                        sets.get(fval).add(
+                                new DocWithScore(doc, iterator.score()));
+                    } else {
+                        sets.get(fval).add(new DocWithScore(doc, 0.0f));
+                    }
                 }
             }
         }
@@ -108,11 +113,11 @@ public class CustomSearchJSONWriter extends JSONWriter {
                     writer.write(',');
                 }
                 writer.write('{');
-                
+
                 boolean firstEntry = true;
                 for (Fieldable ff : (List<Fieldable>) doc.getDoc().getFields()) {
                     String fname = ff.name();
-                    
+
                     if ((fname.equals("location")) || (fname.equals("title"))) { //$NON-NLS-1$ //$NON-NLS-2$
                         if (firstEntry) {
                             firstEntry = false;
@@ -121,19 +126,20 @@ public class CustomSearchJSONWriter extends JSONWriter {
                         }
                         indent();
                         writeKey(fname, false);
-                        if(fname.equals("location")) { //$NON-NLS-1$
-                            writeStr(null, transformToWebPath(ff.stringValue()), true);
+                        if (fname.equals("location")) { //$NON-NLS-1$
+                            writeStr(null,
+                                    transformToWebPath(ff.stringValue()), true);
                         } else {
                             writeStr(null, ff.stringValue(), true);
                         }
                     }
                 }
                 // write score
-                if(includeScore) {
+                if (includeScore) {
                     writer.write(',');
                     indent();
                     writeKey("score", false); //$NON-NLS-1$
-                    
+
                     Float score = doc.getScore() * 100;
                     int absScore = score.intValue();
                     writeInt(null, absScore);
@@ -145,8 +151,8 @@ public class CustomSearchJSONWriter extends JSONWriter {
         }
         decLevel();
         indent();
-        writer.write(']');
-        
+        writer.write('}');
+
         if (otherFields != null) {
             writeMap(null, otherFields, true, false);
         }
@@ -167,7 +173,7 @@ public class CustomSearchJSONWriter extends JSONWriter {
         }
         return loc;
     }
-    
+
     private String getWebPath(String loc) {
         String[] parts = loc.split("/"); //$NON-NLS-1$
         loc = '/' + parts[1] + '/' + parts[0];
@@ -175,7 +181,7 @@ public class CustomSearchJSONWriter extends JSONWriter {
             loc += '/' + parts[i];
         }
         // remove .xml suffix if necessary
-        if(loc.endsWith(".xml")) { //$NON-NLS-1$
+        if (loc.endsWith(".xml")) { //$NON-NLS-1$
             loc = loc.substring(0, loc.indexOf(".xml")); //$NON-NLS-1$
         }
         return loc;
