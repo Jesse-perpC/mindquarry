@@ -40,13 +40,20 @@ function changePassword() {
 	var changed = currentUser.changePassword(oldPwd, newPwd);	
 	userAdmin.updateUser(currentUser);
 	
-	var messageWidget = form_.lookupWidget("/changePassword/message");
-	messageWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 
-	if (changed)
-		model_.changePassword.message = "password changed."
-	else
-		model_.changePassword.message = "password could not be changed."
+	var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
+	
+	// always set the not used message output to state invisible
+	// otherwise both messages will appear if the user clicks changePassword twice
+	var messageWidgetName;
+	if (changed) {
+		form_.lookupWidget("/changePassword/pwdChanged").setState(WidgetState.ACTIVE);
+		form_.lookupWidget("/changePassword/pwdNotChanged").setState(WidgetState.INVISIBLE);
+	}
+	else {
+		form_.lookupWidget("/changePassword/pwdChanged").setState(WidgetState.INVISIBLE);
+		form_.lookupWidget("/changePassword/pwdNotChanged").setState(WidgetState.ACTIVE);
+	}
 }
 
 function uploadPhoto() {
