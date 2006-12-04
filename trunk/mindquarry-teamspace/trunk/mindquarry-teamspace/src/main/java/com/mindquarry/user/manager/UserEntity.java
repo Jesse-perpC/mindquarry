@@ -30,7 +30,7 @@ public final class UserEntity extends EntityBase implements User {
      */
     public UserEntity() {
         id = "";
-        password = "";
+        password = md5("");
         name = "";
         surname = "";
         email = "";
@@ -84,14 +84,15 @@ public final class UserEntity extends EntityBase implements User {
     }
     
     private String md5(String input) {
-        MessageDigest md5Digest;
-        try {
-            md5Digest = MessageDigest.getInstance("MD5");
-        } catch (NoSuchAlgorithmException e) {
-            throw new UserException("could not get a md5 message digest", e);
-        }
-        md5Digest.update(input.getBytes());
-        return new String(md5Digest.digest());
+        return input;
+//        MessageDigest md5Digest;
+//        try {
+//            md5Digest = MessageDigest.getInstance("MD5");
+//        } catch (NoSuchAlgorithmException e) {
+//            throw new UserException("could not get a md5 message digest", e);
+//        }
+//        md5Digest.update(input.getBytes());
+//        return new String(md5Digest.digest());
     }
     
     private boolean isValidPwd(String pwd) {

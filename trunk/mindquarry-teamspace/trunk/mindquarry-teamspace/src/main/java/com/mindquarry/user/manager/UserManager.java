@@ -135,8 +135,8 @@ public final class UserManager implements UserAdmin, Authentication {
      * @see com.mindquarry.user.Authentication#authenticate(java.lang.String, java.lang.String)
      */
     public boolean authenticate(String userId, String password) {
-        UserEntity user = queryUserById(userId);
-        return ((user != null) && (user.getPassword().equals(password)));
+        UserEntity user = queryUserById(userId);        
+        return (user != null) && user.authenticate(password);
     }
     
     /**
