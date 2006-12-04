@@ -63,7 +63,7 @@ public final class UserEntity extends EntityBase implements User {
      * @return true if the password matches otherwise false
      */
     public boolean authenticate(String pwd) {
-        return this.password.equals( encodePwd(pwd));
+        return (pwd != null) && this.password.equals( encodePwd(pwd));
     }
     
     /**
