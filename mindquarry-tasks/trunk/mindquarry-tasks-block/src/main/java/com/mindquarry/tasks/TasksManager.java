@@ -7,7 +7,7 @@ import org.apache.cocoon.environment.SourceResolver;
 import org.apache.excalibur.source.ModifiableTraversableSource;
 
 import com.mindquarry.jcr.id.JCRUniqueIDGenerator;
-import com.mindquarry.teamspace.TeamspaceDefinition;
+import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceListener;
 import com.mindquarry.teamspace.TeamspaceListenerRegistry;
 
@@ -37,7 +37,7 @@ public class TasksManager implements TeamspaceListener {
     /**
      * Called on creation of a teamspace.
      */
-    public void beforeTeamspaceCreated(TeamspaceDefinition teamspace)
+    public void beforeTeamspaceCreated(Teamspace teamspace)
             throws Exception {
         final String tasksDirPath = "/teamspaces/" + teamspace.getId()
                 + "/tasks";
@@ -57,7 +57,7 @@ public class TasksManager implements TeamspaceListener {
     /**
      * Called on deletion of a teamspace.
      */
-    public void afterTeamspaceRemoved(TeamspaceDefinition teamspace)
+    public void afterTeamspaceRemoved(Teamspace teamspace)
             throws Exception {
     }
 
