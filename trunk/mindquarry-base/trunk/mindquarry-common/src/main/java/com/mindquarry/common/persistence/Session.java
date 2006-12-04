@@ -6,7 +6,12 @@ package com.mindquarry.common.persistence;
 import java.util.List;
 
 /**
- *
+ * This interface defines the contract with an object oriented 
+ * persistence implementation. The persistence interfaces aim to 
+ * minimize technological dependencies. You have to use an implementation of
+ * the <code>SessionFactory</code> interface to retrieve the instance
+ * that is proper for your current context (e.g. a particular transaction).  
+ * 
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
