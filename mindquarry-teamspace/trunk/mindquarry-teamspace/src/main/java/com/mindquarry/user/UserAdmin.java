@@ -6,7 +6,8 @@ package com.mindquarry.user;
 
 
 /**
- * Add summary documentation here.
+ * Provides methods to manage user (e.g. create and delete) 
+ * and assign them to groups.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>

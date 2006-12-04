@@ -6,7 +6,7 @@ package com.mindquarry.user;
 import java.util.List;
 
 /**
- * Add summary documentation here.
+ * Provides methods to query user related data.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
