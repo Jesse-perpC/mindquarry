@@ -112,7 +112,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
             // use index client to notify the indexer about the delete
             List<String> changedPaths = new ArrayList<String>();
             List<String> deletedPaths = new ArrayList<String>();
-            deletedPaths.add(uri);
+            changedPaths.add(uri);
             iClient.index(changedPaths, deletedPaths);
         }
     }
