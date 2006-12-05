@@ -3,7 +3,17 @@ cocoon.load("block:resources:/flows/util.js"); // only reloaded on restart!
 
 var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
 var form_;
-var fullURI_;
+var baseURI_;
+var documentID_;
+var suffix_;
+
+function getFilename() {
+    return documentID_ + suffix_;
+}
+
+function getFullPath() {
+    return baseURI_ + getFilename();
+}
 
 /////////////////////////////////////////////////////////
 // specific actions
@@ -37,11 +47,39 @@ function switchEditView(event) {
 }
 
 function save(event) {
-	if (form_ && fullURI_) {
+	if (form_) {
+	    var newDocument = false;
+	    if (documentID_ == "new") {
+	        // this does the trick: it will load the uniqueName.js from the
+	        // block that calls us via block:super: and provides its own version
+	        // of uniqueName.js. the implementation of uniqueName.js must return
+	        // a new document id.
+	        documentID_ = evalJavaScriptSource("block:/uniqueName.js");
+	        newDocument = true;
+	    }
+	    
 		// the form includes all possible fields, but only some of them are
 		// actually used. the best solution would be to strip out forms
-		form_.saveXML(fullURI_, CLEAN_MODEL_XSL);
-		switchEditView(event);
+		form_.saveXML(getFullPath(), CLEAN_MODEL_XSL);
+		
+		if (newDocument) {
+
+            // stop form processing before the redirect, otherwise the redirect
+            // would not work properly as he also runs the form output pipeline
+		    form_.getWidget().endProcessing(false);
+		    // go to the real url of the newly created document (the pipeline
+		    // will create some special redirect xml that is either interpreted
+		    // by the browser-update handler client-side javascript to do the
+		    // redirect from within the browser or (if Javascript is disabled
+		    // == this is no ajax request) the RedirectTransformer will do a
+		    // HTTP redirect based on the xml content) 
+		    cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);
+		    
+		} else {
+		
+		    // existing documents only switch to view mode after a save
+		    switchEditView(event);
+		}
 	}
 }
 
@@ -125,19 +163,24 @@ function setFormState(form, isEdit) {
 function showDForm(form) {
     //print( "Unique Name: " + evalJavaScriptSource("block:/uniqueName.js") );
     
-	var filename = cocoon.parameters["documentID"] + ".xml";
-	
+    baseURI_ = cocoon.parameters["baseURI"];
+    documentID_ = cocoon.parameters["documentID"];
+    suffix_ = ".xml";
+
+    //var isEditStart = (cocoon.parameters["edit"] == 'true');
+    var isEditStart = (documentID_ == 'new');
+    
 	// save form and uri for actions
 	form_ = form;
-	fullURI_ = cocoon.parameters["baseURI"] + filename;
 
 	// load file from internal pipeline
-	form.loadXML("cocoon:/" + filename + ".plain");
+	form.loadXML("cocoon:/" + getFilename() + ".plain");
 	
 	// set initial state to output
-	setWidgetStates(form, false);
+	setWidgetStates(form, isEditStart);
 
-	form.showForm(filename + ".instance");
+    // the continuations will be inside this method again and again
+	form.showForm(getFilename() + ".instance");
 }
 
 /////////////////////////////////////////////////////////
