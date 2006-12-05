@@ -213,8 +213,6 @@
 			<match pattern="dform">
 				<call function="handleForm">
 					<parameter name="function" value="showDForm" />
-					<parameter name="edit"
-						value="{request-param:edit}" />
 					<parameter name="baseURI"
 						value="{request-param:baseURI}" />
 					<parameter name="documentID"
