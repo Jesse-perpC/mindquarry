@@ -51,6 +51,13 @@ public class JCRUniqueIDGenerator extends JCRClient {
      * Get the next ID which is unique for anything below <code>jcrPath</code>.
      */
     public long getNextID(String jcrPath) throws IDException {
+        // sometimes client code is using the string with a source resolver
+        // as well, where it must provide the scheme prefix; so we offer it
+        // to work with both variants for simplicity of the client code
+        if (jcrPath.startsWith("jcr://")) {
+            jcrPath = jcrPath.substring("jcr://".length());
+        }
+        
         Session session;
         try {
             session = login();
@@ -74,6 +81,13 @@ public class JCRUniqueIDGenerator extends JCRClient {
      * access will hapen.
      */
     public void initializePath(String jcrPath) throws IDException {
+        // sometimes client code is using the string with a source resolver
+        // as well, where it must provide the scheme prefix; so we offer it
+        // to work with both variants for simplicity of the client code
+        if (jcrPath.startsWith("jcr://")) {
+            jcrPath = jcrPath.substring("jcr://".length());
+        }
+
         Session session;
         try {
             session = login();
