@@ -23,7 +23,7 @@
 				<div class="nifty">
 					<div class="firstlinks">
 						<ul>
-		        			<li><a class="create_task_button" href="task{count(*)+1}">Create task</a></li>
+		        			<li><a class="create_task_button" href="new">Create task</a></li>
 	        			<li><a class="create_filter_button" href="filters/new">Create filter</a></li>
 						</ul>
 					</div>
