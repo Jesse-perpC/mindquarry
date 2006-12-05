@@ -144,6 +144,12 @@
 					src="scripts/dojo/mindquarry/{1}" />
 			</map:match>
 
+			<!-- temporary overwrite of the BUHandler with new redirect code in it -->
+			<map:match pattern="_cocoon/resources/ajax/js/BUHandler.js">
+				<map:read
+					src="scripts/dojo/mindquarry/BUHandler.js" />				
+			</map:match>
+			
 			<!-- cooon resources (needed for dojo scripts, etc) -->
 			<map:match pattern="_cocoon/resources/*/**">
 				<map:read
