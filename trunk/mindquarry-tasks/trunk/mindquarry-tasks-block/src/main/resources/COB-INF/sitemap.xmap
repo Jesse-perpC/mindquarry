@@ -40,8 +40,12 @@
 		<transformers>
 			<transformer name="clear"
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
+			<transformer name="redirect"
+				src="com.mindquarry.webapp.transforming.RedirectTransformer" />
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
+			<transformer name="tee"
+				src="org.apache.cocoon.transformation.TeeTransformer" />
 		</transformers>		
 	</components>
 
@@ -91,6 +95,17 @@
 					<serialize type="html" />
 				</otherwise>
 			</select>
+		</resource>
+		
+		<resource name="task-layouting">
+			<transform src="xslt/html/task2html.xsl">
+				<parameter name="viewDocumentLink" value="{document}" />
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+			<call resource="layouting" />
 		</resource>
 
 		<!-- load form2html stylesheet from DForms block -->
@@ -234,7 +249,7 @@
 			
 		</pipeline>
 
-		<!-- provides the files for forms -->
+		<!-- provides the files for forms (internal) -->
 		<pipeline type="noncaching" internal-only="true">
 			
 			<!-- internal pipeline for the filter editor -->
@@ -254,9 +269,7 @@
 			</match>
 		</pipeline>
 
-		<!-- special REST content type pipelines, these are internal -->
-		
-		<!-- filters -->
+		<!-- filters (internal) -->
 		<pipeline type="noncaching" internal-only="true">
 			<!-- raw XML, only list of filters -->
 			<match pattern="internal/pipe/filters/*/list.xml">
@@ -281,7 +294,7 @@
 			</match>
 		</pipeline>
 
-		<!-- teamspacesTasksOverview -->
+		<!-- teamspacesTasksOverview (internal) -->
 		<pipeline type="noncaching" internal-only="true">
 
 			<!-- raw XML -->
@@ -344,7 +357,7 @@
 
 		</pipeline>
 
-		<!-- tasksForTeamspace -->
+		<!-- tasksForTeamspace (internal) -->
 		<pipeline type="noncaching" internal-only="true">
 
 			<!-- raw XML-->
@@ -391,7 +404,7 @@
 			</match>
 		</pipeline>
 
-		<!-- Let's do it the REST way -->
+		<!-- External browser pipeline with REST -->
 		<pipeline type="noncaching">
 
 			<!-- list of teamspaces with the tasks overview (teamspacesTaskOverview) -->
@@ -436,7 +449,7 @@
 				</call>
 			</match>
 
-			<!-- list of tasks per teamspace {1} (tasksForTeamspace) -->
+			<!-- list of tasks per teamspace (tasksForTeamspace) -->
 			<match pattern="*/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/tasklist"/>
 				<select type="REST">
@@ -451,7 +464,8 @@
 				</select>
 			</match>
 			
-			<match pattern="*/lists/form.xml"><!-- provides a selection-list to CForms -->
+			<!-- provides a selection-list to CForms -->
+			<match pattern="*/lists/form.xml">
 				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
 				<transform src="xslt/xml/include-basic-task-data.xsl">
 					<parameter name="basePath"
@@ -469,6 +483,7 @@
 				| /teamspaces/<teamspace-id>/tasks/<task-id>
 				+-->
 				
+			<!-- for debugging dforms -->
 			<match pattern="*/*.debug">
 				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
 				<generate
@@ -476,6 +491,7 @@
 				<serialize tpye="xml" />
 			</match>
 
+			<!-- editing, viewing, continuing or creating a task -->
 			<match pattern="*/*">
 				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
 				
@@ -484,19 +500,15 @@
 					<when test="GET">
 						<select type="REST">
 							<when test="html">
-								<!-- normal viewing (or editing when new) -->
+								<!-- normal viewing (entry point for form) -->
 								<generate
 									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
-								<transform src="xslt/html/task-view-or-edit.xsl">
-									<parameter name="viewDocumentLink" value="{2}" />
-									<parameter name="fullPath"
-										value="{block-path:}{request:pathInfo}" />
-									<parameter name="sitemapPath"
-										value="{request:pathInfo}" />
-								</transform>
-								<call resource="layouting" />
+								<call resource="task-layouting">
+									<parameter name="document" value="{2}"/>
+								</call>
 							</when>
 							<when test="xml">
+								<!-- direct xml output -->
 								<generate
 									src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
 								<transform
@@ -510,29 +522,32 @@
 					</when>
 
 					<when test="POST">
+						<!-- when posting we expect a continuation, so check for the correct id format -->
 						<select type="regexp-request-param">
 							<parameter name="parameter-name" value="continuation-id" />
 							<when test="number">
 								<!-- it's a continuation (editing) -->
-								<generate src="block:super:/{request-param:continuation-id}.continue?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
+								<generate src="block:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
+								<select type="ajax-request">
+									<when test="false">
+										<transform type="redirect" />
+									</when>
+								</select>
 							</when>
 							<otherwise>
-								<!-- normal viewing (or editing when new) -->
+								<!-- seldom fallback: normal viewing -->
 								<generate
 									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="raw" />
 							</otherwise>
 						</select>
-						<transform src="xslt/html/task-view-or-edit.xsl">
-							<parameter name="viewDocumentLink" value="{2}" />
-							<parameter name="fullPath"
-								value="{block-path:}{request:pathInfo}" />
-							<parameter name="sitemapPath"
-								value="{request:pathInfo}" />
-						</transform>
-						<call resource="layouting" />
+						<call resource="task-layouting">
+							<parameter name="document" value="{2}"/>
+						</call>
 					</when>
 					
 					<when test="PUT">
+						<!-- write http body as task xml into jcr -->
+						<!-- TODO: handle new -> unique id generation here -->
 						<generate type="stream">
 							<parameter name="defaultContentType"
 								value="text/xml" />
@@ -553,6 +568,7 @@
 
 		<!-- =========================================================== -->
 
+		<!-- resource stuff and super forwarding (external) -->
 		<pipeline type="noncaching">
 			
 			<!-- icons for people -->
