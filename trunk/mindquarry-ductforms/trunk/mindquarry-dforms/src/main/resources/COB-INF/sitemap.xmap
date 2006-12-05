@@ -40,7 +40,6 @@
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
-			
 			<transformer name="tee"
 				src="org.apache.cocoon.transformation.TeeTransformer" />
 		</transformers>
@@ -173,7 +172,7 @@
 				<!--<transform type="tee" src="file:///tmp/jx.xml" />-->
 				
 				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
-
+				
 				<transform type="browser-update" />
 				<!--<transform type="tee" src="file:///tmp/bu.xml" />-->
 				
@@ -196,14 +195,26 @@
 				<!-- remove the html-document-envelope created by nekohtml -->
 				<transform src="xsl/forms/remove-htmllize.xsl" />
 
+				<!--<transform type="tee" src="file:///tmp/end.xml" />-->						
 				<!-- layouting is done by sub-blocks -->
 				<serialize type="xml" />
 			</match>
+			
+			<!-- internal, will provide a browser-update xml snippet with
+				 a redirect action -->
+			<match pattern="redirectTo/*">
+				<generate type="jx" src="jx/redirect-browserupdate.jx">
+					<parameter name="uri" value="{1}" />
+				</generate>
+				<serialize type="xml" />
+			</match>
 
-			<!-- internal, for child -->
+			<!-- for child to call the form -->
 			<match pattern="dform">
 				<call function="handleForm">
 					<parameter name="function" value="showDForm" />
+					<parameter name="edit"
+						value="{request-param:edit}" />
 					<parameter name="baseURI"
 						value="{request-param:baseURI}" />
 					<parameter name="documentID"
@@ -226,21 +237,13 @@
 
 			<!-- internal, for child to retrieve xml -->
 			<match pattern="document">
-				<read
-					src="cocoon:/{request-param:documentID}.xml.plain" />
+				<read src="cocoon:/{request-param:documentID}.xml.plain" />
 			</match>
 
 			<!-- =========================================================== -->
 
-			<!-- Continue a scenario. The continuation id is passed in the URL
-				(typically used for GET requests) -->
-			<match pattern="*.continue">
-				<call continuation="{1}" />
-			</match>
-
-			<!-- Continue a scenario. The continuation id is passed as a request
-				parameter (typically used for POST request) -->
-			<match pattern="continue">
+			<!-- Continue a scenario. The continuation id is passed in the URL -->
+			<match pattern="continue/*">
 				<call continuation="{1}" />
 			</match>
 
