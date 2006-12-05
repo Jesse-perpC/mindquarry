@@ -8,7 +8,14 @@
 	<xsl:param name="viewDocumentLink" />
 	
 	<xsl:variable name="taskTitle">
-		Task: <xsl:value-of select="/html/head/title" />
+		<xsl:choose>
+			<xsl:when test="string-length(normalize-space(/html/head/title)) = 0">
+				Create New Task
+			</xsl:when>
+			<xsl:otherwise>
+				Task: <xsl:value-of select="/html/head/title" />				
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:variable>
 
 	<xsl:template match="@*|node()">
