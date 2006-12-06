@@ -41,7 +41,7 @@
 			<transformer name="clear"
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
 			<transformer name="redirect"
-				src="com.mindquarry.webapp.transforming.RedirectTransformer" />
+				src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer" />
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 			<transformer name="tee"
@@ -116,6 +116,20 @@
 				<parameter name="sitemapPath"
 					value="{request:pathInfo}" />
 			</transform>
+		</resource>
+		
+		<resource name="writetask">
+			<generate type="stream">
+				<parameter name="defaultContentType" value="text/xml" />
+			</generate>
+			<transform src="xslt/xml/task2ductform.xsl" />
+			<transform
+				src="xslt/xml/wrap-for-sourcewriting.xsl">
+				<parameter name="path"
+					value="jcr:///teamspaces/{teamspace}/tasks/{document}.xml"/>
+			</transform>
+			<transform type="write-source" />
+			<!--<serialize type="xml" />-->
 		</resource>
 	</resources>
 
@@ -298,7 +312,7 @@
 		<pipeline type="noncaching" internal-only="true">
 
 			<!-- raw XML -->
-			<match pattern="internal/pipe/list.xml">
+			<match pattern="internal/pipe/overview.xml">
 				<call function="listTeamspacesForUser">
 					<parameter name="username" value="{request-attr:username}" />
 					<parameter name="target"
@@ -321,7 +335,7 @@
 			</match>
 
 			<!-- HTML (which is different from the xml content) -->
-			<match pattern="internal/pipe/list.html">
+			<match pattern="internal/pipe/overview.html">
 				<call function="listTeamspacesForUser">
 					<parameter name="username" value="{request-attr:username}" />
 					<parameter name="target"
@@ -361,7 +375,7 @@
 		<pipeline type="noncaching" internal-only="true">
 
 			<!-- raw XML-->
-			<match pattern="internal/pipe/*/list.xml">
+			<match pattern="internal/pipe/tasks/*/list.xml">
 				<generate type="collection"
 					src="jcr:///teamspaces/{1}/tasks/" label="xml">
 					<parameter name="include" value=".*\.xml" />
@@ -375,8 +389,8 @@
 			</match>
 
 			<!-- HTML -->
-			<match pattern="internal/pipe/*/list.html">
-				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
+			<match pattern="internal/pipe/tasks/*/list.html">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
 				
 				<transform src="xslt/xml/include-filters-for-tasks.xsl"/>
 				<transform type="xinclude" />
@@ -411,10 +425,10 @@
 			<match pattern="">
 				<select type="REST">
 					<when test="html">
-						<read src="cocoon:/internal/pipe/list.html" />
+						<read src="cocoon:/internal/pipe/overview.html" />
 					</when>
 					<when test="xml">
-						<read src="cocoon:/internal/pipe/list.xml" />
+						<read src="cocoon:/internal/pipe/overview.xml" />
 					</when>
 				</select>
 			</match>
@@ -455,18 +469,18 @@
 				<select type="REST">
 					<when test="html">
 						<read
-							src="cocoon:/internal/pipe/{1}/list.html" />
+							src="cocoon:/internal/pipe/tasks/{1}/list.html" />
 					</when>
 					<when test="xml">
 						<read
-							src="cocoon:/internal/pipe/{1}/list.xml" />
+							src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
 					</when>
 				</select>
 			</match>
 			
 			<!-- provides a selection-list to CForms -->
 			<match pattern="*/lists/form.xml">
-				<generate src="cocoon:/internal/pipe/{1}/list.xml" />
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
 				<transform src="xslt/xml/include-basic-task-data.xsl">
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
@@ -548,7 +562,12 @@
 					<when test="PUT">
 						<!-- write http body as task xml into jcr -->
 						<!-- TODO: handle new -> unique id generation here -->
-						<generate type="stream">
+						<call resource="writetask">
+							<parameter name="teamspace" value="{1}"/>
+							<parameter name="document" value="{2}"/>
+						</call>
+						<redirect-to uri="{2}" />
+						<!--<generate type="stream">
 							<parameter name="defaultContentType"
 								value="text/xml" />
 						</generate>
@@ -559,11 +578,12 @@
 								value="jcr:///teamspaces/{1}/tasks/{2}.xml" />
 						</transform>
 						<transform type="write-source" />
-						<serialize type="xml" />
+						<serialize type="xml" />-->
 					</when>
 					
 				</select>
 			</match>
+			
 		</pipeline>
 
 		<!-- =========================================================== -->

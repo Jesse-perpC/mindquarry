@@ -20,7 +20,7 @@
 		<teamspace xlink:href="{id}">
 			<name><xsl:value-of select="name" /></name>
 			<description><xsl:value-of select="description" /></description>
-			<xi:include href="cocoon:/internal/pipe/{id}/list.xml" />
+			<xi:include href="cocoon:/internal/pipe/tasks/{id}/list.xml" />
 			<xi:include href="cocoon:/internal/pipe/filters/{id}/list.xml" />
 		</teamspace>
 	</xsl:template>
