@@ -97,6 +97,17 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
+			
+			<map:match pattern="buttons/*.*">
+				<map:select type="resource-exists">
+					<map:when test="buttons/{1}_button.{2}">
+						<map:read src="buttons/{1}_button.{2}"/>
+					</map:when>
+					<map:otherwise>
+						<map:read src="block:super:/buttons/{1}.{2}"/>
+					</map:otherwise>
+				</map:select>
+			</map:match>
 
 		</map:pipeline>
 
