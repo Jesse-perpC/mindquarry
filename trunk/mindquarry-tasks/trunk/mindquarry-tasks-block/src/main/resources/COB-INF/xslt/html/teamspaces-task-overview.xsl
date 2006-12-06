@@ -56,12 +56,14 @@
 					</ul>
 				</div>
 				
-				<div class="queries">
-					<h3>Saved Filters</h3>
-					<ul>
-						<xsl:call-template name="filters" />
-					</ul>
-				</div>
+				<xsl:if test="count(filter) > 0">
+					<div class="queries">
+						<h3>Saved Filters</h3>
+						<ul>
+							<xsl:call-template name="filters" />
+						</ul>
+					</div>
+				</xsl:if>
 			</div>
 		</li>
 	</xsl:template>

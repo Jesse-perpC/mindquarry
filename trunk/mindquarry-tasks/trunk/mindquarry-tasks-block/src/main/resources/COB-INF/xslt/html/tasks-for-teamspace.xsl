@@ -40,20 +40,22 @@
 						</table>
 					</div>
 
-					<div class="task-area">
-						<table class="task-list">
-							<tr>
-								<th>Filter</th>
-							</tr>
-							<xsl:for-each select="filter">
+					<xsl:if test="count(filter) > 0">
+						<div class="task-area">
+							<table class="task-list">
 								<tr>
-									<td>
-										<a href="{@xlink:href}"><xsl:value-of select="title"/></a>
-									</td>
+									<th>Filter</th>
 								</tr>
-							</xsl:for-each>
-						</table>
-					</div>
+								<xsl:for-each select="filter">
+									<tr>
+										<td>
+											<a href="{@xlink:href}"><xsl:value-of select="title"/></a>
+										</td>
+									</tr>
+								</xsl:for-each>
+							</table>
+						</div>
+					</xsl:if>
 
 					<div class="footbar">
 						<a href=".." id="back" title="back to teamspace overview">
