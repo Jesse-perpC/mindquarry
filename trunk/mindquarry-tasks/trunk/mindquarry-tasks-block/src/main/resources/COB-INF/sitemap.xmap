@@ -40,8 +40,10 @@
 		<transformers>
 			<transformer name="clear"
 				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
-			<transformer name="redirect"
+			<transformer name="bu-redirect"
 				src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer" />
+			<transformer name="redirect"
+				src="com.mindquarry.webapp.transforming.RedirectTransformer" />
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 			<transformer name="tee"
@@ -97,6 +99,7 @@
 			</select>
 		</resource>
 		
+		<!-- layouts the single task edit view -->
 		<resource name="task-layouting">
 			<transform src="xslt/html/task2html.xsl">
 				<parameter name="viewDocumentLink" value="{document}" />
@@ -118,6 +121,7 @@
 			</transform>
 		</resource>
 		
+		<!-- writes a task xml stream content named by the parameter {document} into jcr -->
 		<resource name="writetask">
 			<generate type="stream">
 				<parameter name="defaultContentType" value="text/xml" />
@@ -129,7 +133,9 @@
 					value="jcr:///teamspaces/{teamspace}/tasks/{document}.xml"/>
 			</transform>
 			<transform type="write-source" />
-			<!--<serialize type="xml" />-->
+			<transform type="redirect" src="{document}" />
+			<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
+			<serialize type="xml" />
 		</resource>
 	</resources>
 
@@ -544,7 +550,7 @@
 								<generate src="block:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
 								<select type="ajax-request">
 									<when test="false">
-										<transform type="redirect" />
+										<transform type="bu-redirect" />
 									</when>
 								</select>
 							</when>
@@ -561,24 +567,37 @@
 					
 					<when test="PUT">
 						<!-- write http body as task xml into jcr -->
-						<!-- TODO: handle new -> unique id generation here -->
-						<call resource="writetask">
-							<parameter name="teamspace" value="{1}"/>
-							<parameter name="document" value="{2}"/>
-						</call>
-						<redirect-to uri="{2}" />
-						<!--<generate type="stream">
-							<parameter name="defaultContentType"
-								value="text/xml" />
-						</generate>
-						<transform src="xslt/xml/task2ductform.xsl" />
-						<transform
-							src="xslt/xml/wrap-for-sourcewriting.xsl">
-							<parameter name="path"
-								value="jcr:///teamspaces/{1}/tasks/{2}.xml" />
-						</transform>
-						<transform type="write-source" />
-						<serialize type="xml" />-->
+						<select type="parameter">
+							<parameter name="parameter-selector-test" value="{2}"/>
+							
+							<when test="new">
+								<!-- TODO: handle new -> unique id generation here -->
+								<call resource="writetask">
+									<parameter name="teamspace" value="{1}"/>
+									<parameter name="document" value="{unique-task-id:jcr:///teamspaces/{1}/tasks/}"/>
+								</call>
+							</when>
+							<otherwise>
+								<!-- overwrite existing task -->
+								<select type="resource-exists">
+									<!-- check whether the task exist... -->
+									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
+										<!-- ...then overwrite it -->
+										<call resource="writetask">
+											<parameter name="teamspace" value="{1}"/>
+											<parameter name="document" value="{2}"/>
+										</call>										
+									</when>
+									<otherwise>
+										<!-- ...otherwise create a correct new document id -->
+										<call resource="writetask">
+											<parameter name="teamspace" value="{1}"/>
+											<parameter name="document" value="{unique-task-id:jcr:///teamspaces/{1}/tasks/}"/>
+										</call>										
+									</otherwise>
+								</select>
+							</otherwise>
+						</select>
 					</when>
 					
 				</select>

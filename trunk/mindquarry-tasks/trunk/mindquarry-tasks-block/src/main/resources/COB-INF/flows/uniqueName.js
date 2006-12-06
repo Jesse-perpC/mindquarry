@@ -1,10 +1,10 @@
 function createUniqueName(baseURI) {
-    var uniqueIDGenerator;
+    var tasksManager;
 	try {
-		uniqueIDGenerator = cocoon.getComponent("com.mindquarry.jcr.id.JCRUniqueIDGenerator");
-		return "task" + uniqueIDGenerator.getNextID(baseURI);
+		tasksManager = cocoon.getComponent("com.mindquarry.tasks.TasksManager");
+		return tasksManager.getUniqueTaskId(baseURI);
 	} finally {
-		cocoon.releaseComponent(uniqueIDGenerator);
+		cocoon.releaseComponent(tasksManager);
 	}
     return "task_error";
 }
