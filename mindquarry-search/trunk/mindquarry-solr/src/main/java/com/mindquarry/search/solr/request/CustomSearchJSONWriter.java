@@ -73,14 +73,20 @@ public class CustomSearchJSONWriter extends JSONWriter {
                 String fval = ff.stringValue();
 
                 if (fname.equals("type")) { //$NON-NLS-1$
-                    if (!sets.containsKey(fval)) {
-                        sets.put(fval, new ArrayList<DocWithScore>());
+                    String type = fval;
+                    if(type.equals("wiki")) { //$NON-NLS-1$
+                        type = type.replaceFirst("w", "W"); //$NON-NLS-1$ //$NON-NLS-2$
+                    } else if(type.equals("tasks")) { //$NON-NLS-1$
+                        type = type.replaceFirst("t", "T"); //$NON-NLS-1$ //$NON-NLS-2$
+                    }
+                    if (!sets.containsKey(type)) {
+                        sets.put(type, new ArrayList<DocWithScore>());
                     }
                     if (includeScore) {
-                        sets.get(fval).add(
+                        sets.get(type).add(
                                 new DocWithScore(doc, iterator.score()));
                     } else {
-                        sets.get(fval).add(new DocWithScore(doc, 0.0f));
+                        sets.get(type).add(new DocWithScore(doc, 0.0f));
                     }
                 }
             }
