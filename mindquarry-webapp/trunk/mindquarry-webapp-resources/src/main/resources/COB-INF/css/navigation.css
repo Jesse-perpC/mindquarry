@@ -53,6 +53,13 @@
 
 /* Logout and user at the top right */
 
+#quicksearch {
+	position:absolute;
+	left:8px;
+	top:8px;
+	display:block;
+}
+
 #user-status {
 	position:absolute;
 	right:8px;
