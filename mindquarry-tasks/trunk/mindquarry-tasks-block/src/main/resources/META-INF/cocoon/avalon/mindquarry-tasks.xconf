@@ -1,0 +1,14 @@
+<?xml version="1.0"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<components>
+	<input-modules>
+		<component-instance
+			logger="mindquarry.modules.unique-task-id"
+			name="unique-task-id"
+			class="com.mindquarry.tasks.modules.UniqueTaskIdInputModule">
+		</component-instance>
+	</input-modules>
+</components>

@@ -6,6 +6,7 @@ package com.mindquarry.tasks;
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.excalibur.source.ModifiableTraversableSource;
 
+import com.mindquarry.jcr.id.IDException;
 import com.mindquarry.jcr.id.JCRUniqueIDGenerator;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceListener;
@@ -59,6 +60,19 @@ public class TasksManager implements TeamspaceListener {
      */
     public void afterTeamspaceRemoved(Teamspace teamspace)
             throws Exception {
+    }
+    
+    /**
+     * Creates a unique id for the given jcr path. This id will look like
+     * "task" + id, where id is a unique number below the given path.
+     */
+    public String getUniqueTaskId(String jcrPath) {
+        try {
+            long id = uniqueIDGenerator.getNextID(jcrPath);
+            return "task" + id;
+        } catch (IDException e) {
+            return "task_error";
+        }        
     }
 
 }
