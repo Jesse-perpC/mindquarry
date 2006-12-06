@@ -38,7 +38,7 @@ import org.xml.sax.SAXException;
  * The XML this transformer will look for is very simple:
  * 
  * <pre>
- *     &lt;bu:redirect uri=&quot;foobar&quot; /&gt;
+ *      &lt;bu:redirect uri=&quot;foobar&quot; /&gt;
  * </pre>
  * 
  * The browser-update namespace for <code>bu</code> is:
@@ -49,20 +49,21 @@ import org.xml.sax.SAXException;
  *         Alexander Klimetschek</a>
  * 
  */
-public class RedirectTransformer extends AbstractSAXTransformer {
+public class BrowserUpdateRedirectTransformer extends AbstractSAXTransformer {
 
     public static final String REDIRECT_ELEMENT = "redirect";
 
     public static final String URI_ATTRIBUTE = "uri";
-    
+
     private boolean redirected = false;
 
-    public RedirectTransformer() {
+    public BrowserUpdateRedirectTransformer() {
         super.defaultNamespaceURI = BrowserUpdateTransformer.BU_NSURI;
     }
 
     /**
      * Called when an element of the browser update namespace starts
+     * 
      * @see BrowserUpdateTransformer.BU_NSURI
      */
     public void startTransformingElement(String uri, String name, String raw,
