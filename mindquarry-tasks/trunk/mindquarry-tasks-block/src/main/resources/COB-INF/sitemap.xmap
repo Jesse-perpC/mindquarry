@@ -571,7 +571,7 @@
 							<parameter name="parameter-selector-test" value="{2}"/>
 							
 							<when test="new">
-								<!-- TODO: handle new -> unique id generation here -->
+								<!-- create a new task -->
 								<call resource="writetask">
 									<parameter name="teamspace" value="{1}"/>
 									<parameter name="document" value="{unique-task-id:jcr:///teamspaces/{1}/tasks/}"/>
