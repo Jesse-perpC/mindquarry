@@ -12,7 +12,7 @@ dojo.widget.defineWidget(
 	{
 		widgetType: "QuickSearch",
 		isContainer: false,
-		templateString: '<div class="mindquarry-quicksearch" style="position:relative;">' +
+		templateString: '<div id="quicksearch" class="mindquarry-quicksearch" style="position:relative;">' +
 						    '<div class="search" style="position:relative;">' +
 							    '<form dojoAttachPoint="formNode">' +
 									'<input name="q" size="30" dojoAttachPoint="inputNode" />' +
@@ -85,7 +85,7 @@ dojo.widget.defineWidget(
 			var closeButton = document.createElement("a");
 			closeButton.appendChild(document.createTextNode(""))
 			closeButton.setAttribute("href", "#");
-			closeButton.style.background = "url('buttons/close.png')";
+			closeButton.style.background = "url('../buttons/close.png')";
 			closeButton.style.display = "block";
 			closeButton.style.height = "10px";
 			closeButton.style.width = "10px";
@@ -124,7 +124,7 @@ dojo.widget.defineWidget(
 						rescell.appendChild(a);
 						
 						var score = document.createElement("span");
-						score.appendChild(document.createTextNode("(Score: " + data.response.docs[type][hit].score + ")"));
+						score.appendChild(document.createTextNode(" (Score: " + data.response.docs[type][hit].score + ")"));
 						rescell.appendChild(score);
 						
 						var br = document.createElement("br");

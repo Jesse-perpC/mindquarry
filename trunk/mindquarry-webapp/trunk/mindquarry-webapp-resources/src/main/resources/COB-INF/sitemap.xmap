@@ -91,6 +91,10 @@
 			<map:match pattern="buttons/*x*/*.*">
 				<map:read src="buttons/{3}-button-{1}.{4}" />
 			</map:match>
+			
+			<map:match pattern="buttons/*.*">
+				<map:read src="buttons/{1}_button.{2}" />
+			</map:match>
 
 			<!-- icons from tango jar -->
 

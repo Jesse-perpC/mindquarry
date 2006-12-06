@@ -96,7 +96,9 @@
 			<xsl:apply-templates select="." mode="lightbox" />
 			
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
-
+			<script type="text/javascript">
+				dojo.require("mindquarry.widget.QuickSearch");
+			</script>
 		</head>
 	</xsl:template>
 
@@ -146,6 +148,8 @@
 						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
 					</ul>
 				</div>
+				
+				<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/" width="200">&#160;</div>
 				
 				<xsl:if test="string-length($username) > 0">
 					<div id="user-status">
