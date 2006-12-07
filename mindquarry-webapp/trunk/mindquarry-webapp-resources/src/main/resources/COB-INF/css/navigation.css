@@ -53,11 +53,22 @@
 
 /* Logout and user at the top right */
 
+/* placement of the QuickSearch Widget in the page layout */
 #quicksearch {
 	position:absolute;
 	left:8px;
 	top:8px;
 	display:block;
+}
+
+/* mindquary-specific styling for the QuickSearch Widget */
+.mindquarry-quicksearch .result-popup {
+	filter:alpha(opacity=90);
+	opacity:.9;
+	background:#fbf4d4;
+	padding:2px;
+	font:11px sans-serif;
+	border:1px solid grey;
 }
 
 #user-status {
@@ -75,18 +86,28 @@
 }
 
 .username-display {
+
 	text-align:center;
 }
 
+
 /* javascript browsers */
 #http-logout-link {
+
 	text-align:center;
+
 	font-size:8pt;
+
 	text-decoration:underline;
+
 	color:blue;
+
 	cursor:pointer;
+
 	height:10px;
+
 }
+
 
 /* non javascript browsers */
 #http-logout-hint {
@@ -94,11 +115,17 @@
 	font-size:7pt;
 }
 
+
+
 #path-to-webapp-root {
+
 	display:none;
+
 }
 
+
 /* Login form and logout page */
+
 
 #login-form {
 	display:block;
