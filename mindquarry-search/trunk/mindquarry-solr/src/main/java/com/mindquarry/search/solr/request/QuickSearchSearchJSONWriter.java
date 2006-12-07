@@ -25,8 +25,8 @@ import org.apache.solr.search.DocList;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class CustomSearchJSONWriter extends JSONWriter {
-    public CustomSearchJSONWriter(Writer writer, SolrQueryRequest req,
+public class QuickSearchSearchJSONWriter extends JSONWriter {
+    public QuickSearchSearchJSONWriter(Writer writer, SolrQueryRequest req,
             SolrQueryResponse rsp) {
         super(writer, req, rsp);
     }
