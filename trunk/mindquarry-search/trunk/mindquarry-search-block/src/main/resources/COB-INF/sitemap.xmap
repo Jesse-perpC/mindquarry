@@ -69,9 +69,8 @@
 			</select>
 		</resource>
 
-		<!-- load form2html stylesheet from DForms block -->
-		<resource name="form2html.xsl">
-			<transform src="xslt/forms/form2html.xsl" label="form">
+		<resource name="form2html">
+			<transform src="block:super:xslt/forms/form2html.xsl">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
@@ -196,7 +195,7 @@
 			<match pattern="internal/forms/*.xml">
 				<generate type="jx" src="forms/{1}.xml"/>
 				<transform type="browser-update"/>
-				<call resource="form2html.xsl"/>
+				<call resource="form2html"/>
 				<call resource="layouting"/>
 			</match>
 		</pipeline>
