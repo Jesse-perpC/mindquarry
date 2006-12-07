@@ -82,9 +82,16 @@
 
 
 			<match pattern="xslt/**.xsl">
-
-				<read src="xsl/{1}.xsl" />
-
+				<select type="resource-exists">
+					<when test="xsl/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xsl/{1}.xsl" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:resources:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
 			</match>
 
 		</pipeline>
@@ -178,7 +185,7 @@
 				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
-				<transform src="xsl/forms/form2html.xsl">
+				<transform src="block:resources:/xslt/forms/form2html.xsl">
 					<parameter name="fullPath"
 						value="{request-param:callerFullPath}" />
 					<parameter name="sitemapPath"
