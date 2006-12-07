@@ -68,7 +68,7 @@
 				<map:read src="css/{1}.css" />
 			</map:match>
 
-			<map:match pattern="xslt/*.xsl">
+			<map:match pattern="xslt/**.xsl">
 				<map:read src="xslt/{1}.xsl" />
 			</map:match>
 
