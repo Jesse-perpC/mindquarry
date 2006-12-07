@@ -190,13 +190,6 @@ function initialize(){
 			}
 		}
 	}
-	dojo.lang.forEach(dojo.widget.byType("CFormsForm"), function(form) {
-	        dojo.event.disconnect("around", form.domNode, "onsubmit", form, "_browserSubmit");
-	        dojo.event.connect("around", form.domNode, "onsubmit", form, "_myBrowserSubmit");
-           //dojo.byId(ed.widgetId).value = ed.getEditorContent();
-          }
-    );
-	//dojo.event.connect("around", this.domNode, "onsubmit", this, "_browserSubmit");
 }
 
 // Add in markup necessary to make this work. Basically two divs:
@@ -238,30 +231,6 @@ cocoon.ajax.insertionHelper.parseDojoWidgets = function(element) {
 
 		return element;
 }
-
-dojo.lang.extend(cocoon.forms.CFormsForm, {
-    _myBrowserSubmit: function(invocation) {
-        if (invocation.proceed() == false) {
-            // onsubmit handlers stopped submission
-            return false;
-        }
-
-        var event = invocation.args[0] || window.event;
-        // Interestingly, FF provides the explicitOriginalTarget property that can avoid
-        // grabClickTarget above, but avoid browser specifics for now.
-        var target = /*event.explicitOriginalTarget ||*/ this.lastClickTarget;
-
-
-        dojo.lang.forEach(dojo.widget.byType("Editor2"), function(ed){
-           dojo.byId(ed.widgetId).value = ed.getEditorContent();
-          }
-        );
-
-        this.submit(target && target.name);
-        // If real submit has to occur, it's taken care of in submit()
-        return false;
-    }
-});
 
 dojo.event.connect(dojo.hostenv, "loaded", "initialize");
 dojo.event.connect(dojo.hostenv, "loaded", "getBrowserInfo");
