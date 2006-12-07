@@ -98,6 +98,7 @@
 			<xsl:apply-templates select="." mode="lightbox" />
 			
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
+			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}dojoutils.js" >//</script>
 			<script type="text/javascript">
 				dojo.require("mindquarry.widget.QuickSearch");
 			</script>

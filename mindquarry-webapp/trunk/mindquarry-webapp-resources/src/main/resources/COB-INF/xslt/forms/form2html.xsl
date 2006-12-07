@@ -233,4 +233,12 @@
     <img alt="image of the user with id {normalize-space(fi:value)}" src="{$pathToRoot}teamspace/users/{normalize-space(fi:value)}.png"/>
   </xsl:template>
   
+  <xsl:template match="fi:output[fi:styling/@type='pwdChanged']">
+    <span id="{@id}">
+    	<xsl:apply-templates select="." mode="css"/>
+    	<xsl:copy-of select="fi:value/node()"/>
+    	<script>changePasswordInBrowser();</script>
+    </span>
+  </xsl:template>
+  
 </xsl:stylesheet>
