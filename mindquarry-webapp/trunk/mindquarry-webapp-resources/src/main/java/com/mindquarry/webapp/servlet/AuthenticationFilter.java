@@ -305,10 +305,7 @@ public class AuthenticationFilter implements Filter {
         
         // Other images might contain protected content (photos or diagrams)
         
-        if (targetUri.matches(LOGIN_PAGE + "(.)*$|" + LOGOUT_PAGE + "(.)*$|(.)*\\.(css|js)$|[^/]+\\.(png|jpg|gif)$"))
-            return false;
-        else
-            return true;
+        return ! (targetUri.matches(LOGIN_PAGE + "(.)*$|" + LOGOUT_PAGE + "(.)*$|(.)*\\.(css|js|ico)$|[^/]+\\.(png|jpg|gif)$"));
     }
     
     /**
