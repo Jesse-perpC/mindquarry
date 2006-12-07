@@ -10,9 +10,11 @@
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
 	<xsl:import href="contextpath.xsl"/>
+
 	<xsl:import href="lightbox.xsl"/>
 	
 	<xsl:output indent="no"/>
+
 	
 	<xsl:param name="user.agent" select="''"/>
 	<xsl:param name="username" select="''"/>
@@ -138,6 +140,7 @@
 	<xsl:template match="xhtml:body|body">
 		<body>
 			<div class="body">
+
 				<!-- layouting the header -->
 				<div id="webapp-header">
         			<ul id="webapp-sections">
@@ -148,19 +151,31 @@
 						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
 					</ul>
 				</div>
+
 				
-				<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/" width="200">&#160;</div>
+
+				<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/">&#160;</div>
+
 				
+
 				<xsl:if test="string-length($username) > 0">
+
 					<div id="user-status">
+
 						<div class="username-display">
+
 							<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link"><xsl:value-of select="$username" /></a>
+
 						</div>
 						<div id="http-logout-hint">(Close browser to logout)</div>
+
 						<a href="{$pathToRoot}" id="path-to-webapp-root" />
+
 					</div>
+
 				</xsl:if>
 				
+
 				<!-- layouting the content -->
 				<div id="webapp-content">
 					<div id="background-repeater">
@@ -197,7 +212,9 @@
 						<li><a href="{$pathToRoot}wiki/">Wiki</a></li>
 						<li><a href="{$pathToRoot}tasks/">Tasks</a></li>
 						<li><a href="{$pathToRoot}talk/">Talk</a></li>
+
 						<li><a href="{$pathToRoot}resources/client/client.jnlp">Client</a></li>
+
 						<li><a href="{$pathToRoot}search/">Search</a></li>
 						<li><a href="{$pathToRoot}help/">Help</a></li>
 						<li><a href="http://www.mindquarry.com">Visit Mindquarry.com</a></li>
@@ -207,38 +224,66 @@
 			</div>
 		</body>
 	</xsl:template>
+
 	
+
 
 <!-- 
 	NEVER! NEVER! use alt-f to re-format this code.
  -->	
+
 	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
+
 		<div class="nifty">
+
 			<b class="rtop">
+
 				<b class="r1"><xsl:comment>t</xsl:comment></b>
+
 				<b class="rleft"><xsl:comment>tr</xsl:comment></b>
+
 				<b class="rright"><xsl:comment>tl</xsl:comment></b>
+
 			</b>
+
 			<div class="niftycontent">
+
 				<xsl:apply-templates />
 				<br style="clear:both"/>
+
 			</div>
+
 			<b class="rbottom" >
+
 				<b class="r1"><xsl:comment>b</xsl:comment></b>
+
 				<b class="rleft"><xsl:comment>bl</xsl:comment></b>
+
 				<b class="rright"><xsl:comment>br</xsl:comment></b>
+
 			</b>
+
 		</div>
+
 	</xsl:template>
 
+
 	<!-- look for attributes whose parent element has an
+
 		 attribute us:context with a value that equals the 
+
 		 local name of the processed attribute -->
+
 	<xsl:template match="@*[../@us:rootcontext=local-name(.)]">
+
 		<xsl:attribute name="{local-name(.)}">
+
 			<xsl:value-of select="$pathToRoot" />
+
 			<xsl:value-of select="." />
+
 		</xsl:attribute>
+
 	</xsl:template>
 
 <!-- 
