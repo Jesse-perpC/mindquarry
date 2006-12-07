@@ -61,9 +61,9 @@
 								Edit Members
 						</a>
 						
-						<a href="#" class="edit_subprojects_button">
+						<!--a href="#" class="edit_subprojects_button">
 								Edit Related Teams
-						</a>
+						</a-->
 					</div>
 					
 					<div class="name">
@@ -78,13 +78,13 @@
 						<span class="description"><xsl:value-of select="description" /></span>
 					</div>
 					
-					<ul class="tags">
+					<!--ul class="tags">
 						<li><a href="#">docbook</a></li>
 						<li><a href="#">techdoc</a></li>
 						<li><a href="#">xml</a></li>
 						<li><a href="#">source</a></li>
 						<li><a href="#">open</a></li>
-					</ul>
+					</ul-->
 				
 					<div class="details" style="display:none;">
 						<h3>Team Members</h3>
@@ -98,10 +98,10 @@
 						</xsl:choose>
 					</div>
 					
-					<div class="details" style="display:none;">
+					<!--div class="details" style="display:none;">
 						<h3>Related Teams</h3>
 						not implemented yet.
-					</div>
+					</div-->
 				</div>
 			</div>
 		</li>
