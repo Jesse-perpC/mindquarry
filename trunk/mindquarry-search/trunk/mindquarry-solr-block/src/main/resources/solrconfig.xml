@@ -320,7 +320,7 @@
 
     <queryResponseWriter name="custom" class="com.example.MyResponseWriter"/>
   -->
-  <queryResponseWriter name="mq" class="com.mindquarry.search.solr.request.JSONResponseWriter"/>
+  <queryResponseWriter name="mq" class="com.mindquarry.search.solr.request.QuickSearchResponseWriter"/>
 
 <!--
     XSLT response writer (SOLR-49)
