@@ -326,7 +326,7 @@
 				</call>
 			</match>
 
-			<!-- target pipeline for list.xml -->
+			<!-- target pipeline for overview.xml -->
 			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="jx/teamspaces.jx" type="jx" />
@@ -349,7 +349,7 @@
 				</call>
 			</match>
 
-			<!-- target pipeline for list.html -->
+			<!-- target pipeline for overview.html -->
 			<match pattern="internal/pipe/flowed/teamspaces-task-overview.html">
 				<generate
 					src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml"/>
