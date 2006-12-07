@@ -161,13 +161,12 @@ function setFormState(form, isEdit) {
 
 // called from sitemap via handleForm()
 function showDForm(form) {
-    //print( "Unique Name: " + evalJavaScriptSource("block:/uniqueName.js") );
-    
+
+    // catch all parameters and store them globally
     baseURI_ = cocoon.parameters["baseURI"];
     documentID_ = cocoon.parameters["documentID"];
     suffix_ = ".xml";
 
-    //var isEditStart = (cocoon.parameters["edit"] == 'true');
     var isEditStart = (documentID_ == 'new');
     
 	// save form and uri for actions
