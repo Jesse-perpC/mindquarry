@@ -5,24 +5,19 @@
 
 <components>
 	<!-- Include roles -->
-	<include
-		src="resource://com/mindquarry/teamspace/mindquarry-teamspace.roles" />
+	<include src="resource://com/mindquarry/teamspace/mindquarry-teamspace.roles"/>
 
 	<source-factories>
 		<component-instance name="resource"
-			class="org.apache.excalibur.source.impl.ResourceSourceFactory" />
+			class="org.apache.excalibur.source.impl.ResourceSourceFactory"/>
 
-		<component-instance name="file"
-			class="org.apache.excalibur.source.impl.FileSourceFactory" />
+		<component-instance name="file" class="org.apache.excalibur.source.impl.FileSourceFactory"/>
 
-		<component-instance name="jcr"
-			class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+		<component-instance name="jcr" class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
 			login="alexander.saar" password="mypwd">
 			<mappings>
-				<mapping prefix="user"
-					namespace="http://www.mindquarry.com/ns/schema/user" />
-				<mapping prefix="team"
-					namespace="http://www.mindquarry.com/ns/schema/teamspace" />
+				<mapping prefix="user" namespace="http://www.mindquarry.com/ns/schema/user"/>
+				<mapping prefix="team" namespace="http://www.mindquarry.com/ns/schema/teamspace"/>
 			</mappings>
 			<index>
 				<excludes>
@@ -42,27 +37,25 @@
 	<!-- define the exact XMLSerializer we want to use (taken from
 		standard cocoon configuration) -->
 	<serializer class="org.apache.cocoon.serialization.XMLSerializer">
-		<transformer-factory>
-			org.apache.xalan.xsltc.trax.TransformerFactoryImpl
+		<transformer-factory> org.apache.xalan.xsltc.trax.TransformerFactoryImpl
 		</transformer-factory>
 	</serializer>
-	
+
 	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
-			<home src="${mindquarry.jcrbasepath}" />
-			<credentials login="alexander.saar" password="mypwd" />
-			<configuration
-				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+		<home src="${mindquarry.jcr.path}"/>
+		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
+		<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml"/>
 	</jcr-repository>
-	
+
 	<jcr-initializer>
-		<credentials login="alexander.saar" password="mypwd" />
+		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
 	</jcr-initializer>
-	
+
 	<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
-		login="alexander.saar" password="mypwd" />
+		login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
 
 	<index-client class="com.mindquarry.common.index.SolrIndexClient">
-		<solr-credentials login="admin" password="admin" />
-		<solr-endpoint url="http://localhost:8888/solr/update" />
+		<solr-credentials login="${mindquarry.solr.login}" password="${mindquarry.solr.pwd}"/>
+		<solr-endpoint url="${mindquarry.solr.endpoint}"/>
 	</index-client>
 </components>

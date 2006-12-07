@@ -323,7 +323,7 @@
 				
 				<map:transform src="xslt/teamspace2xml.xsl">
 					<map:parameter name="reposURI"
-						value="{system-property:mindquarry.reposURI}" />
+						value="{system-property:mindquarry.repos.uri}" />
 				</map:transform>
 				
 				<map:serialize type="xml" />
