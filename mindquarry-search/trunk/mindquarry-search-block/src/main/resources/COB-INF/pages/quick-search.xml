@@ -10,9 +10,7 @@
 	<body>
 
 		<h1>Quick Search Demo</h1>
-		<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/" width="200">&#160;</div>
-
-
+		<div dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>
 
 	</body>
 </html>
