@@ -106,7 +106,7 @@
 		</map:resource>
 
 		<map:resource name="form2html">
-			<map:transform src="xslt/forms/form2html.xsl"
+			<map:transform src="block:super:/xslt/forms/form2html.xsl"
 				label="form">
 				<map:parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
