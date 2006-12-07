@@ -154,7 +154,7 @@
 
 				
 
-				<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/">&#160;</div>
+				<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>
 
 				
 

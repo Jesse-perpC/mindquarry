@@ -98,7 +98,7 @@ dojo.widget.defineWidget(
 		// handle clicks on the close button
 		closeClick: function(evt) {
 		  dojo.html.hide(this.popupNode);
-    },
+        },
 		
 		// set the status area
 		_setStatus: function(status) {
@@ -133,6 +133,5 @@ dojo.widget.defineWidget(
 				this._setStatus(this.noResultsStatus);
 			}
 		}
-		
 	}
 );
