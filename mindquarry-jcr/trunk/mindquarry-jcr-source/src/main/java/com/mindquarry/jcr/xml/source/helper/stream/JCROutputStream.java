@@ -107,6 +107,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
         for (String template : JCRSourceFactory.iExcludes) {
             if (WildcardMatcherHelper.match(template, uri) != null) {
                 index = false;
+                break;
             }
         }
         if (index) {
