@@ -6,7 +6,6 @@ function createUniqueName(baseURI) {
 	} finally {
 		cocoon.releaseComponent(tasksManager);
 	}
-    return "task_error";
 }
 
 createUniqueName(baseURI_);
