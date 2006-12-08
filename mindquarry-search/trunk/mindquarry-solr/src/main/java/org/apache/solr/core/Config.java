@@ -141,8 +141,17 @@ public class Config {
         // Oops, when running in Resin, I get an unsupported operation
         // exception... need to use Sun default (apache)
         String txt = DOMUtil.getText(nd);
-
-        log.fine(name + ' ' + path + '=' + txt);
+        
+        // look for the pattern {$foo.bar} which references a system property
+        String propertyRef = txt.trim();
+        if (propertyRef.startsWith("{$") && propertyRef.endsWith("}")) {
+            String property = propertyRef.substring(2, propertyRef.length()-1);
+            txt = System.getProperty(property);
+            log.fine(name + ' ' + path + '=' + txt + " (resolved system property: " + property + ')');
+        } else {
+            log.fine(name + ' ' + path + '=' + txt);
+        }
+        
         return txt;
 
         /***********************************************************************
