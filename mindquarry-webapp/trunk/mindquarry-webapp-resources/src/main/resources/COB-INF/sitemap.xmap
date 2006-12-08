@@ -148,11 +148,31 @@
 					src="scripts/dojo/mindquarry/{1}" />
 			</map:match>
 
-			<!-- temporary overwrite of the BUHandler with new redirect code in it -->
+			<!-- FIXME: temporary overwrite of the BUHandler with new redirect code in it -->
 			<map:match pattern="_cocoon/resources/ajax/js/BUHandler.js">
 				<map:read
 					src="scripts/dojo/mindquarry/BUHandler.js" />				
 			</map:match>
+			
+
+			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
+			<map:match pattern="_cocoon/resources/dojo/cocoon.js">
+				<map:read
+					src="resource://org/apache/cocoon/ajax/resources/cocoon.js" />
+			</map:match>
+
+			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
+			<map:match pattern="_cocoon/resources/dojo/cocoon/ajax/**">
+				<map:read
+					src="resource://org/apache/cocoon/ajax/resources/js/{1}" />
+			</map:match>
+			
+			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
+			<map:match pattern="_cocoon/resources/dojo/cocoon/forms/**">
+				<map:read
+					src="resource://org/apache/cocoon/forms/resources/js/{1}" />
+			</map:match>
+			
 			
 			<!-- cooon resources (needed for dojo scripts, etc) -->
 			<map:match pattern="_cocoon/resources/*/**">
