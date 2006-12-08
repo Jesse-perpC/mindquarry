@@ -55,7 +55,9 @@
 				</mappings>
 				<index>
 					<excludes>
-						<exclude>jcr:///users/</exclude>
+						<exclude>jcr:///users/*</exclude>
+						<exclude>jcr:///teamspaces/*/metadata.xml</exclude>
+						<exclude>jcr:///teamspaces/*/tasks/filter/*</exclude>
 					</excludes>
 				</index>
 			</component-instance>
