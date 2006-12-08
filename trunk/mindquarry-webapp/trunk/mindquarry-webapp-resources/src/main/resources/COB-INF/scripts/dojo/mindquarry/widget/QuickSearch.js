@@ -13,10 +13,11 @@ dojo.widget.defineWidget(
 		widgetType: "QuickSearch",
 		isContainer: false,
 		
-		// config attributes, the text could be supplied via i18n on the tag
-		url: "", // the url to access to perform searches (required, set via this attr on the tag)
+		// config attributes, configured on the tag
+		url: "", // the url to access to perform searches (REQUIRED)
 		maxheight: 300, // the maximum height of the results popup
 		size: "20", // the size of the search input field
+		// messages, the text could be supplied via i18n on the tag
 		searchButton: "Search", // text of the search button
 		searchingStatus: "Searching ...",	// shown while searching
 		noResultsStatus: "Search finished without any results.", // shown if there are no results
@@ -49,7 +50,7 @@ dojo.widget.defineWidget(
 									
 		hitTemplate: '<tr valign="top"><td width="32"><div style="width:30px;height:12px;border:1px solid #666;position:relative;">' + 
 									 '<div style="background:#ddf;height:10px;width:%{score}%;margin:1px 0;padding:0;"> </div>' + 
-									 '<div style="position:absolute;top:0;right:0;margin:0;padding:0;color:#444;font-size:10px;">%{score}</div>' + 
+									 '<div style="position:absolute;top:0;right:2px;margin:0;padding:0;color:#444;font-size:10px;">%{score}</div>' + 
 								 '</div></td>' +
 								'<td><a href="%{uri}">%{title}</a></td></tr>',
 		
@@ -87,7 +88,7 @@ dojo.widget.defineWidget(
 				handle: dojo.lang.hitch(this, function(type, data, evt) {
 					if (type == "load") {
 						if (!data) return;
-						this.update(data);
+						this._update(data);
 						this._busy = false;
 					} else if (type == "error") {
 						dojo.debug("QuickSearch - status request failed");
@@ -98,8 +99,9 @@ dojo.widget.defineWidget(
 
 		// handle clicks on the close button
 		closeClick: function(evt) {
+			evt.preventDefault();
 		  dojo.html.hide(this.popupNode);
-        },
+    },
 		
 		// set the status area
 		_setStatus: function(status) {
@@ -127,7 +129,7 @@ dojo.widget.defineWidget(
 		},
 		
 		// update the results display
-		update: function(data) {
+		_update: function(data) {
 			dojo.debug("QuickSearch - got results: " + data.response.numFound);
 						
 			if (data.response.numFound > 0) {
