@@ -1,8 +1,8 @@
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
-		<fd:group id="queryBuilder">
+		<fd:group id="filterBuilder">
 			<fd:widgets>
-				<!-- query aggregator field -->
+				<!-- filter aggregator field -->
 				<fd:field id="aggregator">
 					<!-- basic configuration -->
 					<fd:label>Aggregator</fd:label>
@@ -16,18 +16,18 @@
 		
 					<!-- helper information -->
 					<fd:hint>
-						The aggregator that is used for assembling the query.
+						The aggregator that is used for assembling the filter.
 					</fd:hint>
 					<fd:help>
-						Can be used for building different link types between query parts.
+						Can be used for building different link types between filter parts.
 					</fd:help>
 				</fd:field>
 						
-				<!-- query part repeater -->
+				<!-- filter part repeater -->
 				<fd:repeater id="parts">
-					<fd:label>Query Parts</fd:label>
+					<fd:label>Filter Parts</fd:label>
 		
-					<!-- query part widgets -->
+					<!-- filter part widgets -->
 					<fd:widgets>
 						<!-- field name configuration -->
 						<fd:field id="field">
@@ -50,7 +50,7 @@
 								Name of the field that should be evaluated.
 							</fd:hint>
 							<fd:help>
-								Can be used for selecting a field that is used in a query.
+								Can be used for selecting a field that is used in a filter.
 							</fd:help>
 						</fd:field>
 		
@@ -104,30 +104,30 @@
 					</fd:widgets>
 		
 					<!-- helper information -->
-					<fd:hint>Parts of a query.</fd:hint>
+					<fd:hint>Parts of a filter.</fd:hint>
 					<fd:help>
-						Use this field for configuring the parts of a query.
+						Use this field for configuring the parts of a filter.
 					</fd:help>
 				</fd:repeater>
 				
-				<!-- add field to query action -->
+				<!-- add field to filter action -->
 				<fd:repeater-action repeater="parts" id="addPart"
 					command="add-row">
 					<fd:label>Add Rule</fd:label>
 				</fd:repeater-action>
 				
-				<!-- save query action -->
-				<fd:action id="saveQuery">
-					<fd:label>Save Query</fd:label>
+				<!-- save filter action -->
+				<fd:action id="saveFilter">
+					<fd:label>Save Filter</fd:label>
 					<fd:on-action>
-						<fd:javascript>saveQuery();</fd:javascript>
+						<fd:javascript>saveFilter();</fd:javascript>
 					</fd:on-action>
 				</fd:action>
 				
-				<!-- query name configuration -->
-				<fd:field id="queryName" required="true">
+				<!-- filter name configuration -->
+				<fd:field id="title" required="true">
 					<!-- basic configuration -->
-					<fd:label>Query Name</fd:label>
+					<fd:label>Filter Name</fd:label>
 					<fd:datatype base="string" />
 					<fd:validation>
 						<fd:length min="1">
@@ -139,26 +139,26 @@
 		
 					<!-- helper information -->
 					<fd:hint>
-						Name of the query.
+						Name of the filter.
 					</fd:hint>
 					<fd:help>
-						Can be used for setting the name of a stored query a query.
+						Can be used for setting the name of a stored filter a filter.
 					</fd:help>
 				</fd:field>
 			</fd:widgets>
 		</fd:group>
 
-		<!-- execute query action -->
-		<fd:action id="executeQuery">
-			<fd:label>Execute Query</fd:label>
+		<!-- execute filter action -->
+		<fd:action id="executeFilter">
+			<fd:label>Execute Filter</fd:label>
 			<fd:on-action>
-				<fd:javascript>executeQuery();</fd:javascript>
+				<fd:javascript>executeFilter();</fd:javascript>
 			</fd:on-action>
 		</fd:action>
 		
-		<!-- repeater for displaying query results -->
+		<!-- repeater for displaying filter results -->
 		<fd:repeater id="results" state="output">
-			<!-- query part widgets -->
+			<!-- filter part widgets -->
 			<fd:widgets>
 				<fd:field id="resultLink" required="true" state="output">
 					<fd:datatype base="string" />
@@ -175,9 +175,9 @@
 			</fd:widgets>
 			
 			<!-- helper information -->
-			<fd:hint>Results of the query execution.</fd:hint>
+			<fd:hint>Results of the filter execution.</fd:hint>
 			<fd:help>
-				Use this field for configuring the parts of a query.
+				Use this field for configuring the parts of a filter.
 			</fd:help>
 		</fd:repeater>
 	</fd:widgets>

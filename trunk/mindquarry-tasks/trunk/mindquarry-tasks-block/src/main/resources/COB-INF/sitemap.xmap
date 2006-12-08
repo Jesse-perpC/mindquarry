@@ -143,7 +143,7 @@
 		<!-- TODO: this is generic and could be put into webapp-resources,
 			but how to reference it? block:super:/flows/teamspaces-for-user.js -->
 		<script src="flows/teamspaces-for-user.js" />
-		<script src="flows/task-query.js" />
+		<script src="flows/task-filter.js" />
 	</flow>
 
 	<views>
@@ -279,7 +279,7 @@
 				<transform type="browser-update" />
 				<call resource="form2html" />
 				
-				<transform src="xslt/forms/includeQueryStyling.xsl">
+				<transform src="xslt/forms/includeFilterStyling.xsl">
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
@@ -447,12 +447,12 @@
 			<!-- create new filter -->
 			<match pattern="*/filters/new">
 				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/new"/>
-				<call function="displayQueryForm">
+				<call function="displayFilterForm">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="definitionURI"
-						value="forms/task-query-form.xml" />
+						value="forms/task-filter-form.xml" />
 					<parameter name="templatePipeline"
-						value="internal/pipe/forms/task-query-form-template.xml" />
+						value="internal/pipe/forms/task-filter-form-template.xml" />
 				</call>
 			</match>
 			
@@ -463,9 +463,9 @@
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="filterID" value="{2}" />
 					<parameter name="definitionURI"
-						value="forms/task-query-form.xml" />
+						value="forms/task-filter-form.xml" />
 					<parameter name="templatePipeline"
-						value="internal/pipe/forms/task-query-form-template.xml" />
+						value="internal/pipe/forms/task-filter-form-template.xml" />
 				</call>
 			</match>
 

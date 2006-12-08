@@ -6,7 +6,7 @@
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 
 	<head>
-		<title>Task Query Editor</title>
+		<title>Task Filter Editor</title>
 	</head>
 	<body>
 		<ft:form-template
@@ -16,7 +16,7 @@
 			<h1>Create Filter</h1>
 			
 			<div class="nifty">
-				<ft:group id="queryBuilder">
+				<ft:group id="filterBuilder">
 					<div>
 						<ft:widget id="aggregator" />
 						<ft:widget id="addPart" />
@@ -48,16 +48,16 @@
 				</ft:group>
 							
 				<div class="actions">
-					<ft:group id="queryBuilder">
-						<ft:widget-label id="queryName" />
-						<ft:widget id="queryName" />
+					<ft:group id="filterBuilder">
+						<ft:widget-label id="title" />
+						<ft:widget id="title" />
 					</ft:group>
 				</div>
 				
 				<div class="actions">
-					<ft:widget id="executeQuery" />
-					<ft:group id="queryBuilder">
-						<ft:widget id="saveQuery" />
+					<ft:widget id="executeFilter" />
+					<ft:group id="filterBuilder">
+						<ft:widget id="saveFilter" />
 					</ft:group>
 				</div>
 			</div>
