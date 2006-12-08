@@ -43,27 +43,20 @@ public class JCRUniqueIDGenerator extends JCRClient {
 
     public final static String ID_PROPERTY = "id:id";
     
-    //public final static String LOCKABLE_NODE_TYPE = "mix:lockable";
-
     private final static long LOCK_SLEEP_MILLIS = 10;
 
     /**
      * Get the next ID which is unique for anything below <code>jcrPath</code>.
      */
     public long getNextID(String jcrPath) throws IDException {
-        // sometimes client code is using the string with a source resolver
-        // as well, where it must provide the scheme prefix; so we offer it
-        // to work with both variants for simplicity of the client code
-        if (jcrPath.startsWith("jcr://")) {
-            jcrPath = jcrPath.substring("jcr://".length());
-        }
+        jcrPath = removeJCRPrefix(jcrPath);
         
         Session session;
         try {
             session = login();
 
             Node node = getLockableIDNode(session, jcrPath);
-            long resultID = lockNodeAndGetNextID(session, node, jcrPath);
+            long resultID = atomicLockNodeAndGetNextID(session, node, jcrPath);
             
             session.logout();
             
@@ -81,12 +74,7 @@ public class JCRUniqueIDGenerator extends JCRClient {
      * access will hapen.
      */
     public void initializePath(String jcrPath) throws IDException {
-        // sometimes client code is using the string with a source resolver
-        // as well, where it must provide the scheme prefix; so we offer it
-        // to work with both variants for simplicity of the client code
-        if (jcrPath.startsWith("jcr://")) {
-            jcrPath = jcrPath.substring("jcr://".length());
-        }
+        jcrPath = removeJCRPrefix(jcrPath);
 
         Session session;
         try {
@@ -104,12 +92,6 @@ public class JCRUniqueIDGenerator extends JCRClient {
                     parent.addNode(ID_NODE, ID_NODE_TYPE);
                     session.save();
                 }
-                /*
-                // ensure the node is lockable
-                if (!node.isNodeType(LOCKABLE_NODE_TYPE)) {
-                    node.addMixin(LOCKABLE_NODE_TYPE);
-                }
-                */
             }
             session.logout();
         } catch (LoginException e) {
@@ -122,6 +104,19 @@ public class JCRUniqueIDGenerator extends JCRClient {
                     e);
         }        
     }
+
+    /**
+     * Removes the <code>jcr://</code> prefix if present.
+     */
+    private String removeJCRPrefix(String jcrPath) {
+        // sometimes client code is using the string with a source resolver
+        // as well, where it must provide the scheme prefix; so we offer it
+        // to work with both variants for simplicity of the client code
+        if (jcrPath.startsWith("jcr://")) {
+            jcrPath = jcrPath.substring("jcr://".length());
+        }
+        return jcrPath;
+    }
     
     /**
      * This will use the give node (which must be lockable) as a container for
@@ -130,7 +125,7 @@ public class JCRUniqueIDGenerator extends JCRClient {
      * successful lock, it will return the latest id + 1, this will also be
      * stored as the new value in the property of the node.
      */
-    private long lockNodeAndGetNextID(Session session, Node node, String jcrPath) throws IDException {
+    private long atomicLockNodeAndGetNextID(Session session, Node node, String jcrPath) throws IDException {
         // we need to synchronize the access to the node which holds the
         // unique id; thus we lock it before reading and modifying it; if
         // locking is not possible because the node is locked, 
@@ -138,7 +133,10 @@ public class JCRUniqueIDGenerator extends JCRClient {
         // loop until node.lock() was successful
         while (true) {
             try {
-                node.lock(false, false);
+                // the lock must be session scoped (2nd arg == true) so that it
+                // does not persist if something fails before we manually
+                // unlock it (eg. JVM crash or fatal RepositoryException)
+                node.lock(false, true);
                 break;
             } catch (LockException e) {
                 try {
@@ -146,43 +144,36 @@ public class JCRUniqueIDGenerator extends JCRClient {
                 } catch (InterruptedException e1) {
                     // just ignore and go to the beginning of the loop
                 }
-            /*} catch (UnsupportedRepositoryOperationException e) {
-            } catch (AccessDeniedException e) {
-            } catch (InvalidItemStateException e) {*/
             } catch (RepositoryException e) {
+                // forward any exception
                 throw new IDException("Cannot lock unique id node for " + jcrPath, e);
             }
         }
         
-        // the node is locked
+        // the node is now locked
         long resultID;
         try {
-            // normal increment access
+            // atomic increment access due to lock
             Property idProp = node.getProperty(ID_PROPERTY);
             resultID = idProp.getLong();
             resultID++;
             idProp.setValue(resultID);
 
+            // persist id value changes
             node.save();
             
-        /*} catch (PathNotFoundException e) {
-        } catch (ValueFormatException e) {
-        } catch (VersionException e) {
-        } catch (LockException e) {
-        } catch (ConstraintViolationException e) {*/
         } catch (RepositoryException e) {
+            // forward any exception
             throw new IDException("Cannot modify unique id for " + jcrPath, e);
-        }
-        
-        // now remove the lock
-        try {
-            node.unlock();
-        /*} catch (UnsupportedRepositoryOperationException e) {
-        } catch (LockException e) {
-        } catch (AccessDeniedException e) {
-        } catch (InvalidItemStateException e) {*/
-        } catch (RepositoryException e) {
-            throw new IDException("Cannot unlock unique id node for " + jcrPath, e);
+
+        } finally {        
+            // ensure the lock is removed
+            try {
+                node.unlock();
+            } catch (RepositoryException e) {
+                // forward any exception
+                throw new IDException("Cannot unlock unique id node for " + jcrPath, e);
+            }
         }
         
         return resultID;
