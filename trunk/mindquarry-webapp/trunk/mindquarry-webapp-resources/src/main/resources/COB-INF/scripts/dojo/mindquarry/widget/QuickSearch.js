@@ -22,6 +22,7 @@ dojo.widget.defineWidget(
 		searchingStatus: "Searching ...",	// shown while searching
 		noResultsStatus: "Search finished without any results.", // shown if there are no results
 		gotResultsStatus: "Search finished with %{count} results :", // shown if there are results
+		untitled: "untitled", // the name for an untitled document in the serch results
 
 		templateString: '<div style="position:relative;" class="mindquarry-quicksearch">' + 
 			'<div class="search-field">' +
@@ -118,7 +119,7 @@ dojo.widget.defineWidget(
 					    dojo.string.substituteParams(this.hitTemplate, 
 					    {
 					        uri: docs[type][hit].location, 
-					        title: docs[type][hit].title || "untitled", 
+					        title: docs[type][hit].title || this.untitled, 
 					        score: docs[type][hit].score
 					    }
 					));
