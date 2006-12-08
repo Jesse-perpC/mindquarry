@@ -54,10 +54,11 @@ dojo.widget.defineWidget(
 								'<td><a href="%{uri}">%{title}</a></td></tr>',
 		
 		// template nodes
-		formNode: null,     // the search form
-		popupNode: null,    // the results popup container
-		resultNode: null,   // the results container
-		resultStatus: null, // the results status node
+		formNode: null,      // the search form
+		widthNode: null,     // the node to use to measure the width of the form
+		popupNode: null,     // the results popup container
+		resultNode: null,    // the results container
+		resultStatus: null,  // the results status node
 		
 		// instance properties
 		_busy: false,
@@ -107,12 +108,17 @@ dojo.widget.defineWidget(
 		
 		// use a pair of mini templates to build the results
 		_buildResults: function(docs) {
-			var types = [];
+		    var types = [];
 			for (var type in docs) {
 				var hits = [];
 				for (var hit in docs[type]) {
-					hits.push(dojo.string.substituteParams(this.hitTemplate, 
-						{uri: docs[type][hit].location, title: docs[type][hit].title, score: docs[type][hit].score}
+					hits.push(
+					    dojo.string.substituteParams(this.hitTemplate, 
+					    {
+					        uri: docs[type][hit].location, 
+					        title: docs[type][hit].title || "untitled", 
+					        score: docs[type][hit].score
+					    }
 					));
 				}
 				types.push(dojo.string.substituteParams(this.typeTemplate, {type: type, hits: hits.join("")})); 
@@ -123,9 +129,11 @@ dojo.widget.defineWidget(
 		// update the results display
 		update: function(data) {
 			dojo.debug("QuickSearch - got results: " + data.response.numFound);
+						
 			if (data.response.numFound > 0) {
-			  this._setStatus(dojo.string.substituteParams(this.gotResultsStatus, {count:data.response.numFound}));
-				this.resultNode.innerHTML = this._buildResults(data.response.docs);
+			    this._setStatus(dojo.string.substituteParams(this.gotResultsStatus, {count:data.response.numFound}));
+			    this.resultNode.innerHTML = this._buildResults(data.response.docs);
+				
 				if (dojo.style.getOuterHeight(this.resultNode) > this.maxheight) {
 					this.popupNode.style.height = this.maxheight + "px"; 					
 				}
