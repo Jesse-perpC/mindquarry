@@ -34,3 +34,8 @@ a.edit_task_button:link, a.edit_task_button:visited, #block_ductform_switch inpu
 	float:right;
 	clear:both;
 }
+
+/* turn action labels off */
+dt label.action {
+    display:none;
+}
