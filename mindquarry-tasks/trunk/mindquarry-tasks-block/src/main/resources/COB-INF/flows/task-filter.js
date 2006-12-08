@@ -5,7 +5,7 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 var form_;
 var teamspaceID_;
 
-function displayQueryForm() {
+function displayFilterForm() {
 	teamspaceID_ = cocoon.parameters["teamspaceID"];
 	
 	form_ = new Form(cocoon.parameters["definitionURI"]);
@@ -28,14 +28,14 @@ function displaySavedFilter() {
 		
 		form_ = new Form(cocoon.parameters["definitionURI"]);
 		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
-								form_.lookupWidget("/queryBuilder"));
+								form_.lookupWidget("/filterBuilder"));
 	
     	// load saved filter data
     	var parser = Packages.org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
     	parser.setContentHandler(xmlAdapter);
     	parser.parse(new Packages.org.xml.sax.InputSource(pfSource.getInputStream()));
     	
-    	executeQuery();
+    	executeFilter();
     	form_.showForm(cocoon.parameters["templatePipeline"]);
 	} finally {
 		if (pfSource != null) {
@@ -45,63 +45,63 @@ function displaySavedFilter() {
 	}
 }
 
-function buildQuery() {
-	var partRepeater = form_.lookupWidget("/queryBuilder/parts");
-    var aggregator = form_.lookupWidget("/queryBuilder/aggregator").getValue();
+function buildFilter() {
+	var partRepeater = form_.lookupWidget("/filterBuilder/parts");
+    var aggregator = form_.lookupWidget("/filterBuilder/aggregator").getValue();
     
-	// build query
-    var query = "jcr:///teamspaces/" + teamspaceID_ + "/tasks?" + "/*";
+	// build filter
+    var filter = "jcr:///teamspaces/" + teamspaceID_ + "/tasks?" + "/*";
 
     var rowCount = partRepeater.getSize();
     if (rowCount > 0) {
-    	query = query + "[";
+    	filter = filter + "[";
     	
 	    for(var i = 0; i < rowCount; i++) {
-	    	// check if this is the first query item, if not prepend an 'and'
+	    	// check if this is the first filter item, if not prepend an 'and'
 	    	if(i > 0) {
-	    		query = query + " " + aggregator + " ";
+	    		filter = filter + " " + aggregator + " ";
 	    	}
-	    	// evaluate query item
+	    	// evaluate filter item
 	    	var fieldWidget = partRepeater.getWidget(i, "field");
 	    	var selectorWidget = partRepeater.getWidget(i, "selector");
 	    	var valueWidget = partRepeater.getWidget(i, "value");
 	    		    	
 			if (selectorWidget.getValue() == "equals") {
-				query = query + ".//" + fieldWidget.getValue().toLowerCase()
+				filter = filter + ".//" + fieldWidget.getValue().toLowerCase()
 					 + "='" + valueWidget.getValue() + "'";
 			} else if (selectorWidget.getValue() == "contains") {
-				query = query + "contains(.//" + 
+				filter = filter + "contains(.//" + 
 					fieldWidget.getValue().toLowerCase() + ",'" + 
 					valueWidget.getValue() + "')";
 			}
 	    }
-	    query = query + "]";
+	    filter = filter + "]";
 	}
-	return(query);
+	return(filter);
 }
 
-function executeQuery() {
-	// validate query widget
-	form_.lookupWidget("/queryBuilder/parts").validate();
-	if(!form_.lookupWidget("/queryBuilder/parts").isValid()) return;
+function executeFilter() {
+	// validate filter widget
+	form_.lookupWidget("/filterBuilder/parts").validate();
+	if(!form_.lookupWidget("/filterBuilder/parts").isValid()) return;
 	
-	// create query
-	var query = buildQuery();
+	// create filter
+	var filter = buildFilter();
         
     // clear previous results (if necessary)
 	var resultRepeater = form_.lookupWidget("/results");
 	resultRepeater.clear();
     
-   	// execute query
-   	var querySource;
+   	// execute filter
+   	var filterSource;
 	var srcResolver;
 	try {
 		srcResolver = cocoon.getComponent(
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
-		querySource = srcResolver.resolveURI(query);
+		filterSource = srcResolver.resolveURI(filter);
 		
 		// process result
-		var results = querySource.getChildren();
+		var results = filterSource.getChildren();
 		for(var i = 0; i < results.size(); i++) {
 			var source = results.get(i);
 		    if(source.isCollection()) continue;
@@ -111,7 +111,7 @@ function executeQuery() {
 		    var xmlSource = new Packages.javax.xml.transform.stream.StreamSource(
 		    				source.getInputStream());
 		    var xsltSource = new Packages.javax.xml.transform.stream.StreamSource(
-		    				srcResolver.resolveURI("xslt/forms/queryresult2form.xsl").getInputStream());
+		    				srcResolver.resolveURI("xslt/forms/filterresult2form.xsl").getInputStream());
 		    
 		    var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
 	        var transformer = tf.newTransformer(xsltSource);
@@ -121,7 +121,7 @@ function executeQuery() {
 	        transformer.transform(xmlSource, 
 	        	new Packages.javax.xml.transform.stream.StreamResult(os));
 	        
-	        // add query result to results repeater
+	        // add filter result to results repeater
 			var row = resultRepeater.addRow();
 			var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(row);
 			
@@ -131,21 +131,21 @@ function executeQuery() {
 				new Packages.java.io.ByteArrayInputStream(os.toByteArray())));
 		}
 	} finally {
-		if (querySource != null) {
-			srcResolver.release(querySource);
+		if (filterSource != null) {
+			srcResolver.release(filterSource);
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
 }
 
-function saveQuery() {
-	// validate query name widget
-	var nameWidget = form_.lookupWidget("/queryBuilder/queryName");
+function saveFilter() {
+	// validate filter name widget
+	var nameWidget = form_.lookupWidget("/filterBuilder/title");
 	nameWidget.validate();
 	
 	if(!nameWidget.isValid()) return;
 	
-	// save query
+	// save filter
 	var fdSource;
 	var srcResolver;
 	try {
@@ -175,7 +175,7 @@ function saveQuery() {
 		var os = pfTitleSource.getOutputStream();
 		
 		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
-								form_.lookupWidget("/queryBuilder"));
+								form_.lookupWidget("/filterBuilder"));
 		var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
 		var transformerHandler = tf.newTransformerHandler();
         var transformer = transformerHandler.getTransformer();

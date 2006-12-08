@@ -30,7 +30,7 @@
 			<xsl:apply-templates />
 			
 			<link rel="stylesheet"
-				href="{$pathToBlock}css/query.css" type="text/css" />
+				href="{$pathToBlock}css/filter.css" type="text/css" />
 		</head>
 	</xsl:template>
 	
