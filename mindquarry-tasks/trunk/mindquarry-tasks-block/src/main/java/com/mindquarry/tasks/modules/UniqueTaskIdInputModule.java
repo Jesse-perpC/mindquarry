@@ -33,7 +33,11 @@ public class UniqueTaskIdInputModule extends AbstractInputModule implements Serv
 
     @Override
     public Object getAttribute(String name, Configuration modeConf, Map objectModel) throws ConfigurationException {
-        return tasksManager.getUniqueTaskId(name);
+        try {
+            return tasksManager.getUniqueTaskId(name);
+        } catch (Exception e) {
+            throw new ConfigurationException("Unique ID generation failed: " + e.getMessage(), e);
+        }
     }
 
 }
