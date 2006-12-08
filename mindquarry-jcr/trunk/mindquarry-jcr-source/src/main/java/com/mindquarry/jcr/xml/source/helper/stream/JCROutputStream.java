@@ -28,6 +28,7 @@ import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.cocoon.util.WildcardMatcherHelper;
 import org.apache.excalibur.source.SourceException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -73,7 +74,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
             try {
                 // node.lock(true, true);
                 try {
-                    node.getNode("jcr:content");
+                    node.getNode("jcr:content"); //$NON-NLS-1$
                     if (isXML()) {
                         deleteChildren();
                         if (canParse()) {
@@ -103,8 +104,8 @@ public class JCROutputStream extends ByteArrayOutputStream {
         // check if the path of the JCR source matches one of the excludes
         // patterns
         boolean index = true;
-        for (String exclude : JCRSourceFactory.iExcludes) {
-            if (uri.startsWith(exclude)) {
+        for (String template : JCRSourceFactory.iExcludes) {
+            if (WildcardMatcherHelper.match(template, uri) != null) {
                 index = false;
             }
         }
@@ -119,7 +120,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private void createBinary() throws IOException {
         try {
-            node.addNode("jcr:content", "nt:resource");
+            node.addNode("jcr:content", "nt:resource"); //$NON-NLS-1$ //$NON-NLS-2$
             writeBinary();
         } catch (ItemExistsException e) {
             throw new IOException("Content node already exists: "
@@ -145,7 +146,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private void createXML() throws IOException {
         try {
-            node.addNode("jcr:content", "xt:document");
+            node.addNode("jcr:content", "xt:document"); //$NON-NLS-1$ //$NON-NLS-2$
             writeXML();
         } catch (ItemExistsException e) {
             throw new IOException("Content node already exists: "
@@ -172,7 +173,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
     private void deleteChildren() throws IOException {
         // remove old content
         try {
-            NodeIterator nit = node.getNode("jcr:content").getNodes();
+            NodeIterator nit = node.getNode("jcr:content").getNodes(); //$NON-NLS-1$
             while (nit.hasNext()) {
                 nit.nextNode().remove();
             }
@@ -234,11 +235,11 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private void writeBinary() throws IOException {
         try {
-            node.getNode("jcr:content").setProperty("jcr:data",
+            node.getNode("jcr:content").setProperty("jcr:data", //$NON-NLS-1$ //$NON-NLS-2$
                     new ByteArrayInputStream(this.toByteArray()));
-            node.getNode("jcr:content").setProperty("jcr:mimeType",
-                    "application/octetstream");
-            node.getNode("jcr:content").setProperty("jcr:lastModified",
+            node.getNode("jcr:content").setProperty("jcr:mimeType",  //$NON-NLS-1$//$NON-NLS-2$
+                    "application/octetstream"); //$NON-NLS-1$
+            node.getNode("jcr:content").setProperty("jcr:lastModified", //$NON-NLS-1$ //$NON-NLS-2$
                     new GregorianCalendar());
         } catch (ValueFormatException e) {
             throw new IOException("Invalid value format: "
@@ -261,7 +262,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     private boolean isXML() throws IOException {
         try {
-            return node.getNode("jcr:content").isNodeType("xt:document");
+            return node.getNode("jcr:content").isNodeType("xt:document"); //$NON-NLS-1$ //$NON-NLS-2$
         } catch (PathNotFoundException e) {
             throw new IOException(
                     "Path not found, cannot determine content type of node: "
