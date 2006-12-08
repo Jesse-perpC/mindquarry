@@ -5,7 +5,7 @@ dojo.require("dojo.event");
 dojo.require("dojo.widget.Editor2");
 
 
-
+dojo.require("cocoon.forms.CFormsForm");
 dojo.require("cocoon.ajax.common");
 dojo.require("cocoon.ajax.insertion");
 dojo.require("dojo.lfx.html");
