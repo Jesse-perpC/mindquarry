@@ -48,7 +48,10 @@ mindquarry.widget.wikiLinkWordClick = function() {
 
 mindquarry.widget.wikiLinkSet = function(href) {
 	var editorToolbar = dojo.widget.byType("Editor2Toolbar")[0];
-	href = this.normalizeName(href);
+	// normalize only if the entered link does not start with "http(s)://"
+	if (href && (href.indexOf("http://") != 0) && (href.indexOf("https://") != 0)) {
+    	href = this.normalizeName(href);
+    }
 	if (href) {
 		editorToolbar.exec("createlink", href);
 	}

@@ -54,6 +54,12 @@
 		<div class="wiki-link-dialog" dojoType="Dialog" id="wikiLinkDialog" bgColor="black" bgOpacity="0.7" toggle="fade" toggleDuration="250">
 			<form>
 				<table style="background-color:white;opacity:1;padding:20px;">
+				    <tr>
+				        <td colspan="2" style="text-align:center;">
+				            Select a page from the list or enter a link:
+				            <p style="font-size:small;">External links must start with http://</p>
+				        </td>
+				    </tr>
 					<tr>
 						<td>Wiki Pages:</td>
 						<td>
