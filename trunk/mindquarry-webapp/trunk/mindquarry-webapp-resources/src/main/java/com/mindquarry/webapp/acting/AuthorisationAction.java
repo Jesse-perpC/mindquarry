@@ -80,7 +80,7 @@ public class AuthorisationAction extends ServiceableAction implements ThreadSafe
         String username = (String) request.getAttribute("username");
         
         if (username == null || username.equals("")) {
-            throw new Exception("Authorisation failed because no authenticated user avaiable.");
+            throw new AuthorisationException("Authorisation failed because no authenticated user avaiable.");
         }
         
         if (lookupAuthorisation().authorise(username, uri, method)) {
@@ -89,7 +89,7 @@ public class AuthorisationAction extends ServiceableAction implements ThreadSafe
         }
 
         // not authorised. throw exception
-        throw new Exception("Authorisation failed for user '" + username
+        throw new AuthorisationException("Authorisation failed for user '" + username
                 + "' with method '" + method + "' on '" + uri + "'");
     }
 
