@@ -6,34 +6,19 @@ function changePasswordInBrowser() {
 	
 	var username = document.getElementById("edit-user-link").firstChild.nodeValue;
 		
+	// remember current location (page to edit user settings) in temp variable
+//	var editUserSite = window.location;
 	
-	var editUserSite = "http://localhost:8888/";
+    var pathToWebappRoot = document.getElementById("path-to-webapp-root").value;
 	
 	var forceLogoutRequest = getHTTPObject();
-	forceLogoutRequest.open("get", editUserSite, false, "null", "null");
-	forceLogoutRequest.send(null); 
-		
-	/*
-	try {
-	    // "ClearAuthenticationCache" is only available in some browsers
-	    // including the IE; for eg. Firefox, who cannot handle this command,
-	    // we have the try-catch statement
-	    
-	    // works in IE
-	    document.execCommand("ClearAuthenticationCache");
-	    
-	} catch (e) {
-		// other browsers, like Firefox, Safari, etc.
-		
-	    var forceLogoutRequest = getHTTPObject();
-		forceLogoutRequest.open("get", editUserSite, false, "null", "null");
-		forceLogoutRequest.send(null);  
-	}	*/	
+	forceLogoutRequest.open("get", pathToWebappRoot, false, "null", "null");
+	forceLogoutRequest.send(null);
 	
 	var reloginRequest = getHTTPObject();
-	forceLogoutRequest.open("get", editUserSite, false, username, newPwd);
+	forceLogoutRequest.open("get", pathToWebappRoot, false, username, newPwd);
 	forceLogoutRequest.send("");
-	/*
-	window.location = editUserSite;
-	*/
+	
+	
+//	window.location = editUserSite;
 }

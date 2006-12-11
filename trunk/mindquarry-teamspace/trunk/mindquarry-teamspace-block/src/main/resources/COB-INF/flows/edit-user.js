@@ -65,22 +65,3 @@ function uploadPhoto() {
 	    persistUserPhoto(currentUserId, photoWidget);
 	    
 }
-
-/*
-function updateUser() {
-
-	var userModel = model_.userModel;
-	
-	if (containsPhotoUpload(form_))
-	    persistUserPhoto(userModel.userId, form_);
-	    	
-	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
-	
-	var result = userAdmin.createUser(
-			userModel.userId, userModel.new_password, userModel.name, 
-			userModel.surname, userModel.email, userModel.skills);
-	
-	cocoon.releaseComponent(userAdmin);
-	
-	return result;
-} */
