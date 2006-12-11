@@ -11,9 +11,6 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-import org.apache.avalon.framework.service.Serviceable;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
@@ -32,12 +29,7 @@ import org.jdom.output.XMLOutputter;
  *         Saar</a>
  */
 public class SolrIndexClient extends AbstractAsyncIndexClient implements
-        Configurable, Serviceable, Initializable {
-    /**
-     * Used to resolve other components.
-     */
-    protected ServiceManager manager;
-
+        Configurable, Initializable {
     /**
      * Configuration for this component.
      */
@@ -126,13 +118,6 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
      */
     public void configure(Configuration config) throws ConfigurationException {
         this.config = config;
-    }
-
-    /**
-     * @see org.apache.avalon.framework.service.Serviceable#service(org.apache.avalon.framework.service.ServiceManager)
-     */
-    public void service(ServiceManager manager) throws ServiceException {
-        this.manager = manager;
     }
 
     /**
