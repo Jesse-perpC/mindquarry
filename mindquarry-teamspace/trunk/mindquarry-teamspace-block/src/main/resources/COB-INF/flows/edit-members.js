@@ -15,7 +15,7 @@ function processEditMembersForm(form) {
 
 	teamspaceQuery_ = cocoon.getComponent(Packages.com.mindquarry.teamspace.TeamspaceQuery.ROLE);
 	
-	var editedTeamspace = teamspaceQuery_.teamspaceForId(teamspaceId);	
+	var editedTeamspace = teamspaceQuery_.teamspaceById(teamspaceId);	
 	membership_ = teamspaceQuery_.membership(editedTeamspace);
 	
 	model_ = form.getModel();

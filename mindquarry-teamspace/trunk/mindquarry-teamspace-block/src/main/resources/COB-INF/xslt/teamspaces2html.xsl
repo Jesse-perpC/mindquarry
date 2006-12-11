@@ -61,6 +61,10 @@
 								Edit Members
 						</a>
 						
+						<a href="{normalize-space(id)}/edit/" class="edit_settings_button">
+								Edit Settings
+						</a>
+						
 						<!--a href="#" class="edit_subprojects_button">
 								Edit Related Teams
 						</a-->

@@ -29,10 +29,13 @@
 			<fd:datatype base="string"></fd:datatype>
 		</fd:field>
 
-		<fd:submit id="createTeamspaceSubmit" command="submit" validate="true">
+		<fd:submit id="create" command="submit" validate="true">
 			<fd:label>Create</fd:label>
 		</fd:submit>
-		<fd:submit id="cancelSubmit" command="cancel" validate="false">
+		<fd:submit id="update" command="submit" validate="true">
+			<fd:label>Update</fd:label>
+		</fd:submit>
+		<fd:submit id="cancel" command="cancel" validate="false">
 			<fd:label>Cancel</fd:label>
 		</fd:submit>
 	</fd:widgets>

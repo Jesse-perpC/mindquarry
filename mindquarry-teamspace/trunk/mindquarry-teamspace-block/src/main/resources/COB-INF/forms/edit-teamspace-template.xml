@@ -12,17 +12,16 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 				
 	</head>
 	<body>
-		<h1>Create New Team</h1>
+		<h1>Update Team Settings</h1>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue" 
-			ajax-action="#{$cocoon/continuation/id}.continue" 
+			ajax-action="#{$cocoon/continuation/id}.continue"
 			ajax="true"
 			method="POST">
+			<ft:widget id="teamspaceId">
+				<fi:styling type="hidden" />
+			</ft:widget>
 			
-			<table id="create-teamspace-form">
-				<tr>
-					<td class="label"><ft:widget-label id="teamspaceId" /></td>
-					<td><ft:widget id="teamspaceId" /></td>
-				</tr>
+			<table id="edit-teamspace-form">
 				<tr>
 					<td class="label"><ft:widget-label id="name" /></td>
 					<td><ft:widget id="name" /></td>
@@ -39,7 +38,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 			
 			<br/><br/>
 			
-			<ft:widget id="create"/>
+			<ft:widget id="update"/>
 			<ft:widget id="cancel"/>
 		</ft:form-template>
 	</body>
