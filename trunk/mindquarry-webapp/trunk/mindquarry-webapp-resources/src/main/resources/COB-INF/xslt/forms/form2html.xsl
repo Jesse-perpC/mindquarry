@@ -4,7 +4,6 @@
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:bu="http://apache.org/cocoon/browser-update/1.0"
 	exclude-result-prefixes="fi">
-
   <xsl:import href="cocoon:/xslt/contextpath.xsl" />
 
   <!-- resources directory for Dojo js, css and the like -->
@@ -32,7 +31,6 @@
   	<xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
       <xsl:apply-templates select="." mode="forms-field-mindquarry"/>
-      <!-- script type="text/javascript" src="{$pathToBlock}scripts/dforms.js">//</script-->
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
       <xsl:apply-templates select="." mode="forms-dojospan"/>
       <xsl:apply-templates select="." mode="forms-dojobuttons"/>
