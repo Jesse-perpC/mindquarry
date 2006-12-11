@@ -172,15 +172,12 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         session.commit();
     }
 
-    public void removeTeamspace(String teamspaceId)
+    public void deleteTeamspace(Teamspace teamspace)
             throws CouldNotRemoveTeamspaceException {
 
         Session session = currentSession();
-        TeamspaceEntity teamspace = queryTeamspaceById(session, teamspaceId);
-
-        if (null == teamspace)
-            throw new TeamspaceException("the teamspace " + teamspaceId
-                    + " does not exist.");
+        session.delete(teamspace);
+        session.commit();        
 
         List<UserRO> users = queryMembersForTeamspace(teamspace);
         for (UserRO user : users)
@@ -192,9 +189,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             throw new CouldNotRemoveTeamspaceException(
                     "Teamspace removal failed in listener " + e.getMessage(), e);
         }
-
-        session.delete(teamspace);
-        session.commit();
     }
 
     public List<TeamspaceRO> teamspacesForUser(String userId) {
@@ -296,9 +290,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     /**
-     * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceForId(java.lang.String)
+     * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceById(java.lang.String)
      */
-    public Teamspace teamspaceForId(String teamspaceId) {
+    public Teamspace teamspaceById(String teamspaceId) {
         Session session = currentSession();
         return queryTeamspaceById(session, teamspaceId);
     }

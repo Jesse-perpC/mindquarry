@@ -28,9 +28,9 @@ public interface TeamspaceAdmin extends TeamspaceQuery {
 	Teamspace createTeamspace(String id, String name, 
                 String description, UserRO teamspaceCreator) throws CouldNotCreateTeamspaceException;
 	
-    Teamspace teamspaceForId(String teamspaceId);
+    Teamspace teamspaceById(String teamspaceId);
     
     void updateTeamspace(Teamspace teamspace);
     
-	void removeTeamspace(String teamspaceId) throws CouldNotRemoveTeamspaceException;
+	void deleteTeamspace(Teamspace teamspace) throws CouldNotRemoveTeamspaceException;
 }
