@@ -43,7 +43,16 @@ function createLoginForm(httpauth)
     form.method = "get";
     form.onsubmit = function() {login(form); return false;};
     form.id = httpauth.id;
-
+	
+	var targetUri = document.createElement("input");
+    targetUri.type = "hidden";
+    targetUri.id = "targetUri";
+    targetUri.name = "targetUri";
+    targetUri.value = httpauth.href.split("targetUri=")[1]
+    
+    form.appendChild(targetUri);
+    
+    
     var table = document.createElement("table");
     table.id = httpauth.id + "-table";
     
@@ -143,7 +152,8 @@ function getHTTPObject() {
 function login(form)
 {
     var username = document.getElementById(form.id + "-username").value;
-    var password = document.getElementById(form.id + "-password").value;
+    var password = document.getElementById(form.id + "-password").value;    
+    var targetUri = document.getElementById("targetUri").value;
 
     var http = getHTTPObject();
     
@@ -157,7 +167,7 @@ function login(form)
     
 	if (http.status == 200) {
 		// go to the page that was requested before the login page came
-		document.location = form.action.split("targetUri=")[1];
+		document.location = targetUri;
 	} else {
         alert("Incorrect username and/or password!");
     }
