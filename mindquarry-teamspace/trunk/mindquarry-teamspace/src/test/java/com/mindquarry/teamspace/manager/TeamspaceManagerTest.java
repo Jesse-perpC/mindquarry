@@ -31,14 +31,15 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
                 "Mindquarry User", "surname", "an email", "the skills");
 
         String teamspaceId = "mindquarry-teamspace";
-        teamsAdmin.createTeamspace(teamspaceId, "Mindquarry Teamspace",
+        Teamspace teamspace = teamsAdmin.createTeamspace(
+                teamspaceId, "Mindquarry Teamspace",
                 "a greate description", creator);
 
         List<TeamspaceRO> teamspaces = teamsAdmin.teamspacesForUser(userId);
         assertEquals(1, teamspaces.size());
         assertEquals(1, teamspaces.get(0).getUsers().size());
 
-        teamsAdmin.removeTeamspace(teamspaceId);
+        teamsAdmin.deleteTeamspace(teamspace);
 
         assertEquals(0, teamsAdmin.teamspacesForUser(userId).size());
     }
@@ -54,14 +55,15 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         UserRO creator = userAdmin.userById(userId);
 
         String teamspaceId = "mindquarry-teamspace";
-        teamsAdmin.createTeamspace(teamspaceId, "Mindquarry Teamspace",
+        Teamspace teamspace = teamsAdmin.createTeamspace(
+                teamspaceId, "Mindquarry Teamspace",
                 "a greate description", creator);
 
         List<TeamspaceRO> teamspaces = teamsAdmin.teamspacesForUser(userId);
         assertEquals(1, teamspaces.size());
         assertEquals(1, teamspaces.get(0).getUsers().size());
 
-        teamsAdmin.removeTeamspace(teamspaceId);
+        teamsAdmin.deleteTeamspace(teamspace);
 
         assertEquals(0, teamsAdmin.teamspacesForUser(userId).size());
     }
@@ -87,11 +89,11 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
         teamspace.setProperty(propKey, propValue);
         teamsAdmin.updateTeamspace(teamspace);
 
-        Teamspace updatedTeamspace = teamsAdmin.teamspaceForId(teamspaceId);
+        Teamspace updatedTeamspace = teamsAdmin.teamspaceById(teamspaceId);
 
         assertEquals(propValue, updatedTeamspace.getProperty(propKey));
 
-        teamsAdmin.removeTeamspace(teamspaceId);
+        teamsAdmin.deleteTeamspace(updatedTeamspace);
     }
 
     public void testTeamspaceRegistry() throws ServiceException,
@@ -109,12 +111,13 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
                 "Mindquarry User", "surname", "an email", "the skills");
 
         String teamspaceId = "mindquarry-teamspace";
-        teamsAdmin.createTeamspace(teamspaceId, "Mindquarry Teamspace",
+        Teamspace teamspace = teamsAdmin.createTeamspace(
+                teamspaceId, "Mindquarry Teamspace",
                 "a greate description", creator);
 
         assertTrue(testListener.wasCalled);
 
-        teamsAdmin.removeTeamspace(teamspaceId);
+        teamsAdmin.deleteTeamspace(teamspace);
     }
 
     public void testAddUserToTeamspace() throws ServiceException,

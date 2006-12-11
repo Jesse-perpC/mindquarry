@@ -22,7 +22,7 @@ public interface TeamspaceQuery {
      */
     List<TeamspaceRO> teamspacesForUser(String userId);
     
-    TeamspaceRO teamspaceForId(String teamspaceId);
+    TeamspaceRO teamspaceById(String teamspaceId);
     
     Membership membership(TeamspaceRO teamspace);
     
