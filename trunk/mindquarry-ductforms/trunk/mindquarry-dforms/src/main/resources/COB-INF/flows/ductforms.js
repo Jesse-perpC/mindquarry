@@ -26,23 +26,25 @@ function fieldsChanged(event) {
 	}
 }
 
-function switchEditView(event) {
-	if (form_) {
-		if (cocoon.request.activate) {
-			var selectedWidget = form_.lookupWidget("/" + cocoon.request.activate.substring(9));
-			if (selectedWidget) {
-				selectedWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-				form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-				form_.lookupWidget("/ductforms_switch").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-			}
-		} else {
-			var formWidget = form_.lookupWidget("/title");
-			if (formWidget.getState() == Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT) {
-				setWidgetStates(form_, true);
-			} else {
-				setWidgetStates(form_, false);
-			}
+// enter partial edit mode or "expand" partial edit mode
+function activate(event) {
+	if (form_ && cocoon.request.activate) {
+		var selectedWidget = form_.lookupWidget("/" + cocoon.request.activate.substring(9));
+		if (selectedWidget) {
+		    // activate the field the user has clicked on
+			selectedWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			
+			form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			form_.lookupWidget("/ductforms_cancel").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 		}
+	}
+}
+
+// enter mode where all fields are active and the ductforms field chooser is visible
+function editAll(event) {
+	if (form_) {
+        // make everything editable
+		setWidgetStates(form_, true);
 	}
 }
 
@@ -78,8 +80,30 @@ function save(event) {
 		} else {
 		
 		    // existing documents only switch to view mode after a save
-		    switchEditView(event);
+		    setWidgetStates(form_, false);
 		}
+	}
+}
+
+function cancel(event) {
+	if (form_) {
+	    if (documentID_ == "new") {
+	        // user does not want to create a new document
+	        
+    	    // stop any further form processing to be able to do the redirect
+    		form_.getWidget().endProcessing(false);
+    		
+    	    // go back to the task list
+    	    cocoon.redirectTo("cocoon:/redirectTo/");
+    	} else {
+    	    // user cancels changes of an existing document
+    	    
+    	    // stop any further form processing to be able to do the redirect
+    		form_.getWidget().endProcessing(false);
+    		
+    	    // reload the form in view mode (new continuation)
+    	    cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);
+    	}
 	}
 }
 
@@ -130,16 +154,22 @@ function setWidgetStates(form, isEdit) {
 			}
 		}
 	}
+	
+	// Note: all widgets are set to INVISIBLE state in the hashmap already
 
 	if (isEdit) {
 		// show the field selector in edit mode
 		widgetMap.put(ductformsWidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-		// save button only in edit mode
+		
 		widgetMap.put(form.lookupWidget("/ductforms_save"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		widgetMap.put(form.lookupWidget("/ductforms_cancel"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	} else {
-		// the switch button should not be always active
-		widgetMap.put(form.lookupWidget("/ductforms_switch"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		// show the edit all button in view mode
+		widgetMap.put(form.lookupWidget("/ductforms_editall"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
+
+    // the activate action is always active (but not visible)
+	widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	
 	//cycle through the widget map and set the states accordingly
 	var widgetList = widgetMap.keySet().toArray();

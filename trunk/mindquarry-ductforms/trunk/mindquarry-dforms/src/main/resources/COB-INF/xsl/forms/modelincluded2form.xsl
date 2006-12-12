@@ -54,14 +54,20 @@
 
 				<xsl:apply-templates select="df:datatype" />
 
-				<fd:action id="ductforms_switch">
-					<fd:label>Edit</fd:label>
-					<fd:help>Switch to edit mode</fd:help>
+				<fd:action id="ductforms_activate">
 					<fd:on-action>
-						<fd:javascript>switchEditView(event);</fd:javascript>
+						<fd:javascript>activate(event);</fd:javascript>
 					</fd:on-action>
 				</fd:action>
-
+				
+				<fd:action id="ductforms_editall">
+					<fd:label>Edit All</fd:label>
+					<fd:help>Edit all fields</fd:help>
+					<fd:on-action>
+						<fd:javascript>editAll(event);</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+				
 				<fd:action id="ductforms_save">
 					<fd:label>Save</fd:label>
 					<fd:help>Save the data you entered</fd:help>
@@ -69,6 +75,15 @@
 						<fd:javascript>save(event);</fd:javascript>
 					</fd:on-action>
 				</fd:action>
+
+				<fd:action id="ductforms_cancel">
+					<fd:label>Cancel</fd:label>
+					<fd:help>Drop all changes</fd:help>
+					<fd:on-action>
+						<fd:javascript>cancel(event);</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+				
 			</fd:widgets>
 		</fd:form>
 	</xsl:template>

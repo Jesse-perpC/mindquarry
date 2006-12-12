@@ -33,36 +33,37 @@
 					 they know the correct URL -->
 				<ft:form method="POST" action="" ajax="true">
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
-				
-					<!-- the switch button -->
-					<xhtml:div class="form_block" id="block_ductform_switch">
-						<ft:widget id="ductforms_switch" />
-						<!-- the save button -->
-							<ft:widget id="ductforms_save" />
-					</xhtml:div>
 
+					<!-- hide the activate action (only used for communication) -->					
+					<ft:widget id="ductforms_activate">
+						<fi:styling type="hidden" />
+					</ft:widget>
+					
+					<!-- the buttons -->
+					<ft:widget id="ductforms_editall">
+						<fi:styling class="ductform_button editall_button" />
+					</ft:widget>
+					<ft:widget id="ductforms_save">
+						<fi:styling class="ductform_button save_button" />						
+					</ft:widget>
+					<ft:widget id="ductforms_cancel">
+						<fi:styling class="ductform_button cancel_button" />						
+					</ft:widget>
+					
 					<!-- all fields/widgets grouped for nice layouting -->
 					<fi:group>
 						<fi:styling layout="{$widgetArrangementOrDefault}" />
 						<fi:items>
+							<!-- the fields -->
 							<xsl:apply-templates select="df:datatype" />
 							
+							<!-- the field chooser -->
 							<ft:widget id="ductforms">
 								<fi:styling list-type="buttons" />
 							</ft:widget>
 						</fi:items>
 					</fi:group>
 
-					<!-- field chooser 
-					<dl class="ductform" id="contentselector">
-						<dt><label>Select Content</label></dt>
-						<dd>
-							<ft:widget id="ductforms">
-								<fi:styling list-type="buttons" />
-							</ft:widget>
-						</dd>
-					</dl>
-					-->
 				</ft:form>
 			</xhtml:body>
 		</xhtml:html>
