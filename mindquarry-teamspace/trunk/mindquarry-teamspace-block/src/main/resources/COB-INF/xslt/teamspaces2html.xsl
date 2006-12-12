@@ -9,7 +9,7 @@
 	<xsl:template match="/teamspaces">
 		<html>
 			<head>
-				<title>Teamspaces</title>
+				<title>Teams</title>
 				<link rel="stylesheet"
 					href="{$pathToBlock}css/teamspace.css" type="text/css" />
 				<link rel="stylesheet" 
