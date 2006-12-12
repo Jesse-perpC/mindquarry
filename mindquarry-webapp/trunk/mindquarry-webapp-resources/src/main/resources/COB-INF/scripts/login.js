@@ -2,7 +2,7 @@
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
  
- dojo.addOnLoad(function()
+dojo.addOnLoad(function()
 {	
 	var index = -1;
     var anchors = document.getElementsByTagName("a");
@@ -119,9 +119,14 @@ function createLoginForm(httpauth)
 
 function createLogoutLink(httplogout, pathToWebappRoot)
 {
-    httplogout.onclick = function() {logout(pathToWebappRoot.href);};
-    httplogout.id = "http-logout-link";
-	httplogout.innerHTML = "Log out";
+    var link = document.createElement("a");
+    link.href = "#";
+    link.onclick = function() {logout(pathToWebappRoot.href);};
+    link.id = "http-logout-link";
+    link.innerHTML = "Log out";
+    
+    httplogout.innerHTML = "";
+    httplogout.appendChild(link);
 }
 
 function getHTTPObject() {
