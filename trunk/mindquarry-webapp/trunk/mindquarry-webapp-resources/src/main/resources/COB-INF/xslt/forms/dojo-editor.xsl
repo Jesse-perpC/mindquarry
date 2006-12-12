@@ -36,8 +36,8 @@
       +-->
 
   <!-- output view -->
-  <xsl:template match="fi:field[@state='output'][fi:styling[@type='wiki']]">
-  	<div id="{@id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}">
+  <xsl:template match="fi:field[@state='output'][fi:styling[@type='wiki' or @type='textarea']] " priority="3">
+    <div dojoType="autoactivefield" id="{@id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}">
   	  <htmllize>
 	      <xsl:apply-templates select="fi:value/node()" mode="dojoarea-copy"/>  	
       </htmllize>
