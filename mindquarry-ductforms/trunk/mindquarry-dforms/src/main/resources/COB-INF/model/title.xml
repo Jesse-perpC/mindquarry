@@ -11,6 +11,6 @@
 		<fd:help>A title identifies the document's content</fd:help>
 	</fd:field>
 	<ft:widget>
-		<fi:styling type="dojospan"/>
+		<fi:styling autoactive="true"/>
 	</ft:widget>
 </df:datatype>
