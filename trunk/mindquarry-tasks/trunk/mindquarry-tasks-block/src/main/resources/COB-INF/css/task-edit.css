@@ -1,6 +1,8 @@
-div#footbar {
-	margin-top:10px;
-	clear:both;
+/* dl has by default a 1em (16px) margin top and bottom, but they overlap when
+ * two dl follow each other, thus removing the top margin will still result in
+ * a 16px gap between them due to the bottom margin */ 
+dl {
+    margin-top: 0px;
 }
 
 table.forms {
@@ -14,15 +16,9 @@ label {
 	font-weight:bold;
 }
 
-#block_ductform_switch {
-	border-top:1px solid white;
-}
-
-a.edit_task_button:link, a.edit_task_button:visited, #block_ductform_switch input {
-	background-image: url(../buttons/edit_task.png);
+/* the buttons */
+input.ductform_button {
 	display: block;
-	width: 154px;
-	height: 32px;
 	text-decoration: none;
 	text-align: center;
 	color: white;
@@ -35,7 +31,37 @@ a.edit_task_button:link, a.edit_task_button:visited, #block_ductform_switch inpu
 	clear:both;
 }
 
+input.editall_button {
+	background-image: url(../buttons/edit_task.png);
+	width: 154px;
+	height: 32px;
+}
+
+input.save_button {
+	background-image: url(../buttons/edit_task.png);
+	width: 154px;
+	height: 32px;
+}
+
+input.cancel_button {
+	background-image: url(../buttons/edit_task.png);
+	width: 154px;
+	height: 32px;
+}
+
 /* turn action labels off */
 dt label.action {
     display:none;
+}
+
+/* dforms field hovering */
+dd.output /*span.output, div.output*/ {
+    border: 1px solid white;
+    padding: 2px;
+}
+
+dd.output:hover /*, span.output:hover, div.output:hover*/ {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
 }

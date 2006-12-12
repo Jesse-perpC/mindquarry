@@ -13,6 +13,6 @@
 		<!-- 
 		<fi:styling type="textarea" cols="50" rows="20" />	
 		 --> 
-		<fi:styling type="textarea" cols="50" rows="10" dojoType="Editor2" />
+		<fi:styling type="textarea" cols="50" rows="10" dojoType="Editor2"/> <!-- autoactive="true"/>-->
 	</ft:widget>
 </df:datatype>

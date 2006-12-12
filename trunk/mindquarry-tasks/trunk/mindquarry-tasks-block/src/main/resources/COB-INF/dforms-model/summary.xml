@@ -11,6 +11,6 @@
 	</fd:field>
 
 	<ft:widget>
-		<fi:styling type="textarea" cols="50" rows="3" />
+		<fi:styling type="textarea" cols="50" rows="3" autoactive="true" />
 	</ft:widget>
 </df:datatype>

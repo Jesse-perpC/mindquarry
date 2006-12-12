@@ -24,6 +24,6 @@
 		<fd:help>Date infornation can be used to order events</fd:help>
 	</fd:field>
 	<ft:widget>
-		<fi:styling type="date" />
+		<fi:styling type="date" autoactive="true" />
 	</ft:widget>
 </df:datatype>
