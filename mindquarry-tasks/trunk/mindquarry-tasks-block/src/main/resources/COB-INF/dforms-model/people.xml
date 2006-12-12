@@ -1,31 +1,27 @@
-<df:datatype id="people" position="6"
-	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
+<df:datatype id="people" position="6" xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<fd:repeater>
-		<fd:datatype base="boolean" />
+		<fd:datatype base="boolean"/>
 		<fd:label>People</fd:label>
 		<fd:hint>People connected to this document</fd:hint>
-		<fd:help>
-			Use this field for setting responsibilities and roles
-		</fd:help>
+		<fd:help> Use this field for setting responsibilities and roles </fd:help>
 		<fd:widgets>
 			<fd:field id="peopleperson">
-				<fd:datatype base="string" />
-				<fd:selection-list src="block:teams:/{teamspace}/users.xml" cache="request">
-				</fd:selection-list>
+				<fd:datatype base="string"/>
+				<fd:selection-list src="block:teams:/{teamspace}/users.xml" cache="request"> </fd:selection-list>
 				<fd:label>Person</fd:label>
 			</fd:field>
 			<fd:field id="peoplerole">
-				<fd:datatype base="string" />
+				<fd:datatype base="string"/>
 				<fd:label>Role</fd:label>
 			</fd:field>
-		<fd:row-action id="delete" command="delete">
-			<fd:label>Remove</fd:label>
-			<fd:hint>Remove a person that is no longer relevant to this document</fd:hint>
-		</fd:row-action>
+			<fd:row-action id="delete" command="delete">
+				<fd:label>Remove</fd:label>
+				<fd:hint>Remove a person that is no longer relevant to this document</fd:hint>
+			</fd:row-action>
 		</fd:widgets>
 		<fd:attributes>
 			<fd:attribute name="related" value="peopleadd"/>
@@ -34,9 +30,9 @@
 	<fd:repeater-action id="add" command="add-row">
 		<fd:label>Add Person</fd:label>
 	</fd:repeater-action>
-	
-	
-	<ft:repeater>
+
+
+	<ft:repeater autoactive="true">
 		<div class="repeater">
 			<fi:label class="hidden">People</fi:label>
 			<jx:choose>
@@ -46,26 +42,26 @@
 				<jx:otherwise>
 					<table>
 						<tbody>
-								<tr>
-									<th class="peopleperson">
-										<ft:repeater-widget-label widget-id="peopleperson" />
-									</th>
-									<th class="peoplerole">
-										<ft:repeater-widget-label widget-id="peoplerole" />
-									</th>
+							<tr>
+								<th class="peopleperson">
+									<ft:repeater-widget-label widget-id="peopleperson"/>
+								</th>
+								<th class="peoplerole">
+									<ft:repeater-widget-label widget-id="peoplerole"/>
+								</th>
+							</tr>
+							<ft:repeater-rows>
+								<tr class="forms-row-${repeaterLoop.index % 2}">
+									<td class="peopleperson">
+										<ft:widget id="peopleperson">
+											<fi:styling list-type="iconSelect"/>
+										</ft:widget>
+									</td>
+									<td class="peoplerole">
+										<ft:widget id="peoplerole"/>
+										<ft:widget id="delete"/>
+									</td>
 								</tr>
-								<ft:repeater-rows>
-									<tr class="forms-row-${repeaterLoop.index % 2}">
-										<td class="peopleperson">
-											<ft:widget id="peopleperson">
-												<fi:styling list-type="iconSelect"/>
-											</ft:widget>
-										</td>
-										<td class="peoplerole">
-											<ft:widget id="peoplerole" />
-											<ft:widget id="delete"/>
-										</td>
-									</tr>
 							</ft:repeater-rows>
 						</tbody>
 					</table>
@@ -74,6 +70,6 @@
 			<ft:widget id="../peopleadd"/>
 		</div>
 	</ft:repeater>
-	
-	 
+
+
 </df:datatype>

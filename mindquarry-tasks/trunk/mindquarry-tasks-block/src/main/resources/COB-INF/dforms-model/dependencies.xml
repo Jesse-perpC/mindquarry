@@ -62,6 +62,7 @@
 									<tr class="forms-row-${repeaterLoop.index % 2}">
 										<td class="dependencytask">
 											<ft:widget id="dependencytask">
+												<fi:styling autoactive="true" />
 												<!--
 												<fi:styling list-type="buttons"/>
 												-->

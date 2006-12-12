@@ -26,6 +26,6 @@
 		</fd:selection-list>
 	</fd:field>
 	<ft:widget>
-		<fi:styling list-type="buttons" />
+		<fi:styling list-type="buttons" autoactive="true" />
 	</ft:widget>
 </df:datatype>
