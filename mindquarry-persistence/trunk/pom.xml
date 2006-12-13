@@ -12,18 +12,18 @@
 		<version>1</version>
 	</parent>
 
-	<name>Mindquarry Datamodel [Root]</name>
-	<description>Mindquarry Types and Schema definitions.</description>
+	<name>Mindquarry Persistence [Root]</name>
+	<description>Mindquarry persistence projects.</description>
 
-	<artifactId>mindquarry-types</artifactId>
-	<groupId>com.mindquarry.types</groupId>
+	<artifactId>mindquarry-persistence</artifactId>
+	<groupId>com.mindquarry.persistence</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
 		<module>castor-persistence</module>
 		<module>persistence-client</module>
 	</modules>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>xmlbeans</groupId>
@@ -53,26 +53,4 @@
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>
 	</developers>
-
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>xmlbeans-maven-plugin</artifactId>
-				<version>2.0.1-mindquarry</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>xmlbeans</goal>
-						</goals>
-					</execution>
-				</executions>
-				<inherited>true</inherited>
-				<configuration>
-					<debug>true</debug>
-					<schemaDirectory>src/main/xsd</schemaDirectory>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
