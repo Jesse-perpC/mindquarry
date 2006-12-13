@@ -10,6 +10,6 @@
 		<fd:help>Archived fields do not appear in collections</fd:help>
 	</fd:booleanfield>
 	<ft:widget>
-		<fi:styling autoactive="true" />
+		<fi:styling class="use-parent-for-autoactive" autoactive="true" />
 	</ft:widget>
 </df:datatype>
