@@ -21,7 +21,7 @@
   <modules>
     <module>./mindquarry-common</module>
     <!-- persistence layer -->
-    <module>../mindquarry-types</module>
+    <module>../mindquarry-persistence</module>
     <module>../mindquarry-jcr</module>
     <!-- central module for deploying the cocoon based webapp -->
     <module>../mindquarry-webapp</module>
@@ -30,7 +30,7 @@
     <module>../mindquarry-workspace</module>
     <module>../mindquarry-wiki</module>
     <module>../mindquarry-tasks</module>
-    <module>../mindquarry-search</module> 
+    <module>../mindquarry-search</module>
     <module>../mindquarry-ductforms</module>
   </modules>
 </project>
