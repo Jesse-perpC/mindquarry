@@ -16,8 +16,6 @@ import java.util.List;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public interface Session {
-
-    Object newEntity(Class clazz);
     
     void persist(Object entity);
     
