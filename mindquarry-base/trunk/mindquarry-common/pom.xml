@@ -33,9 +33,21 @@
 					</excludes>
 				</configuration>
 			</plugin>
+			<plugin>
+				<!-- export our test classes in a separate jar -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>

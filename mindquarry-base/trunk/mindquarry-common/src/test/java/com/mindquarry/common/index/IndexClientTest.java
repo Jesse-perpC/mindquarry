@@ -6,7 +6,9 @@ package com.mindquarry.common.index;
 import java.util.ArrayList;
 import java.util.List;
 
-import junit.framework.TestCase;
+import org.apache.avalon.framework.service.ServiceException;
+
+import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 
 /**
  * Add summary documentation here.
@@ -14,8 +16,8 @@ import junit.framework.TestCase;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class IndexClientTest extends TestCase {
-    public void testIndexUpdate() {
+public class IndexClientTest extends AvalonSpringContainerTestBase {
+    public void testIndexUpdate() throws ServiceException {
         List<String> deletedPaths = new ArrayList<String>();
         //deletedPaths.add("jcr:///teamspaces/mindquarry/tasks/task3.xml");
         List<String> changedPaths = new ArrayList<String>();
@@ -27,5 +29,9 @@ public class IndexClientTest extends TestCase {
         iClient.setSolrEndpoint("http://localhost:8888/solr/update");
 
         iClient.indexSynch(changedPaths, deletedPaths);
+        
+        
+        SolrIndexClient indexClient = (SolrIndexClient) lookup(IndexClient.ROLE);
+        assertEquals("admin", indexClient.getSolrLogin());
     }
 }
