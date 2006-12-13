@@ -13,9 +13,6 @@
 	<role name="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
 		shorthand="jcr-id-generator" />
 
-	<role name="com.mindquarry.common.index.IndexClient"
-		shorthand="index-client" />
-
 	<!-- configure a serializer for XML output -->
 	<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
 		

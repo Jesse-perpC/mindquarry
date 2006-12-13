@@ -56,8 +56,4 @@
 	<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
 		login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
 
-	<index-client class="com.mindquarry.common.index.SolrIndexClient">
-		<solr-credentials login="${mindquarry.solr.login}" password="${mindquarry.solr.pwd}"/>
-		<solr-endpoint url="${mindquarry.solr.endpoint}"/>
-	</index-client>
 </components>
