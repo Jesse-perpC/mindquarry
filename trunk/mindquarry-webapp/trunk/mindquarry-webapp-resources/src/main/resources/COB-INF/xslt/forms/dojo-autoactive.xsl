@@ -28,7 +28,7 @@
       <xsl:apply-templates select="fi:value/node()"/>
     </div>
   </xsl:template>
-  
+
   <!--+
       | override standard styling for fi:booleanfield with @state 'output'
       | (checkbox) to include dojoType="autoactive"

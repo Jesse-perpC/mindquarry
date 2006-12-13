@@ -22,12 +22,23 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
 	    this.cform = parentWidget;
-	    if (this.domNode.nodeName == "INPUT") {
-	        //alert("autoactive parent=" + this.domNode.parentNode.nodeName);
+
+        // the class attribute is used to indicate special cases where a
+        // sub-element will be the communicator for the autoactive information
+        // that should be applied to the parent widget	    
+	    if (this.domNode.className.indexOf("use-parent-for-autoactive") >= 0) {
 	        dojo.event.connect(this.domNode.parentNode, "onclick", this, "onClick");
 	    } else {
-	        //alert("autoactive nodeName=" + this.domNode.nodeName);
 	        dojo.event.connect(this.domNode, "onclick", this, "onClick");
+	    }
+	    
+	    // sometimes the id is contained directly within the element that is
+	    // marked as autoactive, and sometimes we apply it to the parent and
+	    // this one will contain the id that is sent in the activation call
+	    if (this.domNode.className.indexOf("use-parent-id") >= 0) {
+	        this.activateID = this.domNode.parentNode.id;
+	    } else {
+	        this.activateID = this.domNode.id;
 	    }
     },
     
@@ -36,7 +47,6 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
         // a longer lifecycle than the domNode, which might have been replaced
         // by ajax calls in the meantime; in such a case the domNode gets null
         if (this.domNode==null) {
-            //alert("isNull");
             return true;
         }
         
@@ -50,7 +60,7 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
         	}
         }
         if (this.cform!=null) {
-        	this.cform.submit("ductform.ductforms_activate" ,{activate : this.domNode.id});
+        	this.cform.submit("ductform.ductforms_activate", {activate : this.activateID});
         }
         return false;
     }
