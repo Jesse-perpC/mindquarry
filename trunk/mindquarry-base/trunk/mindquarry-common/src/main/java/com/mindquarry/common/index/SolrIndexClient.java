@@ -11,7 +11,9 @@ import org.apache.avalon.framework.activity.Initializable;
 import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
+import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
+import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
 import org.apache.commons.httpclient.UsernamePasswordCredentials;
 import org.apache.commons.httpclient.auth.AuthScope;
 import org.apache.commons.httpclient.methods.ByteArrayRequestEntity;
@@ -40,6 +42,68 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
     private String solrPassword;
 
     private String solrEndpoint;
+    
+    private HttpClient httpClient;
+
+    /**
+     * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
+     */
+    public void configure(Configuration config) throws ConfigurationException {
+        this.config = config;
+        
+        // load configuration
+        Configuration cfg = config.getChild("solr-credentials", false); //$NON-NLS-1$
+        solrLogin = cfg.getAttribute("login"); //$NON-NLS-1$
+        solrPassword = cfg.getAttribute("password"); //$NON-NLS-1$
+
+        cfg = config.getChild("solr-endpoint", false); //$NON-NLS-1$
+        solrEndpoint = cfg.getAttribute("url"); //$NON-NLS-1$
+    }
+
+    /**
+     * @see org.apache.avalon.framework.activity.Initializable#initialize()
+     */
+    public void initialize() throws Exception {
+        
+        MultiThreadedHttpConnectionManager connectionManager = 
+            new MultiThreadedHttpConnectionManager();
+        httpClient = new HttpClient(connectionManager);
+        
+        // enable Preemptive authentication to save one round trip
+        httpClient.getParams().setAuthenticationPreemptive(true);
+        
+        Credentials solrCreds = 
+            new UsernamePasswordCredentials(solrLogin, solrPassword);
+        AuthScope anyAuthScope = new AuthScope(
+                AuthScope.ANY_HOST, AuthScope.ANY_PORT, AuthScope.ANY_REALM);
+        
+        httpClient.getState().setCredentials(anyAuthScope, solrCreds);
+
+    }
+
+    public String getSolrEndpoint() {
+        return solrEndpoint;
+    }
+
+    public void setSolrEndpoint(String solrEndpoint) {
+        this.solrEndpoint = solrEndpoint;
+    }
+
+    public String getSolrLogin() {
+        return solrLogin;
+    }
+
+    public void setSolrLogin(String solrLogin) {
+        this.solrLogin = solrLogin;
+    }
+
+    public String getSolrPassword() {
+        return solrPassword;
+    }
+
+    public void setSolrPassword(String solrPassword) {
+        this.solrPassword = solrPassword;
+    }
 
     /**
      * @see com.mindquarry.common.index.AbstractAsyncIndexer#indexInternal(java.io.InputStream,
@@ -81,11 +145,6 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
     }
 
     private void sendToIndexer(byte[] content) throws Exception {
-        HttpClient httpClient = new HttpClient();
-        httpClient.getState().setCredentials(
-                new AuthScope(AuthScope.ANY_HOST, AuthScope.ANY_PORT,
-                        AuthScope.ANY_REALM),
-                new UsernamePasswordCredentials(solrLogin, solrPassword));
 
         PostMethod pMethod = new PostMethod(solrEndpoint);
         pMethod.setDoAuthentication(true);
@@ -111,49 +170,5 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
                     .println("RESPONSE: " + pMethod.getResponseBodyAsString());
         }
         pMethod.releaseConnection();
-    }
-
-    /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
-     */
-    public void configure(Configuration config) throws ConfigurationException {
-        this.config = config;
-    }
-
-    /**
-     * @see org.apache.avalon.framework.activity.Initializable#initialize()
-     */
-    public void initialize() throws Exception {
-        // load configuration
-        Configuration cfg = config.getChild("solr-credentials", false); //$NON-NLS-1$
-        solrLogin = cfg.getAttribute("login"); //$NON-NLS-1$
-        solrPassword = cfg.getAttribute("password"); //$NON-NLS-1$
-
-        cfg = config.getChild("solr-endpoint", false); //$NON-NLS-1$
-        solrEndpoint = cfg.getAttribute("url"); //$NON-NLS-1$
-    }
-
-    public String getSolrEndpoint() {
-        return solrEndpoint;
-    }
-
-    public void setSolrEndpoint(String solrEndpoint) {
-        this.solrEndpoint = solrEndpoint;
-    }
-
-    public String getSolrLogin() {
-        return solrLogin;
-    }
-
-    public void setSolrLogin(String solrLogin) {
-        this.solrLogin = solrLogin;
-    }
-
-    public String getSolrPassword() {
-        return solrPassword;
-    }
-
-    public void setSolrPassword(String solrPassword) {
-        this.solrPassword = solrPassword;
     }
 }
