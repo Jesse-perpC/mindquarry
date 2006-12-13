@@ -15,16 +15,12 @@ public class QueryAllUsersTest extends CastorPersistenceTestBase {
     public void testConversation() throws ServiceException, NotSupportedException, SystemException {
                 
         String[] userIds = new String[] {"bastian", "lars", "alex", "alexs"};
-        SessionFactory sessionFactory = (SessionFactory) lookup(SessionFactory.ROLE);
-        Session session = sessionFactory.currentSession();
         
         for (String userId : userIds)
-            makeUser(session, userId);
+            makeUser(userId);
         
-        session.commit();
-        
-        
-        session = sessionFactory.currentSession();
+        SessionFactory sessionFactory = (SessionFactory) lookup(SessionFactory.ROLE);
+        Session session = sessionFactory.currentSession();
         
         List queryResult = session.query("getAllUsers", new Object[0]);
         assertEquals(4, queryResult.size());
@@ -35,13 +31,17 @@ public class QueryAllUsersTest extends CastorPersistenceTestBase {
         session.commit();
     }
     
-    private UserEntity makeUser(Session session, String userId) {
-        UserEntity result = (UserEntity) session.newEntity(UserEntity.class);
-        
+    private UserEntity makeUser(String userId) throws ServiceException {
+        UserEntity result = new UserEntity();        
         result.setId(userId);
         
         result.setName("firstname");
         result.setSurname("lastname");
+        
+        SessionFactory sessionFactory = (SessionFactory) lookup(SessionFactory.ROLE);
+        Session session = sessionFactory.currentSession();
+        session.persist(result);
+        session.commit();
         
         return result;
     }

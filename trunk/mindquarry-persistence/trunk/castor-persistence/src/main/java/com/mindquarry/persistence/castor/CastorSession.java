@@ -29,6 +29,7 @@ import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;
 
 import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.common.persistence.PersistenceException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
@@ -79,6 +80,11 @@ class CastorSession extends AbstractLogEnabled implements Session {
 
     public void persist(Object object) {
         EntityBase entity = validateEntity(object);
+        ModifiableSource source = resolveJcrSource(entity);
+        if (source.exists()) {
+            throw new PersistenceException("an entity with id: " + 
+                    entity.getId() + " already exists.");
+        }
         createdEntities_.add(entity);      
     }
 
