@@ -73,8 +73,4 @@ public abstract class AvalonSpringContainerTestBase extends ContainerTestCase {
         SourceResolver resolver = (SourceResolver) lookup(SourceResolver.ROLE);
         return resolver.resolveURI(uri);
     }
-    
-    private ClassLoader classLoader() {
-        return getClass().getClassLoader();
-    }
 }
