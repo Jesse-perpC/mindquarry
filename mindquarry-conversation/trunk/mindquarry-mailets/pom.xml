@@ -74,7 +74,7 @@
 			<version>1.0.1</version>
 		</dependency>
 		<dependency>
-			<groupId>com.mindquarry.types</groupId>
+			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>xmlbeans-persistence</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
