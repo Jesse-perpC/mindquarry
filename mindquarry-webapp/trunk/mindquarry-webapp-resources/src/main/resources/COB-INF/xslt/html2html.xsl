@@ -145,7 +145,7 @@
 				<!-- layouting the header -->
 				<div id="webapp-header">
         			<ul id="webapp-sections">
-						<li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li>
+						<!--li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li-->
 						<li><a class="navTasks" href="{$pathToRoot}tasks/">Tasks</a></li>
 						<li><a class="navWiki" href="{$pathToRoot}wiki/">Wiki</a></li>
 						<li><a class="navFiles" href="{$pathToRoot}workspace/">Files</a></li>
@@ -212,7 +212,7 @@
 						<li><a href="{$pathToRoot}workspace/">Files</a></li>
 						<li><a href="{$pathToRoot}wiki/">Wiki</a></li>
 						<li><a href="{$pathToRoot}tasks/">Tasks</a></li>
-						<li><a href="{$pathToRoot}talk/">Talk</a></li>
+						<!--li><a href="{$pathToRoot}talk/">Talk</a></li-->
 
 						<li><a href="{$pathToRoot}resources/client/client.jnlp">Client</a></li>
 

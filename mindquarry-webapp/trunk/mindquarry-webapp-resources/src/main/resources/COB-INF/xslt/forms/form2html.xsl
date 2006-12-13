@@ -1,6 +1,7 @@
 <?xml version="1.0"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+  xmlns:xhtml="http://www.w3.org/1999/xhtml"
   xmlns:bu="http://apache.org/cocoon/browser-update/1.0" exclude-result-prefixes="fi">
   <xsl:import href="cocoon:/xslt/contextpath.xsl"/>
 
@@ -75,7 +76,14 @@
   <!-- put the required ductform field title into the html title -->
   <xsl:template match="title">
     <title>
-      <xsl:value-of select="/html/body//fi:field[@id='ductform.title']/fi:value"/>
+      <xsl:choose>
+        <xsl:when test="/html/body//fi:field[@id='ductform.title']/fi:value">
+          <xsl:value-of select="/html/body//fi:field[@id='ductform.title']/fi:value"/>  
+        </xsl:when>
+        <xsl:otherwise>
+          <xsl:value-of select="." />
+        </xsl:otherwise>
+      </xsl:choose>
     </title>
   </xsl:template>
 
