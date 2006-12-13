@@ -16,7 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.avalon.framework.logger.Logger;
-import org.apache.cocoon.ProcessingUtil;
+import org.apache.cocoon.core.container.spring.avalon.AvalonUtils;
 import org.apache.commons.codec.binary.Base64;
 import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
@@ -120,7 +120,7 @@ public class AuthenticationFilter implements Filter {
         beanFactory_ = WebApplicationContextUtils
                 .getRequiredWebApplicationContext(servletContext);
         
-        log_ = (Logger) beanFactory_.getBean(ProcessingUtil.LOGGER_ROLE);        
+        log_ = (Logger) beanFactory_.getBean(AvalonUtils.LOGGER_ROLE);        
         realm_ = config.getInitParameter("realm");        
 
         String authenticationBeanName = Authentication.class.getName();
