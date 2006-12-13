@@ -126,6 +126,7 @@
        will only match inside the dd above -->
   <xsl:template match="fi:label[@class='hidden']"/>
 
+  <!-- do not add a dl/dt/dd for actions (or non-visible actions represented as placeholder) -->
   <xsl:template match="bu:replace[./fi:action | ./fi:placeholder]">
     <xsl:copy>
       <xsl:copy-of select="@id"/>
@@ -150,7 +151,7 @@
             </xsl:otherwise>
           </xsl:choose>
         </dt>
-        <dd id="{translate(@id, '.', '_')}">
+        <dd class="{./descendant-or-self::fi:*[@state][1]/@state}" id="{translate(@id, '.', '_')}">
           <xsl:apply-templates/>
         </dd>
       </dl>
