@@ -61,6 +61,7 @@
 	<map:flow language="javascript">
 		<map:script src="flows/teamspaces.js" />
 		<map:script src="flows/teamspaces-view.js" />
+		<map:script src="flows/users.js" />
 		<map:script src="flows/edit-members.js" />
 		<map:script src="flows/edit-user.js" />
 	</map:flow>

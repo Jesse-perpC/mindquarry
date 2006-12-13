@@ -96,6 +96,16 @@
 								(at least 3) word characters
 							</fd:failmessage>
 						</fd:regexp>
+						<fd:javascript>
+							var userModel = model_.userModel;
+							var userExists = (null != userById(userModel.userId));
+							if (userExists) {
+								widget.setValidationError(
+									new Packages.org.apache.cocoon.forms.validation.ValidationError("userId already exists!"));
+								return false;
+							}
+							return userExists;
+						</fd:javascript>
 					</fd:validation>
 				</fd:field>
 				<fd:field id="new_password" required="true">
