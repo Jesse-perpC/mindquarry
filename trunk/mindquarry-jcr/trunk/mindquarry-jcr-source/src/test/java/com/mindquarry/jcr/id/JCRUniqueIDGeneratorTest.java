@@ -60,7 +60,7 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
     }
 
     public void testParallelIDAccess() throws ServiceException, IDException {
-        final int nThread = 100;
+        final int nThread = 5;
         
         List<Thread> workers = new ArrayList<Thread>();
         for (int i = 0; i < nThread; i++) {
@@ -86,7 +86,6 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
         long value = 0;
         for (Iterator<Long> iter = results.iterator(); iter.hasNext();) {
             long current = iter.next();
-            System.out.println(current);
             assertEquals(value+1, current);
             value = current;
         }

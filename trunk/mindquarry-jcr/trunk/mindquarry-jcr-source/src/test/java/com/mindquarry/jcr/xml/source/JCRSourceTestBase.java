@@ -9,6 +9,7 @@ import java.util.GregorianCalendar;
 
 import javax.jcr.Node;
 import javax.jcr.Session;
+import javax.servlet.Servlet;
 
 import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 
@@ -45,7 +46,6 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
     protected void prepare() throws Exception {
         String className = JCRSourceTestBase.class.getName();
         String xtestResourceName = className.replace('.', '/') + ".xtest";
-        
         URL xtestResource = getClass().getClassLoader().getResource(xtestResourceName);
         this.prepare(xtestResource.openStream());
     }
