@@ -20,15 +20,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
-		<module>user</module>
-		<module>teamspace</module>
-		<module>tag</module>
-		<module>task</module>
-		<module>wiki</module>
-		<module>conversation</module>
 		<module>castor-persistence</module>
-		<module>xmlbeans-persistence</module>
-                <module>xmlbeans-persistence-config</module>
 		<module>persistence-client</module>
 	</modules>
 

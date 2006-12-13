@@ -1,8 +1,0 @@
-<xb:config
-	xmlns:xb="http://xml.apache.org/xmlbeans/2004/02/xbean/config">
-
-	<xb:namespace
-		uri="http://www.mindquarry.com/ns/schema/teamspace">
-		<xb:package>com.mindquarry.types.teamspace</xb:package>
-	</xb:namespace>
-</xb:config>
