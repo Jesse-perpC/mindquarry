@@ -11,9 +11,11 @@ import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.apache.cocoon.core.container.ContainerTestCase;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
+
+import com.mindquarry.common.test.AvalonSpringContainerTestBase;
+
 
 /**
  * Abstract base classes for all JCR XML source test cases.
@@ -21,7 +23,7 @@ import org.apache.excalibur.source.SourceResolver;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public abstract class JCRTestBase extends ContainerTestCase {
+public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
     public static final String SCHEME = "jcr";
 
     public static final String BASE_URL = SCHEME + ":///";

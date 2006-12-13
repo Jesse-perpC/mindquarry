@@ -14,12 +14,6 @@
 		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
 			shorthand="jcr-initializer" />
 			
-		<role name="com.mindquarry.common.index.IndexClient" 
-			default-class="com.mindquarry.common.index.SolrIndexClient">
-			<solr-credentials login="admin" password="admin" />
-			<solr-endpoint url="http://localhost:8888/solr" />
-		</role>
-
 		<role name="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
 			shorthand="jcr-id-generator" />
 		
