@@ -70,7 +70,6 @@ function processCreateUser(form) {
 }
 
 function createUser() {
-
 	var userModel = model_.userModel;
 	
 	var photoWidget = form_.lookupWidget("/userModel/photo");

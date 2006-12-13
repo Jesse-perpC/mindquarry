@@ -20,13 +20,6 @@ function processEditUser(form) {
 	cocoon.redirectTo(targetUri);
 }
 
-function userById(userId) {
-	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);	
-	var result = userAdmin.userById(userId);	
-	cocoon.releaseComponent(userAdmin);
-	return result;
-}
-
 function changePassword() {
 	
 	var oldPwd = model_.changePassword.current_password;
