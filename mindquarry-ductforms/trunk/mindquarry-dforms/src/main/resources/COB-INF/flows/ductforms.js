@@ -1,6 +1,10 @@
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 cocoon.load("block:resources:/flows/util.js"); // only reloaded on restart!
 
+/////////////////////////////////////////////////////////
+// global variables (TODO: make an object)
+/////////////////////////////////////////////////////////
+
 var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
 var form_;
 var baseURI_;
@@ -16,10 +20,36 @@ function getFullPath() {
 }
 
 /////////////////////////////////////////////////////////
-// specific actions
+// entry point method
 /////////////////////////////////////////////////////////
 
-// called by auto-reload or AJAX for mutivalue fields
+// called from sitemap via handleForm()
+function showDForm(form) {
+    // catch all parameters and store them globally
+    baseURI_ = cocoon.parameters["baseURI"];
+    documentID_ = cocoon.parameters["documentID"];
+    suffix_ = ".xml";
+
+    var isEditStart = (documentID_ == 'new');
+    
+	// save form and uri for actions
+	form_ = form;
+
+	// load file from internal pipeline
+	form.loadXML("cocoon:/" + getFilename() + ".plain");
+	
+	// set initial state to output
+	setWidgetStates(form, isEditStart);
+
+    // the continuations will be inside this method again and again
+	form.showForm(getFilename() + ".instance");
+}
+
+/////////////////////////////////////////////////////////
+// action widgets handler
+/////////////////////////////////////////////////////////
+
+// called by auto-reload or AJAX or on loadXML binding for mutivalue fields
 function fieldsChanged(event) {
 	if (form_) {
 		setWidgetStates(form_, true);
@@ -31,8 +61,21 @@ function activate(event) {
 	if (form_ && cocoon.request.activate) {
 		var selectedWidget = form_.lookupWidget("/" + cocoon.request.activate.substring(9));
 		if (selectedWidget) {
-		    // activate the field the user has clicked on
-			selectedWidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		    // activate all descendant widgets
+    		var descendants = getSubWidgets(selectedWidget);
+    		
+			// descendants contains the widget itself
+			for (var j=0;j<descendants.length;j++) {
+				descendants[j].setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			}
+
+            // activate all related widgets
+    		var related = getRelatedWidgets(form_, selectedWidget);
+		
+			for (var j=0;j<related.length;j++) {
+				var relwidget = form_.lookupWidget("/" + related[j]);
+				relwidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			}
 			
 			form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 			form_.lookupWidget("/ductforms_cancel").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
@@ -108,8 +151,42 @@ function cancel(event) {
 }
 
 /////////////////////////////////////////////////////////
-// form handling
+// form handling helper
 /////////////////////////////////////////////////////////
+
+function getRelatedWidgets(form, widget) {
+	var attribute = widget.getAttribute("related");
+	if (attribute!=null) {
+		return attribute.split(",");
+	} else {
+		return new Array();
+	}		
+}
+
+// returns all widgets below 'widget', including widget itself. can handle
+// standard containerwidget children as well as repeater rows
+function getSubWidgets(widget) {
+    var result = new Array();
+	if (widget instanceof Packages.org.apache.cocoon.forms.formmodel.Repeater) {
+        for (var i=0; i<widget.getSize(); i++) {
+            var subwidgets = getSubWidgets(widget.getRow(i));
+            for (var j=0; j<subwidgets.length; j++) {
+                result.push(subwidgets[j]);
+            }
+        }
+	} else if (widget instanceof Packages.org.apache.cocoon.forms.formmodel.ContainerWidget) {
+	    var children = widget.getChildren();
+	    while (children.hasNext()) {
+	        var subwidgets = getSubWidgets(children.next());
+            for (var j=0; j<subwidgets.length; j++) {
+                result.push(subwidgets[j]);
+            }
+	    }
+	}
+	
+	result.push(widget);
+	return result;
+}
 
 function setWidgetStates(form, isEdit) {
 	// hide all widgets first
@@ -126,30 +203,40 @@ function setWidgetStates(form, isEdit) {
 	// show only selected fields
 	var ductfields = ductformsWidget.getValue();
 	for (var i=0; i<ductfields.length; i++) {
-		var widget = form.lookupWidget("/" + ductfields[i]);
-		var attribute = widget.getAttribute("related");
-		if (attribute!=null) {
-			var related = attribute.split(",");
-		} else {
-			var related = new Array();
-		}
+		var widget = form.lookupWidget("/" + ductfields[i]);		
+		var descendants = getSubWidgets(widget);
+		var related = getRelatedWidgets(form, widget);
+		
 		if (isEdit) {
-			widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		    // activate all descendant widgets
+			// (note: descendants contains the widget itself)
+			for (var j=0;j<descendants.length;j++) {
+				widgetMap.put(descendants[j], Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			}
 
+            // activate all related widgets
 			for (var j=0;j<related.length;j++) {
 				var relwidget = form.lookupWidget("/" + related[j]);
 				widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 			}
 		} else {
-			widgetMap.put(widget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+		    // de-activate all descendant widgets (actions -> invisible, others -> output)
+			// (note: descendants contains the widget itself)
+			for (var j=0;j<descendants.length;j++) {
+				if (descendants[j] instanceof Packages.org.apache.cocoon.forms.formmodel.Action) {
+    				widgetMap.put(descendants[j], Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+				} else {
+    				widgetMap.put(descendants[j], Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
+				}
+			}
 
+            // de-activate all related widgets (actions -> invisible, others -> output)
 			for (var j=0;j<related.length;j++) {
 				var relwidget = form.lookupWidget("/" + related[j]);
 				if (relwidget instanceof Packages.org.apache.cocoon.forms.formmodel.Action) {
 					widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 				} else {
 					widgetMap.put(relwidget, Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
-					relwidget.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT;
 				}
 			}
 		}
@@ -179,37 +266,6 @@ function setWidgetStates(form, isEdit) {
 			widget.setState(state);
 		}
 	}
-}
-
-function setFormState(form, isEdit) {
-	// hide all widgets first
-	var allWidgets = form.lookupWidget("/").getChildren();
-	for (; allWidgets.hasNext(); ) {
-		allWidgets.next().setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT);
-	}
-}
-
-// called from sitemap via handleForm()
-function showDForm(form) {
-
-    // catch all parameters and store them globally
-    baseURI_ = cocoon.parameters["baseURI"];
-    documentID_ = cocoon.parameters["documentID"];
-    suffix_ = ".xml";
-
-    var isEditStart = (documentID_ == 'new');
-    
-	// save form and uri for actions
-	form_ = form;
-
-	// load file from internal pipeline
-	form.loadXML("cocoon:/" + getFilename() + ".plain");
-	
-	// set initial state to output
-	setWidgetStates(form, isEditStart);
-
-    // the continuations will be inside this method again and again
-	form.showForm(getFilename() + ".instance");
 }
 
 /////////////////////////////////////////////////////////
