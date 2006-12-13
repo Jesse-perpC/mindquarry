@@ -32,8 +32,17 @@
 	</fd:repeater-action>
 
 
-	<ft:repeater autoactive="true">
+	<ft:repeater>
 		<div class="repeater">
+
+			<!-- add a dummy widget that will handle the auto activation but
+				 only in the output case (this cannot be done in form2html
+				 styling because we don't know the state of the repeater there
+				 - it is lost due to our custom structure here (div) -->
+			<jx:if test="${repeater.getState().equals(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT)}">
+				<div class="use-parent-for-autoactive use-parent-id" dojoType="autoactivefield"/>
+			</jx:if>
+			
 			<fi:label class="hidden">People</fi:label>
 			<jx:choose>
 				<jx:when test="${repeater.getSize() == 0}">
