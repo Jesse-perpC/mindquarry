@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
 	<parent>
-		<artifactId>mindquarry-types</artifactId>
-		<groupId>com.mindquarry.types</groupId>
+		<artifactId>mindquarry-persistence</artifactId>
+		<groupId>com.mindquarry.persistence</groupId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
@@ -13,7 +13,7 @@
 	</description>
 	<dependencies>
 		<dependency>
-			<groupId>com.mindquarry.types</groupId>
+			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>castor-persistence</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
