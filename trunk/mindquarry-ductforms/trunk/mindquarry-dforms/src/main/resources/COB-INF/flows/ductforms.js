@@ -30,7 +30,7 @@ function showDForm(form) {
     documentID_ = cocoon.parameters["documentID"];
     suffix_ = ".xml";
 
-    var isEditStart = (documentID_ == 'new');
+    var isEditStart = (documentID_ == 'new' || !resourceExists(getFullPath()));
     
 	// save form and uri for actions
 	form_ = form;
