@@ -4,16 +4,27 @@
 -->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
-    <artifactId>cocoon-blocks-modules</artifactId>
+    <!--<artifactId>cocoon-blocks-modules</artifactId>
     <groupId>org.apache.cocoon</groupId>
-    <version>3-SNAPSHOT</version>
+    <version>3-SNAPSHOT</version>-->
+    
+    <!-- use the mindquarry pom structure as long as this is part
+         of the mindquarry repository -->
+    <groupId>com.mindquarry.search</groupId>
+    <artifactId>mindquarry-search</artifactId>
+    <version>0.0.1-SNAPSHOT</version>
   </parent>
+
   <modelVersion>4.0.0</modelVersion>
+
   <groupId>com.mindquarry.search.cocoon</groupId>
   <artifactId>cocoon-extractor</artifactId>
-  <packaging>pom</packaging>
-  <name>Cocoon Text Extractor Block [Root]</name>
   <version>2-SNAPSHOT</version>
+
+  <name>Cocoon Text Extractor Block [Root]</name>
+
+  <packaging>pom</packaging>
+
   	<profiles>
 		<profile>
 			<id>at-mindquarry.com</id>
