@@ -75,3 +75,17 @@ function evalJavaScriptSource(uri) {
     return eval(resolveSourceAsString(uri));
 }
 
+/**
+ * Returns whether a source specified by 'uri' exists or not.
+ */
+function resourceExists(uri) {
+    var exists = false;
+    var source = resolveSource(uri);
+    if (source) {
+        exists = source.exists();
+        releaseSource(source);
+    }
+    
+    return exists;
+}
+
