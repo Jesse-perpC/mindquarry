@@ -89,6 +89,11 @@
 			<artifactId>jdom</artifactId>
 			<version>1.0</version>
 		</dependency>
+		<dependency>
+			<groupId>com.sun.jmx</groupId>
+			<artifactId>jmxtools</artifactId>
+			<version>1.2.1</version>
+		</dependency>
 	</dependencies>
 
 	<developers>
