@@ -6,8 +6,10 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 importClass(Packages.com.mindquarry.teamspace.TeamspaceAdmin);
 importClass(Packages.com.mindquarry.user.UserAdmin);
 
-function processCreateTeamspaceForm(form) {
+model_;
 
+function processCreateTeamspaceForm(form) {
+	model_ = form.getModel();
 	var blockPath = cocoon.parameters["blockPath"];
 	
 	var userId = cocoon.parameters["username"];
@@ -25,6 +27,15 @@ function processCreateTeamspaceForm(form) {
       cocoon.releaseComponent(teamspaceAdmin);
     }	
 	cocoon.redirectTo(blockPath + "/");
+}
+
+function existsTeamspaceWithId(teamspaceIdWidget) {
+	var teamspaceExists = (null != teamspaceById(model_.teamspaceId));
+	if (teamspaceExists) {
+		teamspaceIdWidget.setValidationError(
+			new Packages.org.apache.cocoon.forms.validation.ValidationError("teamspaceId already exists!"));
+	}
+	return false;
 }
 
 function teamspaceById(teamspaceId) {
