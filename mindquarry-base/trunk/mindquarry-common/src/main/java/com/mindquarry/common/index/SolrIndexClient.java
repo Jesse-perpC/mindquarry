@@ -151,7 +151,11 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
         pMethod.addRequestHeader("accept", "text/xml"); //$NON-NLS-1$ //$NON-NLS-2$
         pMethod.setRequestEntity(new ByteArrayRequestEntity(content));
 
-        httpClient.executeMethod(pMethod);
+        try{
+            httpClient.executeMethod(pMethod);
+        } finally {
+            pMethod.releaseConnection();
+        }
 
         if (pMethod.getStatusCode() == 200) {
             System.out.println(pMethod.getResponseBodyAsString());
