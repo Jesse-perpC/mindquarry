@@ -151,6 +151,13 @@
 			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		
+		<!-- enterprise components -->
+		<dependency>
+			<groupId>com.mindquarry.management</groupId>
+			<artifactId>mindquarry-management</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 
 	<scm>
