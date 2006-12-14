@@ -521,11 +521,19 @@
 						<select type="REST">
 							<when test="html">
 								<!-- normal viewing (entry point for form) -->
-								<generate
-									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
-								<call resource="task-layouting">
-									<parameter name="document" value="{2}"/>
-								</call>
+								<select type="resource-exists">
+									<!-- check whether the task exist... -->
+									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
+										<!-- ...then show the dform -->
+										<generate
+											src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
+										<call resource="task-layouting">
+											<parameter name="document" value="{2}"/>
+										</call>
+									</when>
+									<!-- ...otherwise throw an ResourceNotFoundException
+										 ("no pipeline matched request") -->
+								</select>
 							</when>
 							<when test="xml">
 								<!-- direct xml output -->
