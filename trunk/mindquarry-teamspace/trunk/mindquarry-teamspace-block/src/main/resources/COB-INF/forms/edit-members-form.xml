@@ -97,14 +97,7 @@
 							</fd:failmessage>
 						</fd:regexp>
 						<fd:javascript>
-							var userModel = model_.userModel;
-							var userExists = (null != userById(userModel.userId));
-							if (userExists) {
-								widget.setValidationError(
-									new Packages.org.apache.cocoon.forms.validation.ValidationError("userId already exists!"));
-								return false;
-							}
-							return userExists;
+							return existsUserWithId(widget);
 						</fd:javascript>
 					</fd:validation>
 				</fd:field>
