@@ -6,7 +6,7 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 importClass(Packages.com.mindquarry.teamspace.TeamspaceAdmin);
 importClass(Packages.com.mindquarry.user.UserAdmin);
 
-model_;
+var model_;
 
 function processCreateTeamspaceForm(form) {
 	model_ = form.getModel();
