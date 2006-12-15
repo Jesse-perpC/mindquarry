@@ -102,6 +102,12 @@
 			<groupId>com.mindquarry.workspace</groupId>
 			<artifactId>mindquarry-workspace-block</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
+      <exclusions>
+				<exclusion>
+					<artifactId>servlet-api</artifactId>
+					<groupId>javax.servlet</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 
 		<dependency>
