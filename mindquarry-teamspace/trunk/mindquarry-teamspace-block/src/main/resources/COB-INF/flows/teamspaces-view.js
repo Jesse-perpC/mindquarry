@@ -6,7 +6,6 @@ importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
 importPackage(Packages.com.mindquarry.user);
 
 function listTeamspacesForUser() {
-
     var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
     var userId = cocoon.parameters["username"];
@@ -18,7 +17,6 @@ function listTeamspacesForUser() {
 }
 
 function teamspacesByID() {
-
 	var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
     var id = cocoon.parameters["teamspaceID"];
