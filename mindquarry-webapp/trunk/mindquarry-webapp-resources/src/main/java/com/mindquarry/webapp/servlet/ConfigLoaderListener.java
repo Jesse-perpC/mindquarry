@@ -20,8 +20,8 @@ import org.apache.commons.logging.LogFactory;
  *         Saar</a>
  */
 public class ConfigLoaderListener implements ServletContextListener {
-    public static final String PROP_FILE_NAME = "mindquarry-webapplication.properties"; //$NON-NLS-1$
-    
+    public static final String P_CONFIG_FILE = "mindquarry.config.dir"; //$NON-NLS-1$
+
     private Log log = LogFactory.getLog(ConfigLoaderListener.class);
 
     /**
@@ -37,13 +37,14 @@ public class ConfigLoaderListener implements ServletContextListener {
     public void contextInitialized(ServletContextEvent ctxEvent) {
         try {
             // load props file
-            File propFile = new File(PROP_FILE_NAME);
+            File propFile = new File(System.getProperty(P_CONFIG_FILE,
+                    "mindquarry-webapplication.properties")); //$NON-NLS-1$
             FileInputStream is = new FileInputStream(propFile);
 
             // load props
             Properties props = new Properties();
             props.load(is);
-            
+
             // add props to system props
             Properties sysProps = System.getProperties();
             sysProps.putAll(props);
