@@ -7,6 +7,6 @@
     xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
     <!-- Event Broker Configuration -->
-    <bean id="standaloneServer"
-        class="com.mindquarry.management.factory.MBeanServerFactory"/>
+    <bean id="com.mindquarry.events.EventBroker"
+        class="com.mindquarry.events.EventBroker"/>
 </beans>
