@@ -60,4 +60,8 @@ public abstract class AbstractAsyncIndexClient extends AbstractLogEnabled
             e.printStackTrace();
         }
     }
+    
+    private void throwDocumentIndexedEvent(String url) {
+        
+    }
 }
