@@ -3,11 +3,11 @@
  */
 package com.mindquarry.events;
 
+import junit.framework.TestCase;
+
 import com.mindquarry.events.types.TestEvent;
 import com.mindquarry.events.types.TestListener;
 import com.mindquarry.events.types.TestSource;
-
-import junit.framework.TestCase;
 
 /**
  * Add summary documentation here.
@@ -16,7 +16,7 @@ import junit.framework.TestCase;
  *         Saar</a>
  */
 public class EventBrokerTest extends TestCase {
-    public void testBroker() {
+    public void testBroker() throws Exception {
         TestSource source = new TestSource();
         Event event = new TestEvent(source, "a test event"); //$NON-NLS-1$
 
