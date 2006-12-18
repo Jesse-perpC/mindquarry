@@ -135,7 +135,7 @@
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
 	<xsl:template match="xhtml:title|title">
-		<title>Mindquarry: <xsl:value-of select="." /></title>
+		<title><xsl:value-of select="." /> - Mindquarry</title>
 	</xsl:template>
 
 	<xsl:template match="xhtml:body|body">
