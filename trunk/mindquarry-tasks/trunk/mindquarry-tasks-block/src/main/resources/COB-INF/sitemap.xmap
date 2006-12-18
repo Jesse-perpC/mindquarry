@@ -4,31 +4,10 @@
 -->
 <sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
 	<components>
-		<actions>
-			<action name="log"
-				src="com.mindquarry.webapp.acting.DebugLogAction" />
-			<action name="log-params"
-				src="com.mindquarry.webapp.acting.LogParametersAction" />
-			<action name="authorise"
-				src="com.mindquarry.webapp.acting.AuthorisationAction" />
-		</actions>
-
 		<selectors>
-			<selector name="lightbox-request"
-				src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
-			<selector name="ajax-request"
-				src="org.apache.cocoon.ajax.AjaxRequestSelector" />
-
-			<selector name="REST"
-				src="org.apache.cocoon.selection.RegexpHeaderSelector">
-				<header-name>accept</header-name>
-				<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
-				<pattern name="xml">text/xml</pattern>
-			</selector>
-
 			<selector name="regexp-request-param"
 				src="org.apache.cocoon.selection.RegexpRequestParameterSelector">
-				<pattern name="number">^[0-9a-f]+$</pattern>
+				<pattern name="hexadecimal">^[0-9a-f]+$</pattern>
 			</selector>
 		</selectors>
 
@@ -36,23 +15,66 @@
 			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
 		</generators>
-
-		<transformers>
-			<transformer name="clear"
-				src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
-			<transformer name="bu-redirect"
-				src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer" />
-			<transformer name="redirect"
-				src="com.mindquarry.webapp.transforming.RedirectTransformer" />
-			<transformer name="browser-update"
-				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
-			<transformer name="tee"
-				src="org.apache.cocoon.transformation.TeeTransformer" />
-		</transformers>		
 	</components>
 
 	<resources>
-		<resource name="layouting" xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+		<!-- shows styled error page and sets http status code on serializers -->
+		<resource name="error-layouting">
+			<select type="REST">
+				<when test="html">
+					<transform src="block:super:/xslt/error/error2html.xsl">
+						<parameter name="pageTitle" value="{pageTitle}"/>			
+						<parameter name="httpStatus" value="{httpStatus}"/>
+						<parameter name="showSupportContact" value="{showSupportContact}"/>
+						<parameter name="version" value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<transform src="block:/xslt/html2html.xsl"
+						type="xalan">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+						<parameter name="username" value="{request-attr:username}" />
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="html" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="html" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="html" />						
+						</otherwise>
+					</select>					
+				</when>
+				<when test="xml">
+					<!-- directly output cocoon's error xml for xml clients -->
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="xml" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="xml" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="xml" />						
+						</otherwise>
+					</select>					
+				</when>
+			</select>
+		</resource>
+		
+		<!-- standard final page layouting -->
+		<resource name="layouting">
 			<select type="lightbox-request">
 				<when test="true">
 					<transform src="block:/xslt/html2lightbox.xsl">
@@ -238,6 +260,54 @@
 					<otherwise>
 						<read
 							src="block:resources:/icons/{1}x{2}/{3}/{4}.png" />
+					</otherwise>
+				</select>
+			</match>
+
+			<!-- icons for people -->
+			<match pattern="resource/icons/*/ductform.people.*.peopleperson/*.*">
+				<!--<act type="authorise" src="jcr:///teamspaces/{1}/user"/>-->
+				<read src="block:teams:/users/{1}/{3}.{4}" />
+			</match>
+			
+			<!-- icons for status -->
+			<match pattern="resource/icons/ductform.status/*.png">
+				<select type="resource-exists">
+					<!-- if it exists, load it from this sitemap's resources -->
+					<when test="images/status/{1}.png">
+						<read src="images/status/{1}.png" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="images/status/new.png" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<!-- @override: for inheriting sitemap resources -->
+			<match pattern="resource/icons/ductform.ductforms/*.png">
+				<select type="resource-exists">
+					<!-- if it exists, load it from this sitemap's resources -->
+					<when test="dforms-model/{1}.png">
+						<read src="dforms-model/{1}.png" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/resource/icons/ductform.ductforms/{1}.png" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<!-- @override: for inheriting sitemap resources -->
+			<match pattern="resource/**">
+				<select type="resource-exists">
+					<!-- if it exists, load it from this sitemap's resources -->
+					<when test="{1}">
+						<read src="{1}" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/resource/{1}" />
 					</otherwise>
 				</select>
 			</match>
@@ -533,8 +603,22 @@
 											<parameter name="document" value="{2}"/>
 										</call>
 									</when>
-									<!-- ...otherwise throw an ResourceNotFoundException
-										 ("no pipeline matched request") -->
+									<otherwise>
+										<select type="parameter">
+											<parameter name="parameter-selector-test" value="{2}"/>
+											
+											<when test="new">
+												<!-- ...then show the dform -->
+												<generate
+													src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
+												<call resource="task-layouting">
+													<parameter name="document" value="{2}"/>
+												</call>
+											</when>									
+											<!-- ...otherwise throw an ResourceNotFoundException
+												("no pipeline matched request") -->
+										</select>
+									</otherwise>
 								</select>
 							</when>
 							<when test="xml">
@@ -555,7 +639,7 @@
 						<!-- when posting we expect a continuation, so check for the correct id format -->
 						<select type="regexp-request-param">
 							<parameter name="parameter-name" value="continuation-id" />
-							<when test="number">
+							<when test="hexadecimal">
 								<!-- it's a continuation (editing) -->
 								<generate src="block:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
 								<select type="ajax-request">
@@ -613,61 +697,6 @@
 				</select>
 			</match>
 			
-		</pipeline>
-
-		<!-- =========================================================== -->
-
-		<!-- resource stuff and super forwarding (external) -->
-		<pipeline type="noncaching">
-			
-			<!-- icons for people -->
-			<match pattern="resource/icons/*/ductform.people.*.peopleperson/*.*">
-				<!--<act type="authorise" src="jcr:///teamspaces/{1}/user"/>-->
-				<read src="block:teams:/users/{1}/{3}.{4}" />
-			</match>
-			
-			<!-- icons for status -->
-			<match pattern="resource/icons/ductform.status/*.png">
-				<select type="resource-exists">
-					<!-- if it exists, load it from this sitemap's resources -->
-					<when test="images/status/{1}.png">
-						<read src="images/status/{1}.png" />
-					</when>
-					<!-- if not, look in the super block -->
-					<otherwise>
-						<read src="images/status/new.png" />
-					</otherwise>
-				</select>
-			</match>
-			
-			<!-- @override: for inheriting sitemap resources -->
-			<match pattern="resource/icons/ductform.ductforms/*.png">
-				<select type="resource-exists">
-					<!-- if it exists, load it from this sitemap's resources -->
-					<when test="dforms-model/{1}.png">
-						<read src="dforms-model/{1}.png" />
-					</when>
-					<!-- if not, look in the super block -->
-					<otherwise>
-						<read src="block:super:/resource/icons/ductform.ductforms/{1}.png" />
-					</otherwise>
-				</select>
-			</match>
-			
-			<!-- @override: for inheriting sitemap resources -->
-			<match pattern="resource/**">
-				<select type="resource-exists">
-					<!-- if it exists, load it from this sitemap's resources -->
-					<when test="{1}">
-						<read src="{1}" />
-					</when>
-					<!-- if not, look in the super block -->
-					<otherwise>
-						<read src="block:super:/resource/{1}" />
-					</otherwise>
-				</select>
-			</match>
-
 			<!--+
 				| forward any unknown stuff to the super block 
 				| NOTE: This must be the last matcher!
@@ -675,7 +704,39 @@
 			<match pattern="**">
 				<read src="block:super:/{1}" />
 			</match>
+			
+			<handle-errors>
+				<select type="exception">
+					<when test="authorisation">
+						<!-- non-authorised should be 404 resource not found -->
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, not authorized"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>							
+						</call>
+					</when>
+					<when test="resource-does-not-exist">
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>			
+						</call>
+					</when>
+					<otherwise>
+						<generate type="notifying" />
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, internal system error"/>							
+							<parameter name="httpStatus" value="500"/>
+							<parameter name="showSupportContact" value="true"/>							
+						</call>
+					</otherwise>
+				</select>
+			</handle-errors>
+			
 		</pipeline>
+
 	</pipelines>
 </sitemap>
 
