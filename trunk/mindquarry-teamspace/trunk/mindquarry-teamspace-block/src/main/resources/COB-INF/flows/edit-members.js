@@ -79,7 +79,7 @@ function createUser() {
 	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
 	
 	var result = userAdmin.createUser(
-			userModel.userId, userModel.new_password, userModel.name, 
+			userModel.userId, userModel.newPassword, userModel.name, 
 			userModel.surname, userModel.email, userModel.skills);
 	
 	cocoon.releaseComponent(userAdmin);

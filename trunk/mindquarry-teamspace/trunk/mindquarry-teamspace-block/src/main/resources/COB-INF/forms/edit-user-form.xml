@@ -14,12 +14,12 @@
 					<fd:initial-value>password could not be changed</fd:initial-value>
 				</fd:output>
 				
-				<fd:field id="current_password" required="true">
+				<fd:field id="currentPassword" required="true">
 					<fd:label>Current Password</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 				</fd:field>
 
-				<fd:field id="new_password" required="true">
+				<fd:field id="newPassword" required="true">
 					<fd:label>Password</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
@@ -32,12 +32,12 @@
 					</fd:validation>
 				</fd:field>
 
-				<fd:field id="new_password_repeat" required="true">
+				<fd:field id="newPasswordRepeat" required="true">
 					<fd:label>Password (repeat)</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 						<fd:assert
-							test="new_password = new_password_repeat">
+							test="newPassword = newPasswordRepeat">
 							<fd:failmessage>
 								The password repeat does not match.
 							</fd:failmessage>
