@@ -34,7 +34,6 @@ public class WebappLauncher {
         server.setConnectors(new Connector[] { connector });
 
         ContextHandlerCollection contexts = new ContextHandlerCollection();
-        contexts.addContext("/", "webapps");
         
         RequestLogHandler requestLogHandler = new RequestLogHandler();
         NCSARequestLog requestLog = new NCSARequestLog("./jetty.log"); //$NON-NLS-1$
@@ -60,10 +59,10 @@ public class WebappLauncher {
 //        deployer.setScanInterval(1000);
 //        deployer.start();
 
-//        WebAppDeployer deployer = new WebAppDeployer();
-//        deployer.setContexts((ContextHandlerCollection) server
-//                .getChildHandlerByClass(ContextHandlerCollection.class));
-//        deployer.setWebAppDir("./webapps"); //$NON-NLS-1$
-//        deployer.start();
+        WebAppDeployer deployer = new WebAppDeployer();
+        deployer.setContexts((ContextHandlerCollection) server
+                .getChildHandlerByClass(ContextHandlerCollection.class));
+        deployer.setWebAppDir("../mindquarry-webapplication/target"); //$NON-NLS-1$
+        deployer.start();
     }
 }
