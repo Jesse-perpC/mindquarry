@@ -3,140 +3,228 @@
 <!--
 	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
 -->
-<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-	<map:views>
-		<map:view name="content" from-label="content">
-			<map:serialize type="xml" />
-		</map:view>
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<views>
+		<view name="content" from-label="content">
+			<serialize type="xml" />
+		</view>
 
-		<map:view name="form" from-label="form">
-			<map:serialize type="xml" />
-		</map:view>
-	</map:views>
+		<view name="form" from-label="form">
+			<serialize type="xml" />
+		</view>
+	</views>
 
-	<map:resources>
-		<map:resource name="layouting">
-			<map:transform src="block:/xslt/html2html.xsl"
+	<resources>
+		<!-- shows styled error page and sets http status code on serializers -->
+		<resource name="error-layouting">
+			<select type="REST">
+				<when test="html">
+					<transform src="block:super:/xslt/error/error2html.xsl">
+						<parameter name="pageTitle" value="{pageTitle}"/>			
+						<parameter name="httpStatus" value="{httpStatus}"/>
+						<parameter name="showSupportContact" value="{showSupportContact}"/>
+						<parameter name="version" value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<transform src="block:/xslt/html2html.xsl"
+						type="xalan">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<parameter name="cssPath" value="" />
+						<parameter name="scriptPath" value="" />
+						<parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+						<parameter name="username" value="{request-attr:username}" />
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="html" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="html" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="html" />							
+						</otherwise>
+					</select>					
+				</when>
+				<when test="xml">
+					<!-- directly output cocoon's error xml for xml clients -->
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="xml" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="xml" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="xml" />							
+						</otherwise>
+					</select>					
+				</when>
+			</select>
+		</resource>
+
+		<resource name="layouting">
+			<transform src="block:/xslt/html2html.xsl"
 				type="xalan">
-				<map:parameter name="fullPath"
+				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
-				<map:parameter name="sitemapPath"
+				<parameter name="sitemapPath"
 					value="{request:pathInfo}" />
 				<!-- empty css/scripts path -->
-				<map:parameter name="cssPath" value="" />
-				<map:parameter name="scriptPath" value="" />
-				<map:parameter name="user.agent"
+				<parameter name="cssPath" value="" />
+				<parameter name="scriptPath" value="" />
+				<parameter name="user.agent"
 					value="{request-header:User-Agent}" />
-				<map:parameter name="username"
+				<parameter name="username"
 					value="{request-attr:username}" />
 				<parameter name="version"
 					value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
-			</map:transform>
+			</transform>
 
-			<map:serialize type="html" />
-		</map:resource>
-	</map:resources>
+			<serialize type="html" />
+		</resource>
+	</resources>
 
-	<map:pipelines>
+	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
-		<map:pipeline type="noncaching">
-			<map:match pattern="xslt/*.xsl">
-				<map:select type="resource-exists">
-					<map:when test="xslt/{1}.xsl">
+		<pipeline type="noncaching">
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
 						<!-- if it exists, load it from this sitemap's resources -->
-						<map:read src="xslt/{1}.xsl" />
-					</map:when>
+						<read src="xslt/{1}.xsl" />
+					</when>
 					<!-- if not, look in the super block -->
-					<map:otherwise>
-						<map:read src="block:super:/xslt/{1}.xsl" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+					<otherwise>
+						<read src="block:super:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
 
 			<!-- URLs css/* etc. do not work in the welcome block
 				(css/ will be mis-identified as a block) -->
 
-			<map:match pattern="*.css">
-				<map:select type="resource-exists">
-					<map:when test="css/{1}.css">
-						<map:read src="css/{1}.css" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/css/{1}.css" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+			<match pattern="*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<read src="css/{1}.css" />
+					</when>
+					<otherwise>
+						<read src="block:super:/css/{1}.css" />
+					</otherwise>
+				</select>
+			</match>
 
-			<map:match pattern="*.js">
-				<map:select type="resource-exists">
-					<map:when test="scripts/{1}.js">
-						<map:read src="scripts/{1}.js" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/scripts/{1}.js" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+			<match pattern="*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js" />
+					</when>
+					<otherwise>
+						<read src="block:super:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
 
-			<map:match pattern="*.png">
-				<map:select type="resource-exists">
-					<map:when test="images/{1}.png">
-						<map:read src="images/{1}.png" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/images/{1}.png" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+			<match pattern="*.png">
+				<select type="resource-exists">
+					<when test="images/{1}.png">
+						<read src="images/{1}.png" />
+					</when>
+					<otherwise>
+						<read src="block:super:/images/{1}.png" />
+					</otherwise>
+				</select>
+			</match>
 
-			<map:match pattern="*.gif">
-				<map:select type="resource-exists">
-					<map:when test="images/{1}.gif">
-						<map:read src="images/{1}.gif" />
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/images/{1}.gif" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+			<match pattern="*.gif">
+				<select type="resource-exists">
+					<when test="images/{1}.gif">
+						<read src="images/{1}.gif" />
+					</when>
+					<otherwise>
+						<read src="block:super:/images/{1}.gif" />
+					</otherwise>
+				</select>
+			</match>
 			
-			<map:match pattern="buttons/*.*">
-				<map:select type="resource-exists">
-					<map:when test="buttons/{1}_button.{2}">
-						<map:read src="buttons/{1}_button.{2}"/>
-					</map:when>
-					<map:otherwise>
-						<map:read src="block:super:/buttons/{1}.{2}"/>
-					</map:otherwise>
-				</map:select>
-			</map:match>
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}"/>
+					</when>
+					<otherwise>
+						<read src="block:super:/buttons/{1}.{2}"/>
+					</otherwise>
+				</select>
+			</match>
 
-		</map:pipeline>
+		</pipeline>
 
-		<map:pipeline>
-			<map:match pattern="loginpage">
-				<map:generate src="jx/login.jx" type="jx" />
-				<map:call resource="layouting" />
-			</map:match>
+		<pipeline>
+			<match pattern="loginpage">
+				<generate src="jx/login.jx" type="jx" />
+				<call resource="layouting" />
+			</match>
 
-			<map:match pattern="logoutpage">
-				<map:generate src="jx/logout.jx" type="jx" />
-				<map:call resource="layouting" />
-			</map:match>
+			<match pattern="logoutpage">
+				<generate src="jx/logout.jx" type="jx" />
+				<call resource="layouting" />
+			</match>
 
-			<map:match pattern="">
-				<map:generate src="html/index.html" />
-				<map:call resource="layouting" />
-			</map:match>
+			<match pattern="">
+				<generate src="html/index.html" />
+				<call resource="layouting" />
+			</match>
 
-			<!--<map:match pattern="hello">
-				<map:read src="hello.jsp" type="jsp" />
-			</map:match>-->
+			<!--<match pattern="hello">
+				<read src="hello.jsp" type="jsp" />
+			</match>-->
 			
 			<!-- redirect stupid urls /foobar to the index page -->
-			<map:match pattern="*">
-				<map:redirect-to uri="" />
-			</map:match>
-		</map:pipeline>
-	</map:pipelines>
-</map:sitemap>
+			<match pattern="*">
+				<redirect-to uri="" />
+			</match>
+			
+			<handle-errors>
+				<select type="exception">
+					<when test="authorisation">
+						<!-- non-authorised should be 404 resource not found -->
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, not authorized"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>							
+						</call>
+					</when>
+					<when test="resource-does-not-exist">
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>			
+						</call>
+					</when>
+					<otherwise>
+						<generate type="notifying" />
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, internal system error"/>							
+							<parameter name="httpStatus" value="500"/>
+							<parameter name="showSupportContact" value="true"/>							
+						</call>
+					</otherwise>
+				</select>
+			</handle-errors>
+						
+		</pipeline>
+	</pipelines>
+</sitemap>
