@@ -27,6 +27,9 @@
       <releases>
         <enabled>true</enabled>
       </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
     </pluginRepository>
   </pluginRepositories>
   <build>
@@ -78,6 +81,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
+            <version>0.3-SNAPSHOT</version>
             <configuration>
               <wait>false</wait>
               <container>
@@ -121,6 +125,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
+            <version>0.3-SNAPSHOT</version>
             <configuration>
               <wait>false</wait>
               <container>
