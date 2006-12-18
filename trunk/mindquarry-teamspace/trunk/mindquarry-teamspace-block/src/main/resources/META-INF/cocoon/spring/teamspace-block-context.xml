@@ -14,5 +14,7 @@
 		<property name="solrLogin"><value>${mindquarry.solr.login}</value></property>
 		<property name="solrPassword"><value>${mindquarry.solr.pwd}</value></property>
 		<property name="solrEndpoint"><value>${mindquarry.solr.endpoint}</value></property>
+		
+		<property name="broker" ref="com.mindquarry.events.EventBroker"/>
 	</bean>
 </beans>
