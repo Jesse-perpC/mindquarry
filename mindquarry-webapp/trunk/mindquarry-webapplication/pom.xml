@@ -180,6 +180,7 @@
                 <home>${project.build.directory}/orion2x/container</home>
               </configuration>
             </configuration>
+            <!--
             <executions>
               <execution>
                 <id>start-container</id>
@@ -196,6 +197,7 @@
                 </goals>
               </execution>
             </executions>
+            -->
           </plugin>
         </plugins>
       </build>
