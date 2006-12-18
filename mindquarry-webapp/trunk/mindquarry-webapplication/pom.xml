@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -17,9 +17,10 @@
   <name>Mindquarry Webapplication</name>
   <version>0.0.1-SNAPSHOT</version>
 
-	<!-- Apart from creating a WAR-archive this tells the cocoon deployer
+  <!-- Apart from creating a WAR-archive this tells the cocoon deployer
 		plugin to use our own web.xml stuff from src/main/webapp -->
   <packaging>war</packaging>
+
   <pluginRepositories>
     <pluginRepository>
       <id>codehaus snapshot repository</id>
@@ -32,6 +33,7 @@
       </snapshots>
     </pluginRepository>
   </pluginRepositories>
+
   <build>
     <finalName>mindquarry-webapplication</finalName>
     <plugins>
@@ -40,6 +42,7 @@
         <artifactId>cocoon-deployer-plugin</artifactId>
         <version>1.0.0-M2-SNAPSHOT</version>
       </plugin>
+
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
@@ -47,26 +50,18 @@
         <configuration>
           <connectors>
             <connector
-                implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+              implementation="org.mortbay.jetty.nio.SelectChannelConnector">
               <port>8888</port>
               <maxIdleTime>30000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppSourceDirectory>
-						target/mindquarry-webapplication
-					</webAppSourceDirectory>
-          <classesDirectory>
-						${basedir}/src/main/resources
-					</classesDirectory>
+          <webAppSourceDirectory> target/mindquarry-webapplication </webAppSourceDirectory>
+          <classesDirectory> ${basedir}/src/main/resources </classesDirectory>
           <contextPath>/</contextPath>
           <scanIntervalSeconds>15</scanIntervalSeconds>
           <scanTargets>
-            <scanTarget>
-							${basedir}/src/main/resources/COB-INF/sitemap.xmap
-						</scanTarget>
-            <scanTarget>
-							${basedir}/src/main/resources/META-INF/
-						</scanTarget>
+            <scanTarget> ${basedir}/src/main/resources/COB-INF/sitemap.xmap </scanTarget>
+            <scanTarget> ${basedir}/src/main/resources/META-INF/ </scanTarget>
           </scanTargets>
         </configuration>
       </plugin>
@@ -119,7 +114,7 @@
       <id>tomcat55</id>
       <activation>
         <activeByDefault>true</activeByDefault>
-       </activation>
+      </activation>
       <build>
         <plugins>
           <plugin>
@@ -165,6 +160,7 @@
         </plugins>
       </build>
     </profile>
+
     <profile>
       <id>orion2x</id>
       <build>
@@ -221,11 +217,13 @@
         </exclusion>
       </exclusions>
     </dependency>
+
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-blocks-fw-impl</artifactId>
       <version>1.0.0-M2-SNAPSHOT</version>
     </dependency>
+
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-template-impl</artifactId>
@@ -291,31 +289,29 @@
       <artifactId>mindquarry-webapp-resources</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
-		
-		<!-- enterprise components -->
+
+    <!-- enterprise components -->
     <dependency>
       <groupId>com.mindquarry.management</groupId>
       <artifactId>mindquarry-management</artifactId>
       <version>0.0.1-SNAPSHOT</version>
     </dependency>
-    
+
     <!-- missing dependency for tomcat 5 -->
     <dependency>
       <groupId>xpp3</groupId>
       <artifactId>xpp3</artifactId>
       <version>1.1.3.4.O</version>
     </dependency>
-    </dependencies>
+  </dependencies>
 
   <scm>
     <connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/
-		</connection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/ </connection>
     <url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapplication/
-		</url>
+      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapplication/ </url>
     <developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/
-		</developerConnection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/
+    </developerConnection>
   </scm>
 </project>
