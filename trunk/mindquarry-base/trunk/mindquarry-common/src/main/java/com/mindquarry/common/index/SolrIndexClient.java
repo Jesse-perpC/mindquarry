@@ -4,13 +4,8 @@
 package com.mindquarry.common.index;
 
 import java.io.ByteArrayOutputStream;
-import java.net.URI;
 import java.util.List;
 
-import org.apache.avalon.framework.activity.Initializable;
-import org.apache.avalon.framework.configuration.Configurable;
-import org.apache.avalon.framework.configuration.Configuration;
-import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.commons.httpclient.Credentials;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.MultiThreadedHttpConnectionManager;
@@ -30,55 +25,34 @@ import org.jdom.output.XMLOutputter;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public class SolrIndexClient extends AbstractAsyncIndexClient implements
-        Configurable, Initializable {
-    /**
-     * Configuration for this component.
-     */
-    protected Configuration config;
-
+public class SolrIndexClient extends AbstractAsyncIndexClient {
     private String solrLogin;
 
     private String solrPassword;
 
     private String solrEndpoint;
-    
+
     private HttpClient httpClient;
 
     /**
-     * @see org.apache.avalon.framework.configuration.Configurable#configure(org.apache.avalon.framework.configuration.Configuration)
-     */
-    public void configure(Configuration config) throws ConfigurationException {
-        this.config = config;
-        
-        // load configuration
-        Configuration cfg = config.getChild("solr-credentials", false); //$NON-NLS-1$
-        solrLogin = cfg.getAttribute("login"); //$NON-NLS-1$
-        solrPassword = cfg.getAttribute("password"); //$NON-NLS-1$
-
-        cfg = config.getChild("solr-endpoint", false); //$NON-NLS-1$
-        solrEndpoint = cfg.getAttribute("url"); //$NON-NLS-1$
-    }
-
-    /**
-     * @see org.apache.avalon.framework.activity.Initializable#initialize()
+     * Used to initialize the HTTP client.
      */
     public void initialize() throws Exception {
-        
-        MultiThreadedHttpConnectionManager connectionManager = 
-            new MultiThreadedHttpConnectionManager();
+        MultiThreadedHttpConnectionManager connectionManager = new MultiThreadedHttpConnectionManager();
         httpClient = new HttpClient(connectionManager);
-        
+
         // enable Preemptive authentication to save one round trip
         httpClient.getParams().setAuthenticationPreemptive(true);
-        
-        Credentials solrCreds = 
-            new UsernamePasswordCredentials(solrLogin, solrPassword);
-        AuthScope anyAuthScope = new AuthScope(
-                AuthScope.ANY_HOST, AuthScope.ANY_PORT, AuthScope.ANY_REALM);
-        
+
+        Credentials solrCreds = new UsernamePasswordCredentials(solrLogin,
+                solrPassword);
+        AuthScope anyAuthScope = new AuthScope(AuthScope.ANY_HOST,
+                AuthScope.ANY_PORT, AuthScope.ANY_REALM);
+
         httpClient.getState().setCredentials(anyAuthScope, solrCreds);
 
+        // register events by calling base class initialization
+        super.initialize();
     }
 
     public String getSolrEndpoint() {
@@ -115,7 +89,7 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
 
         Element delEl = new Element("deleted"); //$NON-NLS-1$
         Element modEl = new Element("modified"); //$NON-NLS-1$
-        
+
         Element chngEl = new Element("changes"); //$NON-NLS-1$
         chngEl.addContent(delEl);
         chngEl.addContent(modEl);
@@ -145,28 +119,23 @@ public class SolrIndexClient extends AbstractAsyncIndexClient implements
     }
 
     private void sendToIndexer(byte[] content) throws Exception {
-
         PostMethod pMethod = new PostMethod(solrEndpoint);
         pMethod.setDoAuthentication(true);
         pMethod.addRequestHeader("accept", "text/xml"); //$NON-NLS-1$ //$NON-NLS-2$
         pMethod.setRequestEntity(new ByteArrayRequestEntity(content));
 
-        try{
+        try {
             httpClient.executeMethod(pMethod);
         } finally {
             pMethod.releaseConnection();
         }
 
         if (pMethod.getStatusCode() == 200) {
-            System.out.println(pMethod.getResponseBodyAsString());
+            // everything worked fine, nothing more to do
         } else if (pMethod.getStatusCode() == 401) {
-            getLogger().warn(
+            getLogger()
+                    .warn(
                             "Authorization problem. Could not connect to index updater.");
-        } else if (pMethod.getStatusCode() == 302) {
-            URI redirectLocation = new URI(pMethod
-                    .getResponseHeader("location").getValue()); //$NON-NLS-1$
-            System.out.println(redirectLocation.toString());
-            
         } else {
             System.out.println("Unknown error");
             System.out.println("STATUS: " + pMethod.getStatusCode());
