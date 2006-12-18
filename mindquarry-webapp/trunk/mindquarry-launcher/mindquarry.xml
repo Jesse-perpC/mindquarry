@@ -6,39 +6,40 @@
 <!-- =============================================================== -->
 <Configure id="Server" class="org.mortbay.jetty.Server">
 
-    <!-- =========================================================== -->
-    <!-- Server Thread Pool                                          -->
-    <!-- =========================================================== -->
-    <Set name="ThreadPool">
-      <New class="org.mortbay.thread.BoundedThreadPool">
-        <Set name="minThreads">10</Set>
-        <Set name="lowThreads">50</Set>
-        <Set name="maxThreads">250</Set>
-      </New>
-    </Set>
+  <!-- =========================================================== -->
+  <!-- Server Thread Pool                                          -->
+  <!-- =========================================================== -->
+  <Set name="ThreadPool">
+    <New class="org.mortbay.thread.BoundedThreadPool">
+      <Set name="minThreads">10</Set>
+      <Set name="lowThreads">50</Set>
+      <Set name="maxThreads">250</Set>
+    </New>
+  </Set>
 
-    <!-- =========================================================== -->
-    <!-- Set connectors                                              -->
-    <!-- =========================================================== -->
-    <!-- One of each type!                                           -->
-    <!-- =========================================================== -->
+  <!-- =========================================================== -->
+  <!-- Set connectors                                              -->
+  <!-- =========================================================== -->
+  <!-- One of each type!                                           -->
+  <!-- =========================================================== -->
 
-    <!-- Use this connector for many frequently idle connections
+  <!-- Use this connector for many frequently idle connections
          and for threadless continuations.
-    -->    
-    <Call name="addConnector">
-      <Arg>
-          <New class="org.mortbay.jetty.nio.SelectChannelConnector">
-            <Set name="port"><SystemProperty name="jetty.port" default="8080"/></Set>
-            <Set name="maxIdleTime">30000</Set>
-            <Set name="Acceptors">2</Set>
-            <Set name="confidentialPort">8443</Set>
-          </New>
-      </Arg>
-    </Call>
-        
+    -->
+  <Call name="addConnector">
+    <Arg>
+      <New class="org.mortbay.jetty.nio.SelectChannelConnector">
+        <Set name="port">
+          <SystemProperty name="jetty.port" default="8080"/>
+        </Set>
+        <Set name="maxIdleTime">30000</Set>
+        <Set name="Acceptors">2</Set>
+        <Set name="confidentialPort">8443</Set>
+      </New>
+    </Arg>
+  </Call>
 
-    <!-- Use this connector if NIO is not available.
+  <!-- Use this connector if NIO is not available.
     <Call name="addConnector">
       <Arg>
           <New class="org.mortbay.jetty.bio.SocketConnector">
@@ -50,75 +51,70 @@
     </Call>
     -->
 
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    <!-- To add a HTTPS SSL listener                                     -->
-    <!-- see jetty-ssl.xml to add an ssl connector. use                  -->
-    <!-- java -jar start.jar etc/jetty.xml etc/jetty-ssl.xml             -->
-    <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
-    
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+  <!-- To add a HTTPS SSL listener                                     -->
+  <!-- see jetty-ssl.xml to add an ssl connector. use                  -->
+  <!-- java -jar start.jar etc/jetty.xml etc/jetty-ssl.xml             -->
+  <!-- - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -->
+
+  <!-- =========================================================== -->
+  <!-- Set handler Collection Structure                            -->
+  <!-- =========================================================== -->
+  <Set name="handler">
+    <New id="handlers" class="org.mortbay.jetty.handler.HandlerCollection">
+      <Set name="handlers">
+        <Array type="org.mortbay.jetty.Handler">
+          <Item>
+            <New id="contexts"
+              class="org.mortbay.jetty.handler.ContextHandlerCollection"/>
+          </Item>
+          <Item>
+            <New id="defaultHandler"
+              class="org.mortbay.jetty.handler.DefaultHandler"/>
+          </Item>
+          <Item>
+            <New id="requestLog"
+              class="org.mortbay.jetty.handler.RequestLogHandler"/>
+          </Item>
+        </Array>
+      </Set>
+    </New>
+  </Set>
 
 
-    <!-- =========================================================== -->
-    <!-- Set handler Collection Structure                            --> 
-    <!-- =========================================================== -->
-    <Set name="handler">
-      <New id="handlers" class="org.mortbay.jetty.handler.HandlerCollection">
-        <Set name="handlers">
-         <Array type="org.mortbay.jetty.Handler">
-           <Item>
-             <New id="contexts" class="org.mortbay.jetty.handler.ContextHandlerCollection"/>
-           </Item>
-           <Item>
-             <New id="defaultHandler" class="org.mortbay.jetty.handler.DefaultHandler"/>
-           </Item>
-           <Item>
-             <New id="requestLog" class="org.mortbay.jetty.handler.RequestLogHandler"/>
-           </Item>
-         </Array>
-        </Set>
+  <!-- ======================================================= -->
+  <!-- Configure the WebApp                                    -->
+  <!-- ======================================================= -->
+
+  <New id="MindquarryContext" class="org.mortbay.jetty.webapp.WebAppContext">
+    <Arg>
+      <Ref id="contexts"/>
+    </Arg>
+    <Arg><SystemProperty name="jetty.home" default="."
+      />/../mindquarry-webapplication/target/mindquarry-webapplication</Arg>
+    <Arg>/</Arg>
+  </New>
+
+  <!-- =========================================================== -->
+  <!-- Configure Request Log                                       -->
+  <!-- =========================================================== -->
+  <Ref id="requestLog">
+    <Set name="requestLog">
+      <New id="requestLogImpl" class="org.mortbay.jetty.NCSARequestLog">
+        <Arg><SystemProperty name="jetty.logs" default="./logs"
+          />/request-yyyy-mm-dd.log</Arg>
+        <Set name="retainDays">90</Set>
+        <Set name="append">true</Set>
+        <Set name="extended">false</Set>
+        <Set name="LogTimeZone">GMT</Set>
       </New>
     </Set>
-    
-    
-    <!-- ======================================================= -->
-    <!-- Configure the WebApp                                    -->
-    <!-- ======================================================= -->
-    
-    <New id="MindquarryContext" class="org.mortbay.jetty.webapp.WebAppContext">
-      <Arg><Ref id="contexts"/></Arg>
-      <Arg><SystemProperty name="jetty.home" default="."/>/mindquarry</Arg>
-      <Arg>/</Arg>
-    </New>
+  </Ref>
 
-    <!-- =========================================================== -->
-    <!-- Configure Request Log                                       -->
-    <!-- =========================================================== -->
-    <Ref id="requestLog">
-      <Set name="requestLog">
-        <New id="requestLogImpl" class="org.mortbay.jetty.NCSARequestLog">
-          <Arg><SystemProperty name="jetty.logs" default="./logs"/>/yyyy_mm_dd.request.log</Arg>
-          <Set name="retainDays">90</Set>
-          <Set name="append">true</Set>
-          <Set name="extended">false</Set>
-          <Set name="LogTimeZone">GMT</Set>
-        </New>
-      </Set>
-    </Ref>
-
-    <!-- =========================================================== -->
-    <!-- extra options                                               -->
-    <!-- =========================================================== -->
-    <Set name="stopAtShutdown">true</Set>
-    <!-- ensure/prevent Server: header being sent to browsers        -->
-    <Set name="sendServerVersion">true</Set>
-
+  <!-- =========================================================== -->
+  <!-- extra options                                               -->
+  <!-- =========================================================== -->
+  <Set name="stopAtShutdown">true</Set>
+  <!-- ensure/prevent Server: header being sent to browsers        -->
+  <Set name="sendServerVersion">true</Set>
 </Configure>
-
-
-
-
-
-
-
-
-
