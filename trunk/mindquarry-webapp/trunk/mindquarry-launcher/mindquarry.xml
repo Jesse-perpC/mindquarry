@@ -86,7 +86,7 @@
     
     <New id="MindquarryContext" class="org.mortbay.jetty.webapp.WebAppContext">
       <Arg><Ref id="contexts"/></Arg>
-      <Arg><SystemProperty name="jetty.home" default="."/>/webapps/mindquarry-webapp</Arg>
+      <Arg><SystemProperty name="jetty.home" default="."/>/mindquarry</Arg>
       <Arg>/</Arg>
     </New>
 
