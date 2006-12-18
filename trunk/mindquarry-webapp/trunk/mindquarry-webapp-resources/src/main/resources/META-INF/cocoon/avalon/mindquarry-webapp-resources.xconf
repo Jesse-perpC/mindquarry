@@ -5,6 +5,10 @@
 
 <components>
 	<input-modules>
+		<component-instance logger="mindquarry.modules.pom-properties"
+			name="pom-property"
+			class="com.mindquarry.webapp.modules.MavenPomPropertiesModule"/>
+
 		<component-instance logger="mindquarry.modules.uri"
 			name="params-as-uri"
 			class="com.mindquarry.webapp.modules.ParamsToURIModule">

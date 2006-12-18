@@ -10,18 +10,17 @@
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
 	<xsl:import href="contextpath.xsl"/>
-
 	<xsl:import href="lightbox.xsl"/>
 	
 	<xsl:output indent="no"/>
 
-	
+	<!-- external parameters -->
 	<xsl:param name="user.agent" select="''"/>
 	<xsl:param name="username" select="''"/>
-
+	<xsl:param name="version" select="'undefined'"/>
+	
 	<xsl:param name="cssPath" select="'css/'" />
 	<xsl:param name="scriptPath" select="'scripts/'" />
-	<xsl:param name="userName" select="''"/>
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -216,11 +215,12 @@
 
 						<li><a href="{$pathToRoot}resources/client/client.jnlp">Client</a></li>
 
-						<li><a href="{$pathToRoot}search/">Search</a></li>
+						<!--<li><a href="{$pathToRoot}search/">Search</a></li>-->
 						<li><a href="{$pathToRoot}help/">Help</a></li>
-						<li><a href="http://www.mindquarry.com">Visit Mindquarry.com</a></li>
-						<li><a href="http://www.mindquarry.com/support/">Get Support</a></li>
+						<!--<li><a href="http://www.mindquarry.com">Mindquarry Version <xsl:value-of select="$version"/></a></li>-->
+						<li><a href="http://www.mindquarry.com/support/">Get Mindquarry Support</a></li>
 					</ul>
+					<span class="version-footer">Mindquarry Version <xsl:value-of select="$version"/></span>
 				</div>
 			</div>
 		</body>

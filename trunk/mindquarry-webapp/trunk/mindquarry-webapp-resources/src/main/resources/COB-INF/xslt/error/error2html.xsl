@@ -25,6 +25,7 @@
   <xsl:param name="pageTitle" select="//error:notify/error:title"/>
   <xsl:param name="httpStatus" select="''"/>
   <xsl:param name="showSupportContact" select="'false'"/>
+  <xsl:param name="version" select="'undefined'"/>
   
   <xsl:variable name="title">
     <xsl:value-of select="$pageTitle"/>
@@ -53,7 +54,6 @@
           }
           
           .technical {
-            margin-top: 2em;
             padding-top: 1em;
             border-top: 1px solid grey;
           }
@@ -64,6 +64,11 @@
             background-position = "0px 2px";
             padding-left: 20px;
             padding-bottom:5px;
+          }
+          
+          .version {
+            margin-top: 2em;
+            color: grey;
           }
         </style>
         <script type="text/javascript">
@@ -104,6 +109,8 @@
               Please refer to the detailed technical information below.
             </p>            
           </xsl:if>
+          
+          <p class="version">Mindquarry Version <xsl:value-of select="$version"/></p>
           
           <div class="technical">
             <a id="technical_details_switch" href="#" onclick="toggle('technical_details')">Technical details</a>
