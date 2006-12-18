@@ -40,6 +40,8 @@
 						<parameter name="sitemapPath" value="{request:pathInfo}"/>
 						<parameter name="user.agent" value="{request-header:User-Agent}"/>
 						<parameter name="username" value="{request-attr:username}"/>
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</transform>
 				</otherwise>
 			</select>
@@ -70,7 +72,7 @@
 		</resource>
 
 		<resource name="form2html">
-			<transform src="block:super:xslt/forms/form2html.xsl">
+			<transform src="block:super:/xslt/forms/form2html.xsl">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
