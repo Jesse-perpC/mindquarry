@@ -15,4 +15,51 @@
 			<encoding>UTF-8</encoding>
 		</component-instance>
 	</input-modules>
+
+	<actions>
+		<action name="log"
+			src="com.mindquarry.webapp.acting.DebugLogAction" />
+		<action name="log-params"
+			src="com.mindquarry.webapp.acting.LogParametersAction" />
+		<action name="authorise"
+			src="com.mindquarry.webapp.acting.AuthorisationAction" />
+	</actions>
+
+	<selectors>
+		<selector name="lightbox-request"
+			src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
+		
+		<selector name="ajax-request"
+			src="org.apache.cocoon.ajax.AjaxRequestSelector" />
+		
+		<selector name="REST"
+			src="org.apache.cocoon.selection.RegexpHeaderSelector">
+			<header-name>accept</header-name>
+			<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
+			<pattern name="xml">text/xml</pattern>
+		</selector>
+		
+		<selector name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
+			<exception name="resource-does-not-exist" class="org.apache.cocoon.ResourceNotFoundException"/>
+			<exception name="processing" class="org.apache.cocoon.ProcessingException" unroll="true"/>
+			<exception name="processing" class="org.apache.cocoon.CascadingIOException" unroll="true"/>
+			<exception name="processing" class="javax.servlet.ServletException" unroll="true"/>
+			<exception name="authorisation" class="com.mindquarry.webapp.acting.AuthorisationException"/>
+			<exception name="resource-does-not-exist" class="com.mindquarry.common.resources.ResourceDoesNotExistException"/>
+		</selector>
+	</selectors>
+	
+	<transformers>
+		<transformer name="clear"
+			src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
+		<transformer name="bu-redirect"
+			src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer" />
+		<transformer name="redirect"
+			src="com.mindquarry.webapp.transforming.RedirectTransformer" />
+		<transformer name="browser-update"
+			src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
+		<transformer name="tee"
+			src="org.apache.cocoon.transformation.TeeTransformer" />
+	</transformers>		
+	
 </components>
