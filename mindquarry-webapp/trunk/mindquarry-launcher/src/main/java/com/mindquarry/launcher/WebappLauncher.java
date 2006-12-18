@@ -21,6 +21,7 @@ public class WebappLauncher {
                 "mindquarry.xml").toURL()); //$NON-NLS-1$
         configuration.configure(server);
         server.start();
+        
 
         System.out.println("Jetty started."); //$NON-NLS-1$
     }

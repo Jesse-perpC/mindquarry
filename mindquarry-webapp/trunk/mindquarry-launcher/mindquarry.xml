@@ -110,6 +110,22 @@
       </New>
     </Set>
   </Ref>
+  
+  <!-- =========================================================== -->
+  <!-- Configure Internal Log                                      -->
+  <!-- =========================================================== -->
+  <Ref id="errorLog">
+    <Set name="errorLog">
+      <New id="errorLogImpl" class="org.mortbay.log.StdErrLog">
+        <Arg><SystemProperty name="jetty.logs" default="./logs"
+        />/error-yyyy-mm-dd.log</Arg>
+        <Set name="retainDays">90</Set>
+        <Set name="append">true</Set>
+        <Set name="extended">false</Set>
+        <Set name="LogTimeZone">GMT</Set>
+      </New>
+    </Set>
+  </Ref>
 
   <!-- =========================================================== -->
   <!-- extra options                                               -->
