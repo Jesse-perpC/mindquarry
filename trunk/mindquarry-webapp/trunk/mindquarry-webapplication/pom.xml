@@ -95,7 +95,7 @@
                 <home>${project.build.directory}/tomcat50/container</home>
               </configuration>
             </configuration>
-            <executions>
+            <!--<executions>
               <execution>
                 <id>start-container</id>
                 <phase>pre-integration-test</phase>
@@ -110,7 +110,7 @@
                   <goal>stop</goal>
                 </goals>
               </execution>
-            </executions>
+            </executions>-->
           </plugin>
         </plugins>
       </build>
@@ -145,7 +145,7 @@
                 </properties>
               </configuration>
             </configuration>
-            <executions>
+            <!--<executions>
               <execution>
                 <id>start-container</id>
                 <phase>pre-integration-test</phase>
@@ -160,7 +160,7 @@
                   <goal>stop</goal>
                 </goals>
               </execution>
-            </executions>
+            </executions>-->
           </plugin>
         </plugins>
       </build>
