@@ -21,19 +21,18 @@ function processEditUser(form) {
 }
 
 function changePassword() {
-	
-	var oldPwd = model_.changePassword.current_password;
-	var newPwd = model_.changePassword.new_password;
+		
+	var oldPwd = model_.changePassword.currentPassword;
+	var newPwd = model_.changePassword.newPassword;
 		
 	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
 	
 	var currentUserId = cocoon.request.getAttribute("username");
 	var currentUser = userAdmin.userById(currentUserId);
-	
+		
 	var changed = currentUser.changePassword(oldPwd, newPwd);	
 	userAdmin.updateUser(currentUser);
 	
-
 	var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
 	
 	// always set the not used message output to state invisible

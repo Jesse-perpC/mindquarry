@@ -11,9 +11,6 @@
 			href="css/teamspace.css" />
 		<link rel="stylesheet" us:context="href" type="text/css"
 			href="css/edit-members.css" />
-			
-		<script type="text/javascript" 
-					src="../scripts/changePassword.js" >//</script>
 	</head>
 	<body>
 		<div>
@@ -40,20 +37,20 @@
 							<tr>
 								<td class="label">
 									<ft:widget-label
-										id="current_password" />
+										id="currentPassword" />
 								</td>
 								<td>
-									<ft:widget id="current_password">
+									<ft:widget id="currentPassword">
 										<fi:styling type="password"></fi:styling>
 									</ft:widget>
 								</td>
 							</tr>
 							<tr>
 								<td class="label">
-									<ft:widget-label id="new_password" />
+									<ft:widget-label id="newPassword" />
 								</td>
 								<td>
-									<ft:widget id="new_password">
+									<ft:widget id="newPassword">
 										<fi:styling type="password"></fi:styling>
 									</ft:widget>
 								</td>
@@ -61,11 +58,11 @@
 							<tr>
 								<td class="label">
 									<ft:widget-label
-										id="new_password_repeat" />
+										id="newPasswordRepeat" />
 								</td>
 								<td>
 									<ft:widget
-										id="new_password_repeat">
+										id="newPasswordRepeat">
 										<fi:styling type="password"></fi:styling>
 									</ft:widget>
 								</td>
