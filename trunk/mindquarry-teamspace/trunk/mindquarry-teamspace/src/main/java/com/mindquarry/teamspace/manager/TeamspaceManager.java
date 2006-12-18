@@ -20,6 +20,7 @@ import com.mindquarry.auth.RightRO;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.common.resources.ResourceDoesNotExistException;
 import com.mindquarry.teamspace.Authorisation;
 import com.mindquarry.teamspace.CouldNotCreateTeamspaceException;
 import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
@@ -358,6 +359,11 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             Matcher m = p.matcher(uri);
             if (m.matches()) {
                 String requestedTeamspaceID = m.group(1); // "mindquarry";
+                // ...check if that teamspace exists
+                if (this.teamspaceById(requestedTeamspaceID) == null) {
+                    throw new ResourceDoesNotExistException(uri, "Teamspace '"
+                            + requestedTeamspaceID + "' does not exist.");
+                }
                 // ...and checks if the user is in that teamspace
                 UserRO user = userManager_.userById(userId);
                 mayPerform = user.isMemberOf(requestedTeamspaceID);
