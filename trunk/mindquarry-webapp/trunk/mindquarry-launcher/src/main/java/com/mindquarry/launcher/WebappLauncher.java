@@ -37,7 +37,7 @@ public class WebappLauncher {
         contexts.addContext("/", "webapps");
         
         RequestLogHandler requestLogHandler = new RequestLogHandler();
-        NCSARequestLog requestLog = new NCSARequestLog("./jetty-yyyy-mm-dd.log"); //$NON-NLS-1$
+        NCSARequestLog requestLog = new NCSARequestLog("./jetty.log"); //$NON-NLS-1$
         requestLog.setExtended(false);
         requestLogHandler.setRequestLog(requestLog);
         
