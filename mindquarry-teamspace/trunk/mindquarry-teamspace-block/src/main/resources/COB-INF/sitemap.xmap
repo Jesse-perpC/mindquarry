@@ -92,6 +92,8 @@
 							value="{request-header:User-Agent}" />
 						<map:parameter name="username"
 							value="{request-attr:username}" />
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</map:transform>
 				</map:otherwise>
 			</map:select>
