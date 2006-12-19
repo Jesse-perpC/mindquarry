@@ -1,0 +1,3 @@
+LICENSE file for Mindquarry Webapplication Version ${version}
+
+todo
