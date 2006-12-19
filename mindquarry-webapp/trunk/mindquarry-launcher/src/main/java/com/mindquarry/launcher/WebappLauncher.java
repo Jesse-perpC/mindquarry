@@ -18,11 +18,8 @@ public class WebappLauncher {
     public static void main(String[] args) throws Exception {
         Server server = new Server();
         XmlConfiguration configuration = new XmlConfiguration(new File(
-                "mindquarry.xml").toURL()); //$NON-NLS-1$
+                "mindquarry-web.xml").toURL()); //$NON-NLS-1$
         configuration.configure(server);
         server.start();
-        
-
-        System.out.println("Jetty started."); //$NON-NLS-1$
     }
 }
