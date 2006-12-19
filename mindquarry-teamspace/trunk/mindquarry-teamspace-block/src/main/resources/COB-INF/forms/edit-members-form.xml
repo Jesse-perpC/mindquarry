@@ -101,7 +101,7 @@
 						</fd:javascript>
 					</fd:validation>
 				</fd:field>
-				<fd:field id="new_password" required="true">
+				<fd:field id="newPassword" required="true">
 					<fd:label>Password</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
@@ -113,11 +113,11 @@
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
-				<fd:field id="new_password_repeat" required="true">
+				<fd:field id="newPasswordRepeat" required="true">
 					<fd:label>Password (repeat)</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
-				        <fd:assert test="new_password = new_password_repeat">
+				        <fd:assert test="newPassword = newPasswordRepeat">
 				          <fd:failmessage>The passwordrepeat does not match.</fd:failmessage>
 				        </fd:assert>
 			      </fd:validation>
