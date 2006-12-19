@@ -21,6 +21,7 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<modules>
+		<module>mindquarry-launcher</module>
 		<module>mindquarry-webapplication</module>
 		<module>mindquarry-welcome-block</module>
 		<!--+
