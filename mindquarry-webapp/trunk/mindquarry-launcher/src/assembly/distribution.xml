@@ -13,6 +13,10 @@
             <directory>src/assembly/logs</directory>
             <outputDirectory>/logs</outputDirectory>
         </fileSet>
+        <fileSet>
+            <directory>src/assembly/data</directory>
+            <outputDirectory>/data</outputDirectory>
+        </fileSet>
     </fileSets>
     
     <files>
