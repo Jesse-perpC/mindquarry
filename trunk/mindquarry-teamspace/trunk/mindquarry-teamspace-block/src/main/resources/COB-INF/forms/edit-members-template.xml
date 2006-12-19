@@ -90,20 +90,20 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 						</tr>
 						<tr>
 							<td class="label">
-								<ft:widget-label id="new_password" />
+								<ft:widget-label id="newPassword" />
 							</td>
 							<td>
-								<ft:widget id="new_password">
+								<ft:widget id="newPassword">
 									<fi:styling type="password"></fi:styling>
 								</ft:widget>
 							</td>
 						</tr>
 						<tr>
 							<td class="label">
-								<ft:widget-label id="new_password_repeat" />
+								<ft:widget-label id="newPasswordRepeat" />
 							</td>
 							<td>
-								<ft:widget id="new_password_repeat">
+								<ft:widget id="newPasswordRepeat">
 									<fi:styling type="password"></fi:styling>
 								</ft:widget>
 							</td>
