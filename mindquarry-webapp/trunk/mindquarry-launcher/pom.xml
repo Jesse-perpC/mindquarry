@@ -58,9 +58,12 @@
 			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<configuration>
+					<filters>
+						<filter>src/assembly/filter.properties</filter>
+					</filters>
 					<descriptors>
-						<descriptor>src/assembly/launcher.xml</descriptor>
-						<!--descriptor>src/assembly/launcher-src.xml</descriptor-->
+						<descriptor>src/assembly/distribution.xml</descriptor>
+						<!--descriptor>src/assemble/distribution-src.xml</descriptor-->
 					</descriptors>
 				</configuration>
 			</plugin>
