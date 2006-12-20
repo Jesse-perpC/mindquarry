@@ -53,6 +53,12 @@
             <source>src/assembly/etc/mindquarry-web.xml</source>
             <outputDirectory>/</outputDirectory>
         </file>
+        <file>
+          <source>src/assembly/bin/wrapper-linux_x86_32</source>
+          <outputDirectory>/bin</outputDirectory>
+          <destName>mindquarry</destName>
+          <fileMode>755</fileMode>
+        </file>
     </files>
     
     <dependencySets>
