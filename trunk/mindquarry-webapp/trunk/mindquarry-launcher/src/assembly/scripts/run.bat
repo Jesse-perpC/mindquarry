@@ -1,2 +1,2 @@
 # Mindquarry webapplication startup script
-java -jar lib/mindquarry-launcher-${version}.jar
+java -jar lib/mindquarry-${version}.jar
