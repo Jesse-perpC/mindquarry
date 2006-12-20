@@ -115,6 +115,8 @@ function createLoginForm(httpauth)
     form.appendChild(table);
 
     httpauth.parentNode.replaceChild(form, httpauth);
+    
+    usernameInput.focus();
 }
 
 function createLogoutLink(httplogout, pathToWebappRoot)
