@@ -59,6 +59,10 @@
           <destName>mindquarry</destName>
           <fileMode>755</fileMode>
         </file>
+        <file>
+          <source>src/assembly/lib/libwrapper-linux_x86_32.so</source>
+          <outputDirectory>/lib</outputDirectory>
+        </file>
     </files>
     
     <dependencySets>
