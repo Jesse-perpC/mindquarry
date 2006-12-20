@@ -4,7 +4,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 	<head>
-		<title>Create Team</title>
+		<title>Change Team Settings</title>
 		<link rel="stylesheet"
 				href="css/teamspace.css" type="text/css" />
 		<link rel="stylesheet"
@@ -12,7 +12,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 				
 	</head>
 	<body>
-		<h1>Update Team Settings</h1>
+		<h1>Change Team Settings</h1>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue" 
 			ajax-action="#{$cocoon/continuation/id}.continue"
 			ajax="true"
