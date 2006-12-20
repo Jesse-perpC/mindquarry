@@ -133,7 +133,7 @@ Function .onInit
     InitPluginsDir
     Push $R1
     File /oname=$PLUGINSDIR\spltmp.bmp images\installer-splash.bmp
-    advsplash::show 2000 400 400 -1 $PLUGINSDIR\spltmp
+    advsplash::show 4000 10 400 -1 $PLUGINSDIR\spltmp
     Pop $R1
     Pop $R1
     !insertmacro MUI_LANGDLL_DISPLAY
