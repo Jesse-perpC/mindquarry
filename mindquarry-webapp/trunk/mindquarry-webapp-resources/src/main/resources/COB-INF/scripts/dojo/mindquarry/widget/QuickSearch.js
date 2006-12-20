@@ -39,10 +39,14 @@ dojo.widget.defineWidget(
 					'<div class="result-popup" dojoAttachPoint="popupNode" style="position:absolute;top:0;left:0;overflow:auto;padding:5px;">' +
 						'<a dojoOnClick="closeClick;" href="#" style="background:url(\'../buttons/close.png\');display:block;height:10px;width:10px;float:right;"></a>' 	+
 						'<span class="result-status" dojoAttachPoint="resultStatus" style="margin-bottom:8px;"></span>' +
-						'<table width="100%" class="result-table"><tbody dojoAttachPoint="resultNode"></tbody></table>' 	+
+						'<div dojoAttachPoint="resultNode"></div>' 	+
 					'</div>' + 
 			'</div>' +
 		'</div>',
+		
+		tableBeginHTML: '<table width="100%" class="result-table"><tbody>',
+		
+		tableEndHTML: '</tbody></table>',
 		
 		typeTemplate: '<tr valign="top">' +
 										'<td width="25%" align="right" class="task-column">%{type}</td>' + 
@@ -126,7 +130,7 @@ dojo.widget.defineWidget(
 				}
 				types.push(dojo.string.substituteParams(this.typeTemplate, {type: type, hits: hits.join("")})); 
 			}
-			return types.join("");
+			return this.tableBeginHTML + types.join("") + this.tableEndHTML;
 		},
 		
 		// update the results display
