@@ -13,12 +13,12 @@ wrapper.java.mainclass=org.tanukisoftware.wrapper.WrapperSimpleApp
 # Java Classpath (include wrapper.jar)  Add class path elements as
 #  needed starting from 1
 wrapper.java.classpath.1=../lib/wrapper-3.2.0.jar
-wrapper.java.classpath.2=..lib/mindquarry-launcher-${version}.jar
-wrapper.java.classpath.3=..lib/jetty-util-6.0.2.jar
-wrapper.java.classpath.4=..lib/jsp-2.1-6.0.2.jar
-wrapper.java.classpath.5=..lib/jsp-api-2.1-6.0.2.jar
-wrapper.java.classpath.6=..lib/servlet-api-2.5-6.0.2.jar
-wrapper.java.classpath.7=..lib/jetty-6.0.2.jar
+wrapper.java.classpath.2=../lib/mindquarry-launcher-${version}.jar
+wrapper.java.classpath.3=../lib/jetty-util-6.0.2.jar
+wrapper.java.classpath.4=../lib/jsp-2.1-6.0.2.jar
+wrapper.java.classpath.5=../lib/jsp-api-2.1-6.0.2.jar
+wrapper.java.classpath.6=../lib/servlet-api-2.5-6.0.2.jar
+wrapper.java.classpath.7=../lib/jetty-6.0.2.jar
 
 
 # Java Library Path (location of Wrapper.DLL or libwrapper.so)
