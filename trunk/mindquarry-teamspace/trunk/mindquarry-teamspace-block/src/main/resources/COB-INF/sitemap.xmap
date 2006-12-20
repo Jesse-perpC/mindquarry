@@ -460,7 +460,7 @@
 			</match>
 
 			<match pattern="*/edit/">
-				<act type="authorise" src="jcr:///teamspaces"/>
+				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditTeamspaceForm" />
