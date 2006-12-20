@@ -26,12 +26,12 @@ dojo.widget.defineWidget(
 
 		templateString: '<div style="position:relative;" class="mindquarry-quicksearch">' + 
 			'<div class="search-field">' +
-				'<form dojoAttachPoint="formNode">' +
+				'<form dojoAttachPoint="formNode" dojoOnSubmit="searchClick;">' +
 					'<span dojoAttachPoint="widthNode">' + 
 						'<input name="q" size="${this.size}"/>' +
 						'<input name="wt" value="mq" type="hidden"/>' +
 						'<input name="fl" value="score" type="hidden"/>' +
-						'<input type="button" dojoOnClick="searchClick;" value="${this.searchButton}"/>' + 
+						'<input type="submit" value="${this.searchButton}"/>' + 
 					'</span>' +
 				'</form>' +
 			'</div>' +
@@ -77,6 +77,7 @@ dojo.widget.defineWidget(
 		
 		// search button click handler
 		searchClick: function(evt) {
+			evt.preventDefault();
 			dojo.debug("QuickSearch - starting search");
 			
 			if (this._busy) return; // only one request at a time
