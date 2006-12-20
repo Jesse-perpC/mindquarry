@@ -13,10 +13,13 @@
    height="744.09448"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44.1"
+   inkscape:version="0.44"
    version="1.0"
-   sodipodi:docbase="C:\Dokumente und Einstellungen\alexs\Desktop"
-   sodipodi:docname="splash.svg">
+   sodipodi:docbase="/Users/saar/MQ-Workspaces/mindquarry-webapp/mindquarry-launcher/src/installer/images"
+   sodipodi:docname="splash.svg"
+   inkscape:export-filename="/Users/saar/MQ-Workspaces/mindquarry-webapp/mindquarry-launcher/src/installer/images/installer-splash.bmp"
+   inkscape:export-xdpi="90"
+   inkscape:export-ydpi="90">
   <defs
      id="defs4">
     <linearGradient
@@ -90,16 +93,16 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.4"
-     inkscape:cx="508.50867"
-     inkscape:cy="485.41584"
+     inkscape:cx="544.57205"
+     inkscape:cy="472.09596"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      width="1052.3622px"
      height="744.09448px"
-     inkscape:window-width="1440"
-     inkscape:window-height="844"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4"
+     inkscape:window-width="1243"
+     inkscape:window-height="756"
+     inkscape:window-x="37"
+     inkscape:window-y="22"
      showguides="true"
      inkscape:guide-bbox="true" />
   <metadata
@@ -132,7 +135,7 @@
        height="350.51288"
        width="527"
        sodipodi:absref="C:\Dokumente und Einstellungen\alexs\Eigene Dateien\exchange\iStock_000000329457Medium.jpg"
-       xlink:href="C:\Dokumente und Einstellungen\alexs\Eigene Dateien\exchange\iStock_000000329457Medium.jpg" />
+       xlink:href="iStock_000000329457Medium.jpg" />
     <rect
        style="fill:url(#linearGradient8506);fill-opacity:1;stroke:none;stroke-width:1;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect2821"
@@ -143,29 +146,34 @@
        ry="0" />
     <text
        xml:space="preserve"
-       style="font-size:15.93316078px;font-style:normal;font-weight:normal;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="481.18539"
-       y="368.65417"
-       id="text8526"><tspan
+       style="font-size:16.26959419px;font-style:normal;font-weight:normal;line-height:125%;fill:black;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="491.46915"
+       y="380.08524"
+       id="text8526"
+       sodipodi:linespacing="125%"
+       transform="scale(1.021115,0.979322)"><tspan
          sodipodi:role="line"
          id="tspan8528"
-         x="481.18539"
-         y="368.65417"
-         style="fill:white;fill-opacity:1">Discover teamplay with Mindquarry</tspan></text>
+         x="491.46915"
+         y="380.08524"
+         style="font-size:16.33784485px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:white;fill-opacity:1;font-family:Helvetica Neue">Discover teamplay with Mindquarry</tspan></text>
     <text
        xml:space="preserve"
-       style="font-size:15.93316078px;font-style:normal;font-weight:normal;fill:#282828;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
-       x="247.96936"
-       y="396.34726"
-       id="text8530"><tspan
+       style="font-size:15.93316078px;font-style:normal;font-weight:normal;line-height:125%;fill:#282828;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;font-family:Bitstream Vera Sans"
+       x="249.96936"
+       y="398.34726"
+       id="text8530"
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan8532"
-         x="247.96936"
-         y="396.34726">Mindquarry Collaboration Server</tspan><tspan
+         x="249.96936"
+         y="398.34726"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Helvetica Neue">Mindquarry Collaboration Server</tspan><tspan
          sodipodi:role="line"
-         x="247.96936"
-         y="416.26371"
-         id="tspan8534">1.0 Alpha</tspan></text>
+         x="249.96936"
+         y="420.84726"
+         id="tspan8534"
+         style="font-size:18px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;font-family:Helvetica Neue">1.0 Alpha</tspan></text>
     <rect
        style="fill:none;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;display:inline"
        id="rect5629"
@@ -175,5 +183,132 @@
        y="399.10519"
        rx="5.7007198"
        ry="5.8688154" />
+    <g
+       transform="matrix(0.142512,0,0,0.142512,592.1647,371.7314)"
+       id="g2019">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5591"
+         y="434.40799"
+         x="-397.53699"
+         style="font-size:233.58578491px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#282828;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;font-family:Helvetica Neue"
+         xml:space="preserve"><tspan
+           y="434.40799"
+           x="-397.53699"
+           id="tspan5593"
+           sodipodi:role="line">Mindquarry</tspan></text>
+      <g
+         id="g2000">
+        <g
+           style="display:inline"
+           id="g5595"
+           transform="matrix(0.264518,-0.698688,0.698688,0.264518,865.4249,398.7573)">
+          <g
+             style="display:inline"
+             inkscape:label="schatten-hintergrund"
+             id="g5597">
+            <g
+               transform="matrix(0.888088,0,0,0.888088,38.8466,29.7105)"
+               id="g5599" />
+          </g>
+          <g
+             id="g5601"
+             inkscape:label="grosse-box">
+            <rect
+               transform="matrix(0,1,-1,0,0,0)"
+               ry="58.880951"
+               rx="58.880951"
+               y="-377.48163"
+               x="45.626045"
+               height="331.42856"
+               width="331.42856"
+               id="rect5603"
+               style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+          <g
+             inkscape:label="rand-grosse-box"
+             id="g5605">
+            <rect
+               style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+               id="rect5607"
+               width="331.42856"
+               height="331.42856"
+               x="45.626045"
+               y="-377.48163"
+               rx="58.880951"
+               ry="58.880951"
+               transform="matrix(0,1,-1,0,0,0)" />
+          </g>
+          <g
+             style="display:inline"
+             inkscape:label="kleine-box"
+             id="g5609" />
+        </g>
+        <g
+           style="display:inline"
+           id="g5611"
+           transform="matrix(0.264518,-0.698688,0.698688,0.264518,755.2199,445.7993)">
+          <g
+             style="display:inline"
+             inkscape:label="schatten-hintergrund"
+             id="g5613">
+            <g
+               transform="matrix(0.888088,0,0,0.888088,38.8466,29.7105)"
+               id="g5615">
+              <rect
+                 style="opacity:1;fill:none;fill-opacity:0.01960784;fill-rule:nonzero;stroke:none;stroke-width:10.62992096;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                 id="rect5617"
+                 width="426.73843"
+                 height="426.73843"
+                 x="-18.657982"
+                 y="-8.8514214"
+                 rx="63.384556"
+                 ry="65.253532" />
+            </g>
+          </g>
+          <g
+             id="g5619"
+             inkscape:label="grosse-box">
+            <rect
+               transform="matrix(0,1,-1,0,0,0)"
+               ry="58.880951"
+               rx="58.880951"
+               y="-377.48163"
+               x="45.626045"
+               height="331.42856"
+               width="331.42856"
+               id="rect5621"
+               style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+          <g
+             inkscape:label="rand-grosse-box"
+             id="g5623" />
+          <g
+             style="display:inline"
+             inkscape:label="kleine-box"
+             id="g5625">
+            <rect
+               transform="matrix(0,1,-1,0,0,0)"
+               ry="30.771656"
+               rx="30.771656"
+               y="-335.10461"
+               x="205.45078"
+               height="132.0571"
+               width="132.0571"
+               id="rect5627"
+               style="opacity:1;fill:url(#linearGradient5631);fill-opacity:1;fill-rule:nonzero;stroke:#dda702;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+        </g>
+      </g>
+      <rect
+         ry="44.792038"
+         rx="43.509098"
+         y="163.70547"
+         x="597.65924"
+         height="335.37064"
+         width="658.61945"
+         id="rect2063"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;display:inline" />
+    </g>
   </g>
 </svg>
