@@ -20,7 +20,7 @@
         </file>
         <file>
             <source>src/assembly/conf/wrapper.conf.in</source>
-            <outputDirectory>/lib</outputDirectory>
+            <outputDirectory>/etc</outputDirectory>
             <filtered>true</filtered>
             <destName>wrapper.conf</destName>
         </file>
