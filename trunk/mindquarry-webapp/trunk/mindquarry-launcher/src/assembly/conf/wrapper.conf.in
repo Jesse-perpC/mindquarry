@@ -1,6 +1,8 @@
 #********************************************************************
 # Wrapper Properties
 #********************************************************************
+#Working directory should always be MINDQUARRY_HOME
+wrapper.working.dir=../
 # Java Application
 wrapper.java.command=java
 
@@ -12,22 +14,22 @@ wrapper.java.mainclass=org.tanukisoftware.wrapper.WrapperSimpleApp
 
 # Java Classpath (include wrapper.jar)  Add class path elements as
 #  needed starting from 1
-wrapper.java.classpath.1=../lib/wrapper-3.2.0.jar
-wrapper.java.classpath.2=../lib/${project.artifactId}-${project.version}.jar
-wrapper.java.classpath.3=../lib/jetty-util-6.0.2.jar
-wrapper.java.classpath.4=../lib/jsp-2.1-6.0.2.jar
-wrapper.java.classpath.5=../lib/jsp-api-2.1-6.0.2.jar
-wrapper.java.classpath.6=../lib/servlet-api-2.5-6.0.2.jar
-wrapper.java.classpath.7=../lib/jetty-6.0.2.jar
+wrapper.java.classpath.1=lib/wrapper-3.2.0.jar
+wrapper.java.classpath.2=lib/${project.artifactId}-${project.version}.jar
+wrapper.java.classpath.3=lib/jetty-util-6.0.2.jar
+wrapper.java.classpath.4=lib/jsp-2.1-6.0.2.jar
+wrapper.java.classpath.5=lib/jsp-api-2.1-6.0.2.jar
+wrapper.java.classpath.6=lib/servlet-api-2.5-6.0.2.jar
+wrapper.java.classpath.7=lib/jetty-6.0.2.jar
 
 
 # Java Library Path (location of Wrapper.DLL or libwrapper.so)
-wrapper.java.library.path.1=../lib
+wrapper.java.library.path.1=lib
 
 # Java Additional Parameters
-wrapper.java.additional.1=-Djetty.home=../
-wrapper.java.additional.2=-Djetty.logs=../logs
-wrapper.java.additional.3=-Dmindquarry.config.dir=../etc/mindquarry-webapplication.properties
+wrapper.java.additional.1=-Djetty.home=.
+wrapper.java.additional.2=-Djetty.logs=./logs
+wrapper.java.additional.3=-Dmindquarry.config.dir=etc/mindquarry-webapplication.properties
 
 # Initial Java Heap Size (in MB)
 wrapper.java.initmemory=256
@@ -38,7 +40,7 @@ wrapper.java.maxmemory=512
 # Application parameters.  The first parameter is the class name
 # of the main class to launch
 wrapper.app.parameter.1=com.mindquarry.launcher.WebappLauncher
-wrapper.app.parameter.2=../mindquarry-web.xml
+wrapper.app.parameter.2=etc/mindquarry-web.xml
 
 #********************************************************************
 # Wrapper Logging Properties
@@ -50,7 +52,7 @@ wrapper.console.format=PM
 wrapper.console.loglevel=INFO
 
 # Log file to use for wrapper output logging.
-wrapper.logfile=../logs/wrapper.log
+wrapper.logfile=logs/wrapper.log
 
 # Format of output for the log file.  (See docs for formats)
 wrapper.logfile.format=LPTM

@@ -13,6 +13,10 @@
 
     <files>
         <file>
+            <source>src/assembly/properties/mindquarry-webapplication.properties</source>
+            <outputDirectory>/etc</outputDirectory>
+        </file>
+        <file>
             <source>src/assembly/txt/README.txt</source>
             <outputDirectory>/</outputDirectory>
             <filtered>true</filtered>
@@ -23,16 +27,12 @@
             <filtered>true</filtered>
         </file>
         <file>
-            <source>src/assembly/properties/mindquarry-webapplication.properties</source>
-            <outputDirectory>/etc</outputDirectory>
-        </file>
-        <file>
             <source>src/assembly/etc/webdefault.xml</source>
             <outputDirectory>/etc</outputDirectory>
         </file>
         <file>
             <source>src/assembly/etc/mindquarry-web.xml</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/etc</outputDirectory>
         </file>
     </files>
 
