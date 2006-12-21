@@ -14,9 +14,9 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	<body>
 		<h1>Change Team Settings</h1>
 		<ft:form-template action="#{$cocoon/continuation/id}.continue" 
-			ajax-action="#{$cocoon/continuation/id}.continue"
-			ajax="true"
-			method="POST">
+			ajax-action="#{$cocoon/continuation/id}.continue" 
+			ajax="true" method="POST">
+			
 			<ft:widget id="teamspaceId">
 				<fi:styling type="hidden" />
 			</ft:widget>
