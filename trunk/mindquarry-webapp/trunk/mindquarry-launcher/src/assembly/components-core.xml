@@ -24,7 +24,7 @@
         </file>
         <file>
             <source>src/assembly/properties/mindquarry-webapplication.properties</source>
-            <outputDirectory>/</outputDirectory>
+            <outputDirectory>/etc</outputDirectory>
         </file>
         <file>
             <source>src/assembly/etc/webdefault.xml</source>

@@ -25,7 +25,7 @@
             <destName>wrapper.conf</destName>
         </file>
         <file>
-            <source>src/assembly/scripts/run.sh</source>
+            <source>src/assembly/scripts/start.sh</source>
             <outputDirectory>/</outputDirectory>
             <filtered>true</filtered>
         </file>
