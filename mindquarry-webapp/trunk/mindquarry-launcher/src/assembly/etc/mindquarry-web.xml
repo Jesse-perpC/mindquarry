@@ -62,23 +62,24 @@
       </Set>
     </New>
   </Set>
-
-  <!-- ======================================================= -->
-  <!-- Configure the WebApp                                    -->
-  <!-- ======================================================= -->
-  <Call class="org.mortbay.jetty.webapp.WebAppContext" name="addWebApplications">
-    <Arg>
-      <Ref id="contexts"/>
-    </Arg>
-    <Arg><SystemProperty name="jetty.home" default="."/>/webapps</Arg>
-    <Arg><SystemProperty name="jetty.home" default="."/>/etc/webdefault.xml</Arg>
-    
-    <!-- extract -->
-    <Arg type="boolean">True</Arg>
-    
-    <!-- parent priority class loading -->
-    <Arg type="boolean">False</Arg>
-  </Call>
+    <!-- ======================================================= -->
+    <!-- Configure a Context                                     -->
+    <!-- ======================================================= -->
+    <New class="org.mortbay.jetty.webapp.WebAppContext">
+      <Arg><Ref id="contexts"/></Arg>
+      <Arg><SystemProperty name="jetty.home" default="."/>/webapps</Arg>
+      <Arg>/</Arg>
+      
+      <!--
+      <Set name="resourceBase"><SystemProperty name="jetty.home" default="."/>/webapps/</Set>
+      -->
+      <!--
+      <Call name="addServlet">
+        <Arg>org.mortbay.jetty.servlet.DefaultServlet</Arg>
+        <Arg>/</Arg>
+      </Call>
+      -->
+    </New>
 
   <!-- =========================================================== -->
   <!-- Configure Request Log                                       -->
