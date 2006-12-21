@@ -10,6 +10,7 @@
         <file>
           <source>src/assembly/bin/wrapper.exe</source>
           <outputDirectory>/bin</outputDirectory>
+            <destName>mindquarry.exe</destName>
         </file>
         <file>
           <source>src/assembly/lib/wrapper.dll</source>
@@ -22,10 +23,10 @@
           <destName>wrapper.conf</destName>
         </file>
         <file>
-            <source>src/assembly/scripts/run-service.bat</source>
+            <source>src/assembly/scripts/start-service.bat</source>
             <outputDirectory>/</outputDirectory>
             <filtered>true</filtered>
-            <destName>run.bat</destName>
+            <destName>start.bat</destName>
         </file>
         <file>
             <source>src/assembly/scripts/stop-service.bat</source>

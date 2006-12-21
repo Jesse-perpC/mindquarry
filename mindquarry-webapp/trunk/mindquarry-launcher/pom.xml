@@ -13,9 +13,9 @@
 		<version>1</version>
 	</parent>
 
-	<name>Mindquarry</name>
+	<name>Mindquarry Collaboration Server</name>
 	<url>http://www.mindquarry.com</url>
-	<description>Launcher for the Mindquarry Webapplication</description>
+	<description>Launcher for the Mindquarry Collaboration Server. The Mindquarry Collaboration Server enables teams to collaborate using document management, wikis, task management and conversation management.</description>
 
 	<groupId>com.mindquarry.launcher</groupId>
 	<artifactId>mindquarry-launcher</artifactId>
@@ -39,11 +39,11 @@
 			<artifactId>jsp-2.1</artifactId>
 			<version>6.0.2</version>
 		</dependency>
-    <dependency>
-      <groupId>tanukisoft</groupId>
-      <artifactId>wrapper</artifactId>
-      <version>3.2.0</version>
-    </dependency>
+		<dependency>
+			<groupId>tanukisoft</groupId>
+			<artifactId>wrapper</artifactId>
+			<version>3.2.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
@@ -65,36 +65,34 @@
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.1</version>
 				<configuration>
-					<filters>
-						<filter>src/assembly/filter.properties</filter>
-					</filters>
 					<descriptors>
 						<descriptor>src/assembly/distribution-generic.xml</descriptor>
-            <descriptor>src/assembly/distribution-linux_x86_32.xml</descriptor>
-            <descriptor>src/assembly/distribution-windows_x86_32.xml</descriptor>
-            <!-- TODO: mac os x, source -->
+						<descriptor>src/assembly/distribution-linux_x86_32.xml</descriptor>
+						<descriptor>src/assembly/distribution-windows_x86_32.xml</descriptor>
+						<!-- TODO: mac os x, source -->
 						<!--descriptor>src/assemble/distribution-src.xml</descriptor-->
 					</descriptors>
 				</configuration>
 			</plugin>
-      <plugin>
-        <artifactId>maven-antrun-plugin</artifactId>
-        <executions>
-          <execution>
-            <phase>package</phase>
-            <configuration>
-              <tasks>
-                <ant antfile="${basedir}/build.xml" inheritRefs="true">
-                  <target name="run-nsis"/>
-                </ant>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-      </plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<configuration>
+							<tasks>
+								<ant antfile="${basedir}/build.xml"
+									inheritRefs="true">
+									<target name="run-nsis"/>
+								</ant>
+							</tasks>
+						</configuration>
+						<goals>
+							<goal>run</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
 		</plugins>
 	</build>
 

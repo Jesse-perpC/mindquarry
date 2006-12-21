@@ -13,7 +13,7 @@ wrapper.java.mainclass=org.tanukisoftware.wrapper.WrapperSimpleApp
 # Java Classpath (include wrapper.jar)  Add class path elements as
 #  needed starting from 1
 wrapper.java.classpath.1=../lib/wrapper-3.2.0.jar
-wrapper.java.classpath.2=../lib/mindquarry-launcher-${version}.jar
+wrapper.java.classpath.2=../lib/${project.artifactId}-${project.version}.jar
 wrapper.java.classpath.3=../lib/jetty-util-6.0.2.jar
 wrapper.java.classpath.4=../lib/jsp-2.1-6.0.2.jar
 wrapper.java.classpath.5=../lib/jsp-api-2.1-6.0.2.jar
@@ -25,7 +25,9 @@ wrapper.java.classpath.7=../lib/jetty-6.0.2.jar
 wrapper.java.library.path.1=../lib
 
 # Java Additional Parameters
-#wrapper.java.additional.1=
+wrapper.java.additional.1=-Djetty.home=../
+wrapper.java.additional.2=-Djetty.logs=../logs
+wrapper.java.additional.3=-Dmindquarry.config.dir=../etc/mindquarry-webapplication.properties
 
 # Initial Java Heap Size (in MB)
 wrapper.java.initmemory=256
@@ -36,6 +38,7 @@ wrapper.java.maxmemory=512
 # Application parameters.  The first parameter is the class name
 # of the main class to launch
 wrapper.app.parameter.1=com.mindquarry.launcher.WebappLauncher
+wrapper.app.parameter.2=../mindquarry-web.xml
 
 #********************************************************************
 # Wrapper Logging Properties
@@ -72,7 +75,7 @@ wrapper.syslog.loglevel=NONE
 # Wrapper Windows Properties
 #********************************************************************
 # Title to use when running as a console
-wrapper.console.title=${app.long.name}
+wrapper.console.title=${app.name}
 
 #********************************************************************
 # Wrapper Windows NT/2000/XP Service Properties
@@ -86,7 +89,7 @@ wrapper.console.title=${app.long.name}
 wrapper.ntservice.name=${app.name}
 
 # Display name of the service
-wrapper.ntservice.displayname=${app.name} ${variable1}
+wrapper.ntservice.displayname=${app.name}
 
 # Description of the service
 wrapper.ntservice.description=${app.description}

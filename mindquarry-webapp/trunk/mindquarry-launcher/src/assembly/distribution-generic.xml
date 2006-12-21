@@ -8,19 +8,6 @@
         <format>tar.bz2</format>
     </formats>
 
-    <files>
-        <file>
-            <source>src/assembly/scripts/run.bat</source>
-            <outputDirectory>/</outputDirectory>
-            <filtered>true</filtered>
-        </file>
-        <file>
-            <source>src/assembly/scripts/run.sh</source>
-            <outputDirectory>/</outputDirectory>
-            <filtered>true</filtered>
-        </file>
-    </files>
-
     <componentDescriptors>
         <componentDescriptor>src/assembly/components-core.xml</componentDescriptor>
     </componentDescriptors>
