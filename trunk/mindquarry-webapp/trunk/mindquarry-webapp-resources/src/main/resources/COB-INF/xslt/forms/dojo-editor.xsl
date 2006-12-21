@@ -46,36 +46,36 @@
  
   <!-- active view -->
   <xsl:template match="fi:field[@state='active'][fi:styling[@type='wiki']]">
-		<xsl:variable name="id" select="concat(@id,':input')"/>
+	<xsl:variable name="id" select="concat(@id,':input')"/>
     <textarea  id="{$id}" name="{@id}" title="{fi:hint}" style="{fi:styling/@style}" dojoType="Editor2">
       <xsl:apply-templates select="fi:value/node()" mode="dojoarea-copy"/>
     </textarea>
 
-		<div class="wiki-link-dialog" dojoType="Dialog" id="wikiLinkDialog" bgColor="black" bgOpacity="0.7" toggle="fade" toggleDuration="250">
-			<form>
-				<table style="background-color:white;opacity:1;padding:20px;">
-				    <tr>
-				        <td colspan="2" style="text-align:center;">
-				            Select a page from the list or enter a link:
-				            <p style="font-size:small;">External links must start with http://</p>
-				        </td>
-				    </tr>
-					<tr>
-						<td>Wiki Pages:</td>
-						<td>
-							<input dojoType="combobox" dataUrl="pages.js" style="width: 300px;" name="location" />
-						</td>
-					</tr>
-					<tr>
-						<td colspan="2" align="center">
-							<input type="button" onClick="mindquarry.widget.wikiLinkSet(this.form['location'].value);return false;" id="wikiLinkDialogOK" value="OK"/>
-							&#160;
-							<input type="button" onClick="return false;" id="wikiLinkDialogCancel" value="Cancel"/>
-						</td>
-					</tr>
-				</table>
-			</form>
-		</div>
+	<div class="wiki-link-dialog" dojoType="Dialog" id="wikiLinkDialog" bgColor="black" bgOpacity="0.7" toggle="fade" toggleDuration="250">
+		<form>
+			<table style="background-color:white;opacity:1;padding:20px;">
+			    <tr>
+			        <td colspan="2" style="text-align:center;">
+			            Select a page from the list or enter a link:
+			            <p style="font-size:small;">External links must start with http://</p>
+			        </td>
+			    </tr>
+				<tr>
+					<td>Wiki Pages:</td>
+					<td>
+						<input dojoType="combobox" dataUrl="pages.js" style="width: 300px;" name="location" />
+					</td>
+				</tr>
+				<tr>
+					<td colspan="2" align="center">
+						<input type="button" onClick="mindquarry.widget.wikiLinkSet(this.form['location'].value);return false;" id="wikiLinkDialogOK" value="OK"/>
+						&#160;
+						<input type="button" onClick="return false;" id="wikiLinkDialogCancel" value="Cancel"/>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
   </xsl:template>
 
   <xsl:template match="@*|*" mode="dojoarea-copy">
