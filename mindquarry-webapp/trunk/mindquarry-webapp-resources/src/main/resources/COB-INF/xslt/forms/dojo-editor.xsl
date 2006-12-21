@@ -76,6 +76,10 @@
 			</table>
 		</form>
 	</div>
+
+    <!-- for fi:help -->    
+    <xsl:apply-templates select="." mode="common"/>
+    
   </xsl:template>
 
   <xsl:template match="@*|*" mode="dojoarea-copy">
