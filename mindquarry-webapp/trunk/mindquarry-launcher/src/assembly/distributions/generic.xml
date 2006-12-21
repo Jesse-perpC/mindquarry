@@ -9,6 +9,6 @@
     </formats>
     
     <componentDescriptors>
-        <componentDescriptor>src/assembly/components-core.xml</componentDescriptor>
+        <componentDescriptor>src/assembly/components/core.xml</componentDescriptor>
     </componentDescriptors>
 </assembly>
