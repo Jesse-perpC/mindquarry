@@ -46,7 +46,7 @@ function teamspaceById(teamspaceId) {
 }
 
 function processEditTeamspaceForm(form) {
-	
+
 	var blockPath = cocoon.parameters["blockPath"];
 	
 	var teamspaceId = cocoon.parameters["teamspaceId"];
@@ -54,12 +54,16 @@ function processEditTeamspaceForm(form) {
 	
 	var targetUri = cocoon.request.getParameter("targetUri");
 	
-	form.getModel().teamspaceId = teamspaceId;
+	// change state of field teamspaceId to turn off the duplicateId validator
+	var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
+	form.lookupWidget("teamspaceId").state = WidgetState.DISABLED;
+	
 	form.getModel().name = teamspace.name;
 	form.getModel().description = teamspace.description;
 	
 	form.showForm("edit-teamspace.instance");
 	
+	print(form.submitId);
 	if (form.submitId != "cancel") {
 		var teamspaceAdmin = cocoon.getComponent(TeamspaceAdmin.ROLE);
 		
