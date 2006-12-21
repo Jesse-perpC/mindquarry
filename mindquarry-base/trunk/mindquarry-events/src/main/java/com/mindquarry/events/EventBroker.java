@@ -17,6 +17,8 @@ import com.mindquarry.events.exception.UnknownEventException;
  *         Saar</a>
  */
 public class EventBroker {
+    public static final String ROLE = EventBroker.class.getName();
+    
     private HashMap<String, Collection<EventListener>> registeredListeners;
 
     public EventBroker() {
@@ -31,10 +33,10 @@ public class EventBroker {
         registeredListeners.put(id, new ArrayList<EventListener>());
     }
 
-    public void registerEventListener(EventListener listener, String id)
-            throws UnknownEventException {
+    public void registerEventListener(EventListener listener, String id) {
         if (!registeredListeners.keySet().contains(id)) {
-            throw new UnknownEventException("Unknown event type."); //$NON-NLS-1$
+            // event was not registered previously, register it first
+            registeredListeners.put(id, new ArrayList<EventListener>());
         }
         registeredListeners.get(id).add(listener);
     }
@@ -42,8 +44,10 @@ public class EventBroker {
     public void publishEvent(final Event event, boolean block)
             throws UnknownEventException {
         if (block) {
+            // deliver event synchronously
             deliverEvent(event);
         } else {
+            // deliver event asynchronously
             Thread thread = new Thread(new Runnable() {
                 public void run() {
                     try {
