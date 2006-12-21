@@ -8,6 +8,10 @@
 		<role name="org.apache.excalibur.source.SourceResolver"
 			shorthand="source-resolver"
 			default-class="org.apache.excalibur.source.impl.SourceResolverImpl" />
+		
+		<role name="com.mindquarry.events.EventBroker"
+			shorthand="event-broker"
+			default-class="com.mindquarry.events.EventBroker" />
 
 		<role name="javax.jcr.Repository" shorthand="jcr-repository" />
 

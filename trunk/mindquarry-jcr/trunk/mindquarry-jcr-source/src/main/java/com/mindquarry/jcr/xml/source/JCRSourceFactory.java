@@ -30,14 +30,18 @@ import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceFactory;
 
 import com.mindquarry.common.index.IndexClient;
+import com.mindquarry.events.EventBroker;
+import com.mindquarry.events.exception.EventAlreadyRegisteredException;
+import com.mindquarry.events.exception.UnknownEventException;
 import com.mindquarry.jcr.client.JCRClient;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
+import com.mindquarry.jcr.xml.source.events.UrlResolvedEvent;
 
 /**
  * This SourceFactory provides access to a Java Content Repository (JCR)
- * including an XML-to-JCR-nodes binding. The source implementation returned
- * is either a JCRNodeWrapperSource for direct node requests or a
- * QueryResultSource for a query result (including multiple nodes).
+ * including an XML-to-JCR-nodes binding. The source implementation returned is
+ * either a JCRNodeWrapperSource for direct node requests or a QueryResultSource
+ * for a query result (including multiple nodes).
  * 
  * <p>
  * An URI for this source is either (i) a direct path in the repository or (ii)
@@ -65,7 +69,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * The namespace-prefix mappings for this factory.
      */
     public static Map<String, String> configuredMappings;
-    
+
     /**
      * The list of index exclude patterns.
      */
@@ -75,6 +79,11 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * Index client to be used for change notifications
      */
     protected IndexClient iClient;
+
+    /**
+     * Event broker for publishing inter-application events.
+     */
+    protected EventBroker broker;
 
     // =========================================================================
     // Servicable interface
@@ -89,12 +98,18 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
         super.service(manager);
 
         iClient = (IndexClient) manager.lookup(IndexClient.ROLE);
+        broker = (EventBroker) manager.lookup(EventBroker.ROLE);
+        try {
+            broker.registerEvent(UrlResolvedEvent.ID);
+        } catch (EventAlreadyRegisteredException e) {
+            // event was already registered, so we have nothing more to do here
+        }
 
         // the repository is lazily initialized to avoid circular dependency
         // between SourceResolver and JackrabbitRepository that leads to a
         // StackOverflowError at initialization time
     }
-    
+
     public ServiceManager getServiceManager() {
         return this.manager;
     }
@@ -112,7 +127,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      */
     public void configure(Configuration config) throws ConfigurationException {
         super.configure(config);
-        
+
         if (null == JCRSourceFactory.configuredMappings) {
             // load namespace mappings
             JCRSourceFactory.configuredMappings = new HashMap<String, String>();
@@ -125,7 +140,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
             }
             // load index excludes
             JCRSourceFactory.iExcludes = new ArrayList<String>();
-            
+
             Configuration index = config.getChild("index"); //$NON-NLS-1$
             Configuration excludes = index.getChild("excludes"); //$NON-NLS-1$
             for (Configuration exclude : excludes.getChildren("exclude")) { //$NON-NLS-1$
@@ -161,13 +176,29 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
         } catch (RepositoryException e) {
             throw new SourceException("Cannot access repository.", e);
         }
-        
+
         // check for query syntax (eg. 'jcr:///users#//name' interpreted
         // as 'jcr:///jcr:root/users//name')
         if (uri.indexOf("?") != -1) { //$NON-NLS-1$
+            try {
+                // publish URL resolved event
+                broker.publishEvent(new UrlResolvedEvent(this, uri, false),
+                        false);
+            } catch (UnknownEventException e) {
+                // we can't publish the event, something went totally wrong,
+                // because we registered the event during initialization
+            }
             return (QueryResultSource) executeQuery(session, SourceUtil
                     .getPath(uri), SourceUtil.getQuery(uri));
         } else {
+            try {
+                // publish URL resolved event
+                broker.publishEvent(new UrlResolvedEvent(this, uri, true),
+                        false);
+            } catch (UnknownEventException e) {
+                // we can't publish the event, something went totally wrong,
+                // because we registered the event during initialization
+            }
             // standard direct hierarchy-resolving
             return (JCRNodeWrapperSource) createSource(session, SourceUtil
                     .getPath(uri));
