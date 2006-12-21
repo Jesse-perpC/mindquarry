@@ -11,7 +11,7 @@ import com.mindquarry.events.exception.EventAlreadyRegisteredException;
 import com.mindquarry.events.exception.UnknownEventException;
 
 /**
- * Add summary documentation here.
+ * Local broker for inter application events.
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
