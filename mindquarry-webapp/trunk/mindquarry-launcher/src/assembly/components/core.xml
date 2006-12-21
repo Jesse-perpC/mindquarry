@@ -49,6 +49,7 @@
             </includes>
         </dependencySet>
         <dependencySet>
+            <unpack>true</unpack>
             <outputDirectory>/webapps</outputDirectory>
             <includes>
                 <include>com.mindquarry.webapp:mindquarry-webapplication</include>
