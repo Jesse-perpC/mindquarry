@@ -66,9 +66,9 @@
 				<version>2.1</version>
 				<configuration>
 					<descriptors>
-						<descriptor>src/assembly/distribution-generic.xml</descriptor>
-						<descriptor>src/assembly/distribution-linux_x86_32.xml</descriptor>
-						<descriptor>src/assembly/distribution-windows_x86_32.xml</descriptor>
+						<descriptor>src/assembly/distributions/generic.xml</descriptor>
+						<descriptor>src/assembly/distributions/linux_x86_32.xml</descriptor>
+						<descriptor>src/assembly/distributions/windows_x86_32.xml</descriptor>
 						<!-- TODO: mac os x, source -->
 						<!--descriptor>src/assemble/distribution-src.xml</descriptor-->
 					</descriptors>
