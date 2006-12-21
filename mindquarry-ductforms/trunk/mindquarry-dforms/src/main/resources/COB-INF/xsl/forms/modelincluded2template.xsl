@@ -23,7 +23,8 @@
 	<xsl:template match="/df:model">
 		<xhtml:html>
 			<xhtml:head>
-				<xhtml:title>DForm</xhtml:title>
+				<!-- empty title needed for 'new document' case -->
+				<xhtml:title></xhtml:title>
 				
 				<jx:import
 					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />	
