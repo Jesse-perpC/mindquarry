@@ -287,6 +287,14 @@ public class AuthenticationFilter implements Filter {
         return result;
     }
     
+    private static final String ANY_CHAR = "(.)*";
+
+    private static final String EOL = "$";
+    
+    private static final String NO_SLASH = "[^/]+";
+    
+    private static final String DOT = "\\.";
+    
     /**
      * Checks if the requested URI is actually protected. Non-protected URIs are
      * the login and logout pages as well as stylesheets, scripts and images for
@@ -303,9 +311,17 @@ public class AuthenticationFilter implements Filter {
         // (4) Images with the pattern "/header.png" are allowed, since they
         //     belong to the login/logout page.
         
+        // (5) Images under the folders "images", "icons" and "buttons" are
+        //     considered non-protected image resources.
+        
         // Other images might contain protected content (photos or diagrams)
         
-        return ! (targetUri.matches(LOGIN_PAGE + "(.)*$|" + LOGOUT_PAGE + "(.)*$|(.)*\\.(css|js|ico)$|[^/]+\\.(png|jpg|gif)$"));
+        return !(targetUri.matches(
+                LOGIN_PAGE + ANY_CHAR + EOL + "|" +
+                LOGOUT_PAGE + ANY_CHAR + EOL + "|" +
+                ANY_CHAR + DOT + "(css|js|ico)" + EOL + "|" +
+                NO_SLASH + DOT + "(png|jpg|gif|bmp|jpeg)" + EOL + "|" +
+                ANY_CHAR + "(images|icons|buttons)/" + ANY_CHAR + DOT + "(png|jpg|gif|bmp|jpeg)" + EOL));
     }
     
     /**
