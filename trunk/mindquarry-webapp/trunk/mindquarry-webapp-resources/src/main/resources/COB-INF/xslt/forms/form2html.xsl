@@ -36,6 +36,7 @@
       <xsl:apply-templates select="." mode="forms-dojoautoactive"/>
       <xsl:apply-templates select="." mode="forms-dojobuttons"/>
       <xsl:apply-templates select="." mode="forms-dojocalendar"/>
+      <xsl:apply-templates select="." mode="forms-dojochangepassword"/>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>

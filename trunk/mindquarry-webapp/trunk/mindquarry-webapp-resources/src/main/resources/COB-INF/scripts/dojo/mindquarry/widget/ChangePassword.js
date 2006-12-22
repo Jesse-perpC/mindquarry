@@ -40,6 +40,6 @@ function changePasswordInBrowser() {
 	forceLogoutRequest.send(null);
 	
 	var reloginRequest = getHTTPObject();
-	forceLogoutRequest.open("get", pathToWebappRoot, false, username, newPwd);
-	forceLogoutRequest.send(null);
+	reloginRequest.open("get", pathToWebappRoot, false, username, newPwd);
+	reloginRequest.send(null);
 }
