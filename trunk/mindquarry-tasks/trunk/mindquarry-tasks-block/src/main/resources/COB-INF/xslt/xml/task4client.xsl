@@ -4,8 +4,8 @@
 
 	<xsl:param name="base" />
 
-	<!-- the root element should be task -->
-	<xsl:template match="/ductform" priority="3">
+	<!-- the root element should be task with a xml:base -->
+	<xsl:template match="/task" priority="3">
 		<task xml:base="{$base}">
 			<xsl:apply-templates />
 		</task>
