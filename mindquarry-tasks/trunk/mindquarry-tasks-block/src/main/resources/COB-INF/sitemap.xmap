@@ -150,7 +150,6 @@
 			<generate type="stream">
 				<parameter name="defaultContentType" value="text/xml" />
 			</generate>
-			<transform src="xslt/xml/task2ductform.xsl" />
 			<transform
 				src="xslt/xml/wrap-for-sourcewriting.xsl">
 				<parameter name="path"
@@ -579,7 +578,7 @@
 			<match pattern="*/*.debug">
 				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
 				<generate
-					src="block:super:/dform-debug?cocoon-view=raw&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
+					src="block:super:/dform-debug?cocoon-view=raw&amp;rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
 				<serialize tpye="xml" />
 			</match>
 
@@ -598,7 +597,7 @@
 									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
 										<!-- ...then show the dform -->
 										<generate
-											src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
+											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
 										<call resource="task-layouting">
 											<parameter name="document" value="{2}"/>
 										</call>
@@ -610,7 +609,7 @@
 											<when test="new">
 												<!-- ...then show the dform -->
 												<generate
-													src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
+													src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
 												<call resource="task-layouting">
 													<parameter name="document" value="{2}"/>
 												</call>
@@ -626,7 +625,7 @@
 								<generate
 									src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
 								<transform
-									src="xslt/xml/ductform2task.xsl">
+									src="xslt/xml/task4client.xsl">
 									<parameter name="base"
 										value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/{2}" />
 								</transform>
