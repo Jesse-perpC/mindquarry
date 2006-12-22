@@ -43,6 +43,7 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
     },
     
     onClick: function(event) {
+        dojo.debug("onClick: domNode=" + this.domNode + ", activateID=" + this.activateID);
         // in case of a parent onClick handling, the parent domNode will have
         // a longer lifecycle than the domNode, which might have been replaced
         // by ajax calls in the meantime; in such a case the domNode gets null
