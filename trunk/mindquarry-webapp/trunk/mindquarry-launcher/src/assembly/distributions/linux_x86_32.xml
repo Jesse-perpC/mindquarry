@@ -11,7 +11,12 @@
         <file>
             <source>src/assembly/bin/wrapper-linux_x86_32</source>
             <outputDirectory>/bin</outputDirectory>
-            <destName>mindquarry</destName>
+            <destName>wrapper</destName>
+        </file>
+        <file>
+            <source>src/assembly/bin/mindquarry</source>
+            <outputDirectory>/bin</outputDirectory>
+            <filtered>true</filtered>
         </file>
         <file>
             <source>src/assembly/lib/libwrapper-linux_x86_32.so</source>
@@ -22,11 +27,6 @@
             <outputDirectory>/etc</outputDirectory>
             <filtered>true</filtered>
             <destName>wrapper.conf</destName>
-        </file>
-        <file>
-            <source>src/assembly/scripts/start.sh</source>
-            <outputDirectory>/</outputDirectory>
-            <filtered>true</filtered>
         </file>
     </files>
 
