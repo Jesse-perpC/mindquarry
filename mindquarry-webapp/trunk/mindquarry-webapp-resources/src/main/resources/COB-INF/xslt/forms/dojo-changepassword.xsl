@@ -3,13 +3,13 @@
                 xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
                 xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
                 exclude-result-prefixes="fi">
-  <xsl:template match="head" mode="forms-dojospan">
+  <xsl:template match="head" mode="forms-dojochangepassword">
     <script type="text/javascript">
     	dojo.require("mindquarry.widget.ChangePassword");
     </script>
   </xsl:template>
   
-  <xsl:template match="body" mode="forms-dojospan"/>
+  <xsl:template match="body" mode="forms-dojochangepassword"/>
 
 
   <xsl:template match="fi:output[fi:styling/@type='pwdChanged']">
