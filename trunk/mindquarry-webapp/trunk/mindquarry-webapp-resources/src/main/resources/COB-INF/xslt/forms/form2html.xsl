@@ -33,7 +33,7 @@
       <xsl:apply-templates select="." mode="forms-page"/>
       <xsl:apply-templates select="." mode="forms-field-mindquarry"/>
       <xsl:apply-templates select="." mode="forms-dojoarea"/>
-      <xsl:apply-templates select="." mode="forms-dojospan"/>
+      <xsl:apply-templates select="." mode="forms-dojoautoactive"/>
       <xsl:apply-templates select="." mode="forms-dojobuttons"/>
       <xsl:apply-templates select="." mode="forms-dojocalendar"/>
       <xsl:apply-templates/>
