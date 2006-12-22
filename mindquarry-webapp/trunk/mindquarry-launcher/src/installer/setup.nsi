@@ -10,7 +10,7 @@ Name "Mindquarry"
 
 # MUI defines
 !define MUI_HEADERIMAGE
-#!define MUI_HEADERIMAGE_BITMAP images\header.bmp
+!define MUI_HEADERIMAGE_BITMAP images\header.bmp
 !define MUI_WELCOMEFINISHPAGE_BITMAP "images\welcome.bmp"
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install-blue.ico"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
