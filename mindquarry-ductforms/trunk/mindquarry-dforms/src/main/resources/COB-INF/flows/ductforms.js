@@ -139,7 +139,7 @@ function cancel(event) {
     		form_.getWidget().endProcessing(false);
     		
     	    // go back to the task list
-    	    cocoon.redirectTo("cocoon:/redirectTo/");
+    	    cocoon.redirectTo("cocoon:/redirectTo/.");
     	} else {
     	    // user cancels changes of an existing document
     	    
