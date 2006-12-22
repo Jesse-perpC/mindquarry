@@ -10,6 +10,7 @@ var form_;
 var baseURI_;
 var documentID_;
 var suffix_;
+var rootElement_;
 
 function getFilename() {
     return documentID_ + suffix_;
@@ -29,6 +30,7 @@ function showDForm(form) {
     baseURI_ = cocoon.parameters["baseURI"];
     documentID_ = cocoon.parameters["documentID"];
     suffix_ = ".xml";
+    rootElement_ = cocoon.parameters["rootElement"];
 
     var isEditStart = (documentID_ == 'new' || !resourceExists(getFullPath()));
     
@@ -295,6 +297,7 @@ Form.prototype.saveXML = function(uri, xsluri) {
             var transformer = transformerHandler.getTransformer();
             transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.INDENT, "true");
             transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.METHOD, "xml");
+	        transformer.setParameter("rootElement", rootElement_);
             transformerHandler.setResult(new Packages.javax.xml.transform.stream.StreamResult(outputStream));
             this.getXML().toSAX(transformerHandler);
         } else {

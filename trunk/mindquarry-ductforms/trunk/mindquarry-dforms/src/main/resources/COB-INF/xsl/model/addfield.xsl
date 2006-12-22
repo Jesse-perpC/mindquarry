@@ -9,7 +9,7 @@
 	<xsl:param name="required"
 		select="document('cocoon:/complete-model.xml')/df:model/df:datatype[@required='true']" />
 
-	<xsl:param name="existing" select="/ductform/*" />
+	<xsl:param name="existing" select="/*[0]/*" />
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -17,7 +17,7 @@
 		</xsl:copy>
 	</xsl:template>
 
-	<xsl:template match="/ductform">
+	<xsl:template match="/*">
 		<ductform>
 			<!-- existing fields first, but strip out deleted fields -->
 			<xsl:apply-templates select="*" />

@@ -5,6 +5,8 @@
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
+	
+	<xsl:param name="rootElement" select="'ductform'"/>
 
 	<!--+ 
 		| This Stylesheet receives the XML representation of
@@ -16,6 +18,13 @@
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:copy>
+	</xsl:template>
+	
+	<!-- rename the root element from 'ductform' to a specific one -->
+	<xsl:template match="/ductform">
+		<xsl:element name="{$rootElement}">
+			<xsl:apply-templates/>
+		</xsl:element>
 	</xsl:template>
 
 	<xsl:template match="/ductform/*">

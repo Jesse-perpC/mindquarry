@@ -224,6 +224,8 @@
 						value="{request-param:baseURI}" />
 					<parameter name="documentID"
 						value="{request-param:documentID}" />
+					<parameter name="rootElement"
+						value="{request-param:rootElement}" />
 					<parameter name="definitionURI"
 						value="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
 				</call>
