@@ -10,7 +10,8 @@ Name "Mindquarry Webapplication"
 
 # MUI defines
 !define MUI_HEADERIMAGE
-;!define MUI_HEADERIMAGE_BITMAP "images/installer-header.bmp"
+#!define MUI_HEADERIMAGE_BITMAP "images/installer-header.bmp"
+!define MUI_WELCOMEFINISHPAGE_BITMAP "${NSISDIR}\Contrib\Graphics\Wizard\win.bmp"
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install-blue.ico"
 !define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_LICENSEPAGE_RADIOBUTTONS
