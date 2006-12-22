@@ -13,19 +13,29 @@
    height="297mm"
    id="svg2"
    sodipodi:version="0.32"
-   inkscape:version="0.44.1"
-   sodipodi:docbase="C:\Dokumente und Einstellungen\alexs\Desktop"
-   sodipodi:docname="installer_header.svg">
+   inkscape:version="0.44"
+   sodipodi:docbase="/Users/saar/MQ-Workspaces/mindquarry-webapp/mindquarry-launcher/src/installer/images"
+   sodipodi:docname="header.svg">
   <defs
      id="defs4">
     <linearGradient
+       inkscape:collect="always"
+       xlink:href="#linearGradient4428"
+       id="linearGradient5631"
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-17.99616,-558.6147)"
+       x1="218.13197"
+       y1="289.53876"
+       x2="360.819"
+       y2="289.53876" />
+    <linearGradient
        id="linearGradient3659">
       <stop
-         style="stop-color:black;stop-opacity:0.2;"
+         style="stop-color:#c8c8c8;stop-opacity:1;"
          offset="0"
          id="stop3661" />
       <stop
-         style="stop-color:black;stop-opacity:0;"
+         style="stop-color:white;stop-opacity:1;"
          offset="1"
          id="stop3663" />
     </linearGradient>
@@ -37,7 +47,8 @@
        y1="111.67196"
        x2="193.06754"
        y2="183.71609"
-       gradientUnits="userSpaceOnUse" />
+       gradientUnits="userSpaceOnUse"
+       gradientTransform="translate(-6.482017,10.90935)" />
     <linearGradient
        id="linearGradient4428">
       <stop
@@ -49,16 +60,6 @@
          offset="1"
          id="stop4424" />
     </linearGradient>
-    <linearGradient
-       inkscape:collect="always"
-       xlink:href="#linearGradient4428"
-       id="linearGradient3764"
-       gradientUnits="userSpaceOnUse"
-       gradientTransform="translate(-17.99616,-558.6147)"
-       x1="218.13197"
-       y1="289.53876"
-       x2="360.819"
-       y2="289.53876" />
   </defs>
   <sodipodi:namedview
      id="base"
@@ -67,15 +68,15 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="3.4832509"
-     inkscape:cx="235.03289"
-     inkscape:cy="876.74728"
+     inkscape:zoom="2.4630303"
+     inkscape:cx="303.73773"
+     inkscape:cy="850.45865"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      inkscape:window-width="1440"
      inkscape:window-height="844"
-     inkscape:window-x="-4"
-     inkscape:window-y="-4" />
+     inkscape:window-x="72"
+     inkscape:window-y="22" />
   <metadata
      id="metadata7">
     <rdf:RDF>
@@ -96,134 +97,13 @@
        id="rect1872"
        width="149.81351"
        height="56.813503"
-       x="118.16079"
-       y="111.67196"
+       x="111.67877"
+       y="122.58131"
        rx="0"
        ry="0"
        inkscape:export-filename="C:\Dokumente und Einstellungen\alexs\Desktop\installer-header.bmp"
        inkscape:export-xdpi="90.29538"
        inkscape:export-ydpi="90.29538" />
-    <text
-       xml:space="preserve"
-       style="font-size:18.79725075px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#282828;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;font-family:Helvetica Neue"
-       x="165.97473"
-       y="162.68484"
-       id="text5591"
-       sodipodi:linespacing="125%"
-       inkscape:export-filename="C:\Dokumente und Einstellungen\alexs\Desktop\installer-header.bmp"
-       inkscape:export-xdpi="90.29538"
-       inkscape:export-ydpi="90.29538"><tspan
-         sodipodi:role="line"
-         id="tspan5593"
-         x="165.97473"
-         y="162.68484">Mindquarry</tspan></text>
-    <g
-       id="g3745"
-       transform="matrix(0.115256,0,0,0.115256,38.13251,81.06045)"
-       inkscape:export-filename="C:\Dokumente und Einstellungen\alexs\Desktop\installer-header.bmp"
-       inkscape:export-xdpi="90.29538"
-       inkscape:export-ydpi="90.29538">
-      <g
-         transform="matrix(0.264518,-0.698688,0.698688,0.264518,788.5427,572.7432)"
-         id="g5595"
-         style="display:inline">
-        <g
-           id="g5597"
-           inkscape:label="schatten-hintergrund"
-           style="display:inline">
-          <g
-             id="g5599"
-             transform="matrix(0.888088,0,0,0.888088,38.8466,29.7105)" />
-        </g>
-        <g
-           inkscape:label="grosse-box"
-           id="g5601">
-          <rect
-             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             id="rect5603"
-             width="331.42856"
-             height="331.42856"
-             x="45.626045"
-             y="-377.48163"
-             rx="58.880951"
-             ry="58.880951"
-             transform="matrix(0,1,-1,0,0,0)" />
-        </g>
-        <g
-           id="g5605"
-           inkscape:label="rand-grosse-box">
-          <rect
-             transform="matrix(0,1,-1,0,0,0)"
-             ry="58.880951"
-             rx="58.880951"
-             y="-377.48163"
-             x="45.626045"
-             height="331.42856"
-             width="331.42856"
-             id="rect5607"
-             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-        </g>
-        <g
-           id="g5609"
-           inkscape:label="kleine-box"
-           style="display:inline" />
-      </g>
-      <g
-         transform="matrix(0.264518,-0.698688,0.698688,0.264518,678.3377,619.7852)"
-         id="g5611"
-         style="display:inline">
-        <g
-           id="g5613"
-           inkscape:label="schatten-hintergrund"
-           style="display:inline">
-          <g
-             id="g5615"
-             transform="matrix(0.888088,0,0,0.888088,38.8466,29.7105)">
-            <rect
-               ry="65.253532"
-               rx="63.384556"
-               y="-8.8514214"
-               x="-18.657982"
-               height="426.73843"
-               width="426.73843"
-               id="rect5617"
-               style="opacity:1;fill:none;fill-opacity:0.01960784;fill-rule:nonzero;stroke:none;stroke-width:10.62992096;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-          </g>
-        </g>
-        <g
-           inkscape:label="grosse-box"
-           id="g5619">
-          <rect
-             style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             id="rect5621"
-             width="331.42856"
-             height="331.42856"
-             x="45.626045"
-             y="-377.48163"
-             rx="58.880951"
-             ry="58.880951"
-             transform="matrix(0,1,-1,0,0,0)" />
-        </g>
-        <g
-           id="g5623"
-           inkscape:label="rand-grosse-box" />
-        <g
-           id="g5625"
-           inkscape:label="kleine-box"
-           style="display:inline">
-          <rect
-             style="opacity:1;fill:url(#linearGradient3764);fill-opacity:1;fill-rule:nonzero;stroke:#dda702;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-             id="rect5627"
-             width="132.0571"
-             height="132.0571"
-             x="205.45078"
-             y="-335.10461"
-             rx="30.771656"
-             ry="30.771656"
-             transform="matrix(0,1,-1,0,0,0)" />
-        </g>
-      </g>
-    </g>
     <rect
        style="fill:none;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;display:inline"
        id="rect5629"
@@ -233,5 +113,146 @@
        y="337.69138"
        rx="43.509098"
        ry="44.792038" />
+    <g
+       transform="matrix(8.987221e-2,0,0,8.987221e-2,148.5877,110.8931)"
+       id="g2019">
+      <text
+         sodipodi:linespacing="125%"
+         id="text5591"
+         y="434.40799"
+         x="-397.53699"
+         style="font-size:233.58578491px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#282828;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;font-family:Helvetica Neue"
+         xml:space="preserve"><tspan
+           y="434.40799"
+           x="-397.53699"
+           id="tspan5593"
+           sodipodi:role="line">Mindquarry</tspan></text>
+      <g
+         id="g2000">
+        <g
+           style="display:inline"
+           id="g5595"
+           transform="matrix(0.264518,-0.698688,0.698688,0.264518,865.4249,398.7573)">
+          <g
+             style="display:inline"
+             inkscape:label="schatten-hintergrund"
+             id="g5597">
+            <g
+               transform="matrix(0.888088,0,0,0.888088,38.8466,29.7105)"
+               id="g5599" />
+          </g>
+          <g
+             id="g5601"
+             inkscape:label="grosse-box">
+            <rect
+               transform="matrix(0,1,-1,0,0,0)"
+               ry="58.880951"
+               rx="58.880951"
+               y="-377.48163"
+               x="45.626045"
+               height="331.42856"
+               width="331.42856"
+               id="rect5603"
+               style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+          <g
+             inkscape:label="rand-grosse-box"
+             id="g5605">
+            <rect
+               style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+               id="rect5607"
+               width="331.42856"
+               height="331.42856"
+               x="45.626045"
+               y="-377.48163"
+               rx="58.880951"
+               ry="58.880951"
+               transform="matrix(0,1,-1,0,0,0)" />
+          </g>
+          <g
+             style="display:inline"
+             inkscape:label="kleine-box"
+             id="g5609" />
+        </g>
+        <g
+           style="display:inline"
+           id="g5611"
+           transform="matrix(0.264518,-0.698688,0.698688,0.264518,755.2199,445.7993)">
+          <g
+             style="display:inline"
+             inkscape:label="schatten-hintergrund"
+             id="g5613">
+            <g
+               transform="matrix(0.888088,0,0,0.888088,38.8466,29.7105)"
+               id="g5615">
+              <rect
+                 style="opacity:1;fill:none;fill-opacity:0.01960784;fill-rule:nonzero;stroke:none;stroke-width:10.62992096;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+                 id="rect5617"
+                 width="426.73843"
+                 height="426.73843"
+                 x="-18.657982"
+                 y="-8.8514214"
+                 rx="63.384556"
+                 ry="65.253532" />
+            </g>
+          </g>
+          <g
+             id="g5619"
+             inkscape:label="grosse-box">
+            <rect
+               transform="matrix(0,1,-1,0,0,0)"
+               ry="58.880951"
+               rx="58.880951"
+               y="-377.48163"
+               x="45.626045"
+               height="331.42856"
+               width="331.42856"
+               id="rect5621"
+               style="opacity:1;fill:none;fill-opacity:1;fill-rule:nonzero;stroke:#ae0a0a;stroke-width:20;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+          <g
+             inkscape:label="rand-grosse-box"
+             id="g5623" />
+          <g
+             style="display:inline"
+             inkscape:label="kleine-box"
+             id="g5625">
+            <rect
+               transform="matrix(0,1,-1,0,0,0)"
+               ry="30.771656"
+               rx="30.771656"
+               y="-335.10461"
+               x="205.45078"
+               height="132.0571"
+               width="132.0571"
+               id="rect5627"
+               style="opacity:1;fill:url(#linearGradient5631);fill-opacity:1;fill-rule:nonzero;stroke:#dda702;stroke-width:15;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
+          </g>
+        </g>
+      </g>
+      <rect
+         ry="44.792038"
+         rx="43.509098"
+         y="163.70547"
+         x="597.65924"
+         height="335.37064"
+         width="658.61945"
+         id="rect2063"
+         style="opacity:1;fill:none;fill-opacity:1;stroke:none;stroke-linecap:round;stroke-linejoin:round;stroke-opacity:1;display:inline" />
+    </g>
+    <text
+       xml:space="preserve"
+       style="font-size:10.84385395px;font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;text-align:start;line-height:125%;writing-mode:lr-tb;text-anchor:start;fill:#282828;fill-opacity:1;stroke:none;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;display:inline;font-family:Helvetica Neue"
+       x="114.442"
+       y="164.11264"
+       id="text2978"
+       sodipodi:linespacing="125%"
+       inkscape:export-filename="/Users/saar/MQ-Workspaces/mindquarry-webapp/mindquarry-launcher/src/installer/images/welcome.bmp"
+       inkscape:export-xdpi="90"
+       inkscape:export-ydpi="90"><tspan
+         sodipodi:role="line"
+         id="tspan2980"
+         x="114.442"
+         y="164.11264">team work to team play</tspan></text>
   </g>
 </svg>
