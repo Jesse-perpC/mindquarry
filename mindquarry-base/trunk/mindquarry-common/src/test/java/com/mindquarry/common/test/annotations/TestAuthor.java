@@ -14,6 +14,4 @@ public @interface TestAuthor {
     String email();
 
     String affiliation();
-    
-    String date();
 }

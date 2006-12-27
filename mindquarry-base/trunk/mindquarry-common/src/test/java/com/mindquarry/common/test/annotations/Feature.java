@@ -10,10 +10,8 @@ package com.mindquarry.common.test.annotations;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public @interface SystemTest {
-    String email();
-
-    String affiliation();
-    
+public @interface Feature {
     String date();
+    
+    String featureKey();
 }
