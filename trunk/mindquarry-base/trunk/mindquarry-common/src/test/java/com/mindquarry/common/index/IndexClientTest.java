@@ -29,8 +29,7 @@ public class IndexClientTest extends AvalonSpringContainerTestBase {
         iClient.setSolrEndpoint("http://localhost:8888/solr/update");
 
         iClient.indexSynch(changedPaths, deletedPaths);
-        
-        
+                
         SolrIndexClient indexClient = (SolrIndexClient) lookup(IndexClient.ROLE);
         assertEquals("admin", indexClient.getSolrLogin());
     }
