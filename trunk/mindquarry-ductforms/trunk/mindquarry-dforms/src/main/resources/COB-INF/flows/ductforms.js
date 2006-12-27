@@ -39,6 +39,15 @@ function showDForm(form) {
 
 	// load file from internal pipeline
 	form.loadXML("cocoon:/" + getFilename() + ".plain");
+
+    // feature for wiki: when creating a new page via the URL == documentID
+    // give the title that documentID as default value
+    if (isEditStart && documentID_ != "new") { 
+    	var titleWidget = form_.lookupWidget("/title");
+    	if (titleWidget && titleWidget.getValue() == null) {
+    	    titleWidget.setValue(documentID_);
+    	}
+    }
 	
 	// set initial state to output
 	setWidgetStates(form, isEditStart);
