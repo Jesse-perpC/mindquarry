@@ -1,32 +1,39 @@
 package com.mindquarry.jcr.excludes;
 
-import junit.framework.TestCase;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 import org.apache.cocoon.util.WildcardMatcherHelper;
+import org.junit.Test;
 
-public class ExcludeMatcherTest extends TestCase {
-    private String[] excTemplates = new String[] { "jcr:///users/*", //$NON-NLS-1$
+public class ExcludeMatcherTest {
+    private static String[] excTemplates = new String[] { "jcr:///users/*", //$NON-NLS-1$
             "jcr:///teamspaces/*/metadata.xml", //$NON-NLS-1$
-            "jcr:///teamspaces/*/tasks/filter/*" }; //$NON-NLS-1$
+            "jcr:///teamspaces/*/tasks/filter/*" }; //$NON-NLS-1$;
 
+    @Test
     public void testUsrExclusion() {
-        TestCase.assertTrue(checkExclusion("jcr:///users/alexs")); //$NON-NLS-1$
+        assertTrue(checkExclusion("jcr:///users/alexs")); //$NON-NLS-1$
     }
-    
+
+    @Test
     public void testTeamspaceExclusion() {
-        TestCase.assertTrue(checkExclusion("jcr:///teamspaces/mindquarry/metadata.xml")); //$NON-NLS-1$
+        assertTrue(checkExclusion("jcr:///teamspaces/mindquarry/metadata.xml")); //$NON-NLS-1$
     }
-    
+
+    @Test
     public void testFilterExclusion() {
-        TestCase.assertTrue(checkExclusion("jcr:///teamspaces/mindquarry/tasks/filter/1")); //$NON-NLS-1$
+        assertTrue(checkExclusion("jcr:///teamspaces/mindquarry/tasks/filter/1")); //$NON-NLS-1$
     }
-    
+
+    @Test
     public void testTaskExclusion() {
-        TestCase.assertFalse(checkExclusion("jcr:///teamspaces/mindquarry/tasks/task1.xml")); //$NON-NLS-1$
+        assertFalse(checkExclusion("jcr:///teamspaces/mindquarry/tasks/task1.xml")); //$NON-NLS-1$
     }
-    
+
+    @Test
     public void testWikiExclusion() {
-        TestCase.assertFalse(checkExclusion("jcr:///teamspaces/mindquarry/wiki/wiki1.xml")); //$NON-NLS-1$
+        assertFalse(checkExclusion("jcr:///teamspaces/mindquarry/wiki/wiki1.xml")); //$NON-NLS-1$
     }
 
     private boolean checkExclusion(String term) {
