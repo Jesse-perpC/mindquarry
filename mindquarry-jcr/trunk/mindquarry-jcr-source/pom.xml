@@ -42,6 +42,12 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-source</tagBase>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
 
@@ -66,4 +72,16 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+        <scm>
+    <connection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/
+    </connection>
+    <url>
+      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jcr-source/
+    </url>
+    <developerConnection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/
+    </developerConnection>
+  </scm>
 </project>

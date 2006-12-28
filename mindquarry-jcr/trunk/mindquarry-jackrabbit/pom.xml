@@ -30,8 +30,27 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jackrabbit</tagBase>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+    <connection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/
+    </connection>
+    <url>
+      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jackrabbit/
+    </url>
+    <developerConnection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/
+    </developerConnection>
+  </scm>
+
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
