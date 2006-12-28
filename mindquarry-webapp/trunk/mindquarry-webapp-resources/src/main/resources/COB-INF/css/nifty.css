@@ -10,6 +10,7 @@ div.nifty {
 	border-right: 1px solid #999999;
 	margin:0px;
 	padding:0px 10px;
+	overflow: hidden;
 }
 
 b.rbottom b.r1, b.rtop b.r1, .niftycontent {
@@ -43,6 +44,14 @@ b.rleft, b.rright {
 b.rleft {
 	float: left;
 	margin-top: -10px;
+}
+
+b.rtop b.rleft {
+	margin-top: -11px;
+}
+
+b.rtop b.rright {
+	margin-top: -11px;
 }
 
 b.rright {
