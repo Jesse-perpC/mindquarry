@@ -53,4 +53,27 @@
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>
 	</developers>
+	
+	<scm>
+    <connection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/
+    </connection>
+    <url>
+      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-persistence/trunk/
+    </url>
+    <developerConnection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/
+    </developerConnection>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://secure.mindquarry.com/repos/mindquarry-persistence/tags</tagBase>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
 </project>

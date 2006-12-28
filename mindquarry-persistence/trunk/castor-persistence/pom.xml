@@ -82,6 +82,24 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://secure.mindquarry.com/repos/mindquarry-persistence/tags/castor-persistence/</tagBase>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
+
+        <scm>
+	<connection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/castor-persistence/
+    </connection>
+    <url>
+      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-persistence/trunk/castor-persistence/
+    </url>
+    <developerConnection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/castor-persistence/
+    </developerConnection>
+  </scm>
 </project>
