@@ -53,4 +53,29 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/trunk/mindquarry-dforms/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-ductforms/trunk/mindquarry-dforms/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/trunk/mindquarry-dforms/
+		</developerConnection>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-ductforms/tags/mindquarry-dforms/
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>
