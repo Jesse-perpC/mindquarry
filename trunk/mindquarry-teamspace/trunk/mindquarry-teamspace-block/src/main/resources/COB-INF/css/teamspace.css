@@ -41,8 +41,19 @@ a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 }
 
 div.edit-buttons {
+	float: right;
+	clear:both;
+	margin-top: -60px;	
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;	
+	padding: 0;
+	display:none;
+	
+/* nadia changes - in these boxes are the old stuff
 	float:right;
 	display:none;
+*/	
 }
 
 a.create_teamspace_button:link, a.create_teamspace_button:visited {
@@ -105,7 +116,6 @@ div.name h2 {
 	font-size:12pt;
 	margin-right:5px;
 }
-
 div.name img {
 	float:left;
 }
@@ -117,22 +127,40 @@ div.name span {
 }
 
 div.name {
+	
 	height:60px;
 	margin-right:320px;
 	overflow:hidden;
 	text-overflow: ellipsis;
+
+/**************************/
+	width:auto;
+/**************************/
 }
 
 ul.members {
-	clear:both;
+
+/**************************
 	width:320px;
 	float:right;
-	margin-top:-15px;
+	margin-top:-15px;	
 	margin-right:5px;
 	position:relative;
-	z-index:2;
-}
+**************************/	
 
+	
+/****************************/
+	clear:both;
+	margin-top: -60px;	
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;	
+	float: right;	
+	padding: 0;
+	z-index:2;
+
+}
+/**************************/
 ul.members li {
 	display:block;
 	width:50px;
@@ -201,7 +229,12 @@ a.details-collapsed {
 	color: none;
 	font-size:0px;
 	background-repeat: no-repeat;
-}
+
+
+/*	display: inline-block;
+	text-overflow: ellipsis-word; 
+*/
+	}
 
 a.details-expanded {
 	background-image: url(../buttons/details_expanded.gif);
@@ -214,13 +247,19 @@ a.details-expanded {
 	color: none;
 	font-size:0px;
 	background-repeat: no-repeat;
+
+/*	display: inline-block;
+	text-overflow: ellipsis-word; 
+*/	
 }
 
 div.details h3 {
 	/*display: none;*/
 	color: #666666;
 	font-size: 12px;
-	border-bottom: 1px solid grey;
+	border-bottom: 1px solid #cccccc;
+	margin-top:-5px;
+	margin-bottom:5px;	
 }
 
 div.details {
@@ -228,3 +267,4 @@ div.details {
 	font-size:9pt;
 	color:#999999;
 }
+

@@ -46,29 +46,9 @@
 
 	<xsl:template match="teamspace">
 		<li>
-			<div class="nifty">
-				<a class="details-collapsed" href="#" title="Click here to show project details">more</a>
-				
-				<div style="margin-left:24px">
-					<ul class="members">
-						<xsl:if test="users/user">
-							<xsl:apply-templates select="users" />
-						</xsl:if>
-					</ul>
-					
-					<div class="edit-buttons">
-						<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox">
-								Edit Members
-						</a>
-						
-						<a href="{normalize-space(id)}/edit/" class="edit_settings_button">
-								Edit Settings
-						</a>
-						
-						<!--a href="#" class="edit_subprojects_button">
-								Edit Related Teams
-						</a-->
-					</div>
+		<div class="nifty">
+		<a class="details-collapsed" href="#" title="Click here to show project details">more</a>
+		<div  style="margin-left:24px">
 					
 					<div class="name">
 						<img class="icon">
@@ -82,6 +62,28 @@
 						<span class="description"><xsl:value-of select="description" /></span>
 					</div>
 					
+
+					<ul class="members">
+						<xsl:if test="users/user">
+							<xsl:apply-templates select="users" />
+						</xsl:if>
+					</ul>
+				
+				
+					<div class="edit-buttons">
+						<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox">
+								Edit Members
+						</a>
+						
+						<a href="{normalize-space(id)}/edit/" class="edit_settings_button">
+								Edit Settings
+						</a>
+						
+						<!--a href="#" class="edit_subprojects_button">
+								Edit Related Teams
+						</a-->
+					</div>
+
 					<!--ul class="tags">
 						<li><a href="#">docbook</a></li>
 						<li><a href="#">techdoc</a></li>

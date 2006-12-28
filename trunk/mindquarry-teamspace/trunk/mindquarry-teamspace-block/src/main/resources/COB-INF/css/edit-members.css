@@ -17,7 +17,7 @@ div.member-list ul {
 }
 
 div.member-details {
-	font-size:9pt;
+	font-size:0.9em;
 	color:#999999;
 	width:250px;
 	height:50px;
@@ -43,12 +43,19 @@ div.member-details img {
 }
 
 div.member-details h4 {
+	font-size:1em;
+	color:#999999;
 	margin:1px;
 	display:inline;
 }
 
 div.member-details input {
 	display:none;
+}
+
+div.role {
+	color:#999999;
+	margin-left:51px;
 }
 
 #editMembersModel {
