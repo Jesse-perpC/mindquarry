@@ -8,9 +8,9 @@
 	<packaging>jar</packaging>
 
 	<parent>
-		<groupId>com.mindquarry</groupId>
-		<artifactId>mindquarry</artifactId>
-		<version>1</version>
+		<groupId>com.mindquarry.webapp</groupId>
+		<artifactId>mindquarry-webapp</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 	<name>Mindquarry Collaboration Server</name>
