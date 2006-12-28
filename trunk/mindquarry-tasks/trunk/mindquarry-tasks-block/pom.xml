@@ -63,6 +63,26 @@
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-tasks/tags/mindquarry-tasks-block/
+					</tagBase>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-tasks/trunk/mindquarry-tasks-block/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/
+		</developerConnection>
+	</scm>
 </project>

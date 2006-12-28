@@ -38,7 +38,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://secure.mindquarry.com/repos/mindquarry-tasks/tags
+						https://secure.mindquarry.com/repos/mindquarry-tasks/tags/
 					</tagBase>
 				</configuration>
 			</plugin>
