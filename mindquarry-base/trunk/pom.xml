@@ -209,6 +209,15 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <preparationGoals>
+            <preparationGoal>deploy</preparationGoal>
+          </preparationGoals>
+        </configuration>
+      </plugin>
 		</plugins>
 	</build>
 
