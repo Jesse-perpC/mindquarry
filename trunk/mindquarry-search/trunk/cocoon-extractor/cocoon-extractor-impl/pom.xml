@@ -5,10 +5,12 @@
     <groupId>com.mindquarry.search.cocoon</groupId>
     <version>2-SNAPSHOT</version>
   </parent>
+  
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cocoon-extractor-impl</artifactId>
   <name>Cocoon Extractor Block Implementation</name>
   <version>1.0.0-M2-SNAPSHOT</version>
+  
   <build>
     <plugins>
         <plugin>
@@ -18,9 +20,18 @@
             <source>1.5</source>
             <target>1.5</target>
           </configuration>
-        </plugin>        
+        </plugin>
+        <plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-search/tags/cocoon-extractor/cocoon-extractor-impl/
+					</tagBase>
+				</configuration>
+			</plugin>        
     </plugins>
   </build>
+
   <dependencies>
     <dependency>
       <groupId>com.mindquarry.common</groupId>
@@ -90,8 +101,21 @@
       <version>3.0.1</version>
     </dependency>
   </dependencies>
+
   <properties>
     <docs.name>Cocoon Extractor</docs.name>
     <docs.version>1.0</docs.version>
   </properties>
+  
+  <scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl/
+		</developerConnection>
+	</scm>
 </project>

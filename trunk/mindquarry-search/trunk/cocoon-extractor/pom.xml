@@ -95,20 +95,35 @@
 			</build>
 		</profile>
 	</profiles>
-  <distributionManagement>
-    <repository>
-      <id>mindquarry.releases</id>
-      <name>Mindquarry Repository</name>
-      <url>scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/releases</url>
-    </repository>
-    <snapshotRepository>
-      <id>mindquarry.snapshots</id>
-      <name>Mindquarry Snapshots Repository</name>
-      <url>scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/snapshots</url>
-    </snapshotRepository>
-  </distributionManagement>
+
   <modules>
     <module>cocoon-extractor-impl</module>
     <module>cocoon-extractor-sample</module>
   </modules>
+  
+  <scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/cocoon-extractor/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/
+		</developerConnection>
+	</scm>
+	
+	<build>
+		<finalName>mindquarry-search-block</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-search/tags/cocoon-extractor/
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 </project>

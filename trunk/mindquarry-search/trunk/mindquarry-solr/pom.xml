@@ -66,6 +66,26 @@
 					</outputDirectory>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-solr/
+					</tagBase>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/mindquarry-solr/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/mindquarry-solr/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/mindquarry-solr/
+		</developerConnection>
+	</scm>
 </project>
