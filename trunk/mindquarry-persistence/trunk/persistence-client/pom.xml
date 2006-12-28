@@ -28,4 +28,27 @@
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
+	
+	<build>
+		<plugins>
+			<plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://secure.mindquarry.com/repos/mindquarry-persistence/tags/persistence-client/</tagBase>
+        </configuration>
+      </plugin>
+		</plugins>
+	</build>
+
+        <scm>
+	<connection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/persistence-client/
+    </connection>
+    <url>
+      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-persistence/trunk/persistence-client/
+    </url>
+    <developerConnection>
+      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/persistence-client/
+    </developerConnection>
+  </scm>
 </project>
