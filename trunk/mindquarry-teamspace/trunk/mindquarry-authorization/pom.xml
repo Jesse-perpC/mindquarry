@@ -27,16 +27,28 @@
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>
 	</developers>
+	
+	<build>
+	       <plugins>
+	                <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-teamspace/tags/mindquarry-authorization/</tagBase>
+				</configuration>
+			</plugin>
+	       </plugins>
+	</build>
 
 	<scm>
 		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-authorization/
 		</connection>
 		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-teamspace/trunk/mindquarry-teamspace/
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-teamspace/trunk/mindquarry-authorization/
 		</url>
 		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-authorization/
 		</developerConnection>
 	</scm>
 
