@@ -48,6 +48,13 @@
 					</scanTargets>
 				</configuration>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-welcome-block/</tagBase>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 	<dependencies>

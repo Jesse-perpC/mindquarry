@@ -93,6 +93,13 @@
 					</execution>
 				</executions>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-launcher/</tagBase>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
@@ -108,9 +115,9 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-launcher/ </connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-launcher/</connection>
 		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-launcher/ </url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-launcher/</url>
 		<developerConnection>
 			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-launcher/
 		</developerConnection>
