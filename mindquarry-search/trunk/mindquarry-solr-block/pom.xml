@@ -44,8 +44,28 @@
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 				</configuration>
 			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-solr-block/
+					</tagBase>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
+	
+	<scm>
+		<connection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/mindquarry-solr-block/
+		</connection>
+		<url>
+			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/mindquarry-solr-block/
+		</url>
+		<developerConnection>
+			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/mindquarry-solr-block/
+		</developerConnection>
+	</scm>
 
 	<dependencies>
 		<dependency>
