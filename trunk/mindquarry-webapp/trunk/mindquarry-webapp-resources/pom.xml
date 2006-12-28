@@ -7,9 +7,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.mindquarry</groupId>
-		<artifactId>mindquarry</artifactId>
-		<version>1</version>
+		<groupId>com.mindquarry.webapp</groupId>
+                <artifactId>mindquarry-webapp</artifactId>
+                <version>0.0.1-SNAPSHOT</version>
 	</parent>
 
 
@@ -17,6 +17,7 @@
 	<artifactId>mindquarry-webapp-resources</artifactId>
 	<name>Mindquarry Webapp Resources</name>
 	<version>0.0.1-SNAPSHOT</version>
+
 	<scm>
 		<connection>
 			scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-resources/
@@ -28,6 +29,19 @@
 			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapp-resources/
 		</url>
 	</scm>
+	
+	<build>
+	       <plugins>
+	                <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapp-resources/</tagBase>
+				</configuration>
+			</plugin>
+	       </plugins>
+	</build>
+
 	<repositories>
 		<repository>
 			<id>mindquarry.releases</id>

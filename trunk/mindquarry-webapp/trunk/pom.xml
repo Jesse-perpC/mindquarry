@@ -58,6 +58,18 @@
 			<layout>default</layout>
 		</repository>
 	</repositories>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
 
 	<scm>
 		<connection>
