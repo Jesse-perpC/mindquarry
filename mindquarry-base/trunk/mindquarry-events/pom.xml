@@ -15,7 +15,7 @@
 
 	<groupId>com.mindquarry.events</groupId>
 	<artifactId>mindquarry-events</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.0.1</version>
 
 	<build>
 	<plugins>
