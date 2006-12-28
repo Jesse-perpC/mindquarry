@@ -16,7 +16,7 @@
 
 	<groupId>com.mindquarry</groupId>
 	<artifactId>mindquarry</artifactId>
-	<version>1</version>
+	<version>1.1</version>
 
 	<modules>
 		<module>mindquarry-common</module>
