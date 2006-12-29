@@ -1,0 +1,41 @@
+/*
+	The images must be overwritten by the specific blocks, eg. the files block
+	returns a header-red.png for header.png and red-header-red.png for
+	header-files.png
+ */
+
+/* HEADER */
+
+#webapp-header {
+	background-image: url(../images/header.png);
+}
+
+#webapp-sections a.navFiles {
+	background-image: url(../images/header-files.png);
+}
+
+#webapp-sections a.navWiki {
+	background-image: url(../images/header-wiki.png);
+}
+
+#webapp-sections a.navTasks {
+	background-image: url(../images/header-tasks.png);
+}
+
+#webapp-sections a.navTalk {
+	background-image: url(../images/header-talk.png);
+}
+
+#webapp-sections a.navTeams {
+	background-image: url(../images/header-teams.png);
+}
+
+/* LINES */
+
+#background-repeater {
+	background-image:url(../images/repeater.png);
+}
+
+#background-lines {
+	background-image:url(../images/lines.png);
+}

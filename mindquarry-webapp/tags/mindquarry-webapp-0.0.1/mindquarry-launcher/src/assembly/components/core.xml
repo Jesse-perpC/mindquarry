@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <fileSets>
+        <fileSet>
+            <directory>src/assembly/logs</directory>
+            <outputDirectory>/logs</outputDirectory>
+        </fileSet>
+        <fileSet>
+            <directory>src/assembly/data</directory>
+            <outputDirectory>/data</outputDirectory>
+        </fileSet>
+    </fileSets>
+
+    <files>
+        <file>
+            <source>src/assembly/properties/mindquarry-webapplication.properties</source>
+            <outputDirectory>/etc</outputDirectory>
+        </file>
+        <file>
+            <source>src/assembly/txt/README.txt</source>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/assembly/txt/LICENSE.txt</source>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+        </file>
+        <file>
+            <source>src/assembly/etc/webdefault.xml</source>
+            <outputDirectory>/etc</outputDirectory>
+        </file>
+        <file>
+            <source>src/assembly/etc/mindquarry-web.xml</source>
+            <outputDirectory>/etc</outputDirectory>
+        </file>
+    </files>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>org.mortbay.jetty:jetty</include>
+                <include>org.mortbay.jetty:jetty-util</include>
+                <include>org.mortbay.jetty:jsp-2.1</include>
+                <include>org.mortbay.jetty:jsp-api-2.1</include>
+                <include>org.mortbay.jetty:servlet-api-2.5</include>
+                <include>com.mindquarry.launcher:mindquarry-launcher</include>
+            </includes>
+        </dependencySet>
+        <dependencySet>
+            <unpack>true</unpack>
+            <outputDirectory>/webapps</outputDirectory>
+            <includes>
+                <include>com.mindquarry.webapp:mindquarry-webapplication</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</component>

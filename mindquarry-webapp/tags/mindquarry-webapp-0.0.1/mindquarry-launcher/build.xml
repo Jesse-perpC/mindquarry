@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<project name="mindquarry-launcher" default="run-nsis" basedir=".">
+  <target name="run-nsis" description="Run makensis.exe to create windows installer" >
+  </target>
+</project>

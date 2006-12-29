@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
+-->
+<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+	<html>
+		<head>
+			<noscript>
+				<meta http-equiv="refresh" content="1; url=${cocoon.request.contextPath}/?request=login&amp;targetUri=${cocoon.request.targetUri}" />
+			</noscript>
+			<title>Login</title>
+		</head>
+		<body>
+			<h1>Login</h1>
+			<div class="login-block">
+				<p>You are not logged in. Please enter your username and password to proceed.</p>
+				<div>
+					<a href="${cocoon.request.contextPath}/?request=login&amp;targetUri=${cocoon.request.targetUri}" class="httpauth" id="login-form">
+						Click here to login
+					</a>
+				</div>
+				<p>You will be redirected to ${cocoon.request.targetUri}</p>
+			</div>
+		</body>
+	</html>
+</jx:template>
