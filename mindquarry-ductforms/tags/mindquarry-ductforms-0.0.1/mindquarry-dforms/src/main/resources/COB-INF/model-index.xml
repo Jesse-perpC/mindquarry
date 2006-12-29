@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- A minimal collection file, only for use with
+	 collection2resourceincludes.xsl. It is needed because the
+	 TraversableGenerator, which would produce this when giving him the
+	 "model" directory as input, does not work when deployed in tomcat and
+	 the jndi:-protocol is used instead of the file:-protocol -->
+<collection:collection
+	xmlns:collection="http://apache.org/cocoon/collection/1.0" name="model">
+	<collection:resource name="title.xml" />
+</collection:collection>
