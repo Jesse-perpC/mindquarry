@@ -1,0 +1,188 @@
+/**
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
+ */
+package com.mindquarry.auth.manager;
+
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
+
+import com.mindquarry.auth.AuthorizationAdmin;
+import com.mindquarry.auth.AuthorizationCheck;
+import com.mindquarry.auth.ProfileRO;
+import com.mindquarry.auth.RightRO;
+import com.mindquarry.user.AbstractUserRO;
+import com.mindquarry.user.manager.UserManager;
+
+
+/**
+ * Add summary documentation here.
+ *
+ * @author 
+ * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
+ */
+public class Authorization implements AuthorizationCheck, 
+    AuthorizationAdmin {
+
+    private ResourceEntity resourcesRoot;
+    
+    private UserManager userManager;
+    
+    public Authorization() {
+        this.resourcesRoot = new ResourceEntity("/", "root");
+        this.userManager = new UserManager();
+    }
+    
+    public boolean mayPerform(
+            String resourceUri, String operation, String userId) {
+        
+        AbstractUserRO user = this.userManager.userById(userId);
+        return this.mayPerform(resourceUri, operation, user);
+    }
+
+    public boolean mayPerform(
+            String resourceUri, String operation, AbstractUserRO user) {
+        
+        Iterator<String> pathItemsIt = pathItemsFromUri(resourceUri).iterator();
+        
+        ResourceEntity resource = resourcesRoot;
+        boolean result = true;
+        boolean isEmptyRightList = true;
+        
+        while (pathItemsIt.hasNext()) {
+            String pathItem = pathItemsIt.next();            
+            if (! resource.hasChild(pathItem)) {
+                break;
+            }
+            
+            ResourceEntity child = resource.getChild(pathItem);
+            if (isEmptyRightList && child.hasRights()) {
+                isEmptyRightList = false;
+                result = false;
+            }
+            
+            RightEntity right = child.rightForOperation(operation);
+            if (right != null) {
+                if (right.isAccessAllowed(user)) {
+                    result = true;
+                }
+                else if (result && right.isAccessDenied(user)) {
+                    result = false;
+                }
+            }
+            resource = child;
+        }
+        return result;
+    }
+
+    public RightEntity createRight(String resourceUri, String operation) {
+        StringBuilder nameSB = new StringBuilder();
+        nameSB.append(operation).append(": ").append(resourceUri);
+        return this.createRight(nameSB.toString(), resourceUri, operation);
+    }
+
+    public RightEntity createRight(
+            String name, String resourceUri, String operation) {        
+        
+        ResourceEntity resource = navigateToResource(resourceUri);
+        RightEntity result = new RightEntity(name, resource, operation);
+        resource.addRight(result);
+        return result;
+    }
+    
+    private List<String> pathItemsFromUri(String resourceUri) {
+        String[] pathItems = resourceUri.replaceFirst("/", "").split("/");
+        return Arrays.asList(pathItems);
+    }
+    
+    private ResourceEntity navigateToResource(String resourceUri) {
+        Iterator<String> pathItemsIt = pathItemsFromUri(resourceUri).iterator();        
+        return navigateToResource(resourcesRoot, resourceUri, pathItemsIt);
+    }
+    
+    private ResourceEntity navigateToResource(ResourceEntity parent, 
+            String resourceUri, Iterator<String> pathItemsIt) {
+        
+        ResourceEntity result;
+        if (! pathItemsIt.hasNext()) { 
+            result = parent;
+        }
+        else {
+            String pathItem = pathItemsIt.next();
+            ResourceEntity child = parent.getChild(pathItem);
+            if (child == null) {
+                child = new ResourceEntity(resourceUri, pathItem);
+                parent.addChild(child);
+            }
+            result = navigateToResource(child, resourceUri, pathItemsIt);
+        }
+        return result;
+    }
+
+
+    public ProfileEntity createProfile(String profileId) {
+        return new ProfileEntity(profileId);
+    }
+    
+    public void addRight(RightRO right, ProfileRO profile) {
+        RightEntity rightEntity = (RightEntity) right;
+        ProfileEntity profileEntity = (ProfileEntity) profile;        
+        rightEntity.addTo(profileEntity);
+        profileEntity.add(rightEntity);
+    }
+
+    public void removeRight(RightRO right, ProfileRO profile) {
+        RightEntity rightEntity = (RightEntity) right;
+        ProfileEntity profileEntity = (ProfileEntity) profile;
+        rightEntity.removeFrom(profileEntity);
+        profileEntity.remove(rightEntity);
+    }
+
+    public void addAllowance(RightRO right, AbstractUserRO user) {
+        addAllowance((AbstractRight) right, user);
+    }
+
+    public void addAllowance(ProfileRO profile, AbstractUserRO user) {
+        addAllowance((AbstractRight) profile, user);        
+    }
+
+    public void addDenial(RightRO right, AbstractUserRO user) {
+        addDenial((AbstractRight) right, user);
+    }
+
+    public void addDenial(ProfileRO profile, AbstractUserRO user) {
+        addDenial((AbstractRight) profile, user);
+    }
+
+    public void removeAllowance(RightRO right, AbstractUserRO user) {
+        removeAllowance((AbstractRight) right, user);
+    }
+
+    public void removeAllowance(ProfileRO profile, AbstractUserRO user) {
+        removeAllowance((AbstractRight) profile, user);
+    }
+
+    public void removeDenial(RightRO right, AbstractUserRO user) {
+        removeDenial((AbstractRight) right, user);
+    }
+
+    public void removeDenial(ProfileRO profile, AbstractUserRO user) {
+        removeDenial((AbstractRight) profile, user);        
+    }
+
+    private void addAllowance(AbstractRight right, AbstractUserRO user) {
+        right.allowAccessTo(user);
+    }
+
+    private void removeAllowance(AbstractRight right, AbstractUserRO user) {
+        right.removeAllowanceFor(user);
+    }
+
+    private void addDenial(AbstractRight right, AbstractUserRO user) {
+        right.denyAccessTo(user);
+    }
+
+    private void removeDenial(AbstractRight right, AbstractUserRO user) {
+        right.removeDenialFor(user);
+    }
+}
