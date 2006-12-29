@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<components>
+		<generators default="file">
+			<generator name="textfilter"
+				src="com.mindquarry.search.cocoon.TextFilterGenerator" />
+		</generators>
+	</components>
+
+	<pipelines>
+		<pipeline type="noncaching">
+			
+			<match pattern="">
+				<!-- link to all sample.* files -->
+				<generate type="traversable" src="samples">
+					<parameter name="include" value="sample\." />
+				</generate>
+				<transform src="xslt/collection2samplesOverview.xsl" />
+				<serialize type="html"/>
+			</match>
+			
+			<match pattern="sample.*.filtered">
+				<generate type="textfilter" src="samples/sample.{1}" />
+				<serialize type="xml"/>
+			</match>
+
+			<match pattern="sample.*">
+				<read src="samples/sample.{1}" />
+			</match>
+
+		</pipeline>
+	</pipelines>
+</sitemap>
+

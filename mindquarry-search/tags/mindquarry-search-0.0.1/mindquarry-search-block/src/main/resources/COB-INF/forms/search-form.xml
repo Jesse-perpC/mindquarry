@@ -1,0 +1,44 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<!-- message field -->
+		<fd:field id="messageField" state="output">
+			<!-- basic configuration -->
+			<fd:datatype base="string"/>
+		</fd:field>
+		
+		<!-- search term field -->
+		<fd:field id="searchField">
+			<!-- basic configuration -->
+			<fd:label>Quick Search</fd:label>
+			<fd:datatype base="string"/>
+
+			<!-- helper information -->
+			<fd:hint>Enter your search term here.</fd:hint>
+		</fd:field>
+
+		<!-- query part repeater -->
+		<fd:repeater id="results">
+			<fd:label>Search Results</fd:label>
+
+			<!-- query part widgets -->
+			<fd:widgets>
+				<!-- value configuration -->
+				<fd:field id="source" required="true" state="output">
+					<fd:label>Source</fd:label>
+					<fd:datatype base="string"/>
+				</fd:field>
+			</fd:widgets>
+
+			<!-- helper information -->
+			<fd:hint>Search results.</fd:hint>
+		</fd:repeater>
+
+		<!-- save query action -->
+		<fd:action id="executeSearch">
+			<fd:label>Search</fd:label>
+			<fd:on-action>
+				<fd:javascript>executeSearch();</fd:javascript>
+			</fd:on-action>
+		</fd:action>
+	</fd:widgets>
+</fd:form>

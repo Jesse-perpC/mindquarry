@@ -1,0 +1,40 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+
+	<jx:import uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml"/>
+
+	<head>
+		<title>Quick Search</title>
+	</head>
+	<body>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" method="POST" ajax="true">
+			<h1>Quick Search</h1>
+			
+			<div style="float:right;background:#fff4c2;color:#676767;">
+				<ft:widget id="messageField"/>
+			</div>
+
+			<div>
+				<ft:widget id="searchField"/>
+				<ft:widget id="executeSearch"/>
+			</div>
+
+			<div>
+				<ft:repeater id="results" xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+					<table>
+						<tbody>
+							<ft:repeater-rows>
+								<tr class="forms-row-${repeaterLoop.index % 2}">
+									<td>
+										<ft:widget id="source"/>
+									</td>
+								</tr>
+							</ft:repeater-rows>
+						</tbody>
+					</table>
+				</ft:repeater>
+			</div>
+		</ft:form-template>
+	</body>
+</html>
