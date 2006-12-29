@@ -1,0 +1,103 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+
+	<head>
+		<title>Edit Members of Teamspace</title>
+		<link rel="stylesheet" us:context="href" type="text/css"
+			href="css/teamspace.css" />
+		<link rel="stylesheet" us:context="href" type="text/css"
+			href="css/edit-members.css" />
+	</head>
+	<body>
+		<div>
+			<ft:form-template
+				action="#{$cocoon/continuation/id}.continue"
+				ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
+				method="POST" enctype="multipart/form-data"
+				id="edit-user-form">
+
+				<div id="editUserModel">
+					<h1>Edit User Settings</h1>
+
+					<ft:group id="changePassword">
+						<h3>Change Password</h3>
+						
+						<ft:widget id="pwdChanged">
+							<fi:styling type="pwdChanged"></fi:styling>							
+						</ft:widget>
+						
+						<ft:widget id="pwdNotChanged">
+						</ft:widget>
+						
+						<table>
+							<tr>
+								<td class="label">
+									<ft:widget-label
+										id="currentPassword" />
+								</td>
+								<td>
+									<ft:widget id="currentPassword">
+										<fi:styling type="password"></fi:styling>
+									</ft:widget>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<ft:widget-label id="newPassword" />
+								</td>
+								<td>
+									<ft:widget id="newPassword">
+										<fi:styling type="password"></fi:styling>
+									</ft:widget>
+								</td>
+							</tr>
+							<tr>
+								<td class="label">
+									<ft:widget-label
+										id="newPasswordRepeat" />
+								</td>
+								<td>
+									<ft:widget
+										id="newPasswordRepeat">
+										<fi:styling type="password"></fi:styling>
+									</ft:widget>
+								</td>
+							</tr>
+						</table>
+
+						<ft:widget id="changePassword" />
+
+					</ft:group>
+
+					<hr />
+
+					<ft:group id="uploadPhoto">
+
+						<h3>Upload new photo</h3>
+						<table>
+							<tr>
+								<td class="label">
+									<ft:widget-label id="photo" />
+								</td>
+								<td>
+									<ft:widget id="photo" />
+								</td>
+							</tr>
+						</table>
+
+						<ft:widget id="uploadPhoto" />
+
+					</ft:group>
+
+					<hr />
+
+					<ft:widget id="ready" />
+				</div>
+			</ft:form-template>
+		</div>
+	</body>
+</html>
