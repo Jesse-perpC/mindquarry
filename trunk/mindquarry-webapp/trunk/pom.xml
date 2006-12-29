@@ -14,7 +14,7 @@
 
 	<groupId>com.mindquarry.webapp</groupId>
 	<artifactId>mindquarry-webapp</artifactId>
-	<version>0.0.1</version>
+	<version>1.0-M1-SNAPSHOT</version>
 
 	<modules>
 		<module>mindquarry-launcher</module>
@@ -68,8 +68,8 @@
 	</build>
 
 	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapp-0.0.1</connection>
-		<url>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapp-0.0.1</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapp-0.0.1</developerConnection>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/</connection>
+		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/</developerConnection>
 	</scm>
 </project>
