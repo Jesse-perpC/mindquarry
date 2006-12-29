@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<views>
+		<view name="content" from-label="content">
+			<serialize type="xml" />
+		</view>
+
+		<view name="form" from-label="form">
+			<serialize type="xml" />
+		</view>
+	</views>
+
+	<resources>
+		<!-- shows styled error page and sets http status code on serializers -->
+		<resource name="error-layouting">
+			<select type="REST">
+				<when test="html">
+					<transform src="block:super:/xslt/error/error2html.xsl">
+						<parameter name="pageTitle" value="{pageTitle}"/>			
+						<parameter name="httpStatus" value="{httpStatus}"/>
+						<parameter name="showSupportContact" value="{showSupportContact}"/>
+						<parameter name="version" value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<transform src="block:/xslt/html2html.xsl"
+						type="xalan">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<parameter name="cssPath" value="" />
+						<parameter name="scriptPath" value="" />
+						<parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+						<parameter name="username" value="{request-attr:username}" />
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="html" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="html" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="html" />							
+						</otherwise>
+					</select>					
+				</when>
+				<when test="xml">
+					<!-- directly output cocoon's error xml for xml clients -->
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="xml" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="xml" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="xml" />							
+						</otherwise>
+					</select>					
+				</when>
+			</select>
+		</resource>
+
+		<resource name="layouting">
+			<transform src="block:/xslt/html2html.xsl"
+				type="xalan">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+				<!-- empty css/scripts path -->
+				<parameter name="cssPath" value="" />
+				<parameter name="scriptPath" value="" />
+				<parameter name="user.agent"
+					value="{request-header:User-Agent}" />
+				<parameter name="username"
+					value="{request-attr:username}" />
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+			</transform>
+
+			<serialize type="html" />
+		</resource>
+	</resources>
+
+	<pipelines>
+		<!-- resources pipeline / use noncaching for debugging -->
+		<pipeline type="noncaching">
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xslt/{1}.xsl" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
+
+			<!-- URLs css/* etc. do not work in the welcome block
+				(css/ will be mis-identified as a block) -->
+
+			<match pattern="*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<read src="css/{1}.css" />
+					</when>
+					<otherwise>
+						<read src="block:super:/css/{1}.css" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js" />
+					</when>
+					<otherwise>
+						<read src="block:super:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="*.png">
+				<select type="resource-exists">
+					<when test="images/{1}.png">
+						<read src="images/{1}.png" />
+					</when>
+					<otherwise>
+						<read src="block:super:/images/{1}.png" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="*.gif">
+				<select type="resource-exists">
+					<when test="images/{1}.gif">
+						<read src="images/{1}.gif" />
+					</when>
+					<otherwise>
+						<read src="block:super:/images/{1}.gif" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}"/>
+					</when>
+					<otherwise>
+						<read src="block:super:/buttons/{1}.{2}"/>
+					</otherwise>
+				</select>
+			</match>
+
+		</pipeline>
+
+		<pipeline>
+			<match pattern="loginpage">
+				<generate src="jx/login.jx" type="jx" />
+				<call resource="layouting" />
+			</match>
+
+			<match pattern="logoutpage">
+				<generate src="jx/logout.jx" type="jx" />
+				<call resource="layouting" />
+			</match>
+
+			<match pattern="">
+				<generate src="html/index.html" />
+				<call resource="layouting" />
+			</match>
+
+			<!--<match pattern="hello">
+				<read src="hello.jsp" type="jsp" />
+			</match>-->
+			
+			<!-- redirect stupid urls /foobar to the index page -->
+			<match pattern="*">
+				<redirect-to uri="" />
+			</match>
+			
+			<handle-errors>
+				<select type="exception">
+					<when test="authorisation">
+						<!-- non-authorised should be 404 resource not found -->
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, not authorized"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>							
+						</call>
+					</when>
+					<when test="resource-does-not-exist">
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>			
+						</call>
+					</when>
+					<otherwise>
+						<generate type="notifying" />
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, internal system error"/>							
+							<parameter name="httpStatus" value="500"/>
+							<parameter name="showSupportContact" value="true"/>							
+						</call>
+					</otherwise>
+				</select>
+			</handle-errors>
+						
+		</pipeline>
+	</pipelines>
+</sitemap>
