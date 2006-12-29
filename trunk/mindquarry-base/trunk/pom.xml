@@ -16,7 +16,7 @@
 
 	<groupId>com.mindquarry</groupId>
 	<artifactId>mindquarry</artifactId>
-	<version>1.1</version>
+	<version>1.1-SNAPSHOT</version>
 
 	<modules>
 		<module>mindquarry-common</module>
@@ -254,6 +254,19 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-base/tags/</tagBase>
+				</configuration>
+			</plugin>
 		</plugins>
 	</reporting>
+	
+	<scm>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-base/trunk/</connection>
+		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-base/trunk/</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-base/trunk/</developerConnection>
+	</scm>
 </project>
