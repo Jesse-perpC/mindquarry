@@ -1,0 +1,556 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved 
+-->
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<components>
+		<readers>
+			<reader logger="imageop" name="image-op-crop-resize" src="org.apache.cocoon.reading.imageop.ImageOpReader" >
+				<effects>
+					<op type="crop" prefix="crop-" />
+					<op type="resize" prefix="size-" />
+				</effects>
+			</reader>
+		</readers>
+		<actions>
+			<action name="setnohttpcache"
+				src="org.apache.cocoon.acting.HttpCacheAction">
+				<seconds>0</seconds>
+			</action>
+		</actions>
+
+		<selectors>
+			<selector name="REST"
+				src="org.apache.cocoon.selection.RegexpHeaderSelector">
+				<header-name>accept</header-name>
+				<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
+				<pattern name="xml">text/xml</pattern>
+			</selector>
+		</selectors>
+
+		<transformers default="xslt">
+			<transformer name="browser-update"
+				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
+		</transformers>
+	</components>
+
+	<views>
+		<view name="content" from-label="content">
+			<serialize type="xml" />
+		</view>
+
+		<view name="html" from-label="html">
+			<serialize type="xml" />
+		</view>
+
+		<view name="form" from-label="form">
+			<serialize type="xml" />
+		</view>
+	</views>
+
+	<flow language="javascript">
+		<script src="flows/teamspaces.js" />
+		<script src="flows/teamspaces-view.js" />
+		<script src="flows/users.js" />
+		<script src="flows/edit-members.js" />
+		<script src="flows/edit-user.js" />
+	</flow>
+
+	<resources>
+		<!-- shows styled error page and sets http status code on serializers -->
+		<resource name="error-layouting">
+			<select type="REST">
+				<when test="html">
+					<transform src="block:super:/xslt/error/error2html.xsl">
+						<parameter name="pageTitle" value="{pageTitle}"/>			
+						<parameter name="httpStatus" value="{httpStatus}"/>
+						<parameter name="showSupportContact" value="{showSupportContact}"/>
+						<parameter name="version" value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<transform src="block:/xslt/html2html.xsl"
+						type="xalan">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+						<parameter name="username" value="{request-attr:username}" />
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="html" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="html" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="html" />							
+						</otherwise>
+					</select>					
+				</when>
+				<when test="xml">
+					<!-- directly output cocoon's error xml for xml clients -->
+					<select type="parameter">
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>
+						
+						<when test="404"> <!-- not found -->
+							<serialize type="xml" status-code="404"/>							
+						</when>
+						<when test="500"> <!-- internal server error -->
+							<serialize type="xml" status-code="500"/>							
+						</when>
+						<otherwise>
+							<serialize type="xml" />							
+						</otherwise>
+					</select>					
+				</when>
+			</select>
+		</resource>
+		
+		<!-- standard final page layouting -->
+		<resource name="layouting">
+			<select type="lightbox-request">
+				<when test="true">
+					<transform
+						src="block:/xslt/html2lightbox.xsl">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+					</transform>
+					<serialize type="xml" />
+				</when>
+				<otherwise>
+					<transform src="block:/xslt/html2html.xsl"
+						type="xalan">
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
+						<parameter name="sitemapPath"
+							value="{request:pathInfo}" />
+						<parameter name="user.agent"
+							value="{request-header:User-Agent}" />
+						<parameter name="username"
+							value="{request-attr:username}" />
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+				</otherwise>
+			</select>
+
+			<!-- check AJAX request attribute -->
+			<select type="ajax-request">
+				<when test="true">
+					<select type="request-parameter">
+
+						<parameter name="parameter-name" value="dojo.transport"/>
+						<when test="iframe">
+
+							<transform src="resource://org/apache/cocoon/forms/resources/IframeTransport-bu-styling.xsl"/>
+							<serialize type="xhtml"/><!-- this is REALLY important -->
+
+						</when>
+						<otherwise>
+							<serialize type="xml"/>
+						</otherwise>
+					</select>
+				</when>
+				<otherwise>
+					<serialize type="html" />
+				</otherwise>
+			</select>
+		</resource>
+
+		<resource name="form2html">
+			<transform src="block:super:/xslt/forms/form2html.xsl"
+				label="form">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+		</resource>
+	</resources>
+
+	<pipelines>
+		<!-- resources pipeline / use noncaching for debugging -->
+		<pipeline type="noncaching">
+			<match pattern="css/*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="css/{1}.css" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/css/{1}.css" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xslt/{1}.xsl" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js" />
+					</when>
+					<otherwise>
+						<read src="block:super:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="images/*.*">
+				<select type="resource-exists">
+					<when test="images/{1}.{2}">
+						<read src="images/{1}.{2}" />
+					</when>
+					<otherwise>
+						<read src="block:super:/images/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}" />
+					</when>
+					<otherwise>
+						<read src="block:super:/buttons/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="icons/*x*/*/*.png">
+				<select type="resource-exists">
+					<when test="icons/{1}x{2}/{3}/{4}.png">
+						<read src="icons/{1}x{2}/{3}/{4}.png" />
+					</when>
+					<otherwise>
+						<read
+							src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
+					</otherwise>
+				</select>
+			</match>
+		</pipeline>
+
+		<!-- user pipeline / use noncaching for debugging -->
+		<pipeline type="noncaching"><!-- eg. users/[size]/[name].[type] -->
+			<match pattern="users/*/*.*">
+				<select type="resource-exists">
+					<when test="jcr:///users/{2}.{3}">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.{3}">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.png">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.png">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.gif">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.gif">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.jpg">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.jpg">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.bmp">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.bmp">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<otherwise>
+						<read type="image-op-crop-resize" src="images/anonymous-user.png" >
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="users/*.*">
+				<read src="cocoon:/users/48/{1}.{2}"/>
+			</match>
+
+			<match pattern="*.png">
+				<read src="images/anonymous-project.png" />
+			</match>
+		</pipeline>
+
+		<!-- use noncaching pipeline -->
+		<pipeline type="noncaching" internal-only="true">
+			<match pattern="views/teamspacesView">
+				<generate src="jx/teamspace-list-view.jx" type="jx"
+					label="content" />
+				
+				<transform src="xslt/teamspaces2html.xsl"
+					label="html">
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+					<parameter name="user.agent"
+						value="{request-header:User-Agent}" />
+				</transform>
+				
+				<call resource="form2html" />
+				<call resource="layouting" />
+			</match>
+
+			<match pattern="views/teamspacesXMLView">
+				<generate src="jx/teamspace-list-view.jx" type="jx"
+					label="content" />
+				
+				<transform src="xslt/teamspaces2xml.xsl" />
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="views/teamspaceXMLView">
+				<generate src="jx/teamspace-view.jx" type="jx"
+					label="content" />
+				
+				<transform src="xslt/teamspace2xml.xsl">
+					<parameter name="reposURI"
+						value="{system-property:mindquarry.repos.uri}" />
+				</transform>
+				
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="views/teamspaceXMLViewWithUsers">
+				<generate src="jx/teamspace-view.jx" type="jx"
+					label="content" />
+				<transform src="xslt/teamspace2selectionlist.xsl" />
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="*.instance">
+				<generate type="jx" src="forms/{1}-template.xml">
+					<parameter name="locale"
+						value="{flow-attribute:locale}" />
+				</generate>
+				<transform type="browser-update" />
+				<call resource="form2html" />
+				<call resource="layouting" />
+			</match>
+						
+		</pipeline>
+
+		<!-- external browser pipeline -->
+		<pipeline type="noncaching">
+			
+			<!-- teamspace list -->
+			<match pattern="">
+				<!-- check request type: REST / HTML or other -->
+				<select type="REST">
+					
+					<!--  handle HTML request -->
+					<when test="html">
+						<call
+							function="listTeamspacesForUser">
+							<parameter name="username"
+								value="{request-attr:username}" />
+							<parameter name="target"
+								value="views/teamspacesView" />
+						</call>
+					</when>
+					
+					<!--  handle REST request -->
+					<when test="xml">
+						<call
+							function="listTeamspacesForUser">
+							<parameter name="username"
+								value="{request-attr:username}" />
+							<parameter name="target"
+								value="views/teamspacesXMLView" />
+						</call>
+					</when>
+				</select>
+			</match>
+			
+			<match pattern="*/editMembers/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/editMember/"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processEditMembersForm" />
+					<parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<parameter name="teamId" value="{1}" />
+				</call>
+			</match>
+
+			<!-- creating users and teamspace / use noncaching pipeline -->
+			<match pattern="createUser/">
+				<act type="authorise" src="jcr:///users"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processCreateUser" />
+					<parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<parameter name="username"
+						value="{request-attr:username}" />
+				</call>
+			</match>
+			
+			<match pattern="editUser/">
+				<call function="handleForm">
+					<parameter name="function"
+						value="processEditUser" />
+					<parameter name="definitionURI"
+						value="forms/edit-user-form.xml" />
+					<parameter name="username"
+						value="{request-attr:username}" />
+				</call>
+			</match>
+
+			<match pattern="createTeamspace/">
+				<act type="authorise" src="jcr:///teamspaces"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processCreateTeamspaceForm" />
+					<parameter name="definitionURI"
+						value="forms/teamspace-form.xml" />
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="blockPath" value="{block-path:}" />
+				</call>
+			</match>
+
+			<match pattern="*/edit/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processEditTeamspaceForm" />
+					<parameter name="definitionURI"
+						value="forms/teamspace-form.xml" />
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="teamspaceId" value="{1}" />
+					<parameter name="blockPath" value="{block-path:}" />					
+				</call>
+			</match>
+
+			<!-- Continue a scenario. The continuation id is passed in the URL
+				(typically used for GET requests) -->
+			<match pattern="**/*.continue">
+				<act type="setnohttpcache" />
+				<call continuation="{2}" />
+			</match>
+			<match pattern="*.continue">
+				<act type="setnohttpcache" />
+				<call continuation="{1}" />
+			</match>
+			
+			<!-- single teamspace -->
+			<match pattern="*">
+				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
+				<!-- check request type: REST / HTML or other -->
+				<select type="REST">
+					<!--  handle REST request -->
+					<when test="xml">
+						<call function="teamspacesByID">
+							<parameter name="teamspaceID"
+								value="{1}" />
+							<parameter name="target"
+								value="views/teamspaceXMLView" />
+						</call>
+					</when>
+				</select>
+			</match>
+			
+			<!-- single teamspace -->
+			<match pattern="*/users.xml">
+				<!-- TODO: enable this authorisation when the authorisation for internal block calls works -->
+				<!-- <act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/> -->
+				<call function="teamspacesByID">
+					<parameter name="teamspaceID"
+						value="{1}" />
+					<parameter name="target"
+						value="views/teamspaceXMLViewWithUsers" />
+				</call>
+			</match>
+
+			<!--+
+				| forward any unknown stuff to the super block 
+				| NOTE: This must be the last matcher!
+				+-->
+			<match pattern="**">
+				<read src="block:super:/{1}" />
+			</match>
+			
+			<handle-errors>
+				<select type="exception">
+					<when test="authorisation">
+						<!-- non-authorised should be 404 resource not found -->
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, not authorized"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>							
+						</call>
+					</when>
+					<when test="resource-does-not-exist">
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>			
+						</call>
+					</when>
+					<otherwise>
+						<generate type="notifying" />
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, internal system error"/>							
+							<parameter name="httpStatus" value="500"/>
+							<parameter name="showSupportContact" value="true"/>							
+						</call>
+					</otherwise>
+				</select>
+			</handle-errors>
+			
+		</pipeline>
+	</pipelines>
+</sitemap>

@@ -1,0 +1,149 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+				
+	<head>
+		<title>Edit Members of Teamspace</title>
+		<link rel="stylesheet" us:context="href" type="text/css" 
+			href="css/teamspace.css" />
+		<link rel="stylesheet" us:context="href" type="text/css" 
+			href="css/edit-members.css" />
+	</head>
+	<body>
+	<div>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
+			method="POST" enctype="multipart/form-data">		
+ 			<ft:group id="editMembersModel">
+ 				<div id="editMembersModel">
+					<h1>Edit Team Members</h1>
+					<div class="member-list">
+						<h2><ft:widget-label id="members" /></h2>
+						<ft:repeater id="members">
+							<ul>
+								<ft:repeater-rows>
+									<li>
+										<fi:styling type="member-entry" />
+										<ft:widget id="userId">
+											<fi:styling type="user-image" />
+										</ft:widget>
+										<ft:widget id="name">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="surname">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="skills"/>
+										<ft:widget id="removeMember">
+											<fi:styling type="link"></fi:styling>
+										</ft:widget>
+									</li>
+								</ft:repeater-rows>
+							</ul>
+						</ft:repeater>
+					</div>
+				
+					<div class="member-list">
+						<h2><ft:widget-label id="nonMembers" /></h2>
+						<ft:repeater id="nonMembers">
+							<ul>
+								<ft:repeater-rows>
+									<li>
+										<fi:styling type="member-entry" />
+										<ft:widget id="userId">
+											<fi:styling type="user-image" />
+										</ft:widget>
+										<ft:widget id="name">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="surname">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="skills"/>
+										<ft:widget id="addMember">
+											<fi:styling type="link"></fi:styling>
+										</ft:widget>
+									</li>
+								</ft:repeater-rows>
+							</ul>
+						</ft:repeater>
+					</div>
+				
+					<div class="buttons">
+						<ft:widget id="ok" />
+						<ft:widget id="cancel" />
+						<ft:widget id="createUser" />
+					</div>
+				</div>
+ 			</ft:group>
+			
+			
+			<ft:group id="userModel">
+				<div id="createUserModel">
+					<h1>Create New User</h1>
+					<table id="create-user-form">
+						<tr>
+							<td class="label"><ft:widget-label id="userId" /></td>
+							<td><ft:widget id="userId" /></td>
+						</tr>
+						<tr>
+							<td class="label">
+								<ft:widget-label id="newPassword" />
+							</td>
+							<td>
+								<ft:widget id="newPassword">
+									<fi:styling type="password"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">
+								<ft:widget-label id="newPasswordRepeat" />
+							</td>
+							<td>
+								<ft:widget id="newPasswordRepeat">
+									<fi:styling type="password"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="photo" /></td>
+							<td><ft:widget id="photo" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="name" /></td>
+							<td><ft:widget id="name" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="surname" /></td>
+							<td><ft:widget id="surname" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="email" /></td>
+							<td><ft:widget id="email" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="skills" /></td>
+							<td>
+								<ft:widget id="skills">
+									<fi:styling type="textarea"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+					</table>
+				
+					<!-- standalone -->
+					<ft:widget id="createUserSubmit" />
+					<ft:widget id="cancelSubmit" />
+					
+					<!-- embedded -->
+					<ft:widget id="createUserAction" />
+					<ft:widget id="cancelAction" />
+				</div>
+			</ft:group>
+		</ft:form-template>
+	</div>
+	</body>
+</html>

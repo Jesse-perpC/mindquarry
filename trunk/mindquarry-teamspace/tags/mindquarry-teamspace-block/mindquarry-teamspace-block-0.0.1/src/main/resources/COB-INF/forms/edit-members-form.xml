@@ -1,0 +1,201 @@
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:output id="teamspaceName">
+			<fd:datatype base="string" />
+		</fd:output>
+				
+		<fd:group id="editMembersModel" state="invisible">
+			<fd:widgets>
+
+				<fd:repeater id="members">
+					<fd:label>Team Members</fd:label>
+					<fd:widgets>
+						<fd:output id="userId">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="name">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="surname">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="skills">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:row-action id="removeMember" command="delete">
+							<fd:label>remove member</fd:label>
+							<fd:on-action>
+								<fd:javascript>
+									removeMember(event);
+								</fd:javascript>
+							</fd:on-action>
+						</fd:row-action>
+					</fd:widgets>
+				</fd:repeater>
+
+				<fd:repeater id="nonMembers">
+					<fd:label>Other People</fd:label>
+					<fd:widgets>
+						<fd:output id="userId">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="name">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="surname">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:output id="skills">
+							<fd:datatype base="string" />
+						</fd:output>
+						<fd:row-action id="addMember" command="delete">
+							<fd:label>add member</fd:label>
+							<fd:on-action>
+								<fd:javascript>
+									addMember(event);
+								</fd:javascript>
+							</fd:on-action>
+						</fd:row-action>
+					</fd:widgets>
+				</fd:repeater>
+
+				<fd:submit id="ok">
+					<fd:label>OK</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							saveMembershipChanges(event);
+						</fd:javascript>
+					</fd:on-action>
+				</fd:submit>
+
+				<fd:submit id="cancel" validate="false">
+					<fd:label>Cancel</fd:label>
+				</fd:submit>
+
+				<fd:action id="createUser">
+					<fd:label>New Member</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							activateCreateUserForm();
+						</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+			</fd:widgets>
+		</fd:group>
+
+
+		<fd:group id="userModel" state="invisible">
+			<fd:widgets>
+				<fd:field id="userId" required="true">
+					<fd:label>User ID</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w]{3,}">
+							<fd:failmessage>
+								invalid user id; it must contains 
+								(at least 3) word characters
+							</fd:failmessage>
+						</fd:regexp>
+						<fd:javascript>
+							return existsUserWithId(widget);
+						</fd:javascript>
+					</fd:validation>
+				</fd:field>
+				<fd:field id="newPassword" required="true">
+					<fd:label>Password</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w]{5,}">
+							<fd:failmessage>
+								invalid password; it must contains 
+								(at least 5) word characters
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+				<fd:field id="newPasswordRepeat" required="true">
+					<fd:label>Password (repeat)</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+				        <fd:assert test="newPassword = newPasswordRepeat">
+				          <fd:failmessage>The passwordrepeat does not match.</fd:failmessage>
+				        </fd:assert>
+			      </fd:validation>
+				</fd:field>
+				<fd:field id="name" required="true">
+					<fd:label>First Name</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w\s]+">
+							<fd:failmessage>
+								invalid first name; it must contains at
+								least one word character
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+				<fd:field id="surname" required="true">
+					<fd:label>Surname</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="[\w\s]+">
+							<fd:failmessage>
+								invalid surname; it must contains at
+								least one word character
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+				
+				<fd:upload id="photo" required="false" validate="false">
+				  <fd:label>Photo</fd:label>
+				</fd:upload>
+				
+				<fd:field id="email" required="true">
+					<fd:label>EMail</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:email>
+							<fd:failmessage>
+								Not a valid email address!
+							</fd:failmessage>
+						</fd:email>
+					</fd:validation>
+				</fd:field>
+				
+				<fd:field id="skills" required="false">
+					<fd:label>Skills</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+				</fd:field>
+
+				<fd:submit id="createUserSubmit" state="invisible">
+					<fd:label>Create user</fd:label>
+				</fd:submit>
+
+				<fd:submit id="cancelSubmit" state="invisible" validate="false">
+					<fd:label>Cancel</fd:label>
+				</fd:submit>				
+				
+				<fd:action id="createUserAction" state="invisible">
+					<fd:label>Create User</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							var user = createUser();
+							addUserToMembers(user);
+							activateEditMembersForm();
+						</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+				
+				<fd:action id="cancelAction" state="invisible">
+					<fd:label>Cancel</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							activateEditMembersForm();
+						</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+			</fd:widgets>
+		</fd:group>
+	</fd:widgets>
+</fd:form>

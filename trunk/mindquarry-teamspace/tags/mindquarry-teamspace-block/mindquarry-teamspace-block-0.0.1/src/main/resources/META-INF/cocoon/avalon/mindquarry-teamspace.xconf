@@ -1,0 +1,59 @@
+<?xml version="1.0"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<components>
+	<!-- Include roles -->
+	<include src="resource://com/mindquarry/teamspace/mindquarry-teamspace.roles"/>
+
+	<source-factories>
+		<component-instance name="resource"
+			class="org.apache.excalibur.source.impl.ResourceSourceFactory"/>
+
+		<component-instance name="file" class="org.apache.excalibur.source.impl.FileSourceFactory"/>
+
+		<component-instance name="jcr" class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+			login="alexander.saar" password="mypwd">
+			<mappings>
+				<mapping prefix="user" namespace="http://www.mindquarry.com/ns/schema/user"/>
+				<mapping prefix="team" namespace="http://www.mindquarry.com/ns/schema/teamspace"/>
+			</mappings>
+			<index>
+				<excludes>
+					<exclude>jcr:///users/*</exclude>
+					<exclude>jcr:///teamspaces/*/metadata.xml</exclude>
+					<exclude>jcr:///teamspaces/*/tasks/filters/*</exclude>
+				</excludes>
+			</index>
+		</component-instance>
+
+
+		<!-- use the following for working with an RMI repository -->
+		<!--component-instance name="jcr"/
+		
+			rmi="rmi://localhost:1099/jackrabbit"-->
+
+	</source-factories>
+
+	<!-- define the exact XMLSerializer we want to use (taken from
+		standard cocoon configuration) -->
+	<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+		<transformer-factory> org.apache.xalan.xsltc.trax.TransformerFactoryImpl
+		</transformer-factory>
+	</serializer>
+
+	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
+		<home src="${mindquarry.jcr.path}"/>
+		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
+		<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml"/>
+	</jcr-repository>
+
+	<jcr-initializer>
+		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
+	</jcr-initializer>
+
+	<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
+		login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
+
+</components>

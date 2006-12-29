@@ -1,0 +1,46 @@
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+	<head>
+		<title>Create Team</title>
+		<link rel="stylesheet"
+				href="css/teamspace.css" type="text/css" />
+		<link rel="stylesheet"
+				href="../resources/css/create-teamspace.css" type="text/css" />
+				
+	</head>
+	<body>
+		<h1>Create New Team</h1>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" 
+			ajax-action="#{$cocoon/continuation/id}.continue" 
+			ajax="true"
+			method="POST">
+			
+			<table id="create-teamspace-form">
+				<tr>
+					<td class="label"><ft:widget-label id="teamspaceId" /></td>
+					<td><ft:widget id="teamspaceId" /></td>
+				</tr>
+				<tr>
+					<td class="label"><ft:widget-label id="name" /></td>
+					<td><ft:widget id="name" /></td>
+				</tr>
+				<tr>
+					<td class="label"><ft:widget-label id="description" /></td>
+					<td>
+						<ft:widget id="description">
+							<fi:styling type="textarea" />
+						</ft:widget>
+					</td>
+				</tr>
+			</table>
+			
+			<br/><br/>
+			
+			<ft:widget id="create"/>
+			<ft:widget id="cancel"/>
+		</ft:form-template>
+	</body>
+</html>
