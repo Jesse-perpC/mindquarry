@@ -1,15 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved -->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.mindquarry.tasks</groupId>
 		<artifactId>mindquarry-tasks</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 
 	<artifactId>mindquarry-tasks-block</artifactId>
@@ -21,17 +17,17 @@
 		<dependency>
 			<groupId>com.mindquarry.dforms</groupId>
 			<artifactId>mindquarry-dforms</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jcr-source</artifactId>
-			<version>0.0.1-SNAPSHOT</version>			
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 
@@ -41,7 +37,7 @@
 			<plugin>
 				<groupId>org.apache.cocoon</groupId>
 				<artifactId>cocoon-deployer-plugin</artifactId>
-				<version>1.0.0-M2-SNAPSHOT</version>
+				<version>1.0.0-M2_Mindquarry_1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -49,8 +45,7 @@
 				<version>6.0.0rc3</version>
 				<configuration>
 					<connectors>
-						<connector
-							implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
 							<port>8888</port>
 							<maxIdleTime>30000</maxIdleTime>
 						</connector>
@@ -75,14 +70,8 @@
 	</build>
 	
 	<scm>
-		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/
-		</connection>
-		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-tasks/trunk/mindquarry-tasks-block/
-		</url>
-		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/
-		</developerConnection>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/tags/mindquarry-tasks-0.0.1</connection>
+		<url>https://secure.mindquarry.com/repos/mindquarry-tasks/tags/mindquarry-tasks-0.0.1</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/tags/mindquarry-tasks-0.0.1</developerConnection>
 	</scm>
 </project>
