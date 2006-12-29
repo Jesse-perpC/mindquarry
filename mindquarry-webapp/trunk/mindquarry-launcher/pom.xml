@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.mindquarry.webapp</groupId>
 		<artifactId>mindquarry-webapp</artifactId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 
 	<name>Mindquarry Collaboration Server</name>
@@ -15,13 +15,12 @@
 
 	<groupId>com.mindquarry.launcher</groupId>
 	<artifactId>mindquarry-launcher</artifactId>
-	<version>1.0-M1-SNAPSHOT</version>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapplication</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
 

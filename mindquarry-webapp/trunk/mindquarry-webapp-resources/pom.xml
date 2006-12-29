@@ -5,14 +5,13 @@
 	<parent>
 		<groupId>com.mindquarry.webapp</groupId>
                 <artifactId>mindquarry-webapp</artifactId>
-                <version>0.0.1</version>
+                <version>1.0-M1-SNAPSHOT</version>
 	</parent>
 
 
 	<groupId>com.mindquarry.webapp</groupId>
 	<artifactId>mindquarry-webapp-resources</artifactId>
 	<name>Mindquarry Webapp Resources</name>
-	<version>1.0-M1-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapp-resources/</connection>
@@ -43,7 +42,7 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
