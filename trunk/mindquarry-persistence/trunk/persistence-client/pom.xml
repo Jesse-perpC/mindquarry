@@ -3,12 +3,11 @@
 	<parent>
 		<artifactId>mindquarry-persistence</artifactId>
 		<groupId>com.mindquarry.persistence</groupId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>persistence-client</artifactId>
 	<name>Mindquarry Persistence Client</name>
-	<version>1.0-M1-SNAPSHOT</version>
 
 	<description>
 		Persistence client for the Mindquarry system.
@@ -17,7 +16,7 @@
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>castor-persistence</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -27,7 +26,7 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	
