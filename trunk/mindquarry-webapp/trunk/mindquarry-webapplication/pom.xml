@@ -5,13 +5,12 @@
   <parent>
     <groupId>com.mindquarry.webapp</groupId>
     <artifactId>mindquarry-webapp</artifactId>
-    <version>0.0.1</version>
+    <version>1.0-M1-SNAPSHOT</version>
   </parent>
 
   <groupId>com.mindquarry.webapp</groupId>
   <artifactId>mindquarry-webapplication</artifactId>
   <name>Mindquarry Webapplication</name>
-  <version>1.0-M1-SNAPSHOT</version>
 
   <!-- Apart from creating a WAR-archive this tells the cocoon deployer
 		plugin to use our own web.xml stuff from src/main/webapp -->
@@ -236,7 +235,7 @@
     <dependency>
       <groupId>com.mindquarry.workspace</groupId>
       <artifactId>mindquarry-workspace-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
       <exclusions>
         <exclusion>
           <artifactId>servlet-api</artifactId>
@@ -248,56 +247,56 @@
     <dependency>
       <groupId>com.mindquarry.teamspace</groupId>
       <artifactId>mindquarry-teamspace-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.tasks</groupId>
       <artifactId>mindquarry-tasks-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.wiki</groupId>
       <artifactId>mindquarry-wiki-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.search</groupId>
       <artifactId>mindquarry-solr</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.search</groupId>
       <artifactId>mindquarry-solr-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.search</groupId>
       <artifactId>mindquarry-search-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.webapp</groupId>
       <artifactId>mindquarry-welcome-block</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <dependency>
       <groupId>com.mindquarry.webapp</groupId>
       <artifactId>mindquarry-webapp-resources</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <!-- enterprise components -->
     <dependency>
       <groupId>com.mindquarry.management</groupId>
       <artifactId>mindquarry-management</artifactId>
-      <version>0.0.1</version>
+      <version>1.0-M1-SNAPSHOT</version>
     </dependency>
 
     <!-- missing dependency for tomcat 5 -->
