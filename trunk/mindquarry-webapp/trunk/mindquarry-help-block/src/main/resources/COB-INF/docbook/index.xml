@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<book>
+  <title>Mindquarry Collaboration Server</title>
+
+  <chapter>
+    <title>Installing Mindquarry</title>
+
+    <section>
+      <title>Installation Prerequisites</title>
+
+      <para></para>
+    </section>
+  </chapter>
+
+  <chapter>
+    <title>Managing Teams with Mindquarry</title>
+
+    <para></para>
+  </chapter>
+
+  <chapter>
+    <title>Managing Files with Mindquarry</title>
+
+    <para></para>
+  </chapter>
+
+  <chapter>
+    <title>Sharing Ideas with Mindquarry</title>
+
+    <para></para>
+  </chapter>
+
+  <chapter>
+    <title>Managing Tasks with Mindquarry</title>
+
+    <para></para>
+  </chapter>
+</book>

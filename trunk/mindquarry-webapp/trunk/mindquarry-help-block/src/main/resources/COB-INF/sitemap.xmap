@@ -171,9 +171,9 @@
 		</pipeline>
 
 		<pipeline>
-			<match pattern="">
-				<generate src="html/index.html" />
-				<call resource="layouting" />
+			<match pattern="*">
+				<read src="docbook/index.xml" />
+				<!--call resource="layouting" /-->
 			</match>
 
 			<handle-errors>
