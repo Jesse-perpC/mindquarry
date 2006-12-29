@@ -1,13 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>mindquarry-persistence</artifactId>
 		<groupId>com.mindquarry.persistence</groupId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>persistence-client</artifactId>
 	<name>Mindquarry Persistence Client</name>
+	<version>0.0.1</version>
+
 	<description>
 		Persistence client for the Mindquarry system.
 	</description>
@@ -15,7 +17,7 @@
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>castor-persistence</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>commons-cli</groupId>
@@ -25,7 +27,7 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 	
@@ -41,14 +43,8 @@
 	</build>
 
         <scm>
-	<connection>
-      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/persistence-client/
-    </connection>
-    <url>
-      https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-persistence/trunk/persistence-client/
-    </url>
-    <developerConnection>
-      scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/persistence-client/
-    </developerConnection>
+	<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/tags/persistence-client/persistence-client-0.0.1</connection>
+    <url>https://secure.mindquarry.com/repos/mindquarry-persistence/tags/persistence-client/persistence-client-0.0.1</url>
+    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/tags/persistence-client/persistence-client-0.0.1</developerConnection>
   </scm>
 </project>
