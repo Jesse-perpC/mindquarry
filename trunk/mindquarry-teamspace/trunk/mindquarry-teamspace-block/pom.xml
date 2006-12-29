@@ -3,13 +3,12 @@
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-teamspace-block</artifactId>
 	<name>Mindquarry Teamspace Block</name>
-	<version>1.0-M1-SNAPSHOT</version>
 
 	<scm>
 		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</connection>
@@ -67,22 +66,22 @@
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>castor-persistence</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
