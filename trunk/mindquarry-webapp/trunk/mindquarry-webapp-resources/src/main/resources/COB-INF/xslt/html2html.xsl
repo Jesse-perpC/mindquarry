@@ -143,18 +143,16 @@
 
 				<!-- layouting the header -->
 				<div id="webapp-header">
-        			<ul id="webapp-sections">
-						<!--li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li-->
-						<li><a class="navTasks" href="{$pathToRoot}tasks/">Tasks</a></li>
-						<li><a class="navWiki" href="{$pathToRoot}wiki/">Wiki</a></li>
-						<li><a class="navFiles" href="{$pathToRoot}workspace/">Files</a></li>
-						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
-					</ul>
-				</div>
 
+				<div class="quicksearch" dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>				
 				
-
-				<div id="quicksearch" dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>
+					<ul id="webapp-sections">
+						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
+						<li><a class="navFiles" href="{$pathToRoot}workspace/">Files</a></li>
+						<li><a class="navWiki" href="{$pathToRoot}wiki/">Wiki</a></li>
+						<li><a class="navTasks" href="{$pathToRoot}tasks/">Tasks</a></li>
+						<!--li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li-->
+						</ul>
 
 				
 
@@ -174,6 +172,12 @@
 					</div>
 
 				</xsl:if>
+
+					
+				</div>
+
+				
+
 				
 
 				<!-- layouting the content -->

@@ -4,7 +4,30 @@
 @import "navigation.css";
 /* Content Page Rules*/
 @import "content.css";
+/* Content Page Rules*/
+@import "quicksearch.css";
 
+html, body {
+	min-height: 100%;
+	width: 100%;
+	height: 100%;
+	margin: 0px;
+}
+
+body {
+	margin: 0px;
+	padding-top: 70px;
+	background-color:#efefef;	
+}
+* html>body, html>body #webapp-content {
+	height: auto;
+}
+#webapp-content {
+	width: 100%;
+	z-index:50;
+}
+
+/*HYPER LINKS RULES*************************************/
 a:link {
 	color:#0000cc;
 }
@@ -27,31 +50,7 @@ h1, h2, h3, h4, h5, h6 {
   font-family:Helvetica,Arial,sans-serif;
 }
 
-html, body, #webapp-content {
-	min-height: 100%;
-	width: 100%;
-	height: 100%;
-}
-
-#webapp-content {
-	z-index:50;
-}
-
-/*
- * The "height" above is a hack for IE5+/Win.  Below we adjust
- * it using the child selector to hide from IE5+/Win
- */
-
-html>body, html>body #webapp-content {
-	height: auto;
-}
-
-body {
-	margin: 0;
-	background-color:#efefef;
-	color:black;
-	font-family: Arial, sans-serif;
-}
+/**************************************************/
 
 #background-repeater {
 	left:0px;

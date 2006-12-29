@@ -24,25 +24,23 @@ dojo.widget.defineWidget(
 		gotResultsStatus: "Search finished with %{count} results :", // shown if there are results
 		untitled: "untitled", // the name for an untitled document in the serch results
 
-		templateString: '<div style="position:relative;" class="mindquarry-quicksearch">' + 
-			'<div class="search-field">' +
-				'<form dojoAttachPoint="formNode" dojoOnSubmit="searchClick;">' +
-					'<span dojoAttachPoint="widthNode">' + 
-						'<input name="q" size="${this.size}"/>' +
-						'<input name="wt" value="mq" type="hidden"/>' +
-						'<input name="fl" value="score" type="hidden"/>' +
-						'<input type="submit" value="${this.searchButton}"/>' + 
-					'</span>' +
-				'</form>' +
-			'</div>' +
-			'<div style="position:relative;">' +
-					'<div class="result-popup" dojoAttachPoint="popupNode" style="position:absolute;top:0;left:0;overflow:auto;padding:5px;">' +
-						'<a dojoOnClick="closeClick;" href="#" style="background:url(\'../buttons/close.png\');display:block;height:10px;width:10px;float:right;"></a>' 	+
-						'<span class="result-status" dojoAttachPoint="resultStatus" style="margin-bottom:8px;"></span>' +
-						'<div dojoAttachPoint="resultNode"></div>' 	+
-					'</div>' + 
-			'</div>' +
-		'</div>',
+		templateString: '<div class="mindquarry-quicksearch">' + 
+						'<div class="search-field">' +
+							'<form dojoAttachPoint="formNode" dojoOnSubmit="searchClick;" class="search_form">' +
+								'<span dojoAttachPoint="widthNode">' + 
+									'<input name="q" size="${this.size}" class="input_box"/>' +
+									'<input name="wt" value="mq" type="hidden"/>' +
+									'<input name="fl" value="score" type="hidden"/>' +
+									'<input type="submit" value="${this.searchButton}" class="btn"/>' + 
+								'</span>' +
+								'</form>' +
+							'<div class="result-popup" dojoAttachPoint="popupNode" >' +
+									'<a dojoOnClick="closeClick;" href="#" style="background:url(\'../buttons/close.png\');display:block;height:10px;width:10px;float:right;"></a>' 	+
+									'<span class="result-status" dojoAttachPoint="resultStatus" style="margin-bottom:8px;"></span>' +
+									'<div dojoAttachPoint="resultNode"></div>' 	+
+							'</div>' + 
+
+					'</div>',
 		
 		tableBeginHTML: '<table width="100%" class="result-table"><tbody>',
 		
@@ -55,7 +53,7 @@ dojo.widget.defineWidget(
 									
 		hitTemplate: '<tr valign="top"><td width="32"><div style="width:30px;height:12px;border:1px solid #666;position:relative;">' + 
 									 '<div style="background:#ddf;height:10px;width:%{score}%;margin:1px 0;padding:0;"> </div>' + 
-									 '<div style="position:absolute;top:0;right:2px;margin:0;padding:0;color:#444;font-size:10px;">%{score}</div>' + 
+									 '<div style="position:relative;top:0;right:2px;margin:0;padding:0;color:#444;font-size:10px;">%{score}</div>' + 
 								 '</div></td>' +
 								'<td><a href="%{uri}">%{title}</a></td></tr>',
 		
