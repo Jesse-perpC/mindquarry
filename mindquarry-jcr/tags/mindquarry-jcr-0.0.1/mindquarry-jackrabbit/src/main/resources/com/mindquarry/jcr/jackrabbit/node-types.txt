@@ -1,0 +1,40 @@
+/**
+ * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
+ */
+ 
+/*  Nodetypes for mapping XML onto JCR nodes */
+
+// The namespace declarations
+<xt = 'http://mindquarry.com/ns/cnd/xt'>
+<id = 'http://mindquarry.com/ns/cnd/id'>
+<nt = 'http://www.jcp.org/jcr/nt/1.0'>
+<jcr = 'http://www.jcp.org/jcr/1.0'>
+<mix = 'http://www.jcp.org/jcr/mix/1.0'>
+
+// define xt:text node
+[xt:text]>nt:unstructured
+	- xt:characters(string)=''
+		primary mandatory autocreated
+
+// define xt:element node
+[xt:element]>nt:unstructured
+	orderable
+	- *(string)
+	+ *(xt:element)=xt:element
+		multiple
+	+ *(xt:text)=xt:text
+		multiple
+
+// define xt:document node
+[xt:document]>nt:unstructured
+	- jcr:mimeType(string)='text/xml'
+		primary mandatory autocreated
+	- jcr:lastModified(date)
+		mandatory
+	+ *(xt:element)=xt:element
+		mandatory
+
+// define id:node node
+[id:node]>nt:hierarchyNode, mix:lockable
+	- id:id(long)='0'
+		primary mandatory autocreated
