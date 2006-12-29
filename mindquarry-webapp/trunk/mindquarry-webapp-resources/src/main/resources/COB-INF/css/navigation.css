@@ -10,16 +10,16 @@
 
 #webapp-sections {
   margin-top:-0px;
-  width:700px;
   margin-left:auto;
   margin-right:auto;
+  padding-left:400px;
 }
 
 #webapp-sections a {
   color:#ffffff;
   text-decoration:none;
   display:block;
-  float:right;
+  float:left;
   width:133px;
   height:70px;
   padding-top:20px;
@@ -60,36 +60,26 @@
 
 /* Logout and user at the top right */
 
-/* placement of the QuickSearch Widget in the page layout */
-#quicksearch {
-	position:absolute;
-	left:8px;
-	top:8px;
-	display:block;
-}
-
-/* mindquary-specific styling for the QuickSearch Widget */
-.mindquarry-quicksearch .result-popup {
-	filter:alpha(opacity=90);
-	opacity:.9;
-	background:#fbf4d4;
-	padding:2px;
-	font:11px sans-serif;
-	border:1px solid grey;
-}
-
 #user-status {
+	filter:alpha(opacity=50);   /* IE      */
+	-moz-opacity:0.5;           /* Mozilla   */
+	opacity: 0.5;               /* newer Mozilla and CSS-3 */		
+
+	border:1px;
+	background:#ffffff;	
+	border-color:#cccccc;
+	border-style: solid;
+
 	position:absolute;
 	right:8px;
 	top:8px;
 	display:block;
 	width:120px;
-	border:5px solid #cccccc;
-	background:#eeeeee;
+
 	z-index:100;
 	text-align:left;
 	font-size:8pt;
-	padding:2px;
+	padding:3px;
 }
 
 .username-display {
