@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>com.mindquarry.jcr</groupId>
 		<artifactId>mindquarry-jcr</artifactId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>mindquarry-jcr-source</artifactId>
@@ -68,8 +68,8 @@
 	</dependencies>
 
         <scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-0.0.1</connection>
-    <url>https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-0.0.1</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-0.0.1</developerConnection>
+    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</connection>
+    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jcr-source/</url>
+    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</developerConnection>
   </scm>
 </project>

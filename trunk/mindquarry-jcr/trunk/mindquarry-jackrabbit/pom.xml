@@ -2,7 +2,7 @@
 	<parent>
 		<artifactId>mindquarry-jcr</artifactId>
 		<groupId>com.mindquarry.jcr</groupId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<artifactId>mindquarry-jackrabbit</artifactId>
@@ -37,9 +37,9 @@
 	</build>
 	
 	<scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-0.0.1</connection>
-    <url>https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-0.0.1</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-0.0.1</developerConnection>
+    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/</connection>
+    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jackrabbit/</url>
+    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/</developerConnection>
   </scm>
 
 	<dependencies>
