@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<assembly>
+    <id>windows_x86_32</id>
+
+    <formats>
+        <format>zip</format>
+    </formats>
+    
+    <files>
+        <file>
+          <source>src/assembly/bin/wrapper.exe</source>
+          <outputDirectory>/bin</outputDirectory>
+            <destName>mindquarry.exe</destName>
+        </file>
+        <file>
+          <source>src/assembly/lib/wrapper.dll</source>
+          <outputDirectory>/lib</outputDirectory>
+        </file>
+        <file>
+          <source>src/assembly/conf/wrapper.conf.in</source>
+          <outputDirectory>/etc</outputDirectory>
+          <filtered>true</filtered>
+          <destName>wrapper.conf</destName>
+        </file>
+        <file>
+            <source>src/assembly/scripts/start-service.bat</source>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+            <destName>start.bat</destName>
+        </file>
+        <file>
+            <source>src/assembly/scripts/stop-service.bat</source>
+            <outputDirectory>/</outputDirectory>
+            <filtered>true</filtered>
+            <destName>stop.bat</destName>
+        </file>
+    </files>
+
+    <componentDescriptors>
+        <componentDescriptor>src/assembly/components/core.xml</componentDescriptor>
+    </componentDescriptors>
+
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>tanukisoft:wrapper</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</assembly>
