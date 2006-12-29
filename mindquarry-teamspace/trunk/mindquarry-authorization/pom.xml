@@ -6,13 +6,12 @@
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-authorization</artifactId>
 	<name>Mindquarry Authorization</name>
-	<version>1.0-M1-SNAPSHOT</version>
 
 	<developers>
 		<developer>
@@ -55,17 +54,17 @@
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.workspace</groupId>
 			<artifactId>mindquarry-dma-admin</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>castor-persistence</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -78,7 +77,7 @@
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jackrabbit</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
