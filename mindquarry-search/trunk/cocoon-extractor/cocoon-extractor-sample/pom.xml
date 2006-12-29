@@ -1,27 +1,26 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project  xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <artifactId>cocoon-extractor</artifactId>
     <groupId>com.mindquarry.search.cocoon</groupId>
-    <version>2-SNAPSHOT</version>
+    <version>2</version>
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cocoon-extractor-sample</artifactId>
   <name>Cocoon Extractor Block Samples</name>
-  <version>1.0.0-M2-SNAPSHOT</version>
+  <version>1.0.0-M2</version>
   <packaging>jar</packaging>
   
   <dependencies>
     <dependency>
       <groupId>com.mindquarry.search.cocoon</groupId>
       <artifactId>cocoon-extractor-impl</artifactId>
-      <version>1.0.0-M2-SNAPSHOT</version>
+      <version>1.0.0-M2</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-blocks-fw-impl</artifactId>
-      <version>1.0.0-M2-SNAPSHOT</version>
+      <version>1.0.0-M2_Mindquarry_1</version>
     </dependency>
   </dependencies>
   
@@ -31,7 +30,7 @@
       <plugin>
         <groupId>org.apache.cocoon</groupId>
         <artifactId>cocoon-deployer-plugin</artifactId>
-        <version>1.0.0-M2-SNAPSHOT</version>
+        <version>1.0.0-M2_Mindquarry_1</version>
       </plugin>
 
       <plugin>
@@ -40,8 +39,7 @@
         <version>6.0.1</version>
         <configuration>
           <connectors>
-            <connector
-              implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+            <connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
               <port>8888</port>
               <maxIdleTime>30000</maxIdleTime>
             </connector>
@@ -54,7 +52,7 @@
           <scanIntervalSeconds>0</scanIntervalSeconds>
         </configuration>
       </plugin>
-      
+
       <plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
@@ -67,14 +65,8 @@
   </build>
 
   <scm>
-		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-sample/
-		</connection>
-		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-sample/
-		</url>
-		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-sample/
-		</developerConnection>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</connection>
+		<url>https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</developerConnection>
 	</scm>
 </project>

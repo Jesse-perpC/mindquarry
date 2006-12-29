@@ -1,17 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved 
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.mindquarry.search</groupId>
 		<artifactId>mindquarry-search</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<version>0.0.1</version>
 	</parent>
 
 	<artifactId>mindquarry-search-block</artifactId>
@@ -25,7 +19,7 @@
 			<plugin>
 				<groupId>org.apache.cocoon</groupId>
 				<artifactId>cocoon-deployer-plugin</artifactId>
-				<version>1.0.0-M2-SNAPSHOT</version>
+				<version>1.0.0-M2_Mindquarry_1</version>
 			</plugin>
 			<plugin>
 				<groupId>org.mortbay.jetty</groupId>
@@ -56,22 +50,16 @@
 	</build>
 	
 	<scm>
-		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/mindquarry-search-block/
-		</connection>
-		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/mindquarry-search-block/
-		</url>
-		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/mindquarry-search-block/
-		</developerConnection>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</connection>
+		<url>https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</developerConnection>
 	</scm>
 	
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
+			<version>0.0.1</version>
 		</dependency>
 	</dependencies>
 </project>
