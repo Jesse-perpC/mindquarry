@@ -4,6 +4,6 @@
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="#default xhtml">
   
-  <xsl:import href="http://docbook.sourceforge.net/release/xsl/current/xhtml/docbook.xsl"/>
+  <xsl:import href="docbook/html/docbook.xsl"/>
 
 </xsl:stylesheet>
