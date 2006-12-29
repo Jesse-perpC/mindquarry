@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts:teamspace xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace">
+	
+	<ts:id>mindquarry</ts:id>
+	<ts:name>The Mindquarry Project</ts:name>
+	<ts:workspaceUri>/add/URI/here</ts:workspaceUri>
+</ts:teamspace>
