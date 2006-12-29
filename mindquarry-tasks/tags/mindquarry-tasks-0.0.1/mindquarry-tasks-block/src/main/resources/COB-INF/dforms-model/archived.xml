@@ -1,0 +1,15 @@
+<df:datatype id="archived" position="7"
+	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
+	<fd:booleanfield>
+		<fd:datatype base="boolean" />
+		<fd:label>Archived</fd:label>
+		<fd:hint>Is this document archived</fd:hint>
+		<fd:help>Archived fields do not appear in collections</fd:help>
+	</fd:booleanfield>
+	<ft:widget>
+		<fi:styling class="use-parent-for-autoactive" autoactive="true" />
+	</ft:widget>
+</df:datatype>
