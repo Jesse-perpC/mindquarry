@@ -172,7 +172,9 @@
 
 		<pipeline>
 			<match pattern="*">
-				<read src="docbook/index.xml" />
+				<generate src="docbook/index.xml" />
+        <transform src="xslt/docbook2html.xsl"/>
+        <serialize type="xml" />
 				<!--call resource="layouting" /-->
 			</match>
 
