@@ -1,0 +1,147 @@
+#webapp-header {
+  height:70px;
+  width:100%;
+  overflow:hidden;
+  position:absolute;
+  top:0px;
+  left:0px;
+  text-align: center;
+}
+
+#webapp-sections {
+  margin-top:-0px;
+  width:700px;
+  margin-left:auto;
+  margin-right:auto;
+}
+
+#webapp-sections a {
+  color:#ffffff;
+  text-decoration:none;
+  display:block;
+  float:right;
+  width:133px;
+  height:70px;
+  padding-top:20px;
+}
+
+#webapp-sections li {
+  display:inline;
+}
+
+#webapp-footer {
+	width:100%;
+	text-align:center;
+}
+
+#webapp-footer ul {
+  margin-top:30px;
+  margin-bottom:0px;
+  font-size:9pt;
+}
+
+#webapp-footer a, #webapp-footer {
+  color:#373737;
+}
+
+#webapp-footer li {
+  display:inline;
+  padding-left:5px;
+  padding-right:5px;
+/*  white-space:nowrap;*/
+}
+
+.version-footer {
+  display:block;
+  margin-top: 0.5em;
+  padding-bottom: 1em;
+  font-size:9pt;
+}
+
+/* Logout and user at the top right */
+
+/* placement of the QuickSearch Widget in the page layout */
+#quicksearch {
+	position:absolute;
+	left:8px;
+	top:8px;
+	display:block;
+}
+
+/* mindquary-specific styling for the QuickSearch Widget */
+.mindquarry-quicksearch .result-popup {
+	filter:alpha(opacity=90);
+	opacity:.9;
+	background:#fbf4d4;
+	padding:2px;
+	font:11px sans-serif;
+	border:1px solid grey;
+}
+
+#user-status {
+	position:absolute;
+	right:8px;
+	top:8px;
+	display:block;
+	width:120px;
+	border:5px solid #cccccc;
+	background:#eeeeee;
+	z-index:100;
+	text-align:left;
+	font-size:8pt;
+	padding:2px;
+}
+
+.username-display {
+	text-align:center;
+}
+
+/* javascript browsers */
+#http-logout-link {
+	text-align:center;
+	font-size:8pt;
+	height:10px;
+}
+
+/* non javascript browsers */
+#http-logout-hint {
+	text-align:center;
+	font-size:7pt;
+}
+
+#path-to-webapp-root {
+	display:none;
+}
+
+
+/* Login form and logout page */
+
+#login-form {
+	display:block;
+	margin-left:auto;
+	margin-right:auto;
+	width:240px;
+	height:100px;
+}
+
+#login-form-password, #login-form-username, #login-form label {
+	display:block;
+}
+
+#login-form-submit {
+	margin-top: 15px;
+}
+
+.login-block, .logout-block {
+	width:400px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-bottom: 20px;
+	padding: 10px;
+	border: 2px solid #cccccc;
+}
+
+.login-block p, .login-block a, .logout-block p, .logout-block a {
+	display:block;
+	text-align:center;
+}

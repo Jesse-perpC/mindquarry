@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+	<map:components>
+		<map:actions>
+			<map:action name="log"
+				src="com.mindquarry.webapp.acting.DebugLogAction" />
+		</map:actions>
+		<map:serializers>
+			<map:serializer name="jnlp" 
+				src="org.apache.cocoon.serialization.XMLSerializer" 
+				mime-type="application/x-java-jnlp-file"/>
+		</map:serializers>
+	</map:components>
+
+	<map:flow language="javascript">
+
+		<map:script src="flows/jnlp.js" />
+
+	</map:flow>
+
+
+
+	<map:pipelines>
+		<map:pipeline>
+
+			<map:match pattern="client/client.jnlp">
+				<map:call function="sendJNLP">
+
+					<map:parameter name="target"
+						value="views/JNLPView" />
+
+					<map:parameter name="username"
+						value="{request-attr:username}" />
+					<map:parameter name="endpoint"
+						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
+					<map:parameter name="ctxPath"
+						value="{request:servletPath}" />
+
+				</map:call>
+			</map:match>
+
+
+
+			<map:match pattern="views/JNLPView">
+
+				<map:generate src="jx/MindClient.jx" type="jx"
+					label="content" />
+
+				<map:serialize type="jnlp" />
+
+			</map:match>
+
+
+
+			<map:match pattern="scripts/*.js">
+				<map:read src="scripts/{1}.js" />
+			</map:match>
+			
+			<map:match pattern="flows/*.js">
+				<map:read src="flows/{1}.js" />
+			</map:match>
+			
+			<map:match pattern="client/dist/**.jar">
+				<map:read src="client/dist/{1}.jar" />
+			</map:match>
+
+			<map:match pattern="css/*.css">
+				<map:read src="css/{1}.css" />
+			</map:match>
+
+			<map:match pattern="xslt/**.xsl">
+				<map:read src="xslt/{1}.xsl" />
+			</map:match>
+
+			<map:match pattern="images/*.*">
+				<map:read src="images/{1}.{2}" />
+			</map:match>
+
+			<map:match pattern="icons/*.ico">
+				<map:read src="icons/{1}.ico" />
+			</map:match>
+			
+			<map:match pattern="icons/*.*">
+				<map:read src="icons/{1}_icon.{2}" />
+			</map:match>
+
+			<map:match pattern="icons/*/feed.png">
+				<map:read src="icons/feed/feed-icon-{1}.png" />
+			</map:match>
+
+			<map:match pattern="buttons/*x*/*.*">
+				<map:read src="buttons/{3}-button-{1}.{4}" />
+			</map:match>
+			
+			<map:match pattern="buttons/*.*">
+				<map:read src="buttons/{1}_button.{2}" />
+			</map:match>
+
+			<!-- icons from tango jar -->
+
+			<!-- this here was the only one without a resources/ path prefix -->
+			<map:match pattern="icons/*/folder.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/places/folder.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/application/pdf.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/actions/*.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/actions/{2}.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/apps/*.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/apps/{2}.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/text/html.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/text/*.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/text-x-generic.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/image/*.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/image-x-generic.png" />
+			</map:match>
+
+			<map:match pattern="icons/*/*/*.png">
+				<map:read
+					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
+			</map:match>
+
+			<map:match pattern="**templates/HtmlEditorToolbarOneline.html">
+				<map:read src="templates/wikiToolbarTemplate.html" />
+			</map:match>
+ 
+			<map:match pattern="_cocoon/resources/dojo/mindquarry/**">
+				<map:read
+					src="scripts/dojo/mindquarry/{1}" />
+			</map:match>
+
+			<!-- FIXME: temporary overwrite of the BUHandler with new redirect code in it -->
+			<map:match pattern="_cocoon/resources/ajax/js/BUHandler.js">
+				<map:read
+					src="scripts/dojo/mindquarry/BUHandler.js" />				
+			</map:match>
+			
+
+			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
+			<map:match pattern="_cocoon/resources/dojo/cocoon.js">
+				<map:read
+					src="resource://org/apache/cocoon/ajax/resources/cocoon.js" />
+			</map:match>
+
+			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
+			<map:match pattern="_cocoon/resources/dojo/cocoon/ajax/**">
+				<map:read
+					src="resource://org/apache/cocoon/ajax/resources/js/{1}" />
+			</map:match>
+			
+			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
+			<map:match pattern="_cocoon/resources/dojo/cocoon/forms/**">
+				<map:read
+					src="resource://org/apache/cocoon/forms/resources/js/{1}" />
+			</map:match>
+			
+			
+			<!-- cooon resources (needed for dojo scripts, etc) -->
+			<map:match pattern="_cocoon/resources/*/**">
+				<map:read
+					src="resource://org/apache/cocoon/{1}/resources/{2}" />
+			</map:match>
+
+		</map:pipeline>
+	</map:pipelines>
+</map:sitemap>
+

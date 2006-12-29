@@ -1,0 +1,18 @@
+h1 {
+  text-align:center;
+  margin-bottom:20px;
+}
+
+h1, h2 {
+  color:#6b6b6b;
+  font-weight:normal;
+}
+
+h1.content {
+  font-size:36pt;
+}
+
+h1.title {
+  text-align:center;
+  font-size:44pt;
+}

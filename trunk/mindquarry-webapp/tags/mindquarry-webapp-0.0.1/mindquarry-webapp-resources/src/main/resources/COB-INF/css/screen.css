@@ -1,0 +1,317 @@
+/* Headline Rules */
+@import "headline.css";
+/* Navigation Rules */
+@import "navigation.css";
+/* Content Page Rules*/
+@import "content.css";
+
+a:link {
+	color:#0000cc;
+}
+
+a:visited {
+	color:#6666cc;
+}
+
+a:hover {
+	color:#3333ff;
+	text-decoration:none;
+}
+
+/* Main Rules */
+p, div,  td, textarea {
+  font-family:"Lucida Grande", "Bitstream Vera Sans", Verdana, Sans, Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family:Helvetica,Arial,sans-serif;
+}
+
+html, body, #webapp-content {
+	min-height: 100%;
+	width: 100%;
+	height: 100%;
+}
+
+#webapp-content {
+	z-index:50;
+}
+
+/*
+ * The "height" above is a hack for IE5+/Win.  Below we adjust
+ * it using the child selector to hide from IE5+/Win
+ */
+
+html>body, html>body #webapp-content {
+	height: auto;
+}
+
+body {
+	margin: 0;
+	background-color:#efefef;
+	color:black;
+	font-family: Arial, sans-serif;
+}
+
+#background-repeater {
+	left:0px;
+	background-color:#fff;
+	background-repeat:repeat-y;
+}
+
+
+#background-lines {
+	background-repeat:no-repeat;
+}
+
+
+#background-s {
+	background-repeat:repeat-x;
+	background-position:bottom;
+}
+
+#background-n {
+	background-repeat:repeat-x;
+}
+
+#background-w {
+	background-repeat:repeat-y;
+}
+
+#background-e {
+	background-repeat:repeat-y;
+	background-position:right;
+}
+
+#background-nw {
+	background-repeat:no-repeat;
+}
+
+#background-ne {
+	background-repeat:no-repeat;
+	background-position:right top;
+}
+
+#background-sw {
+	background-repeat:no-repeat;
+	background-position:left bottom;
+}
+
+#background-se {
+	background-repeat:no-repeat;
+	background-position:bottom right;
+}
+
+#background-nw {
+	background-repeat:no-repeat;
+}
+
+#innercontent {
+	padding:30px;
+}
+
+/* BORDERS */
+
+#background-s {
+	background-image:url(../images/border-s.gif);
+}
+
+#background-n {
+	background-image:url(../images/border-n.gif);
+}
+
+#background-w {
+	background-image:url(../images/border-w.gif);
+}
+
+#background-e {
+	background-image:url(../images/border-e.gif);
+}
+
+#background-nw {
+	background-image:url(../images/border-nw.gif);
+}
+
+#background-ne {
+	background-image:url(../images/border-ne.gif);
+}
+
+#background-sw {
+	background-image:url(../images/border-sw.gif);
+}
+
+#background-se {
+	background-image:url(../images/border-se.gif);
+}
+
+#background-nw {
+	background-image:url(../images/border-nw.gif);
+}
+
+
+
+
+
+
+/*
+FORMS
+*/
+	
+dl.ductform {
+	width:100%;
+}
+
+dl.ductform dt label, dl.ductform dd div.repeater th {
+	font-size:9pt;
+	font-weight:normal;
+	color:#666666;
+	background-color:white;
+}
+
+dl.ductform dd {
+	font-size:14pt;
+	color:#333333;
+	background-color:white;
+	margin-bottom:5px;
+	clear:both;
+}
+
+dl.ductform dt {
+	clear:both;
+}
+
+dl.ductform dd label.hidden {
+    display:none;
+}
+
+dl.ductform dd input.field,  dl.ductform dd span.output, dl.ductform dd textarea.field, dl.ductform dd div.RichTextEditable {
+	font-size:14pt;
+	color:#333333;
+	background-color:white;
+	margin-bottom:15px;
+	border-width:1px;
+	border-style:inset;
+	border-color:#333333;
+	width:100%;
+	display:block;
+	padding:2px;
+	float:right;
+}
+
+dl.ductform dd div.repeater input.field,  dl.ductform dd div.repeater span.output, dl.ductform dd div.repeater input.action {
+    display:block;
+    width:150px;
+    float:left;
+    margin-bottom:2px;
+}
+
+dl.ductform dd div.repeater input.output {
+    display:none;
+}
+
+dl.ductform dd div.repeater table {
+    border:1px solid #666666;
+	padding:0px;
+	border-spacing:0px;
+}
+
+dl.ductform dd div.repeater th {
+    text-align:left;
+    font-weight:normal;
+    background-color:#eeeeee;
+    padding:2px;
+}
+
+dl.ductform dd div.repeater td {
+    text-align:left;
+    font-weight:normal;
+    padding:2px;
+}
+
+dl.ductform dd div.RichTextEditable {
+    margin-top:2px;
+    height:200px;
+}
+
+dl.ductform dd div.EditorToolbarSmallBg {
+    width:100%;
+	display:block;
+	padding:2px;
+	float:right;
+	border-width:1px;
+	border-style:solid;
+	border-color:#ffffff;
+	width:100%;
+	display:block;
+	padding:2px;
+	float:right;
+}
+
+dl.ductform dd span.output {
+	border-color:white;
+	border-style:solid;
+}
+
+dl.ductform a.help {
+	display:block;
+	margin-left:-30px;
+	padding-top:6px;
+}
+
+dl.ductform a.help img {
+	border:0px;
+	display:block;
+}
+
+#ductform.description {
+    display:block;
+    border:2px solid black;
+    height:100px;
+    width:100%;
+}
+
+div.togglebutton, div.togglebuttonpushed {
+	float:left;
+	border:1px outset #dddddd;
+	background-color:#dddddd;
+	padding-top:4px;
+	padding-right:4px;
+	padding-left:30px;
+	margin:2px;
+	height:22px;
+	width:100px;
+	text-align:left;
+	background-repeat:no-repeat;
+	background-position:4px 1px;
+}
+
+div.togglebutton {
+	border-style:outset;
+}
+
+div.togglebutton:hover, div.togglebuttonpushed:hover {
+	background-color:#eeeeee;
+}
+
+div.togglebuttonpushed {
+	border-style:inset;
+}
+
+div.togglebutton input, div.togglebuttonpushed input {
+	display:none!important;
+}
+
+div.togglebutton label, div.togglebuttonpushed label {
+	font-size:10pt;
+	font-weight:normal;
+}
+
+
+
+div.dropdownbuttons div.togglebutton, div.dropdownbuttons div.togglebuttonpushed {
+    float:none;
+}
+
+div.form_block {
+	clear:both;
+}
