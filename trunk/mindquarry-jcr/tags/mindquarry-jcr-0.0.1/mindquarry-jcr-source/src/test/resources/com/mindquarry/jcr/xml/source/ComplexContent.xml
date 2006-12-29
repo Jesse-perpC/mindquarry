@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<user:user xmlns:user="http://www.mindquarry.com/ns/schema/user">
+	<user:id>bastian</user:id>
+	<user:password>password</user:password>
+	<user:name xmlns:user="http://www.mindquarry.com/ns/schema/name">
+		<user:first>Bastian</user:first>
+		<user:last>Steinert</user:last>
+	</user:name>
+	<email:email
+		xmlns:email="http://www.mindquarry.com/ns/schema/email"
+		user:a="true">
+		<email:address>bastian.steinert@mindquarry.com</email:address>
+		<email:isConversationRecipient>
+			true
+		</email:isConversationRecipient>
+	</email:email>
+</user:user>
