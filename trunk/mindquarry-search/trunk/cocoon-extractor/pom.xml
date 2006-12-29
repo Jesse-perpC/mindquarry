@@ -1,7 +1,3 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- 
-     Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved 
--->
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <!--<artifactId>cocoon-blocks-modules</artifactId>
@@ -12,14 +8,14 @@
          of the mindquarry repository -->
     <groupId>com.mindquarry.search</groupId>
     <artifactId>mindquarry-search</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
 
   <groupId>com.mindquarry.search.cocoon</groupId>
   <artifactId>cocoon-extractor</artifactId>
-  <version>2-SNAPSHOT</version>
+  <version>2</version>
 
   <name>Cocoon Text Extractor Block [Root]</name>
 
@@ -102,15 +98,9 @@
   </modules>
   
   <scm>
-		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/
-		</connection>
-		<url>
-			https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/cocoon-extractor/
-		</url>
-		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/
-		</developerConnection>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</connection>
+		<url>https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</developerConnection>
 	</scm>
 	
 	<build>
