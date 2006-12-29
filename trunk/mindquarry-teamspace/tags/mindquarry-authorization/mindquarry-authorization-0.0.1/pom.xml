@@ -1,0 +1,86 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>jar</packaging>
+
+	<parent>
+		<artifactId>mindquarry-teamspace-root</artifactId>
+		<groupId>com.mindquarry.teamspace</groupId>
+		<version>0.0.1</version>
+	</parent>
+
+	<groupId>com.mindquarry.teamspace</groupId>
+	<artifactId>mindquarry-authorization</artifactId>
+	<name>Mindquarry Authorization</name>
+	<version>0.0.1</version>
+
+	<developers>
+		<developer>
+			<id>bastian</id>
+			<name>Bastian Steinert</name>
+			<email>bastian.steinert@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+	</developers>
+	
+	<build>
+	       <plugins>
+	                <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://secure.mindquarry.com/repos/mindquarry-teamspace/tags/mindquarry-authorization/</tagBase>
+				</configuration>
+			</plugin>
+	       </plugins>
+	</build>
+
+	<scm>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/tags/mindquarry-authorization/mindquarry-authorization-0.0.1</connection>
+		<url>https://secure.mindquarry.com/repos/mindquarry-teamspace/tags/mindquarry-authorization/mindquarry-authorization-0.0.1</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/tags/mindquarry-authorization/mindquarry-authorization-0.0.1</developerConnection>
+	</scm>
+
+	<repositories>
+		<repository>
+			<id>mindquarry.releases</id>
+			<name>Mindquarry Repository</name>
+			<url>http://www.mindquarry.com/releases/</url>
+			<layout>default</layout>
+		</repository>
+	</repositories>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.workspace</groupId>
+			<artifactId>mindquarry-dma-admin</artifactId>
+			<version>0.0.1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>castor-persistence</artifactId>
+			<version>0.0.1</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M3_Mindquarry_1</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jackrabbit</artifactId>
+			<version>0.0.1</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+</project>
