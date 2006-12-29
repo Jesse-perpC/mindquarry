@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ts:teamspace xmlns:ts="http://www.mindquarry.com/ns/schema/teamspace">	
+	<id>dmatest</id>
+	<name>The Mindquarry Dma Test Project</name>
+	<workspace-uri>file:///c:/tmp/svn-repos/dmatest/</workspace-uri>
+	<description>this is a dummy project for testing purposes...</description>
+</ts:teamspace>
