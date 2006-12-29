@@ -5,12 +5,11 @@
 	<parent>
 		<groupId>com.mindquarry.dforms</groupId>
 		<artifactId>mindquarry-ductforms</artifactId>
-		<version>0.0.1</version>
+		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>mindquarry-dforms</artifactId>
 	<packaging>jar</packaging>
-	<version>1.0-M1-SNAPSHOT</version>
 
 	<name>Mindquarry Ductile Forms for Cocoon</name>	
 
@@ -44,7 +43,7 @@
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 	</dependencies>
 	
