@@ -23,7 +23,9 @@ sub handler {
 	my ($status, $password) = $r->get_basic_auth_pw;
 	#return $status unless $status == Apache2::Const::OK;
 	# Perform some custom user/password validation.
-	return Apache2::Const::OK if authenticate($r->user, $password, $base . $r->path_info);
+	my $pathinfo = $r->path_info;
+	$pathinfo =~ s/\/([^\/]*)\/(.*)/\/$1\//;
+	return Apache2::Const::OK if authenticate($r->user, $password, $base . $pathinfo);
 	# Whoops, bad credentials.
 	$r->note_basic_auth_failure;
 	return Apache2::Const::HTTP_UNAUTHORIZED;
@@ -45,16 +47,23 @@ sub authenticate {
             return ( $username, $password );
         };
 	
+	$agent->default_header('Accept' => "text/plain");
+
+	#$url = $url."?request=login&targetUri=/";
+	$s->log_error("URL: ".$url);
 	$response = $agent->head($url);
 	
-	
+	$s->log_error("Response Code: ".$response->code);	
+	#$s->log_error("Response: ".$response->as_string);
 	if ($response->code == 401) {
+		$s->log_error("HTTP Code 401");
 		return 0;
 	}
 	if ($response->is_error) {
 		$s->log_error("Error Message: " . $response->status_line);
 		return 0;
 	}
+	$s->log_error("Authentication seems ok");
 	return 1;
 }
 
