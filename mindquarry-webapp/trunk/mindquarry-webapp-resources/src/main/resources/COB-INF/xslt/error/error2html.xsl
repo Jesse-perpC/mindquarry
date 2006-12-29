@@ -93,12 +93,12 @@
       </head>
       <body>
 
-        <h1>
+        <h1 id="title">
           <xsl:value-of select="$title"/>
         </h1>
 
         <div class="nifty">
-          <h2>
+          <h2 id="errormessage">
             <xsl:value-of select="error:message"/>
           </h2>
 
