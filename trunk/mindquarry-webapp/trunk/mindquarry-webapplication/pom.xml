@@ -299,12 +299,13 @@
     </dependency>
 
     <!-- enterprise components -->
+    <!--
     <dependency>
       <groupId>com.mindquarry.management</groupId>
       <artifactId>mindquarry-management</artifactId>
       <version>1.0-M1-SNAPSHOT</version>
     </dependency>
-
+    -->
     <!-- missing dependency for tomcat 5 -->
     <dependency>
       <groupId>xpp3</groupId>
