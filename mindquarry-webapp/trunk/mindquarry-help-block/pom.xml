@@ -70,6 +70,13 @@
 			<artifactId>mindquarry-webapp-resources</artifactId>
 			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
+    
+    <dependency>
+      <groupId>docbook</groupId>
+      <artifactId>docbook-xsl</artifactId>
+      <version>1.67.2</version>
+      <type>zip</type>
+    </dependency>
 	</dependencies>
 
 

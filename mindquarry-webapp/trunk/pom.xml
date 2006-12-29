@@ -20,6 +20,7 @@
 		<module>mindquarry-launcher</module>
 		<module>mindquarry-webapplication</module>
 		<module>mindquarry-welcome-block</module>
+		<module>mindquarry-help-block</module>
 		<!--+
 		    | resources block is used by all the blocks
 		    | that are dependencies of mindquarry-webapplication
