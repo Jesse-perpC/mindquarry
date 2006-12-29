@@ -11,7 +11,7 @@
   <groupId>com.mindquarry.webapp</groupId>
   <artifactId>mindquarry-webapplication</artifactId>
   <name>Mindquarry Webapplication</name>
-  <version>0.0.1</version>
+  <version>1.0-M1-SNAPSHOT</version>
 
   <!-- Apart from creating a WAR-archive this tells the cocoon deployer
 		plugin to use our own web.xml stuff from src/main/webapp -->
@@ -309,8 +309,8 @@
   </dependencies>
 
   <scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapplication/mindquarry-webapplication-0.0.1</connection>
-    <url>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapplication/mindquarry-webapplication-0.0.1</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapplication/mindquarry-webapplication-0.0.1</developerConnection>
+    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</connection>
+    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapplication/</url>
+    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</developerConnection>
   </scm>
 </project>
