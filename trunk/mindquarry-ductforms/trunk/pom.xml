@@ -10,7 +10,7 @@
 
 	<groupId>com.mindquarry.dforms</groupId>
 	<artifactId>mindquarry-ductforms</artifactId>
-	<version>0.0.1</version>
+	<version>1.0-M1-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
 	<name>Mindquarry Ductforms Package</name>
@@ -20,9 +20,9 @@
 	</modules>
 
 	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/tags/mindquarry-ductforms-0.0.1</connection>
-		<url>https://secure.mindquarry.com/repos/mindquarry-ductforms/tags/mindquarry-ductforms-0.0.1</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/tags/mindquarry-ductforms-0.0.1</developerConnection>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/trunk/</connection>
+		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-ductforms/trunk/</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/trunk/</developerConnection>
 	</scm>
 
 	<build>
