@@ -1,0 +1,16 @@
+<html>
+
+	<head>
+		<title>Quick Search</title>
+    <script type="text/javascript">
+        dojo.require("mindquarry.widget.QuickSearch");
+    </script>
+		
+	</head>
+	<body>
+
+		<h1>Quick Search Demo</h1>
+		<div dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>
+
+	</body>
+</html>

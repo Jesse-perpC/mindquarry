@@ -1,0 +1,42 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1.1</version>
+	</parent>
+
+	<groupId>com.mindquarry.search</groupId>
+	<artifactId>mindquarry-search</artifactId>
+	<version>0.0.1</version>
+	<packaging>pom</packaging>
+
+	<name>Mindquarry Search [Root]</name>
+
+	<modules>
+    <module>mindquarry-solr</module>
+    <module>mindquarry-solr-block</module>
+    <module>mindquarry-search-block</module>
+    <module>cocoon-extractor</module>
+  </modules>
+
+	<scm>
+		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</connection>
+		<url>https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</url>
+		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/tags/mindquarry-search-0.0.1</developerConnection>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://secure.mindquarry.com/repos/mindquarry-search/tags
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="com.mindquarry.search.solr.solr-admin-block"
+		class="org.apache.cocoon.blocks.shielding.ShieldingBlockServlet">
+		<property name="mountPath" value="/solr" />
+
+		<property name="blockContextURL"
+			value="blockcontext:/mindquarry-solr-block/" />
+
+		<property name="servletClass"
+			value="org.apache.cocoon.sitemap.SitemapServlet" />
+		
+		<property name="shieldedGroup" value="solr-servlets" />
+	</bean>
+
+	<bean id="com.mindquarry.search.solr.solr-select-block"
+		class="org.apache.cocoon.blocks.shielding.ShieldingBlockServlet">
+		<property name="mountPath" value="/solr-select" />
+
+		<property name="blockContextURL"
+			value="blockcontext:/mindquarry-solr-block/" />
+		
+		<property name="servletClass"
+			value="org.apache.solr.servlet.SolrServlet" />
+
+		<property name="shieldedGroup" value="solr-servlets" />
+	</bean>
+
+	<bean id="com.mindquarry.search.solr.solr-update-block"
+		class="org.apache.cocoon.blocks.shielding.ShieldingBlockServlet">
+		<property name="mountPath" value="/solr-update" />
+
+		<property name="blockContextURL"
+			value="blockcontext:/mindquarry-solr-block/" />
+
+		<property name="servletClass"
+			value="org.apache.solr.servlet.SolrUpdateServlet" />
+
+		<property name="shieldedGroup" value="solr-servlets" />
+	</bean>
+</beans>
