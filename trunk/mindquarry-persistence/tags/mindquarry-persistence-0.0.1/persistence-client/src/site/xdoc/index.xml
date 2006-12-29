@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document>
+	<properties>
+		<title>Introduction</title>
+	</properties>
+	<body>
+		<section name="Startup">
+			-a src/test/resources/teamspace-dma.xml -p mypwd -u bastian -r rmi://localhost:1099/jackrabbit
+		</section>
+	</body>
+</document>
