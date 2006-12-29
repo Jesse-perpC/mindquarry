@@ -50,7 +50,7 @@ div.edit-buttons {
 	padding: 0;
 	display:none;
 	
-/* nadia changes - in these boxes are the old stuff
+/* 
 	float:right;
 	display:none;
 */	
@@ -133,9 +133,8 @@ div.name {
 	overflow:hidden;
 	text-overflow: ellipsis;
 
-/**************************/
 	width:auto;
-/**************************/
+
 }
 
 ul.members {
@@ -147,9 +146,6 @@ ul.members {
 	margin-right:5px;
 	position:relative;
 **************************/	
-
-	
-/****************************/
 	clear:both;
 	margin-top: -60px;	
 	margin-right: 10px;
@@ -160,7 +156,7 @@ ul.members {
 	z-index:2;
 
 }
-/**************************/
+
 ul.members li {
 	display:block;
 	width:50px;
