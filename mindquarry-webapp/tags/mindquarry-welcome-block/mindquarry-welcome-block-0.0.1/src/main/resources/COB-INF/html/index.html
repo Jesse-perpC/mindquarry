@@ -1,0 +1,183 @@
+<html xmlns:us="http://www.mindquarry.com/ns/schema/userswitch">
+	<head>
+		<title>Welcome</title>
+			
+		<!-- this css stuff is inline so that the user agent xsl switch for
+			 the buttons can run -->
+		<style type="text/css">
+#innercontent table.welcome td {
+	vertical-align:top;
+	padding:5px;
+	width:20%;
+	font-size:11pt;
+}
+
+#innercontent a.orangebutton {
+	background-image:url(resources/buttons/133x46/orange.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.redbutton {
+	background-image:url(resources/buttons/133x46/red.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.bluebutton {
+	background-image:url(resources/buttons/133x46/blue.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.greenbutton {
+	background-image:url(resources/buttons/133x46/green.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent a.yellowbutton {
+	background-image:url(resources/buttons/133x46/yellow.<us:text test="MSIE" value="gif" default="png"/>);
+	display:block;
+	width:133px;
+	height:46px;
+	margin-left:auto;
+	margin-right:auto;
+	text-decoration:none;
+	color:white;
+	background-repeat:no-repeat;
+	font-size:15pt;
+	padding-top:10px;
+}
+
+#innercontent img {
+	border:0px;
+}
+		</style>
+	</head>
+	<body>
+		<h1>Mindquarry - Achieving more together</h1>
+		<p>
+			Mindquarry is here to make your daily work more productive.
+			Click one of the buttons below to manage teams, files, tasks
+			or browse the wiki. If you need help, you can always click
+			the the help symbol at the upper right corner of the screen.
+			The expand button at the upper left corner of the screen shows
+			you a customizable list of small helper programs devoted to
+			making you more productive.
+		</p>
+		<table class="welcome">
+			<tr>
+				<td style="text-align:center;"><a href="teamspace/"><img alt="Teams Icon" ><us:attribute name="src" test="MSIE" value="resources/icons/teams.gif" default="resources/icons/teams.png"/></img></a></td>
+				<td style="text-align:center;"><a href="workspace/"><img alt="Workspaces Icon"><us:attribute name="src" test="MSIE" value="resources/icons/workspaces.gif" default="resources/icons/workspaces.png"/></img></a></td>
+				<td style="text-align:center;"><a href="wiki/"><img alt="Wiki Icon"><us:attribute name="src" test="MSIE" value="resources/icons/wiki.gif" default="resources/icons/wiki.png"/></img></a></td>
+				<td style="text-align:center;"><a href="tasks/"><img alt="Tasks Icon"><us:attribute name="src" test="MSIE" value="resources/icons/tasks.gif" default="resources/icons/tasks.png"/></img></a></td>
+				<!--td style="text-align:center;"><a href="#">
+				<img alt="Talk Icon"><us:attribute name="src" test="MSIE" value="resources/icons/conversations.gif" default="resources/icons/conversations.png"/></img></a></td-->
+			</tr>
+			<tr>
+				<td>The teams block allows you to see all the 
+				teams you participate in. Additionally you can 
+				add members to your teams and create new teams 
+				for new projects.</td>
+				<td>The workspace management block stores all
+				your documents and keeps a history of changes.</td>
+				<td>The Wiki is your personal idea-store,
+				blackboard and glossary. Share ideas with your
+				colleagues and develop creativity.</td>
+				<td>With the task management block you can see
+				your todo list and assign tasks to your team
+				members</td>
+				<!-- 
+				<td>The conversation management block stores all
+				discussions, chat archives and meeting minutes.</td>
+				 -->
+			</tr>
+			<tr>
+				<td style="text-align:center;"><a href="teamspace/" class="orangebutton">Teams</a></td>
+				<td style="text-align:center;"><a href="workspace/" class="redbutton">Workspaces</a></td>
+				<td style="text-align:center;"><a href="wiki/" class="bluebutton">Wiki</a></td>
+				<td style="text-align:center;"><a href="tasks/" class="greenbutton">Tasks</a></td>
+				<!--
+				<td style="text-align:center;"><a href="talk/" class="yellowbutton">Talk</a></td>
+				-->
+			</tr>
+			<tr>
+				<td>
+					<p>I would like to...</p>
+					<ul>
+						<li><a href="teamspace/">see my projects</a></li>
+						<li><a href="#">create a new project</a></li>
+						<li><a href="#">add a new team member</a></li>
+					</ul>
+				</td>
+				<td>
+					<p>I would like to...</p>
+					<ul>
+						<li><a href="workspace/">see my files</a></li>
+						<li><a href="#">restore old versions</a></li>
+						<li><a href="#">see new files</a></li>
+					</ul>
+				</td>
+				<td>
+					<p>I would like to...</p>
+					<ul>
+						<li><a href="wiki/">take notes</a></li>
+						<li><a href="#">see most recent notes</a></li>
+						<li><a href="#">lookup the glossary</a></li>
+					</ul>
+				</td>
+				<td>
+					<p>I would like to...</p>
+					<ul>
+						<li><a href="tasks/">see my tasks</a></li>
+						<li><a href="#">assign a task</a></li>
+						<li><a href="#">track my work's status</a></li>
+					</ul>
+				</td>
+				<!--
+				<td>
+					<p>I would like to...</p>
+					<ul>
+						<li><a href="talk/">start a conversation</a></li>
+						<li><a href="#">see recent conversations</a></li>
+						<li><a href="#">lookup meeting minutes</a></li>
+					</ul>
+				</td>
+				-->
+			</tr>
+		</table>
+	</body>
+</html>
