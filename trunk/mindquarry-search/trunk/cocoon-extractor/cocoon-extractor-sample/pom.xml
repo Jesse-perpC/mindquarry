@@ -15,7 +15,7 @@
     <dependency>
       <groupId>com.mindquarry.search.cocoon</groupId>
       <artifactId>cocoon-extractor-impl</artifactId>
-      <version>1.0.0-M2</version>
+      <version>1.0.0-M2-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.apache.cocoon</groupId>

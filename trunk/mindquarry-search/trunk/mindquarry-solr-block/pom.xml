@@ -59,7 +59,7 @@
 		<dependency>
 			<groupId>com.mindquarry.search</groupId>
 			<artifactId>mindquarry-solr</artifactId>
-			<version>0.0.1</version>
+			<version>1.0-M1-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
