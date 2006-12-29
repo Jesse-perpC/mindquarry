@@ -72,10 +72,9 @@
 		</dependency>
     
     <dependency>
-      <groupId>docbook</groupId>
+      <groupId>org.docbook</groupId>
       <artifactId>docbook-xsl</artifactId>
-      <version>1.67.2</version>
-      <type>zip</type>
+      <version>1.71.1</version>
     </dependency>
 	</dependencies>
 
