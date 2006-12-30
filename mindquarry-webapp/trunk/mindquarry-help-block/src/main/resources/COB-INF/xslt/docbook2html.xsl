@@ -34,6 +34,8 @@
   <xsl:param name="navig.graphics.path">images/docbook/</xsl:param>
   <xsl:param name="use.id.as.filename" select="'1'"/>
   
+<xsl:param name="suppress.header.navigation">1</xsl:param>
+  
   <xsl:template match="set|book|part|preface|chapter|appendix|article|reference|refentry|book/glossary|article/glossary|part/glossary|book/bibliography|article/bibliography|part/bibliography|colophon">
   <xsl:variable name="chunkfn">
     <xsl:apply-templates mode="chunk-filename" select="."/>
