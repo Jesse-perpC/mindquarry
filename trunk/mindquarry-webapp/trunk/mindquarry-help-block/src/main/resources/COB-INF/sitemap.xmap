@@ -9,8 +9,8 @@
 			<serialize type="xml" />
 		</view>
 
-		<view name="form" from-label="form">
-			<serialize type="xml" />
+		<view name="html" from-label="html">
+			<serialize type="html" />
 		</view>
 	</views>
 
@@ -187,8 +187,24 @@
         <read src="block:super:/icons/22x22/actions/go-previous.png" />
 			</match>
       
+      <match pattern="images/docbook/up.png">
+        <read src="block:super:/icons/22x22/actions/go-up.png" />
+			</match>
+      
+      <match pattern="images/docbook/tip.png">
+        <read src="resource://org/tango-project/tango-icon-theme/22x22/status/dialog-information.png" />
+			</match>
+      
       <match pattern="images/docbook/note.png">
         <read src="resource://org/tango-project/tango-icon-theme/22x22/status/dialog-information.png" />
+			</match>
+      
+      <match pattern="images/docbook/caution.png">
+        <read src="resource://org/tango-project/tango-icon-theme/22x22/status/dialog-warning.png" />
+			</match>
+      
+      <match pattern="images/docbook/warning.png">
+        <read src="resource://org/tango-project/tango-icon-theme/22x22/status/dialog-error.png" />
 			</match>
       
 			<match pattern="images/docbook/**">
@@ -243,6 +259,7 @@
         <transform src="xslt/docbook2html.xsl">
           <parameter name="desiredfilename" value="{1}.html"/>
         </transform>
+        <transform src="xslt/styledocbookhtml.xsl" label="html"/>
         <call resource="layouting" />
 			</match>
 
