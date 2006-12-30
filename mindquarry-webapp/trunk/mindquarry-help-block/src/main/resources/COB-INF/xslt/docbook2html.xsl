@@ -25,32 +25,14 @@
   <xsl:param name="desiredfilename" select="'index.html'" />
   <xsl:param name="writerealfiles" select="0" />
   <xsl:param name="chunk.fast" select="1"/>
-
-  <!--
-  <xsl:template match="/" priority="5">
-    <xsl:apply-templates select="//*" mode="testchunk"/>
-  </xsl:template>
-  
-  <xsl:template match="*" mode="testchunk">
-    <xsl:variable name="chunk"><xsl:call-template name="chunk" /></xsl:variable>
-    <xsl:if test="$chunk!=0">
-      <xsl:variable name="chunkfn">
-        <xsl:apply-templates mode="chunk-filename" select="."/>
-      </xsl:variable>
-    
-      <xsl:variable name="filename">
-        <xsl:call-template name="make-relative-filename">
-          <xsl:with-param name="base.dir" select="$base.dir"/>
-          <xsl:with-param name="base.name" select="$chunkfn"/>
-        </xsl:call-template>
-      </xsl:variable>
-      
-      <xsl:if test="$desiredfilename=$filename">
-        <xsl:apply-templates select="."/>
-      </xsl:if>
-    </xsl:if>
-  </xsl:template>
-  -->
+  <xsl:param name="admon.graphics" select="1"/>
+  <xsl:param name="admon.graphics.path">images/docbook/</xsl:param>
+  <xsl:param name="footer.rule" select="0"/>
+  <xsl:param name="header.rule" select="0"/>
+  <xsl:param name="navig.graphics.extension" select="'.png'"/>
+  <xsl:param name="navig.graphics" select="1"/>
+  <xsl:param name="navig.graphics.path">images/docbook/</xsl:param>
+  <xsl:param name="use.id.as.filename" select="'1'"/>
   
   <xsl:template match="set|book|part|preface|chapter|appendix|article|reference|refentry|book/glossary|article/glossary|part/glossary|book/bibliography|article/bibliography|part/bibliography|colophon">
   <xsl:variable name="chunkfn">

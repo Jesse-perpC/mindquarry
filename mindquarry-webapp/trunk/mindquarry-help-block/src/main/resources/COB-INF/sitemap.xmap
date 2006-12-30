@@ -173,6 +173,27 @@
 					</otherwise>
 				</select>
 			</match>
+      
+
+      <match pattern="images/docbook/next.png">
+        <read src="block:super:/icons/22x22/actions/go-next.png" />
+			</match>
+      
+      <match pattern="images/docbook/home.png">
+        <read src="block:super:/icons/22x22/actions/go-home.png" />
+			</match>
+      
+      <match pattern="images/docbook/prev.png">
+        <read src="block:super:/icons/22x22/actions/go-previous.png" />
+			</match>
+      
+      <match pattern="images/docbook/note.png">
+        <read src="resource://org/tango-project/tango-icon-theme/22x22/status/dialog-information.png" />
+			</match>
+      
+			<match pattern="images/docbook/**">
+        <read src="xslt/docbook/images/{1}" />
+			</match>
 
 			<match pattern="buttons/*.*">
 				<select type="resource-exists">

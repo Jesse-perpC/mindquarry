@@ -11,7 +11,7 @@ are working or we are using docbook 5 -->
 
     <section>
       <title>Installation Prerequisites</title>
-
+      <note><para>Nobody knows this.</para></note>
       <para>In order to install Mindquarry, you need things.</para>
     </section>
     <section>
