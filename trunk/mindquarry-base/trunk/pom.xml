@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
     <!-- test -->
-
-	<modelVersion>4.0.0</modelVersion>
-	<packaging>pom</packaging>
-
-	<name>Mindquarry Root Pom</name>
-	<url>http://www.mindquarry.com</url>
-	<description>
-
-	</description>
-
-	<groupId>com.mindquarry</groupId>
-	<artifactId>mindquarry</artifactId>
-	<version>1.1-SNAPSHOT</version>
-
-	<modules>
-		<module>mindquarry-common</module>
-		<module>mindquarry-events</module>
-	</modules>
-
-	<licenses>
-		<license>
-			<name>Mozilla Public License Version 1.1</name>
-			<url>http://www.mozilla.org/MPL/MPL-1.1.txt</url>
-			<distribution>repo</distribution>
-		</license>
-	</licenses>
-
-	<organization>
-		<name>Mindquarry GmbH</name>
-		<url>http://www.mindquarry.com/</url>
-	</organization>
-
-	<repositories>
-		<repository>
-			<id>mindquarry.releases</id>
-			<name>Mindquarry Repository</name>
-			<url>http://www.mindquarry.com/releases/</url>
-			<layout>default</layout>
-		</repository>
-		<repository>
-			<id>mindquarry.snapshots</id>
-			<name>Mindquarry Snapshot Repository</name>
-			<url>http://www.mindquarry.com/snapshots/</url>
-			<layout>default</layout>
-		</repository>
+	
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>pom</packaging>
+	
+  <name>Mindquarry Root Pom</name>
+  <url>http://www.mindquarry.com</url>
+  <description>
+	
+  </description>
+	
+  <groupId>com.mindquarry</groupId>
+  <artifactId>mindquarry</artifactId>
+  <version>1.1-SNAPSHOT</version>
+	
+  <modules>
+    <module>mindquarry-common</module>
+    <module>mindquarry-events</module>
+  </modules>
+	
+  <licenses>
+    <license>
+      <name>Mozilla Public License Version 1.1</name>
+      <url>http://www.mozilla.org/MPL/MPL-1.1.txt</url>
+      <distribution>repo</distribution>
+    </license>
+  </licenses>
+	
+  <organization>
+    <name>Mindquarry GmbH</name>
+    <url>http://www.mindquarry.com/</url>
+  </organization>
+	
+  <repositories>
+    <repository>
+      <id>mindquarry.releases</id>
+      <name>Mindquarry Repository</name>
+      <url>http://www.mindquarry.com/releases/</url>
+      <layout>default</layout>
+    </repository>
+    <repository>
+      <id>mindquarry.snapshots</id>
+      <name>Mindquarry Snapshot Repository</name>
+      <url>http://www.mindquarry.com/snapshots/</url>
+      <layout>default</layout>
+    </repository>
 <!--		<repository>
 			<id>apache.snapshot</id>
 			<name>Apache Snapshot Repository</name>
@@ -60,160 +60,160 @@
 			<url>http://svn.apache.org/repository</url>
 			<layout>legacy</layout>
 		</repository> -->
-	</repositories>
-
-	<pluginRepositories>
-	    <pluginRepository>
-			<id>mindquarry.snapshots</id>
-			<name>Mindquarry Snapshot Repository</name>
-			<url>http://www.mindquarry.com/snapshots/</url>
-			<layout>default</layout>
-	    </pluginRepository>
-            <pluginRepository>
-			<id>mindquarry.releases</id>
-			<name>Mindquarry Repository</name>
-			<url>http://www.mindquarry.com/releases/</url>
-			<layout>default</layout>
-	    </pluginRepository>
-	    <pluginRepository>
-			<id>codehaus.mojo</id>
-			<name>Codehaus Repository</name>
-			<url>http://repository.codehaus.org/</url>
-			<layout>default</layout>
-	    </pluginRepository>
-      <pluginRepository>
-			<id>codehaus.mojo.snapshots</id>
-			<name>Codehaus Repository</name>
-			<url>http://snapshots.repository.codehaus.org/</url>
-			<layout>default</layout>
+  </repositories>
+	
+  <pluginRepositories>
+    <pluginRepository>
+      <id>mindquarry.snapshots</id>
+      <name>Mindquarry Snapshot Repository</name>
+      <url>http://www.mindquarry.com/snapshots/</url>
+      <layout>default</layout>
+    </pluginRepository>
+    <pluginRepository>
+      <id>mindquarry.releases</id>
+      <name>Mindquarry Repository</name>
+      <url>http://www.mindquarry.com/releases/</url>
+      <layout>default</layout>
+    </pluginRepository>
+    <pluginRepository>
+      <id>codehaus.mojo</id>
+      <name>Codehaus Repository</name>
+      <url>http://repository.codehaus.org/</url>
+      <layout>default</layout>
+    </pluginRepository>
+    <pluginRepository>
+      <id>codehaus.mojo.snapshots</id>
+      <name>Codehaus Repository</name>
+      <url>http://snapshots.repository.codehaus.org/</url>
+      <layout>default</layout>
       <snapshots>
-      <enabled>true</enabled>
-    </snapshots>
-    <releases>
-      <enabled>false</enabled>
-    </releases>
-	    </pluginRepository>
-	</pluginRepositories>
-
-	<distributionManagement>
-		<repository>
-			<id>mindquarry.releases</id>
-			<name>Mindquarry Repository</name>
-			<url>
+        <enabled>true</enabled>
+      </snapshots>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
+    </pluginRepository>
+  </pluginRepositories>
+	
+  <distributionManagement>
+    <repository>
+      <id>mindquarry.releases</id>
+      <name>Mindquarry Repository</name>
+      <url>
 				scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/releases
 			</url>
-		</repository>
-		<snapshotRepository>
-			<id>mindquarry.snapshots</id>
-			<name>Mindquarry Snapshots Repository</name>
-			<url>
+    </repository>
+    <snapshotRepository>
+      <id>mindquarry.snapshots</id>
+      <name>Mindquarry Snapshots Repository</name>
+      <url>
 				scp://mindquarry.com/var/www/www.mindquarry.com/htdocs/snapshots
 			</url>
-		</snapshotRepository>
-	</distributionManagement>
-
-	<profiles>
-		<profile>
-			<id>at-mindquarry.com</id>
-			<distributionManagement>
-				<repository>
-					<id>mindquarry.releases</id>
-					<name>Mindquarry Repository</name>
-					<url>
+    </snapshotRepository>
+  </distributionManagement>
+	
+  <profiles>
+    <profile>
+      <id>at-mindquarry.com</id>
+      <distributionManagement>
+        <repository>
+          <id>mindquarry.releases</id>
+          <name>Mindquarry Repository</name>
+          <url>
 						file:///var/www/www.mindquarry.com/htdocs/releases
 					</url>
-				</repository>
-				<snapshotRepository>
-					<id>mindquarry.snapshots</id>
-					<name>Mindquarry Snapshots Repository</name>
-					<url>
+        </repository>
+        <snapshotRepository>
+          <id>mindquarry.snapshots</id>
+          <name>Mindquarry Snapshots Repository</name>
+          <url>
 						file:///var/www/www.mindquarry.com/htdocs/snapshots
 					</url>
-				</snapshotRepository>
-			</distributionManagement>
-		</profile>
-		<profile>
-			<id>deploybuild</id>
-			<activation>
-				<property>
-					<name>fullrelease</name>
-				</property>
-			</activation>
-			<build>
-				<plugins>
-					<plugin>
+        </snapshotRepository>
+      </distributionManagement>
+    </profile>
+    <profile>
+      <id>deploybuild</id>
+      <activation>
+        <property>
+          <name>fullrelease</name>
+        </property>
+      </activation>
+      <build>
+        <plugins>
+          <plugin>
 					<!-- export our test classes in a separate jar -->
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-jar-plugin</artifactId>
-					<executions>
-					  <execution>
-					    <goals>
-					      <goal>test-jar</goal>
-					    </goals>
-					  </execution>
-					</executions>
-				      </plugin>
-				      <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-jar-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
 					<!-- export our sources in a separate jar -->
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-source-plugin</artifactId>
-					<executions>
-					  <execution>
-					    <goals>
-					      <goal>jar</goal>
-					      <goal>test-jar</goal>
-					    </goals>
-					  </execution>
-					</executions>
-				      </plugin>
-				      <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                  <goal>test-jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
 					<!-- export our javadocs in a separate jar -->
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-javadoc-plugin</artifactId>
-					<executions>
-					  <execution>
-					    <goals>
-					      <goal>jar</goal>
-					    </goals>
-					  </execution>
-					</executions>
-				      </plugin>
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
-
-	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.1</version>
-			<scope>test</scope>
-		</dependency>
-	</dependencies>
-
-	<build>
-		<plugins>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+	
+  <dependencies>
+    <dependency>
+      <groupId>junit</groupId>
+      <artifactId>junit</artifactId>
+      <version>4.1</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
+	
+  <build>
+    <plugins>
       <plugin>
-         <groupId>org.codehaus.mojo</groupId>
-         <artifactId>jalopy-maven-plugin</artifactId>
-         <version>1.0-SNAPSHOT</version>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>jalopy-maven-plugin</artifactId>
+        <version>1.0-SNAPSHOT</version>
       </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.5</source>
-					<target>1.5</target>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-site-plugin</artifactId>
-				<configuration>
-					<outputEncoding>UTF-8</outputEncoding>
-				</configuration>
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-site-plugin</artifactId>
+        <configuration>
+          <outputEncoding>UTF-8</outputEncoding>
+        </configuration>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-jar-plugin</artifactId>
@@ -227,33 +227,33 @@
         </configuration>
       </plugin>
       <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://secure.mindquarry.com/repos/mindquarry-base/tags/</tagBase>
-				</configuration>
-			</plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://secure.mindquarry.com/repos/mindquarry-base/tags/</tagBase>
+        </configuration>
+      </plugin>
     </plugins>
-	</build>
-
-	<ciManagement>
-		<system>continuum</system>
-		<notifiers>
-			<notifier>
-				<type>mail</type>
-				<configuration>
-					<address>builds@mindquarry.com</address>
-				</configuration>
-			</notifier>
-		</notifiers>
-	</ciManagement>
-
-	<reporting>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-checkstyle-plugin</artifactId>
-			</plugin>
+  </build>
+	
+  <ciManagement>
+    <system>continuum</system>
+    <notifiers>
+      <notifier>
+        <type>mail</type>
+        <configuration>
+          <address>builds@mindquarry.com</address>
+        </configuration>
+      </notifier>
+    </notifiers>
+  </ciManagement>
+	
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-pmd-plugin</artifactId>
@@ -283,13 +283,12 @@
           <includeFilterFile>findbugs-include.xml</includeFilterFile>
           <visitors>FindDeadLocalStores,UnreadFields</visitors>
           <omitVisitors>FindDeadLocalStores,UnreadFields</omitVisitors>
-          <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>-->
-        </configuration>
+          <pluginList>/libs/fb-contrib/fb-contrib-2.8.0.jar</pluginList>--></configuration>
       </plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-project-info-reports-plugin</artifactId>
-			</plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+      </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>cobertura-maven-plugin</artifactId>
@@ -313,20 +312,20 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-report-plugin</artifactId>
       </plugin>
-       <plugin>
-          <groupId>org.codehaus.mojo</groupId>
-          <artifactId>javancss-maven-plugin</artifactId>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>javancss-maven-plugin</artifactId>
       </plugin>
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>jdepend-maven-plugin</artifactId>
       </plugin>
-		</plugins>
-	</reporting>
+    </plugins>
+  </reporting>
 	
-	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-base/trunk/</connection>
-		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-base/trunk/</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-base/trunk/</developerConnection>
-	</scm>
+  <scm>
+    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-base/trunk/</connection>
+    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-base/trunk/</url>
+    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-base/trunk/</developerConnection>
+  </scm>
 </project>
