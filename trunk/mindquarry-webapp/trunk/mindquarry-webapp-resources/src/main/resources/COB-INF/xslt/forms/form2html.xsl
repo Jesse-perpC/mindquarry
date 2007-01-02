@@ -37,6 +37,7 @@
       <xsl:apply-templates select="." mode="forms-dojobuttons"/>
       <xsl:apply-templates select="." mode="forms-dojocalendar"/>
       <xsl:apply-templates select="." mode="forms-dojochangepassword"/>
+      <xsl:apply-templates select="." mode="forms-dojoiconselect"/>
       <xsl:apply-templates/>
     </xsl:copy>
   </xsl:template>
@@ -175,10 +176,16 @@
       |   items (default 5)
       | - otherwise, produce a dropdown menu
       +-->
+  <xsl:template match="head" mode="forms-dojoiconselect">
+    <script type="text/javascript">
+      dojo.require("mindquarry.widget.IconSelect");
+    </script>
+  </xsl:template>
+
   <xsl:template
     match="fi:field[@state='active'][fi:selection-list][fi:styling/@list-type = 'iconSelect']"
     priority="1">
-    <script type="text/javascript">dojo.require("mindquarry.widget.IconSelect");</script>
+    <!--<script type="text/javascript">dojo.require("mindquarry.widget.IconSelect");</script>-->
     <xsl:variable name="value" select="fi:value"/>
     <!-- dropdown or listbox -->
     <span id="{@id}">

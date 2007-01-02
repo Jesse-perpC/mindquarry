@@ -16,10 +16,12 @@ dojo.widget.defineWidget(
 		iconprefix: "", 
 		iconsuffix: ".png",
 		name: "",
+		filter: true,
 		size: 22,
 
 		// override the drawing of the list, so we can add icons.
 		openResultList: function(results){
+		    dojo.debug("hallo");
 			this.clearResultList();
 			dojo.debug("got things to add to the list: " + results.length);
 			if(!results.length){
@@ -70,7 +72,15 @@ dojo.widget.defineWidget(
 			this.setLabel(value1);
 			this.setValue(value2);
 		},
-
-
+		
+		handleArrowClick: function() {
+    		this._handleBlurTimer(true, 0);
+    		this.tryFocus();
+    		if(this._result_list_open){
+    			this.hideResultList();
+    		}else{
+    			this.startSearch("");
+    		}
+        }
 
 });
