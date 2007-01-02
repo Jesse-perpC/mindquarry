@@ -81,6 +81,18 @@
 			<url>http://repository.codehaus.org/</url>
 			<layout>default</layout>
 	    </pluginRepository>
+      <pluginRepository>
+			<id>codehaus.mojo.snapshots</id>
+			<name>Codehaus Repository</name>
+			<url>http://snapshots.repository.codehaus.org/</url>
+			<layout>default</layout>
+      <snapshots>
+      <enabled>true</enabled>
+    </snapshots>
+    <releases>
+      <enabled>false</enabled>
+    </releases>
+	    </pluginRepository>
 	</pluginRepositories>
 
 	<distributionManagement>
@@ -182,6 +194,11 @@
 
 	<build>
 		<plugins>
+      <plugin>
+         <groupId>org.codehaus.mojo</groupId>
+         <artifactId>jalopy-maven-plugin</artifactId>
+         <version>1.0-SNAPSHOT</version>
+      </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
