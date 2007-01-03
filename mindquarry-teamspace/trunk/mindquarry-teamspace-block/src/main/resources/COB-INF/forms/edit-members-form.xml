@@ -76,7 +76,7 @@
 					<fd:label>New Member</fd:label>
 					<fd:on-action>
 						<fd:javascript>
-							activateCreateUserForm();
+							activateUserForm();
 						</fd:javascript>
 					</fd:on-action>
 				</fd:action>
