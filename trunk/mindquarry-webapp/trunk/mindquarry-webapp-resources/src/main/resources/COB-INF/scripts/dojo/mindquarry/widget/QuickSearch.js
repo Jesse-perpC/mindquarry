@@ -27,11 +27,11 @@ dojo.widget.defineWidget(
 		templateString: '<div class="mindquarry-quicksearch">' + 
 						'<div class="search-field">' +
 							'<form dojoAttachPoint="formNode" dojoOnSubmit="searchClick;" class="search_form">' +
-								'<span dojoAttachPoint="widthNode">' + 
-									'<input name="q" size="${this.size}" class="input_box"/>' +
+								'<span>' + 
+									'<input name="q" size="${this.size}" class="input_box" dojoAttachPoint="widthNode" autocomplete="off"/>' +
 									'<input name="wt" value="mq" type="hidden"/>' +
 									'<input name="fl" value="score" type="hidden"/>' +
-									'<input type="submit" value="${this.searchButton}" class="btn"/>' + 
+									'<input type="image" src="'+dojo.uri.dojoUri('search.png') +'" value="${this.searchButton}" class="btn"/>' + 
 								'</span>' +
 								'</form>' +
 							'<div class="result-popup" dojoAttachPoint="popupNode" >' +
@@ -40,7 +40,7 @@ dojo.widget.defineWidget(
 									'<div dojoAttachPoint="resultNode"></div>' 	+
 							'</div>' + 
 
-					'</div>',
+							'</div>',
 		
 		tableBeginHTML: '<table width="100%" class="result-table"><tbody>',
 		
@@ -106,7 +106,7 @@ dojo.widget.defineWidget(
 			evt.preventDefault();
 		  dojo.html.hide(this.popupNode);
     },
-		
+    
 		// set the status area
 		_setStatus: function(status) {
 			this.resultStatus.innerHTML = status;
