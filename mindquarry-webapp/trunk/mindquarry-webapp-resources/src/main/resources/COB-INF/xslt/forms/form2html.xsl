@@ -106,69 +106,13 @@
   </xsl:template>
 
   <xsl:template match="fi:items//fi:action[@state='output']"/>
-
-  <!-- standard styling container for label and widget -->
-  <xsl:template match="fi:*|fi:items/*" mode="default">
-    <dl id="{@id}">
-      <dt>
-        <xsl:apply-templates select="." mode="label"/>
-      </dt>
-      <!--+
-          | class: look for a descendant with a state attribute and use it
-          | because the fi: widget might be wrapped in other html elements
-  	      |
-  	      | id: copy the cforms id that unfortunately includes dots that
-          | cannot be used in css selectors
-          +-->
-      <dd class="{./descendant-or-self::fi:*[@state][1]/@state}" id="{translate(@id, '.', '_')}">
-        <xsl:apply-templates select="."/>
-      </dd>
-    </dl>
-  </xsl:template>
-
-  <!-- hide labels that are marked as hidden, not in label mode so that it
-       will only match inside the dd above -->
-  <xsl:template match="fi:label[@class='hidden']"/>
-
-  <!-- do not add a dl/dt/dd for actions (or non-visible actions represented as placeholder) -->
-  <xsl:template match="bu:replace[./fi:action | ./fi:placeholder]">
-    <xsl:copy>
-      <xsl:copy-of select="@id"/>
-      <xsl:apply-templates/>
-    </xsl:copy>
-  </xsl:template>
-    
+  
   <xsl:template match="bu:replace">
     <xsl:copy>
-      <xsl:copy-of select="@id"/>
-      <dl id="{@id}">
-        <dt>
-          <xsl:choose>
-            <!-- people and dependencies (repeater-based) are wrapped in a div -->
-            <xsl:when test="div/fi:label">
-              <!-- some copy-of magic: the fi:label will end as an html label,
-                   don't know exactly why, maybe its just the ns-prefix removal... -->
-              <xsl:copy-of select="div/fi:label"/>
-            </xsl:when>
-            <xsl:otherwise>
-              <xsl:apply-templates select="fi:*" mode="label"/>
-            </xsl:otherwise>
-          </xsl:choose>
-        </dt>
-        <dd class="{./descendant-or-self::fi:*[@state][1]/@state}" id="{translate(@id, '.', '_')}">
-          <xsl:apply-templates/>
-        </dd>
-      </dl>
+      <xsl:apply-templates select="node() | @*"/>
     </xsl:copy>
   </xsl:template>
-
-  <xsl:template match="node() | @*" mode="default">
-    <xsl:copy>
-      <xsl:apply-templates select="node() | @*" mode="default"/>
-    </xsl:copy>
-  </xsl:template>
-
-
+  
   <!--+
       | fi:field with a selection list (not 'radio' style)
       | Rendering depends on the attributes of fi:styling :
