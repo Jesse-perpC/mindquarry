@@ -144,7 +144,7 @@
 				<!-- layouting the header -->
 				<div id="webapp-header">
 
-				<div class="quicksearch" dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>				
+			
 				
 					<ul id="webapp-sections">
 						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
@@ -155,7 +155,6 @@
 						</ul>
 
 				
-
 				<xsl:if test="string-length($username) > 0">
 
 					<div id="user-status">
@@ -175,9 +174,8 @@
 
 					
 				</div>
-
+				<div class="quicksearch" dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>
 				
-
 				
 
 				<!-- layouting the content -->
