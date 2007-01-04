@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -48,9 +51,9 @@
 	</dependencies>
 	
 	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/trunk/mindquarry-dforms/</connection>
-		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-ductforms/trunk/mindquarry-dforms/</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-ductforms/trunk/mindquarry-dforms/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-ductforms/trunk/mindquarry-dforms/</connection>
+		<url>https://www.mindquarry.org/mindquarry-ductforms/trunk/mindquarry-dforms/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-ductforms/trunk/mindquarry-dforms/</developerConnection>
 	</scm>
 
 	<build>
@@ -59,7 +62,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://secure.mindquarry.com/repos/mindquarry-ductforms/tags/mindquarry-dforms/
+						https://www.mindquarry.org/repos/mindquarry-ductforms/tags/mindquarry-dforms/
 					</tagBase>
 				</configuration>
 			</plugin>
