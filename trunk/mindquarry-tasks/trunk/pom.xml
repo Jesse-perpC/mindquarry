@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -20,9 +23,9 @@
   </modules>
 
 	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/trunk/</connection>
-		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-tasks/trunk/</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-tasks/trunk/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-tasks/trunk/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/</developerConnection>
 	</scm>
 
 	<build>
@@ -31,7 +34,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://secure.mindquarry.com/repos/mindquarry-tasks/tags/
+						https://www.mindquarry.org/repos/mindquarry-tasks/tags/
 					</tagBase>
 				</configuration>
 			</plugin>
