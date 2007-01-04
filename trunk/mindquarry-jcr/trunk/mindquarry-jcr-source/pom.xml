@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -39,7 +42,7 @@
 			<plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <tagBase>https://secure.mindquarry.com/repos/mindquarry-jcr/tags/mindquarry-jcr-source</tagBase>
+          <tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jcr-source</tagBase>
         </configuration>
       </plugin>
 		</plugins>
@@ -68,8 +71,8 @@
 	</dependencies>
 
         <scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</connection>
-    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-jcr/trunk/mindquarry-jcr-source/</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</developerConnection>
+    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</connection>
+    <url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</url>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-source/</developerConnection>
   </scm>
 </project>
