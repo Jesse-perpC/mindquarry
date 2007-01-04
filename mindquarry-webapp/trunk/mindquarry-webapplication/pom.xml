@@ -1,4 +1,7 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
   <modelVersion>4.0.0</modelVersion>
 
@@ -63,7 +66,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<tagBase>https://secure.mindquarry.com/repos/mindquarry-webapp/tags/mindquarry-webapplication/</tagBase>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-webapp/tags/mindquarry-webapplication/</tagBase>
 				</configuration>
 			</plugin>
     </plugins>
@@ -189,8 +192,8 @@
   </dependencies>
 
   <scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</connection>
-    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-webapp/trunk/mindquarry-webapplication/</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</developerConnection>
+    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</connection>
+    <url>https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</url>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-webapplication/</developerConnection>
   </scm>
 </project>
