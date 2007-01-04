@@ -1,8 +1,11 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>pom</packaging>
-	
+
 	<parent>
 		<groupId>com.mindquarry</groupId>
 		<artifactId>mindquarry</artifactId>
@@ -52,9 +55,9 @@
 	</developers>
 	
 	<scm>
-    <connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/</connection>
-    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-persistence/trunk/</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/</developerConnection>
+    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/</connection>
+    <url>https://www.mindquarry.org/repos/mindquarry-persistence/trunk/</url>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/</developerConnection>
   </scm>
 
   <build>
@@ -62,7 +65,7 @@
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <tagBase>https://secure.mindquarry.com/repos/mindquarry-persistence/tags</tagBase>
+          <tagBase>https://www.mindquarry.org/repos/mindquarry-persistence/tags</tagBase>
         </configuration>
       </plugin>
     </plugins>

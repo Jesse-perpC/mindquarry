@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+        <parent>
 		<artifactId>mindquarry-persistence</artifactId>
 		<groupId>com.mindquarry.persistence</groupId>
 		<version>1.0-M1-SNAPSHOT</version>
@@ -84,15 +87,15 @@
 			<plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>
-          <tagBase>https://secure.mindquarry.com/repos/mindquarry-persistence/tags/castor-persistence/</tagBase>
+          <tagBase>https://www.mindquarry.org/repos/mindquarry-persistence/tags/castor-persistence/</tagBase>
         </configuration>
       </plugin>
 		</plugins>
 	</build>
 
         <scm>
-	<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/castor-persistence/</connection>
-    <url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-persistence/trunk/castor-persistence/</url>
-    <developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-persistence/trunk/castor-persistence/</developerConnection>
+	<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/castor-persistence/</connection>
+    <url>https://www.mindquarry.org/repos/mindquarry-persistence/trunk/castor-persistence/</url>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/castor-persistence/</developerConnection>
   </scm>
 </project>
