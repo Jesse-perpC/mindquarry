@@ -1,19 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<parent>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+        <parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
 		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
-	<modelVersion>4.0.0</modelVersion>
+	
+        <modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-teamspace-block</artifactId>
 	<name>Mindquarry Teamspace Block</name>
 
 	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</connection>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</developerConnection>
-		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</url>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</connection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</developerConnection>
+		<url>https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</url>
 	</scm>
 	<build>
 		<finalName>mindquarry-teamspace-block</finalName>
@@ -48,7 +52,7 @@
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<tagBase>https://secure.mindquarry.com/repos/mindquarry-teamspace/tags/mindquarry-teamspace-block/</tagBase>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-teamspace-block/</tagBase>
 				</configuration>
 			</plugin>
 		</plugins>
