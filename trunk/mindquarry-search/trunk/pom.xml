@@ -1,5 +1,9 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-	<modelVersion>4.0.0</modelVersion>
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+        <modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.mindquarry</groupId>
@@ -22,9 +26,9 @@
   </modules>
 
 	<scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/</connection>
-		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-search/trunk/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/</developerConnection>
 	</scm>
 
 	<build>
@@ -33,7 +37,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://secure.mindquarry.com/repos/mindquarry-search/tags
+						https://www.mindquarry.org/repos/mindquarry-search/tags
 					</tagBase>
 				</configuration>
 			</plugin>

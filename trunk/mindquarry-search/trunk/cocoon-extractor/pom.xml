@@ -1,9 +1,13 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
   <parent>
     <!--<artifactId>cocoon-blocks-modules</artifactId>
     <groupId>org.apache.cocoon</groupId>
     <version>3-SNAPSHOT</version>-->
-    
+
     <!-- use the mindquarry pom structure as long as this is part
          of the mindquarry repository -->
     <groupId>com.mindquarry.search</groupId>
@@ -98,9 +102,9 @@
   </modules>
   
   <scm>
-		<connection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/</connection>
-		<url>https://secure.mindquarry.com/blocks/workspace-block/browser/mindquarry-search/trunk/cocoon-extractor/</url>
-		<developerConnection>scm:svn:https://secure.mindquarry.com/repos/mindquarry-search/trunk/cocoon-extractor/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/</developerConnection>
 	</scm>
 	
 	<build>
@@ -110,7 +114,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://secure.mindquarry.com/repos/mindquarry-search/tags/cocoon-extractor/
+						https://www.mindquarry.org/repos/mindquarry-search/tags/cocoon-extractor/
 					</tagBase>
 				</configuration>
 			</plugin>
