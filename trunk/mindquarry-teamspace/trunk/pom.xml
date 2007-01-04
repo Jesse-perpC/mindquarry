@@ -32,15 +32,6 @@
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>
 	</developers>
-
-	<repositories>
-		<repository>
-			<id>mindquarry.releases</id>
-			<name>Mindquarry Repository</name>
-			<url>http://www.mindquarry.com/releases/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
 	
 	<build>
 	       <plugins>
