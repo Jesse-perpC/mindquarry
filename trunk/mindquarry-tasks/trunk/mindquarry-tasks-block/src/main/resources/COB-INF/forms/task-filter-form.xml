@@ -142,7 +142,7 @@
 						Name of the filter.
 					</fd:hint>
 					<fd:help>
-						Can be used for setting the name of a stored filter a filter.
+						Can be used for setting the name of a stored filter.
 					</fd:help>
 				</fd:field>
 			</fd:widgets>

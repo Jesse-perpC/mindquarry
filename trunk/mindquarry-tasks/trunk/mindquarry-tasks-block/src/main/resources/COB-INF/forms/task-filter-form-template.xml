@@ -17,7 +17,7 @@
 			
 			<div class="nifty">
 				<ft:group id="filterBuilder">
-					<div>
+					<div id="add_rule_block">
 						<ft:widget id="aggregator" />
 						<ft:widget id="addPart" />
 					</div>
