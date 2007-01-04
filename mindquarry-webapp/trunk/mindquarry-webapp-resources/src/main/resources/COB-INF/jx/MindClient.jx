@@ -79,6 +79,18 @@
 			<jar href="dist/linux/swt-linux.jar" />
 			<nativelib href="dist/linux/swt-native-linux-gtk.jar" />
 		</resources>
+		
+		<resources os="Mac OS X">
+			<j2se version="1.6.0+"
+				href="http://java.sun.com/products/autodl/j2se"
+				initial-heap-size="32m" max-heap-size="64m" />
+
+			<jar href="dist/macosx/swt-macosx.jar" />
+			<nativelib href="dist/macosx/libswt-agl-carbon-3235.jnilib" />
+			<nativelib href="dist/macosx/libswt-carbon-3235.jnilib" />
+			<nativelib href="dist/macosx/libswt-pi-carbon-3235.jnilib" />
+			<nativelib href="dist/macosx/libswt-webkit-carbon-3235.jnilib" />
+		</resources>
 
 		<application-desc
 			main-class="com.mindquarry.client.MindClient">
