@@ -88,7 +88,8 @@
 		<resources os="Mac OS X">
 			<j2se version="1.6.0+"
 				href="http://java.sun.com/products/autodl/j2se"
-				initial-heap-size="32m" max-heap-size="64m" />
+				initial-heap-size="32m" max-heap-size="64m"
+                                java-vm-args="-XstartOnFirstThread" />
 
 			<jar href="dist/macosx/swt-macosx.jar" />
 			<nativelib href="dist/macosx/swt-native-macosx.jar" />
