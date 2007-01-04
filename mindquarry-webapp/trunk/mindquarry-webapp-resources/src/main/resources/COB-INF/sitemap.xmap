@@ -63,7 +63,7 @@
 			<map:match pattern="client/dist/**.jar">
 				<map:read src="client/dist/{1}.jar" />
 			</map:match>
-
+			
 			<map:match pattern="css/*.css">
 				<map:read src="css/{1}.css" />
 			</map:match>

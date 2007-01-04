@@ -56,6 +56,11 @@
 			<jar href="dist/spring/modules/spring-core.jar" />
 			<jar href="dist/spring/modules/spring-support.jar" />
 			
+			<!-- Dax resources -->
+			<jar href="dist/dax/dax.jar" />
+			<jar href="dist/dax/dom4j-1.5.2.jar" />
+			<jar href="dist/dax/jaxen-1.1-beta-4.jar" />
+
 			<!-- Eclipse resources -->
 			<jar href="dist/eclipse/org.eclipse.core.commands.jar" />
 			<jar href="dist/eclipse/org.eclipse.equinox.common.jar" />
@@ -79,17 +84,14 @@
 			<jar href="dist/linux/swt-linux.jar" />
 			<nativelib href="dist/linux/swt-native-linux-gtk.jar" />
 		</resources>
-		
+
 		<resources os="Mac OS X">
 			<j2se version="1.6.0+"
 				href="http://java.sun.com/products/autodl/j2se"
 				initial-heap-size="32m" max-heap-size="64m" />
 
 			<jar href="dist/macosx/swt-macosx.jar" />
-			<nativelib href="dist/macosx/libswt-agl-carbon-3235.jnilib" />
-			<nativelib href="dist/macosx/libswt-carbon-3235.jnilib" />
-			<nativelib href="dist/macosx/libswt-pi-carbon-3235.jnilib" />
-			<nativelib href="dist/macosx/libswt-webkit-carbon-3235.jnilib" />
+			<nativelib href="dist/macosx/swt-native-macosx.jar" />
 		</resources>
 
 		<application-desc
