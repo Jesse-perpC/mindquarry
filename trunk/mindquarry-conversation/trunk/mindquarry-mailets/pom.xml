@@ -11,13 +11,13 @@
 	<description>Project containing Mindquarry mailets.</description>
 	<scm>
 		<connection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-conversation/trunk/mindquarry-mailets
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-mailets
 		</connection>
 		<developerConnection>
-			scm:svn:https://secure.mindquarry.com/repos/mindquarry-conversation/trunk/mindquarry-mailets
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-mailets
 		</developerConnection>
 		<url>
-			https://secure.mindquarry.com/repos/mindquarry-conversation/trunk/mindquarry-mailets
+			https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-mailets
 		</url>
 	</scm>
 	<build>
