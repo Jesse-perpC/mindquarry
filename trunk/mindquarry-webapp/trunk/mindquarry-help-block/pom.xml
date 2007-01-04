@@ -81,16 +81,6 @@
     </dependency>
 	</dependencies>
 
-
-	<repositories>
-		<repository>
-			<id>mindquarry.releases</id>
-			<name>Mindquarry Repository</name>
-			<url>http://www.mindquarry.com/releases/</url>
-			<layout>default</layout>
-		</repository>
-	</repositories>
-
 	<scm>
 		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-help-block/</connection>
 		<url>https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-help-block/</url>
