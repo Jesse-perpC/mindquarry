@@ -19,8 +19,7 @@
   </parent>
 
   <modules>
-    <module>./mindquarry-common</module>
-    <module>./mindquarry-events</module>
+    <module>.</module>
     <!-- persistence layer -->
     <module>../mindquarry-persistence</module>
     <module>../mindquarry-jcr</module>
