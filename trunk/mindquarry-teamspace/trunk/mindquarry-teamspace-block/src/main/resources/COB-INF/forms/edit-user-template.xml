@@ -22,7 +22,10 @@
 
 				<div id="editUserModel">
 					<h1>Edit User Settings</h1>
-
+					
+					<p><ft:widget id="fullName" /></p>
+					<p><ft:widget id="email" /></p>
+					
 					<ft:group id="changePassword">
 						<h3>Change Password</h3>
 						
@@ -88,7 +91,8 @@
 								</td>
 							</tr>
 						</table>
-
+						
+						<div id="replaceWithCurrentPhoto" />
 						<ft:widget id="uploadPhoto" />
 
 					</ft:group>

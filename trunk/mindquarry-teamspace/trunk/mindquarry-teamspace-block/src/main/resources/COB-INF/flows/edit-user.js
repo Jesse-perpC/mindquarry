@@ -13,7 +13,9 @@ function processEditUser(form) {
 	
 	var targetUri = cocoon.request.getParameter("targetUri");
 	
-	var currentUser = userById(cocoon.request.getAttribute("username"));
+	var user = userById(cocoon.request.getAttribute("username"));	
+	model_.fullName = user.name + " " + user.surname;
+	model_.email = user.email;
 	
 	form.showForm("edit-user.instance");
 			

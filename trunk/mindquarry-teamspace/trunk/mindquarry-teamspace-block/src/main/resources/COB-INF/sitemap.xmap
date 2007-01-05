@@ -367,6 +367,24 @@
 				<serialize type="xml" />
 			</match>
 			
+			<match pattern="edit-user.instance">
+				<generate type="jx" src="forms/edit-user-template.xml">
+					<parameter name="locale"
+						value="{flow-attribute:locale}" />
+				</generate>
+				<transform src="xslt/editUser2html.xsl">
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+				</transform>
+				<transform type="browser-update" />
+				<call resource="form2html" />
+				<call resource="layouting" />
+			</match>
+			
 			<match pattern="*.instance">
 				<generate type="jx" src="forms/{1}-template.xml">
 					<parameter name="locale"
