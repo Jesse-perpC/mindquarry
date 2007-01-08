@@ -42,13 +42,13 @@
 					
 					<!-- the buttons -->
 					<ft:widget id="ductforms_editall">
-						<fi:styling class="ductform_button editall_button" />
+						<fi:styling class="ductform_button editall_button" dojoType="AutoActiveButton"/>
 					</ft:widget>
 					<ft:widget id="ductforms_save">
-						<fi:styling class="ductform_button save_button" />						
+						<fi:styling class="ductform_button save_button" dojoType="AutoActiveButton"/>						
 					</ft:widget>
 					<ft:widget id="ductforms_cancel">
-						<fi:styling class="ductform_button cancel_button" />						
+						<fi:styling class="ductform_button cancel_button" dojoType="AutoActiveButton"/>						
 					</ft:widget>
 					
 					<!-- all fields/widgets grouped for nice layouting -->
