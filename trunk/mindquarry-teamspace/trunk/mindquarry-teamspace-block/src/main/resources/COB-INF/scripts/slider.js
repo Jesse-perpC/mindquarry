@@ -44,6 +44,8 @@ initSliderEvents = function() {
 
 /* slide to next image */
 doNext = function(event) {
+    event.preventDefault();
+    
 	var first = null;
 	var last = null;
 	
@@ -73,6 +75,8 @@ doNext = function(event) {
 
 /* slide to previous image */
 doPrevious = function(event)	{
+    event.preventDefault();
+
 	var first = null;
 	var last = null;
 	

@@ -15,7 +15,8 @@ initTeamspaceEvents = function() {
 }
 
 /* expand teamspace */
-doExpandOrCollapse = function(event)	{
+doExpandOrCollapse = function(event) {
+    event.preventDefault();
 	var detailsButton = event.target;
 	if(detailsButton.className == "details-expanded") {
 		detailsButton.className = "details-collapsed";
