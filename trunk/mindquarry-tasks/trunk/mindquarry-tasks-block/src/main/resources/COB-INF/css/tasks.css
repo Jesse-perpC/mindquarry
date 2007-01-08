@@ -29,8 +29,8 @@ a.create_filter_button:link, a.create_filter_button:visited {
 	padding-top: 9px;
 	padding-left: 13px;
 }
-
 div.summary {
+	margin-left:5px;
 	margin-top: 10px;
 	font-weight:normal;
 	color:#666666;
@@ -73,14 +73,13 @@ div.name span {
 	color:#666666;
 	font-size:10pt;
 }
-
 div.name {
-	height:60px;
-	margin-right:320px;
-	overflow:hidden;
-	text-overflow: ellipsis;
+	height:autof;
+	margin-right:220px;
+	overflow:visible;
+	text-overflow:ellipsis;
+	width:auto;
 }
-
 div.task-area {
 	margin-right:320px;
 }
@@ -149,24 +148,34 @@ a#back {
 
 /* same as in workspace.css, should be shared in one css file */
 div.links, div.firstlinks {
-	float:right;
 	width:200px;
+	float:right;
+	position: relative;
 }
 
 div.firstlinks {
-	margin-top: -16px;
+	margin-top: 0px;
 }
 
 div.links {
-	margin-top: -60px;
+	margin-right:10px;
+	width:200px;
+	float:right;
+	margin-top:0px;
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;	
+	padding: 0;
+	clear:both;
 }
 
-div.links ul, div.firstlinks ul {
+div.links ul, div.firstlinks ul {                                   
 	list-style: none; /* modified for tasks */
 }
 
 div.links ul li, div.firstlinks ul li {
-	padding-bottom: 5px;
+	padding-top: 0px;
+	padding-bottom: 0px;
 }
 
 div.links ul a, div.firstlinks ul a  {
