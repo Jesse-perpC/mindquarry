@@ -6,6 +6,7 @@
   <xsl:template match="head" mode="forms-dojoautoactive">
     <script type="text/javascript">
     	dojo.require("mindquarry.widget.AutoActiveField");
+    	dojo.require("mindquarry.widget.AutoActiveButton");
     </script>
   </xsl:template>
   
