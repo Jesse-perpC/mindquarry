@@ -27,7 +27,7 @@
   <xsl:include href="dojo-calendar.xsl"/>
   <!-- styling of ChangePassword -->
   <xsl:include href="dojo-changepassword.xsl"/>
-
+ 
   <xsl:template match="head">
     <xsl:copy>
       <xsl:apply-templates select="." mode="forms-page"/>
