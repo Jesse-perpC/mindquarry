@@ -27,7 +27,14 @@
 	<xsl:template match="teamspace" >
 		<li>
 			<div class="nifty">
-				<div class="name">
+			<div  style="margin-left:5px">
+				<div class="links">
+					<ul>
+	        			<li><a class="create_task_button" href="{@xlink:href}/new">Create task</a></li>
+	        			<li><a class="create_filter_button" href="{@xlink:href}/filters/new">Create filter</a></li>
+					</ul>
+				</div>
+			<div class="name">
 					<img class="icon">
 						<xsl:attribute name="src">
 							<xsl:value-of select="$pathToRoot"/>							
@@ -47,15 +54,8 @@
 						<xsl:value-of select="count(task[status='paused'])" /> Paused and
 						<xsl:value-of select="count(task[status='done'])" /> Done)
 					</div>
-				</div>
-				
-				<div class="links">
-					<ul>
-	        			<li><a class="create_task_button" href="{@xlink:href}/new">Create task</a></li>
-	        			<li><a class="create_filter_button" href="{@xlink:href}/filters/new">Create filter</a></li>
-					</ul>
-				</div>
-				
+				</div>			
+			</div>
 				<xsl:if test="count(filter) > 0">
 					<div class="queries">
 						<h3>Saved Filters</h3>
