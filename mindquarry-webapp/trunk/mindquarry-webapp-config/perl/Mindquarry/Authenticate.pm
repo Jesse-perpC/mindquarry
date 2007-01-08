@@ -25,10 +25,7 @@ sub handler {
 	# Perform some custom user/password validation.
 	my $pathinfo = $r->path_info;
 	$pathinfo =~ s/\/([^\/]*)\/(.*)/\/$1\//;
-	return Apache2::Const::OK if authenticate($r->user, $password, $base . $pathinfo);
-	# Whoops, bad credentials.
-	$r->note_basic_auth_failure;
-	return Apache2::Const::HTTP_UNAUTHORIZED;
+	return authenticate($r->user, $password, $base . $pathinfo);
 }
 
 sub authenticate {
@@ -57,14 +54,15 @@ sub authenticate {
 	#$s->log_error("Response: ".$response->as_string);
 	if ($response->code == 401) {
 		$s->log_error("HTTP Code 401");
-		return 0;
+		# Whoops, bad credentials.
+		return Apache2::Const::HTTP_UNAUTHORIZED;
 	}
 	if ($response->is_error) {
 		$s->log_error("Error Message: " . $response->status_line);
-		return 0;
+		return Apache2::Const::HTTP_SERVICE_UNAVAILABLE;
 	}
 	$s->log_error("Authentication seems ok");
-	return 1;
+	return Apache2::Const::OK;
 }
 
 1;
