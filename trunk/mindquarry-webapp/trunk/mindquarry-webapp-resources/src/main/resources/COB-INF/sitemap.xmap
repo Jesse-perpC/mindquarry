@@ -13,44 +13,35 @@
 	</map:components>
 
 	<map:flow language="javascript">
-
 		<map:script src="flows/jnlp.js" />
-
 	</map:flow>
-
-
 
 	<map:pipelines>
 		<map:pipeline>
-
 			<map:match pattern="client/client.jnlp">
 				<map:call function="sendJNLP">
-
 					<map:parameter name="target"
 						value="views/JNLPView" />
-
 					<map:parameter name="username"
 						value="{request-attr:username}" />
 					<map:parameter name="endpoint"
+						value="{system-property:mindquarry.client.jnlp.url}{request:contextPath}" />
+					
+					<!-- 
+						FIXME: use this as fallback after system property user 
+						module can handle defaults 
+					-->
+					<!--map:parameter name="endpoint"
 						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
-					<map:parameter name="ctxPath"
-						value="{request:servletPath}" />
-
+					<map:parameter name="servletPath"
+						value="{request:servletPath}" /-->
 				</map:call>
 			</map:match>
 
-
-
 			<map:match pattern="views/JNLPView">
-
-				<map:generate src="jx/MindClient.jx" type="jx"
-					label="content" />
-
+				<map:generate src="jx/MindClient.jx" type="jx" label="content" />
 				<map:serialize type="jnlp" />
-
 			</map:match>
-
-
 
 			<map:match pattern="scripts/*.js">
 				<map:read src="scripts/{1}.js" />
@@ -154,7 +145,6 @@
 					src="scripts/dojo/mindquarry/BUHandler.js" />				
 			</map:match>
 			
-
 			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
 			<map:match pattern="_cocoon/resources/dojo/cocoon.js">
 				<map:read
@@ -180,7 +170,6 @@
 					src="resource://org/tango-project/tango-icon-theme/22x22/actions/system-search.png" />
 			</map:match>
 			
-			
 			<!-- cooon resources (needed for dojo scripts, etc) -->
 			<map:match pattern="_cocoon/resources/*/**">
 				<map:read
@@ -190,4 +179,3 @@
 		</map:pipeline>
 	</map:pipelines>
 </map:sitemap>
-

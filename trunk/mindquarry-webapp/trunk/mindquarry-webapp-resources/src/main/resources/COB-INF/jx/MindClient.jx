@@ -4,7 +4,7 @@
 	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
 -->
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
-	<jnlp spec="1.5+" codebase="${endpoint}${ctxPath}/client/">
+	<jnlp spec="1.5+" codebase="${endpoint}${servletPath}/client/">
 
 		<information>
 			<title>Mindquarry Desktop Application</title>
