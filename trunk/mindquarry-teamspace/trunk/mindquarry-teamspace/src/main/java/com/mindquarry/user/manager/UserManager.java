@@ -130,7 +130,9 @@ public final class UserManager implements UserAdmin, Authentication {
         
         for (Object userObj: queriedUsers) {
             UserRO user = (UserRO) userObj;
-            result.add(user);
+            
+            if (! isAdminUser(user))
+                result.add(user);
         }
         return result;
     }
