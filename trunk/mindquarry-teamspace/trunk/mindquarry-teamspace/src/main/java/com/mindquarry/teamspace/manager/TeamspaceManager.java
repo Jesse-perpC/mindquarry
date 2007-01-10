@@ -373,7 +373,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                 }
                 // ...and checks if the user is in that teamspace
                 UserRO user = userManager_.userById(userId);
-                mayPerform = user.isMemberOf(requestedTeamspaceID);
+                
+                // FIXME: this is a temporary fix: admin can do everything
+                mayPerform = userId.equals("admin") || user.isMemberOf(requestedTeamspaceID);
             }
         }
         return mayPerform;
@@ -384,6 +386,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
     
     private boolean isCreateOrEditTeamspaceRequest(String uri) {
-        return uri.startsWith("jcr:///teamspaces");
+        return uri.equals("jcr:///teamspaces");
     }
 }
