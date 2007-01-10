@@ -157,8 +157,14 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                     "Teamspace creation failed in listener: " + e.getMessage(),
                     e);
         }
-
-        userManager_.addUserToTeamspace(teamspaceCreator, teamspace.getId());
+        
+        // there is no need to make the admin a member of the teamspace,
+        // at most its somewhat confusing if the admin user appears as member
+        // within the teamspace views
+        // Nevertheless she/he is not only allowed to create and teamspaces
+        // but also to edit existing ones.
+        if (! userManager_.isAdminUser(teamspaceCreator))
+            userManager_.addUserToTeamspace(teamspaceCreator, teamspace.getId());
 
         Session session = currentSession();
         session.persist(teamspace);
@@ -351,7 +357,8 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
         boolean mayPerform = false;
 
-        if (uri.equals("jcr:///teamspaces") || uri.equals("jcr:///users")) {
+        if (isCreateOrEditTeamspaceRequest(uri) 
+                || isCreateNewUserRequest(uri)) {
             mayPerform = userId.equals("admin");
         } else {
             // simple regular expression that looks for the teamspace name...
@@ -370,5 +377,13 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             }
         }
         return mayPerform;
+    }
+    
+    private boolean isCreateNewUserRequest(String uri) {
+        return uri.equals("jcr:///users");
+    }
+    
+    private boolean isCreateOrEditTeamspaceRequest(String uri) {
+        return uri.startsWith("jcr:///teamspaces");
     }
 }

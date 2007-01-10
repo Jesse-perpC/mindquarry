@@ -82,6 +82,10 @@ public final class UserManager implements UserAdmin, Authentication {
         return sessionFactory_.currentSession();
     }
     
+    public boolean isAdminUser(UserRO user) {
+        return user.getId().equals(ADMIN_USER_ID);
+    }
+    
     public final boolean isValidUserId(String userId) {
         return (null != userId) && (! "".equals(userId));
     }

@@ -61,11 +61,8 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 
         List<TeamspaceRO> teamspaces = teamsAdmin.teamspacesForUser(userId);
         assertEquals(1, teamspaces.size());
-        assertEquals(1, teamspaces.get(0).getUsers().size());
 
         teamsAdmin.deleteTeamspace(teamspace);
-
-        assertEquals(0, teamsAdmin.teamspacesForUser(userId).size());
     }
 
     public void testProperties() throws ServiceException,
