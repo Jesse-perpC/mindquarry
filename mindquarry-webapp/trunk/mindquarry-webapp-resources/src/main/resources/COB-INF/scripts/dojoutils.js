@@ -38,13 +38,12 @@ dojo.lang.extend(cocoon.forms.CFormsForm, {
 });
 
 
-// Onload, make all links that need to trigger a lightbox active
+// Onload, make sure _fixDojoEditor2() is registered as around-advice when form.onsubmit() is called
 function initializeDojoUtils(){
 	dojo.lang.forEach(dojo.widget.byType("CFormsForm"), function(form) {
 	        dojo.event.disconnect("around", form.domNode, "onsubmit", form, "_browserSubmit");
 	        dojo.event.connect("around", form.domNode, "onsubmit", form, "_fixDojoEditor2");
-           //dojo.byId(ed.widgetId).value = ed.getEditorContent();
-          }
+        }
     );
 }
 

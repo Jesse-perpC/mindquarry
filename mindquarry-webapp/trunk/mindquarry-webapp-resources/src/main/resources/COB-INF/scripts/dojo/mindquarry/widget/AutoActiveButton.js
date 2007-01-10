@@ -49,6 +49,12 @@ dojo.lang.extend(mindquarry.widget.AutoActiveButton, {
         	}
         }
         if (this.cform!=null) {
+            // update the dojo Editor2 content
+            dojo.lang.forEach(dojo.widget.byType("Editor2"), function(ed){
+               dojo.byId(ed.widgetId).value = ed.getEditorContent();
+              }
+            );
+	
         	//never forget: use name, not id for cocoon forms
         	this.cform.submit(this.domNode.name);
         }
