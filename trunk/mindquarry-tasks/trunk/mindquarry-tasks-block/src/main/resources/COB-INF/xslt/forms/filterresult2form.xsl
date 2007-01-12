@@ -5,7 +5,9 @@
 	<xsl:param name="taskID" select="''" />
 	<xsl:param name="teamspaceID" select="''" />
 
-	<xsl:template match="ductform">
+	<xsl:template match="@*|node()"/>
+
+	<xsl:template match="task">
 		<item>
 			<resultLink>
 				../<xsl:value-of select="$taskID" />
