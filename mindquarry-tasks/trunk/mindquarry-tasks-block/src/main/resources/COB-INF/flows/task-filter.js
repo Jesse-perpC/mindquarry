@@ -49,8 +49,8 @@ function buildFilter() {
 	var partRepeater = form_.lookupWidget("/filterBuilder/parts");
     var aggregator = form_.lookupWidget("/filterBuilder/aggregator").getValue();
     
-	// build filter
-    var filter = "jcr:///teamspaces/" + teamspaceID_ + "/tasks?" + "/*";
+	// build filter (only files below tasks/ that contain task
+    var filter = "jcr:///teamspaces/" + teamspaceID_ + "/tasks?" + "/*[contains(local-name(.),'task')]";
 
     var rowCount = partRepeater.getSize();
     if (rowCount > 0) {
@@ -100,11 +100,18 @@ function executeFilter() {
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
 		filterSource = srcResolver.resolveURI(filter);
 		
+		//print(filter);
+		
 		// process result
 		var results = filterSource.getChildren();
 		for(var i = 0; i < results.size(); i++) {
 			var source = results.get(i);
+
+			//print(source.getName());
+
 		    if(source.isCollection()) continue;
+		    
+		    //Packages.org.apache.commons.io.IOUtils.copy(source.getInputStream(), Packages.java.lang.System.out);
 		    
 		    // transform results to repeater format
 		    var os = Packages.java.io.ByteArrayOutputStream();
@@ -118,8 +125,10 @@ function executeFilter() {
 	        transformer.setParameter("taskID", 
 	        	source.getName().substring(0, source.getName().indexOf(".")));
 	        transformer.setParameter("teamspaceID", teamspaceID_);
-	        transformer.transform(xmlSource, 
-	        	new Packages.javax.xml.transform.stream.StreamResult(os));
+	        print("Result form xml:");
+	        transformer.transform(xmlSource,
+	        	new Packages.javax.xml.transform.stream.StreamResult( os ));
+	        	//new Packages.javax.xml.transform.stream.StreamResult( Packages.java.lang.System.out ));
 	        
 	        // add filter result to results repeater
 			var row = resultRepeater.addRow();
