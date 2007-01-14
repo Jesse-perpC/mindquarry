@@ -14,9 +14,14 @@
 	<description>DocBook XSL customization layer that matches the Mindquarry
   corporate identity.</description>
 
-	<groupId>com.mindquarry</groupId>
+	<groupId>com.mindquarry.docbook</groupId>
 	<artifactId>mindquarry-docbook-xsl</artifactId>
 	<version>0.5</version>
+  
+  <modules>
+    <module>mindquarry-docbook-xsl-stylesheets</module>
+    <module>mindquarry-docbook-xsl-example</module>
+  </modules>
 
 	<developers>
 		<developer>

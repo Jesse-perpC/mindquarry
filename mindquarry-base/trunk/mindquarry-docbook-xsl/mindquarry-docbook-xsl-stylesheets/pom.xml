@@ -1,0 +1,24 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>jar</packaging>
+
+	<parent>
+		<groupId>com.mindquarry.docbook</groupId>
+		<artifactId>mindquarry-docbook-xsl</artifactId>
+		<version>0.5</version>
+	</parent>
+
+	<name>Mindquarry DocBook XSL Stylesheet Customization Layer</name>
+	<url>http://www.mindquarry.com</url>
+	<description>DocBook XSL customization layer that matches the Mindquarry
+  corporate identity.</description>
+
+	<artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
+
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-common/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets/</developerConnection>
+	</scm>
+</project>
