@@ -31,19 +31,25 @@
   
   <build>
     <plugins>
+      <!-- this plugin configures the mvn docbook:transform goal -->
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>docbook-maven-plugin</artifactId>
+        <!-- we need a mindquarry-specific fork until our patches are applied -->
         <version>docbook-maven-plugin-1.0.0-alpha-1-Mindquarry</version>
         <configuration>
+          <!-- we can configure the plugin to use our own customization layer -->
           <customizations>
             <pdf>resource://com/mindquarry/docbook/mindquarry-fo.xsl</pdf>
           </customizations>
+          <!-- and can restrict the number of output formats (xhtml also possible) -->
           <outputFormats>
             <param>pdf</param>
           </outputFormats>
         </configuration>
         <dependencies>
+          <!-- in order to use our customization layer, we need to add this
+               dependency to the plugin -->
           <dependency>
             <groupId>com.mindquarry.docbook</groupId>
             <artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
