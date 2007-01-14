@@ -35,13 +35,20 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>docbook-maven-plugin</artifactId>
         <configuration>
-          <dependencies>
-            <dependency>
-              <groupId>com.mindquarry.docbook</groupId>
-              <artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
-            </dependency>
-          </dependencies>
+          <customizations>
+            <pdf>resource://com/mindquarry/docbook/mindquarry-fo.xsl</pdf>
+          </customizations>
+          <outputFormats>
+            <param>pdf</param>
+          </outputFormats>
         </configuration>
+        <dependencies>
+          <dependency>
+            <groupId>com.mindquarry.docbook</groupId>
+            <artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
+            <version>0.5</version>
+          </dependency>
+        </dependencies>
       </plugin>
     </plugins>
   </build>
