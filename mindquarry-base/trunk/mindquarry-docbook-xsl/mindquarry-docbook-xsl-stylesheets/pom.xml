@@ -29,6 +29,13 @@
 
 	<artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
 
+  <dependencies>
+    <dependency>
+      <groupId>org.docbook</groupId>
+      <artifactId>docbook-xsl</artifactId>
+      <version>1.71.1</version>
+    </dependency>
+  </dependencies>
 	<scm>
 		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets/</connection>
 		<url>https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-common/</url>
