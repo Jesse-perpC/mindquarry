@@ -13,7 +13,7 @@
   under the License.
 -->
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:fo="http://www.w3.org/1999/XSL/Format">
-	<xsl:import href="/usr/share/sgml/docbook/xsl-stylesheets-1.65.1/fo/docbook.xsl"/>
+	<xsl:import href="resource://net/sourceforge/docbook/fo/docbook.xsl"/>
 	
 	<xsl:param name="body.font.family" select="'Helvetica'"/>
 	<xsl:param name="title.font.family" select="'Helvetica'"/>
