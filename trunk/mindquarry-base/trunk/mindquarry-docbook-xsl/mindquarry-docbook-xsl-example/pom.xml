@@ -29,6 +29,23 @@
 
 	<artifactId>mindquarry-docbook-xsl-example</artifactId>
   
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>docbook-maven-plugin</artifactId>
+        <configuration>
+          <dependencies>
+            <dependency>
+              <groupId>com.mindquarry.docbook</groupId>
+              <artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
+            </dependency>
+          </dependencies>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  
 	<scm>
 		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-example/</connection>
 		<url>https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-common/</url>
