@@ -85,7 +85,7 @@
 		</fd:group>
 
 		<fd:submit id="ready" validate="false">
-			<fd:label>Ready</fd:label>
+			<fd:label>Done</fd:label>
 		</fd:submit>
 	</fd:widgets>
 </fd:form>
