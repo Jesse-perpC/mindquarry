@@ -108,9 +108,11 @@
 
   <xsl:template match="fi:field[fi:selection-list][fi:styling/@list-type='buttons'][@state='output']" priority="3">
     <xsl:variable name="value" select="normalize-space(fi:value)"/>
-    <img alt="image for {$value}" src="{$pathToBlock}resource/icons/{@id}/{$value}.png"/>
-    <span class="iconLabel" id="{@id}:iconLabel">
-      <xsl:value-of select="fi:selection-list/fi:item[@value=$value]/fi:label"/>
+    <span dojoType="autoactivefield" class="forms field output" id="{@id}" name="{@id}">
+      <img alt="image for {$value}" src="{$pathToBlock}resource/icons/{@id}/{$value}.png"/>
+      <span class="iconLabel" id="{@id}:iconLabel">
+        <xsl:value-of select="fi:selection-list/fi:item[@value=$value]/fi:label"/>
+      </span>
     </span>    
   </xsl:template>
   
