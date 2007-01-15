@@ -106,4 +106,12 @@
     <xsl:apply-templates select="." mode="common"/>
   </xsl:template>
 
+  <xsl:template match="fi:field[fi:selection-list][fi:styling/@list-type='buttons'][@state='output']" priority="3">
+    <xsl:variable name="value" select="normalize-space(fi:value)"/>
+    <img alt="image for {$value}" src="{$pathToBlock}resource/icons/{@id}/{$value}.png"/>
+    <span class="iconLabel" id="{@id}:iconLabel">
+      <xsl:value-of select="fi:selection-list/fi:item[@value=$value]/fi:label"/>
+    </span>    
+  </xsl:template>
+  
 </xsl:stylesheet>
