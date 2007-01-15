@@ -21,7 +21,6 @@ dojo.widget.defineWidget(
 
 		// override the drawing of the list, so we can add icons.
 		openResultList: function(results){
-		    dojo.debug("hallo");
 			this.clearResultList();
 			dojo.debug("got things to add to the list: " + results.length);
 			if(!results.length){
