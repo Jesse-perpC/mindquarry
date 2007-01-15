@@ -43,7 +43,7 @@
 							<xsl:text>.png</xsl:text>
 						</xsl:attribute>
 					</img>
-					<h2 class="name"><xsl:value-of select="name" /></h2>
+				<h2 class="name"><a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="name" /> Tasks</a></h2>
 					<span class="description"><xsl:value-of select="description" /></span>
 					
 					<div class="summary">
