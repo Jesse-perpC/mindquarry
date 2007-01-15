@@ -49,6 +49,11 @@ input.cancel_button {
 	height: 32px;
 }
 
+/* green labels for fields */
+dt label {
+	color:#339933;
+}
+
 /* turn action labels off */
 dt label.action {
     display:none;
@@ -64,4 +69,31 @@ dd.output:hover /*, span.output:hover, div.output:hover*/ {
     background-color: #FFFFCC;
     border: 1px solid #cccccc;
     padding: 2px;
+}
+
+/* hovering highlight should not overlay with the edit/save/cancel buttons */
+dd.output {
+    margin-right: 160px;
+}
+
+/* styling for repeater tables (dependencies and people) */
+dd div.repeater table {
+    border-spacing: 0px;
+    border: 1px solid #aaaaaa;
+}
+
+dd div.repeater th {
+    font-size: 10pt;
+	color:#339933;
+	background-color:#eeeeee;
+	text-align: left;
+}
+
+dd div.repeater td {
+    padding: 6px;
+}
+
+/* hide wiki link buttons in editor2 */
+.createWikiLinkContainer {
+    display: none;
 }

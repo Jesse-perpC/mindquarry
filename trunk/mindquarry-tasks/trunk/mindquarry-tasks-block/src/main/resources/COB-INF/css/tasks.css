@@ -74,7 +74,7 @@ div.name span {
 	font-size:10pt;
 }
 div.name {
-	height:autof;
+	height:auto;
 	margin-right:220px;
 	overflow:visible;
 	text-overflow:ellipsis;
@@ -193,10 +193,6 @@ img.icon {
 	margin-right:5px;
 }
 
-
-dl.ductform dt label, dl.ductform dd div.repeater th {
-	color:#339933;
-}
 
 div.queries h3 {
 	font-size: 12px;

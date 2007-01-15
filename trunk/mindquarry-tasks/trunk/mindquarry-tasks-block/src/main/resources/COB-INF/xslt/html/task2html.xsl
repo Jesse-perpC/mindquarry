@@ -66,5 +66,9 @@
 			<xsl:value-of select="$viewDocumentLink" />
 		</xsl:attribute>
 	</xsl:template>
+	
+	<xsl:template match="span[@id='ductform.status']/text()">
+		<img src="{$pathToBlock}images/status/{normalize-space(.)}.png" /> <xsl:value-of select="."/>			
+	</xsl:template>
 
 </xsl:stylesheet>
