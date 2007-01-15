@@ -36,7 +36,7 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>docbook-maven-plugin</artifactId>
         <!-- we need a mindquarry-specific fork until our patches are applied -->
-        <version>1.0.0-alpha-1-Mindquarry</version>
+        <version>1.0.0-alpha-2-Mindquarry</version>
         <configuration>
           <!-- we can configure the plugin to use our own customization layer -->
           <customizations>
