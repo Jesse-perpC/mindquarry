@@ -93,6 +93,23 @@ dd div.repeater td {
     padding: 6px;
 }
 
+/* for people and dependencies, we want only the table to get highlighted */
+dd#ductform_people.output:hover, dd#ductform_dependencies.output:hover {
+    background-color: white;
+    border: 1px solid white;
+}
+
+dd.output div.repeater table:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+}
+
+/* nothing in repeater list (no table) */
+dd div.repeater p:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+}
+
 /* hide wiki link buttons in editor2 */
 .createWikiLinkContainer {
     display: none;
