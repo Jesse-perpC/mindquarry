@@ -78,7 +78,6 @@ function handleClick(event) {
 }
 
 lightbox.prototype = {
-
 	yPos : 0,
 	xPos : 0,
 
@@ -148,7 +147,12 @@ lightbox.prototype = {
 		}
 		else {
 			placeholder = document.getElementById('lightboxplaceholder');
-			cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
+			
+			if(this.content.indexOf("?") == -1) {
+			    cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
+			} else {
+			    cocoon.ajax.update(this.content + "&lightbox-request=true", placeholder, "insert");
+			}
 			//placeholder.style.visibility = "visible";
 			placeholder.style.display = display;
 			//dojo.lfx.html.fadeShow(placeholder, 1000).play();
