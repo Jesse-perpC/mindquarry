@@ -17,18 +17,22 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	
 	<xsl:template match="/teamspaces">
-		<teamspaces>
-			<xsl:apply-templates select="teamspace" />
-		</teamspaces>
-	</xsl:template>
-
-	<xsl:template match="teamspace">
-		<teamspace xlink:href="{normalize-space(id)}">
-			<xsl:apply-templates select="name" />
-		</teamspace>
+		<div id="user-and-teamspace-info">
+			<xsl:apply-templates select="user" />
+			<ul class="teamspacelist">
+				<xsl:apply-templates select="teamspace"/>
+			</ul>
+		</div>
 	</xsl:template>
 	
-	<xsl:template match="name">
-		<xsl:value-of select="normalize-space(.)" />
+	<xsl:template match="user">
+		<p class="userinfo">
+			<span class="username"><xsl:value-of select="@id"/></span>
+			<span class="userid"><xsl:apply-templates/></span>
+		</p>
+	</xsl:template>
+	
+	<xsl:template match="teamspace">
+		<li class="team"><a href="{normalize-space(id)}"><xsl:apply-templates select="name" /></a></li>
 	</xsl:template>
 </xsl:stylesheet>

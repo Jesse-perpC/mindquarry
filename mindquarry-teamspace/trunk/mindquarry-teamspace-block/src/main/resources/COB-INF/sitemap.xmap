@@ -360,6 +360,15 @@
 				<serialize type="xml" />
 			</match>
 			
+			<match pattern="views/teamspacesHTMLListView">
+				<generate src="jx/teamspace-list-view.jx" type="jx"
+					label="content" />
+				
+				<transform src="xslt/teamspaces2htmllist.xsl" />
+				
+				<serialize type="xml" />
+			</match>
+			
 			<match pattern="views/teamspaceXMLViewWithUsers">
 				<generate src="jx/teamspace-view.jx" type="jx"
 					label="content" />
@@ -427,6 +436,16 @@
 						</call>
 					</when>
 				</select>
+			</match>
+			
+			<match pattern="userinfo">
+				<call
+					function="listTeamspacesForUser">
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="target"
+						value="views/teamspacesHTMLListView" />
+				</call>
 			</match>
 			
 			<match pattern="*/editMembers/">
