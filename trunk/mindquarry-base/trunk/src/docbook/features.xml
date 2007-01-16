@@ -576,7 +576,7 @@
           </variablelist></para>
       </section>
 
-      <!--section>
+      <section>
         <title>Wiki</title>
 
         <para><variablelist>
@@ -622,7 +622,8 @@
               </listitem>
             </varlistentry>
           </variablelist></para>
-      </section-->
+        </section>
+
     </section>
   </section>
 </article>
