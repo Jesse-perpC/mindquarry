@@ -94,7 +94,6 @@
 	filter:alpha(opacity=50);   /* IE      */
 	-moz-opacity:0.5;           /* Mozilla   */
 	opacity: 0.5;               /* newer Mozilla and CSS-3 */		
-
 	border:1px;
 	background:#ffffff;	
 	border-color:#cccccc;
@@ -104,7 +103,7 @@
 	right:8px;
 	top:8px;
 	display:block;
-	width:120px;
+	width:78px;
 
 	z-index:100;
 	text-align:left;
@@ -112,15 +111,28 @@
 	padding:3px;
 }
 
-.username-display {
-	text-align:center;
+#edit-user-link, #head-help-link, #http-logout-link {
+    display:block;
+	height:22px;
+	width:22px;
+	margin:2px;
+	font-size:0px;
+	color:transparent;
+	background-repeat:no-repeat;
+	float:right;
+}
+
+#edit-user-link {
+	background-image:url(../tango-icons/22/categories/preferences-system.png);
+}
+
+#head-help-link {
+	background-image:url(../tango-icons/22/apps/help-browser.png);
 }
 
 /* javascript browsers */
 #http-logout-link {
-	text-align:center;
-	font-size:8pt;
-	height:10px;
+	background-image:url(../tango-icons/22/actions/system-log-out.png);
 }
 
 /* non javascript browsers */
