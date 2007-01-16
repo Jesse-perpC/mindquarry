@@ -98,8 +98,11 @@
       <title>Process Overview</title>
 
       <mediaobject>
-        <imageobject>
-          <imagedata fileref="dev-process-overview.png" format="PNG" />
+        <imageobject role="html">
+          <imagedata fileref="images/dev-process-overview.png" format="PNG" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/dev-process-overview.png" format="PNG" width="12cm"/>
         </imageobject>
       </mediaobject>
     </figure>
@@ -279,8 +282,12 @@
         <title>Community Overview</title>
 
         <mediaobject>
-          <imageobject>
-            <imagedata fileref="organization.png" format="PNG" />
+          <imageobject role="html">
+            <imagedata fileref="images/organization.png" format="PNG" />
+          </imageobject>
+        </mediaobject>
+        <imageobject role="fo">
+            <imagedata fileref="images/organization.png" format="PNG" width="12cm" />
           </imageobject>
         </mediaobject>
       </figure>
