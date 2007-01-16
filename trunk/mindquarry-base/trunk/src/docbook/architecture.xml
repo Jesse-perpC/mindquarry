@@ -446,11 +446,10 @@
             <para>One the one hand it notifies Solr of updated documents that
             need re-indexing by sending the location, meta-data and content of
             the new or changed document to the Solr servlet. Solr will store
-            these information in the Lucene Index.</para>
-
-            <para>On the other hand, search queries to the web application are
-            passed directly to the Solr servlet which is able to answer these
-            queries in different output formats like JSON or XML.</para>
+            these information in the Lucene Index. On the other hand, search
+            queries to the web application are passed directly to the Solr
+            servlet which is able to answer these queries in different output
+            formats like JSON or XML.</para>
           </listitem>
         </varlistentry>
 
@@ -965,7 +964,7 @@
         project model.</para>
       </section>
 
-      <section>
+      <section id="servlet-arch">
         <title>Internal Servlet Architecture</title>
 
         <para>Blocks with a web-interface provide it via Cocoon sitemaps that
@@ -1256,40 +1255,43 @@
         <xref linkend="bib-jsr170" /> compliant content repository. This
         section explains the extensions added to improve Jackrabbit.</para>
 
-        <itemizedlist>
-          <listitem>
-            <para>Native XML Integration</para>
-          </listitem>
-
-          <listitem>
-            <para>full xpath 1.0 support</para>
-          </listitem>
-
-          <listitem>
-            <para>unique ids</para>
-          </listitem>
-        </itemizedlist>
-
         <section>
           <title>Native XML Integration</title>
 
           <para>The Jackrabbit implementation of the JCR API was extended in
           order to support native XML content within the repository structure.
-          Therefore a set of additional JCR node types had to be defined which
-          allow a mapping from XML elements, attributes and text nodes onto
-          JCR nodes and properties. Figure <xref
-          linkend="jcr-node-types-xml" /> gives an overview of all newly
-          defined node types. To separate XML content from normal binary files
-          the <code>xt:document</code> node type was defined, which inherits
-          from <code>nt:resource</code> to be used as the resource of a
-          standard <code>nt:file</code>. Each <code>xt:document</code> node
-          contains exactly one node of type <code>xt:element</code>, which
-          represents the root XML element. Below this root element a tree of
-          <code>xt:element</code> nodes represent the structure of the XML
-          document. XML attributes are stored as normal JCR properties in
-          their according <code>xt:element</code> nodes. XML text nodes are
-          represented as <code>xt:text</code> nodes that store the actual text
-          string in a property called <code>xt:characters</code>.</para>
+          This includes</para>
+
+          <itemizedlist>
+            <listitem>
+              <para>Storing XML trees</para>
+            </listitem>
+
+            <listitem>
+              <para>Full XPath 1.0 support</para>
+            </listitem>
+
+            <listitem>
+              <para>Registry for XML namespaces</para>
+            </listitem>
+          </itemizedlist>
+
+          <para>To store native XML trees inside JCR, a set of additional JCR
+          node types had to be defined which allow a mapping from XML
+          elements, attributes and text nodes onto JCR nodes and properties.
+          Figure <xref linkend="jcr-node-types-xml" /> gives an overview of
+          all newly defined node types. To separate XML content from normal
+          binary files the <code>xt:document</code> node type was defined,
+          which inherits from <code>nt:resource</code> to be used as the
+          resource of a standard <code>nt:file</code>. Each
+          <code>xt:document</code> node contains exactly one node of type
+          <code>xt:element</code>, which represents the root XML element.
+          Below this root element a tree of <code>xt:element</code> nodes
+          represent the structure of the XML document. XML attributes are
+          stored as normal JCR properties in their according
+          <code>xt:element</code> nodes. XML text nodes are represented as
+          <code>xt:text</code> nodes that store the actual text string in a
+          property called <code>xt:characters</code>.</para>
 
           <para><figure id="jcr-node-types-xml">
               <title>JCR node types for mapping XML</title>
@@ -1330,11 +1332,18 @@
           Unfortunately the JCR specification does only support a subset of
           the XPath 1.0 Specification<xref linkend="bib-xpath-10" /> that does
           not include using predicates that access the child axis, which is
-          needed if a document should be returned that contains certain data.
-          With the help of <ulink url="http://jaxen.org/">Apache Jaxen</ulink>
-          we integrated a full XPath 1.0 implementation with the cost of
-          loosing the standard index of Jackrabbit and the special XPath
-          functions that allow to query for the type of the nodes.</para>
+          needed if a document should be returned that contains certain
+          data<footnote>
+              <para>JCR defines two standard query languages,
+              <code>xpath</code>, a subset and modification of XPath, and
+              <code>sql</code>, which is similar to SQL but not very suitable
+              to query trees.</para>
+            </footnote>. By using <ulink url="http://jaxen.org/">Apache
+          Jaxen</ulink> a full XPath 1.0 implementation was integrated,
+          although this comes at the cost of loosing the standard search index
+          of Jackrabbit and the special XPath functions that eg. allow to
+          query for the type of the nodes. But now it is possible to execute
+          XPath queries like shown in the example below</para>
 
           <para>TODO: Namespace</para>
         </section>
@@ -1445,15 +1454,118 @@
     </section>
 
     <section id="search">
-      <title>Search</title>
+      <title>Index and Search</title>
 
-      <para>Alex S.</para>
+      <para>As explained in section <xref linkend="systemoverview" />
+      searching within the Mindquarry Collaboration Server is provided by the
+      <ulink url="http://incubator.apache.org/solr/">Apache Solr</ulink>
+      enterprise search server. Solr is integrated into the architecture as a
+      set of servlets which are mounted using the <code>BlockServlet</code>
+      (see section <xref linkend="servlet-arch" /> for details). Two servlets
+      are important for Solr:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><code>SolrServlet</code> for executing queries on the index
+          (available under
+          <code>http://&lt;host&gt;:&lt;port&gt;/&lt;app-context&gt;/solr-select/</code>)</para>
+        </listitem>
+
+        <listitem>
+          <para><code>SolrUpdateServlet</code> for adding, updating and
+          deleting documents from the index (available under
+          <code>http://&lt;host&gt;:&lt;port&gt;/&lt;app-context&gt;/solr-update/</code>)</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Documents are posted to the <code>SorlUpdateServlet</code> and
+      should have the following structure:</para>
+
+      <programlisting language="xml" linenumbering="unnumbered">&lt;add&gt;
+  &lt;doc&gt;
+    &lt;field name="id" /&gt;        &lt;!-- ID of the document (as URL) --&gt;
+    &lt;field name="name" /&gt;      &lt;!-- name of the document --&gt;
+    &lt;field name="location" /&gt;  &lt;!-- location of the document (the URL where it is available) --&gt;
+    &lt;field name="type" /&gt;      &lt;!-- type of the document (currently wiki or task) --&gt;
+    &lt;field name="content" /&gt;   &lt;!-- the full content of the document wihtout xml markup --&gt;
+    &lt;field name="title" /&gt;     &lt;!-- the internal title of the document --&gt;
+  &lt;/doc&gt;
+
+  &lt;!-- more documents --&gt;
+&lt;/add&gt;</programlisting>
+
+      <para>Such a kind of post adds the including documents to the index. If
+      a document with an ID is detected that was already added to the index,
+      the new version of the document is indexed instead of adding a new
+      document. For deleting documents the following document structure show
+      below is used. Each document which ID is contained in such a statement
+      will become deleted.</para>
+
+      <programlisting language="xml" linenumbering="unnumbered">&lt;delete&gt;
+  &lt;id /&gt;
+
+  &lt;!-- more IDs for deletion --&gt;
+&lt;/delete&gt;</programlisting>
+
+      <para>Each add, update or delete must be commited by a post of the
+      following format:</para>
+
+      <programlisting language="xml" linenumbering="unnumbered">&lt;commit /&gt;</programlisting>
+
+      <para>At the moment only wiki pages and tasks are indexed. This update
+      of the index is triggered by the <code>JCRSource</code> (see <xref
+      linkend="jcr" /> for details) on every JCR action that adds, updates or
+      deletes a document. After a document is added, it can be search using
+      the <code>SolrServlet</code> using the following query format:</para>
+
+      <programlisting>http://&lt;host&gt;:&lt;port&gt;/&lt;app-context&gt;/solr-select/?q=&lt;search-term&gt;&amp;fl=score&amp;wt=mq</programlisting>
+
+      <para>The <code>q</code> parameter defines the search term while
+      <code>fl</code> declares that the search results shall include a score
+      for each hit. the parameter <code>wt</code> defines the type of result.
+      Possible values are <code>json</code>, <code>mq</code>, or
+      <code>xml</code>. <code>mq</code> identifies a modified version of the
+      JSON result format, which is used for the QuickSearch widget.</para>
     </section>
 
-    <section>
+    <section status="draft">
       <title>Desktop Client</title>
 
-      <para>Alex S.</para>
+      <para>The Desktop Client is a small desktop application that integrates
+      with the system tray and provides fast access to the 20% of work that
+      one probably has to do 80% of the time when working with the Mindquarry
+      Collaboration Server. Figure <xref linkend="fig-desktop-client" /> shows
+      a screen shot of the current version of the desktop client.</para>
+
+      <figure id="fig-desktop-client">
+        <title>Desktop Client Screenshot</title>
+
+        <mediaobject>
+          <imageobject>
+            <imagedata fileref="images/desktop-client.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>At the moment the desktop client provides the following
+      features:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Synchronization of workspaces with the desktop and sharing of
+          new documents and changes.</para>
+        </listitem>
+
+        <listitem>
+          <para>Retrieval and display of tasks as well as finishing tasks,
+          which means setting the status of a task to
+          <quote>done</quote>.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>To provide this functionality the Desktop Client uses the SVN API
+      for working with workspaces and the REST API for working with
+      tasks.</para>
     </section>
   </section>
 
@@ -1472,9 +1584,13 @@
     <section>
       <title>XML schemas</title>
 
-      <para></para>
+      <para>The following loose XML schemas, shown just as XML structures, are
+      used in the public APIs and inside the JCR.</para>
 
-      <programlisting>&lt;user&gt;
+      <figure>
+        <title>User Profile</title>
+
+        <programlisting>&lt;user xmlns="http://www.mindquarry.com/ns/schema/user"&gt;
   &lt;id/&gt;
   &lt;name/&gt;
   &lt;surname/&gt;
@@ -1484,6 +1600,74 @@
 
   &lt;teamspace-reference/&gt;
 &lt;/user&gt;</programlisting>
+      </figure>
+
+      <figure>
+        <title>Teamspace Metadata</title>
+
+        <programlisting>&lt;teamspace xmlns="http://www.mindquarry.com/ns/schema/teamspace"&gt;
+  &lt;id/&gt;
+  &lt;name/&gt;
+  &lt;description/&gt;
+
+  &lt;properties&gt;
+    &lt;property&gt;
+      &lt;key/&gt;
+      &lt;value/&gt;
+    &lt;/property&gt;
+  &lt;/properties&gt;
+&lt;/teamspace&gt;</programlisting>
+      </figure>
+
+      <figure>
+        <title>Wiki page</title>
+
+        <programlisting>&lt;wikipage&gt;
+  &lt;title/&gt;
+  &lt;content/&gt;
+&lt;/wikipage&gt;</programlisting>
+      </figure>
+
+      <figure>
+        <title>Task</title>
+
+        <programlisting>&lt;task&gt;
+  &lt;title/&gt;
+  &lt;summary/&gt;
+  &lt;status/&gt;
+  &lt;date/&gt;
+  &lt;description/&gt;
+  &lt;people&gt;
+    &lt;item position="0"&gt;
+      &lt;peopleperson/&gt;
+      &lt;peoplerole/&gt;
+    &lt;/item&gt;
+  &lt;/people&gt;
+  &lt;archived/&gt;
+  &lt;dependencies&gt;
+    &lt;item position="0"&gt;
+      &lt;dependencytask/&gt;
+      &lt;dependencyrole/&gt;
+    &lt;/item&gt;
+  &lt;/dependencies&gt;
+&lt;/task&gt;</programlisting>
+      </figure>
+
+      <figure>
+        <title>Task filter</title>
+
+        <programlisting>&lt;filterBuilder&gt;
+  &lt;title/&gt;
+  &lt;aggregator&gt;and|or&lt;/aggregator&gt;
+  &lt;part&gt;
+    &lt;item position="0"&gt;
+      &lt;field/&gt;
+      &lt;selector&gt;equals|contains&lt;/selector&gt;
+      &lt;value/&gt;
+    &lt;/item&gt;
+  &lt;/part&gt;
+&lt;/filterBuilder&gt;</programlisting>
+      </figure>
     </section>
 
     <section id="rest-api">
@@ -1493,18 +1677,24 @@
     </section>
 
     <section id="jcr-api">
-      <title>JCR - Standard Content Repository Interface</title>
+      <title>Standard Content Repository Structure</title>
 
       <para>The following section describes the organization of the Mindquarry
       Java Content Repository.</para>
 
       <programlisting>/
 - users (nt:folder)
-  - &lt;user-id&gt; (nt:file containing an xml document describing the user profile see....)
+  - &lt;user-id&gt; (nt:file User Profile XML document)
 
 - teamspaces (nt:folder)
   - &lt;teamspace-id&gt; (nt:folder)
-    - metadata.xml (nt:file containing xml document describing the teamspace)</programlisting>
+    - metadata.xml (nt:file Teamspace Metadata XML document)
+    - wiki (nt:folder)
+      - id:unique (id:node)
+      - Start.xml (fixed Start page as Wiki page XML document)
+      - &lt;wikipage&gt;.xml (fixed Wiki page XML document)
+    - tasks (nt:folder)
+      - TODO</programlisting>
     </section>
   </section>
 
