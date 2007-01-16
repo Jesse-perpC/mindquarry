@@ -115,6 +115,7 @@
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}dojoutils.js" >//</script>
 			<script type="text/javascript">
 				dojo.require("mindquarry.widget.QuickSearch");
+				dojo.require("mindquarry.widget.TeamSwitcher");
 			</script>
 		</head>
 	</xsl:template>
@@ -167,16 +168,23 @@
 					<!-- test if user is logged in -->				
 					<xsl:if test="string-length($username) > 0">
 						<!-- make logging status widget -->
+						<div id="user-status-background">
+							<xsl:text> </xsl:text>
+						</div>
 						<div id="user-status">
 							<div id="http-logout-hint">(Close browser to logout)</div>
 							<a href="{$pathToRoot}" id="path-to-webapp-root" title="logout"/>
 							<div class="username-display">
 								<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="edit settings for {$username}" rel="lightbox"><xsl:value-of select="$username" /></a>
 							</div>
-							<a href="{$pathToRoot}/help/" id="head-help-link">Help</a>							
+							<a href="{$pathToRoot}/help/" id="head-help-link">Help</a>													
 						</div>
 					</xsl:if>
 				</div>
+				
+				<div title="{$teamspaceName}" dojoType="TeamSwitcher">
+					<include src="block:teams:/user/{$username}/info" xmlns="http://apache.org/cocoon/include/1.0"/>
+				</div>	
 				
 				<!-- test if user is logged in -->
 				<xsl:if test="string-length($username) > 0">

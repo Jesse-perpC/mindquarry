@@ -90,7 +90,7 @@
 
 /* Logout and user at the top right */
 
-#user-status {
+#user-status-background {
 	filter:alpha(opacity=50);   /* IE      */
 	-moz-opacity:0.5;           /* Mozilla   */
 	opacity: 0.5;               /* newer Mozilla and CSS-3 */		
@@ -103,13 +103,76 @@
 	right:8px;
 	top:8px;
 	display:block;
-	width:78px;
+	width:278px;
+	height:28px;
+
+	z-index:99;
+}
+
+#user-status {
+	position:absolute;
+	right:8px;
+	top:8px;
+	display:block;
+	width:278px;
 
 	z-index:100;
 	text-align:left;
 	font-size:8pt;
+	height:28px;
 	padding:3px;
 }
+
+#user-and-teamspace-info {
+    display:block;
+    top:0px;
+    left:0px;
+    float:left;
+}
+
+#user-and-teamspace-info p {
+    display:block;
+    position:absolute;
+    top:45px;
+    right:0px;
+    font-size:8pt;
+    color:#555555;
+    z-index:1000000000;
+}
+
+#user-and-teamspace-info p span.username {
+    display:none;
+}
+
+#user-and-teamspace-info ul {
+    list-style:none;
+    font-size:18pt;
+    margin:0px;
+    padding:0px;
+    padding-left:24px;
+    padding-top:1px;
+    background-image:url(../tango-icons/22/actions/go-down.png);
+    background-position:0px 2px;
+    background-repeat:no-repeat;
+    height:24px;
+    position:absolute;
+    right:150px;
+    top:10px;
+}
+
+#user-and-teamspace-info ul li {
+    list-style:none;
+    font-size:16pt;
+    font-weight:bold;
+    margin:0px;
+    text-indent:0px;
+}
+
+#user-and-teamspace-info ul li a {
+    text-decoration:none;
+    color:black;
+}
+
 
 #edit-user-link, #head-help-link, #http-logout-link {
     display:block;
@@ -144,7 +207,6 @@
 #path-to-webapp-root {
 	display:none;
 }
-
 
 /* Login form and logout page */
 
