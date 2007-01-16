@@ -25,6 +25,8 @@
 
 				<entry key="resources"
 					value-ref="com.mindquarry.webapp.resources-block" />
+				<entry key="teams"
+					value-ref="com.mindquarry.teamspace.teamspace-block" />
 			</map>
 		</property>
 
