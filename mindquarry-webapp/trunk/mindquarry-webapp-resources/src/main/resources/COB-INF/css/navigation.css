@@ -137,7 +137,7 @@
     right:0px;
     font-size:8pt;
     color:#555555;
-    z-index:1000000000;
+    z-index:100;
 }
 
 #user-and-teamspace-info p span.username {
@@ -145,22 +145,31 @@
 }
 
 #user-and-teamspace-info ul {
+    background-image:url(../tango-icons/22/actions/go-down.png);
+    background-position:0px 2px;
+    background-repeat:no-repeat;
+    position:absolute;
+    right:93px;
+    top:10px;
+    height:24px;
+}
+
+#slarea ul, #user-and-teamspace-info ul {
     list-style:none;
     font-size:18pt;
     margin:0px;
     padding:0px;
     padding-left:24px;
     padding-top:1px;
-    background-image:url(../tango-icons/22/actions/go-down.png);
-    background-position:0px 2px;
-    background-repeat:no-repeat;
-    height:24px;
-    position:absolute;
-    right:150px;
-    top:10px;
+    width:170px;
 }
 
-#user-and-teamspace-info ul li {
+#slarea ul {
+padding-left:0px;
+padding-top:0px;
+}
+
+#user-and-teamspace-info ul li, #slarea ul li {
     list-style:none;
     font-size:16pt;
     font-weight:bold;
@@ -168,11 +177,31 @@
     text-indent:0px;
 }
 
-#user-and-teamspace-info ul li a {
+#user-and-teamspace-info ul li a, #slarea ul li a {
+    display:block;
     text-decoration:none;
     color:#555555;
 }
 
+#slarea ul li a:hover {
+    display:block;
+    text-decoration:none;
+    color:#cccccc;
+    background:#555555;
+}
+
+#slarea {
+    filter:alpha(opacity=75);
+	-moz-opacity:0.75;
+	opacity: 0.75;	
+    position:absolute;
+	right:93px;
+	top:39px;
+	width:170px;
+    border:1px solid #cccccc;
+    background:#ffffff;
+    z-index:101;
+}
 
 #edit-user-link, #head-help-link, #http-logout-link {
     display:block;

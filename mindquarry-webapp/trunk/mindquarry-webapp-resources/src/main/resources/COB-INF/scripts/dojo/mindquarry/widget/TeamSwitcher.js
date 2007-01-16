@@ -36,10 +36,17 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	buildRendering: function(args, parserFragment, parentWidget) {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
+	    var list = this.domNode.getElementsByTagName("ul")[0]
 	    
-	    var links = this.domNode.getElementsByTagName("a");
+	    var links = list.getElementsByTagName("a");
 	    var current = this.domNode.title;
 	    this.domNode.title = "";
+	    
+	    // create selection list area
+	    slArea_ = document.createElement("div");
+	    slArea_.id = "slarea";
+	    slArea_.appendChild(list.cloneNode(true));
+	    slArea_.style.display = "block";
 	    
 	    var active = false;
 	    for (var i=0;i<links.length;i++) {
@@ -49,22 +56,24 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	            active = true;
 	        }
 	    }
+	    
 	    if (!active) {
 	        var overview = document.createElement("li");
 	        overview.innerHTML = '<a href="#">Overview</a>';
-	        this.domNode.getElementsByTagName("ul")[0].appendChild(overview);
+	        list.appendChild(overview);
 	    }
-	    dojo.event.connect(this.domNode, "onclick", this, "onClick");
 	    
-	    // create selection list area
-	    slArea_ = document.createElement("div");
-	    slArea_.innerHTML = "test";
-	    slArea_.style.display = "none";
+	    dojo.event.connect(list, "onclick", this, "onClick");
+	    
 	    this.domNode.appendChild(slArea_);
     },	
     
     onClick : function(event) {
         event.preventDefault();
-        slArea_.style.display = "block";
+        if (slArea_.style.display!="block") {
+            slArea_.style.display = "block";
+        } else {
+            slArea_.style.display = "none";
+        }
     }
 });
