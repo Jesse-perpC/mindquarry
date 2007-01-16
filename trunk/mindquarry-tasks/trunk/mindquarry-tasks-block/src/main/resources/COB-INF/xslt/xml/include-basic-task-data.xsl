@@ -13,6 +13,7 @@
 			<title><xsl:value-of select="$doc//title" /></title>
 			<status><xsl:value-of select="$doc//status" /></status>
 			<summary><xsl:value-of select="$doc//summary" /></summary>
+			<date><xsl:value-of select="$doc//date" /></date>
 		</task>
 	</xsl:template>
 

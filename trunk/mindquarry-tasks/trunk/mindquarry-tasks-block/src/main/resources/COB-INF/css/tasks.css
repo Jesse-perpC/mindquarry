@@ -1,3 +1,5 @@
+/* buttons */
+
 a.create_task_button:link, a.create_task_button:visited {
 	background-image: url(../buttons/create_task.png);
 	display: block;
@@ -41,12 +43,6 @@ div.footbar {
 	clear:both;
 }
 
-ul.task-list {
-	margin: 0px;
-	clear:both;
-	padding: 0px;
-}
-
 /* similar to workspace / teamspace */
 
 ul.list {
@@ -80,12 +76,11 @@ div.name {
 	text-overflow:ellipsis;
 	width:auto;
 }
-div.task-area {
-	margin-right:320px;
-}
 
-td.task_status {
-	width:100px;
+/* task list, filter list */
+
+div.task-area, div.filter-area {
+	margin-right:320px;
 }
 
 img.task_status {
@@ -96,7 +91,7 @@ img.task_status {
 	margin-right:5px;
 }
 
-div.task-area table {
+div.task-area table, div.filter-area table {
 	border:0px;
 	font-size:10pt;
 	text-align:left;
@@ -106,12 +101,24 @@ div.task-area table {
 	border-spacing:0px;
 }
 
-div.task-area table th {
+div.task-area table th, div.filter-area table th {
 	background-color:#bee5b8;
 	color:black;
 }
 
-tr.highlight td {
+#title-col-header {
+    text-align: center;
+}
+
+table.task-list th {
+	cursor: pointer;
+}
+
+table.task-list th.selected {
+    background-color: #66CC66;
+}
+
+table.task-list tr td {
     background-color:white;
 	color:#333333;
 	border-top:1px solid white;
@@ -119,7 +126,11 @@ tr.highlight td {
 	padding-top:2px;
 }
 
-tr.highlight:hover td {
+table.task-list tr.alt td {
+	background-color: #e6fbe3;
+}
+
+table.task-list tr:hover td {
 	border-bottom-color:#bee5b8;
 	border-top-color:#dff7da;
 	background-color:#cff6c9;
@@ -133,6 +144,16 @@ tr a.task_edit_link {
 tr:hover a.task_edit_link {
 	visibility:visible;
 }
+
+table.task-list td div.summary {
+    color: #bbbbbb;
+}
+
+table.task-list td div.summary {
+    color: #aaaaaa;
+}
+
+/* back link */
 
 a#back {
 	display:block;
@@ -193,13 +214,14 @@ img.icon {
 	margin-right:5px;
 }
 
+/* filter list on overview page */
 
-div.queries h3 {
+div.filters h3 {
 	font-size: 12px;
 	border-bottom: 1px solid gray;
 }
 
-div.queries {
+div.filters {
 	color: #666666;
 	font-size: 12px;
 	clear:both;
