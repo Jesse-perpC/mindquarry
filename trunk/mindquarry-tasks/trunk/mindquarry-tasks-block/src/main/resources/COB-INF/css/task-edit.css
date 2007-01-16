@@ -104,6 +104,10 @@ dd.output div.repeater table:hover {
     border: 1px solid #cccccc;
 }
 
+dd.output div.repeater table td img {
+    margin-right: 5px;
+}
+
 /* nothing in repeater list (no table) */
 dd div.repeater p:hover {
     background-color: #FFFFCC;
