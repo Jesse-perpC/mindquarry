@@ -52,7 +52,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    var newlist = slArea_.getElementsByTagName("a");
 	    
 	    for (var i=0;i<newlist.length;i++) {
-	        newlist[i].href = baselink.href + newlist[i].title;
+	        newlist[i].href = baselink.href + newlist[i].title + "/";
 	    }
 	    
 	    
@@ -67,7 +67,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    
 	    if (!active) {
 	        var overview = document.createElement("li");
-	        overview.innerHTML = '<a href="#">Overview</a>';
+	        overview.innerHTML = '<a href="#">All your teams</a>';
 	        list.appendChild(overview);
 	    }
 	    
