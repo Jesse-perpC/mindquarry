@@ -107,6 +107,7 @@
 						<parameter name="version"
 							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</transform>
+					<transform type="cinclude"/>
 				</otherwise>
 			</select>
 
