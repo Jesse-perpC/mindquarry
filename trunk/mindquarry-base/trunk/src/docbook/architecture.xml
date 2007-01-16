@@ -1,0 +1,1536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<article class="specification" lang="english" status="work in progress">
+  <articleinfo>
+    <title>Mindquarry Collaboration Server Architecture Documentation</title>
+
+    <subtitle>Description of the architecture of the Mindquarry Collaboration
+    Server.</subtitle>
+
+    <abstract>
+      <para>This document provides a description of the architecture of the
+      Mindquarry Collaboration Server. Therefore it starts with an overview of
+      the whole system. This includes and overview of the system components
+      and how they play together as well as a short introduction to the open
+      source software frameworks the Mindquarry Collaboration Server relies
+      on. After that the several system components are described in detail and
+      some special concepts like authentication, indexing or application
+      blocks are described. Finally it is described how the system can be
+      integrated in existing IT landscapes.</para>
+
+      <para>The document should help developers to get in touch with the
+      Mindquarry Collaboration Server if they plan to participate in the
+      development. Additionally it is used to ensure that the overall system
+      architecture is described appropriatly in order to keep this information
+      persistent. Thus this architecture description is maintained by
+      Mindquarry to keep it up-to-date.</para>
+    </abstract>
+
+    <author>
+      <firstname>Bastian</firstname>
+
+      <surname>Steinert</surname>
+
+      <affiliation>
+        <jobtitle>Software Developer</jobtitle>
+
+        <orgname>Mindquarry GmbH</orgname>
+      </affiliation>
+    </author>
+
+    <author>
+      <firstname>Alexander</firstname>
+
+      <surname>Klimetschek</surname>
+
+      <affiliation>
+        <jobtitle>Chief Architect</jobtitle>
+
+        <orgname>Mindquarry GmbH</orgname>
+      </affiliation>
+    </author>
+
+    <author>
+      <firstname>Alexander</firstname>
+
+      <surname>Saar</surname>
+
+      <affiliation>
+        <jobtitle>Chief Technology Officer</jobtitle>
+
+        <orgname>Mindquarry GmbH</orgname>
+      </affiliation>
+    </author>
+
+    <author>
+      <firstname>Lars</firstname>
+
+      <surname>Trieloff</surname>
+
+      <affiliation>
+        <jobtitle>Chief Operational Officer</jobtitle>
+
+        <orgname>Mindquarry GmbH</orgname>
+      </affiliation>
+    </author>
+
+    <address>August-Bebel-Str. 88, D-14482 Potsdam</address>
+
+    <date>03. Januar 2007</date>
+
+    <copyright>
+      <year>2006-2007</year>
+
+      <holder>Mindquarry GmbH</holder>
+    </copyright>
+
+    <releaseinfo>Version 1.0 (draft)</releaseinfo>
+  </articleinfo>
+
+  <section>
+    <title>Introduction and Overview</title>
+
+    <para>The <productname>Mindquarry Collaboration Server</productname>,
+    short <productname>Mindquarry</productname> is an Open Source<footnote>
+        <para>Under the conditions of the Mozilla Public License
+        (<abbrev>MPL</abbrev>), Version 1.1</para>
+      </footnote> collaboration infrastructure system that provides document
+    management with version control and desktop synchronization, a flexible
+    Wiki and task management system and a means to manage teams and users. For
+    all full list of features, refer to the separate Mindquarry Collaboration
+    Server Feature Documentation.</para>
+
+    <para>This introduction and its subsections will give a <link
+    linkend="systemoverview">short overview of the Mindquarry system
+    architecture</link>, the <link linkend="motivation">design goals that were
+    driving the design</link> and should guide the architecture of new
+    components, and how <productname>Mindquarry</productname> uses the<link
+    linkend="applicationblocks"> Application Blocks</link> technology to
+    structure the software system.</para>
+
+    <section status="needsreview">
+      <title>temp section to show needsreview status</title>
+
+      <para>In the later course of this document, you will find a discussion
+      of the <link linkend="general">general architectural aspects</link> of
+      the <productname>Mindquarry</productname> system that provide a
+      fundamental understanding of the <productname>Mindquarry</productname>
+      implementation and <link linkend="systemintegration">an architecture
+      guide for system integration</link> that provides explaination of
+      application programming interfaces used in
+      <productname>Mindquarry</productname>. Finally you will find pointers to
+      reference material in the <link linkend="bibliography">bibliography
+      section</link>.</para>
+    </section>
+
+    <section id="motivation" status="draft">
+      <title>Motivation and Goals</title>
+
+      <para><productname>Mindquarry Collaboration Server</productname> should
+      offer teams an environment for productive work in teams. As such, a
+      number of design goals should be fulfilled that were guiding when
+      designing <productname>Mindquarry</productname> and shall guide all
+      further development of the <productname>Mindquarry Collaboration
+      Server</productname>. The main motivation of these goals stems from the
+      fact that there are many desired deployment options for the
+      <productname>Mindquarry Collaboration Server</productname> such as quick
+      try-out installation, workgroup-wide installation, supported
+      enterprise-wide installation and running <productname>Mindquarry
+      Collaboration Server</productname> in an Software as a Service
+      (<abbrev>Saas</abbrev>) environment.</para>
+
+      <para>Furthermore, as <productname>Mindquarry</productname> is both an
+      Open Source project and an enterprise-grade product of
+      <orgname>Mindquarry GmbH</orgname>, it should allow easy integration and
+      adoption by interested Open Source developers and third-party system
+      integrators that are developing their own extensions of
+      <productname>Mindquarry</productname>. This means, comprehensibility and
+      extensibility are design goals of Mindquarry.</para>
+
+      <para>For the purpose of comprehensibility and scalability which is
+      important in an enterprise installation scenario or an SaaS scenario,
+      the Mindquarry architecture should adhere to the principles of
+      Representational State Transfer (<abbrev>REST</abbrev>), which means
+      that application state and functionality are divided into resources,
+      that every resource is addressable using an <abbrev>URI</abbrev> syntax,
+      that resources share a unique interface for the state transfer with a
+      constrained set of well-defined operations, and a constrained set of
+      content types. Furthermore the protocol for exchanging information
+      between client and server should be stateless, cachable and layered. As
+      <productname>Mindquarry</productname> is a web application, and the
+      world wide web with protocols like <abbrev>HTTP</abbrev> and data
+      formats like <abbrev>XML</abbrev> is destined for <abbrev>REST</abbrev>
+      style architectures, there is a natuaral fit between data-centric web
+      applications like <productname>Mindquarry</productname> and a REST-style
+      architecture.</para>
+
+      <para>In order to allow rapid development and to attract interested
+      developers, Mindquarry will build upon cutting edge web technology with
+      frameworks like <productname>Cocoon</productname> 2.2 for the backend
+      that allows building <abbrev>XML</abbrev>-based web applications and
+      empowers separation of concerns, component containers like
+      <productname>Spring</productname> that enable loose coupling of
+      components and component reuse, user interface libraries like
+      <productname>Dojo</productname> that allow creating rich and interactive
+      web unser interfaces using <abbrev>HTML</abbrev>, <abbrev>CSS</abbrev>,
+      Javascript and <abbrev>AJAX</abbrev>.</para>
+
+      <section>
+        <title>Open Source Component Requirements</title>
+
+        <para>When selecting Open Source components to be used with
+        Mindquarry, following questions should be answered positively:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Is the software component's license compatible with
+            Mindquarry's license (<abbrev>MPL</abbrev>)?<footnote>
+                <para>This is the case for most <abbrev>BSD</abbrev>-style
+                license types, the Apache Software License, but not for the
+                <abbrev>GNU</abbrev> Public License
+                (<abbrev>GPL</abbrev>).</para>
+              </footnote></para>
+          </listitem>
+
+          <listitem>
+            <para>Is the code well-designed and maintained? Is it possible to
+            fix bugs without major hassles?</para>
+          </listitem>
+
+          <listitem>
+            <para>Does the project have an active community that is devoted to
+            maintaining the software and introducing new features and
+            functionality?<footnote>
+                <para>This is the case for virtually all member projects of
+                the Apache Software Foundation, most of the projects of the
+                codehaus.org community and many of the projects of the
+                tigris.org community.</para>
+              </footnote></para>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section id="systemoverview" status="draft">
+      <title>System Overview</title>
+
+      <para>A short overview of the Mindquarry system architecture is shown in
+      <xref linkend="systemmap" />. This system map uses the Fundamental
+      Modeling Objects block chart notation. In this notation, blocks with
+      rounded corners indicate inactive system components like document
+      storages, while block with angle corners indicate active system
+      components. In the following section, each system component and its
+      interaction with other components will be described. We start with the
+      most important part, the user.</para>
+
+      <figure id="systemmap">
+        <title>Mindquarry System Map</title>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata depth="12cm" fileref="images/systemmap.pdf" />
+          </imageobject>
+
+          <imageobject role="html">
+            <imagedata fileref="images/systemmap.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <variablelist>
+        <varlistentry>
+          <term>The User</term>
+
+          <listitem>
+            <para>The user is able to interact with Mindquarry by using
+            familiar desktop programs such as E-Mail clients for
+            messaging<footnote>
+                <para>This and all fully transparent components indicate
+                planned parts of the system and may be subject to
+                changes.</para>
+              </footnote>, the web browser for interactive information
+            retrieval and the Mindquarry Desktop Client for quick access to
+            often-accessed tasks like updating task information or tasks that
+            require interaction with the user's computer's file system that
+            are not possible from a web-browser environment.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Web-Browser</term>
+
+          <listitem>
+            <para>The web-browser accesses the Mindquarry Web application by
+            means of the <abbrev>HTTP</abbrev> protocol and will interact
+            either directly with the Mindquarry Web application running in a
+            servlet container or by means of a reverse proxy like the Apache
+            Web Server and it's mod_proxy module, which can provide caching
+            and increase security by SSL-encrypting the communication between
+            web browser and remote web server.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Feed Reader</term>
+
+          <listitem>
+            <para>The feed reader or <abbrev>RSS</abbrev> reader is an
+            alternative client application able to access Atom feeds generated
+            by the Mindquarry web application by means of the
+            <abbrev>HTTP</abbrev> protocol. This kind of applications
+            continually polls the server for updated data sources and is able
+            to inform the user of changes to the stored data asynchonously or
+            sychronously.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Mindquarry Desktop Client</term>
+
+          <listitem>
+            <para>The Mindquarry desktop client combines two key
+            functionalities. On the one hand it allows retrieving task lists
+            from the Mindquarry Collaboration Server by means of the
+            <abbrev>HTTP</abbrev> protocol and sending updated task
+            information to the Mindquarry Collaboration Server using the
+            <abbrev>HTTP</abbrev> PUT method.</para>
+
+            <para>The second functionality of the Mindquarry Desktop Client is
+            the synchronization of the users local workspace in the filesystem
+            with the shared document repository by means of the Subversion
+            WebDAV protocol. For this purpose, the Mindquarry Desktop Client
+            uses a Subversion client library which is able to interact with
+            the mod_dav_svn module of the Apache Web Server. For a more
+            detailed discussion of the Subversion architecture used in this
+            part of the system, please see <xref
+            linkend="subversion" />.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Apache Web Server</term>
+
+          <listitem>
+            <para>The Apache Web server is a powerful and scalable
+            <abbrev>HTTP</abbrev> server that is used in the Mindquarry system
+            architecture to secure the connection between client and server by
+            means of the <abbrev>SSL</abbrev> protocol and hosts Subversion's
+            mod_dav_svn module which is responsible for managing versioned
+            documents in the Subversion repository. The Apache Web Server
+            hosts different modules that extend the core functionality of
+            Apache and play an important role in the Mindquarry system
+            architecture.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>mod_proxy</term>
+
+          <listitem>
+            <para>An Apache module that passes requests to the Apache Web
+            server through to the Servlet container running the Mindquarry web
+            application.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>mod_dav_svn</term>
+
+          <listitem>
+            <para>An extension to the Apache mod_dav module that implements a
+            server for the Subversion WebDAV protocol by accessing the
+            Subversion Repository directly. mod_dav is an Apache module that
+            implements the WebDAV protocol that extends the
+            <abbrev>HTTP</abbrev> protocol by enabling distributed authoring
+            of web resources.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>mod_perl AuthHandler</term>
+
+          <listitem>
+            <para>As the Mindquarry Web application uses its own user and
+            rights management, access to the Subversion document repository by
+            means of the Subversion WebDAV protocol which is handled
+            completely by Apache modules must be secured by synchronizing
+            authorization and authentication information between Apache and
+            Mindquarry. This is done by a custom authentication handler,
+            executed by Apache's mod_perl module<footnote>
+                <para>An Apache module that is able to execute programs in the
+                Perl programming language.</para>
+              </footnote> that passes the authentication information handed to
+            Apache directly through to Mindquarry. Only if Mindquarry
+            authorizes the user to access a specified resource, Apache will
+            authorize as well.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Cocoon Servlet in a Servlet Container</term>
+
+          <listitem>
+            <para>The Mindquarry web application is powered by the Apache
+            Cocoon framework, thus it is run by the Cocoon Servlet which
+            itself is run by a Servlet Container in a Java Virtual Machine.
+            The Servlet Container and the contained Mindquarry web application
+            are accessible via the HTTP protocol and the AJP protocol which
+            allows high-performance proxied access from a web server like
+            Apache.</para>
+
+            <para>The Cocoon Application itself uses a Dispatcher servlet,
+            which is able to contain other servlets providing application
+            functionality. This concept is described in detail in <xref
+            linkend="applicationblocks" />. Each servlet can be an ordinary
+            web application which is used by some components of the Mindquarry
+            web application or a so called Cocoon sitemap servlet. These
+            sitemap servlets interpret declarative web application
+            descriptions, so called sitemaps.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Cocoon Sitemap</term>
+
+          <listitem>
+            <para>Each part of the Mindquarry web application is described in
+            a Cocoon sitemap. These sitemaps are essentially a collection of
+            matchers that are able to serve specific URL patterns with
+            appropriate content. Serving an URL with content is a sequence of
+            either directly reading binary resources and passing them to the
+            client or generating XML content from a datasource, e.g. the
+            filesystem, an application resource like images or CSS stylesheets
+            or more specific datasources like the Subversion or JCR content
+            repositories, optionally transforming the XML content multiple
+            times and finally serializing XML content into a byte stream that
+            is sent to the web browser.</para>
+
+            <para>Apache Cocoon dynamically instantiates the Mindquarry web
+            application, which is then accessed by means of the Servlet
+            API.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Mindquarry Web Application</term>
+
+          <listitem>
+            <para>The Mindquarry web application is the dynamically
+            instantiated web application resulting from interpreting the
+            sitemap descriptors. Aside from being able to simply generate,
+            transform and serialize XML content, the Mindquarry web
+            application is able to reference Spring beams that can provide
+            additional services like user management. The control flow between
+            the model (Spring beans) and the view (HTML pages with form
+            elements) is handled by the Cocoon Forms framework that uses
+            either Java or Javascript<footnote>
+                <para>Javascript is interpreted server-side in this
+                case.</para>
+              </footnote> to express the control flow. In Mindquarry, nearly
+            all control flow is expressed in Javascript.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Apache Solr</term>
+
+          <listitem>
+            <para><quote>Solr is an open source enterprise search server based
+            on the Lucene Java search library, with XML/HTTP and JSON APIs,
+            hit highlighting, faceted search, caching, replication, and a web
+            administration interface.</quote> In Mindquarry Solr is used to
+            provide search functionality. The Mindquarry Web application
+            interacts with Solr in two ways.</para>
+
+            <para>One the one hand it notifies Solr of updated documents that
+            need re-indexing by sending the location, meta-data and content of
+            the new or changed document to the Solr servlet. Solr will store
+            these information in the Lucene Index.</para>
+
+            <para>On the other hand, search queries to the web application are
+            passed directly to the Solr servlet which is able to answer these
+            queries in different output formats like JSON or XML.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Lucene Index</term>
+
+          <listitem>
+            <para>This index stores the information needed for information
+            retrieval in the Mindquarry system.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Apache Jackrabbit</term>
+
+          <listitem>
+            <para><quote>Apache Jackrabbit is a fully conforming
+            implementation of the Content Repository for Java Technology API
+            (JCR).</quote>. Jackrabbit is able to store hierarchical
+            information as a tree of versioned, typed nodes and provides a
+            content storage service to the Mindquarry system.</para>
+
+            <para>Mindquarry extends the standard Jackrabbit implementation by
+            adding a custom, fully XPath 1.0 capable query provider that is
+            more powerful than the standard built-in query handler that is
+            only capable of dealing with a small subset of XPath 1.0.</para>
+
+            <para>Another extension Mindquarry uses for JCR repositories is a
+            mapping of XML documents to JCR nodes that makes fine-grained
+            content-aware querying of this data source possible. For a more
+            elaborate explaination of this component, see <xref
+            linkend="jcr" />.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Relational Database Management System or Filesystem</term>
+
+          <listitem>
+            <para>Apache Jackrabbit is able to use different backends for
+            persistence management. The most commonly used backend during
+            development is a simple filesystem backend, while in production, a
+            relational database management system is able to handle larger
+            amounts of data.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Subversion Client</term>
+
+          <listitem>
+            <para>Mindquarry is able to interact with a Subversion client
+            using the Source API and the Java Subversion API bindings. This
+            subversion client can retrieve data from the subversion repository
+            and provide it to the Mindquarry web application for online
+            browsing of the document repository.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Subversion Repository</term>
+
+          <listitem>
+            <para>The Subversion repository provides a versioned file sytem
+            with support for transactions and meta data and is accessed by the
+            Mindquarry web application through the subversion client and the
+            Apache mod_dav_svn module for document synchronization with the
+            user's workspace.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <para>Following components, drawn as transparent blocks in the system
+      map are planned parts of the E-Mail integration and conversation
+      management system part.</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>E-Mail Client</term>
+
+          <listitem>
+            <para>The user uses her e-mail client to read and write e-mails
+            using standard SMTP, POP or IMAP internet protocols. For this
+            purpose it interacts with standard internet mail servers.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Internet Mail Servers</term>
+
+          <listitem>
+            <para>Internet mail servers are able to pass e-mail messages along
+            using the SMTP protocol. The Mindquarry system provides another
+            SMTP-capable e-mail server that is able to receive e-mails for the
+            Mindquarry system or users of the Mindquarry Collaboration
+            Server.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Apache James Mail Server</term>
+
+          <listitem>
+            <para>Apache James is a Java-based internet mail server that can
+            be configured to execute custom mail handlers, called Mailets that
+            are capable of executing custom code when an e-mail is
+            received.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>Conversation Mailet</term>
+
+          <listitem>
+            <para>The conversation mailet is a Mindquarry mailet that receives
+            e-mail messages for conversations, stores them in the Mindquarry
+            JCR storage and resends the message to all subscribers of a
+            conversation or conversation topic. For this purpose it uses the
+            JCR Source API or the Subversion Source API.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+
+      <section>
+        <title>Dependency Atlas</title>
+
+        <para>The Dependency Atlas shall give a short overview of dependencies
+        of the Mindquarry system. If you plan to deal with a certain topic of
+        the Mindquarry Collaboration Server, you should familarize with these
+        dependencies.</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Web Serving</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Apache Web Server</member>
+
+                  <member>Jetty Web Server</member>
+
+                  <member>Apache Cocoon</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>XML Processing</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Apache Cocoon</member>
+
+                  <member>Xalan-Java</member>
+
+                  <member>DAX (Declarative API for Parsing XML)</member>
+
+                  <member>JDOM</member>
+
+                  <member>Jaxen</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Authentication</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Perl</member>
+
+                  <member>mod_perl</member>
+
+                  <member>LWP</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Search</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Apache Lucene</member>
+
+                  <member>Apache Solr</member>
+
+                  <member>Jakarta Slide</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Persistence</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Apache Jackrabbit</member>
+
+                  <member>Subversion</member>
+
+                  <member>Castor</member>
+
+                  <member>Jaxen</member>
+
+                  <member>Excalibur Source API</member>
+
+                  <member>Cocoon Source API</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Application Structure</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Spring</member>
+
+                  <member>Cocoon Blocks Framework</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Build System</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Apache Maven</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>User Interface</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Dojo</member>
+
+                  <member>Cocoon Forms</member>
+
+                  <member>Simple Widget Toolkit (SWT)</member>
+
+                  <member>JFace</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Control Flow</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Mozilla Rhino</member>
+
+                  <member>Cocoon Flowscript</member>
+
+                  <member>Spring</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Online Help</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>DocBook</member>
+
+                  <member>DocBook XSL Stylesheets</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section>
+        <title>Component Atlas</title>
+
+        <para>The Component Atlas shall give a short overview of components of
+        the Mindquarry Collaboration Server. If you plan to deal with a
+        certain topic of the Mindquarry Collaboration Server, you should
+        familiarize with these components.</para>
+
+        <variablelist>
+          <varlistentry>
+            <term>Web Serving</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Mindquarry Webapplication</member>
+
+                  <member>Mindquarry Launcher</member>
+
+                  <member>Mindquarry Webapplication Resources</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Authentication</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Mindquarry Webapplication Configuration</member>
+
+                  <member>Mindquarry Authorization</member>
+
+                  <member>Mindquarry Teamspace</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Search</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Cocoon Extractor</member>
+
+                  <member>Mindquarry Search Block</member>
+
+                  <member>Mindquarry Solr</member>
+
+                  <member>Mindquarry Solr Block</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Persistence</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Castor Persistence</member>
+
+                  <member>Persistence Client</member>
+
+                  <member>Mindquarry DMA Administrator</member>
+
+                  <member>Mindquarry DMA JavaSVN</member>
+
+                  <member>Mindquarry DMA Source</member>
+
+                  <member>Mindquarry Jackrabbit</member>
+
+                  <member>Mindquarry JCR Changes</member>
+
+                  <member>Mindquarry JCR Source</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Application Structure</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Mindquarry Webapplication</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>User Interface</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Mindquarry Webapplication Resources</member>
+
+                  <member>Mindquarry Ductile Forms</member>
+
+                  <member>Mindquarry Desktop Client</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+
+          <varlistentry>
+            <term>Control Flow</term>
+
+            <listitem>
+              <para><simplelist type="inline">
+                  <member>Mindquarry Teamspace</member>
+
+                  <member>Mindquarry Ductile Forms</member>
+                </simplelist></para>
+            </listitem>
+          </varlistentry>
+        </variablelist>
+      </section>
+
+      <section status="needsreview">
+        <title>Build Process</title>
+
+        <para>A software system as complex as Mindquarry needs a dedicated
+        build process. The main steps of Mindquarry's build process
+        are:</para>
+
+        <orderedlist>
+          <listitem>
+            <para>Compiling Source Code (This applies only to Java sorce
+            code)</para>
+          </listitem>
+
+          <listitem>
+            <para>Running Unit-Tests (This applies only to Java source
+            code)</para>
+          </listitem>
+
+          <listitem>
+            <para>Packaging individual components</para>
+          </listitem>
+
+          <listitem>
+            <para>Assembling components to form a system</para>
+          </listitem>
+
+          <listitem>
+            <para>Test deployment of the system</para>
+          </listitem>
+
+          <listitem>
+            <para>System test - This tests user-visible features in an
+            end-to-end-test</para>
+          </listitem>
+
+          <listitem>
+            <para>Production deployment of the system</para>
+          </listitem>
+        </orderedlist>
+      </section>
+    </section>
+
+    <section id="applicationblocks" status="draft">
+      <title>Application Blocks</title>
+
+      <para>The core of the Mindquarry Collaboration Server is divided in
+      application blocks. An application block provides resources like XSLT
+      stylesheets or images, components typically written in Java and services
+      like Servlets for a specific part of the application. For example, such
+      an application part can be the task management, the wiki, or the
+      teamspace management. To realize these application blocks, several
+      concepts from Maven and Cocoon are used. This includes the packaging
+      mechanisms of Maven for building binary artifacts that contain the
+      resources, component definitions (Spring and Avalon) as well as compiled
+      Java sources.</para>
+
+      <section>
+        <title>Block Structure</title>
+
+        <para>By using Maven the file structure of the artifacts relies on a
+        set of conventions. Additionaly conventions are implied by the Cocoon
+        framework. The common structure of such an artifact is shown in the
+        listing below. The <code>src/main/</code>java,
+        <code>src/main/resources</code>, <code>test/main/java</code>, and
+        <code>test/main/resources</code> are part of the <ulink
+        url="http://maven.apache.org/guides/introduction/introduction-to-the-standard-directory-layout.html">Maven
+        conventions</ulink>. The <code>COB-INF</code> and <code>META-INF
+        folders </code>within <code>src/main/resources</code> are Cocoon
+        <ulink
+        url="http://cocoon.zones.apache.org/dev-docs/core-modules/core/2.2/1263_1_1.html">conventions</ulink>.
+        This includes also the structure of the component definitions below
+        <code>META-INF</code>. In the <code>COB-INF</code> folder self-defined
+        conventions for structuring the several types of resources are
+        used.</para>
+
+        <example>
+          <title>File structure of Application Blocks</title>
+
+          <programlisting>artifact folder (root of an artifact/project)
+- src
+  - main
+    - java
+      - com.mindquarry.* (location of Java sources)
+    - resources
+      - COB-INF
+        - jx      (JX Templates)
+        - css     (CSS Files)
+        - xml     (XML Files)
+        - xslt    (XSLT Stylesheets)
+        - flow    (Flow Scripts)
+        - forms   (Cocoon CForms Definitions)
+        - images  (Images)
+        - buttons (Button Images)
+        - scripts (Client-side JavaScript Files)
+        - icons   (Icon Files)
+
+        - sitemap.xmap ()
+      - META-INF
+        - cocoon
+          - avalon (Avalon *.xconf files with component definitions)
+          - spring (Spring *.xml bean definition files)
+- test
+  - main
+    - java      (JUnit test cases)
+    - resources (test specific resources)
+- pom.xml (Maven Project definition for the artifacts)</programlisting>
+        </example>
+
+        <para>Note that not all application blocks contain the full structure;
+        some provide a sitemap and a Servlet for a web-interface (mostly those
+        ending with <code>-block</code>), whereas others only provide
+        components and resources (e.g. <code>mindquarry-teamspace</code> or
+        <code>mindquarry-jcr-source</code>).</para>
+
+        <para>Dependencies between the application blocks emerge when a block
+        either reuses Java classes, Avalon components, Spring components or
+        other <code>BlockServlets</code> (see below) from another block. To
+        correctly reflect those dependencies, it must be defined in the Maven
+        project model.</para>
+      </section>
+
+      <section>
+        <title>Internal Servlet Architecture</title>
+
+        <para>Blocks with a web-interface provide it via Cocoon sitemaps that
+        run in a Servlet (<code>SitemapServlet</code>). These are in turn
+        wrapped by a special servlet of the Cocoon Blocks Framework
+        (<code>BlockServlet</code>) that makes it easy to split up the
+        implementation of the web-interface into different application
+        blocks.<footnote>
+            <para>Note: Cocoon application blocks and the Blocks Framework
+            with the BlockServlet share the same name but refer to different
+            concepts. For example, one application block can contain any
+            number of BlockServlets. This terminology might be changed in
+            Cocoon soon to avoid confusion. In this rest of this document we
+            will refer to the BlockServlets as "Internal Servlets".</para>
+          </footnote></para>
+
+        <para>Additionally it is also possible to mount any other servlet that
+        provides other services that cannot be realized with a sitemap or
+        which are part of an external library. A third singleton servlet, the
+        <code>DispatcherServlet</code>, handles the external requests and
+        routes them to the specific <code>BlockServlets</code>. Figure <xref
+        linkend="block-servlet-structure" /> displays a part of the internal
+        structure of the running Mindquarry webapplication, which shows some
+        sitemap based servlets and the <code>SolrUpdateServlet</code> as an
+        example for a different servlet.</para>
+
+        <figure id="block-servlet-structure">
+          <title>Internal BlockServlet Structure</title>
+
+          <mediaobject>
+            <imageobject>
+              <imagedata fileref="images/BlockServletStructure.png" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>One advantage of the Blocks Framework is that it is easily
+        possible to call other internal servlets from inside the application
+        without having to know the explicit outside URL of those servlets.
+        Those calls are handled by the <code>DispatcherServlet</code>, but the
+        figure shows those calls directly. These internal calls are possible
+        because each <code>BlockServlet</code> has a unique identifier. A
+        special component for Cocoon allows to simply access sitemaps of
+        another block from within a sitemap<footnote>
+            <para>This component is the <code>BlockSourceFactory</code>. A
+            typical usage inside a sitemap is a URL like this:
+            <code>block:teamspace://teamspace/foobar/users.xml</code>. For
+            more information about the generic Sourceresolver concept, which
+            is part of the <ulink url="http://excalibur.apache.org">Apache
+            Excalibur</ulink> project and heavily used by Cocoon, can be found
+            <ulink
+            url="http://excalibur.apache.org/sourceresolve/index.html">here</ulink>,
+            <ulink
+            url="http://wiki.apache.org/cocoon/Source?highlight=%28source%29#">here</ulink>
+            and <ulink
+            url="http://excalibur.apache.org/apidocs/org/apache/excalibur/source/package-summary.html">here</ulink>.</para>
+          </footnote>.</para>
+
+        <para>In the web.xml configuration file, which defines the servlets
+        and their mount paths for the servlet container, only the
+        <code>DispatcherServlet</code> of the Cocoon Blocks Framework is
+        configured. The <code>BlockServlets</code> are Spring components and
+        their URL mount path is defined in their Spring configuration or via a
+        Java system property to change the actual URLs via a central
+        configuration file for the complete webapplication.</para>
+
+        <para>When used together with sitemaps, the Blocks Framework also
+        provides inheritance and polymorphism. This enables provision of
+        application wide resources like stylesheets, images, icons etc. Figure
+        <xref linkend="block-servlet-structure" /> shows that most blocks
+        inherit from the <code>resources-block</code> (inheritance is a
+        special connection named <code>super</code>), which contains most of
+        the resources. If a block needs to provide a special version of the
+        requested resource, it can easily override it. Polymorphism allows
+        that a sitemap that extends another one can override certain URL
+        matchers.</para>
+      </section>
+    </section>
+  </section>
+
+  <section id="general">
+    <title>General Aspects</title>
+
+    <para></para>
+
+    <section>
+      <title>Content Repositories</title>
+
+      <para>This section describes the data storages used for several types of
+      content, like tasks, wiki pages, or PDF documents. At the moment two
+      separate storages are used. The first storage is a document repository
+      with a <ulink url="http://subversion.tigris.org/">Subversion</ulink>
+      (SVN, <xref linkend="bib-subversion" />) interface, that allows
+      versioned storage and retrieval of physical documents like PDF, Power
+      Point, or Word files. Additionally the use of a SVN based document
+      storage allows to keep track of change histories and restorage of old
+      versions.</para>
+
+      <para>Beside the SVN storage for documents, a JSR 170 <xref
+      linkend="bib-jsr170" /> based content repository is used for storing
+      web-based content like teams and users, wiki pages, or tasks. JSR 170
+      defines a content repository API for Java. The use of the JCR API allows
+      integration of several content repositories if they support JCR.</para>
+
+      <para>In the following subsections particular extensions and integration
+      concepts for the two types of content repositories are described. For a
+      complete description of Subversion and JSR 170 we would like refer to
+      the according documentation on the web.</para>
+
+      <section id="subversion">
+        <title>Subversion Document Repository</title>
+
+        <para>Subversion is used as the document repository for the workspace
+        management part of the Mindquarry Collaboration Server. Its main
+        benefits are wide distribution of client libraries, proven scalability
+        to thousands of users and millions of documents and availability of
+        APIs for integration.</para>
+
+        <para>The main concept of Subversion is to provide a central
+        repository with a versioned file system that can be synchronized with
+        local workspaces of the user. Subversion allows different methods of
+        access to the repository: direct access to the repository's file
+        system, use of a custom TCP-based svn:// protocol or use of the WebDAV
+        protocol. In Mindquarry, the latter option is used.</para>
+
+        <figure>
+          <title>Subversion Architecture Overview</title>
+
+          <mediaobject>
+            <imageobject role="fo">
+              <imagedata fileref="images/svnarchitecture.pdf" width="12cm" />
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/svnarchitecture.png" width="12cm" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>The Subversion client application is able to handle the working
+        copy data and meta data for the working copy such as properties, and
+        pristine copies of all documents that are needed for proper
+        merging.</para>
+
+        <para>The main problem with this architecture is securing the access
+        to the Subversion repository. As no filesystem access can be granted
+        to the remote users of the filesystem and modifing the svnserve
+        network daemon would involve too much changes of the original
+        Subversion system and it would imply the need for administrators to
+        open another port for this protocol, hooking into <link
+        linkend="authenticationhandling">Apache's authentication
+        management</link> is the best option. For this purpose, a slightly
+        modified architecture is used for the Mindquarry Collaboration
+        Server.</para>
+
+        <figure>
+          <title>Mindquarry Subversion Architecture</title>
+
+          <mediaobject>
+            <imageobject role="fo">
+              <imagedata fileref="images/msvnarchitecture.pdf" width="12cm" />
+            </imageobject>
+
+            <imageobject role="html">
+              <imagedata fileref="images/msvnarchitecture.png" width="12cm" />
+            </imageobject>
+          </mediaobject>
+        </figure>
+
+        <para>In this architecture, only the DAV Repository Access Library is
+        used in the Clients, the Local Repository Access Library is used when
+        browsing the Subversion repository online and an SVN Administration
+        Component has been added to provide <link
+        linkend="svnrepoinit">repository initialization</link>.</para>
+
+        <section id="authenticationhandling">
+          <title>Authentication Handling</title>
+
+          <para>In order to handle access to web applications running in
+          Apache web server that are not directly part of the Mindquarry web
+          application running in a servlet engine, a custom authentication
+          handler has been introduced. This authentication handler uses the
+          username and password the user provided to an authorization realm
+          that requires HTTP BASIC authentication, requests an URL of the
+          Mindquarry application that is part of a corresponding realm that
+          requires HTTP BASIC authentication as well and provides the
+          user-provided crendentials to the Mindquarry application.</para>
+
+          <para>As Mindquarry uses basic HTTP authentication, a positive
+          status code like HTTP 200 (found) will result in granted access to
+          the request made to the Apache web server, while an negative status
+          code like HTTP 401 (authorization required) indicates that the
+          username and password combination has been rejected by the
+          Mindquarry application, so no access will be granted to the Apache
+          realm.</para>
+
+          <figure>
+            <title>Mindquarry Subversion Authentication Process</title>
+
+            <mediaobject>
+              <imageobject role="fo">
+                <imagedata fileref="images/authprocess.pdf" width="12cm" />
+              </imageobject>
+
+              <imageobject role="html">
+                <imagedata fileref="images/authprocess.png" width="12cm" />
+              </imageobject>
+            </mediaobject>
+          </figure>
+
+          <para>The concrete implementation of the authentication handler uses
+          the Apache mod_perl module, which is widely deployed and allows
+          creation of Apache modules in the Perl programming language, which
+          offers a widely used API for HTTP communication, LWP.</para>
+        </section>
+
+        <section id="svnrepoinit">
+          <title>Repository Initialization</title>
+
+          <para>The initialization of a subversion repository is triggered by
+          the creation of a new teamspace. Therefore a template of an empty
+          subversion repository is used. In the base folder of all subversion
+          repositories a new directory with the name of the according
+          teamspace is created. Afterwards the subversion template is unzipped
+          within the new folder and all timestamps within repository files are
+          updated to the time of creation.</para>
+        </section>
+
+        <section>
+          <title>Repository Organization</title>
+
+          <para>The repository organization of the Mindquarry document
+          repository follows the Subversion repository organization
+          guidelines. For each team in Mindquarry, there is a separate
+          repository<footnote>
+              <para>This separation of repositories allows for fine-grained
+              quotas on storage consumption and separates the data of
+              different teams.</para>
+            </footnote> with following structure:</para>
+
+          <variablelist>
+            <varlistentry>
+              <term><filename class="directory">trunk</filename></term>
+
+              <listitem>
+                <para>The only directory currently used. It contains all files
+                and only this directory is synchronized with the user's
+                desktop for now.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><filename class="directory">tags</filename></term>
+
+              <listitem>
+                <para>This directory is used to create tags or bookmarks for
+                certain revisions. Bookmarking a revison means copying the
+                entire trunk repository into a subdirectory of tags, where the
+                name of the subdirectory will be the name of the bookmark. As
+                copying in Subversion is virtually free both in calculation
+                time and storage, this is the most widely used method of
+                impementing tags with a Subversion versioned
+                filesystem.</para>
+              </listitem>
+            </varlistentry>
+
+            <varlistentry>
+              <term><filename class="directory">branches</filename></term>
+
+              <listitem>
+                <para>This directory will be used for temporary private
+                workspaces that are related to tasks in Mindquarry. For each
+                task that requires a private workspace, the trunk directory
+                will be copied into a subdirectory of <filename
+                class="directory">branches</filename> where the directory name
+                equals the task's id.</para>
+              </listitem>
+            </varlistentry>
+          </variablelist>
+        </section>
+      </section>
+
+      <section id="jcr">
+        <title>Java Content Repository</title>
+
+        <para>The current version of the Mindquarry Collaboration Server uses
+        an embedded Apache Jackrabbit <xref linkend="bib-jackrabbit" /> as JCR
+        <xref linkend="bib-jsr170" /> compliant content repository. This
+        section explains the extensions added to improve Jackrabbit.</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Native XML Integration</para>
+          </listitem>
+
+          <listitem>
+            <para>full xpath 1.0 support</para>
+          </listitem>
+
+          <listitem>
+            <para>unique ids</para>
+          </listitem>
+        </itemizedlist>
+
+        <section>
+          <title>Native XML Integration</title>
+
+          <para>The Jackrabbit implementation of the JCR API was extended in
+          order to support native XML content within the repository structure.
+          Therefore a set of additional JCR node types had to be defined which
+          allow a mapping from XML elements, attributes and text nodes onto
+          JCR nodes and properties. Figure <xref
+          linkend="jcr-node-types-xml" /> gives an overview of all newly
+          defined node types. To separate XML content from normal binary files
+          the <code>xt:document</code> node type was defined, which inherits
+          from <code>nt:resource</code> to be used as the resource of a
+          standard <code>nt:file</code>. Each <code>xt:document</code> node
+          contains exactly one node of type <code>xt:element</code>, which
+          represents the root XML element. Below this root element a tree of
+          <code>xt:element</code> nodes represent the structure of the XML
+          document. XML attributes are stored as normal JCR properties in
+          their according <code>xt:element</code> nodes. XML text nodes are
+          represented as <code>xt:text</code> nodes that store the actual text
+          string in a property called <code>xt:characters</code>.</para>
+
+          <para><figure id="jcr-node-types-xml">
+              <title>JCR node types for mapping XML</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/jcr-node-structure.png" />
+                </imageobject>
+              </mediaobject>
+            </figure>The JCR is structured with the standard
+          <code>nt:folder</code> and <code>nt:file</code> node types specified
+          in the JCR specification. Binary resources like user images are
+          stored as <code>nt:file</code> with a <code>nt:resource</code> that
+          contains the binary data of the image and XML files are stored using
+          the <code>xt:document</code> node type. Figure <xref
+          linkend="jcr-node-example" /> shows an example JCR structure of the
+          XML document in listing <xref
+          linkend="jcr-xml-example-file" />.<example id="jcr-node-example">
+              <title>Example JCR structure with binary and XML data</title>
+
+              <mediaobject>
+                <imageobject>
+                  <imagedata fileref="images/jcr-node-example.png" />
+                </imageobject>
+              </mediaobject>
+            </example><example id="jcr-xml-example-file">
+              <title>Example XML file shown in figure <xref
+              linkend="jcr-node-example" /></title>
+
+              <programlisting>&lt;user&gt;
+  &lt;name&gt;Alexander Saar&lt;/name&gt;
+  &lt;email type="business"&gt;alex@mq.com&lt;/email&gt;
+&lt;/user&gt;</programlisting>
+            </example></para>
+
+          <para>The native integration of XML content allows to query
+          documents based on their content directly within Jackrabbit.
+          Unfortunately the JCR specification does only support a subset of
+          the XPath 1.0 Specification<xref linkend="bib-xpath-10" /> that does
+          not include using predicates that access the child axis, which is
+          needed if a document should be returned that contains certain data.
+          With the help of <ulink url="http://jaxen.org/">Apache Jaxen</ulink>
+          we integrated a full XPath 1.0 implementation with the cost of
+          loosing the standard index of Jackrabbit and the special XPath
+          functions that allow to query for the type of the nodes.</para>
+
+          <para>TODO: Namespace</para>
+        </section>
+
+        <section>
+          <title>Unique ID Generation</title>
+
+          <para></para>
+        </section>
+      </section>
+    </section>
+
+    <section>
+      <title>Authentication &amp; Authorization</title>
+
+      <para>As described in the introdcution section it is an overall design
+      goal to follow the architectural principles of REST. In particular a
+      close linkage of a client to a particular server machine has to be
+      avoided in order to gain a maximum of scalability. Thus server-side
+      sessions, a standard mechanism to enable authenticated communication
+      between client and server, is an inappropriate way of dealing with
+      authentication. (Even though sharing of server-side sessions between
+      multiple server machines is provided by some appication server products,
+      this technologies seems to be in contrast to our approach of building a
+      server application in a lightweight fashion.)</para>
+
+      <para>The authentication component of the Mindquarry system is based
+      upon the default authentication capabilities of the HTTP protocol. Thus,
+      the login information are transmitted in every single HTTP request
+      within the related HTTP header. On the one hand this requires the
+      execution of an authentication check for every single HTTP request, but
+      on the other hand it offers a free choice of a server machine to process
+      the request.</para>
+
+      <para>Due to making use of HTTP authentication mechanisms web browsers
+      will prompt for username and password if the user requests interacting
+      with Mindquarry for the first time. GUI browsers (web browsers providing
+      a rich graphical user interface, like Mircrosoft IE, Firefox, Opera, and
+      Safari) therefore typically open an additional window with input fields
+      for username and password. In focusing on a user-friendly web interface
+      this default behaviour is substituted by a nice login web site through
+      client-side javascript.</para>
+
+      <para>The Mindquarry system implements the server-side responsibilities
+      of HTTP authentication by means of a custom ServletFilter. It checks if
+      a user with the provided login exists and the appropriate password
+      matches. Currently the accounts are also managed by the Mindquarry
+      system. However, the integration of widely-used account/identity
+      management systems, like LDAP and ActiveDirectory, is a short-term goal.
+      Besides ensuring access only to authenticated users, the Authentication
+      ServletFilter implements an advanced control flow that facilitates the
+      more beautiful login website for JavaScript enabled GUI web browsers.
+      The entire control flow of the ServletFilter is shown in <xref
+      linkend="AuthenticationServletFilterControlFlow" />.</para>
+
+      <figure id="AuthenticationServletFilterControlFlow">
+        <title>Authentication ServletFilter Control Flow</title>
+
+        <mediaobject>
+          <imageobject role="fo">
+            <imagedata fileref="images/AuthenticationServletFilterControlFlow.pdf" />
+          </imageobject>
+
+          <imageobject role="html">
+            <imagedata fileref="images/AuthenticationServletFilterControlFlow.png" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+
+      <para>In addition to securing the application for unwarranted access,
+      Mindquarry empowers the user with management of access right. Thus,
+      users and groups can be granted and withdrawn with a certain set of
+      rights. At the time of writing the users are able to add and remove
+      other users from a particular teamspace and as a result grant or
+      withdraw them access to this teamspace. At the time of writing a new
+      version of the authorization component is under active development. This
+      improved version will futher on provide the above mentioned
+      configuration as default behaviour. But furthermore it enables
+      fine-grained management of access rights for nearly all kind of
+      resources like a particular wiki page or task.</para>
+
+      <para>To give the users the option to configure access rights for a
+      certain kind of resources, e.g. wiki pages, the related components have
+      to be arranged with two different parts. It requires the enhancement of
+      the web interface with user controls to manage rights and the proper
+      usage of the authorization component. This component provides one
+      interface to administer users, groups, and rights as well as an
+      interface to check if the user is allowed to perform the request
+      operation, e.g. read or write, at a particular resource.</para>
+    </section>
+
+    <section>
+      <title>Ductile Forms</title>
+
+      <para>Alex K. (Lars)</para>
+    </section>
+
+    <section>
+      <title>Client Side Javascript</title>
+
+      <para>dojo</para>
+    </section>
+
+    <section>
+      <title>MVC - View</title>
+
+      <para>styling pipeline</para>
+    </section>
+
+    <section id="search">
+      <title>Search</title>
+
+      <para>Alex S.</para>
+    </section>
+
+    <section>
+      <title>Desktop Client</title>
+
+      <para>Alex S.</para>
+    </section>
+  </section>
+
+  <section id="systemintegration">
+    <title>System Integration APIs</title>
+
+    <para>Other applications can easily integrate with the Mindquarry
+    Collaboration Server. Clients are entitled to use the <link
+    linkend="rest-api">HTTP REST API</link>, which allows to read and write
+    tasks and wiki pages. Server systems like Content Management Systems can
+    directly use the <link linkend="jcr-api">JCR repository</link> to retrieve
+    and modify all information about users, teams, wikis and tasks. The data
+    exchange format is in both cases XML, and the different formats are
+    described in the following section.</para>
+
+    <section>
+      <title>XML schemas</title>
+
+      <para></para>
+
+      <programlisting>&lt;user&gt;
+  &lt;id/&gt;
+  &lt;name/&gt;
+  &lt;surname/&gt;
+  &lt;email/&gt;
+  &lt;password/&gt;
+  &lt;skills/&gt;
+
+  &lt;teamspace-reference/&gt;
+&lt;/user&gt;</programlisting>
+    </section>
+
+    <section id="rest-api">
+      <title>REST XML API</title>
+
+      <para>Alex K.</para>
+    </section>
+
+    <section id="jcr-api">
+      <title>JCR - Standard Content Repository Interface</title>
+
+      <para>The following section describes the organization of the Mindquarry
+      Java Content Repository.</para>
+
+      <programlisting>/
+- users (nt:folder)
+  - &lt;user-id&gt; (nt:file containing an xml document describing the user profile see....)
+
+- teamspaces (nt:folder)
+  - &lt;teamspace-id&gt; (nt:folder)
+    - metadata.xml (nt:file containing xml document describing the teamspace)</programlisting>
+    </section>
+  </section>
+
+  <bibliography id="bibliography">
+    <biblioentry id="bib-fmc">
+      <title><ulink url="http://f-m-c.org/">Fundamental Modeling
+      Concepts</ulink></title>
+    </biblioentry>
+
+    <biblioentry id="bib-subversion">
+      <title><ulink
+      url="http://subversion.tigris.org/">Subversion</ulink></title>
+    </biblioentry>
+
+    <biblioentry id="bib-jsr170">
+      <title><ulink url="http://jcp.org/en/jsr/detail?id=170">JSR
+      170</ulink></title>
+    </biblioentry>
+
+    <biblioentry id="bib-jackrabbit">
+      <title><ulink url="http://jackrabbit.apache.org/">Apache
+      Jackrabbit</ulink></title>
+    </biblioentry>
+
+    <biblioentry id="bib-xpath-10">
+      <title><ulink url="http://www.w3.org/TR/xpath">XPath 1.0</ulink></title>
+    </biblioentry>
+  </bibliography>
+</article>
