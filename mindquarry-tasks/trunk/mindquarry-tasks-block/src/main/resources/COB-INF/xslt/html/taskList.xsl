@@ -27,7 +27,6 @@
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/tasks.css" type="text/css" />
 				<script type="text/javascript">
-					//dojo.require("dojo.widget.SortableTable");
 					dojo.require("mindquarry.widget.SortableHTMLTable");
 				</script>
 			</head>
@@ -49,7 +48,7 @@
 						<table class="task-list" dojoType="SortableHTMLTable" id="taskList">
 							<thead>
 								<tr>
-									<th contentType="html" dataType="int" valign="top">Status</th>
+									<th contentType="html" dataType="int" valign="top"></th>
 									<th contentType="html" id="title-col-header">Task</th>
 									<th dataType="date">Date</th>
 								</tr>

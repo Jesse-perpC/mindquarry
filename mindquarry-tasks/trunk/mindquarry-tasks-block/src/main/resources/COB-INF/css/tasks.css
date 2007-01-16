@@ -111,10 +111,22 @@ div.task-area table th, div.filter-area table th {
 }
 
 table.task-list th {
+    padding-left: 16px;
 	cursor: pointer;
+	border-right: 1px solid white;
 }
 
-table.task-list th.selected {
+table.task-list th.selected-sortup {
+    background-image: url(../images/sort-up.png);
+    background-repeat: no-repeat;
+    background-position: 3px 3px;
+    background-color: #66CC66;
+}
+
+table.task-list th.selected-sortdown {
+    background-image: url(../images/sort-down.png);
+    background-repeat: no-repeat;
+    background-position: 3px 3px;
     background-color: #66CC66;
 }
 
