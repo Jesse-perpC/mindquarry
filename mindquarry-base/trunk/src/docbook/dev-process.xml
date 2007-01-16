@@ -285,7 +285,6 @@
           <imageobject role="html">
             <imagedata fileref="images/organization.png" format="PNG" />
           </imageobject>
-        </mediaobject>
         <imageobject role="fo">
             <imagedata fileref="images/organization.png" format="PNG" width="12cm" />
           </imageobject>
