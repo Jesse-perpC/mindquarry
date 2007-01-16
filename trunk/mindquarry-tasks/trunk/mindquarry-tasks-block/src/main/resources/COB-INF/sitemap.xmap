@@ -262,6 +262,11 @@
 					</otherwise>
 				</select>
 			</match>
+			
+			<match pattern="tango-icons/**">
+				<read
+					src="block:resources:/tango-icons/{1}" />
+			</match>
 
 			<!-- icons for people -->
 			<match pattern="resource/icons/*/ductform.people.*.peopleperson/*.*">
