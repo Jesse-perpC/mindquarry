@@ -37,6 +37,8 @@ mindquarry.widget.SortableHTMLTable = function() {
 	this.widgetType = "SortableHTMLTable";
 	this.sortValueAttribute = "sortValue";
 	this.enableAlternateRows = true;
+	this.headerSortUpClass="selected-sortup";
+	this.headerSortDownClass="selected-sortdown";
 }
 
 dojo.inherits(mindquarry.widget.SortableHTMLTable, dojo.widget.html.SortableTable);
