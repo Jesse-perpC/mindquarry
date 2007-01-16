@@ -235,6 +235,10 @@
 					</otherwise>
 				</select>
 			</match>
+			
+			<match pattern="tango-icons/**">
+				<read src="block:super:/tango-icons/{1}"/>
+			</match>
 
 			<!-- @override: for inheriting sitemap resources -->
 			<match pattern="resource/**">
