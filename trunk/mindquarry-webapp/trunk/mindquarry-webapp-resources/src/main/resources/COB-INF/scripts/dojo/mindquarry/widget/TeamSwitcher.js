@@ -11,7 +11,6 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
- 
 dojo.provide("mindquarry.widget.TeamSwitcher");
 
 dojo.require("dojo.widget.*");
@@ -20,18 +19,19 @@ dojo.require("dojo.event");
 
 dojo.widget.tags.addParseTreeHandler("dojo:TeamSwitcher");
 dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
+
 mindquarry.widget.TeamSwitcher = function() {
 	dojo.widget.DomWidget.call(this);
 	
 	var cform = null;
 }
-
-
 dojo.inherits(mindquarry.widget.TeamSwitcher, dojo.widget.DomWidget);
 
 dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	widgetType: "TeamSwitcher",
 	isContainer: true,
+	
+	slArea_: null,
 	
 	buildRendering: function(args, parserFragment, parentWidget) {
         // Magical statement to get the dom node, stolen in DomWidget
@@ -55,10 +55,16 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	        this.domNode.getElementsByTagName("ul")[0].appendChild(overview);
 	    }
 	    dojo.event.connect(this.domNode, "onclick", this, "onClick");
+	    
+	    // create selection list area
+	    slArea_ = document.createElement("div");
+	    slArea_.innerHTML = "test";
+	    slArea_.style.display = "none";
+	    this.domNode.appendChild(slArea_);
     },	
     
     onClick : function(event) {
         event.preventDefault();
-        alert("expand...");
+        slArea_.style.display = "block";
     }
 });
