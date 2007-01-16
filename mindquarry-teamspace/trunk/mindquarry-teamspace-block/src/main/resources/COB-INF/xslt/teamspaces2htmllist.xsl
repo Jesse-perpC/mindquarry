@@ -19,20 +19,23 @@
 	<xsl:template match="/teamspaces">
 		<div id="user-and-teamspace-info">
 			<xsl:apply-templates select="user" />
-			<ul class="teamspacelist">
-				<xsl:apply-templates select="teamspace"/>
-			</ul>
+			<xsl:if test="teamspace">
+				<ul class="teamspacelist">
+					<xsl:apply-templates select="teamspace"/>
+				</ul>
+			</xsl:if>
 		</div>
 	</xsl:template>
 	
 	<xsl:template match="user">
 		<p class="userinfo">
 			<span class="username"><xsl:value-of select="@id"/></span>
+			<span>Logged in as</span>
 			<span class="userid"><xsl:apply-templates/></span>
 		</p>
 	</xsl:template>
 	
 	<xsl:template match="teamspace">
-		<li class="team"><a href="{normalize-space(id)}"><xsl:apply-templates select="name" /></a></li>
+		<li class="team"><a href="/{normalize-space(id)}" title="{normalize-space(id)}"><xsl:apply-templates select="name" /></a></li>
 	</xsl:template>
 </xsl:stylesheet>
