@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<article version="5.0" xml:lang="en" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:mml="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <title>Mindquarry Documentation Styleguide</title>
+
+  <info>
+    <abstract>
+      <para>This styleguide guides documentation writes and editors intending
+      to write developer or end-user documentation for the Mindquarry
+      Collaboration Server.</para>
+    </abstract>
+
+    <authorgroup>
+      <author>
+        <personname><firstname>Lars</firstname><surname>Trieloff</surname></personname>
+
+        <affiliation>
+          <jobtitle>Chief Operational Officer</jobtitle>
+
+          <orgname>Mindquarry GmbH</orgname>
+        </affiliation>
+      </author>
+    </authorgroup>
+  </info>
+
+  <section>
+    <title>Documentation Format</title>
+
+    <para>Mindquarry uses the DocBook format for technical documentation. New
+    documents shall be written in DocBook 5, but there may be some older
+    documents written in DocBook 4, which need to be converted in DocBook 5 as
+    soon as possible.</para>
+
+    <section>
+      <title>Status Tracking</title>
+
+      <para>DocBook uses the <tag class="attribute">status</tag> universal
+      attribute to indicate the editing status of a publication in the <phrase
+      xlink:href="#documentationprocess">documentation process</phrase>.
+      Following attribute values are used for Mindquarry publications:</para>
+
+      <variablelist>
+        <varlistentry>
+          <term>outline</term>
+
+          <listitem>
+            <para>Only the outline for the document or section is defined,
+            that is only sub-headlines.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>contentspec</term>
+
+          <listitem>
+            <para>The content of the document or section is specified in
+            headwords.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>needsreview</term>
+
+          <listitem>
+            <para>The content of this section is written, but needs a review
+            for factual correctness.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>draft</term>
+
+          <listitem>
+            <para>The content of this section is written and reviewed for
+            factual correctness, but needs copyediting.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>final</term>
+
+          <listitem>
+            <para>The document is ready to be published.</para>
+          </listitem>
+        </varlistentry>
+
+        <varlistentry>
+          <term>deprecated</term>
+
+          <listitem>
+            <para>The documents content is no longer valid, the document
+            should be removed or rewritten.</para>
+          </listitem>
+        </varlistentry>
+      </variablelist>
+    </section>
+
+    <section>
+      <title>Graphics</title>
+
+      <para>As DocBook allows multi-format publishing, it is neccessary to
+      include graphics for different output formats. For print output (PDF,
+      Postscript), high quality images in a vector format like SVG or PDF are
+      preferred. If you have to use raster image formats like PNG or JPEG make
+      sure that a resolution of 300 dpi is possible.Additionally it should be
+      noted that images for print output always need a with or height
+      setting<footnote>
+          <para>DocBook attributes <tag class="attribute">width</tag> and <tag
+          class="attribute">depth</tag>.</para>
+        </footnote>.</para>
+
+      <para>Images for web and onscreen output should be in a raster format
+      like PNG or JPEG with a maxiumum with of 800 pixels. For graphics
+      containing text, a resolution of 50 to 90 dpi is optimal.</para>
+
+      <tip>
+        <title>Multiple Image Formats in DocBook</title>
+
+        <para>DocBook allows adding multiple media variants for one media
+        object. The processing system will choose the most appropriate option.
+        In order to allow multiple image formats in DocBook, following
+        structure is proposed:</para>
+
+        <example>
+          <title>Images for PDF and Web in DocBook</title>
+
+          <programlisting language="xml">&lt;mediaobject&gt;
+  &lt;!-- this is for pdf output --&gt;
+  &lt;imageobject role="fo"&gt;
+    &lt;imagedata <replaceable>..</replaceable>/&gt;
+  &lt;/imageobject&gt;
+  &lt;!-- this is for html output --&gt;
+  &lt;imageobject role="html"&gt;
+    &lt;imagedata <replaceable>..</replaceable>/&gt;
+  &lt;/imageobject&gt;
+&lt;/mediaobject&gt;</programlisting>
+        </example>
+      </tip>
+
+      <para>All graphics should be part of a <tag class="element">figure</tag>
+      which should have an <tag class="attribute">id</tag> or <tag
+      class="attribute">xml:id</tag> for DocBook 5 in order to allow
+      referencing images in the course of the document.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Documentation Style</title>
+
+    <para>There are no specific style rules in place yet, in question consult
+    the book <citetitle>Read Me. A Styleguide for the Computer
+    Industry</citetitle> which is available in the Mindquarry
+    bookshelf.</para>
+  </section>
+
+  <section xml:id="documentationprocess">
+    <title>Documentation Process</title>
+
+    <para>There is no specific documentation process in place yet, in question
+    cosult the book <citetitle>Managing Your Documentation Project</citetitle>
+    by Joann T. Hackos, which is available in the Mindquarry bookshelf.</para>
+  </section>
+</article>
