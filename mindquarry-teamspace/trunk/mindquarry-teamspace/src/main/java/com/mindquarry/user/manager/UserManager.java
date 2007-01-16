@@ -28,81 +28,99 @@ import com.mindquarry.user.UserRO;
 
 /**
  * Add summary documentation here.
- *
- * @author 
- * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
+ * 
+ * @author <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public final class UserManager implements UserAdmin, Authentication {
 
     static final String ADMIN_USER_ID = "admin";
+
     static final String ADMIN_PWD = "admin";
+
     static final String ADMIN_NAME = "Administrator";
-    
+
+    static final String INDEX_USER_ID = "solr";
+
+    static final String INDEX_PWD = "solr";
+
+    static final String INDEX_NAME = "Index User";
+
     private SessionFactory sessionFactory_;
-    
+
     /**
      * Setter for sessionFactory.
-     *
+     * 
      * @param sessionFactory the sessionFactory to set
      */
     public void setSessionFactory(SessionFactory sessionFactory) {
         sessionFactory_ = sessionFactory;
     }
-    
-    public void initialize() {        
-        if (! existsAdminUser())
+
+    public void initialize() {
+        if (!existsAdminUser())
             createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null, null);
+
+        if (!existsIndexUser())
+            createUser(INDEX_USER_ID, INDEX_PWD, INDEX_NAME, "", null, null);
     }
-    
+
     private void persistEntity(EntityBase entity) {
         Session session = currentSession();
         session.persist(entity);
         session.commit();
     }
-    
+
     private void deleteEntity(EntityBase entity) {
         Session session = currentSession();
         session.delete(entity);
         session.commit();
     }
-    
+
     private void updateEntity(EntityBase entity) {
         Session session = currentSession();
         session.update(entity);
         session.commit();
     }
-    
+
     /**
      * @returns an entity object if it can be found otherwise null
      */
     private EntityBase queryEntityById(String query, String id) {
         Session session = currentSession();
-        List queryResult = session.query(query, new Object[] {id});
+        List queryResult = session.query(query, new Object[] { id });
         if (queryResult.size() == 1)
-            return (EntityBase) queryResult.get(0);            
+            return (EntityBase) queryResult.get(0);
         else
             return null;
     }
-    
+
     private boolean existsAdminUser() {
         return null != queryUserById(ADMIN_USER_ID);
     }
-    
+
+    private boolean existsIndexUser() {
+        return null != queryUserById(INDEX_USER_ID);
+    }
+
     private Session currentSession() {
         return sessionFactory_.currentSession();
     }
-    
+
     public boolean isAdminUser(UserRO user) {
         return user.getId().equals(ADMIN_USER_ID);
     }
-    
-    public final boolean isValidUserId(String userId) {
-        return (null != userId) && (! "".equals(userId));
+
+    public boolean isIndexUser(UserRO user) {
+        return user.getId().equals(INDEX_USER_ID);
     }
 
-    public User createUser(String id, String password, 
-            String name, String surname, String email, String skills) {
-        
+    public final boolean isValidUserId(String userId) {
+        return (null != userId) && (!"".equals(userId));
+    }
+
+    public User createUser(String id, String password, String name,
+            String surname, String email, String skills) {
+
         UserEntity user = new UserEntity();
         user.setId(id);
         // the default constructor sets an empty string password
@@ -111,7 +129,7 @@ public final class UserManager implements UserAdmin, Authentication {
         user.setSurname(surname);
         user.setEmail(email);
         user.setSkills(skills);
-        
+
         persistEntity(user);
         return user;
     }
@@ -132,29 +150,29 @@ public final class UserManager implements UserAdmin, Authentication {
 
     public List<UserRO> allUsers() {
         Session session = currentSession();
-        
-        List<Object> queriedUsers = session.query(
-                "getAllUsers", new Object[0]);
-        
-        List<UserRO> result = new LinkedList<UserRO>();        
-        
-        for (Object userObj: queriedUsers) {
+
+        List<Object> queriedUsers = session.query("getAllUsers", new Object[0]);
+
+        List<UserRO> result = new LinkedList<UserRO>();
+
+        for (Object userObj : queriedUsers) {
             UserRO user = (UserRO) userObj;
-            
-            if (! isAdminUser(user))
+
+            if ((!isAdminUser(user)) && (!isIndexUser(user)))
                 result.add(user);
         }
         return result;
     }
 
     /**
-     * @see com.mindquarry.user.Authentication#authenticate(java.lang.String, java.lang.String)
+     * @see com.mindquarry.user.Authentication#authenticate(java.lang.String,
+     *      java.lang.String)
      */
     public boolean authenticate(String userId, String password) {
-        UserEntity user = queryUserById(userId);        
+        UserEntity user = queryUserById(userId);
         return (user != null) && user.authenticate(password);
     }
-    
+
     /**
      * @returns an user object if it can be found otherwise null
      */
@@ -166,42 +184,40 @@ public final class UserManager implements UserAdmin, Authentication {
         return queryUsersForTeamspace("getMembersForTeamspace", teamspaceId);
     }
 
-    private List<UserRO> queryUsersForTeamspace(
-            String queryKey, String teamspaceId) {
-        
+    private List<UserRO> queryUsersForTeamspace(String queryKey,
+            String teamspaceId) {
+
         Session session = currentSession();
-        
-        List<Object> queryResult = session.query(
-                queryKey, new String[] {teamspaceId});
-        
+
+        List<Object> queryResult = session.query(queryKey,
+                new String[] { teamspaceId });
+
         List<UserRO> result = new LinkedList<UserRO>();
-        
-        for (Object userObj: queryResult) {
+
+        for (Object userObj : queryResult) {
             UserRO user = (UserRO) userObj;
             result.add(user);
         }
-        
+
         session.commit();
-        
+
         return result;
     }
-    
-    public UserRO removeUserFromTeamspace(
-            UserRO user, String teamspaceId) {
-        
-        UserEntity userEntity = (UserEntity) user;        
+
+    public UserRO removeUserFromTeamspace(UserRO user, String teamspaceId) {
+
+        UserEntity userEntity = (UserEntity) user;
         userEntity.teamspaceReferences.remove(teamspaceId);
-        
+
         updateEntity(userEntity);
         return userEntity;
     }
-    
-    public UserRO addUserToTeamspace(
-            UserRO user, String teamspaceId) {
-        
-        UserEntity userEntity = (UserEntity) user;        
+
+    public UserRO addUserToTeamspace(UserRO user, String teamspaceId) {
+
+        UserEntity userEntity = (UserEntity) user;
         userEntity.teamspaceReferences.add(teamspaceId);
-        
+
         updateEntity(userEntity);
         return userEntity;
     }
@@ -221,15 +237,14 @@ public final class UserManager implements UserAdmin, Authentication {
         GroupEntity groupEntity = (GroupEntity) group;
         deleteEntity(groupEntity);
     }
-    
+
     /**
      * @returns a group object if it can be found otherwise null
      */
     private GroupEntity queryGroupById(String id) {
         return (GroupEntity) queryEntityById("getGroupById", id);
     }
-    
-    
+
     public void addUser(AbstractUserRO user, GroupRO group) {
         GroupEntity groupEntity = (GroupEntity) group;
         groupEntity.add(user);
