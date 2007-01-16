@@ -229,7 +229,7 @@
 
         <mediaobject>
           <imageobject role="fo">
-            <imagedata depth="12cm" fileref="images/systemmap.pdf" />
+            <imagedata depth="18cm" fileref="images/systemmap.png" />
           </imageobject>
 
           <imageobject role="html">
@@ -995,7 +995,10 @@
           <title>Internal BlockServlet Structure</title>
 
           <mediaobject>
-            <imageobject>
+          <imageobject role="fo">
+              <imagedata fileref="images/BlockServletStructure.png" width="12cm"/>
+            </imageobject>
+            <imageobject role="html">
               <imagedata fileref="images/BlockServletStructure.png" />
             </imageobject>
           </mediaobject>
@@ -1095,11 +1098,11 @@
 
           <mediaobject>
             <imageobject role="fo">
-              <imagedata fileref="images/svnarchitecture.pdf" width="12cm" />
+              <imagedata fileref="images/svnarchitecture.png" width="12cm" />
             </imageobject>
 
             <imageobject role="html">
-              <imagedata fileref="images/svnarchitecture.png" width="12cm" />
+              <imagedata fileref="images/svnarchitecture.png"/>
             </imageobject>
           </mediaobject>
         </figure>
@@ -1125,11 +1128,11 @@
 
           <mediaobject>
             <imageobject role="fo">
-              <imagedata fileref="images/msvnarchitecture.pdf" width="12cm" />
+              <imagedata fileref="images/msvnarchitecture.png" width="12cm" />
             </imageobject>
 
             <imageobject role="html">
-              <imagedata fileref="images/msvnarchitecture.png" width="12cm" />
+              <imagedata fileref="images/msvnarchitecture.png"/>
             </imageobject>
           </mediaobject>
         </figure>
@@ -1166,11 +1169,11 @@
 
             <mediaobject>
               <imageobject role="fo">
-                <imagedata fileref="images/authprocess.pdf" width="12cm" />
+                <imagedata fileref="images/authprocess.png" width="12cm" />
               </imageobject>
 
               <imageobject role="html">
-                <imagedata fileref="images/authprocess.png" width="12cm" />
+                <imagedata fileref="images/authprocess.png" />
               </imageobject>
             </mediaobject>
           </figure>
@@ -1297,7 +1300,10 @@
               <title>JCR node types for mapping XML</title>
 
               <mediaobject>
-                <imageobject>
+                <imageobject role="fo">
+                  <imagedata fileref="images/jcr-node-structure.png" width="12cm" />
+                </imageobject>
+                <imageobject role="html">
                   <imagedata fileref="images/jcr-node-structure.png" />
                 </imageobject>
               </mediaobject>
@@ -1313,7 +1319,10 @@
               <title>Example JCR structure with binary and XML data</title>
 
               <mediaobject>
-                <imageobject>
+                <imageobject role="fo">
+                  <imagedata fileref="images/jcr-node-example.png" width="12cm"/>
+                </imageobject>
+                <imageobject role="html">
                   <imagedata fileref="images/jcr-node-example.png" />
                 </imageobject>
               </mediaobject>
@@ -1404,7 +1413,7 @@
 
         <mediaobject>
           <imageobject role="fo">
-            <imagedata fileref="images/AuthenticationServletFilterControlFlow.pdf" />
+            <imagedata fileref="images/AuthenticationServletFilterControlFlow.png" width="12cm"/>
           </imageobject>
 
           <imageobject role="html">
