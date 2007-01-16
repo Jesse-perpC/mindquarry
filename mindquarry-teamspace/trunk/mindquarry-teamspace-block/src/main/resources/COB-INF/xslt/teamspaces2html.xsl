@@ -121,8 +121,7 @@
 				<xsl:value-of select="surname" />
 			</h4>
 			<xsl:value-of select="skills" />
-			<div class="role">Undefined Role <a href="#">more...</a></div>
-			
+			<!--div class="role">Undefined Role <a href="#">more...</a></div-->
 		</div>
 	</xsl:template>
 
