@@ -52,6 +52,22 @@
 		</xsl:choose>
 	</xsl:param>
 	
+	<xsl:param name="pathToTeamspaceBase">
+		<xsl:choose>
+			<xsl:when test="contains($fullPath, '/workspace/browser')">
+				<xsl:value-of select="$pathToBlock"/>
+				<xsl:text>browser/</xsl:text>
+			</xsl:when>
+			<xsl:when test="contains($fullPath, '/workspace/changes')">
+				<xsl:value-of select="$pathToBlock"/>
+				<xsl:text>changes/</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="$pathToBlock"/>
+			</xsl:otherwise>
+		</xsl:choose>
+	</xsl:param>
+	
 	<xsl:param name="teamspaceNameWithSlash">
 		<xsl:if test="string-length($teamspaceName)!=0">
 			<xsl:value-of select="$teamspaceName"/><xsl:text>/</xsl:text>

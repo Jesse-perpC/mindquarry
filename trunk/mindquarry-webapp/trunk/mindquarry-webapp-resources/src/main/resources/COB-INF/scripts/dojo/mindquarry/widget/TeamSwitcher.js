@@ -40,13 +40,21 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    
 	    var links = list.getElementsByTagName("a");
 	    var current = this.domNode.title;
+	    var baselink = dojo.byId("teamspace-base-link");
 	    this.domNode.title = "";
 	    
 	    // create selection list area
 	    slArea_ = document.createElement("div");
 	    slArea_.id = "slarea";
 	    slArea_.appendChild(list.cloneNode(true));
-	    slArea_.style.display = "block";
+	    slArea_.style.display = "none";
+	    
+	    var newlist = slArea_.getElementsByTagName("a");
+	    
+	    for (var i=0;i<newlist.length;i++) {
+	        newlist[i].href = baselink.href + newlist[i].title;
+	    }
+	    
 	    
 	    var active = false;
 	    for (var i=0;i<links.length;i++) {
