@@ -38,7 +38,7 @@ public class LogParametersAction extends AbstractAction implements ThreadSafe {
         Request req = ObjectModelHelper.getRequest(objectModel);
         Enumeration names = req.getParameterNames();
         if (!names.hasMoreElements()) {
-        System.err.println("logging zero parameters... ");
+            System.err.println("logging zero parameters... ");
         }
         while(names.hasMoreElements()) {
             String name = names.nextElement().toString();
