@@ -10,6 +10,7 @@
 		<fd:help>
 			Useful for tracking issues or status of documents
 		</fd:help>
+		<fd:initial-value>new</fd:initial-value>
 		<fd:selection-list>
 			<fd:item value="new">
 				<fd:label>New</fd:label>
