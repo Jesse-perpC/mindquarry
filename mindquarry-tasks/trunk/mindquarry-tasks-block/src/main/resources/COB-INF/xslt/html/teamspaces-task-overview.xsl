@@ -57,7 +57,7 @@
 				</div>			
 			</div>
 				<xsl:if test="count(filter) > 0">
-					<div class="queries">
+					<div class="filters">
 						<h3>Saved Filters</h3>
 						<ul>
 							<xsl:call-template name="filters" />

@@ -173,9 +173,6 @@
 		<view name="xml" from-label="xml">
 			<serialize type="xml" />
 		</view>
-		<view name="raw" from-label="raw">
-			<serialize type="xml" />
-		</view>
 	</views>
 
 	<pipelines>
@@ -459,7 +456,7 @@
 			<!-- raw XML-->
 			<match pattern="internal/pipe/tasks/*/list.xml">
 				<generate type="collection"
-					src="jcr:///teamspaces/{1}/tasks/" label="xml">
+					src="jcr:///teamspaces/{1}/tasks/">
 					<parameter name="include" value=".*\.xml" />
 				</generate>
 				<transform src="xslt/xml/collection2tasklist.xsl">
@@ -489,7 +486,7 @@
 						value="jcr:///teamspaces/" />
 				</transform>
 
-				<transform src="xslt/html/tasks-for-teamspace.xsl">
+				<transform src="xslt/html/taskList.xsl">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
@@ -602,7 +599,7 @@
 									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
 										<!-- ...then show the dform -->
 										<generate
-											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
+											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
 										<call resource="task-layouting">
 											<parameter name="document" value="{2}"/>
 										</call>
@@ -614,7 +611,7 @@
 											<when test="new">
 												<!-- ...then show the dform -->
 												<generate
-													src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw" />
+													src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
 												<call resource="task-layouting">
 													<parameter name="document" value="{2}"/>
 												</call>
@@ -645,7 +642,7 @@
 							<parameter name="parameter-name" value="continuation-id" />
 							<when test="hexadecimal">
 								<!-- it's a continuation (editing) -->
-								<generate src="block:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
+								<generate src="block:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml"/>
 								<select type="ajax-request">
 									<when test="false">
 										<transform type="bu-redirect" />
@@ -655,7 +652,7 @@
 							<otherwise>
 								<!-- seldom fallback: normal viewing -->
 								<generate
-									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="raw" />
+									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="xml" />
 							</otherwise>
 						</select>
 						<call resource="task-layouting">
