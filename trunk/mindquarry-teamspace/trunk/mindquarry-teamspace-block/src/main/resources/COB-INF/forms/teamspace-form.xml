@@ -36,7 +36,7 @@
 			<fd:label>Create</fd:label>
 		</fd:submit>
 		<fd:submit id="update" command="submit" validate="true">
-			<fd:label>Update</fd:label>
+			<fd:label>Save</fd:label>
 		</fd:submit>
 		<fd:submit id="cancel" command="cancel" validate="false">
 			<fd:label>Cancel</fd:label>
