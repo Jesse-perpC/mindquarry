@@ -71,11 +71,11 @@
 				
 				
 					<div class="edit-buttons">
-						<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox">
-								Edit Members
+						<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox" title="Add or remove team members">
+								Team Members
 						</a>
 						
-						<a href="{normalize-space(id)}/edit/" class="edit_settings_button">
+						<a href="{normalize-space(id)}/edit/" class="edit_settings_button" rel="lightbox">
 								Edit Settings
 						</a>
 						
