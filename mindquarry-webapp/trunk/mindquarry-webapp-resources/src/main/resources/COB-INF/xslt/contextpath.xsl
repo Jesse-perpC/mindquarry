@@ -37,6 +37,30 @@
 		</xsl:call-template>
 	</xsl:param>
 	
+	<xsl:param name="teamspaceName">
+		<xsl:choose>
+			<xsl:when test="contains($fullPath, '/workspace/browser')">
+				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/browser'),'/'),'/')"/>
+			</xsl:when>
+			<xsl:when test="contains($fullPath, '/workspace/changes')">
+				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/browser'),'/'),'/')"/>
+			</xsl:when>
+			<xsl:otherwise><xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/'),'/'),'/')"/></xsl:otherwise>
+		</xsl:choose>
+	</xsl:param>
+	
+	<xsl:param name="teamspaceNameWithSlash">
+		<xsl:if test="string-length($teamspaceName)!=0">
+			<xsl:value-of select="$teamspaceName"/><xsl:text>/</xsl:text>
+		</xsl:if>
+	</xsl:param>
+	
+	<xsl:param name="teamspaceNameWithBrowse">
+		<xsl:if test="string-length($teamspaceName)!=0">
+			<xsl:text>browser/</xsl:text><xsl:value-of select="$teamspaceName"/><xsl:text>/</xsl:text>
+		</xsl:if>
+	</xsl:param>
+	
 	<!-- this param will be available for stylesheets including this one,
 		 and will be the relative path to the BlockServlet root,
 		 eg. ../../ -->
@@ -75,6 +99,18 @@
 					<xsl:with-param name="path" select="substring-after($path, '/')"/>
 				</xsl:call-template>
 			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	
+	<xsl:template name="generate.teamspacename">
+		<xsl:param name="path" />
+		<xsl:choose>
+			<xsl:when test="contains($path, '/')">
+				with slash
+			</xsl:when>
+			<xsl:otherwise>
+				without slash
+			</xsl:otherwise>
 		</xsl:choose>
 	</xsl:template>
 	

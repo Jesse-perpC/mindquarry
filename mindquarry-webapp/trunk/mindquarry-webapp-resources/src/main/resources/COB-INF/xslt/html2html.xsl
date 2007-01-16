@@ -97,6 +97,7 @@
 			<xsl:apply-templates />
 		</html>
 	</xsl:template>
+	
 
 	<xsl:template match="xhtml:head|head">
 		<head>
@@ -157,9 +158,9 @@
 				<div id="webapp-header">
 					<ul id="webapp-sections">
 						<li><a class="navTeams" href="{$pathToRoot}teamspace/">Teams</a></li>
-						<li><a class="navFiles" href="{$pathToRoot}workspace/">Files</a></li>
-						<li><a class="navWiki" href="{$pathToRoot}wiki/">Wiki</a></li>
-						<li><a class="navTasks" href="{$pathToRoot}tasks/">Tasks</a></li>
+						<li><a class="navFiles" href="{$pathToRoot}workspace/{$teamspaceNameWithBrowse}">Files</a></li>
+						<li><a class="navWiki" href="{$pathToRoot}wiki/{$teamspaceNameWithSlash}">Wiki</a></li>
+						<li><a class="navTasks" href="{$pathToRoot}tasks/{$teamspaceNameWithSlash}">Tasks</a></li>
 						<!--li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li-->
 					</ul>
 
