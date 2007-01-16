@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!-- 
-	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved 
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
 -->
+
 <sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
 	<components>
 		<readers>
@@ -142,6 +153,7 @@
 						<parameter name="version"
 							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</transform>
+					<transform type="cinclude"/>
 				</otherwise>
 			</select>
 
@@ -319,7 +331,7 @@
 		</pipeline>
 
 		<!-- use noncaching pipeline -->
-		<pipeline type="noncaching" internal-only="true">
+		<pipeline type="caching" internal-only="true">
 			<match pattern="views/teamspacesView">
 				<generate src="jx/teamspace-list-view.jx" type="jx"
 					label="content" />
@@ -407,7 +419,7 @@
 		</pipeline>
 
 		<!-- external browser pipeline -->
-		<pipeline type="noncaching">
+		<pipeline type="caching">
 			
 			<!-- teamspace list -->
 			<match pattern="">
@@ -438,11 +450,11 @@
 				</select>
 			</match>
 			
-			<match pattern="userinfo">
+			<match pattern="user/*/info">
 				<call
 					function="listTeamspacesForUser">
 					<parameter name="username"
-						value="{request-attr:username}" />
+						value="{1}" />
 					<parameter name="target"
 						value="views/teamspacesHTMLListView" />
 				</call>
