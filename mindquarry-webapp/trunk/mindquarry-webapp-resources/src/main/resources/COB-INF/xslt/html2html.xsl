@@ -183,6 +183,7 @@
 				</div>
 				
 				<div title="{$teamspaceName}" dojoType="TeamSwitcher">
+					<a href="{$pathToTeamspaceBase}" id="teamspace-base-link">Teamspace Base</a>
 					<include src="block:teams:/user/{$username}/info" xmlns="http://apache.org/cocoon/include/1.0"/>
 				</div>	
 				
