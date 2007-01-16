@@ -25,13 +25,9 @@ dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
 mindquarry.widget.MindquarryDatePicker = function() {
 	dojo.widget.html.DatePicker.call(this);
 	this.widgetType = "MindquarryDatePicker";
-	//alert("date picker");
 }
 
 dojo.inherits(mindquarry.widget.MindquarryDatePicker, dojo.widget.html.DatePicker);
-
-//dojo.inherits(mindquarry.widget.MindquarryDatePicker, dojo.widget.html.DatePicker);
-
 
 dojo.lang.extend(mindquarry.widget.MindquarryDatePicker, {
 	widgetType: "MindquarryDatePicker",
