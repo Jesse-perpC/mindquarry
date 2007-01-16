@@ -23,10 +23,8 @@
 	<xsl:template match="xhtml:head|head" mode="lightbox">
 		<!-- only include the lightbox.(css|js) if there are actually
 		lightbox links in the page -->
-		<xsl:if test="//xhtml:a[@rel='lightbox']|//a[@rel='lightbox']">
-			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}lightbox.css" />
-			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}lightbox.js" >//</script>
-		</xsl:if>
+		<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}lightbox.css" />
+		<script type="text/javascript" src="{$pathToBlock}{$scriptPath}lightbox.js" >//</script>
 	</xsl:template>
 
 </xsl:stylesheet>
