@@ -34,7 +34,7 @@ dojo.lang.extend(mindquarry.widget.ToggleButton, {
 	widgetType: "ToggleButton",
 	isContainer: true,
 	
-	    buildRendering: function(args, parserFragment, parentWidget) {
+	buildRendering: function(args, parserFragment, parentWidget) {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
 	    this.checkbox = dojo.dom.getFirstChildElement(this.domNode, "input");
@@ -84,6 +84,3 @@ dojo.lang.extend(mindquarry.widget.ToggleButton, {
     }
 });
 
-
-//dojo.provide("mindquarry.widget.DropDownButtons");
-//dojo.widget.tags.addParseTreeHandler("dojo:DropDownButtons");

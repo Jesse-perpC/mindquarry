@@ -119,7 +119,7 @@ dojo.widget.defineWidget(
 		closeClick: function(evt) {
 			evt.preventDefault();
 		  dojo.html.hide(this.popupNode);
-    },
+    	},
     
 		// set the status area
 		_setStatus: function(status) {
