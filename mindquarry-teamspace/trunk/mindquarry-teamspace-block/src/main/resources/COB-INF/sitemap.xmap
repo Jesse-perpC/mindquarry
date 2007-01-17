@@ -558,7 +558,7 @@
 			</match>
 			
 			<!-- single teamspace details -->
-			<match pattern="*/">
+			<match pattern="team/*/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
 				<!-- check request type: REST / HTML or other -->
 				<select type="REST">
