@@ -85,6 +85,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    if (!empty) {
 	    	dojo.event.connect(list, "onclick", this, "onClick");
 	    }
+	    dojo.event.connect(document.body, "onclick", this, "hideSwitcher");
 	    this.domNode.appendChild(slArea_);
     },	
     
@@ -93,6 +94,19 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
         if (slArea_.style.display!="block") {
             slArea_.style.display = "block";
         } else {
+            slArea_.style.display = "none";
+        }
+    },
+    
+    hideSwitcher : function(event) {
+        if (slArea_.style.display=="block") {
+            var context = event.target;
+            while (context.parentNode) {
+                if (context==this.domNode) {
+                    return;
+                }
+                context = context.parentNode;        
+            }
             slArea_.style.display = "none";
         }
     }
