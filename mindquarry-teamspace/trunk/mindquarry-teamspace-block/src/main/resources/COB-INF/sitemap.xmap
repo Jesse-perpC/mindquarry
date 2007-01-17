@@ -372,6 +372,29 @@
 				<serialize type="xml" />
 			</match>
 			
+			<match pattern="views/teamspaceHTMLView">
+				<generate src="jx/teamspace-view.jx" type="jx"
+					label="content" />
+				<!--transform src="xslt/teamspace2selectionlist.xsl" /-->
+				
+				<transform src="xslt/teamspace2html.xsl"
+					label="html">
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+					<parameter name="user.agent"
+						value="{request-header:User-Agent}" />
+				</transform>
+				
+				<call resource="form2html" />
+				<call resource="layouting" />
+				
+				<serialize type="html" />
+			</match>
+			
 			<match pattern="views/teamspacesHTMLListView">
 				<generate src="jx/teamspace-list-view.jx" type="jx"
 					label="content" />
@@ -449,7 +472,8 @@
 					</when>
 				</select>
 			</match>
-			
+						
+			<!-- user info -->
 			<match pattern="user/*/info">
 				<call
 					function="listTeamspacesForUser">
@@ -533,11 +557,22 @@
 				<call continuation="{1}" />
 			</match>
 			
-			<!-- single teamspace -->
-			<match pattern="*">
+			<!-- single teamspace details -->
+			<match pattern="*/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
 				<!-- check request type: REST / HTML or other -->
 				<select type="REST">
+					<!--  handle HTML request -->
+					<when test="html">
+						<call
+							function="showTeamspaceDetails">
+							<parameter name="teamspaceID"
+								value="{1}" />
+							<parameter name="target"
+								value="views/teamspaceHTMLView" />
+						</call>
+					</when>
+					
 					<!--  handle REST request -->
 					<when test="xml">
 						<call function="teamspacesByID">
