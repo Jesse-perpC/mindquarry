@@ -66,6 +66,10 @@
 				<xsl:value-of select="$pathToBlock"/>
 				<xsl:text>browser/</xsl:text>
 			</xsl:when>
+			<xsl:when test="contains($fullPath, '/teamspace')">
+				<xsl:value-of select="$pathToBlock"/>
+				<xsl:text>team/</xsl:text>
+			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$pathToBlock"/>
 			</xsl:otherwise>
