@@ -22,6 +22,33 @@
 	clear: both; 
 	visibility: hidden;
 }
+
+#webapp-sections b {
+    display:block;
+    font-weight:normal;
+	background-repeat:no-repeat;
+	text-align:left;
+	padding-left:18px;
+	background-position:0px 2px;
+	margin-left:auto;
+	margin-right:auto;
+	width:50px;
+}
+
+#webapp-sections a.navTeams b{
+	background-image:url(../tango-icons/16/apps/mindquarry-teams.png);
+}
+
+#webapp-sections a.navFiles b{
+	background-image:url(../tango-icons/16/apps/mindquarry-documents.png);
+}
+#webapp-sections a.navWiki b{
+	background-image:url(../tango-icons/16/apps/mindquarry-wiki.png);
+}
+#webapp-sections a.navTasks b{
+	background-image:url(../tango-icons/16/apps/mindquarry-tasks.png);
+}
+
 #webapp-sections {
 	 list-style-type: none;
 	text-align: center; 
