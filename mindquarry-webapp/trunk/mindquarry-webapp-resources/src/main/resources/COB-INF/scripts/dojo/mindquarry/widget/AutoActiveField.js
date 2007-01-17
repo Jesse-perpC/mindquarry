@@ -65,7 +65,12 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
             return true;
         }
         
-        event.preventDefault();
+        //if it is a link, just follow the link, if not, only active the form, no other actions
+        if (event.target.href) {
+        	return false;
+        } else {
+        	event.preventDefault();
+        }
 
         if (this.cform==null) {
         	var form = cocoon.forms.getForm(this.domNode);
