@@ -48,7 +48,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    slArea_.id = "slarea";
 	    var secondlist = list.cloneNode(true);
 	    var allteams = document.createElement("li");
-	    allteams.innerHTML = "<a href='"+baselink.href+"' id='allyourteams'>All your teams</a>"
+	    allteams.innerHTML = "<a href='"+baselink.href+"' class='allyourteams'>All your teams</a>"
 	    secondlist.appendChild(allteams);
 	    slArea_.appendChild(secondlist);
 	    slArea_.style.display = "none";
@@ -76,7 +76,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	        if (empty) {
 	        	overview.innerHTML = '<a href="#">No teams</a>';
 	        } else {
-	        	overview.innerHTML = '<a href="#">All your teams</a>';
+	        	overview.innerHTML = '<a href="#" class="allyourteams">All your teams</a>';
 	        }
 	        list.appendChild(overview);
 	        

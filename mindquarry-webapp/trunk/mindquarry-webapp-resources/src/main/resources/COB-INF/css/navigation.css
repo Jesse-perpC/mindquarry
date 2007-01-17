@@ -221,10 +221,14 @@ padding-top:0px;
     background:#555555;
 }
 
-#allyourteams {
+.allyourteams {
+    margin-top:0.15em;
+    font-size:80%;
+}
+
+#slarea .allyourteams {
     margin-top:5px;
     border-top:1px inset #cccccc;
-    font-size:80%;
     background:#cccccc;
 }
 
