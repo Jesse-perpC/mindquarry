@@ -1,60 +1,4 @@
-a.edit_members_button:link, a.edit_members_button:visited {
-	background-image: url(../buttons/edit_member.gif);
-	display: block;
-	width: 140px;
-	height: 32px;
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 10pt;
-	padding-top: 9px;
-	padding-left: 13px;
-}
-
-a.edit_settings_button:link, a.edit_settings_button:visited {
-	background-image: url(../buttons/edit_member.gif);
-	display: block;
-	width: 140px;
-	height: 32px;
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 10pt;
-	padding-top: 9px;
-	padding-left: 13px;
-}
-
-a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
-	background-image: url(../buttons/edit_subprojects.gif);
-	display: block;
-	width: 140px;
-	height: 32px;
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 10pt;
-	padding-top: 9px;
-	padding-left: 13px;
-}
-
-div.edit-buttons {
-	float: right;
-	clear:both;
-	margin-top: -60px;	
-	margin-right: 10px;
-	margin-left: 10px;
-	position: relative;	
-	padding: 0;
-	display:none;
-	
-/* 
-	float:right;
-	display:none;
-*/	
-}
+@import "teamspace-details.css";
 
 a.create_teamspace_button:link, a.create_teamspace_button:visited {
 	background-image: url(../buttons/create_teamspace.gif);
@@ -101,44 +45,7 @@ ul.teamspace-list {
 	padding: 0px;
 }
 
-img.icon {
-	height:48px;
-	width:48px;
-	border:1px solid black;
-	padding:2px;
-	margin-right:5px;
-}
-
-div.name h2 {
-	display:inline;
-	font-weight:bold;
-	color:black;
-	font-size:12pt;
-	margin-right:5px;
-}
-div.name img {
-	float:left;
-}
-
-div.name span {
-	font-weight:normal;
-	color:#666666;
-	font-size:10pt;
-}
-
-div.name {
-	
-	height:60px;
-	margin-right:320px;
-	overflow:hidden;
-	text-overflow: ellipsis;
-
-	width:auto;
-
-}
-
 ul.members {
-
 /**************************
 	width:320px;
 	float:right;
@@ -249,18 +156,10 @@ a.details-expanded {
 */	
 }
 
-div.details h3 {
-	/*display: none;*/
-	color: #666666;
-	font-size: 12px;
-	border-bottom: 1px solid #cccccc;
-	margin-top:-5px;
-	margin-bottom:5px;	
+/*
+  override this, because in teamspace overview this is hidden 
+  by default and only display after click on the details link.
+*/
+div.edit-buttons {
+	display:none;
 }
-
-div.details {
-	clear:both;
-	font-size:9pt;
-	color:#999999;
-}
-

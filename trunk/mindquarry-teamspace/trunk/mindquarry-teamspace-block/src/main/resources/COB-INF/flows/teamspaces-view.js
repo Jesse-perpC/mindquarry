@@ -37,3 +37,14 @@ function teamspacesByID() {
     var target = cocoon.parameters["target"];
     cocoon.sendPage(target, parameterMap);
 }
+
+function showTeamspaceDetails() {
+    var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
+    
+    var id = cocoon.parameters["teamspaceID"];
+    var teamspace = teamspaceQuery.teamspaceById(id);
+    
+    var parameterMap = { "teamspace" : teamspace }
+    var target = cocoon.parameters["target"];
+    cocoon.sendPage(target, parameterMap);
+}
