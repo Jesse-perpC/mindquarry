@@ -15,9 +15,7 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
-	<xsl:import href="block:/xslt/contextpath.xsl" />
-	
-	<xsl:param name="username" select="''" />
+	<xsl:import href="teamspace2htmlutils.xsl"/>
 	
 	<xsl:template match="/teamspaces">
 		<html>
@@ -71,7 +69,7 @@
 								<xsl:text>.png</xsl:text>
 							</xsl:attribute>
 						</img>
-						<h2 class="name"><xsl:value-of select="name" /></h2>
+						<h2 class="name"><a href="team/{normalize-space(id)}/"><xsl:value-of select="name" /></a></h2>
 						<span class="description"><xsl:value-of select="description" /></span>
 					</div>
 					
