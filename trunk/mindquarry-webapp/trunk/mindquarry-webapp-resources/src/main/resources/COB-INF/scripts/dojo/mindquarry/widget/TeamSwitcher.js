@@ -46,7 +46,11 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    // create selection list area
 	    slArea_ = document.createElement("div");
 	    slArea_.id = "slarea";
-	    slArea_.appendChild(list.cloneNode(true));
+	    var secondlist = list.cloneNode(true);
+	    var allteams = document.createElement("li");
+	    allteams.innerHTML = "<a href='"+baselink.href+"' id='allyourteams'>All your teams</a>"
+	    secondlist.appendChild(allteams);
+	    slArea_.appendChild(secondlist);
 	    slArea_.style.display = "none";
 	    
 	    var newlist = slArea_.getElementsByTagName("a");
@@ -75,7 +79,9 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	        	overview.innerHTML = '<a href="#">All your teams</a>';
 	        }
 	        list.appendChild(overview);
+	        
 	    }
+	    
 	    if (!empty) {
 	    	dojo.event.connect(list, "onclick", this, "onClick");
 	    }
