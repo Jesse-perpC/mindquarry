@@ -557,6 +557,9 @@
 				<call continuation="{1}" />
 			</match>
 			
+			<match pattern="team/">
+				<redirect-to uri=".." />
+			</match>
 			<!-- single teamspace details -->
 			<match pattern="team/*/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
