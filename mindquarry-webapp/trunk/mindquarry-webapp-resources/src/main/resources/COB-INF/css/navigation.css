@@ -28,25 +28,25 @@
     font-weight:normal;
 	background-repeat:no-repeat;
 	text-align:left;
-	padding-left:18px;
-	background-position:0px 2px;
+	padding-left:24px;
+	height:22px;
 	margin-left:auto;
 	margin-right:auto;
 	width:50px;
 }
 
 #webapp-sections a.navTeams b{
-	background-image:url(../tango-icons/16/apps/mindquarry-teams.png);
+	background-image:url(../tango-icons/22/apps/mindquarry-teams.png);
 }
 
 #webapp-sections a.navFiles b{
-	background-image:url(../tango-icons/16/apps/mindquarry-documents.png);
+	background-image:url(../tango-icons/22/apps/mindquarry-documents.png);
 }
 #webapp-sections a.navWiki b{
-	background-image:url(../tango-icons/16/apps/mindquarry-wiki.png);
+	background-image:url(../tango-icons/22/apps/mindquarry-wiki.png);
 }
 #webapp-sections a.navTasks b{
-	background-image:url(../tango-icons/16/apps/mindquarry-tasks.png);
+	background-image:url(../tango-icons/22/apps/mindquarry-tasks.png);
 }
 
 #webapp-sections {
