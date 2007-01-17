@@ -39,7 +39,6 @@
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
 			<version>1.0-M1-SNAPSHOT</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.icons</groupId>
