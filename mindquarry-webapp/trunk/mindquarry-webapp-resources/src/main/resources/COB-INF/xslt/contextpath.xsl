@@ -62,6 +62,10 @@
 				<xsl:value-of select="$pathToBlock"/>
 				<xsl:text>changes/</xsl:text>
 			</xsl:when>
+			<xsl:when test="contains($fullPath, '/workspace')">
+				<xsl:value-of select="$pathToBlock"/>
+				<xsl:text>browser/</xsl:text>
+			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="$pathToBlock"/>
 			</xsl:otherwise>
