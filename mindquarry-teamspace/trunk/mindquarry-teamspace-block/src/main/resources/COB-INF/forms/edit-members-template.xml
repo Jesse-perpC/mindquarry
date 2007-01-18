@@ -17,8 +17,10 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 		<ft:form-template action="#{$cocoon/continuation/id}.continue" ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
 			method="POST" enctype="multipart/form-data">		
  			<ft:group id="editMembersModel">
+ 				<h1>Edit Team Members</h1>
+ 				
  				<div id="editMembersModel">
-					<h1>Edit Team Members</h1>
+					
 					<div class="member-list">
 						<h2><ft:widget-label id="members" /></h2>
 						<ft:repeater id="members">
