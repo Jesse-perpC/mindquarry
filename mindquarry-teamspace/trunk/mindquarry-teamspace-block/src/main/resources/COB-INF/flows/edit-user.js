@@ -25,7 +25,6 @@ function processEditUser(form) {
 	
 	var user = userById(cocoon.request.getAttribute("username"));	
 	model_.fullName = user.name + " " + user.surname;
-	model_.email = user.email;
 	
 	form.showForm("edit-user.instance");
 			
@@ -33,7 +32,6 @@ function processEditUser(form) {
 }
 
 function changePassword() {
-		
 	var oldPwd = model_.changePassword.currentPassword;
 	var newPwd = model_.changePassword.newPassword;
 		
@@ -61,11 +59,9 @@ function changePassword() {
 }
 
 function uploadPhoto() {
-
 	var currentUserId = cocoon.request.getAttribute("username");
 	var photoWidget = form_.lookupWidget("/uploadPhoto/photo");
 	
 	if (containsPhotoUpload(photoWidget))
 	    persistUserPhoto(currentUserId, photoWidget);
-	    
 }

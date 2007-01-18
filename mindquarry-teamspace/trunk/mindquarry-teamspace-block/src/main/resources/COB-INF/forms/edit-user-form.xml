@@ -4,9 +4,6 @@
 		<fd:output id="fullName">
 			<fd:datatype base="string" />
 		</fd:output>
-		<fd:output id="email">
-			<fd:datatype base="string" />
-		</fd:output>
 		
 		<fd:group id="changePassword">
 			<fd:widgets>

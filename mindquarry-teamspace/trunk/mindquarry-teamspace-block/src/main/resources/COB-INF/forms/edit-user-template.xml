@@ -6,11 +6,9 @@
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 
 	<head>
-		<title>Edit Members of Teamspace</title>
+		<title>Edit User Settings</title>
 		<link rel="stylesheet" us:context="href" type="text/css"
-			href="css/teamspace.css" />
-		<link rel="stylesheet" us:context="href" type="text/css"
-			href="css/edit-members.css" />
+			href="css/edit-user.css" />
 	</head>
 	<body>
 		<div>
@@ -23,9 +21,8 @@
 				<div id="editUserModel">
 					<h1>Edit User Settings</h1>
 					
-					<p><ft:widget id="fullName" /></p>
-					<p><ft:widget id="email" /></p>
-					
+					<div>You are currently logged in as <ft:widget id="fullName" /></div>
+										
 					<ft:group id="changePassword">
 						<h3>Change Password</h3>
 						
@@ -54,32 +51,26 @@
 								</td>
 								<td>
 									<ft:widget id="newPassword">
-										<fi:styling type="password"></fi:styling>
+										<fi:styling type="password" />
 									</ft:widget>
 								</td>
 							</tr>
 							<tr>
 								<td class="label">
-									<ft:widget-label
-										id="newPasswordRepeat" />
+									<ft:widget-label id="newPasswordRepeat" />
 								</td>
 								<td>
-									<ft:widget
-										id="newPasswordRepeat">
-										<fi:styling type="password"></fi:styling>
+									<ft:widget id="newPasswordRepeat">
+										<fi:styling type="password" />
 									</ft:widget>
 								</td>
 							</tr>
 						</table>
 
 						<ft:widget id="changePassword" />
-
 					</ft:group>
 
-					<hr />
-
 					<ft:group id="uploadPhoto">
-
 						<h3>Upload new photo</h3>
 						<table>
 							<tr>
@@ -96,8 +87,6 @@
 						<ft:widget id="uploadPhoto" />
 
 					</ft:group>
-
-					<hr />
 
 					<ft:widget id="ready" />
 				</div>
