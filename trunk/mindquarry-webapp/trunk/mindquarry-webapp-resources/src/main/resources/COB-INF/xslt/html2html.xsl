@@ -26,7 +26,6 @@
 	NEVER! NEVER! use alt-f to re-format this code.
  -->
 	<xsl:import href="contextpath.xsl"/>
-	<xsl:import href="lightbox.xsl"/>
 	
 	<xsl:output indent="no"/>
 
@@ -104,12 +103,13 @@
 			<xsl:apply-templates select="." mode="nifty" />
 			<script type="text/javascript">djConfig = { isDebug: false };</script>
 			<script type="text/javascript" src="{$pathToRoot}resources/_cocoon/resources/dojo/dojo.js" >//</script>
+			
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
 			<link rel="icon" href="{$pathToRoot}resources/icons/logo-red-gradient-256-colors.ico" type="image/x-icon" />
 
-			<xsl:apply-templates />
-			<xsl:apply-templates select="." mode="lightbox" />
+			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}lightbox.css" />
+			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}lightbox.js" >//</script>
 			
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}dojoutils.js" >//</script>
@@ -117,6 +117,9 @@
 				dojo.require("mindquarry.widget.QuickSearch");
 				dojo.require("mindquarry.widget.TeamSwitcher");
 			</script>
+
+			<xsl:apply-templates />
+			
 		</head>
 	</xsl:template>
 

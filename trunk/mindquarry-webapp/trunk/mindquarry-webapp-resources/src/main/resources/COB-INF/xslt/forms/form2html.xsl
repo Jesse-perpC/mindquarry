@@ -1,8 +1,25 @@
 <?xml version="1.0"?>
+
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+  
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+  
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+--> 
+
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
   xmlns:xhtml="http://www.w3.org/1999/xhtml"
-  xmlns:bu="http://apache.org/cocoon/browser-update/1.0" exclude-result-prefixes="fi">
+  xmlns:bu="http://apache.org/cocoon/browser-update/1.0"
+  exclude-result-prefixes="fi">
+  
   <xsl:import href="cocoon:/xslt/contextpath.xsl"/>
 
   <!-- resources directory for Dojo js, css and the like -->
@@ -52,8 +69,6 @@
         dojo.addOnLoad(forms_onload);
         dojo.require("cocoon.forms.*");
     </script>
-    <script src="{$pathToRoot}/resources/scripts/lightbox.js"/>
-    <link rel="stylesheet" type="text/css" href="{$pathToRoot}/resources/css/lightbox.css"/>
 
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/> -->
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/PopupWindow.js" type="text/javascript"/>-->
@@ -66,7 +81,6 @@
     <xsl:if test="/*/fi:googlemap">
       <script src="/*/fi:googlemap/fi:key" type="text/javascript"/>
     </xsl:if>
-
 
     <link rel="stylesheet" type="text/css" href="{$resources-uri}/forms/css/forms.css"/>
   </xsl:template>
