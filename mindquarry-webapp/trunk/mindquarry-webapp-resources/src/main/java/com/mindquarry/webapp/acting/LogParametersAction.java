@@ -39,12 +39,15 @@ public class LogParametersAction extends AbstractAction implements ThreadSafe {
         Enumeration names = req.getParameterNames();
         if (!names.hasMoreElements()) {
             System.err.println("logging zero parameters... ");
+        } else {
+            System.err.println("** Character encoding: " + req.getCharacterEncoding());
         }
         while(names.hasMoreElements()) {
             String name = names.nextElement().toString();
             String[] values = req.getParameterValues(name);
             for (int i = 0; i < values.length; i++) {
                 System.err.println("LogParameters: " + name + " = " + values[i]);                
+                //System.err.println("LogParameters (" + req.getCharacterEncoding() + "): " + name + " = " + new String(values[i].getBytes("ISO-8859-1"), req.getCharacterEncoding()));                
             }
         }
 //        String[] paramNames = par.getNames();
