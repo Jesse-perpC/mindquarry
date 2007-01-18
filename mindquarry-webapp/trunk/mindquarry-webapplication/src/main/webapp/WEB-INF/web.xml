@@ -1,7 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
+
 <!--
-	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
--->
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+  
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+  
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+--> 
 
 <!--+
     | Cocoon web-app configurations file for the full Mindquarry webapp
@@ -40,8 +51,22 @@
   	<filter-class>org.apache.cocoon.servlet.multipart.MultipartFilter</filter-class>
   </filter>
   
+  <!--+
+    | Declare a filter for character encoding
+    | Jetty handles unkown character encodings as UTF-8, but it should do it as
+    | ISO-8859-1 (default for webapps) - browser form stuff is sent as ISO-8859-1
+    +-->
   
-    <!--+
+  <filter>
+    <filter-name>SetCharacterEncoding</filter-name>
+    <filter-class>com.mindquarry.webapp.servlet.SetCharacterEncodingFilter</filter-class>
+    <init-param>
+      <param-name>encoding</param-name>
+      <param-value>ISO-8859-1</param-value>
+    </init-param>
+  </filter>
+      
+  <!--+
       | Declare a filter for authentication
       +-->
 
@@ -78,6 +103,11 @@
   </filter-mapping>
   
   <filter-mapping>
+    <filter-name>SetCharacterEncoding</filter-name>
+    <servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
+  </filter-mapping>
+  
+  <filter-mapping>
   	<filter-name>MindquarryAuthenticationFilter</filter-name>
   	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
   </filter-mapping>
@@ -109,16 +139,6 @@
   </listener>
 
   <!-- Servlet Configuration ========================================== -->
-
-<!--   <servlet>
-    <servlet-name>CocoonRootSitemapServlet</servlet-name>
-    <display-name>Cocoon</display-name>
-    <description>Mindquarry Webapplication - Cocoon servlet</description>
-
-    <servlet-class>org.apache.cocoon.servlet.SitemapServlet</servlet-class>
-
-    <load-on-startup>1</load-on-startup>
-  </servlet> -->
 
   <!-- Servlet that dispatches to Spring managed block servlets -->
   <servlet>
