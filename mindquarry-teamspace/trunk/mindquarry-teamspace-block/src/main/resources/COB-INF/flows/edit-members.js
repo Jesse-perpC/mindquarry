@@ -22,6 +22,7 @@ var form_;
 function processEditMembersForm(form) {
 
 	var teamspaceId = cocoon.parameters["teamId"];
+	var redirectURL = cocoon.parameters["redirectURL"];
 
 	teamspaceQuery_ = cocoon.getComponent(Packages.com.mindquarry.teamspace.TeamspaceQuery.ROLE);
 	
@@ -38,7 +39,7 @@ function processEditMembersForm(form) {
 	setCreateUserEmbeddedMode();
 	form.showForm("edit-members.instance");
 	
-	cocoon.redirectTo("/teamspace/");
+	cocoon.redirectTo(redirectURL + "/");
 }
 
 function loadModelWithMembership() {

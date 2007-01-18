@@ -50,11 +50,11 @@
 					</div>
 
 					<div class="edit-buttons">
-						<a href="editMembers/"
+						<a href="{$pathToBlock}{normalize-space(id)}/editMembersFromDetailsView/"
 							class="edit_members_button" rel="lightbox"
 							title="Add or remove team members">Team Members</a>
 
-						<a href="edit/"
+						<a href="{$pathToBlock}{normalize-space(id)}/editFromDetailsView/"
 							class="edit_settings_button" rel="lightbox"
 							title="Edit teamspace settings">Edit Settings</a>
 					</div>
