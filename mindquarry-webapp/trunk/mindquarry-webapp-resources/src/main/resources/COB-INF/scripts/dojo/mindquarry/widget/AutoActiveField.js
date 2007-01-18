@@ -41,9 +41,9 @@ dojo.lang.extend(mindquarry.widget.AutoActiveField, {
         // sub-element will be the communicator for the autoactive information
         // that should be applied to the parent widget	    
 	    if (this.domNode.className.indexOf("use-parent-for-autoactive") >= 0) {
-	        dojo.event.connect(this.domNode.parentNode, "onclick", this, "onClick");
+	        dojo.event.connect(this.domNode.parentNode, "ondblclick", this, "onClick");
 	    } else {
-	        dojo.event.connect(this.domNode, "onclick", this, "onClick");
+	        dojo.event.connect(this.domNode, "ondblclick", this, "onClick");
 	    }
 	    
 	    // sometimes the id is contained directly within the element that is
