@@ -375,7 +375,6 @@
 			<match pattern="views/teamspaceHTMLView">
 				<generate src="jx/teamspace-view.jx" type="jx"
 					label="content" />
-				<!--transform src="xslt/teamspace2selectionlist.xsl" /-->
 				
 				<transform src="xslt/teamspace2html.xsl"
 					label="html">
@@ -489,6 +488,22 @@
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
+					<parameter name="redirectURL"
+						value="{block-path:}" />
+					<parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<parameter name="teamId" value="{1}" />
+				</call>
+			</match>
+			
+			<!-- used in teamspace detail view -->
+			<match pattern="*/editMembersFromDetailsView/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/editMember/"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processEditMembersForm" />
+					<parameter name="redirectURL"
+						value="{block-path:}/team/{1}/" />
 					<parameter name="definitionURI"
 						value="forms/edit-members-form.xml" />
 					<parameter name="teamId" value="{1}" />
@@ -542,7 +557,22 @@
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="teamspaceId" value="{1}" />
-					<parameter name="blockPath" value="{block-path:}" />					
+					<parameter name="redirectURL" value="{block-path:}" />					
+				</call>
+			</match>
+			
+			<!-- used in teamspace detail view -->
+			<match pattern="*/editFromDetailsView/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processEditTeamspaceForm" />
+					<parameter name="definitionURI"
+						value="forms/teamspace-form.xml" />
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="teamspaceId" value="{1}" />
+					<parameter name="redirectURL" value="{block-path:}/team/{1}/" />					
 				</call>
 			</match>
 

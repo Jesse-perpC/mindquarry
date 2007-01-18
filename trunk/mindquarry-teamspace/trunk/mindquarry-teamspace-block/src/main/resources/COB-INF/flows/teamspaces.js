@@ -57,7 +57,7 @@ function teamspaceById(teamspaceId) {
 
 function processEditTeamspaceForm(form) {
 
-	var blockPath = cocoon.parameters["blockPath"];
+	var redirectURL = cocoon.parameters["redirectURL"];
 	
 	var teamspaceId = cocoon.parameters["teamspaceId"];
 	var teamspace = teamspaceById(teamspaceId);
@@ -84,5 +84,5 @@ function processEditTeamspaceForm(form) {
     	cocoon.releaseComponent(teamspaceAdmin);
     }
 	
-	cocoon.redirectTo(blockPath + "/");
+	cocoon.redirectTo(redirectURL + "/");
 }

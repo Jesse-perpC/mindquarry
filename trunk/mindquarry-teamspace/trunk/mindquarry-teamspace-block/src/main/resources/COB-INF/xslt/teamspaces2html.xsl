@@ -69,7 +69,7 @@
 								<xsl:text>.png</xsl:text>
 							</xsl:attribute>
 						</img>
-						<h2 class="name"><a href="team/{normalize-space(id)}/"><xsl:value-of select="name" /></a></h2>
+						<h2 class="name"><a href="team/{normalize-space(id)}/"><xsl:value-of select="normalize-space(name)" /></a></h2>
 						<span class="description"><xsl:value-of select="description" /></span>
 					</div>
 					
