@@ -74,7 +74,9 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 					<div class="buttons">
 						<ft:widget id="ok" />
 						<ft:widget id="cancel" />
-						<ft:widget id="createUser" />
+						
+						<!-- must be checked if admin user is present -->
+						<!--ft:widget id="createUser" /-->
 					</div>
 				</div>
  			</ft:group>
