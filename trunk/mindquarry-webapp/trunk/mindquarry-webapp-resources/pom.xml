@@ -43,7 +43,7 @@
 		<dependency>
 			<groupId>com.mindquarry.icons</groupId>
 			<artifactId>mindquarry-icons</artifactId>
-			<version>0.3-SNAPSHOTS</version>
+			<version>0.3-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
