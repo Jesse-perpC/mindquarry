@@ -114,8 +114,17 @@ public class JCRClient extends AbstractLogEnabled implements
 
         if (isRemoteRepositoryConfigured) {
             repo = createClientRepository(remoteRepoUrl);
+
+            if (getLogger().isInfoEnabled()) {
+                getLogger().info("Connected to JCR on '" + remoteRepoUrl + "'.");
+            }
+            
         } else {
             repo = lookupLocalRepository();
+            
+            if (getLogger().isInfoEnabled()) {
+                getLogger().info("Opened local JCR repository.");
+            }
         }
     }
 
