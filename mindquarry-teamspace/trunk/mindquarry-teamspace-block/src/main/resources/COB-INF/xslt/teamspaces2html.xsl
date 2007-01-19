@@ -47,7 +47,7 @@
 				</xsl:if>
 				
 				<ul class="teamspace-list">
-					<xsl:apply-templates>
+					<xsl:apply-templates select="teamspace">
 						<xsl:sort select="name" />
 					</xsl:apply-templates>
 				</ul>
