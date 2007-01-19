@@ -26,9 +26,11 @@
 					<ft:group id="changePassword">
 						<h3>Change Password</h3>
 						
-						<ft:widget id="pwdChangeMessage">
-							<ft:styling type="pwdChangeMessage"></ft:styling>
-						</ft:widget>
+						<div>
+							<ft:widget id="pwdChangeMessage">
+								<ft:styling type="pwdChangeMessage"></ft:styling>
+							</ft:widget>
+						</div>
 												
 						<table>
 							<tr>
