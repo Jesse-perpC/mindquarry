@@ -17,6 +17,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
+import java.io.UnsupportedEncodingException;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -174,11 +175,13 @@ class CastorSession extends AbstractLogEnabled implements Session {
     private void writeToSource(EntityBase entity, ModifiableSource source) {
         
         OutputStreamWriter sourceWriter = null;
-        try {            
-            sourceWriter = new OutputStreamWriter(source.getOutputStream());
+        try {
+            String encoding = System.getProperty("org.apache.cocoon.formencoding", "utf-8");
+            sourceWriter = new OutputStreamWriter(source.getOutputStream(), encoding);
             
             Marshaller marshaller = new Marshaller(sourceWriter);
             marshaller.setMapping(mapping_);
+            marshaller.setEncoding(encoding);
 
             marshaller.marshal(entity);
             
@@ -209,11 +212,13 @@ class CastorSession extends AbstractLogEnabled implements Session {
     
     private EntityBase readFromSource(Source source) {
         
+        String encoding = System.getProperty("org.apache.cocoon.formencoding", "utf-8");
         InputStream sourceIn = loadSourceContent(source);
-        InputStreamReader sourceReader = new InputStreamReader(sourceIn);
+        InputStreamReader sourceReader = null;
         
         try {            
-            Unmarshaller unmarshaller = new Unmarshaller(mapping_);            
+            sourceReader = new InputStreamReader(sourceIn, encoding);
+            Unmarshaller unmarshaller = new Unmarshaller(mapping_);
             return (EntityBase) unmarshaller.unmarshal(sourceReader);
         } catch (MarshalException e) {
             throw new CastorPersistenceException(
@@ -222,6 +227,9 @@ class CastorSession extends AbstractLogEnabled implements Session {
             throw new CastorPersistenceException(
                     "could not write xml content to jcr source", e);
         } catch (MappingException e) {
+            throw new CastorPersistenceException(
+                    "could not write xml content to jcr source", e);
+        } catch (UnsupportedEncodingException e) {
             throw new CastorPersistenceException(
                     "could not write xml content to jcr source", e);
         } finally {
