@@ -35,6 +35,10 @@ public class JackrabbitRepository extends
     public void configure(Configuration config) throws ConfigurationException {
         super.configure(config);
 
+        if (getLogger().isInfoEnabled()) {
+            getLogger().info("Embedded Jackrabbit is running.");
+        }
+
         // must run the initializer on repository startup
         try {
             this.manager.lookup(JackrabbitInitializer.ROLE);
