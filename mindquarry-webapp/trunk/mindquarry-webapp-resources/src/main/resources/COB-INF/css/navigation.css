@@ -37,16 +37,20 @@
 
 #webapp-sections a.navTeams b{
 	background-image:url(../tango-icons/22/apps/mindquarry-teams.png);
+	cursor:pointer;
 }
 
 #webapp-sections a.navFiles b{
 	background-image:url(../tango-icons/22/apps/mindquarry-documents.png);
+	cursor:pointer;
 }
 #webapp-sections a.navWiki b{
 	background-image:url(../tango-icons/22/apps/mindquarry-wiki.png);
+	cursor:pointer;
 }
 #webapp-sections a.navTasks b{
 	background-image:url(../tango-icons/22/apps/mindquarry-tasks.png);
+	cursor:pointer;
 }
 
 #webapp-sections {
@@ -165,6 +169,10 @@
     font-size:8pt;
     color:#555555;
     z-index:100;
+    margin-top:10px;
+    margin-right:14px;
+    padding:0px;
+    
 }
 
 #user-and-teamspace-info p span.username {
@@ -246,7 +254,7 @@ padding-top:0px;
 }
 
 #edit-user-link, #head-help-link, #http-logout-link {
-    display:block;
+	display:block;
 	height:22px;
 	width:22px;
 	margin:2px;
@@ -255,7 +263,13 @@ padding-top:0px;
 	background-repeat:no-repeat;
 	float:right;
 }
+#head-help-link, #edit-user-link, #http-logout-link {
+	text-decoration: none;
+}
 
+#head-help-link b, #edit-user-link b, #http-logout-link b {
+	display:none;
+}
 #edit-user-link {
 	background-image:url(../tango-icons/22/categories/preferences-system.png);
 }
@@ -264,21 +278,24 @@ padding-top:0px;
 	background-image:url(../tango-icons/22/apps/help-browser.png);
 }
 
+#username-display{
+	text-decoration:none;
+}
+
 /* javascript browsers */
 #http-logout-link {
 	background-image:url(../tango-icons/22/actions/system-log-out.png);
 }
+
 
 /* non javascript browsers */
 #http-logout-hint {
 	text-align:center;
 	font-size:7pt;
 }
-
 #path-to-webapp-root {
 	display:none;
 }
-
 /* Login form and logout page */
 
 #login-form {
