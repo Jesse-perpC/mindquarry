@@ -25,14 +25,18 @@ sub handler {
 	# Perform some custom user/password validation.
 	my $pathinfo = $r->path_info;
 	$pathinfo =~ s/\/([^\/]*)\/(.*)/\/$1\//;
-	return authenticate($r->user, $password, $base . $pathinfo);
+	return Apache2::Const::OK if authenticate($r->user, $password, $base . $pathinfo);
+	# Whoops, bad credentials.
+	$r->note_basic_auth_failure;
+	return Apache2::Const::HTTP_UNAUTHORIZED;
 }
 
 sub authenticate {
 	my ($username, $password, $url) = @_;
-	my $agent = LWP::UserAgent->new;
+	my $agent = LWP::UserAgent->new("Mindquarry Authentication Handler");
 	my $override = sprintf '%s::get_basic_credentials', ref $agent;
 	my $response;
+	my $req;
 
 	my $s = Apache2::ServerUtil->server;
 	$s->log_error("AuthURL: " . $url . " User: " . $username);
@@ -43,26 +47,32 @@ sub authenticate {
 	local *$override = sub {
             return ( $username, $password );
         };
-	
-	$agent->default_header('Accept' => "text/plain");
+	#$agent->request_redirectable() = {};	
+	#$agent->default_header('Accept' => "text/plain");
 
-	#$url = $url."?request=login&targetUri=/";
+
+	$url = $url."?request=login&targetUri=/";
 	$s->log_error("URL: ".$url);
-	$response = $agent->head($url);
+	#$response = $agent->head($url, 'Accept' => 'text/plain');
 	
+	$req = HTTP::Request->new(HEAD => $url);
+	$req->header('Accept' => 'text/xml');
+
+	$response = $agent->request($req);
+
+
 	$s->log_error("Response Code: ".$response->code);	
 	#$s->log_error("Response: ".$response->as_string);
 	if ($response->code == 401) {
 		$s->log_error("HTTP Code 401");
-		# Whoops, bad credentials.
-		return Apache2::Const::HTTP_UNAUTHORIZED;
+		return 0;
 	}
 	if ($response->is_error) {
 		$s->log_error("Error Message: " . $response->status_line);
-		return Apache2::Const::HTTP_SERVICE_UNAVAILABLE;
+		return 0;
 	}
 	$s->log_error("Authentication seems ok");
-	return Apache2::Const::OK;
+	return 1;
 }
 
 1;
