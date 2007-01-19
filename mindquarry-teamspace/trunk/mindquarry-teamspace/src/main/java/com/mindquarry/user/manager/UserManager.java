@@ -33,17 +33,17 @@ import com.mindquarry.user.UserRO;
  */
 public final class UserManager implements UserAdmin, Authentication {
 
-    static final String ADMIN_USER_ID = "admin";
+    static final String ADMIN_USER_ID = "admin"; //$NON-NLS-1$
 
-    static final String ADMIN_PWD = "admin";
+    static final String ADMIN_PWD = "admin"; //$NON-NLS-1$
 
-    static final String ADMIN_NAME = "Administrator";
+    static final String ADMIN_NAME = "Administrator"; //$NON-NLS-1$
 
-    static final String INDEX_USER_ID = "solr";
+    static final String INDEX_USER_ID = "solr"; //$NON-NLS-1$
 
-    static final String INDEX_PWD = "solr";
+    static final String INDEX_PWD = "solr"; //$NON-NLS-1$
 
-    static final String INDEX_NAME = "Index User";
+    static final String INDEX_NAME = "Index User"; //$NON-NLS-1$
 
     private SessionFactory sessionFactory_;
 
@@ -120,7 +120,6 @@ public final class UserManager implements UserAdmin, Authentication {
 
     public User createUser(String id, String password, String name,
             String surname, String email, String skills) {
-
         UserEntity user = new UserEntity();
         user.setId(id);
         // the default constructor sets an empty string password
@@ -152,7 +151,6 @@ public final class UserManager implements UserAdmin, Authentication {
         Session session = currentSession();
 
         List<Object> queriedUsers = session.query("getAllUsers", new Object[0]);
-
         List<UserRO> result = new LinkedList<UserRO>();
 
         for (Object userObj : queriedUsers) {
@@ -186,7 +184,6 @@ public final class UserManager implements UserAdmin, Authentication {
 
     private List<UserRO> queryUsersForTeamspace(String queryKey,
             String teamspaceId) {
-
         Session session = currentSession();
 
         List<Object> queryResult = session.query(queryKey,
@@ -198,14 +195,11 @@ public final class UserManager implements UserAdmin, Authentication {
             UserRO user = (UserRO) userObj;
             result.add(user);
         }
-
         session.commit();
-
         return result;
     }
 
     public UserRO removeUserFromTeamspace(UserRO user, String teamspaceId) {
-
         UserEntity userEntity = (UserEntity) user;
         userEntity.teamspaceReferences.remove(teamspaceId);
 
@@ -214,7 +208,6 @@ public final class UserManager implements UserAdmin, Authentication {
     }
 
     public UserRO addUserToTeamspace(UserRO user, String teamspaceId) {
-
         UserEntity userEntity = (UserEntity) user;
         userEntity.teamspaceReferences.add(teamspaceId);
 
