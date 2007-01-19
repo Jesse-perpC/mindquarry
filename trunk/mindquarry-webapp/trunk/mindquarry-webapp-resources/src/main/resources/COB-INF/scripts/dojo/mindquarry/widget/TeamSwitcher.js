@@ -36,7 +36,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	buildRendering: function(args, parserFragment, parentWidget) {
         // Magical statement to get the dom node, stolen in DomWidget
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
-	    var list = this.domNode.getElementsByTagName("ul")[0]
+	    var list = this.domNode.getElementsByTagName("ul")[0];
 	    
 	    var links = list.getElementsByTagName("a");
 	    var current = this.domNode.title;
@@ -58,15 +58,14 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    for (var i=0;i<newlist.length;i++) {
 	        newlist[i].href = baselink.href + newlist[i].title + "/";
 	    }
-	    
-	    
+	    	    
 	    var active = false;
 	    var empty = true;
 	    for (var i=0;i<links.length;i++) {
 	    	empty = false;
-	        if (links[i].title != current) {
-	            links[i].parentNode.style.display = "none";
-	        } else {
+	        if (links[i].title == current) {
+	            links[i].parentNode.style.display = "block";
+	            //alert("Make it visible");
 	            active = true;
 	        }
 	    }
@@ -78,6 +77,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	        } else {
 	        	overview.innerHTML = '<a href="#" class="allyourteams">All your teams</a>';
 	        }
+	        overview.style.display = "block";
 	        list.appendChild(overview);
 	        
 	    }
