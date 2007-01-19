@@ -84,6 +84,8 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
      * @see org.apache.avalon.framework.activity.Initializable#initialize()
      */
     public void initialize() throws Exception {
+        System.out.println("Initializing JCR/Jackrabbit repository...");
+
         // load configuration
         Configuration credentials = config.getChild("credentials", false);
         String login = credentials.getAttribute("login");
@@ -102,5 +104,7 @@ public class JackrabbitInitializer implements Serviceable, Configurable,
         JackrabbitInitializerHelper.setupRepository(session, nodeTypeDefReader,
                 "");
         session.save();
+        
+        System.out.println("JCR/Jackrabbit initialized.");
     }
 }

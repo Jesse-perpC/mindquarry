@@ -46,7 +46,7 @@ public class JackrabbitRMIRepository extends JackrabbitRepository {
     @Override
     public void configure(Configuration config) throws ConfigurationException {
         super.configure(config);
-
+        
         // register RMI repository
         ServerAdapterFactory factory = new ServerAdapterFactory();
         try {
@@ -57,6 +57,10 @@ public class JackrabbitRMIRepository extends JackrabbitRepository {
         } catch (RemoteException e) {
             throw new ConfigurationException(
                     "An error occured during RMI repository setup.", config, e);
+        }
+
+        if (getLogger().isInfoEnabled()) {
+            getLogger().info("Embedded Jackrabbit is running as RMI service: '" + REMOTE_REPO_NAME + "'");
         }
     }
 
