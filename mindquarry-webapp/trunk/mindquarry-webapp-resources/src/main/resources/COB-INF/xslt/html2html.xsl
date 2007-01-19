@@ -175,7 +175,7 @@
 							<xsl:text> </xsl:text>
 						</div>
 						<div id="user-status">
-							<div id="http-logout-hint">(Close browser to logout)</div>
+							<div id="http-logout-hint"><b>(Close browser to logout)</b></div>
 							<a href="{$pathToRoot}" id="path-to-webapp-root" title="logout"/>
 							<div class="username-display">
 								<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="edit settings for {$username}" rel="lightbox"><b><xsl:value-of select="$username" /></b></a>
