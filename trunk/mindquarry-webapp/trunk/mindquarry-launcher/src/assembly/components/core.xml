@@ -34,6 +34,10 @@
             <source>src/assembly/etc/mindquarry-web.xml</source>
             <outputDirectory>/etc</outputDirectory>
         </file>
+        <file>
+            <source>src/assembly/perl/Authenticate.pm</source>
+            <outputDirectory>/perl</outputDirectory>
+        </file>
     </files>
 
     <dependencySets>
