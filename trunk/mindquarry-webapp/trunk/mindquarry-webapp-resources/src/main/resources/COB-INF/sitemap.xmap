@@ -141,6 +141,58 @@
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
 			</map:match>
 			
+			<!-- the following matchers implement the fallback mechanism for icons according to
+				 the freedesktop.org icon naming specification -->
+			<map:match pattern="tango-icons/*/*/*-*-*.png">
+				<map:select type="resource-exists">
+					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}-{5}.png">
+						<map:read
+							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}-{5}.png" />
+					</map:when>
+					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png">
+						<map:read
+							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png" />
+					</map:when>
+					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
+						<map:read
+							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png" />
+					</map:when>
+					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}-{5}.png">
+						<map:read
+							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}-{5}.png" />
+					</map:when>
+					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png">
+						<map:read
+							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png" />
+					</map:when>
+					<map:otherwise>
+						<map:read
+							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}.png" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+			
+			<map:match pattern="tango-icons/*/*/*-*.png">
+				<map:select type="resource-exists">
+					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png">
+						<map:read
+							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png" />
+					</map:when>
+					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
+						<map:read
+							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png" />
+					</map:when>
+					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png">
+						<map:read
+							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png" />
+					</map:when>
+					<map:otherwise>
+						<map:read
+							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}.png" />
+					</map:otherwise>
+				</map:select>
+			</map:match>
+			
 			<map:match pattern="tango-icons/*/*/*.png">
 				<map:select type="resource-exists">
 					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
