@@ -51,6 +51,9 @@
 			<xsl:when test="contains($fullPath, '/teamspace/editUser')">
 				<!-- no team -->
 			</xsl:when>
+      <xsl:when test="contains($fullPath, '/help')">
+				<!-- no team -->
+			</xsl:when>
 			<xsl:otherwise><xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/'),'/'),'/')"/></xsl:otherwise>
 		</xsl:choose>
 	</xsl:param>
