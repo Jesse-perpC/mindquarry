@@ -159,7 +159,10 @@ a.details-expanded {
 /*
   override this, because in teamspace overview this is hidden 
   by default and only display after click on the details link.
+  
+  in individual teamspace view, there is no ancestor li, so this
+  will by displayed
 */
-div.edit-buttons {
+li div.edit-buttons {
 	display:none;
 }

@@ -18,7 +18,7 @@ div.member-list ul {
 }
 
 div.member-details {
-	font-size:0.9em;
+	font-size:90%;
 	color:#999999;
 	width:250px;
 	height:50px;
@@ -37,7 +37,7 @@ div.member-details img {
 	float:left;
 	margin:1px;
 	margin-right:3px;
-	border:1px solid black;
+	border:1px solid #eeeeee;
 	padding:1px;
 	height:42px;
 	width:42px;
