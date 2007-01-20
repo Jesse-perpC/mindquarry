@@ -161,7 +161,7 @@
 				<!-- layouting the header -->
 				<div id="webapp-header">
 					<ul id="webapp-sections">
-						<li><a class="navTeams" href="{$pathToRoot}teamspace/"><b>Teams</b></a></li>
+						<li><a class="navTeams" href="{$pathToRoot}teamspace/team/{$teamspaceNameWithSlash}"><b>Teams</b></a></li>
 						<li><a class="navFiles" href="{$pathToRoot}workspace/{$teamspaceNameWithBrowse}"><b>Files</b></a></li>
 						<li><a class="navWiki" href="{$pathToRoot}wiki/{$teamspaceNameWithSlash}"><b>Wiki</b></a></li>
 						<li><a class="navTasks" href="{$pathToRoot}tasks/{$teamspaceNameWithSlash}"><b>Tasks</b></a></li>
