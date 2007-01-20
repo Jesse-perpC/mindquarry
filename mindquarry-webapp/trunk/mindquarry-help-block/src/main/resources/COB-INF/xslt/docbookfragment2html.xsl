@@ -6,12 +6,12 @@
   <xsl:param name="writerealfiles" select="0" />
   <xsl:param name="chunk.fast" select="1"/>
   <xsl:param name="admon.graphics" select="1"/>
-  <xsl:param name="admon.graphics.path">../images/docbook/</xsl:param>
+  <xsl:param name="admon.graphics.path">/help/images/docbook/</xsl:param>
   <xsl:param name="footer.rule" select="0"/>
   <xsl:param name="header.rule" select="0"/>
   <xsl:param name="navig.graphics.extension" select="'.png'"/>
   <xsl:param name="navig.graphics" select="1"/>
-  <xsl:param name="navig.graphics.path">../images/docbook/</xsl:param>
+  <xsl:param name="navig.graphics.path">/help/images/docbook/</xsl:param>
   <xsl:param name="use.id.as.filename" select="'1'"/>
   
   <xsl:param name="suppress.header.navigation">1</xsl:param>
