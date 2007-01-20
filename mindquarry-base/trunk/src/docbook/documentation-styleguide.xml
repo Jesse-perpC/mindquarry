@@ -156,6 +156,42 @@
     the book <citetitle>Read Me. A Styleguide for the Computer
     Industry</citetitle> which is available in the Mindquarry
     bookshelf.</para>
+
+    <section>
+      <title>Lists</title>
+
+      <para>You should use itemizedlists only when there is no order or
+      hierarchy of list entries, otherwise a numbered list is preferred. If
+      each entry in the list need longer explaination, often a variablelist is
+      the best choice.</para>
+
+      <para>Lists should be introduced and the introducing paragraph ends with
+      a colon. The text in the list starts properly capitalized.</para>
+
+      <example>
+        <title>List style</title>
+
+        <para>Mindquarry consists of four main application parts:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Team management</para>
+          </listitem>
+
+          <listitem>
+            <para>Document management</para>
+          </listitem>
+
+          <listitem>
+            <para>Wiki</para>
+          </listitem>
+
+          <listitem>
+            <para>Task management</para>
+          </listitem>
+        </itemizedlist>
+      </example>
+    </section>
   </section>
 
   <section xml:id="documentationprocess">
