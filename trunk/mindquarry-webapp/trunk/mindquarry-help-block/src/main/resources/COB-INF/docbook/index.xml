@@ -11,17 +11,32 @@ are working or we are using docbook 5 -->
 
     <section>
       <title>Installation Prerequisites</title>
-      <note><para>Nobody knows this.</para></note>
-      <tip><para>Nobody knows this.</para></tip>
-      <caution><para>Nobody</para></caution>
-      <warning><para>Nearly Nobody</para></warning>
+
+      <note>
+        <para>Nobody knows this.</para>
+      </note>
+
+      <tip>
+        <para>Nobody knows this.</para>
+      </tip>
+
+      <caution>
+        <para>Nobody</para>
+      </caution>
+
+      <warning>
+        <para>Nearly Nobody</para>
+      </warning>
+
       <para>In order to install Mindquarry, you need things.</para>
     </section>
+
     <section>
       <title>Installation Steps</title>
 
       <para>In order to install Mindquarry, you need things.</para>
     </section>
+
     <section>
       <title>Post-Installation</title>
 
@@ -37,14 +52,56 @@ are working or we are using docbook 5 -->
 
   <chapter>
     <title>Managing Files with Mindquarry</title>
+
     <section>
       <title>Desktop Synchronization</title>
+
       <tip id="getting.mindquarry.files">
         <title>How to access shared files</title>
-        <para>
-          There are multiple ways to access the shared files.
-        </para>
+
+        <para>The files shown in the workspace browser are shared by all team
+        members. In order to edit them and to share your changes, you need to
+        synchronize the shared folder with your desktop. There are three ways
+        to do this:</para>
+
+        <itemizedlist>
+          <listitem>
+            <para>Using the <productname>Mindquarry Desktop
+            Client</productname>. The <productname>Mindquarry Desktop
+            Client</productname> requires <productname>Microsoft
+            Windows</productname> and <productname>Java</productname>
+            <productnumber>5</productnumber> and synchronizes all your
+            teamspaces with the <productname>Mindquarry Collaboration
+            Server</productname> automatically. To install the
+            <productname>Mindquarry Desktop Client</productname>, click the
+            <guilabel>Client</guilabel> link in the footer of this
+            page.</para>
+          </listitem>
+
+          <listitem>
+            <para>Using the <ulink
+            url="http://subversion.tigris.org">Subversion</ulink> program.
+            Mindquarry is fully Subversion compatible, meaning you can use any
+            Subversion client like <ulink
+            url="http://tortoisesvn.tigris.org">TortoiseSVN</ulink>, <ulink
+            url="http://www.syntevo.com/smartsvn/">SmartSVN</ulink> or <ulink
+            url="http://rapidsvn.tigris.org/">RapidSVN</ulink> to synchronize
+            your files.</para>
+          </listitem>
+
+          <listitem>
+            <para>Using WebDAV. You can use the builtin-WebDAV-support of your
+            operating system to access the shared files and read and write
+            them on the fly.</para>
+          </listitem>
+        </itemizedlist>
       </tip>
+
+      <section id="mindquarry.webdav.support">
+        <title>WebDAV Support</title>
+
+        <para></para>
+      </section>
     </section>
   </chapter>
 
