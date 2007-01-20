@@ -19,11 +19,9 @@
 	<xsl:template match="/teamspaces">
 		<div id="user-and-teamspace-info">
 			<xsl:apply-templates select="user" />
-			<xsl:if test="teamspace">
-				<ul class="teamspacelist">
-					<xsl:apply-templates select="teamspace"/>
-				</ul>
-			</xsl:if>
+			<ul class="teamspacelist">
+				<xsl:apply-templates select="teamspace"/>
+			</ul>
 		</div>
 	</xsl:template>
 	

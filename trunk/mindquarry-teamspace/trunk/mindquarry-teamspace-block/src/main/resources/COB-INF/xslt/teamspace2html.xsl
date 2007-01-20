@@ -15,73 +15,22 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 	<xsl:import href="teamspace2htmlutils.xsl"/>
-
-	<xsl:template match="teamspace">
-		<html>
-			<head>
-				<title>Manage Teamspace <xsl:value-of select="name"/></title>
-				<link rel="stylesheet" href="{$pathToBlock}css/teamspace-details.css"
-					type="text/css"/>
-				<link rel="stylesheet" href="{$pathToBlock}css/edit-members.css"
-					type="text/css"/>
-
-				
-				<script type="text/javascript">
-					dojo.require("cocoon.forms");
-				</script>
-			</head>
-			<body>
-				<h1>Manage Teamspace <xsl:value-of select="name"/></h1>
-				<div class="nifty">
-					<div class="name">
-						<img class="icon">
-							<xsl:attribute name="src">
-								<xsl:value-of select="$pathToBlock"/>
-								<xsl:value-of select="normalize-space(id)"/>
-								<xsl:text>.png</xsl:text>
-							</xsl:attribute>
-						</img>
-						<h2 class="name">
-							<xsl:value-of select="name"/>
-						</h2>
-						<span class="description">
-							<xsl:value-of select="description"/>
-						</span>
-					</div>
-
-					<div class="edit-buttons">
-						<a href="{$pathToBlock}{normalize-space(id)}/editMembersFromDetailsView/"
-							class="edit_members_button" rel="lightbox"
-							title="Add or remove team members">Team Members</a>
-
-						<a href="{$pathToBlock}{normalize-space(id)}/editFromDetailsView/"
-							class="edit_settings_button" rel="lightbox"
-							title="Edit teamspace settings">Edit Settings</a>
-					</div>
-
-					<div class="details">
-						<h3>Team Members</h3>
-						<xsl:choose>
-							<xsl:when test="users/user">
-								<xsl:apply-templates select="users/user"
-									mode="detail"/>
-							</xsl:when>
-							<xsl:otherwise>No team members assigned.</xsl:otherwise>
-						</xsl:choose>
-					</div>
-				</div>
-			</body>
-		</html>
-	</xsl:template>
-
-	<xsl:template match="user" mode="detail">
-		<div class="member-details">
-			<img src="{$pathToRoot}teamspace/users/{normalize-space(id)}.png"/>
-			<h4>
-				<xsl:value-of select="name"/>
-				<xsl:value-of select="surname"/>
-			</h4>
-			<xsl:value-of select="skills"/>
-		</div>
-	</xsl:template>
+  
+  <xsl:template match="teamspace" mode="title">
+    <title><xsl:value-of select="name"/></title>
+  </xsl:template>
+  
+  <xsl:template match="teamspace" mode="heading">
+    <h1>Manage Teamspace <xsl:value-of select="name"/></h1>
+    
+    <xsl:if test="$username = 'admin'" >
+      <xsl:call-template name="create_user_button" />
+    </xsl:if>
+  </xsl:template>
+  
+  <xsl:template match="name">
+    <h2 class="name">
+      <xsl:apply-templates />
+    </h2>
+  </xsl:template>
 </xsl:stylesheet>
