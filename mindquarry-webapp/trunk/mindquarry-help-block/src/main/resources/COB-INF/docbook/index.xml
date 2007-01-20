@@ -37,8 +37,15 @@ are working or we are using docbook 5 -->
 
   <chapter>
     <title>Managing Files with Mindquarry</title>
-
-    <para></para>
+    <section>
+      <title>Desktop Synchronization</title>
+      <tip id="getting.mindquarry.files">
+        <title>How to access shared files</title>
+        <para>
+          There are multiple ways to access the shared files.
+        </para>
+      </tip>
+    </section>
   </chapter>
 
   <chapter>

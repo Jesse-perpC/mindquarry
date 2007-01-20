@@ -257,13 +257,24 @@
 
 		<pipeline type="caching">
 			<match pattern="">
-				<redirect-to uri="index.html"/>
+				<redirect-to uri="index/index.html"/>
 			</match>
 
-			<match pattern="*.html">
-				<generate src="docbook/index.xml"/>
+      <match pattern="fragment/*/*.html">
+				<generate src="docbook/{1}.xml"/>
+				<transform src="xslt/docbookfragment2html.xsl">
+					<parameter name="rootid" value="{2}"/>
+				</transform>
+        <transform src="xslt/extractdocbookfragment.xsl">
+          <parameter name="rootid" value="{2}"/>
+        </transform>
+        <serialize type="xml"/>
+			</match>
+      
+			<match pattern="*/*.html">
+				<generate src="docbook/{1}.xml"/>
 				<transform src="xslt/docbook2html.xsl">
-					<parameter name="desiredfilename" value="{1}.html"/>
+					<parameter name="desiredfilename" value="{2}.html"/>
 				</transform>
 				<transform src="xslt/styledocbookhtml.xsl" label="html"/>
 				<call resource="layouting"/>
