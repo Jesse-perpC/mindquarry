@@ -53,7 +53,11 @@
 	<serializer class="org.apache.cocoon.serialization.XMLSerializer">
 		<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
 	</serializer>
-
+	
+	<serializer class="org.apache.cocoon.serialization.HTMLSerializer">
+		<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+	</serializer>
+	
 	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
 		<home src="${mindquarry.jcr.path}"/>
 		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
