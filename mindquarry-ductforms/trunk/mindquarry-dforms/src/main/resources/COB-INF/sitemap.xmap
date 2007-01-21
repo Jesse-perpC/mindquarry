@@ -23,13 +23,6 @@
 			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
 		</generators>
-		
-		<transformers default="xslt">
-			<transformer name="nekohtml" src="org.apache.cocoon.transformation.NekoHTMLTransformer">
-				<!-- resource://org/apache/cocoon/html/neko.properties -->
-				<neko-config>neko.properties</neko-config>
-			</transformer>
-		</transformers>
 	</components>
 
 	<resources>
