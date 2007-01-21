@@ -25,6 +25,7 @@
 
 	<!-- flatten the htmllize element, which contains a full html document -->	
 	<xsl:template match="htmllize">
+		<!--<xsl:apply-templates/>-->
 		<xsl:apply-templates select="html/body/node()" />
 	</xsl:template>	
 
