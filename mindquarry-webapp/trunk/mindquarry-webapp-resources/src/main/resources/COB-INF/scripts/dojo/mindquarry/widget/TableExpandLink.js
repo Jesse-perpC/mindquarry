@@ -96,6 +96,9 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
         return cocoon.ajax.insertionHelper.insert(refElt, content, function(refElt, newElt) {
             var table = refElt.parentNode.parentNode;
             var baseindex = refElt.rowIndex + 1;
+            var baselink = refElt.getElementsByTagName("a")[0].href;
+            var revision = baselink.substr(baselink.lastIndexOf("?revision="));
+            baselink = baselink.substr(0, baselink.indexOf("?revision="));
             
             //var rownumber = 0;
             
@@ -114,6 +117,20 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
                   var links = newcell.getElementsByTagName("a");
                   for (var k=0;k<links.length;k++) {
                     links[k].style.backgroundImage = links[k].style.backgroundImage.replace("url(../","url(");
+                    var mylink = links[k].href;
+                    var folder = false;
+                    if (mylink.indexOf("/?")!=-1) {
+                       mylink = mylink.substr(0, mylink.lastIndexOf("/?"));
+                       folder = true;
+                    } else {
+                      mylink = mylink.substr(0, mylink.lastIndexOf("?"));
+                    }
+                    mylink = mylink.substr(mylink.lastIndexOf("/") + 1);
+                    if (folder) {
+                      mylink = mylink + "/" + revision;
+                    }
+                    //alert(mylink);
+                    links[k].href = baselink + mylink;
                   }
                   var divs = newcell.getElementsByTagName("div");
                   for (var k=0;k<divs.length;k++) {
