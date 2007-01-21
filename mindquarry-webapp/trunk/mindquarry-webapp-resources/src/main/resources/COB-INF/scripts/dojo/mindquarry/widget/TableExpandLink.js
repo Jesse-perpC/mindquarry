@@ -17,6 +17,8 @@ dojo.provide("mindquarry.widget.TableExpandLink");
 dojo.require("dojo.widget.*");
 dojo.require("dojo.html");
 dojo.require("dojo.event");
+dojo.require("cocoon.ajax");
+dojo.require("cocoon.ajax.insertion");
 
 dojo.widget.tags.addParseTreeHandler("dojo:TableExpandLink");
 dojo.widget.manager.registerWidgetPackage("mindquarry.widget");
@@ -31,7 +33,11 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
 	widgetType: "TableExpandLink",
 	isContainer: true,
   tbody: null,
+  table: null,
+  rownumber: 0,
   contextrow: null,
+  addedrows: new Array(),
+  expanded: false,
 	
 	buildRendering: function(args, parserFragment, parentWidget) {
         // Magical statement to get the dom node, stolen in DomWidget
@@ -46,7 +52,9 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
         }
         if (context.nodeName=="TBODY" && this.tbody==null) {
           this.tbody = context;
-          break;
+        }
+        if (context.nodeName=="TABLE" && this.table==null) {
+          this.table = context;
         }
       }
 
@@ -55,8 +63,67 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
     
     onClick: function(event) {
         event.preventDefault();
-        //alert(this.tbody);
+        var href = event.target.href;
+        if (!this.expanded) {
+          if(href.indexOf("?") == -1) {
+              cocoon.ajax.update(href + "?lightbox-request=true", this.contextrow, this.insertRow);
+          } else {
+              cocoon.ajax.update(href + "&lightbox-request=true", this.contextrow, this.insertRow);
+          }
+          this.expanded = true;
+          event.target.className = "collapse";
+        } else {
+          this.expanded = false;
+          event.target.className = "expand";
+          
+          var row = this.contextrow.rowIndex;
+          var deletedsome = false;
+          for (var i=row+1;i<this.table.rows.length;i++) {
+            if (dojo.html.hasClass(this.table.rows[i], "indent1")) {
+              deletedsome = true;
+              this.table.deleteRow(i);
+              i--;
+            } else if (deletedsome==true) {
+              //indicates we could be viewing child nodes of a different folder
+              break;
+            }
+          }
+        }
         return false;
+    },
+    
+    insertRow: function (refElt, content) {
+        return cocoon.ajax.insertionHelper.insert(refElt, content, function(refElt, newElt) {
+            var table = refElt.parentNode.parentNode;
+            var baseindex = refElt.rowIndex + 1;
+            
+            //var rownumber = 0;
+            
+            
+            for (var i=0;i<newElt.childNodes.length;i++) {
+              if (newElt.childNodes[i].nodeName=="DIV") {
+                var row = newElt.childNodes[i];
+                //alert("inserting " + row.className);
+                //var newrowindex = baseindex + i;
+                newrow = table.insertRow(baseindex + i);
+                newrow.className = row.className + " indent1";
+                for (var j=0;j<row.childNodes.length;j++) {
+                  var newcell = newrow.insertCell(j);
+                  newcell.innerHTML = row.childNodes[j].innerHTML;
+                  newcell.className = row.childNodes[j].className;
+                  var links = newcell.getElementsByTagName("a");
+                  for (var k=0;k<links.length;k++) {
+                    links[k].style.backgroundImage = links[k].style.backgroundImage.replace("url(../","url(");
+                  }
+                  var divs = newcell.getElementsByTagName("div");
+                  for (var k=0;k<divs.length;k++) {
+                    divs[k].style.backgroundImage = divs[k].style.backgroundImage.replace("url(../","url(");
+                  }
+                }
+              }
+            }
+            
+        });
     }
 	
 });

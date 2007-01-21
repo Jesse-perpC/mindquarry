@@ -41,7 +41,21 @@
 	</xsl:template>
   
   <xsl:template match="xhtml:html[.//xhtml:tbody[@id='lightbox-content']]|html[.//tbody[@id='lightbox-content']]">
-    <xsl:apply-templates select=".//xhtml:tbody[@id='lightbox-content']|.//tbody[@id='lightbox-content']" />
+    <div>
+       <xsl:apply-templates select=".//xhtml:tbody[@id='lightbox-content']/xhtml:tr|.//tbody[@id='lightbox-content']/tr" />
+    </div>
+  </xsl:template>
+  
+  <xsl:template match="xhtml:tbody[@id='lightbox-content']/xhtml:tr|tbody[@id='lightbox-content']/tr">
+    <div class="pseudotr {@class}">
+      <xsl:apply-templates />
+    </div>
+  </xsl:template>
+  
+  <xsl:template match="xhtml:tbody[@id='lightbox-content']/xhtml:tr/td|tbody[@id='lightbox-content']/tr/td">
+    <div class="pseudotd {@class}">
+      <xsl:apply-templates />
+    </div>
   </xsl:template>
   
   <xsl:template match="*[@class='stripfromlightbox' or contains(@class, 'stripfromlightbox ') or contains(@class, ' stripfromlightbox')]">

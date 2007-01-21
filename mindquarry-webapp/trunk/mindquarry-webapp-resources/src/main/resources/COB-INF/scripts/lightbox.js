@@ -223,14 +223,18 @@ cocoon.ajax.insertionHelper.parseDojoWidgets = function(element) {
 		// the element itself to be parsed. Parsing its parent is not an option as we don't want
 		// to parse the siblings. So place it in a temporary div that we'll trash afterwards.
 		var div = document.createElement("DIV");
-		element.parentNode.replaceChild(div, element);
+    if (element.parentNode) {
+      element.parentNode.replaceChild(div, element);
+    }
 		div.appendChild(element);
 		var frag = parser.parseElement(div, null, true);
 		dojo.widget.getParser().createComponents(frag, parentWidget);
 		// Get again the first child of the div, which may no more be the original one
 		// if it's a widget
 		element = div.firstChild;
-		div.parentNode.replaceChild(element, div);
+    if (div.parentNode) {
+      div.parentNode.replaceChild(element, div);
+    }
 		parentWidget && parentWidget.onResized();
 
 		return element;
