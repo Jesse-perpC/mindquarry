@@ -72,7 +72,9 @@
 		<transformer name="browser-update"
 			src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 		<transformer name="tee"
-			src="org.apache.cocoon.transformation.TeeTransformer" />
+			src="org.apache.cocoon.transformation.TeeTransformer">
+			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+		</transformer>
 		<transformer
 			name="htmlcleanup"
 			src="org.apache.cocoon.transformation.CleanupTransformer">
@@ -82,7 +84,12 @@
 	</transformers>
 	
 	<serializers>
-		<!--<serializer name="html" mime-type="text/html; charset=utf-8"-->
+		<serializer name="xml" mime-type="text/xml"
+			src="org.apache.cocoon.serialization.XMLSerializer">
+			<encoding>UTF-8</encoding>
+		</serializer>
+		
+		<!--<serializer name="html" mime-type="text/html"-->
 		<serializer name="html" mime-type="text/html"
 				src="org.apache.cocoon.serialization.HTMLSerializer">
 			<encoding>UTF-8</encoding>
