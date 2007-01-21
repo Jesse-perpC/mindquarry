@@ -252,7 +252,7 @@
 	<!-- 
 		NEVER! NEVER! use alt-f to re-format this code.
 	-->
-	<xsl:template match="xhtml:div[@class='nifty']|div[@class='nifty']">
+	<xsl:template match="xhtml:div[@class='nifty' or contains(@class, 'nifty ') or contains(@class, ' nifty')]|div[@class='nifty' or contains(@class, 'nifty ') or contains(@class, ' nifty')]">
 		<div class="nifty">
 			<b class="rtop">
 				<b class="r1"><xsl:comment>t</xsl:comment></b>
