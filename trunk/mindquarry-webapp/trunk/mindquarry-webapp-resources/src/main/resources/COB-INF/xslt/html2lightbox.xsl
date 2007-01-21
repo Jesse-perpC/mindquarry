@@ -39,6 +39,14 @@
 			</xsl:choose>
 		</div>
 	</xsl:template>
+  
+  <xsl:template match="xhtml:html[.//xhtml:tbody[@id='lightbox-content']]|html[.//tbody[@id='lightbox-content']]">
+    <xsl:apply-templates select=".//xhtml:tbody[@id='lightbox-content']|.//tbody[@id='lightbox-content']" />
+  </xsl:template>
+  
+  <xsl:template match="*[@class='stripfromlightbox' or contains(@class, 'stripfromlightbox ') or contains(@class, ' stripfromlightbox')]">
+  
+  </xsl:template>
 	
 	<xsl:template match="xhtml:script[normalize-space(.)='']|script[normalize-space(.)='']">
 	    <xsl:copy>
