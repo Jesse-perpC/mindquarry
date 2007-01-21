@@ -23,6 +23,13 @@
 			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
 		</generators>
+		
+		<transformers default="xslt">
+			<transformer name="nekohtml" src="org.apache.cocoon.transformation.NekoHTMLTransformer">
+				<!-- resource://org/apache/cocoon/html/neko.properties -->
+				<neko-config>neko.properties</neko-config>
+			</transformer>
+		</transformers>
 	</components>
 
 	<resources>
@@ -109,7 +116,9 @@
 						test="{request-param:baseURI}{request-param:documentID}.xml">
 						<generate
 							src="{request-param:baseURI}{request-param:documentID}.xml" />
+						<!--<transform type="tee" src="file:///tmp/plain-loaded.xml" />-->
 						<transform src="xsl/model/addfield.xsl" />
+						<!--<transform type="tee" src="file:///tmp/plain-before-serialize.xml" />-->
 						<serialize type="xml" />
 					</when>
 					<!-- else (if not) show the minimal document model including the required fields from the complete model -->
@@ -153,12 +162,13 @@
 				<generate type="jx" src="cocoon:/form-template" label="raw" >
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
-				<!--<transform type="tee" src="file:///tmp/jx.xml" />-->
+				<!--<transform type="tee" src="file:///tmp/after-jx.xml" />-->
 				
 				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
 				
+				<!--<transform type="tee" src="file:///tmp/0-before-bu.xml" />-->
 				<transform type="browser-update" />
-				<!--<transform type="tee" src="file:///tmp/bu.xml" />-->
+				<!--<transform type="tee" src="file:///tmp/1-after-bu.xml" />-->
 				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
