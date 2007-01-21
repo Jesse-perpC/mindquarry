@@ -92,8 +92,7 @@
 			<encoding>UTF-8</encoding>
 		</serializer>
 		
-		<!--<serializer name="html" mime-type="text/html"-->
-		<serializer name="html" mime-type="text/html"
+		<serializer name="html" mime-type="text/html; charset=UTF-8"
 				src="org.apache.cocoon.serialization.HTMLSerializer">
 			<encoding>UTF-8</encoding>
 			<!--<indent>true</indent>-->
