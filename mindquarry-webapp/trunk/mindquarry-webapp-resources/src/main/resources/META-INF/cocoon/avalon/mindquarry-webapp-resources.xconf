@@ -69,6 +69,9 @@
 			src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer" />
 		<transformer name="redirect"
 			src="com.mindquarry.webapp.transforming.RedirectTransformer" />
+		<transformer name="nekohtml"
+			src="com.mindquarry.webapp.transforming.NekoHTMLTransformer"/>
+		
 		<transformer name="browser-update"
 			src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 		<transformer name="tee"
