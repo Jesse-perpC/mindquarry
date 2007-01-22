@@ -76,6 +76,38 @@
 	</flow>
 
 	<resources>
+		<!-- general resource called upon errors (in each external pipeline
+			 below), calls error-layouting pipeline for styling -->
+		<resource name="error-handling">
+			<select type="exception">
+				<when test="authorisation">
+					<!-- non-authorised should be 404 resource not found -->
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, not authorized"/>
+						<parameter name="httpStatus" value="404"/>
+						<parameter name="showSupportContact" value="false"/>
+					</call>
+				</when>
+				<when test="resource-does-not-exist">
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, resource was not found"/>
+						<parameter name="httpStatus" value="404"/>
+						<parameter name="showSupportContact" value="false"/>
+					</call>
+				</when>
+				<otherwise>
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, internal system error"/>
+						<parameter name="httpStatus" value="500"/>
+						<parameter name="showSupportContact" value="true"/>
+					</call>
+				</otherwise>
+			</select>			
+		</resource>
+		
 		<!-- shows styled error page and sets http status code on serializers -->
 		<resource name="error-layouting">
 			<select type="REST">
@@ -273,35 +305,9 @@
 			</match>
 			
 			<handle-errors>
-				<select type="exception">
-					<when test="authorisation">
-						<!-- non-authorised should be 404 resource not found -->
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, not authorized"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>							
-						</call>
-					</when>
-					<when test="resource-does-not-exist">
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>			
-						</call>
-					</when>
-					<otherwise>
-						<generate type="notifying" />
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, internal system error"/>							
-							<parameter name="httpStatus" value="500"/>
-							<parameter name="showSupportContact" value="true"/>							
-						</call>
-					</otherwise>
-				</select>
+				<call resource="error-handling" />
 			</handle-errors>
-			
+						
 		</pipeline>
 
 		<!-- user pipeline / use noncaching for debugging -->
@@ -383,37 +389,10 @@
 				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
 			</match>
 			
-
 			<handle-errors>
-				<select type="exception">
-					<when test="authorisation">
-						<!-- non-authorised should be 404 resource not found -->
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, not authorized"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>							
-						</call>
-					</when>
-					<when test="resource-does-not-exist">
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>			
-						</call>
-					</when>
-					<otherwise>
-						<generate type="notifying" />
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, internal system error"/>							
-							<parameter name="httpStatus" value="500"/>
-							<parameter name="showSupportContact" value="true"/>							
-						</call>
-					</otherwise>
-				</select>
+				<call resource="error-handling" />
 			</handle-errors>
-			
+						
 		</pipeline>
 
 		<!-- use noncaching pipeline -->
@@ -740,35 +719,9 @@
 			</match>
 			
 			<handle-errors>
-				<select type="exception">
-					<when test="authorisation">
-						<!-- non-authorised should be 404 resource not found -->
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, not authorized"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>							
-						</call>
-					</when>
-					<when test="resource-does-not-exist">
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>			
-						</call>
-					</when>
-					<otherwise>
-						<generate type="notifying" />
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, internal system error"/>							
-							<parameter name="httpStatus" value="500"/>
-							<parameter name="showSupportContact" value="true"/>							
-						</call>
-					</otherwise>
-				</select>
+				<call resource="error-handling" />
 			</handle-errors>
-			
+						
 		</pipeline>
 	</pipelines>
 </sitemap>
