@@ -319,3 +319,26 @@ div.dropdownbuttons div.togglebutton, div.dropdownbuttons div.togglebuttonpushed
 div.form_block {
 	clear:both;
 }
+
+
+/* from teamspace block */
+
+#edit-user-settings-table td.label {
+    color:#ab4c00;
+    text-align:right;
+    vertical-align:top;
+}
+
+#edit-user-settings-table input.field {
+    font-size:90%;
+    padding:1px;
+    width:90%;
+}
+
+#edit-user-settings-table textarea {
+    font-size:90%;
+    height:150px;
+    padding:1px;
+    width:90%;
+    display:inline;
+}
