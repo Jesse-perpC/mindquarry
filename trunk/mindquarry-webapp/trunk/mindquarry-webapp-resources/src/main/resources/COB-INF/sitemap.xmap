@@ -99,9 +99,7 @@
 			</map:match>
 		</map:pipeline>
 		
-		<map:pipeline>
-			<map:parameter name="expires" value="access plus 1 minutes"/>
-			
+		<map:pipeline type="caching">
 			<!-- icons from tango jar -->
 
 			<!-- this here was the only one without a resources/ path prefix -->
