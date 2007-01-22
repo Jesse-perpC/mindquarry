@@ -84,7 +84,7 @@ dojo.widget.defineWidget(
 		// widget interface
 		postCreate: function(){
 			dojo.html.hide(this.popupNode);
-			this.popupNode.style.width = dojo.style.getOuterWidth(this.widthNode) + "px";
+			this.popupNode.style.width = dojo.style.getOuterWidth(this.widthNode) - 11 + "px";
 		},
 		
 		// search button click handler
