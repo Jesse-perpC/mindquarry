@@ -58,6 +58,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    for (var i=0;i<newlist.length;i++) {
 	        if (newlist[i].title!="") {
 	            newlist[i].href = baselink.href + newlist[i].title + "/";
+	            newlist[i].style.backgroundImage="url(/teamspace/"+newlist[i].title+".22.png)";
 	        } else {
 	            newlist[i].href = baselink.href;
 	        }
