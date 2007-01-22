@@ -33,4 +33,22 @@
       <xsl:apply-templates />
     </h2>
   </xsl:template>
+  
+  <xsl:template name="create_user_button">
+    <a class="create_user_button" 
+      href="{$pathToBlock}{normalize-space(id)}/createUserFromDetailsView/" rel="lightbox">
+      New User</a>
+  </xsl:template>
+  
+  <xsl:template name="create_edit_buttons">
+    <a href="{$pathToBlock}{normalize-space(id)}/editMembersFromDetailsView/" 
+      class="edit_members_button" rel="lightbox" title="Add or remove team members">
+      Team Members
+    </a>
+    
+    <a href="{$pathToBlock}{normalize-space(id)}/editFromDetailsView/" 
+      class="edit_settings_button" rel="lightbox">
+      Edit Settings
+    </a>
+  </xsl:template>
 </xsl:stylesheet>

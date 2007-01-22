@@ -12,10 +12,8 @@
 	License for the specific language governing rights and limitations
 	under the License.
 --> 
-<xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
-	<xsl:import href="teamspace2htmlutils.xsl"/>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+  <xsl:import href="teamspace2htmlutils.xsl"/>
 	
   <xsl:template match="teamspaces" mode="title">
     <title>Teams</title>
@@ -26,7 +24,8 @@
     
     <xsl:if test="$username = 'admin'" >
       <a class="create_teamspace_button" href="createTeamspace/" rel="lightbox">
-        New Team</a>
+        New Team
+      </a>
       <xsl:call-template name="create_user_button" />
     </xsl:if>
   </xsl:template>
@@ -38,11 +37,27 @@
       </xsl:apply-templates>
     </ul>
 	</xsl:template>
-  
-  
+    
   <xsl:template match="teamspace">
     <li>
       <xsl:apply-imports />
     </li>
+  </xsl:template>
+  
+  <xsl:template name="create_user_button">
+    <a class="create_user_button" href="createUser/" rel="lightbox">
+      New User</a>
+  </xsl:template>
+  
+  <xsl:template name="create_edit_buttons">
+    <a href="{normalize-space(id)}/editMembers/" class="edit_members_button" 
+      rel="lightbox" title="Add or remove team members">
+      Team Members
+    </a>
+    
+    <a href="{normalize-space(id)}/edit/" class="edit_settings_button" 
+      rel="lightbox">
+      Edit Settings
+    </a>
   </xsl:template>
 </xsl:stylesheet>

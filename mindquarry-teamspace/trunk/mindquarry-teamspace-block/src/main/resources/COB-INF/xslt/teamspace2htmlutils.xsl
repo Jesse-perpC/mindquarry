@@ -45,12 +45,6 @@
     </html>
   </xsl:template>
   
-
-  <xsl:template name="create_user_button">
-    <a class="create_user_button" href="createUser/" rel="lightbox">
-        New User</a>
-  </xsl:template>
-
   <xsl:template match="id">
     <img class="icon">
       <xsl:attribute name="src">
@@ -101,26 +95,8 @@
 				
 					
         <div class="edit-buttons">
-          <a href="{normalize-space(id)}/editMembers/" class="edit_members_button" rel="lightbox" title="Add or remove team members">
-								Team Members
-						</a>
-						
-          <a href="{normalize-space(id)}/edit/" class="edit_settings_button" rel="lightbox">
-								Edit Settings
-						</a>
-						
-						<!--a href="#" class="edit_subprojects_button">
-								Edit Related Teams
-						</a-->
+          <xsl:call-template name="create_edit_buttons"/>
         </div>
-
-					<!--ul class="tags">
-						<li><a href="#">docbook</a></li>
-						<li><a href="#">techdoc</a></li>
-						<li><a href="#">xml</a></li>
-						<li><a href="#">source</a></li>
-						<li><a href="#">open</a></li>
-					</ul-->
 					
         <div class="details">
           <xsl:if test="parent::teamspaces">
@@ -132,8 +108,8 @@
               <xsl:apply-templates select="users/user" mode="detail" />
             </xsl:when>
             <xsl:otherwise>
-								No team members assigned.
-							</xsl:otherwise>
+              No team members assigned.
+			</xsl:otherwise>
           </xsl:choose>
         </div>
         
@@ -167,11 +143,6 @@
             or create <a href="{$pathToRoot}/tasks/{normalize-space(id)}/new">a new task</a>.
           </div>
         </div>
-					
-					<!--div class="details" style="display:none;">
-						<h3>Related Teams</h3>
-						not implemented yet.
-					</div-->
       </div>
     </div>
   </xsl:template>
@@ -193,5 +164,4 @@
       <xsl:value-of select="skills"/>
     </div>
   </xsl:template>
-
 </xsl:stylesheet>

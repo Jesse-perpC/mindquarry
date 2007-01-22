@@ -20,7 +20,6 @@ var model_;
 var form_;
 
 function processEditMembersForm(form) {
-
 	var teamspaceId = cocoon.parameters["teamId"];
 	var redirectURL = cocoon.parameters["redirectURL"];
 
@@ -66,9 +65,13 @@ function loadModelWithMembership() {
 }
 
 function processCreateUser(form) {
+    // do this before showing the form, because new cocon requests 
+    // delete existing params
+	var redirectURL = cocoon.parameters["redirectURL"];
+	
 	model_ = form.getModel();
 	form_ = form;
-	
+			
 	activateUserForm();
 	setCreateUserStandaloneMode();
 		
@@ -77,7 +80,7 @@ function processCreateUser(form) {
 	if (form.submitId != "cancelSubmit")
 		createUser();
 		
-	cocoon.redirectTo("/teamspace/");
+	cocoon.redirectTo(redirectURL + "/");
 }
 
 function createUser() {

@@ -4,7 +4,7 @@ div.member-list {
 	padding: 0px;
 	
 	float:left;
-	width:258px;
+	width:278px;
 }
 
 div.member-list ul {
@@ -60,7 +60,7 @@ div.role {
 }
 
 #editMembersModel {
-	width:550px;
+	width:560px;
 	margin-left:auto;
 	margin-right:auto;
 }
