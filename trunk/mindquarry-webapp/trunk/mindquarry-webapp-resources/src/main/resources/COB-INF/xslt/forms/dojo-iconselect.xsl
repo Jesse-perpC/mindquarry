@@ -61,8 +61,8 @@
   <xsl:template match="fi:field[@state='output'][fi:selection-list][fi:styling/@list-type = 'iconSelect']">
     <xsl:variable name="value" select="normalize-space(fi:value)"/>
 
-    <img alt="image for {$value}" src="{$pathToBlock}resource/icons/44/{@id}/{$value}.png"/>
-    <span class="iconLabel" id="{@id}:iconLabel">
+    <!--<img alt="image for {$value}" src=""/>-->
+    <span class="iconLabel" id="{@id}:iconLabel" style="display:block;background-image:url({$pathToBlock}resource/icons/22/{@id}/{$value}.png);height:22px;padding-left:22px;background-repeat:no-repeat;">
       <xsl:value-of select="fi:selection-list/fi:item[@value=$value]/fi:label"/>
     </span>    
   </xsl:template>
