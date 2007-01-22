@@ -222,7 +222,7 @@ a b {
     padding-right:12px;
     cursor:pointer;
     background-color: #eeeeee;
-    border:1px outset #555555;
+    border:1px outset #cccccc;
 	filter:alpha(opacity=70);   /* IE      */
 	-moz-opacity:0.7;           /* Mozilla   */
 	opacity: 0.7;               /* newer Mozilla and CSS-3 */
@@ -243,7 +243,7 @@ a b {
 
 #user-and-teamspace-info ul li, #slarea ul li {
     list-style:none;
-    font-size:14pt;
+    font-size:9pt;
     margin:0px;
     text-indent:0px;
 }
@@ -256,15 +256,19 @@ a b {
     display:block;
     text-decoration:none;
     color:#555555;
+    height:24px;
+    padding-right:4px;
+    width:auto;
+    
 }
-
+/*
 #slarea ul li a:hover {
     display:block;
     text-decoration:none;
     color:#cccccc;
     background-color:#555555;
 }
-
+*/
 .allyourteams {
     margin-top:0.15em;
 }
