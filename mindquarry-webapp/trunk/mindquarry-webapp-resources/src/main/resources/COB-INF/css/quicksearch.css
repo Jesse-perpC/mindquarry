@@ -6,11 +6,11 @@
 }
 
 div.mindquarry-quicksearch{
-	float: left;
+	float: right;
 	position: absolute;
 	font:1em sans-serif,arial,tahoma,verdana;
-	top:10px;
-	left:25px;
+	top:11px;
+	right:93px;
 	padding: 0px;
 
 }  
@@ -29,11 +29,7 @@ div.result-popup{
 	font:1em bold #000000;
 	margin:0;
 }
-div.mindquarry-quicksearch form {
-	background-color: none;
-	filter:alpha(opacity=70);   /* IE      */
-	-moz-opacity:0.7;           /* Mozilla   */
-	opacity: 0.7;               /* newer Mozilla and CSS-3 */	
+div.mindquarry-quicksearch form {	
 	margin-bottom: 0px;
 	margin-top: 0px;
 	margin-right: 0px;
@@ -41,8 +37,7 @@ div.mindquarry-quicksearch form {
 }
 
 div.mindquarry-quicksearch input.input_box {
-	background-color: none;
-	filter:alpha(opacity=70);   /* IE      */
+    filter:alpha(opacity=70);   /* IE      */
 	-moz-opacity:0.7;           /* Mozilla   */
 	opacity: 0.7;               /* newer Mozilla and CSS-3 */	
 	padding:2px;
@@ -56,6 +51,7 @@ div.mindquarry-quicksearch input.input_box {
 	margin-top:0px;
 	z-index:-1;
 	display:block;
+	border-width:1px;
 }
 
 div.mindquarry-quicksearch input.btn {
