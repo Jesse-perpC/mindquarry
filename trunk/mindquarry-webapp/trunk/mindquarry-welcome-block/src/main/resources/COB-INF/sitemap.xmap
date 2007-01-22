@@ -67,7 +67,10 @@
 						<parameter name="scriptPath" value="" />
 						<parameter name="user.agent"
 							value="{request-header:User-Agent}" />
-						<parameter name="username" value="{request-attr:username}" />
+						<parameter name="username"
+							value="{request-attr:username}" />
+						<parameter name="serverTitle"
+							value="{system-property:mindquarry.title}" />
 						<parameter name="version"
 							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</transform>
@@ -118,6 +121,8 @@
 					value="{request-header:User-Agent}" />
 				<parameter name="username"
 					value="{request-attr:username}" />
+				<parameter name="serverTitle"
+					value="{system-property:mindquarry.title}" />
 				<parameter name="version"
 					value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 			</transform>
