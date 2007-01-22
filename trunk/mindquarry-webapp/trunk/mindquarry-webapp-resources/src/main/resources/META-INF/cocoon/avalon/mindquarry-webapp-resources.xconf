@@ -20,86 +20,99 @@
 			name="pom-property"
 			class="com.mindquarry.webapp.modules.MavenPomPropertiesModule"/>
 
-		<component-instance logger="mindquarry.modules.uri"
-			name="params-as-uri"
+		<component-instance logger="mindquarry.modules.uri" name="params-as-uri"
 			class="com.mindquarry.webapp.modules.ParamsToURIModule">
 			<encoding>UTF-8</encoding>
 		</component-instance>
 	</input-modules>
 
 	<actions>
-		<action name="log"
-			src="com.mindquarry.webapp.acting.DebugLogAction" />
+		<action name="log" src="com.mindquarry.webapp.acting.DebugLogAction"/>
 		<action name="log-params"
-			src="com.mindquarry.webapp.acting.LogParametersAction" />
+			src="com.mindquarry.webapp.acting.LogParametersAction"/>
 		<action name="authorise"
-			src="com.mindquarry.webapp.acting.AuthorisationAction" />
+			src="com.mindquarry.webapp.acting.AuthorisationAction"/>
 		<action name="set-encoding"
 			src="org.apache.cocoon.acting.SetCharacterEncodingAction"/>
 	</actions>
 
 	<selectors>
 		<selector name="lightbox-request"
-			src="com.mindquarry.webapp.ajax.LightboxRequestSelector" />
-		
+			src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
+
 		<selector name="ajax-request"
-			src="org.apache.cocoon.ajax.AjaxRequestSelector" />
-		
+			src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
+
 		<selector name="REST"
 			src="org.apache.cocoon.selection.RegexpHeaderSelector">
 			<header-name>accept</header-name>
 			<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
 			<pattern name="xml">text/xml</pattern>
 		</selector>
-		
-		<selector name="exception" src="org.apache.cocoon.selection.ExceptionSelector">
-			<exception name="resource-does-not-exist" class="org.apache.cocoon.ResourceNotFoundException"/>
-			<exception name="processing" class="org.apache.cocoon.ProcessingException" unroll="true"/>
-			<exception name="processing" class="org.apache.cocoon.CascadingIOException" unroll="true"/>
-			<exception name="processing" class="javax.servlet.ServletException" unroll="true"/>
-			<exception name="processing" class="org.apache.excalibur.source.SourceException" unroll="true"/>
-			<exception name="authorisation" class="com.mindquarry.webapp.acting.AuthorisationException"/>
-			<exception name="resource-does-not-exist" class="com.mindquarry.common.resources.ResourceDoesNotExistException"/>
+
+		<selector name="exception"
+			src="org.apache.cocoon.selection.ExceptionSelector">
+			<exception name="resource-does-not-exist"
+				class="org.apache.cocoon.ResourceNotFoundException"/>
+			<exception name="processing"
+				class="org.apache.cocoon.ProcessingException" unroll="true"/>
+			<exception name="processing"
+				class="org.apache.cocoon.CascadingIOException" unroll="true"/>
+			<exception name="processing" class="javax.servlet.ServletException"
+				unroll="true"/>
+			<exception name="processing"
+				class="org.apache.excalibur.source.SourceException"
+				unroll="true"/>
+			<exception name="authorisation"
+				class="com.mindquarry.webapp.acting.AuthorisationException"/>
+			<exception name="resource-does-not-exist"
+				class="com.mindquarry.common.resources.ResourceDoesNotExistException"
+			/>
 		</selector>
 	</selectors>
-	
+
 	<transformers>
 		<transformer name="clear"
-			src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer" />
+			src="com.mindquarry.webapp.transforming.ClearAndGenerateTransformer"/>
 		<transformer name="bu-redirect"
-			src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer" />
+			src="com.mindquarry.webapp.transforming.BrowserUpdateRedirectTransformer"/>
 		<transformer name="redirect"
-			src="com.mindquarry.webapp.transforming.RedirectTransformer" />
+			src="com.mindquarry.webapp.transforming.RedirectTransformer"/>
 		<transformer name="nekohtml"
 			src="com.mindquarry.webapp.transforming.NekoHTMLTransformer"/>
-		
+
 		<transformer name="browser-update"
-			src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
+			src="org.apache.cocoon.ajax.BrowserUpdateTransformer"/>
 		<transformer name="tee"
 			src="org.apache.cocoon.transformation.TeeTransformer">
 			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
 		</transformer>
-		<transformer
-			name="htmlcleanup"
+		<transformer name="htmlcleanup"
 			src="org.apache.cocoon.transformation.CleanupTransformer">
 			<!--<preserve-uri>*</preserve-uri>-->
 			<!--<indent-size>4</indent-size>-->
 		</transformer>
 	</transformers>
-	
+
 	<serializers>
 		<serializer name="xml" mime-type="text/xml"
 			src="org.apache.cocoon.serialization.XMLSerializer">
 			<encoding>UTF-8</encoding>
 		</serializer>
-		
+
 		<serializer name="html" mime-type="text/html; charset=UTF-8"
-				src="org.apache.cocoon.serialization.HTMLSerializer">
+			src="org.apache.cocoon.serialization.HTMLSerializer">
 			<encoding>UTF-8</encoding>
 			<!--<indent>true</indent>-->
 			<doctype-public>-//W3C//DTD HTML 4.01 Transitional//EN</doctype-public>
 			<doctype-system>http://www.w3.org/TR/html4/loose.dtd</doctype-system>
 		</serializer>
 	</serializers>
-	
+
+	<store logger="core.store">
+		<parameter name="maxobjects"
+			value="${org.apache.cocoon.store.maxobjects}"/>
+		<parameter name="use-cache-directory"
+			value="${org.apache.cocoon.store.use-cache-directory}"/>
+	</store>
 </components>
