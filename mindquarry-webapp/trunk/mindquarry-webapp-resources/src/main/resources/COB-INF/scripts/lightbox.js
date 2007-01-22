@@ -134,32 +134,28 @@ lightbox.prototype = {
 	
 	displayLightbox: function(display) {
 		var overlay = document.getElementById('overlay');
-		overlay.style.display = display;
 		dojo.event.connect(overlay, "onclick", this, "deactivate");
-		var hashIndex = this.content.indexOf("#");
-		if(hashIndex!=-1) {
-			var contentId = this.content.substr(hashIndex+1);
-			var contentHolder = document.getElementById(contentId);
-			placeholder = document.getElementById('lightboxplaceholder');
-			placeholder.style.display = display;
-			dojo.dom.removeChildren(placeholder);
-			dojo.dom.copyChildren(contentHolder, placeholder, false);
+		placeholder = document.getElementById('lightboxplaceholder');
+    	dojo.dom.removeChildren(placeholder);
+		if (display!="none") {
+    		var hashIndex = this.content.indexOf("#");
+    		if(hashIndex!=-1) {
+    			var contentId = this.content.substr(hashIndex+1);
+    			var contentHolder = document.getElementById(contentId);
+    			dojo.dom.copyChildren(contentHolder, placeholder, false);
+    		}
+    		else {
+    			if(this.content.indexOf("?") == -1) {
+    			    cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
+    			} else {
+    			    cocoon.ajax.update(this.content + "&lightbox-request=true", placeholder, "insert");
+    			}
+    			cocoon.ajax.insertionHelper.parseDojoWidgets(placeholder);
+    		}
+    		this.actions();		
 		}
-		else {
-			placeholder = document.getElementById('lightboxplaceholder');
-			
-			if(this.content.indexOf("?") == -1) {
-			    cocoon.ajax.update(this.content + "?lightbox-request=true", placeholder, "insert");
-			} else {
-			    cocoon.ajax.update(this.content + "&lightbox-request=true", placeholder, "insert");
-			}
-			//placeholder.style.visibility = "visible";
-			placeholder.style.display = display;
-			//dojo.lfx.html.fadeShow(placeholder, 1000).play();
-			cocoon.ajax.insertionHelper.parseDojoWidgets(placeholder);
-		}
-		if(display != 'none') this.actions();		
-		
+		overlay.style.display = display;
+		placeholder.style.display = display;
 		return false;
 	},
 	
