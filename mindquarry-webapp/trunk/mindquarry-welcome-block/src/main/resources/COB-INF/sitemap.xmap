@@ -15,6 +15,38 @@
 	</views>
 
 	<resources>
+		<!-- general resource called upon errors (in each external pipeline
+			 below), calls error-layouting pipeline for styling -->
+		<resource name="error-handling">
+			<select type="exception">
+				<when test="authorisation">
+					<!-- non-authorised should be 404 resource not found -->
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, not authorized"/>
+						<parameter name="httpStatus" value="404"/>
+						<parameter name="showSupportContact" value="false"/>
+					</call>
+				</when>
+				<when test="resource-does-not-exist">
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, resource was not found"/>
+						<parameter name="httpStatus" value="404"/>
+						<parameter name="showSupportContact" value="false"/>
+					</call>
+				</when>
+				<otherwise>
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, internal system error"/>
+						<parameter name="httpStatus" value="500"/>
+						<parameter name="showSupportContact" value="true"/>
+					</call>
+				</otherwise>
+			</select>			
+		</resource>
+		
 		<!-- shows styled error page and sets http status code on serializers -->
 		<resource name="error-layouting">
 			<select type="REST">
@@ -168,6 +200,10 @@
 				</select>
 			</match>
 
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+			
 		</pipeline>
 
 		<pipeline>
@@ -186,45 +222,15 @@
 				<call resource="layouting" />
 			</match>
 
-			<!--<match pattern="hello">
-				<read src="hello.jsp" type="jsp" />
-			</match>-->
-			
 			<!-- redirect stupid urls /foobar to the index page -->
 			<match pattern="*">
 				<redirect-to uri="" />
 			</match>
 			
 			<handle-errors>
-				<select type="exception">
-					<when test="authorisation">
-						<!-- non-authorised should be 404 resource not found -->
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, not authorized"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>							
-						</call>
-					</when>
-					<when test="resource-does-not-exist">
-						<generate type="notifying"/>
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
-							<parameter name="httpStatus" value="404"/>
-							<parameter name="showSupportContact" value="false"/>			
-						</call>
-					</when>
-					<otherwise>
-						<generate type="notifying" />
-						<call resource="error-layouting">
-							<parameter name="pageTitle" value="Sorry, internal system error"/>							
-							<parameter name="httpStatus" value="500"/>
-							<parameter name="showSupportContact" value="true"/>							
-						</call>
-					</otherwise>
-				</select>
+				<call resource="error-handling" />
 			</handle-errors>
-						
+			
 		</pipeline>
 	</pipelines>
 </sitemap>
