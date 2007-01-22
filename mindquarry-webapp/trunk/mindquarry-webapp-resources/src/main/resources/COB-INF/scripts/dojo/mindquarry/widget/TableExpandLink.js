@@ -76,10 +76,14 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
           this.expanded = false;
           event.target.className = "expand";
           
+          var minindent = this.getIndent(this.contextrow);
+          //alert(minindent);
+          
           var row = this.contextrow.rowIndex;
           var deletedsome = false;
           for (var i=row+1;i<this.table.rows.length;i++) {
-            if (dojo.html.hasClass(this.table.rows[i], "indent1")) {
+            var rowindent = this.getIndent(this.table.rows[i]);
+            if (rowindent > minindent) {
               deletedsome = true;
               this.table.deleteRow(i);
               i--;
@@ -92,12 +96,43 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
         return false;
     },
     
+    getIndent: function(element) {
+      var indent = 0;
+      var classes = dojo.html.getClasses(element);
+      for (var i=0;i<classes.length;i++) {
+        if (classes[i].indexOf("indent")==0) {
+          var myindent = classes[i].substr(6);
+          if (myindent>indent) {
+            indent = myindent;
+          }
+        }
+      }
+      return indent;
+    },
+    
     insertRow: function (refElt, content) {
         return cocoon.ajax.insertionHelper.insert(refElt, content, function(refElt, newElt) {
             var table = refElt.parentNode.parentNode;
             var baseindex = refElt.rowIndex + 1;
             var baselink = refElt.getElementsByTagName("a")[0].href;
             var revision = baselink.substr(baselink.lastIndexOf("?revision="));
+            var indent = 0;
+            var classes = dojo.html.getClasses(refElt);
+            for (var i=0;i<classes.length;i++) {
+              if (classes[i].indexOf("indent")==0) {
+                var myindent = classes[i].substr(6);
+                if (myindent>indent) {
+                  indent = myindent;
+                }
+              }
+            }
+            indent++;
+            
+            var urlprefix = "url(";
+            for (var i=0;i<indent;i++) {
+              urlprefix = urlprefix + "../";
+            }
+            //alert(urlprefix);
             baselink = baselink.substr(0, baselink.indexOf("?revision="));
             
             //var rownumber = 0;
@@ -109,14 +144,16 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
                 //alert("inserting " + row.className);
                 //var newrowindex = baseindex + i;
                 newrow = table.insertRow(baseindex + i);
-                newrow.className = row.className + " indent1";
+                newrow.className = row.className + " indent" + indent;
                 for (var j=0;j<row.childNodes.length;j++) {
                   var newcell = newrow.insertCell(j);
                   newcell.innerHTML = row.childNodes[j].innerHTML;
                   newcell.className = row.childNodes[j].className;
+                  
+                  
                   var links = newcell.getElementsByTagName("a");
                   for (var k=0;k<links.length;k++) {
-                    links[k].style.backgroundImage = links[k].style.backgroundImage.replace("url(../","url(");
+                    links[k].style.backgroundImage = links[k].style.backgroundImage.replace(urlprefix,"url(");
                     var mylink = links[k].href;
                     var folder = false;
                     if (mylink.indexOf("/?")!=-1) {
@@ -139,6 +176,7 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
                   
                   //TODO: parse inserted xml for dojo widgets
                 }
+                cocoon.ajax.insertionHelper.parseDojoWidgets(newrow);
               }
             }
             
