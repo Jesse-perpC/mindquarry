@@ -230,12 +230,20 @@ a b {
 
 #slarea ul {
     padding-top:0px;
+    padding-left:0px;
+}
+
+#slarea ul a, #slarea ul li a:hover {
+    padding-left:26px;
+    height:24px;
+    display:block;
+    background-repeat:no-repeat;
+    background-position:2px 2px;
 }
 
 #user-and-teamspace-info ul li, #slarea ul li {
     list-style:none;
     font-size:14pt;
-    font-weight:bold;
     margin:0px;
     text-indent:0px;
 }
@@ -254,7 +262,7 @@ a b {
     display:block;
     text-decoration:none;
     color:#cccccc;
-    background:#555555;
+    background-color:#555555;
 }
 
 .allyourteams {
