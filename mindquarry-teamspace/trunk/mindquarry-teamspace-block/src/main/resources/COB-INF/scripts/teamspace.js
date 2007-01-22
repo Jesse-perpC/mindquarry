@@ -31,7 +31,7 @@ doExpandOrCollapse = function(event) {
 		if((child.nodeName == "DIV") && (child.className == "details")) {
 			if(detailsButton.className == "details-expanded") {
 				dojo.lfx.html.wipeIn(child, 350).play();
-				//child.style.display = "block";
+				child.style.display = "block";
 			} else {
 				//dojo.lfx.html.fadeOut(child, 340, 1, function() {child.style.display = "none"; });
 				dojo.lfx.html.wipeOut(child, 350).play();
