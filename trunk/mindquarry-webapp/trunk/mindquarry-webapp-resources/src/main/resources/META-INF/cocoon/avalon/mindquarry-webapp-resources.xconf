@@ -57,6 +57,7 @@
 			<exception name="processing" class="org.apache.cocoon.ProcessingException" unroll="true"/>
 			<exception name="processing" class="org.apache.cocoon.CascadingIOException" unroll="true"/>
 			<exception name="processing" class="javax.servlet.ServletException" unroll="true"/>
+			<exception name="processing" class="org.apache.excalibur.source.SourceException" unroll="true"/>
 			<exception name="authorisation" class="com.mindquarry.webapp.acting.AuthorisationException"/>
 			<exception name="resource-does-not-exist" class="com.mindquarry.common.resources.ResourceDoesNotExistException"/>
 		</selector>
