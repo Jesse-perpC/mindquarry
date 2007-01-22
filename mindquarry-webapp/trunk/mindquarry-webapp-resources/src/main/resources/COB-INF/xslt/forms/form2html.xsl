@@ -212,6 +212,12 @@
       <xsl:text>'); return false;</xsl:text>
     </xsl:attribute>
   </xsl:template>
+  
+  <xsl:template match="fi:action[fi:styling/@type='blindlink']">
+    <a href="#">
+      <xsl:apply-templates/>
+    </a>
+  </xsl:template>
 
   <xsl:template match="fi:output[fi:styling/@type='user-image']">
     <img alt="image of the user with id {normalize-space(fi:value)}"
