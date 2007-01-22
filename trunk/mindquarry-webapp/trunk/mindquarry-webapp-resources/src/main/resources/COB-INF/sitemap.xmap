@@ -21,6 +21,12 @@
 				src="org.apache.cocoon.serialization.XMLSerializer" 
 				mime-type="application/x-java-jnlp-file"/>
 		</map:serializers>
+		
+		<map:pipes>
+			<map:pipe name="expires-caching" src="org.apache.cocoon.components.pipeline.impl.ExpiresCachingProcessingPipeline">
+				<map:parameter name="cache-expires" value="86400"/>
+			</map:pipe>
+		</map:pipes>
 	</map:components>
 
 	<map:flow language="javascript">
@@ -28,7 +34,7 @@
 	</map:flow>
 
 	<map:pipelines>
-		<map:pipeline>
+		<map:pipeline type="caching-point">
 			<map:match pattern="client/client.jnlp">
 				<map:call function="sendJNLP">
 					<map:parameter name="target"
@@ -99,7 +105,7 @@
 			</map:match>
 		</map:pipeline>
 		
-		<map:pipeline type="caching">
+		<map:pipeline type="caching-point">
 			<!-- icons from tango jar -->
 
 			<!-- this here was the only one without a resources/ path prefix -->
@@ -209,7 +215,8 @@
 			</map:match>
 		</map:pipeline>
 		
-		<map:pipeline>
+		<map:pipeline type="caching-point">
+				
 			<map:match pattern="**templates/HtmlEditorToolbarOneline.html">
 				<map:read src="templates/wikiToolbarTemplate.html" />
 			</map:match>
@@ -248,8 +255,7 @@
 				<map:read
 					src="resource://org/apache/cocoon/forms/resources/js/{1}" />
 			</map:match>
-			
-			
+					
 			<!-- FIXME: load an image relative to dojo's root -->
 			<map:match pattern="_cocoon/resources/dojo/search.png">
 				<map:read
