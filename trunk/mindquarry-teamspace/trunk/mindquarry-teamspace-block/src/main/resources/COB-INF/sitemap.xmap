@@ -15,12 +15,13 @@
 -->
 
 <sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
-  <components>
-    <input-modules>
-      <input-module name="teamnamedigest" class="com.mindquarry.webapp.modules.DigestStringModule">
-        <maxvalue>3</maxvalue>
-      </input-module>
-    </input-modules>  
+	<components>
+	    <input-modules>
+			<input-module name="teamnamedigest" class="com.mindquarry.webapp.modules.DigestStringModule">
+				<maxvalue>3</maxvalue>
+			</input-module>
+	    </input-modules>
+		  
 		<readers>
 			<reader logger="imageop" name="image-op-crop-resize" src="org.apache.cocoon.reading.imageop.ImageOpReader" >
 				<effects>
@@ -29,6 +30,7 @@
 				</effects>
 			</reader>
 		</readers>
+		
 		<actions>
 			<action name="setnohttpcache"
 				src="org.apache.cocoon.acting.HttpCacheAction">
