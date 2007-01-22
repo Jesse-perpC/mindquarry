@@ -4,12 +4,12 @@
 	Copyright (C) 2005 MindQuarry GmbH, All Rights Reserved
 -->
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
-	<jnlp spec="1.5+" codebase="${endpoint}${servletPath}/client/">
+	<jnlp spec="1.5+" codebase="${endpoint}${servletPath}/resources/client/">
 
 		<information>
 			<title>Mindquarry Desktop Application</title>
 			<vendor>Mindquarry GmbH</vendor>
-			<homepage href="${endpoint}" />
+			<homepage href="http://www.mindquarry.com" />
 
 			<description>Mindquarry Desktop Client</description>
 			<description kind="short">
