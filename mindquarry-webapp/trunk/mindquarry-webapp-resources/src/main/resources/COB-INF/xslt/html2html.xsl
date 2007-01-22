@@ -33,6 +33,7 @@
 	<xsl:param name="user.agent" select="''"/>
 	<xsl:param name="username" select="''"/>
 	<xsl:param name="version" select="'undefined'"/>
+	<xsl:param name="serverTitle" select="'Mindquarry'"/>
 	
 	<xsl:param name="cssPath" select="'css/'" />
 	<xsl:param name="scriptPath" select="'scripts/'" />
@@ -152,7 +153,7 @@
 		NEVER! NEVER! use alt-f to re-format this code.
 	-->
 	<xsl:template match="xhtml:title|title">
-		<title><xsl:value-of select="." /> - Mindquarry</title>
+		<title><xsl:value-of select="." /> - <xsl:value-of select="$serverTitle"/></title>
 	</xsl:template>
 
 	<xsl:template match="xhtml:body|body">
