@@ -119,3 +119,28 @@ dd div.repeater p:hover {
 .createWikiLinkContainer {
     display: none;
 }
+
+/* no help for wiki */
+dl a.help {
+	display:none;
+	padding-top:6px;
+	width:24px;
+	height:24px;
+}
+
+dl a.help img {
+	border:0px;
+	display:none;
+}
+
+input.field, textarea.field {
+    display:block;
+    width:80%;
+    font-size:12pt;
+    padding:2px;
+}
+
+td input.field {
+    display:inline;
+    width:350px;
+}
