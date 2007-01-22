@@ -33,19 +33,19 @@ input.ductform_button {
 }
 
 input.editall_button {
-	background-image: url(../buttons/edit_task.png);
+	background-image: url(../buttons/editall_task.png);
 	width: 154px;
 	height: 32px;
 }
 
 input.save_button {
-	background-image: url(../buttons/edit_task.png);
+	background-image: url(../buttons/save_task.png);
 	width: 154px;
 	height: 32px;
 }
 
 input.cancel_button {
-	background-image: url(../buttons/edit_task.png);
+	background-image: url(../buttons/cancel_edit_task.png);
 	width: 154px;
 	height: 32px;
 }
