@@ -7,7 +7,6 @@
 		
 		<fd:group id="changePassword">
 			<fd:widgets>
-				
 				<!-- used to signal the success of changing password -->
 				<fd:output id="pwdChangeMessage">
 					<fd:datatype base="string" />

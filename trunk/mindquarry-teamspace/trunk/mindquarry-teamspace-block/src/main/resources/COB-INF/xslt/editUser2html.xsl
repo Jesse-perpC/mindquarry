@@ -26,6 +26,6 @@
 	</xsl:template>
 	
 	<xsl:template match="//div[@id='replaceWithCurrentPhoto']">
-		<img src="{$pathToRoot}teamspace/users/{normalize-space(id)}.png" />
+		<img src="{$pathToRoot}teamspace/users/{normalize-space($username)}.png" />
 	</xsl:template>
 </xsl:stylesheet>

@@ -1,13 +1,27 @@
-#create-teamspace-form {
+#create-teamspace-form, #edit-teamspace-form {
 	margin-left:auto;
 	margin-right:auto;
+	width:80%;
 }
 
-#create-teamspace-form td.label {
-	text-align:left;
-	vertical-align:top;
+
+
+#create-teamspace-form td.label, #edit-teamspace-form td.label {
+    color:#ab4c00;
+    text-align:right;
+    vertical-align:top;
 }
 
-#create-teamspace-form td {
-	margin:2px;
+#create-teamspace-form input, #edit-teamspace-form input {
+    font-size:90%;
+    padding:1px;
+    width:90%;
+}
+
+#edit-teamspace-form textarea, #create-teamspace-form textarea {
+    font-size:90%;
+    height:150px;
+    padding:1px;
+    width:90%;
+    display:inline;
 }
