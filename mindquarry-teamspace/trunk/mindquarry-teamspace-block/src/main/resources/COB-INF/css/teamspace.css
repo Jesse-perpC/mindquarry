@@ -132,12 +132,11 @@ a.details-collapsed {
 	color: none;
 	font-size:0px;
 	background-repeat: no-repeat;
-
-
 /*	display: inline-block;
 	text-overflow: ellipsis-word; 
 */
-	}
+}
+
 
 a.details-expanded {
 	background-image: url(../buttons/details_expanded.gif);
@@ -154,6 +153,14 @@ a.details-expanded {
 /*	display: inline-block;
 	text-overflow: ellipsis-word; 
 */	
+}
+
+a.details-collapsed b, a.details-expanded b{
+	text-decoration: none;
+}
+
+a.details-collapsed b, a.details-expanded b{
+	display:none;
 }
 
 /*
