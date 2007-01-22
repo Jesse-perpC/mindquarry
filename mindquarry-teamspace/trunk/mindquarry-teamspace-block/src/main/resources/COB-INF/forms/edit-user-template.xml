@@ -7,8 +7,6 @@
 
 	<head>
 		<title>Edit User Settings</title>
-		<link rel="stylesheet" us:context="href" type="text/css"
-			href="css/edit-user.css" />
 	</head>
 	<body>
 		<div>
@@ -19,73 +17,80 @@
 				id="edit-user-form">
 
 				<div id="editUserModel">
-					<h1>Edit User Settings</h1>
+					<h1>Edit settings for <ft:widget id="fullName" /></h1>
+					<table style="width:80%;margin-left:auto;margin-right:auto;" id="edit-user-settings-table">
+						<tr>
+							<td valign="top">
+								<ft:group id="changePassword">
+									<h3>Change Password</h3>
+									
+									<div>
+										<ft:widget id="pwdChangeMessage">
+											<ft:styling type="pwdChangeMessage"></ft:styling>
+										</ft:widget>
+									</div>
+									
+									<table width="100%">
+										<tr>
+											<td class="label">
+												<ft:widget-label
+													id="currentPassword" />
+											</td>
+											<td>
+												<ft:widget id="currentPassword">
+													<fi:styling type="password"></fi:styling>
+												</ft:widget>
+											</td>
+										</tr>
+										<tr>
+											<td class="label">
+												<ft:widget-label id="newPassword" />
+											</td>
+											<td>
+												<ft:widget id="newPassword">
+													<fi:styling type="password" />
+												</ft:widget>
+											</td>
+										</tr>
+										<tr>
+											<td class="label">
+												<ft:widget-label id="newPasswordRepeat" />
+											</td>
+											<td>
+												<ft:widget id="newPasswordRepeat">
+													<fi:styling type="password" />
+												</ft:widget>
+											</td>
+										</tr>
+									</table>
+									
+									<ft:widget id="changePassword" />
+								</ft:group>								
+							</td>
+							<td valign="top">
+								<ft:group id="uploadPhoto">
+									<h3>Upload new photo</h3>
+									<table width="100%">
+										<tr>
+											<td class="label">
+												<ft:widget-label id="photo" />
+											</td>
+											<td>
+												<ft:widget id="photo" />
+											</td>
+										</tr>
+									</table>
+									
+									<div id="replaceWithCurrentPhoto" />
+									<ft:widget id="uploadPhoto" />
+									
+								</ft:group>
+							</td>
+						</tr>
+					</table>
 					
-					<div>You are currently logged in as <ft:widget id="fullName" /></div>
-										
-					<ft:group id="changePassword">
-						<h3>Change Password</h3>
-						
-						<div>
-							<ft:widget id="pwdChangeMessage">
-								<ft:styling type="pwdChangeMessage"></ft:styling>
-							</ft:widget>
-						</div>
-												
-						<table>
-							<tr>
-								<td class="label">
-									<ft:widget-label
-										id="currentPassword" />
-								</td>
-								<td>
-									<ft:widget id="currentPassword">
-										<fi:styling type="password"></fi:styling>
-									</ft:widget>
-								</td>
-							</tr>
-							<tr>
-								<td class="label">
-									<ft:widget-label id="newPassword" />
-								</td>
-								<td>
-									<ft:widget id="newPassword">
-										<fi:styling type="password" />
-									</ft:widget>
-								</td>
-							</tr>
-							<tr>
-								<td class="label">
-									<ft:widget-label id="newPasswordRepeat" />
-								</td>
-								<td>
-									<ft:widget id="newPasswordRepeat">
-										<fi:styling type="password" />
-									</ft:widget>
-								</td>
-							</tr>
-						</table>
 
-						<ft:widget id="changePassword" />
-					</ft:group>
-
-					<ft:group id="uploadPhoto">
-						<h3>Upload new photo</h3>
-						<table>
-							<tr>
-								<td class="label">
-									<ft:widget-label id="photo" />
-								</td>
-								<td>
-									<ft:widget id="photo" />
-								</td>
-							</tr>
-						</table>
-						
-						<div id="replaceWithCurrentPhoto" />
-						<ft:widget id="uploadPhoto" />
-
-					</ft:group>
+					
 
 					<ft:widget id="ready" />
 				</div>
