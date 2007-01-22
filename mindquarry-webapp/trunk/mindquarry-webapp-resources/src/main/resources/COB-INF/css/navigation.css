@@ -187,9 +187,12 @@ a b {
     background-position:0px 2px;
     background-repeat:no-repeat;
     position:absolute;
-    left:3px;
     top:10px;
     height:24px;
+}
+
+#user-and-teamspace-info ul, #slarea {
+    left:3px;
 }
 
 #user-and-teamspace-info ul li {
@@ -205,19 +208,33 @@ a b {
     font-size:18pt;
     margin:0px;
     padding:0px;
+    
     padding-left:24px;
     padding-top:1px;
-    width:170px;
+}
+
+#user-and-teamspace-info ul:hover {
+    border-style:inset;
+    background-color: #ffffff;
+}
+
+#user-and-teamspace-info ul {
+    padding-right:12px;
+    cursor:pointer;
+    background-color: #eeeeee;
+    border:1px outset #555555;
+	filter:alpha(opacity=70);   /* IE      */
+	-moz-opacity:0.7;           /* Mozilla   */
+	opacity: 0.7;               /* newer Mozilla and CSS-3 */
 }
 
 #slarea ul {
-padding-left:0px;
-padding-top:0px;
+    padding-top:0px;
 }
 
 #user-and-teamspace-info ul li, #slarea ul li {
     list-style:none;
-    font-size:16pt;
+    font-size:14pt;
     font-weight:bold;
     margin:0px;
     text-indent:0px;
@@ -242,7 +259,6 @@ padding-top:0px;
 
 .allyourteams {
     margin-top:0.15em;
-    font-size:80%;
 }
 
 #slarea .allyourteams {
@@ -256,9 +272,7 @@ padding-top:0px;
 	-moz-opacity:0.75;
 	opacity: 0.75;	
     position:absolute;
-	left:28px;
 	top:39px;
-	width:170px;
     border:1px solid #cccccc;
     background:#ffffff;
     z-index:101;
