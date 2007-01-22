@@ -29,6 +29,7 @@ input.ductform_button {
 	border:0px;
 	float:right;
 	clear:both;
+	margin-bottom:4px;
 }
 
 input.editall_button {
