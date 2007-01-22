@@ -146,7 +146,7 @@ a b {
 #user-status {
 	position:absolute;
 	right:8px;
-	top:8px;
+	top:14px;
 	display:block;
 	width:278px;
 
@@ -187,12 +187,12 @@ a b {
     background-position:0px 2px;
     background-repeat:no-repeat;
     position:absolute;
-    top:10px;
+    top:18px;
     height:24px;
 }
 
 #user-and-teamspace-info ul, #slarea {
-    left:3px;
+    left:18px;
 }
 
 #user-and-teamspace-info ul li {
@@ -234,7 +234,8 @@ a b {
 }
 
 #slarea ul a, #slarea ul li a:hover {
-    padding-left:26px;
+    padding-top:3px;
+    padding-left:30px;
     height:24px;
     display:block;
     background-repeat:no-repeat;
@@ -244,6 +245,8 @@ a b {
 #user-and-teamspace-info ul li, #slarea ul li {
     list-style:none;
     font-size:12pt;
+    padding-left:2px;
+    padding-top:2px;
     margin:0px;
     text-indent:0px;
 }
@@ -261,14 +264,14 @@ a b {
     width:auto;
     
 }
-/*
+
 #slarea ul li a:hover {
     display:block;
     text-decoration:none;
     color:#cccccc;
     background-color:#555555;
 }
-*/
+
 .allyourteams {
     margin-top:0.15em;
 }
@@ -284,7 +287,7 @@ a b {
 	-moz-opacity:0.75;
 	opacity: 0.75;	
     position:absolute;
-	top:39px;
+	top:45px;
     border:1px solid #cccccc;
     background:#ffffff;
     z-index:101;
