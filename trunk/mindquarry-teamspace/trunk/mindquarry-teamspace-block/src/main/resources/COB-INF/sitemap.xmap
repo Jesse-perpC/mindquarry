@@ -198,7 +198,7 @@
 
 	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
-		<pipeline type="noncaching">
+		<pipeline type="caching">
 			<match pattern="css/*.css">
 				<select type="resource-exists">
 					<when test="css/{1}.css">
@@ -272,7 +272,7 @@
 		</pipeline>
 
 		<!-- user pipeline / use noncaching for debugging -->
-		<pipeline type="noncaching"><!-- eg. users/[size]/[name].[type] -->
+		<pipeline type="caching"><!-- eg. users/[size]/[name].[type] -->
 			<match pattern="users/*/*.*">
 				<select type="resource-exists">
 					<when test="jcr:///users/{2}.{3}">
@@ -330,9 +330,26 @@
 				<read src="cocoon:/users/48/{1}.{2}"/>
 			</match>
 
+			<match pattern="*.22.png">
+				<read src="cocoon:/tango-icons/22/emblems/team-{teamnamedigest:100:{1}}.png" />
+			</match>
+			
 			<match pattern="*.png">
 				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
 			</match>
+
+			<match pattern="*.*.png">
+				<read type="image-op-resize" src="cocoon:/{1}.png">
+					<parameter name="size-width" value="{2}"/>
+					<parameter name="size-height" value="{2}"/>
+					<parameter name="output-format" value="png"/>
+				</read>
+			</match>
+
+			<match pattern="*.png">
+				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
+			</match>
+			
 		</pipeline>
 
 		<!-- use noncaching pipeline -->
