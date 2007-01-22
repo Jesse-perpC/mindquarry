@@ -251,13 +251,14 @@ dl.ductform dd span.output {
 	border-style:solid;
 }
 
-dl.ductform a.help {
+dl a.help {
 	display:block;
-	margin-left:-30px;
 	padding-top:6px;
+	width:24px;
+	height:24px;
 }
 
-dl.ductform a.help img {
+dl a.help img {
 	border:0px;
 	display:block;
 }
