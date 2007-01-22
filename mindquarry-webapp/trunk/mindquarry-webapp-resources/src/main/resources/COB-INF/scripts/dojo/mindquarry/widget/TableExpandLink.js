@@ -136,6 +136,8 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
                   for (var k=0;k<divs.length;k++) {
                     divs[k].style.backgroundImage = divs[k].style.backgroundImage.replace("url(../","url(");
                   }
+                  
+                  //TODO: parse inserted xml for dojo widgets
                 }
               }
             }
