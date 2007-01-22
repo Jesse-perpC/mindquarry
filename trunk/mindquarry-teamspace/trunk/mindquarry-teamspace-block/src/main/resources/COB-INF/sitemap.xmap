@@ -269,6 +269,37 @@
 					</otherwise>
 				</select>
 			</match>
+			
+			<handle-errors>
+				<select type="exception">
+					<when test="authorisation">
+						<!-- non-authorised should be 404 resource not found -->
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, not authorized"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>							
+						</call>
+					</when>
+					<when test="resource-does-not-exist">
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>			
+						</call>
+					</when>
+					<otherwise>
+						<generate type="notifying" />
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, internal system error"/>							
+							<parameter name="httpStatus" value="500"/>
+							<parameter name="showSupportContact" value="true"/>							
+						</call>
+					</otherwise>
+				</select>
+			</handle-errors>
+			
 		</pipeline>
 
 		<!-- user pipeline / use noncaching for debugging -->
@@ -349,6 +380,37 @@
 			<match pattern="*.png">
 				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
 			</match>
+			
+
+			<handle-errors>
+				<select type="exception">
+					<when test="authorisation">
+						<!-- non-authorised should be 404 resource not found -->
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, not authorized"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>							
+						</call>
+					</when>
+					<when test="resource-does-not-exist">
+						<generate type="notifying"/>
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, resource was not found"/>							
+							<parameter name="httpStatus" value="404"/>
+							<parameter name="showSupportContact" value="false"/>			
+						</call>
+					</when>
+					<otherwise>
+						<generate type="notifying" />
+						<call resource="error-layouting">
+							<parameter name="pageTitle" value="Sorry, internal system error"/>							
+							<parameter name="httpStatus" value="500"/>
+							<parameter name="showSupportContact" value="true"/>							
+						</call>
+					</otherwise>
+				</select>
+			</handle-errors>
 			
 		</pipeline>
 
