@@ -56,7 +56,11 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	    var newlist = slArea_.getElementsByTagName("a");
 	    
 	    for (var i=0;i<newlist.length;i++) {
-	        newlist[i].href = baselink.href + newlist[i].title + "/";
+	        if (newlist[i].title!="") {
+	            newlist[i].href = baselink.href + newlist[i].title + "/";
+	        } else {
+	            newlist[i].href = baselink.href;
+	        }
 	    }
 	    	    
 	    var active = false;
@@ -75,7 +79,7 @@ dojo.lang.extend(mindquarry.widget.TeamSwitcher, {
 	        if (empty) {
 	        	overview.innerHTML = '<a href="#">No teams</a>';
 	        } else {
-	        	overview.innerHTML = '<a href="#" class="allyourteams">All your teams</a>';
+	        	overview.innerHTML = '<a href="'+baselink.href+'" class="allyourteams">All your teams</a>';
 	        }
 	        overview.style.display = "block";
 	        list.appendChild(overview);
