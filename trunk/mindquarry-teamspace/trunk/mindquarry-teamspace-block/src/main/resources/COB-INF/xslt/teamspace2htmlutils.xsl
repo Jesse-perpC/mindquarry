@@ -72,7 +72,7 @@
   <xsl:template match="teamspace">
     <div class="nifty">
       <xsl:if test="parent::teamspaces">
-        <a class="details-collapsed" href="#" title="Click here to show project details">more</a>
+        <a class="details-collapsed" href="#" title="Click here to show project details"><b>more</b></a>
       </xsl:if>
       <div>
         <xsl:if test="parent::teamspaces">
