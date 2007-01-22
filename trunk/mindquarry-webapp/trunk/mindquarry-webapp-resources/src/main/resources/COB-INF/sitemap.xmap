@@ -97,7 +97,11 @@
 			<map:match pattern="buttons/*.*">
 				<map:read src="buttons/{1}_button.{2}" />
 			</map:match>
-
+		</map:pipeline>
+		
+		<map:pipeline>
+			<map:parameter name="expires" value="access plus 1 minutes"/>
+			
 			<!-- icons from tango jar -->
 
 			<!-- this here was the only one without a resources/ path prefix -->
@@ -205,7 +209,9 @@
 					</map:otherwise>
 				</map:select>
 			</map:match>
-
+		</map:pipeline>
+		
+		<map:pipeline>
 			<map:match pattern="**templates/HtmlEditorToolbarOneline.html">
 				<map:read src="templates/wikiToolbarTemplate.html" />
 			</map:match>
