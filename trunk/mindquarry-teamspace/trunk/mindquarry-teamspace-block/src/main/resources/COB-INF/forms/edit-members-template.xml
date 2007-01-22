@@ -39,7 +39,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 										</ft:widget>
 										<ft:widget id="skills"/>
 										<ft:widget id="removeMember">
-											<fi:styling type="link"></fi:styling>
+											<fi:styling type="blindlink"></fi:styling>
 										</ft:widget>
 									</li>
 								</ft:repeater-rows>
@@ -65,7 +65,7 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 										</ft:widget>
 										<ft:widget id="skills"/>
 										<ft:widget id="addMember">
-											<fi:styling type="link"></fi:styling>
+											<fi:styling type="blindlink"></fi:styling>
 										</ft:widget>
 									</li>
 								</ft:repeater-rows>

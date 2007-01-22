@@ -525,6 +525,21 @@
 						value="forms/edit-members-form.xml" />
 					<parameter name="username"
 						value="{request-attr:username}" />
+					<parameter name="redirectURL" value="{block-path:}" />
+				</call>
+			</match>
+			
+			<match pattern="*/createUserFromDetailsView/">
+				<act type="authorise" src="jcr:///users"/>
+				<call function="handleForm">
+					<parameter name="function"
+						value="processCreateUser" />
+					<parameter name="definitionURI"
+						value="forms/edit-members-form.xml" />
+					<parameter name="username"
+						value="{request-attr:username}" />
+					<parameter name="redirectURL" 
+						value="{block-path:}/team/{1}/" />
 				</call>
 			</match>
 			
