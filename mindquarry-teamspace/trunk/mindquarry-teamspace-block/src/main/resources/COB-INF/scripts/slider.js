@@ -2,8 +2,14 @@ dojo.require("dojo.io.BrowserIO");
 dojo.require("dojo.event.*");
 dojo.require("dojo.html");
 
+var issliderinitialized = false;
+
 /* doing some init stuff */
 initSliderEvents = function() {
+    if (issliderinitialized) {
+        return;
+    }
+    
 	slidingLists = dojo.html.getElementsByClassName("members");
 
 	// add prev & next buttons to all member lists
@@ -40,6 +46,7 @@ initSliderEvents = function() {
 			next.style.visibility = "hidden";
 		}
 	}
+	issliderinitialized = true;
 }
 
 /* slide to next image */
