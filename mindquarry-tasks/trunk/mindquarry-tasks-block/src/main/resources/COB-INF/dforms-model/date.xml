@@ -37,7 +37,7 @@
 		</fd:datatype>
 		<fd:label>Date</fd:label>
 		<fd:hint>The relevant date of this document</fd:hint>
-		<fd:help>Date infornation can be used to order events</fd:help>
+		<fd:help>Used the date to order your events. </fd:help>
 	</fd:field>
 	<ft:widget>
 		<fi:styling type="date" autoactive="true" />

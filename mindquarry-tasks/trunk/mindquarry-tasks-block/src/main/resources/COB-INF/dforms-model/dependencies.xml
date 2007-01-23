@@ -23,7 +23,7 @@
 		<fd:datatype base="boolean"/>
 		<fd:label>Dependencies</fd:label>
 		<fd:hint>This tasks depends on</fd:hint>
-		<fd:help> Use this field for setting task relationships </fd:help>
+		<fd:help>Dependencies can be used for setting relationships between tasks.</fd:help>
 		<fd:widgets>
 			<fd:field id="dependencytask">
 				<fd:datatype base="string"/>
@@ -61,7 +61,7 @@
 			<fi:label class="hidden">Dependencies</fi:label>
 			<jx:choose>
 				<jx:when test="${repeater.getSize() == 0}">
-					<p>There are no dependencies assigned to this task</p>
+					<p>There are currently no dependencies assigned to this task</p>
 				</jx:when>
 				<jx:otherwise>
 					<table>

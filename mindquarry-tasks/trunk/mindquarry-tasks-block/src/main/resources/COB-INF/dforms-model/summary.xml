@@ -22,7 +22,8 @@
 	<fd:field>
 		<fd:datatype base="string" />
 		<fd:label>Summary</fd:label>
-		<fd:help>The summary provides a quick glance at the contents of the task. It should be short, concise and to the point.
+		<fd:help>The summary should be a comprehensive, brief abstract covering the main points of the content.
+				Therefore, keep it brief, concise and to the point.
 		</fd:help>
 	</fd:field>
 

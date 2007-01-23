@@ -23,8 +23,7 @@
 		<fd:datatype base="string" />
 		<fd:label>Status</fd:label>
 		<fd:hint>Status of this document or issue</fd:hint>
-		<fd:help>
-			Useful for tracking issues or status of documents
+		<fd:help>Status can be practically used for tracking issues or the status of documents
 		</fd:help>
 		<fd:initial-value>new</fd:initial-value>
 		<fd:selection-list>
