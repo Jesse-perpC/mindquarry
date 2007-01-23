@@ -22,7 +22,7 @@
 	<fd:field>
 		<fd:datatype base="string" />
 		<fd:label>Description</fd:label>
-		<fd:help>Descriptions allow you to describe describable contents in a descriptive way</fd:help>
+		<fd:help>The description is a statement or account that provides a descriptive representation.</fd:help>
 	</fd:field>
 
 	<ft:widget>

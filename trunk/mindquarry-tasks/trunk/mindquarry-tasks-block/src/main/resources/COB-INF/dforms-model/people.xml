@@ -23,7 +23,7 @@
 		<fd:datatype base="boolean"/>
 		<fd:label>People</fd:label>
 		<fd:hint>People connected to this document</fd:hint>
-		<fd:help> Use this field for setting responsibilities and roles </fd:help>
+		<fd:help> This field can be used for setting responsibilities and roles. </fd:help>
 		<fd:widgets>
 			<fd:field id="peopleperson">
 				<fd:datatype base="string"/>
@@ -36,7 +36,7 @@
 			</fd:field>
 			<fd:row-action id="delete" command="delete">
 				<fd:label>Remove</fd:label>
-				<fd:hint>Remove a person that is no longer relevant to this document</fd:hint>
+				<fd:hint>Remove a person who is no longer related to this document</fd:hint>
 			</fd:row-action>
 		</fd:widgets>
 		<fd:attributes>
@@ -62,7 +62,7 @@
 			<fi:label class="hidden">People</fi:label>
 			<jx:choose>
 				<jx:when test="${repeater.getSize() == 0}">
-					<p>There are no people assigned to this task</p>
+					<p>No one is assigned to this task.</p>
 				</jx:when>
 				<jx:otherwise>
 					<table>
