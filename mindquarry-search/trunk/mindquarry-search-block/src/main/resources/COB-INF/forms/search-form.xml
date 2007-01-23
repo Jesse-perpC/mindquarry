@@ -13,7 +13,7 @@
 			<fd:datatype base="string"/>
 
 			<!-- helper information -->
-			<fd:hint>Enter your search term here.</fd:hint>
+			<fd:hint>Enter here the search word or phrase.</fd:hint>
 		</fd:field>
 
 		<!-- query part repeater -->
