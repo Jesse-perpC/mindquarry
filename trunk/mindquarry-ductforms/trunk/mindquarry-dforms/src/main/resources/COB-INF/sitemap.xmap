@@ -46,7 +46,7 @@
 	</views>
 
 	<pipelines>
-		<pipeline type="noncaching">
+		<pipeline type="expires-caching">
 			<match pattern="scripts/*.js">
 				<select type="resource-exists">
 					<when test="scripts/{1}.js">
@@ -70,10 +70,9 @@
 					</otherwise>
 				</select>
 			</match>
-
 		</pipeline>
 		
-		<pipeline type="noncaching">
+		<pipeline type="caching-point">
 
 			<!-- internal -->
 			<!-- Note: this is also referenced via a document()
