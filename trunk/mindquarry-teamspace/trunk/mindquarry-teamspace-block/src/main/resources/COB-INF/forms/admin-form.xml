@@ -22,7 +22,7 @@
 			repeater="projects" select="selected">
 			<fd:label>Delete Selected</fd:label>
 			<fd:hint>Delete Selected Projects</fd:hint>
-			<fd:help>Make the selected projects go away.</fd:help>
+			<fd:help>Removes the selected projects.</fd:help>
 			<fd:on-action>
 				<fd:javascript>deleteProjects(event);</fd:javascript>
 			</fd:on-action>
@@ -38,7 +38,7 @@
 			<fd:datatype base="string"></fd:datatype>
 			<fd:validation>
 				<fd:regexp pattern="[a-z]+">
-					<fd:failmessage>Invalid project name, use only lowercase letters</fd:failmessage>
+					<fd:failmessage>Project name, can only contain lowercase characters.</fd:failmessage>
 				</fd:regexp>
 				<fd:javascript>
 					return isNoDuplicate(widget);
