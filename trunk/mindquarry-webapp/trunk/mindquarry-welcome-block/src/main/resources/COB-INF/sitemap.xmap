@@ -133,7 +133,7 @@
 
 	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
-		<pipeline type="noncaching">
+		<pipeline type="expires-caching">
 			<match pattern="xslt/*.xsl">
 				<select type="resource-exists">
 					<when test="xslt/{1}.xsl">
@@ -211,7 +211,7 @@
 			
 		</pipeline>
 
-		<pipeline>
+		<pipeline type="caching-point">
 			<match pattern="loginpage">
 				<generate src="jx/login.jx" type="jx" />
 				<call resource="layouting" />
