@@ -24,8 +24,7 @@
 					<fd:validation>
 						<fd:regexp pattern="[\w]{5,}">
 							<fd:failmessage>
-								invalid password; it must contains (at
-								least 5) word characters
+								Your password should contain at  least 5 characters.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -38,7 +37,7 @@
 						<fd:assert
 							test="newPassword = newPasswordRepeat">
 							<fd:failmessage>
-								The password repeat does not match.
+								Password mismatch. Please enter the password (repeat) field correctly. 
 							</fd:failmessage>
 						</fd:assert>
 					</fd:validation>
