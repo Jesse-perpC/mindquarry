@@ -264,5 +264,13 @@
 			</match>
 
 		</pipeline>
+		
+		<pipeline type="noncaching">
+			<match pattern="status.xml">
+				<generate src="status" type="status"/>
+				<transform src="xslt/status/status2html.xsl"/>
+				<serialize type="html"/>
+			</match>
+		</pipeline>
 	</pipelines>
 </sitemap>
