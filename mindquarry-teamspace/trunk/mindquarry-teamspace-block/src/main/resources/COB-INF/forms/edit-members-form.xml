@@ -92,8 +92,7 @@
 					<fd:validation>
 						<fd:regexp pattern="[\w]{3,}">
 							<fd:failmessage>
-								invalid user id; it must contains 
-								(at least 3) word characters
+								User ID should contain at least 3 characters. 
 							</fd:failmessage>
 						</fd:regexp>
 						<fd:javascript>
@@ -107,8 +106,7 @@
 					<fd:validation>
 						<fd:regexp pattern="[\w]{5,}">
 							<fd:failmessage>
-								invalid password; it must contains 
-								(at least 5) word characters
+								Password should contain at least 5 characters.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -118,7 +116,9 @@
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 				        <fd:assert test="newPassword = newPasswordRepeat">
-				          <fd:failmessage>The passwordrepeat does not match.</fd:failmessage>
+				          	<fd:failmessage>
+					  			Password mismatch. Please enter the password (repeat) field correctly.
+						</fd:failmessage>
 				        </fd:assert>
 			      </fd:validation>
 				</fd:field>
@@ -128,8 +128,7 @@
 					<fd:validation>
 						<fd:regexp pattern="[\w\s]+">
 							<fd:failmessage>
-								invalid first name; it must contains at
-								least one word character
+								First name should contain at least 1 character.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -140,8 +139,7 @@
 					<fd:validation>
 						<fd:regexp pattern="[\w\s]+">
 							<fd:failmessage>
-								invalid surname; it must contains at
-								least one word character
+								Surname should contain at least 1 character.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -157,7 +155,7 @@
 					<fd:validation>
 						<fd:email>
 							<fd:failmessage>
-								Not a valid email address!
+								Please provide a valid email address. 
 							</fd:failmessage>
 						</fd:email>
 					</fd:validation>

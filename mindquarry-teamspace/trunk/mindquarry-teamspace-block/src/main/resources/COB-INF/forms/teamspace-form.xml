@@ -6,8 +6,7 @@
 			<fd:validation>
 				<fd:regexp pattern="[a-z\-]{3,}">
 					<fd:failmessage>
-						invalid teamspace id; it must contains (at least 3)
-						lower case letters
+						Teamspace ID should be in lower case and must contain at least 3 characters. 
 					</fd:failmessage>
 				</fd:regexp>
 				<fd:javascript>
@@ -21,8 +20,7 @@
 			<fd:validation>
 				<fd:regexp pattern="[\w\s]+">
 					<fd:failmessage>
-						invalid full name; it must contains at least one
-						word character
+						Full name should contain at least 1 character. 
 					</fd:failmessage>
 				</fd:regexp>
 			</fd:validation>
