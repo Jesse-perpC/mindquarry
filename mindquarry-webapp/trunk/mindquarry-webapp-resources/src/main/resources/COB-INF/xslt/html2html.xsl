@@ -179,7 +179,7 @@
 							<div id="http-logout-hint"><b>(Close browser to logout)</b></div>
 							<a href="{$pathToRoot}" id="path-to-webapp-root" title="logout"/>
 							<div class="username-display">
-								<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="edit settings for {$username}" rel="lightbox"><b><xsl:value-of select="$username" /></b></a>
+								<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="Edit your user profile ({$username})" rel="lightbox"><b><xsl:value-of select="$username" /></b></a>
 							</div>
 							<a href="{$pathToRoot}/help/" id="head-help-link"><b>Help</b></a>													
 						</div>
