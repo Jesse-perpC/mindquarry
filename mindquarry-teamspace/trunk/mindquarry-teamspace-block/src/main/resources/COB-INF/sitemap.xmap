@@ -236,183 +236,7 @@
 	</resources>
 
 	<pipelines>
-		<!-- resources pipeline / use noncaching for debugging -->
-		<pipeline type="caching-point">
-			<match pattern="css/*.css">
-				<select type="resource-exists">
-					<when test="css/{1}.css">
-						<!-- if it exists, load it from this sitemap's resources -->
-						<read src="css/{1}.css" />
-					</when>
-					<!-- if not, look in the super block -->
-					<otherwise>
-						<read src="block:super:/css/{1}.css" />
-					</otherwise>
-				</select>
-			</match>
 
-			<match pattern="xslt/*.xsl">
-				<select type="resource-exists">
-					<when test="xslt/{1}.xsl">
-						<!-- if it exists, load it from this sitemap's resources -->
-						<read src="xslt/{1}.xsl" />
-					</when>
-					<!-- if not, look in the super block -->
-					<otherwise>
-						<read src="block:super:/xslt/{1}.xsl" />
-					</otherwise>
-				</select>
-			</match>
-
-			<match pattern="scripts/*.js">
-				<select type="resource-exists">
-					<when test="scripts/{1}.js">
-						<read src="scripts/{1}.js" />
-					</when>
-					<otherwise>
-						<read src="block:super:/scripts/{1}.js" />
-					</otherwise>
-				</select>
-			</match>
-
-			<match pattern="images/*.*">
-				<select type="resource-exists">
-					<when test="images/{1}.{2}">
-						<read src="images/{1}.{2}" />
-					</when>
-					<otherwise>
-						<read src="block:super:/images/{1}.{2}" />
-					</otherwise>
-				</select>
-			</match>
-
-			<match pattern="buttons/*.*">
-				<select type="resource-exists">
-					<when test="buttons/{1}_button.{2}">
-						<read src="buttons/{1}_button.{2}" />
-					</when>
-					<otherwise>
-						<read src="block:super:/buttons/{1}.{2}" />
-					</otherwise>
-				</select>
-			</match>
-			
-			<!-- need this for details view -->
-			<match pattern="team/buttons/*.*">
-				<select type="resource-exists">
-					<when test="buttons/{1}_button.{2}">
-						<read src="buttons/{1}_button.{2}" />
-					</when>
-					<otherwise>
-						<read src="block:super:/buttons/{1}.{2}" />
-					</otherwise>
-				</select>
-			</match>
-
-			<match pattern="icons/*x*/*/*.png">
-				<select type="resource-exists">
-					<when test="icons/{1}x{2}/{3}/{4}.png">
-						<read src="icons/{1}x{2}/{3}/{4}.png" />
-					</when>
-					<otherwise>
-						<read
-							src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
-					</otherwise>
-				</select>
-			</match>
-			
-			<handle-errors>
-				<call resource="error-handling" />
-			</handle-errors>
-						
-		</pipeline>
-
-		<!-- user pipeline / use noncaching for debugging -->
-		<pipeline type="caching-point"><!-- eg. users/[size]/[name].[type] -->
-			<match pattern="users/*/*.*">
-				<select type="resource-exists">
-					<when test="jcr:///users/{2}.{3}">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.{3}">
-							<parameter name="crop-ratio" value="1"/>
-							<parameter name="size-width" value="{1}"/>
-							<parameter name="size-height" value="{1}"/>
-							<parameter name="output-format" value="{3}"/>
-						</read>
-					</when>
-					<when test="jcr:///users/{2}.png">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.png">
-							<parameter name="crop-ratio" value="1"/>
-							<parameter name="size-width" value="{1}"/>
-							<parameter name="size-height" value="{1}"/>
-							<parameter name="output-format" value="{3}"/>
-						</read>
-					</when>
-					<when test="jcr:///users/{2}.gif">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.gif">
-							<parameter name="crop-ratio" value="1"/>
-							<parameter name="size-width" value="{1}"/>
-							<parameter name="size-height" value="{1}"/>
-							<parameter name="output-format" value="{3}"/>
-						</read>
-					</when>
-					<when test="jcr:///users/{2}.jpg">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.jpg">
-							<parameter name="crop-ratio" value="1"/>
-							<parameter name="size-width" value="{1}"/>
-							<parameter name="size-height" value="{1}"/>
-							<parameter name="output-format" value="{3}"/>
-						</read>
-					</when>
-					<when test="jcr:///users/{2}.bmp">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.bmp">
-							<parameter name="crop-ratio" value="1"/>
-							<parameter name="size-width" value="{1}"/>
-							<parameter name="size-height" value="{1}"/>
-							<parameter name="output-format" value="{3}"/>
-						</read>
-					</when>
-					<otherwise>
-						<read type="image-op-crop-resize" src="images/anonymous-user.png" >
-							<parameter name="crop-ratio" value="1"/>
-							<parameter name="size-width" value="{1}"/>
-							<parameter name="size-height" value="{1}"/>
-							<parameter name="output-format" value="{3}"/>
-						</read>
-					</otherwise>
-				</select>
-			</match>
-			
-			<match pattern="users/*.*">
-				<read src="cocoon:/users/48/{1}.{2}"/>
-			</match>
-
-			<match pattern="*.22.png">
-				<read src="cocoon:/tango-icons/22/emblems/team-{teamnamedigest:100:{1}}.png" />
-			</match>
-			
-			<match pattern="*.png">
-				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
-			</match>
-
-			<match pattern="*.*.png">
-				<read type="image-op-resize" src="cocoon:/{1}.png">
-					<parameter name="size-width" value="{2}"/>
-					<parameter name="size-height" value="{2}"/>
-					<parameter name="output-format" value="png"/>
-				</read>
-			</match>
-
-			<match pattern="*.png">
-				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
-			</match>
-			
-			<handle-errors>
-				<call resource="error-handling" />
-			</handle-errors>
-						
-		</pipeline>
-
-		<!-- use noncaching pipeline -->
 		<pipeline type="caching-point" internal-only="true">
 			<match pattern="views/teamspacesView">
 				<generate src="jx/teamspace-list-view.jx" type="jx"
@@ -524,7 +348,8 @@
 
 		<!-- external browser pipeline -->
 		<pipeline type="caching-point">
-			
+			<parameter name="expires" value="access plus 1 minutes"/>
+						
 			<!-- teamspace list -->
 			<match pattern="">
 				<!-- check request type: REST / HTML or other -->
@@ -727,9 +552,185 @@
 				</call>
 			</match>
 
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+						
+		</pipeline>
+
+		<!-- user/team image pipeline -->
+		<pipeline type="expires-caching"><!-- eg. users/[size]/[name].[type] -->
+			<match pattern="users/*/*.*">
+				<select type="resource-exists">
+					<when test="jcr:///users/{2}.{3}">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.{3}">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.png">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.png">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.gif">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.gif">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.jpg">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.jpg">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<when test="jcr:///users/{2}.bmp">
+						<read type="image-op-crop-resize" src="jcr:///users/{2}.bmp">
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</when>
+					<otherwise>
+						<read type="image-op-crop-resize" src="images/anonymous-user.png" >
+							<parameter name="crop-ratio" value="1"/>
+							<parameter name="size-width" value="{1}"/>
+							<parameter name="size-height" value="{1}"/>
+							<parameter name="output-format" value="{3}"/>
+						</read>
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="users/*.*">
+				<read src="cocoon:/users/48/{1}.{2}"/>
+			</match>
+			
+			<match pattern="*.22.png">
+				<read src="cocoon:/tango-icons/22/emblems/team-{teamnamedigest:100:{1}}.png" />
+			</match>
+			
+			<match pattern="*.png">
+				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
+			</match>
+			
+			<match pattern="*.*.png">
+				<read type="image-op-resize" src="cocoon:/{1}.png">
+					<parameter name="size-width" value="{2}"/>
+					<parameter name="size-height" value="{2}"/>
+					<parameter name="output-format" value="png"/>
+				</read>
+			</match>
+			
+			<match pattern="*.png">
+				<read src="cocoon:/tango-icons/48/emblems/team-{teamnamedigest:100:{1}}.png" />
+			</match>
+			
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+			
+		</pipeline>
+		
+		<!-- resources pipeline -->
+		<pipeline type="expires-caching">
+			<match pattern="css/*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="css/{1}.css" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/css/{1}.css" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xslt/{1}.xsl" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js" />
+					</when>
+					<otherwise>
+						<read src="block:super:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="images/*.*">
+				<select type="resource-exists">
+					<when test="images/{1}.{2}">
+						<read src="images/{1}.{2}" />
+					</when>
+					<otherwise>
+						<read src="block:super:/images/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}" />
+					</when>
+					<otherwise>
+						<read src="block:super:/buttons/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<!-- need this for details view -->
+			<match pattern="team/buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}" />
+					</when>
+					<otherwise>
+						<read src="block:super:/buttons/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="icons/*x*/*/*.png">
+				<select type="resource-exists">
+					<when test="icons/{1}x{2}/{3}/{4}.png">
+						<read src="icons/{1}x{2}/{3}/{4}.png" />
+					</when>
+					<otherwise>
+						<read
+							src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
+					</otherwise>
+				</select>
+			</match>
+			
 			<!--+
 				| forward any unknown stuff to the super block 
-				| NOTE: This must be the last matcher!
+				| NOTE: This must be the LAST matcher of the LAST pipeline!
 				+-->
 			<match pattern="**">
 				<read src="block:super:/{1}" />
@@ -738,7 +739,8 @@
 			<handle-errors>
 				<call resource="error-handling" />
 			</handle-errors>
-						
+			
 		</pipeline>
+		
 	</pipelines>
 </sitemap>
