@@ -167,7 +167,7 @@
 
 	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging (external) -->
-		<pipeline type="noncaching">
+		<pipeline type="expires-caching">
 			<match pattern="css/*.css">
 				<select type="resource-exists">
 					<when test="css/{1}.css">
@@ -307,7 +307,7 @@
 			
 		</pipeline>
 
-		<pipeline type="caching">
+		<pipeline type="caching-point">
 			<match pattern="">
 				<redirect-to uri="index/index.html"/>
 			</match>
