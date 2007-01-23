@@ -121,6 +121,10 @@ a.sliderprev {
 	margin-top:12px;
 }
 
+a.slidernext b, a.sliderprev b {
+	visibility:hidden;
+}
+
 a.details-collapsed {
 	background-image: url(../buttons/details_collapsed.gif);
 	height:16px;
