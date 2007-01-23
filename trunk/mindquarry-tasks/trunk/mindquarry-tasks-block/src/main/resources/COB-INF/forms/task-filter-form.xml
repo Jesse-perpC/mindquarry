@@ -29,7 +29,7 @@
 		
 					<!-- helper information -->
 					<fd:hint>
-						The aggregator that is used for assembling the filter.
+						The aggregator is used for assembling the filter.
 					</fd:hint>
 					<fd:help>
 						Can be used for building different link types between filter parts.
@@ -81,7 +81,7 @@
 		
 							<!-- helper information -->
 							<fd:hint>
-								Selector that is used for evaluating the specified field.
+								Selector is used for evaluating the specified field.
 							</fd:hint>
 							<fd:help>
 								Can be used for specifing selection criteria.
@@ -96,7 +96,7 @@
 							<fd:validation>
 								<fd:length min="1">
 									<fd:failmessage>
-										Value field must contain one ore more characters.
+										Value field must contain at least one ore more characters.
 									</fd:failmessage>
 								</fd:length>
 							</fd:validation>
@@ -106,8 +106,7 @@
 								The value that is used in the field evaluation according to the specified selection criteria.
 							</fd:hint>
 							<fd:help>
-								Can be used for specifing values to be used in
-								the selection criteria.
+								Can be used for specifing values to be used in the selection criteria.
 							</fd:help>
 						</fd:field>
 						
@@ -145,7 +144,7 @@
 					<fd:validation>
 						<fd:length min="1">
 							<fd:failmessage>
-								Value field must contain one ore more characters.
+								Value field must contain at least one ore more characters.
 							</fd:failmessage>
 						</fd:length>
 					</fd:validation>
@@ -190,7 +189,7 @@
 			<!-- helper information -->
 			<fd:hint>Results of the filter execution.</fd:hint>
 			<fd:help>
-				Use this field for configuring the parts of a filter.
+				Use this field for configuring the filter parts.
 			</fd:help>
 		</fd:repeater>
 	</fd:widgets>
