@@ -14,260 +14,255 @@
 	under the License.
 -->
 
-<map:sitemap xmlns:map="http://apache.org/cocoon/sitemap/1.0">
-	<map:components>
-		<map:serializers>
-			<map:serializer name="jnlp" 
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	
+	<components>
+		<serializers>
+			<serializer name="jnlp" 
 				src="org.apache.cocoon.serialization.XMLSerializer" 
 				mime-type="application/x-java-jnlp-file"/>
-		</map:serializers>
-		
-		<map:pipes>
-			<map:pipe name="expires-caching" src="org.apache.cocoon.components.pipeline.impl.ExpiresCachingProcessingPipeline">
-				<map:parameter name="cache-expires" value="86400"/>
-			</map:pipe>
-		</map:pipes>
-	</map:components>
+		</serializers>
+	</components>
 
-	<map:flow language="javascript">
-		<map:script src="flows/jnlp.js" />
-	</map:flow>
+	<flow language="javascript">
+		<script src="flows/jnlp.js" />
+	</flow>
 
-	<map:pipelines>
-		<map:pipeline type="caching-point">
-			<map:match pattern="client/client.jnlp">
-				<map:call function="sendJNLP">
-					<map:parameter name="target"
+	<pipelines>
+		<pipeline type="caching-point">
+			<match pattern="client/client.jnlp">
+				<call function="sendJNLP">
+					<parameter name="target"
 						value="views/JNLPView" />
-					<map:parameter name="username"
+					<parameter name="username"
 						value="{request-attr:username}" />
-					<map:parameter name="endpoint"
+					<parameter name="endpoint"
 						value="{system-property:mindquarry.client.jnlp.url}{request:contextPath}" />
 					
 					<!-- 
 						FIXME: use this as fallback after system property user 
 						module can handle defaults 
 					-->
-					<!--map:parameter name="endpoint"
+					<!--parameter name="endpoint"
 						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
-					<map:parameter name="servletPath"
+					<parameter name="servletPath"
 						value="{request:servletPath}" /-->
-				</map:call>
-			</map:match>
+				</call>
+			</match>
 
-			<map:match pattern="views/JNLPView">
-				<map:generate src="jx/MindClient.jx" type="jx" label="content" />
-				<map:serialize type="jnlp" />
-			</map:match>
+			<match pattern="views/JNLPView">
+				<generate src="jx/MindClient.jx" type="jx" label="content" />
+				<serialize type="jnlp" />
+			</match>
 
-			<map:match pattern="scripts/*.js">
-				<map:read src="scripts/{1}.js" />
-			</map:match>
+			<match pattern="scripts/*.js">
+				<read src="scripts/{1}.js" />
+			</match>
 			
-			<map:match pattern="flows/*.js">
-				<map:read src="flows/{1}.js" />
-			</map:match>
+			<match pattern="flows/*.js">
+				<read src="flows/{1}.js" />
+			</match>
 			
-			<map:match pattern="client/dist/**.jar">
-				<map:read src="client/dist/{1}.jar" />
-			</map:match>
+			<match pattern="client/dist/**.jar">
+				<read src="client/dist/{1}.jar" />
+			</match>
 			
-			<map:match pattern="css/*.css">
-				<map:read src="css/{1}.css" />
-			</map:match>
+			<match pattern="css/*.css">
+				<read src="css/{1}.css" />
+			</match>
 
-			<map:match pattern="xslt/**.xsl">
-				<map:read src="xslt/{1}.xsl" />
-			</map:match>
+			<match pattern="xslt/**.xsl">
+				<read src="xslt/{1}.xsl" />
+			</match>
 
-			<map:match pattern="images/*.*">
-				<map:read src="images/{1}.{2}" />
-			</map:match>
+			<match pattern="images/*.*">
+				<read src="images/{1}.{2}" />
+			</match>
 
-			<map:match pattern="icons/*.ico">
-				<map:read src="icons/{1}.ico" />
-			</map:match>
+			<match pattern="icons/*.ico">
+				<read src="icons/{1}.ico" />
+			</match>
 			
-			<map:match pattern="icons/*.*">
-				<map:read src="icons/{1}_icon.{2}" />
-			</map:match>
+			<match pattern="icons/*.*">
+				<read src="icons/{1}_icon.{2}" />
+			</match>
 
-			<map:match pattern="icons/*/feed.png">
-				<map:read src="icons/feed/feed-icon-{1}.png" />
-			</map:match>
+			<match pattern="icons/*/feed.png">
+				<read src="icons/feed/feed-icon-{1}.png" />
+			</match>
 
-			<map:match pattern="buttons/*x*/*.*">
-				<map:read src="buttons/{3}-button-{1}.{4}" />
-			</map:match>
+			<match pattern="buttons/*x*/*.*">
+				<read src="buttons/{3}-button-{1}.{4}" />
+			</match>
 			
-			<map:match pattern="buttons/*.*">
-				<map:read src="buttons/{1}_button.{2}" />
-			</map:match>
-		</map:pipeline>
+			<match pattern="buttons/*.*">
+				<read src="buttons/{1}_button.{2}" />
+			</match>
+		</pipeline>
 		
-		<map:pipeline type="caching-point">
+		<pipeline type="caching-point">
 			<!-- icons from tango jar -->
 
 			<!-- this here was the only one without a resources/ path prefix -->
-			<map:match pattern="icons/*/folder.png">
-				<map:read
+			<match pattern="icons/*/folder.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/places/folder.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/application/pdf.png">
-				<map:read
+			<match pattern="icons/*/application/pdf.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/actions/*.png">
-				<map:read
+			<match pattern="icons/*/actions/*.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/actions/{2}.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/apps/*.png">
-				<map:read
+			<match pattern="icons/*/apps/*.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/apps/{2}.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/text/html.png">
-				<map:read
+			<match pattern="icons/*/text/html.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/text/*.png">
-				<map:read
+			<match pattern="icons/*/text/*.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/text-x-generic.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/image/*.png">
-				<map:read
+			<match pattern="icons/*/image/*.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/image-x-generic.png" />
-			</map:match>
+			</match>
 
-			<map:match pattern="icons/*/*/*.png">
-				<map:read
+			<match pattern="icons/*/*/*.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/{1}/mimetypes/x-office-document.png" />
-			</map:match>
+			</match>
 			
 			<!-- the following matchers implement the fallback mechanism for icons according to
 				 the freedesktop.org icon naming specification -->
-			<map:match pattern="tango-icons/*/*/*-*-*.png">
-				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}-{5}.png">
-						<map:read
+			<match pattern="tango-icons/*/*/*-*-*.png">
+				<select type="resource-exists">
+					<when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}-{5}.png">
+						<read
 							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}-{5}.png" />
-					</map:when>
-					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png">
-						<map:read
+					</when>
+					<when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png">
+						<read
 							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png" />
-					</map:when>
-					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
-						<map:read
+					</when>
+					<when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
+						<read
 							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png" />
-					</map:when>
-					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}-{5}.png">
-						<map:read
+					</when>
+					<when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}-{5}.png">
+						<read
 							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}-{5}.png" />
-					</map:when>
-					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png">
-						<map:read
+					</when>
+					<when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png">
+						<read
 							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png" />
-					</map:when>
-					<map:otherwise>
-						<map:read
+					</when>
+					<otherwise>
+						<read
 							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}.png" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+					</otherwise>
+				</select>
+			</match>
 			
-			<map:match pattern="tango-icons/*/*/*-*.png">
-				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png">
-						<map:read
+			<match pattern="tango-icons/*/*/*-*.png">
+				<select type="resource-exists">
+					<when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png">
+						<read
 							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}-{4}.png" />
-					</map:when>
-					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
-						<map:read
+					</when>
+					<when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
+						<read
 							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png" />
-					</map:when>
-					<map:when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png">
-						<map:read
+					</when>
+					<when test="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png">
+						<read
 							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}-{4}.png" />
-					</map:when>
-					<map:otherwise>
-						<map:read
+					</when>
+					<otherwise>
+						<read
 							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}.png" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
+					</otherwise>
+				</select>
+			</match>
 			
-			<map:match pattern="tango-icons/*/*/*.png">
-				<map:select type="resource-exists">
-					<map:when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
-						<map:read
+			<match pattern="tango-icons/*/*/*.png">
+				<select type="resource-exists">
+					<when test="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png">
+						<read
 							src="resource://com/mindquarry/icons/{1}x{1}/{2}/{3}.png" />
-					</map:when>
-					<map:otherwise>
-						<map:read
+					</when>
+					<otherwise>
+						<read
 							src="resource://org/tango-project/tango-icon-theme/{1}x{1}/{2}/{3}.png" />
-					</map:otherwise>
-				</map:select>
-			</map:match>
-		</map:pipeline>
+					</otherwise>
+				</select>
+			</match>
+		</pipeline>
 		
-		<map:pipeline type="caching-point">
+		<pipeline type="caching-point">
 				
-			<map:match pattern="**templates/HtmlEditorToolbarOneline.html">
-				<map:read src="templates/wikiToolbarTemplate.html" />
-			</map:match>
+			<match pattern="**templates/HtmlEditorToolbarOneline.html">
+				<read src="templates/wikiToolbarTemplate.html" />
+			</match>
  
-			<map:match pattern="_cocoon/resources/dojo/mindquarry/**">
-				<map:read
+			<match pattern="_cocoon/resources/dojo/mindquarry/**">
+				<read
 					src="scripts/dojo/mindquarry/{1}" />
-			</map:match>
+			</match>
 
 			<!-- FIXME: temporary overwrite of the BUHandler with new redirect code in it -->
-			<map:match pattern="_cocoon/resources/ajax/js/BUHandler.js">
-				<map:read
+			<match pattern="_cocoon/resources/ajax/js/BUHandler.js">
+				<read
 					src="scripts/dojo/mindquarry/BUHandler.js" />				
-			</map:match>
+			</match>
 			
 			<!-- FIXME: temporary overwrite of the BUHandler with new redirect code in it -->
-			<map:match pattern="_cocoon/resources/dojo/cocoon/ajax/BUHandler.js">
-				<map:read
+			<match pattern="_cocoon/resources/dojo/cocoon/ajax/BUHandler.js">
+				<read
 					src="scripts/dojo/mindquarry/BUHandler.js" />				
-			</map:match>
+			</match>
 			
 			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
-			<map:match pattern="_cocoon/resources/dojo/cocoon.js">
-				<map:read
+			<match pattern="_cocoon/resources/dojo/cocoon.js">
+				<read
 					src="resource://org/apache/cocoon/ajax/resources/cocoon.js" />
-			</map:match>
+			</match>
 
 			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
-			<map:match pattern="_cocoon/resources/dojo/cocoon/ajax/**">
-				<map:read
+			<match pattern="_cocoon/resources/dojo/cocoon/ajax/**">
+				<read
 					src="resource://org/apache/cocoon/ajax/resources/js/{1}" />
-			</map:match>
+			</match>
 			
 			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
-			<map:match pattern="_cocoon/resources/dojo/cocoon/forms/**">
-				<map:read
+			<match pattern="_cocoon/resources/dojo/cocoon/forms/**">
+				<read
 					src="resource://org/apache/cocoon/forms/resources/js/{1}" />
-			</map:match>
+			</match>
 					
 			<!-- FIXME: load an image relative to dojo's root -->
-			<map:match pattern="_cocoon/resources/dojo/search.png">
-				<map:read
+			<match pattern="_cocoon/resources/dojo/search.png">
+				<read
 					src="resource://org/tango-project/tango-icon-theme/22x22/actions/system-search.png" />
-			</map:match>
+			</match>
 			
 			<!-- cooon resources (needed for dojo scripts, etc) -->
-			<map:match pattern="_cocoon/resources/*/**">
-				<map:read
+			<match pattern="_cocoon/resources/*/**">
+				<read
 					src="resource://org/apache/cocoon/{1}/resources/{2}" />
-			</map:match>
+			</match>
 
-		</map:pipeline>
-	</map:pipelines>
-</map:sitemap>
+		</pipeline>
+	</pipelines>
+</sitemap>
