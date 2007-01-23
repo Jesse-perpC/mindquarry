@@ -51,13 +51,6 @@
 			<transformer name="browser-update"
 				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
 		</transformers>
-		
-		<map:pipes>
-			<map:pipe name="expires-caching" src="org.apache.cocoon.components.pipeline.impl.ExpiresCachingProcessingPipeline">
-				<map:parameter name="cache-expires" value="86400"/>
-			</map:pipe>
-		</map:pipes>
-		
 	</components>
 
 	<views>
@@ -133,7 +126,10 @@
 							value="{request:pathInfo}" />
 						<parameter name="user.agent"
 							value="{request-header:User-Agent}" />
-						<parameter name="username" value="{request-attr:username}" />
+						<parameter name="username"
+							value="{request-attr:username}" />
+						<parameter name="serverTitle"
+							value="{system-property:mindquarry.title}" />
 						<parameter name="version"
 							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</transform>
@@ -196,6 +192,8 @@
 							value="{request-header:User-Agent}" />
 						<parameter name="username"
 							value="{request-attr:username}" />
+						<parameter name="serverTitle"
+							value="{system-property:mindquarry.title}" />
 						<parameter name="version"
 							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 					</transform>
