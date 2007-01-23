@@ -1,3 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
 		
@@ -7,6 +23,7 @@
 		
 		<fd:group id="changePassword">
 			<fd:widgets>
+				
 				<!-- used to signal the success of changing password -->
 				<fd:output id="pwdChangeMessage">
 					<fd:datatype base="string" />
@@ -19,30 +36,27 @@
 				</fd:field>
 
 				<fd:field id="newPassword" required="true">
-					<fd:label>Password</fd:label>
+					<fd:label>New Password</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 						<fd:regexp pattern="[\w]{5,}">
 							<fd:failmessage>
-								Your password should contain at least 5 characters.
+								The password must contain 
+								(at least 5) characters.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
 				</fd:field>
 
 				<fd:field id="newPasswordRepeat" required="true">
-					<fd:label>Password (repeat)</fd:label>
+					<fd:label>New Password (repeat)</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
-						<fd:assert
-							test="newPassword = newPasswordRepeat">
-							<fd:failmessage>
-								Password mismatch. Please enter the password(repeat) field correctly. 
-							</fd:failmessage>
+						<fd:assert test="newPassword = newPasswordRepeat">
+							<fd:failmessage>The passwords do not match.</fd:failmessage>
 						</fd:assert>
 					</fd:validation>
 				</fd:field>
-
 
 				<fd:action id="changePassword" validate="true">
 					<fd:label>Change Password</fd:label>
@@ -57,6 +71,61 @@
 			</fd:widgets>
 		</fd:group>
 
+		<fd:group id="profile">
+			<fd:widgets>
+				<fd:field id="name" required="true">
+					<fd:label>First Name</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="\w[\w\s]*">
+							<fd:failmessage>
+								The first name must contains at
+								least one character.
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+				<fd:field id="surname" required="true">
+					<fd:label>Surname</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:regexp pattern="\w[\w\s]*">
+							<fd:failmessage>
+								The surname must contains at
+								least one character.
+							</fd:failmessage>
+						</fd:regexp>
+					</fd:validation>
+				</fd:field>
+				
+				<fd:field id="email" required="true">
+					<fd:label>EMail</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+					<fd:validation>
+						<fd:email>
+							<fd:failmessage>
+								Not a valid email address!
+							</fd:failmessage>
+						</fd:email>
+					</fd:validation>
+				</fd:field>
+				
+				<fd:field id="skills" required="false">
+					<fd:label>Skills</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+				</fd:field>
+
+				<fd:action id="updateProfile" validate="true">
+					<fd:label>Change Profile</fd:label>
+					<fd:on-action>
+						<fd:javascript>
+							updateProfile();
+						</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+			</fd:widgets>
+		</fd:group>
+		
 		<fd:group id="uploadPhoto">
 			<fd:widgets>
 				<fd:upload id="photo" required="false"
@@ -65,7 +134,7 @@
 				</fd:upload>
 
 				<fd:action id="uploadPhoto">
-					<fd:label>Upload</fd:label>
+					<fd:label>Upload Photo</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							uploadPhoto();
@@ -75,8 +144,8 @@
 			</fd:widgets>
 		</fd:group>
 
-		<fd:submit id="ready" validate="false">
-			<fd:label>Done</fd:label>
+		<fd:submit id="close" validate="false">
+			<fd:label>Close</fd:label>
 		</fd:submit>
 	</fd:widgets>
 </fd:form>
