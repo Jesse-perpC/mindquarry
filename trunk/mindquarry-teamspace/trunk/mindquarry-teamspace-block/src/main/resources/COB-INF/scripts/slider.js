@@ -18,13 +18,13 @@ initSliderEvents = function() {
 		next.href = "#";
 		next.title="Click here to see next project members";
 		next.className = "slidernext";
-		next.innerHTML = "next";
+		next.innerHTML = "<b>next</b>";
 		
 		var prev = document.createElement('a');
 		prev.href = "#";
 		prev.title="Click here to see previous project members"
 		prev.className = "sliderprev";
-		prev.innerHTML = "prev";
+		prev.innerHTML = "<b>prev</b>";
 		prev.style.visibility = "hidden";
 		
 		slidingLists[i].appendChild(next);
