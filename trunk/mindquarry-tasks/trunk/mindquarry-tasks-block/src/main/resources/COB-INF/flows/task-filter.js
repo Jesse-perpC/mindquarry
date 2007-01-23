@@ -135,7 +135,7 @@ function executeFilter() {
 	        transformer.setParameter("taskID", 
 	        	source.getName().substring(0, source.getName().indexOf(".")));
 	        transformer.setParameter("teamspaceID", teamspaceID_);
-	        print("Result form xml:");
+	        //print("Result form xml:");
 	        transformer.transform(xmlSource,
 	        	new Packages.javax.xml.transform.stream.StreamResult( os ));
 	        	//new Packages.javax.xml.transform.stream.StreamResult( Packages.java.lang.System.out ));
