@@ -117,7 +117,7 @@
 					<fd:validation>
 				        <fd:assert test="newPassword = newPasswordRepeat">
 				          	<fd:failmessage>
-					  			Password mismatch. Please enter the password (repeat) field correctly.
+					  			Password mismatch. Please enter the password(repeat) field correctly.
 						</fd:failmessage>
 				        </fd:assert>
 			      </fd:validation>
