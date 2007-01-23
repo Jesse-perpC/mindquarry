@@ -26,9 +26,30 @@ function processEditUser(form) {
 	var user = userById(cocoon.request.getAttribute("username"));	
 	model_.fullName = user.name + " " + user.surname;
 	
+	model_.profile.name = user.getName();
+	model_.profile.surname = user.getSurname();
+	model_.profile.email = user.getEmail();
+	model_.profile.skills = user.getSkills();
+
 	form.showForm("edit-user.instance");
 			
 	cocoon.redirectTo(targetUri);
+}
+
+function updateProfile() {
+	var name = model_.profile.name;
+	var surname = model_.profile.surname;
+	var email = model_.profile.email;
+	var skills = model_.profile.skills;
+		
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
+	var currentUserId = cocoon.request.getAttribute("username");
+	var currentUser = userAdmin.userById(currentUserId);
+		
+	currentUser.setName(name);	
+	currentUser.setName(surname);	
+	currentUser.setName(email);	
+	currentUser.setName(skills);	
 }
 
 function changePassword() {

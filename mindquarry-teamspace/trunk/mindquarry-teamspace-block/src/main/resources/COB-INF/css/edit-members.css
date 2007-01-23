@@ -75,35 +75,3 @@ div.role {
 	text-align:center;
 	clear:both;
 }
-
-
-#create-user-form {
-	margin-left:auto;
-	margin-right:auto;
-}
-
-
-#create-user-form tbody {
-    width:100%;
-}
-
-#create-user-form td.label {
-    color:#ab4c00;
-    text-align:right;
-    vertical-align:top;
-}
-
-#create-user-form input {
-    font-size:90%;
-    padding:1px;
-    width:90%;
-}
-
-#create-user-form textarea {
-    font-size:90%;
-    height:150px;
-    padding:1px;
-    width:90%;
-    display:inline;
-}
-

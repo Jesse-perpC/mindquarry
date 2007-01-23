@@ -23,7 +23,7 @@ function existsUserWithId(userIdWidget) {
 	var userExists = (null != userById(userModel.userId));
 	if (userExists) {
 		userIdWidget.setValidationError(
-			new Packages.org.apache.cocoon.forms.validation.ValidationError("userId already exists!"));
+			new Packages.org.apache.cocoon.forms.validation.ValidationError("A user with this id already exists."));
 	}
 	return false;
 }

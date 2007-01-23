@@ -1,3 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
 		<fd:output id="teamspaceName">
@@ -90,9 +106,10 @@
 					<fd:label>User ID</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
-						<fd:regexp pattern="[\w]{3,}">
+						<fd:regexp pattern="[a-zA-Z0-9]{3,}">
 							<fd:failmessage>
-								User ID should contain at least 3 characters. 
+								The user id must contain (at least 3)
+								alphanumeric characters (a-z, A-Z, 0-9).
 							</fd:failmessage>
 						</fd:regexp>
 						<fd:javascript>
@@ -106,7 +123,8 @@
 					<fd:validation>
 						<fd:regexp pattern="[\w]{5,}">
 							<fd:failmessage>
-								Password should contain at least 5 characters.
+								The password must contain 
+								(at least 5) characters.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -116,9 +134,7 @@
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
 				        <fd:assert test="newPassword = newPasswordRepeat">
-				          	<fd:failmessage>
-					  			Password mismatch. Please enter the password(repeat) field correctly.
-						</fd:failmessage>
+				          <fd:failmessage>The passwords do not match.</fd:failmessage>
 				        </fd:assert>
 			      </fd:validation>
 				</fd:field>
@@ -126,9 +142,10 @@
 					<fd:label>First Name</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
-						<fd:regexp pattern="[\w\s]+">
+						<fd:regexp pattern="\w[\w\s]*">
 							<fd:failmessage>
-								First name should contain at least 1 character.
+								The first name must contains at
+								least one character.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -137,9 +154,10 @@
 					<fd:label>Surname</fd:label>
 					<fd:datatype base="string"></fd:datatype>
 					<fd:validation>
-						<fd:regexp pattern="[\w\s]+">
+						<fd:regexp pattern="\w[\w\s]*">
 							<fd:failmessage>
-								Surname should contain at least 1 character.
+								The surname must contains at
+								least one character.
 							</fd:failmessage>
 						</fd:regexp>
 					</fd:validation>
@@ -155,7 +173,7 @@
 					<fd:validation>
 						<fd:email>
 							<fd:failmessage>
-								Please provide a valid email address. 
+								Not a valid email address!
 							</fd:failmessage>
 						</fd:email>
 					</fd:validation>
@@ -167,7 +185,7 @@
 				</fd:field>
 
 				<fd:submit id="createUserSubmit" state="invisible">
-					<fd:label>Create user</fd:label>
+					<fd:label>Create User</fd:label>
 				</fd:submit>
 
 				<fd:submit id="cancelSubmit" state="invisible" validate="false">
