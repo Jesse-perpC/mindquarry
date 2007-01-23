@@ -24,7 +24,7 @@
 		<fd:datatype base="string" />
 		<fd:label>Title</fd:label>
 		<fd:hint>Title of the document</fd:hint>
-		<fd:help>A title identifies the document's content</fd:help>
+		<fd:help>A title is a description of the document content.</fd:help>
 	</fd:field>
 	<ft:widget>
 		<fi:styling autoactive="true"/>
