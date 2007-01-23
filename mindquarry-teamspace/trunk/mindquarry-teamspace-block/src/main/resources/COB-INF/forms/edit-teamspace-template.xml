@@ -23,8 +23,6 @@ xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 		<title>Change Team Settings</title>
 		<link rel="stylesheet"
 				href="css/teamspace.css" type="text/css" />
-		<link rel="stylesheet"
-				href="../resources/css/create-teamspace.css" type="text/css" />
 				
 	</head>
 	<body>

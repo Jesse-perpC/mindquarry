@@ -27,8 +27,6 @@
             href="{$pathToBlock}css/teamspace.css" type="text/css" />
         <link rel="stylesheet"
             href="{$pathToBlock}css/edit-members.css" type="text/css" />
-        <link rel="stylesheet"
-            href="{$pathToBlock}css/create-teamspace.css" type="text/css" />
 				
         <script type="text/javascript"
             src="{$pathToBlock}scripts/slider.js">//</script>
