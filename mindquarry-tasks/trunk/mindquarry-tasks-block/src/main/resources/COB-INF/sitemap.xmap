@@ -226,7 +226,7 @@
 
 	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
-		<pipeline type="noncaching">
+		<pipeline type="expires-caching">
 			<match pattern="css/*.css">
 				<select type="resource-exists">
 					<when test="css/{1}.css">
@@ -369,7 +369,7 @@
 		</pipeline>
 
 		<!-- overriding dforms block matcher -->
-		<pipeline type="noncaching">
+		<pipeline type="caching-point">
 
 			<!-- @virtual: for even more specific sub-blocks ;-) -->
 			<match pattern="tasks-dforms-model-directory.xml">
@@ -397,7 +397,7 @@
 		</pipeline>
 
 		<!-- provides the files for forms (internal) -->
-		<pipeline type="noncaching" internal-only="true">
+		<pipeline type="caching-point" internal-only="true">
 			
 			<!-- internal pipeline for the filter editor -->
 			<match pattern="internal/pipe/forms/*.xml">
@@ -417,7 +417,7 @@
 		</pipeline>
 
 		<!-- filters (internal) -->
-		<pipeline type="noncaching" internal-only="true">
+		<pipeline type="caching-point" internal-only="true">
 			<!-- raw XML, only list of filters -->
 			<match pattern="internal/pipe/filters/*/list.xml">
 				<generate type="collection"
@@ -442,7 +442,7 @@
 		</pipeline>
 
 		<!-- teamspacesTasksOverview (internal) -->
-		<pipeline type="noncaching" internal-only="true">
+		<pipeline type="caching-point" internal-only="true">
 
 			<!-- raw XML -->
 			<match pattern="internal/pipe/overview.xml">
@@ -505,7 +505,7 @@
 		</pipeline>
 
 		<!-- tasksForTeamspace (internal) -->
-		<pipeline type="noncaching" internal-only="true">
+		<pipeline type="caching-point" internal-only="true">
 
 			<!-- raw XML-->
 			<match pattern="internal/pipe/tasks/*/list.xml">
@@ -552,7 +552,7 @@
 		</pipeline>
 
 		<!-- External browser pipeline with REST -->
-		<pipeline type="noncaching">
+		<pipeline type="caching-point">
 
 			<!-- list of teamspaces with the tasks overview (teamspacesTaskOverview) -->
 			<match pattern="">
