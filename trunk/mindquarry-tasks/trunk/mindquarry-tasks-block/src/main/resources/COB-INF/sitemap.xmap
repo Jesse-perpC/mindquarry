@@ -421,7 +421,9 @@
 			<!-- raw XML, only list of filters -->
 			<match pattern="internal/pipe/filters/*/list.xml">
 				<generate type="collection"
-					src="jcr:///teamspaces/{1}/tasks/filters" />
+					src="jcr:///teamspaces/{1}/tasks/filters">
+					<parameter name="exclude" value="id:unique" />
+				</generate>
 				<transform src="xslt/xml/collection2filterlist.xsl">
 					<parameter name="basePath"
 						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
@@ -574,7 +576,7 @@
 			<!-- create new filter -->
 			<match pattern="*/filters/new">
 				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/new"/>
-				<call function="displayFilterForm">
+				<call function="displayNewFilterForm">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="definitionURI"
 						value="forms/task-filter-form.xml" />
@@ -586,7 +588,7 @@
 			<!-- display saved filter -->
 			<match pattern="*/filters/*">
 				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/{1}"/>
-				<call function="displaySavedFilter">
+				<call function="displaySavedFilterForm">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="filterID" value="{2}" />
 					<parameter name="definitionURI"

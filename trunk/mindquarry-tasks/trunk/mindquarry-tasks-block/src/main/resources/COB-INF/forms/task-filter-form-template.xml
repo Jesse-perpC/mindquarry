@@ -26,15 +26,15 @@
 			action="#{$cocoon/continuation/id}.continue" method="POST"
 			ajax="true">
 			
-			<h1>Create Filter</h1>
+			<h1><ft:widget id ="filterName"/></h1>
 			
 			<div class="nifty">
-				<ft:group id="filterBuilder">
+				<ft:group id="filterBuilderWidgets">
 					<div id="add_rule_block">
 						<ft:widget id="aggregator" />
-						<ft:widget id="addPart" />
+						<ft:widget id="addRule" />
 					</div>
-					<ft:repeater id="parts"
+					<ft:repeater id="rules"
 						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 						<table>
 							<tbody>
@@ -59,23 +59,26 @@
 						</table>
 					</ft:repeater>
 				</ft:group>
-							
+						
 				<div class="actions">
-					<ft:group id="filterBuilder">
+					<ft:group id="filterBuilderWidgets">
 						<ft:widget-label id="title" />
 						<ft:widget id="title" />
 					</ft:group>
-				</div>
-				
-				<div class="actions">
-					<ft:widget id="executeFilter" />
-					<ft:group id="filterBuilder">
-						<ft:widget id="saveFilter" />
+					<ft:group id="saveFilterWidgets">
+						<ft:widget id="saveFilterAction" />
+					</ft:group>
+					<ft:group id="deleteFilterWidgets">
+						<ft:widget id="deleteFilterAction" />
 					</ft:group>
 				</div>
 			</div>
 			
 			<div class="nifty">
+				<div style="margin-bottom:6px;">
+					<ft:widget id="executeFilter" />
+				</div>
+				
 				<ft:repeater id="results"
 					xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 						<table class="task-list">

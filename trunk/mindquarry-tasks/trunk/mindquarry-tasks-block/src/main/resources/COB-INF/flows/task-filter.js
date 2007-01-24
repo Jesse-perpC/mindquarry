@@ -15,14 +15,22 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 var form_;
 var teamspaceID_;
 
-function displayFilterForm() {
+function displayNewFilterForm() {
 	teamspaceID_ = cocoon.parameters["teamspaceID"];
 	
 	form_ = new Form(cocoon.parameters["definitionURI"]);
+	
+	// deactivate unecessary widgets
+    var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
+    var deleteFilterWidgets = form_.lookupWidget("/deleteFilterWidgets");
+    deleteFilterWidgets.setState(WidgetState.INVISIBLE);
+    	
 	form_.showForm(cocoon.parameters["templatePipeline"]);
+	
+	finishForm();
 }
 
-function displaySavedFilter() {
+function displaySavedFilterForm() {
     var filterID = cocoon.parameters["filterID"];
     teamspaceID_ = cocoon.parameters["teamspaceID"];
     
@@ -38,7 +46,7 @@ function displaySavedFilter() {
 		
 		form_ = new Form(cocoon.parameters["definitionURI"]);
 		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
-								form_.lookupWidget("/filterBuilder"));
+								form_.lookupWidget("/filterBuilderWidgets"));
 	
     	// load saved filter data
     	var parser = Packages.org.xml.sax.helpers.XMLReaderFactory.createXMLReader();
@@ -46,6 +54,20 @@ function displaySavedFilter() {
     	parser.parse(new Packages.org.xml.sax.InputSource(pfSource.getInputStream()));
     	
     	executeFilter();
+    	
+    	// deactivate unecessary widgets
+    	var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
+    	var saveFilterWidgets = form_.lookupWidget("/saveFilterWidgets");
+    	saveFilterWidgets.setState(WidgetState.INVISIBLE);
+    	
+    	var filterBuilderWidgets = form_.lookupWidget("/filterBuilderWidgets");
+    	filterBuilderWidgets.setState(WidgetState.INVISIBLE);
+    	
+    	// set filter title
+    	var filterTitleField = form_.lookupWidget("/filterBuilderWidgets/title");
+    	var filterNameField = form_.lookupWidget("/filterName");
+    	filterNameField.setValue(filterTitleField.getValue());
+    	
     	form_.showForm(cocoon.parameters["templatePipeline"]);
 	} finally {
 		if (pfSource != null) {
@@ -53,11 +75,25 @@ function displaySavedFilter() {
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
+	finishForm(filterID);
+}
+
+function finishForm(fID) {
+    var saveFilterAction = form_.lookupWidget("/saveFilterWidgets/saveFilterAction");
+	var deleteFilterAction = form_.lookupWidget("/deleteFilterWidgets/deleteFilterAction");
+	
+	// eval submit action
+	var submitWidget = form_.getWidget().getSubmitWidget();
+	if (submitWidget.getId().equals(saveFilterAction.getId())) {
+	    saveFilter();
+	} else if (submitWidget.getId().equals(deleteFilterAction.getId())) {
+	    deleteFilter(fID);
+	}
 }
 
 function buildFilter() {
-	var partRepeater = form_.lookupWidget("/filterBuilder/parts");
-    var aggregator = form_.lookupWidget("/filterBuilder/aggregator").getValue();
+	var partRepeater = form_.lookupWidget("/filterBuilderWidgets/rules");
+    var aggregator = form_.lookupWidget("/filterBuilderWidgets/aggregator").getValue();
     
 	// build filter (only files below tasks/ that contain task
     var filter = "jcr:///teamspaces/" + teamspaceID_ + "/tasks?" + "/*[contains(local-name(.),'task')]";
@@ -91,9 +127,9 @@ function buildFilter() {
 }
 
 function executeFilter() {
-	// validate filter widget
-	form_.lookupWidget("/filterBuilder/parts").validate();
-	if(!form_.lookupWidget("/filterBuilder/parts").isValid()) return;
+    // validate filter widget
+	form_.lookupWidget("/filterBuilderWidgets/rules").validate();
+	if(!form_.lookupWidget("/filterBuilderWidgets/rules").isValid()) return;
 	
 	// create filter
 	var filter = buildFilter();
@@ -110,18 +146,12 @@ function executeFilter() {
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
 		filterSource = srcResolver.resolveURI(filter);
 		
-		//print(filter);
-		
-		// process result
+    	// process result
 		var results = filterSource.getChildren();
 		for(var i = 0; i < results.size(); i++) {
 			var source = results.get(i);
 
-			//print(source.getName());
-
 		    if(source.isCollection()) continue;
-		    
-		    //Packages.org.apache.commons.io.IOUtils.copy(source.getInputStream(), Packages.java.lang.System.out);
 		    
 		    // transform results to repeater format
 		    var os = Packages.java.io.ByteArrayOutputStream();
@@ -135,10 +165,8 @@ function executeFilter() {
 	        transformer.setParameter("taskID", 
 	        	source.getName().substring(0, source.getName().indexOf(".")));
 	        transformer.setParameter("teamspaceID", teamspaceID_);
-	        //print("Result form xml:");
 	        transformer.transform(xmlSource,
 	        	new Packages.javax.xml.transform.stream.StreamResult( os ));
-	        	//new Packages.javax.xml.transform.stream.StreamResult( Packages.java.lang.System.out ));
 	        
 	        // add filter result to results repeater
 			var row = resultRepeater.addRow();
@@ -159,7 +187,7 @@ function executeFilter() {
 
 function saveFilter() {
 	// validate filter name widget
-	var nameWidget = form_.lookupWidget("/filterBuilder/title");
+	var nameWidget = form_.lookupWidget("/filterBuilderWidgets/title");
 	nameWidget.validate();
 	
 	if(!nameWidget.isValid()) return;
@@ -167,34 +195,31 @@ function saveFilter() {
 	// save filter
 	var fdSource;
 	var srcResolver;
+	var fID = 0;
 	try {
+	    var baseURI = "jcr:///teamspaces/" + teamspaceID_ +	"/tasks/filters";
 		// resolve filter directory
 		srcResolver = cocoon.getComponent(
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
-		fdSource = srcResolver.resolveURI("jcr:///teamspaces/" + teamspaceID_ + 
-										"/tasks/filters");
-		
+		fdSource = srcResolver.resolveURI(baseURI);
+										
 		// if filter dir not yet exist, create it
-		var fNumber = 0;
 		if(!fdSource.exists()) fdSource.makeCollection();
 		
-		// loop persistent filters and find the highest filter number
-		var pFilters = fdSource.getChildren();
-		for(var i = 0; i < pFilters.size(); i++) {
-			var pFilter = pFilters.get(i);
-			if(pFilter.getName() > fNumber) {
-				fNumber = pFilter.getName(); 
-			}
-		}
-		fNumber++;
+        var tasksManager;
+    	try {
+    		tasksManager = cocoon.getComponent("com.mindquarry.tasks.TasksManager");
+    		fID = tasksManager.getUniqueId(baseURI);
+    	} finally {
+    		cocoon.releaseComponent(tasksManager);
+    	}
 		
 		// save filter definition
-		var pfTitleSource = srcResolver.resolveURI("jcr:///teamspaces/" + 
-							teamspaceID_ + "/tasks/filters/" + fNumber);
+		var pfTitleSource = srcResolver.resolveURI(baseURI + "/" + fID);
 		var os = pfTitleSource.getOutputStream();
 		
 		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
-								form_.lookupWidget("/filterBuilder"));
+								form_.lookupWidget("/filterBuilderWidgets"));
 		var tf = Packages.javax.xml.transform.TransformerFactory.newInstance();
 		var transformerHandler = tf.newTransformerHandler();
         var transformer = transformerHandler.getTransformer();
@@ -208,4 +233,26 @@ function saveFilter() {
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
+	cocoon.redirectTo(fID);
+}
+
+function deleteFilter(fID) {
+    var fSource;
+    var srcResolver;
+    try {
+		// resolve filter directory
+		srcResolver = cocoon.getComponent(
+				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
+		
+		// delete filter definition
+		var fSource = srcResolver.resolveURI("jcr:///teamspaces/" + 
+							teamspaceID_ + "/tasks/filters/" + fID);
+		fSource['delete'];
+	} finally {
+		if (fSource != null) {
+			srcResolver.release(fSource);
+		}
+		cocoon.releaseComponent(srcResolver);
+	}
+    cocoon.redirectTo("..");
 }
