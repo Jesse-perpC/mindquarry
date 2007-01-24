@@ -63,12 +63,15 @@
 
   <xsl:template match="head" mode="forms-field-mindquarry">
     <xsl:copy-of select="fi:init/node()"/>
+    
+    <!-- moved to html2html to be available for lightbox-forms (eg. edit-user)
     <script src="{$resources-uri}/ajax/cocoon.js" type="text/javascript"/>
     <script src="{$resources-uri}/forms/js/forms-lib.js" type="text/javascript"/>
     <script type="text/javascript">
         dojo.addOnLoad(forms_onload);
         dojo.require("cocoon.forms.*");
     </script>
+    -->
 
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/> -->
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/PopupWindow.js" type="text/javascript"/>-->
@@ -82,7 +85,9 @@
       <script src="/*/fi:googlemap/fi:key" type="text/javascript"/>
     </xsl:if>
 
+    <!-- moved to html2html to be available for lightbox-forms (eg. edit-user)
     <link rel="stylesheet" type="text/css" href="{$resources-uri}/forms/css/forms.css"/>
+    -->
   </xsl:template>
 
   <xsl:template match="body">

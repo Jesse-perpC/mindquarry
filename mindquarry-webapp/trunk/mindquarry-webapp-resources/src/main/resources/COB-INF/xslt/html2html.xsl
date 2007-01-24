@@ -38,6 +38,12 @@
 	<xsl:param name="cssPath" select="'css/'" />
 	<xsl:param name="scriptPath" select="'scripts/'" />
 
+	<!-- resources directory for Dojo js, css and the like -->
+	<xsl:param name="resources-uri">
+		<xsl:value-of select="$pathToRoot"/>
+		<xsl:text>resources/_cocoon/resources</xsl:text>
+	</xsl:param>
+	
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
@@ -102,16 +108,30 @@
 	<xsl:template match="xhtml:head|head">
 		<head>
 			<xsl:apply-templates select="." mode="nifty" />
+			<!-- dojo baselib: must be the first js include -->
 			<script type="text/javascript">djConfig = { isDebug: false };</script>
 			<script type="text/javascript" src="{$pathToRoot}resources/_cocoon/resources/dojo/dojo.js" >//</script>
 			
+			<!-- basic styling -->
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
 			<link rel="icon" href="{$pathToRoot}resources/icons/logo-red-gradient-256-colors.ico" type="image/x-icon" />
 
+			<!-- lightbox -->
 			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}lightbox.css" />
+			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}lightbox-forms.css" />
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}lightbox.js" >//</script>
+
+			<!-- forms -->			
+			<script src="{$resources-uri}/ajax/cocoon.js" type="text/javascript"/>
+			<script src="{$resources-uri}/forms/js/forms-lib.js" type="text/javascript"/>
+			<script type="text/javascript">
+				dojo.addOnLoad(forms_onload);
+				dojo.require("cocoon.forms.*");
+			</script>
+			<link rel="stylesheet" type="text/css" href="{$resources-uri}/forms/css/forms.css"/>
 			
+			<!-- general scripts/dojo widgets -->
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}dojoutils.js" >//</script>
 			<script type="text/javascript">
@@ -293,4 +313,10 @@
 			<xsl:value-of select="." />
 		</xsl:attribute>
 	</xsl:template>
+	
+	<xsl:template match="//div[@hint='replaceWithUserPhoto']">
+		<!-- TODO: add real contextPath before /teamspace  -->
+		<img id="{@id}" class="{@class}" src="/teamspace/users/{normalize-space($username)}.png" />
+	</xsl:template>
+	
 </xsl:stylesheet>
