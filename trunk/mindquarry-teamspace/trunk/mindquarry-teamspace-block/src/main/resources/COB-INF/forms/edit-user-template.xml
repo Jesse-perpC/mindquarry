@@ -154,7 +154,7 @@
 												<ft:widget id="photo" />
 											</td>
 											<td rowspan="2">
-												<div hint="replaceWithUserPhoto" />
+												<div hint="replaceWithUserPhoto" size="60"/>
 											</td>
 										</tr>
 										<tr>
