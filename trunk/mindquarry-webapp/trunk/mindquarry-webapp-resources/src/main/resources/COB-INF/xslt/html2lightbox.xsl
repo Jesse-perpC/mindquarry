@@ -74,8 +74,14 @@
 	</xsl:template>
 	
 	<xsl:template match="//div[@hint='replaceWithUserPhoto']">
+		<!-- if the size is provided, we must append a / for the correct path name -->
+		<xsl:variable name="size">
+			<xsl:if test="@size">
+				<xsl:value-of select="@size"/><xsl:text>/</xsl:text>
+			</xsl:if>
+		</xsl:variable>
 		<!-- TODO: add real contextPath before /teamspace  -->
-		<img id="{@id}" class="{@class}" src="/teamspace/users/70/{normalize-space($username)}.png" />
+		<img id="{@id}" class="{@class}" src="/teamspace/users/{$size}{normalize-space($username)}.png" />
 	</xsl:template>	
 	
 </xsl:stylesheet>
