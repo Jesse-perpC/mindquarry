@@ -1,0 +1,47 @@
+/* form styling in lightboxes */
+
+/* general styling */
+
+#lightbox-content form table {
+	margin-left:auto;
+	margin-right:auto;
+}
+
+#lightbox-content form td {
+	margin:2px;
+	text-align:left;
+	vertical-align:top;
+}
+
+#lightbox-content td.label {
+    color:#ab4c00;
+    text-align:right;
+    vertical-align:top;
+}
+
+#lightbox-content form h3 {
+    text-align:left;
+    color:#888;
+    font-size:105%;
+}
+
+#lightbox-content form input, #lightbox-content form textarea {
+    font-size:90%;
+    padding:1px;
+}
+
+/* specific styling */
+
+#create-teamspace-form, #edit-teamspace-form {
+	width:80%;
+}
+
+#create-teamspace-form input, #edit-teamspace-form input, #create-user-form input {
+    width:90%;
+}
+
+#create-teamspace-form textarea, #edit-teamspace-form textarea, #create-user-form textarea {
+    height:150px;
+    width:90%;
+    display:inline;
+}

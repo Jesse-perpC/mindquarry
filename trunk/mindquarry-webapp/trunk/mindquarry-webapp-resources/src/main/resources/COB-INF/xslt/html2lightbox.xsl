@@ -20,6 +20,10 @@
 	xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
 
+	<!--<xsl:import href="contextpath.xsl"/>-->
+	
+	<xsl:param name="username" select="''" />
+	
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
@@ -68,5 +72,10 @@
            <xsl:text>//</xsl:text>
 	    </xsl:copy>
 	</xsl:template>
+	
+	<xsl:template match="//div[@hint='replaceWithUserPhoto']">
+		<!-- TODO: add real contextPath before /teamspace  -->
+		<img id="{@id}" class="{@class}" src="/teamspace/users/70/{normalize-space($username)}.png" />
+	</xsl:template>	
 	
 </xsl:stylesheet>
