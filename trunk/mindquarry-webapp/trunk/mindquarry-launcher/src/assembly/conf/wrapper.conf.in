@@ -58,7 +58,7 @@ wrapper.logfile=logs/wrapper.log
 wrapper.logfile.format=LPTM
 
 # Log Level for log file output.  (See docs for log levels)
-wrapper.logfile.loglevel=INFO
+wrapper.logfile.loglevel=ERROR
 
 # Maximum size that the log file will be allowed to grow to before
 #  the log is rolled. Size is specified in bytes.  The default value
