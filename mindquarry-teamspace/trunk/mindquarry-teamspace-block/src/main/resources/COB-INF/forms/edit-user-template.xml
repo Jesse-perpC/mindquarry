@@ -22,13 +22,13 @@
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 
 	<head>
-		<title>Edit User Settings</title>
+		<title>Edit User Profile</title>
 	</head>
 	<body>
 		<div>
 			<ft:form-template
-				action="#{$cocoon/continuation/id}.continue"
-				ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
+				action="/teamspace/#{$cocoon/continuation/id}.continue"
+				ajax-action="/teamspace/#{$cocoon/continuation/id}.continue" ajax="true"
 				method="POST" enctype="multipart/form-data"
 				id="edit-user-form">
 
@@ -37,7 +37,7 @@
 					
 					<table style="width:95%;margin-left:auto;margin-right:auto;" id="edit-user-settings-table">
 						<tr>
-							<td style="width:80%; padding-right:10px" valign="top">
+							<td style="padding-right:10px" valign="top">
 								<ft:group id="profile">
 									<h3>Personal Information</h3>
 									
@@ -151,14 +151,14 @@
 												<ft:widget-label id="photo" />
 											</td>
 											<td>
-												<div id="replaceWithCurrentPhoto" />
-											</td>
-											<td>
 												<ft:widget id="photo" />
+											</td>
+											<td rowspan="2">
+												<div hint="replaceWithUserPhoto" />
 											</td>
 										</tr>
 										<tr>
-											<td colspan="2"></td>
+											<td></td>
 											<td>
 												<ft:widget id="uploadPhoto" />												
 											</td>
@@ -169,7 +169,7 @@
 							</td>
 						</tr>
 						<tr>
-							<td colspan="2" style="text-align:center">
+							<td colspan="2" style="padding-top:10px;text-align:center">
 								<ft:widget id="close" />
 							</td>
 						</tr>

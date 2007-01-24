@@ -20,9 +20,11 @@
 			<fd:label>Teamspace ID</fd:label>
 			<fd:datatype base="string"></fd:datatype>
 			<fd:validation>
-				<fd:regexp pattern="[a-z\-]{3,}">
+				<fd:regexp pattern="[a-z][a-z0-9\-]{2,}">
 					<fd:failmessage>
-						Teamspace ID should be in lower case and must contain at least 3 characters. 
+						The teamspace id must be in lower case, starting with
+						a letter and must contain at least 3 alphanumeric
+						characters (a-z, A-Z, 0-9, -).
 					</fd:failmessage>
 				</fd:regexp>
 				<fd:javascript>
@@ -34,7 +36,7 @@
 			<fd:label>Teamspace Name</fd:label>
 			<fd:datatype base="string"></fd:datatype>
 			<fd:validation>
-				<fd:regexp pattern="[\w\s]+">
+				<fd:regexp pattern="\w[\w\s]*">
 					<fd:failmessage>
 						Full name should contain at least 1 character. 
 					</fd:failmessage>

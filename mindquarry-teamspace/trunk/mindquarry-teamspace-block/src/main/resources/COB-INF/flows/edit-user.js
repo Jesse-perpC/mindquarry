@@ -37,7 +37,7 @@ function processEditUser(form) {
 }
 
 function updateProfile() {
-	var name = model_.profile.name;
+	var firstname = model_.profile.name;
 	var surname = model_.profile.surname;
 	var email = model_.profile.email;
 	var skills = model_.profile.skills;
@@ -45,11 +45,15 @@ function updateProfile() {
 	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);
 	var currentUserId = cocoon.request.getAttribute("username");
 	var currentUser = userAdmin.userById(currentUserId);
+	
+	print(firstname);
 		
-	currentUser.setName(name);	
-	currentUser.setName(surname);	
-	currentUser.setName(email);	
-	currentUser.setName(skills);	
+	currentUser.setName(firstname);
+	currentUser.setSurname(surname);	
+	currentUser.setEmail(email);
+	currentUser.setSkills(skills);
+	
+	userAdmin.updateUser(currentUser);	
 }
 
 function changePassword() {
