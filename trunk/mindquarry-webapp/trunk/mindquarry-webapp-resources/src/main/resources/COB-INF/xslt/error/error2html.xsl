@@ -58,6 +58,10 @@
             border-top: 1px solid grey;
           }
           
+          .niftycontent {
+            overflow: visible;
+          }
+          
           #technical_details_switch {
             background-image: url(../buttons/collapsed_blue.gif);
             background-repeat: no-repeat;
