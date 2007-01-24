@@ -13,7 +13,13 @@
 -->
 <fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	<fd:widgets>
-		<fd:group id="filterBuilder">
+		<!-- output field for displaying the name of a filter -->
+		<fd:output id="filterName">
+			<fd:datatype base="string"/>
+			<fd:initial-value>Create Filter</fd:initial-value>
+		</fd:output>
+		
+		<fd:group id="filterBuilderWidgets">
 			<fd:widgets>
 				<!-- filter aggregator field -->
 				<fd:field id="aggregator">
@@ -37,8 +43,8 @@
 				</fd:field>
 						
 				<!-- filter part repeater -->
-				<fd:repeater id="parts">
-					<fd:label>Filter Parts</fd:label>
+				<fd:repeater id="rules">
+					<fd:label>Filter Rules</fd:label>
 		
 					<!-- filter part widgets -->
 					<fd:widgets>
@@ -111,45 +117,35 @@
 						</fd:field>
 						
 						<fd:row-action id="delete" command="delete">
-							<fd:label>Remove</fd:label>
+							<fd:label>Remove Rule</fd:label>
 						</fd:row-action>
 					</fd:widgets>
 		
 					<!-- helper information -->
-					<fd:hint>Parts of a filter.</fd:hint>
+					<fd:hint>Rules of a filter.</fd:hint>
 					<fd:help>
-						Use this field for configuring the parts of a filter.
+						Use this field for configuring the rules of a filter.
 					</fd:help>
 				</fd:repeater>
 				
 				<!-- add field to filter action -->
-				<fd:repeater-action repeater="parts" id="addPart"
+				<fd:repeater-action repeater="rules" id="addRule"
 					command="add-row">
 					<fd:label>Add Rule</fd:label>
 				</fd:repeater-action>
 				
-				<!-- save filter action -->
-				<fd:action id="saveFilter">
-					<fd:label>Save Filter</fd:label>
-					<fd:on-action>
-						<fd:javascript>saveFilter();</fd:javascript>
-					</fd:on-action>
-				</fd:action>
-				
-				<!-- filter name configuration -->
+				<!-- filter title field -->
 				<fd:field id="title" required="true">
-					<!-- basic configuration -->
 					<fd:label>Filter Name</fd:label>
 					<fd:datatype base="string" />
 					<fd:validation>
 						<fd:length min="1">
 							<fd:failmessage>
-								Value field must contain at least one ore more characters.
+								Title field must contain at least one ore more characters.
 							</fd:failmessage>
 						</fd:length>
 					</fd:validation>
-		
-					<!-- helper information -->
+					
 					<fd:hint>
 						Name of the filter.
 					</fd:hint>
@@ -167,6 +163,24 @@
 				<fd:javascript>executeFilter();</fd:javascript>
 			</fd:on-action>
 		</fd:action>
+		
+		<!-- save filter widgets -->
+		<fd:group id="saveFilterWidgets">
+			<fd:widgets>
+				<fd:submit id="saveFilterAction">
+					<fd:label>Save Filter</fd:label>
+				</fd:submit>
+			</fd:widgets>
+		</fd:group>
+		
+		<!-- delete filter widgets -->
+		<fd:group id="deleteFilterWidgets">
+			<fd:widgets>
+				<fd:submit id="deleteFilterAction" >
+					<fd:label>Delete Filter</fd:label>
+				</fd:submit>
+			</fd:widgets>
+		</fd:group>
 		
 		<!-- repeater for displaying filter results -->
 		<fd:repeater id="results" state="output">

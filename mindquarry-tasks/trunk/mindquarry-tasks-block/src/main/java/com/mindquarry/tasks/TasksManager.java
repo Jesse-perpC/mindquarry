@@ -49,6 +49,7 @@ public class TasksManager implements TeamspaceListener {
      */
     public void beforeTeamspaceCreated(Teamspace teamspace)
             throws Exception {
+        // tasks
         final String tasksDirPath = "/teamspaces/" + teamspace.getId()
                 + "/tasks";
 
@@ -62,6 +63,21 @@ public class TasksManager implements TeamspaceListener {
 
         // create id subnode
         this.uniqueIDGenerator.initializePath(tasksDirPath);
+        
+        
+        // filters
+        final String filtersDirPath = tasksDirPath + "/filters";
+        
+        // create filters sub directory
+        ModifiableTraversableSource filterSource;
+        source = (ModifiableTraversableSource) this.sourceResolver
+                .resolveURI("jcr://" + filtersDirPath);
+        if (!source.exists()) {
+            source.makeCollection();
+        }
+
+        // create id subnode
+        this.uniqueIDGenerator.initializePath(filtersDirPath);
     }
 
     /**
@@ -80,4 +96,11 @@ public class TasksManager implements TeamspaceListener {
         return "task" + id;
     }
 
+    /**
+     * Creates a unique id for the given jcr path. The string will only be the
+     * id, where id is a unique number below the given path.
+     */
+    public long getUniqueId(String jcrPath) throws Exception {
+        return uniqueIDGenerator.getNextID(jcrPath);
+    }
 }

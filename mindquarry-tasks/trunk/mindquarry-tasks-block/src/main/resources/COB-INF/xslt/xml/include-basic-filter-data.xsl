@@ -29,7 +29,7 @@
 		<filter xlink:href="filters/{@id}">
 			<!-- "../@xlink:href" contains the teamspace id -->
 			<xsl:variable name="doc" select="document(concat($basePath, ../@xlink:href, '/tasks/filters/', @id))" />
-			<title><xsl:value-of select="$doc/filterBuilder/title" /></title>
+			<title><xsl:value-of select="$doc/filterBuilderWidgets/title" /></title>
 		</filter>
 	</xsl:template>
 
