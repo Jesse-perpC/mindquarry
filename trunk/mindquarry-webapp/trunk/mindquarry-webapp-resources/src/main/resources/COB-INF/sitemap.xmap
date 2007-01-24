@@ -29,7 +29,7 @@
 	</flow>
 
 	<pipelines>
-		<pipeline type="caching-point">
+		<pipeline type="expires-caching">
 			<match pattern="client/client.jnlp">
 				<call function="sendJNLP">
 					<parameter name="target"
@@ -100,7 +100,7 @@
 			</match>
 		</pipeline>
 		
-		<pipeline type="caching-point">
+		<pipeline type="expires-caching">
 			<!-- icons from tango jar -->
 
 			<!-- this here was the only one without a resources/ path prefix -->
@@ -210,7 +210,7 @@
 			</match>
 		</pipeline>
 		
-		<pipeline type="caching-point">
+		<pipeline type="expires-caching">
 				
 			<match pattern="**templates/HtmlEditorToolbarOneline.html">
 				<read src="templates/wikiToolbarTemplate.html" />
