@@ -178,6 +178,8 @@
 							value="{request:pathInfo}" />
 						<parameter name="user.agent"
 							value="{request-header:User-Agent}" />
+						<parameter name="username"
+							value="{request-attr:username}" />
 					</transform>
 					<serialize type="xml" />
 				</when>
@@ -321,14 +323,6 @@
 					<parameter name="locale"
 						value="{flow-attribute:locale}" />
 				</generate>
-				<transform src="xslt/editUser2html.xsl">
-					<parameter name="username"
-						value="{request-attr:username}" />
-					<parameter name="fullPath"
-						value="{block-path:}{request:pathInfo}" />
-					<parameter name="sitemapPath"
-						value="{request:pathInfo}" />
-				</transform>
 				<transform type="browser-update" />
 				<call resource="form2html" />
 				<call resource="layouting" />
@@ -348,7 +342,7 @@
 
 		<!-- external browser pipeline -->
 		<pipeline type="caching-point">
-			<parameter name="expires" value="access plus 1 minutes"/>
+			<!--<parameter name="expires" value="access plus 1 minutes"/>-->
 						
 			<!-- teamspace list -->
 			<match pattern="">
