@@ -13,6 +13,9 @@
  */
 package com.mindquarry.tasks;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.apache.cocoon.environment.SourceResolver;
 import org.apache.excalibur.source.ModifiableTraversableSource;
 
@@ -49,35 +52,8 @@ public class TasksManager implements TeamspaceListener {
      */
     public void beforeTeamspaceCreated(Teamspace teamspace)
             throws Exception {
-        // tasks
-        final String tasksDirPath = "/teamspaces/" + teamspace.getId()
-                + "/tasks";
-
-        // create tasks sub directory
-        ModifiableTraversableSource source;
-        source = (ModifiableTraversableSource) this.sourceResolver
-                .resolveURI("jcr://" + tasksDirPath);
-        if (!source.exists()) {
-            source.makeCollection();
-        }
-
-        // create id subnode
-        this.uniqueIDGenerator.initializePath(tasksDirPath);
-        
-        
-        // filters
-        final String filtersDirPath = tasksDirPath + "/filters";
-        
-        // create filters sub directory
-        ModifiableTraversableSource filterSource;
-        source = (ModifiableTraversableSource) this.sourceResolver
-                .resolveURI("jcr://" + filtersDirPath);
-        if (!source.exists()) {
-            source.makeCollection();
-        }
-
-        // create id subnode
-        this.uniqueIDGenerator.initializePath(filtersDirPath);
+        initializeTasks(teamspace.getId());
+        initializeTasksFilter(teamspace.getId());
     }
 
     /**
@@ -87,11 +63,24 @@ public class TasksManager implements TeamspaceListener {
             throws Exception {
     }
     
+    private String extractTeamspaceFromURI(String jcrURI) throws Exception {
+        // simple regular expression that looks for the teamspace name...
+        Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
+        Matcher m = p.matcher(jcrURI);
+        if (m.matches()) {
+            return m.group(1); // "mindquarry";
+        }
+        
+        throw new Exception("Invalid JCR URI.");
+    }
+    
     /**
      * Creates a unique id for the given jcr path. This id will look like
      * "task" + id, where id is a unique number below the given path.
      */
     public String getUniqueTaskId(String jcrPath) throws Exception {
+        initializeTasks(extractTeamspaceFromURI(jcrPath));
+        
         long id = uniqueIDGenerator.getNextID(jcrPath);
         return "task" + id;
     }
@@ -101,6 +90,42 @@ public class TasksManager implements TeamspaceListener {
      * id, where id is a unique number below the given path.
      */
     public long getUniqueId(String jcrPath) throws Exception {
+        initializeTasksFilter(extractTeamspaceFromURI(jcrPath));
+        
         return uniqueIDGenerator.getNextID(jcrPath);
     }
+
+    /**
+     * Initialization is only done, if the things to initialize are not yet
+     * existing, so it can be called anytime to ensure the existence.
+     */
+    private void initializeTasks(String teamspace) throws Exception {
+        initializeUniqueIdDirectory("/teamspaces/" + teamspace + "/tasks");
+    }
+
+    /**
+     * Initialization is only done, if the things to initialize are not yet
+     * existing, so it can be called anytime to ensure the existence.
+     */
+    private void initializeTasksFilter(String teamspace) throws Exception {
+        initializeUniqueIdDirectory("/teamspaces/" + teamspace + "/tasks/filters");
+    }
+
+    /**
+     * Initialization is only done, if the things to initialize are not yet
+     * existing, so it can be called anytime to ensure the existence.
+     */
+    private void initializeUniqueIdDirectory(String path) throws Exception {
+        // create sub directory
+        ModifiableTraversableSource source;
+        source = (ModifiableTraversableSource) this.sourceResolver
+                .resolveURI("jcr://" + path);
+        if (!source.exists()) {
+            source.makeCollection();
+        }
+
+        // create id subnode
+        this.uniqueIDGenerator.initializePath(path);
+    }
+
 }
