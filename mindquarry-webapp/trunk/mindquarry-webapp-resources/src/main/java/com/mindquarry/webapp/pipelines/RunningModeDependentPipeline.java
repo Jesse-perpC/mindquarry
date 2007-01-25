@@ -13,6 +13,8 @@
  */
 package com.mindquarry.webapp.pipelines;
 
+import javax.servlet.ServletContext;
+
 import org.apache.avalon.excalibur.pool.Recyclable;
 import org.apache.avalon.framework.parameters.ParameterException;
 import org.apache.avalon.framework.parameters.Parameterizable;
@@ -21,6 +23,8 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 import org.apache.cocoon.ProcessingException;
+import org.apache.cocoon.blocks.BlockCallStack;
+import org.apache.cocoon.blocks.BlockContext;
 import org.apache.cocoon.components.pipeline.ProcessingPipeline;
 import org.apache.cocoon.core.container.spring.RunningModeHelper;
 import org.apache.cocoon.environment.Environment;
@@ -88,6 +92,7 @@ public class RunningModeDependentPipeline extends AbstractLogEnabled implements
     
     private String wrappedPipelineShorthand;
     private ProcessingPipeline wrappedPipeline = null;
+    private boolean fixMissingCachingPrefixWithBlockServlets;
 
     private ServiceManager manager;
 
@@ -98,6 +103,8 @@ public class RunningModeDependentPipeline extends AbstractLogEnabled implements
     public void parameterize(Parameters parameters) throws ParameterException {
         String mode = RunningModeHelper.determineRunningMode(null);
         this.wrappedPipelineShorthand = parameters.getParameter(mode, "noncaching");
+        
+        this.fixMissingCachingPrefixWithBlockServlets = parameters.getParameterAsBoolean("fixCachingPrefix", true);
     }
     
     public void setup(Parameters parameters) {
@@ -176,26 +183,41 @@ public class RunningModeDependentPipeline extends AbstractLogEnabled implements
     /* (non-Javadoc)
      * @see org.apache.cocoon.components.pipeline.ProcessingPipeline#prepareInternal(org.apache.cocoon.environment.Environment)
      */
-    public void prepareInternal(Environment arg0) throws ProcessingException {
+    public void prepareInternal(Environment env) throws ProcessingException {
         ensureWrappedPipelineIsSetNoException();
-        this.wrappedPipeline.prepareInternal(arg0);
+        fixEnvironmentForCachingPrefix(env);
+        this.wrappedPipeline.prepareInternal(env);
     }
 
     /* (non-Javadoc)
      * @see org.apache.cocoon.components.pipeline.ProcessingPipeline#process(org.apache.cocoon.environment.Environment)
      */
-    public boolean process(Environment arg0) throws ProcessingException {
+    public boolean process(Environment env) throws ProcessingException {
         ensureWrappedPipelineIsSetNoException();
-        return this.wrappedPipeline.process(arg0);
+        fixEnvironmentForCachingPrefix(env);
+        return this.wrappedPipeline.process(env);
     }
 
     /* (non-Javadoc)
      * @see org.apache.cocoon.components.pipeline.ProcessingPipeline#process(org.apache.cocoon.environment.Environment, org.apache.cocoon.xml.XMLConsumer)
      */
-    public boolean process(Environment arg0, XMLConsumer arg1)
+    public boolean process(Environment env, XMLConsumer arg1)
             throws ProcessingException {
         ensureWrappedPipelineIsSetNoException();
-        return this.wrappedPipeline.process(arg0, arg1);
+        fixEnvironmentForCachingPrefix(env);
+        return this.wrappedPipeline.process(env, arg1);
+    }
+
+    private void fixEnvironmentForCachingPrefix(Environment env) {
+        if (this.fixMissingCachingPrefixWithBlockServlets &&
+            (env.getURIPrefix() == null || env.getURIPrefix().equals(""))) {
+            ServletContext context = BlockCallStack.getCurrentBlockContext();
+            if (context instanceof BlockContext) {
+                // use the mount path of the block as the prefix
+                String mountPath = ((BlockContext) context).getMountPath() + "/";
+                env.setURI(mountPath, env.getURI());
+            }
+        }
     }
 
     /* (non-Javadoc)
