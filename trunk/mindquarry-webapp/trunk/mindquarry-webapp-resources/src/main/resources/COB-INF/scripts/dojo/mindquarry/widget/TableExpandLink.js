@@ -133,8 +133,10 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
             for (var i=0;i<indent;i++) {
               urlprefix = urlprefix + "../";
             }
-            //alert(urlprefix);
+
             baselink = baselink.substr(0, baselink.indexOf("?revision="));
+            // dirs have a /browser/, files a /view/ part in the url
+            var fileBaselink = baselink.replace("/browser/", "/view/");
             
             //var rownumber = 0;
             
@@ -156,19 +158,21 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
                   for (var k=0;k<links.length;k++) {
                     links[k].style.backgroundImage = links[k].style.backgroundImage.replace(urlprefix,"url(");
                     var mylink = links[k].href;
+                    //alert("link [" + k + "]: " + mylink);
                     var folder = false;
                     if (mylink.indexOf("/?")!=-1) {
-                       mylink = mylink.substr(0, mylink.lastIndexOf("/?"));
-                       folder = true;
+                    	mylink = mylink.substr(0, mylink.lastIndexOf("/?"));
+                    	folder = true;
                     } else {
                       mylink = mylink.substr(0, mylink.lastIndexOf("?"));
                     }
                     mylink = mylink.substr(mylink.lastIndexOf("/") + 1);
+
                     if (folder) {
-                      mylink = mylink + "/" + revision;
+	                    links[k].href = baselink + mylink + "/" + revision;
+                    } else {
+	                    links[k].href = fileBaselink + mylink + revision;
                     }
-                    //alert(mylink);
-                    links[k].href = baselink + mylink;
                   }
                   var divs = newcell.getElementsByTagName("div");
                   for (var k=0;k<divs.length;k++) {
