@@ -157,13 +157,13 @@
 		</fd:group>
 
 		<!-- execute filter action -->
-		<fd:action id="executeFilter">
+		<fd:action id="executeFilterAction">
 			<fd:label>Execute Filter</fd:label>
 			<fd:on-action>
 				<fd:javascript>executeFilter();</fd:javascript>
 			</fd:on-action>
 		</fd:action>
-		
+				
 		<!-- save filter widgets -->
 		<fd:group id="saveFilterWidgets">
 			<fd:widgets>

@@ -20,6 +20,8 @@
 
 	<head>
 		<title>Task Filter Editor</title>
+		
+		<link rel="stylesheet" type="text/css" href="../../css/tasks.css" />
 	</head>
 	<body>
 		<ft:form-template
@@ -29,37 +31,6 @@
 			<h1><ft:widget id ="filterName"/></h1>
 			
 			<div class="nifty">
-				<ft:group id="filterBuilderWidgets">
-					<div id="add_rule_block">
-						<ft:widget id="aggregator" />
-						<ft:widget id="addRule" />
-					</div>
-					<ft:repeater id="rules"
-						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-						<table>
-							<tbody>
-								<ft:repeater-rows>
-									<tr
-										class="forms-row-${repeaterLoop.index % 2}">
-										<td>
-											<ft:widget id="field" />
-										</td>
-										<td>
-											<ft:widget id="selector" />
-										</td>
-										<td>
-											<ft:widget id="value" />
-										</td>
-										<td>
-											<ft:widget id="delete" />
-										</td>
-									</tr>
-								</ft:repeater-rows>
-							</tbody>
-						</table>
-					</ft:repeater>
-				</ft:group>
-						
 				<div class="actions">
 					<ft:group id="filterBuilderWidgets">
 						<ft:widget-label id="title" />
@@ -71,43 +42,77 @@
 					<ft:group id="deleteFilterWidgets">
 						<ft:widget id="deleteFilterAction" />
 					</ft:group>
+					<ft:widget id="executeFilterAction" />
+				</div>
+				
+				<ft:group id="filterBuilderWidgets">
+					<div id="add_rule_block">
+						<ft:widget id="aggregator" />
+						<ft:widget id="addRule" />
+					</div>
+					<div>
+						<ft:repeater id="rules"
+							xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+							<table>
+								<tbody>
+									<ft:repeater-rows>
+										<tr
+											class="forms-row-${repeaterLoop.index % 2}">
+											<td>
+												<ft:widget id="field" />
+											</td>
+											<td>
+												<ft:widget id="selector" />
+											</td>
+											<td>
+												<ft:widget id="value" />
+											</td>
+											<td>
+												<ft:widget id="delete" />
+											</td>
+										</tr>
+									</ft:repeater-rows>
+								</tbody>
+							</table>
+						</ft:repeater>
+					</div>
+				</ft:group>
+			
+				<div class="results">
+					<ft:repeater id="results"
+						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+							<table class="task-list">
+								<tr><th>Task</th><th>Status</th></tr>
+								
+								<ft:repeater-rows>
+									<tr class="highlight">
+										<td>
+											<img class="task_status"/>
+											
+											<!-- needed for link to real task view -->
+											<ft:widget id="resultLink">
+												<fi:styling styling="link" />
+											</ft:widget>
+											<ft:widget id="resultTitle">
+												<fi:styling styling="linkcontent"/>
+											</ft:widget>
+											<br/>
+											
+											<ft:widget id="resultSummary" />
+										</td>
+										
+										<td class="task_status">
+											<ft:widget id="resultStatus" />
+										</td>								
+									</tr>
+								</ft:repeater-rows>
+							</table>
+					</ft:repeater>
 				</div>
 			</div>
 			
 			<div class="nifty">
-				<div style="margin-bottom:6px;">
-					<ft:widget id="executeFilter" />
-				</div>
-				
-				<ft:repeater id="results"
-					xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-						<table class="task-list">
-							<tr><th>Task</th><th>Status</th></tr>
-							
-							<ft:repeater-rows>
-								<tr class="highlight">
-									<td>
-										<img class="task_status"/>
-										
-										<!-- needed for link to real task view -->
-										<ft:widget id="resultLink">
-											<fi:styling styling="link" />
-										</ft:widget>
-										<ft:widget id="resultTitle">
-											<fi:styling styling="linkcontent"/>
-										</ft:widget>
-										<br/>
-										
-										<ft:widget id="resultSummary" />
-									</td>
-									
-									<td class="task_status">
-										<ft:widget id="resultStatus" />
-									</td>								
-								</tr>
-							</ft:repeater-rows>
-						</table>
-				</ft:repeater>
+				<a id="back" href=".." title="back to teamspace overview">Back to tasks list</a>
 			</div>
 		</ft:form-template>
 	</body>
