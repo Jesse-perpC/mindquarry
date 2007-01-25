@@ -72,7 +72,10 @@
         dojo.require("cocoon.forms.*");
     </script>
     -->
-
+    <script type="text/javascript">
+      dojo.require("dojo.widget.Tooltip");
+    </script>
+    
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/> -->
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/PopupWindow.js" type="text/javascript"/>-->
     <!-- script src="{$resources-uri}/forms/mattkruse-lib/OptionTransfer.js" type="text/javascript"/-->
@@ -153,10 +156,10 @@
 
   <xsl:template match="fi:help">
     <xsl:variable name="id" select="concat(../@id, ':help')"/>
-    <div class="forms-help forms help" id="{$id}" style="display:none">
+    <div class="forms-help forms help" id="{$id}" style="display:none" dojoType="tooltip" connectId="{$id}:a">
       <xsl:apply-templates select="node()"/>
     </div>
-    <a id="{$id}:a" href="#{$id}" rel="lightbox" class="help">
+    <a id="{$id}:a" href="#{$id}" class="help">
       <!-- TODO: i18n key for helppopup -->
       <img src="{$pathToRoot}resources/icons/16x16/apps/help-browser.png" alt="helppopup"/>
     </a>
