@@ -22,6 +22,10 @@
 		<title>Task Filter Editor</title>
 		
 		<link rel="stylesheet" type="text/css" href="../../css/tasks.css" />
+		
+		<script type="text/javascript">
+			dojo.require("mindquarry.widget.SortableHTMLTable");
+		</script>
 	</head>
 	<body>
 		<ft:form-template
@@ -81,32 +85,44 @@
 				<div class="results">
 					<ft:repeater id="results"
 						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-							<table class="task-list">
-								<tr><th>Task</th><th>Status</th></tr>
-								
+						<table class="task-list" dojoType="SortableHTMLTable">
+							<thead>
+								<tr>
+									<th contentType="html" dataType="int" valign="top"></th>
+									<th contentType="html" id="title-col-header">Task</th>
+									<th dataType="date">Date</th>
+								</tr>
+							</thead>
+							<tbody>
 								<ft:repeater-rows>
 									<tr class="highlight">
 										<td>
-											<img class="task_status"/>
-											
+											<ft:widget id="status" />
+											<!--img class="task_status"/-->
+										</td>
+										<td>	
 											<!-- needed for link to real task view -->
-											<ft:widget id="resultLink">
+											<ft:widget id="link">
 												<fi:styling styling="link" />
 											</ft:widget>
-											<ft:widget id="resultTitle">
+											<ft:widget id="title">
 												<fi:styling styling="linkcontent"/>
 											</ft:widget>
 											<br/>
 											
-											<ft:widget id="resultSummary" />
+											<div class="summary">
+												<ft:widget id="summary" />
+											</div>
 										</td>
 										
-										<td class="task_status">
-											<ft:widget id="resultStatus" />
-										</td>								
+										<td>
+											<ft:widget id="date" />
+										</td>
+										<td></td>								
 									</tr>
 								</ft:repeater-rows>
-							</table>
+							</tbody>
+						</table>
 					</ft:repeater>
 				</div>
 			</div>

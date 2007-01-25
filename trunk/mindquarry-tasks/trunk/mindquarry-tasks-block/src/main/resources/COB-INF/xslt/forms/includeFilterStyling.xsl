@@ -47,20 +47,43 @@
 		</head>
 	</xsl:template>
 	
-	<xsl:template match="img[@class='task_status']">
-		<img class="task_status">
-			<xsl:attribute name="src">
+	<xsl:template match="td[./span[starts-with(./@id,'results') and contains(./@id,'status')]]">
+		<xsl:copy>
+			<xsl:attribute name="sortValue">
 				<xsl:choose>
-					<xsl:when test="../following-sibling::node()/span='new'">
-						<xsl:value-of select="$pathToBlock" />images/status/new.png</xsl:when>
-					<xsl:when test="../following-sibling::node()/span='running'">
-						<xsl:value-of select="$pathToBlock" />images/status/running.png</xsl:when>
-					<xsl:when test="../following-sibling::node()/span='paused'">
-						<xsl:value-of select="$pathToBlock" />images/status/paused.png</xsl:when>
-					<xsl:when test="../following-sibling::node()/span='done'">
-						<xsl:value-of select="$pathToBlock" />images/status/done.png</xsl:when>
+					<xsl:when test="./span='new'">1</xsl:when>
+					<xsl:when test="./span='running'">2</xsl:when>
+					<xsl:when test="./span='paused'">3</xsl:when>
+					<xsl:when test="./span='done'">4</xsl:when>
 				</xsl:choose>
 			</xsl:attribute>
-		</img>
+			
+			<img class="task_status">
+				<xsl:attribute name="src">
+					<xsl:choose>
+						<xsl:when test="./span='new'">
+							<xsl:value-of select="$pathToBlock" />images/status/new.png</xsl:when>
+						<xsl:when test="./span='running'">
+							<xsl:value-of select="$pathToBlock" />images/status/running.png</xsl:when>
+						<xsl:when test="./span='paused'">
+							<xsl:value-of select="$pathToBlock" />images/status/paused.png</xsl:when>
+						<xsl:when test="./span='done'">
+							<xsl:value-of select="$pathToBlock" />images/status/done.png</xsl:when>
+					</xsl:choose>
+				</xsl:attribute>
+				<xsl:attribute name="alt">
+					<xsl:value-of select="normalize-space(./span)"/>
+				</xsl:attribute>
+			</img>
+		</xsl:copy>
+	</xsl:template>
+		
+	<xsl:template match="td[./a/span[starts-with(./@id,'results') and contains(./@id,'title')]]">
+		<xsl:copy>
+			<xsl:attribute name="sortValue">
+				<xsl:copy-of select="./a/span"/>
+			</xsl:attribute>
+			<xsl:copy-of select="./*"/>
+		</xsl:copy>
 	</xsl:template>
 </xsl:stylesheet>
