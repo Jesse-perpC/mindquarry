@@ -53,6 +53,7 @@
             </includes>
         </dependencySet>
         <dependencySet>
+						<outputFileNameMapping></outputFileNameMapping>
             <unpack>true</unpack>
             <outputDirectory>/webapps</outputDirectory>
             <includes>
