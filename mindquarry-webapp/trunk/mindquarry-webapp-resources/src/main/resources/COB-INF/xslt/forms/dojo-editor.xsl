@@ -63,7 +63,7 @@
 				<tr>
 					<td>Wiki Pages:</td>
 					<td>
-						<input dojoType="combobox" dataUrl="pages.js" style="width: 300px;" name="location" id="dojo-wiki-entry"/>
+						<input dojoType="combobox" dataUrl="pages.js" style="width: 300px;" name="location" id="dojo-wiki-link-entry-input"/>
 					</td>
 				</tr>
 				<tr>
