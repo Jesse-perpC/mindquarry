@@ -120,8 +120,9 @@ dd div.repeater p:hover {
     display: none;
 }
 
-/* no help for wiki */
-dl a.help {
+/* help on/off */
+
+/*dl a.help {
 	display:none;
 	padding-top:6px;
 	width:24px;
@@ -132,6 +133,7 @@ dl a.help img {
 	border:0px;
 	display:none;
 }
+*/
 
 input.field, textarea.field {
     display:block;
