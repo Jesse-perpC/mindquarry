@@ -36,7 +36,7 @@
         </file>
         <file>
             <source>src/assembly/perl/Authenticate.pm</source>
-            <outputDirectory>/perl</outputDirectory>
+            <outputDirectory>/perl/Mindquarry/Authenticate.pm</outputDirectory>
         </file>
     </files>
 
