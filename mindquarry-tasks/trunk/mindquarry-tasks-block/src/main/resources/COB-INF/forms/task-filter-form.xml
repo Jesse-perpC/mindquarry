@@ -186,16 +186,19 @@
 		<fd:repeater id="results" state="output">
 			<!-- filter part widgets -->
 			<fd:widgets>
-				<fd:field id="resultLink" required="true" state="output">
+				<fd:field id="link" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
-				<fd:field id="resultTitle" required="true" state="output">
+				<fd:field id="title" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
-				<fd:field id="resultStatus" required="true" state="output">
+				<fd:field id="status" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
-				<fd:field id="resultSummary" required="true" state="output">
+				<fd:field id="date" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="summary" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
 			</fd:widgets>

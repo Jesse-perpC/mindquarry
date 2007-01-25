@@ -22,28 +22,34 @@
 
 	<xsl:template match="task">
 		<item>
-			<resultLink>
+			<link>
 				../<xsl:value-of select="$taskID" />
-			</resultLink>
+			</link>
 			<xsl:apply-templates />
 		</item>
 	</xsl:template>
 
 	<xsl:template match="title">
-		<resultTitle>
+		<title>
 			<xsl:value-of select="normalize-space(.)" />
-		</resultTitle>
+		</title>
 	</xsl:template>
 
 	<xsl:template match="status">
-		<resultStatus>
+		<status>
 			<xsl:value-of select="normalize-space(.)" />
-		</resultStatus>
+		</status>
+	</xsl:template>
+	
+	<xsl:template match="date">
+		<date>
+			<xsl:value-of select="normalize-space(.)" />
+		</date>
 	</xsl:template>
 
 	<xsl:template match="summary">
-		<resultSummary>
+		<summary>
 			<xsl:value-of select="normalize-space(.)" />
-		</resultSummary>
+		</summary>
 	</xsl:template>
 </xsl:stylesheet>
