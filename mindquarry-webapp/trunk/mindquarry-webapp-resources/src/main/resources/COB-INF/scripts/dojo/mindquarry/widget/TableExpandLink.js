@@ -71,7 +71,7 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
               cocoon.ajax.update(href + "&lightbox-request=true", this.contextrow, this.insertRow);
           }
           this.expanded = true;
-          event.target.className = "collapse";
+          event.target.className = "progress";
         } else {
           this.expanded = false;
           event.target.className = "expand";
@@ -115,6 +115,7 @@ dojo.lang.extend(mindquarry.widget.TableExpandLink, {
             var table = refElt.parentNode.parentNode;
             var baseindex = refElt.rowIndex + 1;
             var baselink = refElt.getElementsByTagName("a")[0].href;
+            refElt.getElementsByTagName("a")[0].className = "collapse";
             var revision = baselink.substr(baselink.lastIndexOf("?revision="));
             var indent = 0;
             var classes = dojo.html.getClasses(refElt);
