@@ -266,7 +266,10 @@
 		</pipeline>
 		
 		<pipeline type="noncaching">
-			<match pattern="status.xml">
+			<match pattern="status">
+				<!-- only admin allowed to see those status pages
+					 (only admin has access to jcr:///users) -->
+				<act type="authorise" src="jcr:///users"/>
 				<generate src="status" type="status"/>
 				<transform src="xslt/status/status2html.xsl"/>
 				<serialize type="html"/>
