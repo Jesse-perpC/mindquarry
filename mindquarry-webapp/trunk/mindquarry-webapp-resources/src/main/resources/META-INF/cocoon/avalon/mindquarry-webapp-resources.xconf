@@ -111,17 +111,32 @@
 	</serializers>
 
 	<pipes default="caching">
-		<pipe name="expires-caching" src="org.apache.cocoon.components.pipeline.impl.ExpiresCachingProcessingPipeline">
+		<!-- the wrapper -->
+		<pipe name="expires-caching" src="com.mindquarry.webapp.pipelines.RunningModeDependentPipeline">
+			<parameter name="dev" value="noncaching"/>
+			<parameter name="prod" value="real-expires-caching"/>
+		</pipe>
+		
+		<pipe name="caching" src="com.mindquarry.webapp.pipelines.RunningModeDependentPipeline">
+			<parameter name="dev" value="noncaching"/>
+			<parameter name="prod" value="real-caching"/>			
+		</pipe>
+		
+		<pipe name="caching-point" src="com.mindquarry.webapp.pipelines.RunningModeDependentPipeline">
+			<parameter name="dev" value="noncaching"/>
+			<parameter name="prod" value="real-caching-point"/>
+		</pipe>
+
+		<!-- the real caching pipelines -->
+		<pipe name="real-expires-caching" src="org.apache.cocoon.components.pipeline.impl.ExpiresCachingProcessingPipeline">
 			<parameter name="cache-expires" value="86400"/>
 		</pipe>
 		
-		<pipe name="caching" src="org.apache.cocoon.components.pipeline.impl.CachingProcessingPipeline"/>
+		<pipe name="real-caching" src="org.apache.cocoon.components.pipeline.impl.CachingProcessingPipeline"/>
 		
-		<pipe name="caching-point" src="org.apache.cocoon.components.pipeline.impl.CachingPointProcessingPipeline">
+		<pipe name="real-caching-point" src="org.apache.cocoon.components.pipeline.impl.CachingPointProcessingPipeline">
 			<parameter name="autoCachingPoint" value="On"/>
 		</pipe>
-		
-		<pipe name="noncaching" src="org.apache.cocoon.components.pipeline.impl.NonCachingProcessingPipeline"/>
 	</pipes>
 	
 	<!--+
