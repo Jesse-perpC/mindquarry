@@ -62,24 +62,18 @@
 					</div>
 
 					<xsl:if test="count(filter) > 0">
-						<div class="filter-area">
-							<table class="filter-list">
-								<thead>
-									<tr>
-										<th>Filter</th>
-									</tr>
-								</thead>
-								<tbody>
-									<xsl:apply-templates select="filter" />
-								</tbody>
-							</table>
+						<div class="filters">
+							<h3>Saved Filters</h3>
+							<ul>
+								<xsl:call-template name="filters" />
+							</ul>
 						</div>
 					</xsl:if>
-
-					<div class="footbar">
-						<a href=".." id="back" title="back to teamspace overview">
-							Back to overview</a>				
-					</div>
+				</div>
+				
+				<div class="nifty">
+					<a href=".." id="back" title="back to teamspace overview">
+						Back to overview</a>				
 				</div>
 			</body>
 		</html>
@@ -124,12 +118,11 @@
     	</tr>
     </xsl:template>
 
-	<xsl:template match="filter">
-		<tr>
-			<td>
+	<xsl:template name="filters">
+		<xsl:for-each select="filter">
+			<li>
 				<a href="{@xlink:href}"><xsl:value-of select="title"/></a>
-			</td>
-		</tr>
+			</li>
+		</xsl:for-each>
 	</xsl:template>
-	
 </xsl:stylesheet>

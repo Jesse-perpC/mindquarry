@@ -17,16 +17,20 @@ var teamspaceID_;
 
 function displayNewFilterForm() {
 	teamspaceID_ = cocoon.parameters["teamspaceID"];
-	
 	form_ = new Form(cocoon.parameters["definitionURI"]);
 	
 	// deactivate unecessary widgets
     var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
     var deleteFilterWidgets = form_.lookupWidget("/deleteFilterWidgets");
     deleteFilterWidgets.setState(WidgetState.INVISIBLE);
+    
+    var executeFilterAction = form_.lookupWidget("/executeFilterAction");
+    executeFilterAction.setState(WidgetState.INVISIBLE);
+    
+    var resultsRepeater = form_.lookupWidget("/results");
+    resultsRepeater.setState(WidgetState.INVISIBLE);
     	
 	form_.showForm(cocoon.parameters["templatePipeline"]);
-	
 	finishForm();
 }
 
@@ -247,7 +251,7 @@ function deleteFilter(fID) {
 		// delete filter definition
 		var fSource = srcResolver.resolveURI("jcr:///teamspaces/" + 
 							teamspaceID_ + "/tasks/filters/" + fID);
-		fSource['delete'];
+		fSource['delete']();
 	} finally {
 		if (fSource != null) {
 			srcResolver.release(fSource);
