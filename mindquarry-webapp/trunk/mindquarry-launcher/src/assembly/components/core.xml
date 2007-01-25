@@ -51,6 +51,9 @@
                 <include>org.mortbay.jetty:servlet-api-2.5</include>
                 <include>com.mindquarry.launcher:mindquarry-launcher</include>
             </includes>
+						<excludes>
+							<exclude>com.mindquarry.webapp:mindquarry-webapplication</exclude>
+						</excludes>
         </dependencySet>
         <dependencySet>
 						<outputFileNameMapping></outputFileNameMapping>
