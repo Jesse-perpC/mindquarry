@@ -225,7 +225,7 @@
 	</views>
 
 	<pipelines>
-		<!-- resources pipeline / use noncaching for debugging -->
+		<!-- resources pipeline -->
 		<pipeline type="expires-caching">
 			<match pattern="css/*.css">
 				<select type="resource-exists">
@@ -754,9 +754,17 @@
 				</select>
 			</match>
 			
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+			
+		</pipeline>
+
+		<!-- resources pipeline -->
+		<pipeline type="expires-caching">
 			<!--+
 				| forward any unknown stuff to the super block 
-				| NOTE: This must be the last matcher!
+				| NOTE: This must be the last matcher in the last pipeline!
 				+-->
 			<match pattern="**">
 				<read src="block:super:/{1}" />
@@ -765,9 +773,8 @@
 			<handle-errors>
 				<call resource="error-handling" />
 			</handle-errors>
-			
 		</pipeline>
-
+		
 	</pipelines>
 </sitemap>
 
