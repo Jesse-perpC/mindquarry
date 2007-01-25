@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+-->
+
+<project xmlns="http://maven.apache.org/POM/4.0.0" 
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.mindquarry.document-management</groupId>
+		<artifactId>mindquarry-document-management</artifactId>
+		<version>1.0-SNAPSHOT</version>
+	</parent>
+
+	<name>Mindquarry Document Management Server</name>
+	<groupId>com.mindquarry.document-management.server</groupId>
+	<artifactId>mindquarry-document-management-server</artifactId>
+
+	<description>
+	             Root project for all server components of the Mindquarry Document Management system.
+	</description>
+
+	<build>
+	       <plugins>
+	                <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-document-management/tags/mindquarry-document-management-server/</tagBase>
+				</configuration>
+			</plugin>
+	       </plugins>
+	</build>
+
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/mindquarry-document-management-server/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-document-management/trunk/mindquarry-document-management-server/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/mindquarry-document-management-server/</developerConnection>
+	</scm>
+</project>
