@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+		xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+		xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
-
+	
 	<parent>
 		<groupId>com.mindquarry.webapp</groupId>
 		<artifactId>mindquarry-webapp</artifactId>
 		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
-
+	
 	<name>Mindquarry Collaboration Server</name>
 	<url>http://www.mindquarry.com</url>
 	<description>Launcher for the Mindquarry Collaboration Server. The Mindquarry Collaboration Server enables teams to collaborate using document management, wikis, task management and conversation management.</description>
-
+	
 	<groupId>com.mindquarry.launcher</groupId>
 	<artifactId>mindquarry-launcher</artifactId>
-
+	
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
@@ -26,7 +26,7 @@
 			<version>1.0-M1-SNAPSHOT</version>
 			<type>war</type>
 		</dependency>
-
+		
 		<dependency>
 			<groupId>org.mortbay.jetty</groupId>
 			<artifactId>jetty</artifactId>
@@ -75,8 +75,7 @@
 						<id>make-assembly</id> <!-- this is used for inheritance merges -->
 						<phase>package</phase> <!-- append to the packaging phase. -->
 						<goals>
-							<!--goal>attached</goal--> <!-- goals == mojos -->
-						</goals>
+							<!--goal>attached</goal--> <!-- goals == mojos --></goals>
 					</execution>
 				</executions>
 			</plugin>
@@ -107,7 +106,44 @@
 			</plugin>
 		</plugins>
 	</build>
+	<profiles>
+		<profile>
+			<id>deploybuild</id>
+			<activation>
+				<property>
+					<name>fullrelease</name>
+				</property>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-assembly-plugin</artifactId>
+						<version>2.2-SNAPSHOT</version>
+						<configuration>
+							<descriptors>
+								<descriptor>src/assembly/distributions/generic.xml</descriptor>
+								<descriptor>src/assembly/distributions/linux_x86_32.xml</descriptor>
+								<descriptor>src/assembly/distributions/windows_x86_32.xml</descriptor>
+								<!-- TODO: mac os x, source -->
+								<!--descriptor>src/assemble/distribution-src.xml</descriptor-->
+							</descriptors>
+						</configuration>
+						<executions>
+							<execution>
+								<id>make-assembly</id> <!-- this is used for inheritance merges -->
+								<phase>package</phase> <!-- append to the packaging phase. -->
+								<goals>
+									<goal>attached</goal> <!-- goals == mojos -->
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
 
+	
 	<developers>
 		<developer>
 			<id>alexs</id>
@@ -117,7 +153,7 @@
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>
 	</developers>
-
+	
 	<scm>
 		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-launcher/</connection>
 		<url>https://www.mindquarry.org/repos/mindquarry-webapp/trunk/mindquarry-launcher/</url>
