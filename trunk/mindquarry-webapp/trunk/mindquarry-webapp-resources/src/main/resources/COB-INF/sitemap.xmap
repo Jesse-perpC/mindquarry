@@ -215,12 +215,37 @@
 			<match pattern="**templates/HtmlEditorToolbarOneline.html">
 				<read src="templates/wikiToolbarTemplate.html" />
 			</match>
- 
+			
+			<!-- mindquarry DOJO widgets -->
+			
 			<match pattern="_cocoon/resources/dojo/mindquarry/**">
 				<read
 					src="scripts/dojo/mindquarry/{1}" />
 			</match>
+			
+			<!-- overwriting dojo js for dev debugging -->
 
+			<match pattern="_cocoon/resources/dojo/dojo.js">
+				<select type="simple">
+					<parameter name="value" value="{system-property:org.apache.cocoon.mode}"/>
+					<when test="prod">
+						<read src="resource://org/apache/cocoon/dojo/resources/dojo.js" />
+					</when>
+					<when test="dev">
+						<!-- uncompressed dojo lib for better debugging in browser -->
+						<read src="scripts/dojo/dojo.js.uncompressed-0.3.1-widget.js" />
+					</when>
+				</select>			
+			</match>
+			
+			<!-- general overwriting fixes -->
+			
+			<!-- load an image relative to dojo's root -->
+			<match pattern="_cocoon/resources/dojo/search.png">
+				<read
+					src="resource://org/tango-project/tango-icon-theme/22x22/actions/system-search.png" />
+			</match>
+			
 			<!-- FIXME: temporary overwrite of the BUHandler with new redirect code in it -->
 			<match pattern="_cocoon/resources/ajax/js/BUHandler.js">
 				<read
@@ -233,6 +258,8 @@
 					src="scripts/dojo/mindquarry/BUHandler.js" />				
 			</match>
 			
+			<!-- cocoon AJAX -->
+			
 			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
 			<match pattern="_cocoon/resources/dojo/cocoon.js">
 				<read
@@ -244,18 +271,16 @@
 				<read
 					src="resource://org/apache/cocoon/ajax/resources/js/{1}" />
 			</match>
-			
+
+			<!-- cocoon FORMS -->
+						
 			<!-- FIXME: problem with cocoon dojo javascript dependency resolving -->
 			<match pattern="_cocoon/resources/dojo/cocoon/forms/**">
 				<read
 					src="resource://org/apache/cocoon/forms/resources/js/{1}" />
 			</match>
 					
-			<!-- FIXME: load an image relative to dojo's root -->
-			<match pattern="_cocoon/resources/dojo/search.png">
-				<read
-					src="resource://org/tango-project/tango-icon-theme/22x22/actions/system-search.png" />
-			</match>
+			<!-- cocoon GENERAL RESOURCES -->
 			
 			<!-- cooon resources (needed for dojo scripts, etc) -->
 			<match pattern="_cocoon/resources/*/**">
