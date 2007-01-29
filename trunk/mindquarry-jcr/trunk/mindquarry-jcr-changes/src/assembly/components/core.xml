@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <dependencySets>
+        <dependencySet>
+            <outputDirectory>/lib</outputDirectory>
+            <includes>
+                <include>com.mindquarry.jcr:mindquarry-jcr-changes</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</component>

@@ -12,9 +12,9 @@
 	License for the specific language governing rights and limitations
 	under the License.
 --> 
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
@@ -63,21 +63,42 @@
 			<version>1.0</version>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
-        <artifactId>maven-release-plugin</artifactId>
-        <configuration>
-          <tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jcr-changes</tagBase>
-        </configuration>
-      </plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jcr-changes</tagBase>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.2-SNAPSHOT</version>
+				<configuration>
+					<descriptors>
+						<descriptor>src/assembly/distributions/change-peoplestructure.xml</descriptor>
+					</descriptors>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<configuration>
+					<archive>
+						<manifest>
+							<mainClass>com.mindquarry.jcr.changes.ChangeClient</mainClass>
+							<addClasspath>true</addClasspath>
+						</manifest>
+					</archive>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 
-        <scm>
-    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes/</connection>
-    <url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes/</url>
-    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes/</developerConnection>
-  </scm>
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes/</developerConnection>
+	</scm>
 </project>

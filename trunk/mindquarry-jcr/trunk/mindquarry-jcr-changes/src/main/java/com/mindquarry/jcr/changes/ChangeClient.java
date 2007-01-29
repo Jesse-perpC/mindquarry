@@ -169,15 +169,15 @@ public class ChangeClient {
             storeData(bos, new FileOutputStream("old-content.xml")); //$NON-NLS-1$
         }
 
-        applyTranformation(xslt, bos);
+        ByteArrayOutputStream result = applyTranformation(xslt, bos);
         if (debug) {
-            storeData(bos, new FileOutputStream("changed-content.xml")); //$NON-NLS-1$
+            storeData(result, new FileOutputStream("changed-content.xml")); //$NON-NLS-1$
         } else {
-            applyChanges(session, bos, folder);
+            applyChanges(session, result, folder);
         }
     }
 
-    private void applyTranformation(String xslt, ByteArrayOutputStream bos)
+    private ByteArrayOutputStream applyTranformation(String xslt, ByteArrayOutputStream bos)
             throws TransformerFactoryConfigurationError,
             TransformerConfigurationException, TransformerException {
         log.info("Applying content transformation...");
@@ -187,12 +187,14 @@ public class ChangeClient {
                 .toByteArray()));
         Source xsltSource = new StreamSource(new File(xslt));
 
-        ByteArrayOutputStream changeResult = new ByteArrayOutputStream();
+        ByteArrayOutputStream result = new ByteArrayOutputStream();
 
         // the factory pattern supports different XSLT processors
         TransformerFactory transFact = TransformerFactory.newInstance();
         Transformer trans = transFact.newTransformer(xsltSource);
-        trans.transform(xmlSource, new StreamResult(changeResult));
+        trans.transform(xmlSource, new StreamResult(result));
+        
+        return result;
     }
 
     private void applyChanges(Session session, ByteArrayOutputStream bos,
@@ -200,7 +202,13 @@ public class ChangeClient {
             ConstraintViolationException, RepositoryException, IOException,
             ParserConfigurationException, SAXException {
         log.info("Applying changes to repository...");
+        
+        // delete old node
+        Node node = session.getRootNode().getNode(folder);
+        node.remove();
+        session.save();
 
+        // store new content
         session.getWorkspace().importXML("/" + folder + "/..", //$NON-NLS-1$ //$NON-NLS-2$
                 new ByteArrayInputStream(bos.toByteArray()),
                 ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING);
