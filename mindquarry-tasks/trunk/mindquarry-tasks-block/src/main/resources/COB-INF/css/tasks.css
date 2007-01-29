@@ -70,17 +70,22 @@ div.name span {
 	font-size:10pt;
 }
 div.name {
-	height:auto;
-	margin-right:220px;
-	overflow:visible;
-	text-overflow:ellipsis;
-	width:auto;
+    margin-top:0px;
+    height:80px;
+	/*margin-right:320px;*/
+	overflow:hidden;
+	text-overflow: ellipsis;
+	width:80%;
 }
 
 /* task list, filter list */
 
 div.task-area, div.filter-area {
-	margin-right:320px;
+    /*margin-right:320px;*/
+    margin-top:0px;
+    overflow:visible;
+    width:80%;
+    position:relative;
 }
 
 img.task_status {
@@ -166,35 +171,43 @@ table.task-list td div.summary {
 }
 
 /* back link */
+div.btm-link{
+    height:30px;
+    position:relative;
+    float:left;
 
+}
 a#back {
-	display:block;
+    height:30px;
 	background:url(../icons/22x22/actions/go-previous.png);
-	overflow:hidden;
-	/*color:none;*/
-	height:24px;
-	padding:1px;
-	padding-left:24px;
-	float:left;
 	background-repeat:no-repeat;
+	overflow:visible;
+	padding-left:24px;
 }
 
 /* same as in workspace.css, should be shared in one css file */
 div.links, div.firstlinks {
 	width:200px;
 	float:right;
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-right: 10px;
+	margin-left: 10px;
 	position: relative;
+	padding: 0;
+	clear:both;
 }
 
 div.firstlinks {
-	margin-top: -12px;
+
+	/*margin-top: -12px;*/
 }
 
 div.links {
-	margin-right:10px;
 	width:200px;
 	float:right;
 	margin-top:0px;
+	margin-bottom:0px;
 	margin-right: 10px;
 	margin-left: 10px;
 	position: relative;	
