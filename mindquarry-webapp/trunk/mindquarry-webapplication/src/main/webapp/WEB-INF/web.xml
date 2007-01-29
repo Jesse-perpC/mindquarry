@@ -79,6 +79,12 @@
   		<param-value>Mindquarry Server</param-value>
   	</init-param>
   </filter>
+	
+	<filter>
+		<filter-name>HttpHeaderSpoofingFilter</filter-name>
+		<display-name>HTTP Header Spoofing Filter</display-name>
+		<filter-class>com.mindquarry.webapp.servlet.HttpHeaderSpoofingRequestWrapper</filter-class>
+	</filter>
 
   <!--+
       | Declare a filter for debugging incomming request
@@ -109,6 +115,11 @@
   
   <filter-mapping>
   	<filter-name>MindquarryAuthenticationFilter</filter-name>
+  	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
+  </filter-mapping>
+	
+	<filter-mapping>
+  	<filter-name>HttpHeaderSpoofingFilter</filter-name>
   	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
   </filter-mapping>
 
