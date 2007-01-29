@@ -229,7 +229,10 @@
 				<select type="simple">
 					<parameter name="value" value="{system-property:org.apache.cocoon.mode}"/>
 					<when test="prod">
-						<read src="resource://org/apache/cocoon/dojo/resources/dojo.js" />
+						<act type="log" src="prod" />
+						<!-- our self-created package including dojo-widgets, cocoon forms
+							 and ajax scripts and mindquarry widgets -->
+						<read src="scripts/dojo-package/dojo.js" />
 					</when>
 					<when test="dev">
 						<!-- uncompressed dojo lib for better debugging in browser -->
