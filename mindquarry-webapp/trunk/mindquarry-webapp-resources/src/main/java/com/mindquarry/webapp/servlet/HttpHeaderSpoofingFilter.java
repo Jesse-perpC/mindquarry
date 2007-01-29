@@ -14,6 +14,7 @@
 package com.mindquarry.webapp.servlet;
 
 import java.io.IOException;
+import java.util.Enumeration;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -23,6 +24,7 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 
 public class HttpHeaderSpoofingFilter implements Filter {
@@ -38,15 +40,24 @@ public class HttpHeaderSpoofingFilter implements Filter {
 			FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
+        
+        HttpHeaderSpoofingRequestWrapper wrapped = new HttpHeaderSpoofingRequestWrapper(request);
+        boolean changed = false;
+        
         Map parameters = request.getParameterMap();
         for (Object parameter : parameters.keySet()) {
         	if ((parameter instanceof String)&&(((String)parameter).matches("^http-.+-header$"))) {
 				String headerValue = (String) parameters.get(parameter);
 				String headerName = ((String) parameter).replaceFirst("^http-", "").replaceFirst("-header$", "");
-				response.setHeader(headerName, headerValue);
+				wrapped.setHeader(headerName, headerValue);
+				changed = true;
 			}
         }
-        chain.doFilter(request, response);
+        if (changed) {
+        	chain.doFilter(wrapped, response);
+        } else {
+        	chain.doFilter(request, response);
+        }
 	}
 	/**
 	 * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
