@@ -13,10 +13,26 @@
     under the License.
 --> 
 <xsl:stylesheet version="1.0"
-	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
-	<xsl:import href="change-base.xsl"/>
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
     
+    <!-- copy complete file content -->
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()" />
+        </xsl:copy>
+    </xsl:template>
     
+    <xsl:template match="//peopleperson">
+        <person>
+            <xsl:copy-of select="./@*"/>
+            <xsl:apply-templates/>
+        </person>
+    </xsl:template>
+    
+    <xsl:template match="//peoplerole">
+        <role>
+            <xsl:copy-of select="./@*"/>
+            <xsl:apply-templates/>
+        </role>
+    </xsl:template>
 </xsl:stylesheet>
