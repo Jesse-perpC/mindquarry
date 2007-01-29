@@ -13,18 +13,11 @@
  */
 package com.mindquarry.webapp.modules;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.HashMap;
 import java.util.Map;
-import java.util.Properties;
 
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 import org.apache.cocoon.components.modules.input.AbstractInputModule;
-import org.springframework.core.io.DefaultResourceLoader;
-import org.springframework.core.io.Resource;
-import org.springframework.web.context.support.ServletContextResourcePatternResolver;
 
 /**
  * 
@@ -40,7 +33,6 @@ public class DigestStringModule extends AbstractInputModule {
         int colonindex = name.indexOf(":");
         
         String before = name.substring(0, colonindex);
-        String after = name.substring(colonindex + 1);
         
         int hash = Math.abs(name.hashCode()) % Integer.parseInt(before);
         
