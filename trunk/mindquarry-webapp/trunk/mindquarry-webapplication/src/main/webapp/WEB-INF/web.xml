@@ -83,7 +83,7 @@
 	<filter>
 		<filter-name>HttpHeaderSpoofingFilter</filter-name>
 		<display-name>HTTP Header Spoofing Filter</display-name>
-		<filter-class>com.mindquarry.webapp.servlet.HttpHeaderSpoofingRequestWrapper</filter-class>
+		<filter-class>com.mindquarry.webapp.servlet.HttpHeaderSpoofingFilter</filter-class>
 	</filter>
 
   <!--+
