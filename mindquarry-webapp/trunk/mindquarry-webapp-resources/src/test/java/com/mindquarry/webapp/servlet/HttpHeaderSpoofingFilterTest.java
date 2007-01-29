@@ -38,10 +38,14 @@ public class HttpHeaderSpoofingFilterTest extends TestCase {
 			public Map getParameterMap() {
 				Map parameters = new HashMap();
 				parameters.put("hallo", "ballo");
-				parameters.put("http-Accept-header", "text/plain");
+				parameters.put("http-Accept-header", new String[] {"text/plain"});
 				return parameters;
 			}
 			
+			
+			public String getParameter(String name) {
+				return "text/plain";
+			}
 		};
 		MockHttpServletResponse servletResponse = new MockHttpServletResponse();
 		
