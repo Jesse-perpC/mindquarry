@@ -68,8 +68,9 @@
 			</div>
 			
 			<div class="nifty">
+				<div class="btm-link">
 				<a href="." id="back" title="back to teamspace overview">
-					Back to tasks list</a>				
+					Back to tasks list</a></div>				
 			</div>
 		</body>
 	</xsl:template>
