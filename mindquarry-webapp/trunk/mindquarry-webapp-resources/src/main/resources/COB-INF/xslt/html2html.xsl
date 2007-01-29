@@ -123,10 +123,10 @@
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}lightbox.js" >//</script>
 
 			<!-- forms -->			
-			<script src="{$resources-uri}/ajax/cocoon.js" type="text/javascript"/>
 			<script src="{$resources-uri}/forms/js/forms-lib.js" type="text/javascript"/>
 			<script type="text/javascript">
 				dojo.addOnLoad(forms_onload);
+				dojo.require("cocoon");
 				dojo.require("cocoon.forms.*");
 			</script>
 			<link rel="stylesheet" type="text/css" href="{$resources-uri}/forms/css/forms.css"/>
