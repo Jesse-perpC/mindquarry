@@ -4,12 +4,13 @@ div.nifty {
 	clear:both;
 	margin-bottom:10px;
 }
-
+/* nifty boxes need a specified width otherwise it does not work in IE*/
 .niftycontent {
 	border-left: 1px solid #999999;
 	border-right: 1px solid #999999;
 	margin:0px;
 	padding:0px 10px;
+	width:auto;
 }
 
 b.rbottom b.r1, b.rtop b.r1, .niftycontent {
