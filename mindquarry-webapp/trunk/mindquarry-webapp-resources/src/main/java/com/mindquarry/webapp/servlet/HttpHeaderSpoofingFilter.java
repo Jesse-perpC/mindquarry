@@ -47,7 +47,7 @@ public class HttpHeaderSpoofingFilter implements Filter {
         Map parameters = request.getParameterMap();
         for (Object parameter : parameters.keySet()) {
         	if ((parameter instanceof String)&&(((String)parameter).matches("^http-.+-header$"))) {
-				String headerValue = request.getParameter((String) parameter);
+				String headerValue = ((String[]) parameters.get(parameter))[0];
 				String headerName = ((String) parameter).replaceFirst("^http-", "").replaceFirst("-header$", "");
 				wrapped.setHeader(headerName, headerValue);
 				changed = true;
