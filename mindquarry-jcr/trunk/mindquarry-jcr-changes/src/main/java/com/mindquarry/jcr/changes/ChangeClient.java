@@ -18,25 +18,36 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 
+import javax.jcr.ImportUUIDBehavior;
 import javax.jcr.LoginException;
+import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.version.VersionException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
+import javax.xml.parsers.SAXParser;
+import javax.xml.parsers.SAXParserFactory;
+import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
+import javax.xml.transform.sax.SAXTransformerFactory;
+import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -49,10 +60,12 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.jackrabbit.core.xml.SysViewSAXEventGenerator;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.w3c.dom.Document;
+import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 
 public class ChangeClient {
@@ -65,6 +78,8 @@ public class ChangeClient {
     private static final String O_XSLT = "x"; //$NON-NLS-1$
 
     private static final String O_DRY = "d"; //$NON-NLS-1$
+
+    private static final String O_FOLDER = "f"; //$NON-NLS-1$
 
     private static Log log;
 
@@ -98,12 +113,17 @@ public class ChangeClient {
                         + "In this mode no modifications to the repository are done. "
                         + "All changes are stored in local files for debugging purposes.");
 
+        Option folder = new Option(O_FOLDER, "folder", true, //$NON-NLS-1$
+                "The folder on which the transformation should be applied.");
+        folder.setRequired(true);
+
         options = new Options();
         options.addOption(repo);
         options.addOption(user);
         options.addOption(pwd);
         options.addOption(xslt);
         options.addOption(debug);
+        options.addOption(folder);
     }
 
     public static void main(String[] args) {
@@ -116,24 +136,24 @@ public class ChangeClient {
         try {
             // parse the command line arguments
             line = parser.parse(options, args);
-        } catch (ParseException exp) {
+        } catch (ParseException e) {
             // oops, something went wrong
-            System.err.println("Parsing failed. Reason: "
-                    + exp.getLocalizedMessage());
+            log.error("Parsing of command line failed.");
             printUsage();
             return;
         }
         // check debug option
         boolean debug = false;
         if (line.hasOption(O_DRY)) {
-            log.info("Change client runs in 'dry' mode.");
+            log.info("Running in 'dry' mode.");
             debug = true;
         }
         // start change client
         ChangeClient cl = new ChangeClient();
         try {
-            cl.run(line.getOptionValue(O_REPO), line.getOptionValue(O_USER), line
-                    .getOptionValue(O_PWD), line.getOptionValue(O_XSLT), debug);
+            cl.run(line.getOptionValue(O_REPO), line.getOptionValue(O_USER),
+                    line.getOptionValue(O_PWD), line.getOptionValue(O_XSLT),
+                    line.getOptionValue(O_FOLDER), debug);
         } catch (Exception e) {
             log.error("Error while applying changes.", e);
         }
@@ -141,10 +161,10 @@ public class ChangeClient {
     }
 
     private void run(String repoLocation, String login, String pwd,
-            String xslt, boolean debug) throws Exception {
+            String xslt, String folder, boolean debug) throws Exception {
         Session session = login(repoLocation, login, pwd);
 
-        ByteArrayOutputStream bos = exportRepositoryContent(session);
+        ByteArrayOutputStream bos = exportRepositoryContent(session, folder);
         if (debug) {
             storeData(bos, new FileOutputStream("old-content.xml")); //$NON-NLS-1$
         }
@@ -153,12 +173,63 @@ public class ChangeClient {
         if (debug) {
             storeData(bos, new FileOutputStream("changed-content.xml")); //$NON-NLS-1$
         } else {
-            applyChanges(session, bos);
+            applyChanges(session, bos, folder);
         }
     }
 
-    private void applyChanges(Session session, ByteArrayOutputStream bos) {
+    private void applyTranformation(String xslt, ByteArrayOutputStream bos)
+            throws TransformerFactoryConfigurationError,
+            TransformerConfigurationException, TransformerException {
+        log.info("Applying content transformation...");
 
+        // JAXP reads data using the Source interface
+        Source xmlSource = new StreamSource(new ByteArrayInputStream(bos
+                .toByteArray()));
+        Source xsltSource = new StreamSource(new File(xslt));
+
+        ByteArrayOutputStream changeResult = new ByteArrayOutputStream();
+
+        // the factory pattern supports different XSLT processors
+        TransformerFactory transFact = TransformerFactory.newInstance();
+        Transformer trans = transFact.newTransformer(xsltSource);
+        trans.transform(xmlSource, new StreamResult(changeResult));
+    }
+
+    private void applyChanges(Session session, ByteArrayOutputStream bos,
+            String folder) throws VersionException, LockException,
+            ConstraintViolationException, RepositoryException, IOException,
+            ParserConfigurationException, SAXException {
+        log.info("Applying changes to repository...");
+
+        session.getWorkspace().importXML("/" + folder + "/..", //$NON-NLS-1$ //$NON-NLS-2$
+                new ByteArrayInputStream(bos.toByteArray()),
+                ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING);
+        session.save();
+    }
+
+    private ByteArrayOutputStream exportRepositoryContent(Session session,
+            String folder) throws IOException, PathNotFoundException,
+            RepositoryException, SAXException,
+            TransformerConfigurationException {
+        log.info("Exporting repository content...");
+        ByteArrayOutputStream bos = new ByteArrayOutputStream();
+
+        // HACK: look at
+        // http://www.mail-archive.com/users@jackrabbit.apache.org/msg01434.html
+        // if you need a workaround for exporting jcr:root without jcr:system
+
+        session.exportDocumentView("/" + folder, bos, false, false); //$NON-NLS-1$
+        return bos;
+    }
+
+    private Session login(String repoLocation, String login, String pwd)
+            throws MalformedURLException, NotBoundException, RemoteException,
+            LoginException, RepositoryException {
+        ClientRepositoryFactory factory = new ClientRepositoryFactory();
+        Repository repo = factory.getRepository(repoLocation);
+        Session session = repo.login(new SimpleCredentials(login, pwd
+                .toCharArray()));
+        return session;
     }
 
     private void storeData(ByteArrayOutputStream bos, FileOutputStream out)
@@ -176,39 +247,6 @@ public class ChangeClient {
 
         XMLSerializer serializer = new XMLSerializer(out, format);
         serializer.serialize(doc);
-    }
-
-    private void applyTranformation(String xslt, ByteArrayOutputStream bos)
-            throws TransformerFactoryConfigurationError,
-            TransformerConfigurationException, TransformerException {
-        // JAXP reads data using the Source interface
-        Source xmlSource = new StreamSource(new ByteArrayInputStream(bos
-                .toByteArray()));
-        Source xsltSource = new StreamSource(new File(xslt));
-
-        ByteArrayOutputStream changeResult = new ByteArrayOutputStream();
-
-        // the factory pattern supports different XSLT processors
-        TransformerFactory transFact = TransformerFactory.newInstance();
-        Transformer trans = transFact.newTransformer(xsltSource);
-        trans.transform(xmlSource, new StreamResult(changeResult));
-    }
-
-    private ByteArrayOutputStream exportRepositoryContent(Session session)
-            throws IOException, PathNotFoundException, RepositoryException {
-        ByteArrayOutputStream bos = new ByteArrayOutputStream();
-        session.exportDocumentView("/", bos, false, false); //$NON-NLS-1$
-        return bos;
-    }
-
-    private Session login(String repoLocation, String login, String pwd)
-            throws MalformedURLException, NotBoundException, RemoteException,
-            LoginException, RepositoryException {
-        ClientRepositoryFactory factory = new ClientRepositoryFactory();
-        Repository repo = factory.getRepository(repoLocation);
-        Session session = repo.login(new SimpleCredentials(login, pwd
-                .toCharArray()));
-        return session;
     }
 
     /**
