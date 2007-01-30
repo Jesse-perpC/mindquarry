@@ -22,6 +22,7 @@
         </xsl:copy>
     </xsl:template>
     
+    <!-- fix people repeater naming -->
     <xsl:template match="//peopleperson">
         <person>
             <xsl:copy-of select="./@*"/>
@@ -30,6 +31,21 @@
     </xsl:template>
     
     <xsl:template match="//peoplerole">
+        <role>
+            <xsl:copy-of select="./@*"/>
+            <xsl:apply-templates/>
+        </role>
+    </xsl:template>
+    
+    <!-- fix dependencies repeater naming -->
+    <xsl:template match="//dependencytask">
+        <task>
+            <xsl:copy-of select="./@*"/>
+            <xsl:apply-templates/>
+        </task>
+    </xsl:template>
+    
+    <xsl:template match="//dependencyrole">
         <role>
             <xsl:copy-of select="./@*"/>
             <xsl:apply-templates/>

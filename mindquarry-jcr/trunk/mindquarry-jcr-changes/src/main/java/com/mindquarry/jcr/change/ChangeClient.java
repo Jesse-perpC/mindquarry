@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.jcr.changes;
+package com.mindquarry.jcr.change;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -22,6 +22,8 @@ import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.util.Iterator;
+import java.util.Properties;
 
 import javax.jcr.ImportUUIDBehavior;
 import javax.jcr.LoginException;
@@ -37,17 +39,12 @@ import javax.jcr.version.VersionException;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
-import javax.xml.parsers.SAXParser;
-import javax.xml.parsers.SAXParserFactory;
-import javax.xml.transform.OutputKeys;
 import javax.xml.transform.Source;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.TransformerFactoryConfigurationError;
-import javax.xml.transform.sax.SAXTransformerFactory;
-import javax.xml.transform.sax.TransformerHandler;
 import javax.xml.transform.stream.StreamResult;
 import javax.xml.transform.stream.StreamSource;
 
@@ -60,13 +57,13 @@ import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.jackrabbit.core.xml.SysViewSAXEventGenerator;
 import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 import org.apache.xml.serialize.OutputFormat;
 import org.apache.xml.serialize.XMLSerializer;
 import org.w3c.dom.Document;
-import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
+
+import com.mindquarry.jcr.change.handler.JcrChangeHandler;
 
 public class ChangeClient {
     private static final String O_REPO = "r"; //$NON-NLS-1$
@@ -170,6 +167,7 @@ public class ChangeClient {
         }
 
         ByteArrayOutputStream result = applyTranformation(xslt, bos);
+        result = applyHandlerTransformations(result);
         if (debug) {
             storeData(result, new FileOutputStream("changed-content.xml")); //$NON-NLS-1$
         } else {
@@ -177,7 +175,32 @@ public class ChangeClient {
         }
     }
 
-    private ByteArrayOutputStream applyTranformation(String xslt, ByteArrayOutputStream bos)
+    private ByteArrayOutputStream applyHandlerTransformations(
+            ByteArrayOutputStream result) throws Exception {
+        // load handler definitions
+        InputStream is = getClass().getClassLoader().getResourceAsStream(
+                "transform-handler.properties"); //$NON-NLS-1$
+        Properties handlerProps = new Properties();
+        handlerProps.load(is);
+
+        // process handler
+        Iterator<Object> keys = handlerProps.keySet().iterator();
+        while (keys.hasNext()) {
+            String key = (String) keys.next();
+            if (key.startsWith("com.mindquarry.jcr.change.handler.")) { //$NON-NLS-1$
+                String handlerName = handlerProps.getProperty(key);
+                Class handlerClass = Class.forName(handlerName);
+                JcrChangeHandler handler = (JcrChangeHandler) handlerClass
+                        .newInstance();
+                result = handler.process(new ByteArrayInputStream(result
+                        .toByteArray()));
+            }
+        }
+        return result;
+    }
+
+    private ByteArrayOutputStream applyTranformation(String xslt,
+            ByteArrayOutputStream bos)
             throws TransformerFactoryConfigurationError,
             TransformerConfigurationException, TransformerException {
         log.info("Applying content transformation...");
@@ -193,7 +216,7 @@ public class ChangeClient {
         TransformerFactory transFact = TransformerFactory.newInstance();
         Transformer trans = transFact.newTransformer(xsltSource);
         trans.transform(xmlSource, new StreamResult(result));
-        
+
         return result;
     }
 
@@ -202,14 +225,15 @@ public class ChangeClient {
             ConstraintViolationException, RepositoryException, IOException,
             ParserConfigurationException, SAXException {
         log.info("Applying changes to repository...");
-        
+
         // delete old node
         Node node = session.getRootNode().getNode(folder);
         node.remove();
         session.save();
 
         // store new content
-        session.getWorkspace().importXML("/" + folder + "/..", //$NON-NLS-1$ //$NON-NLS-2$
+        session.getWorkspace().importXML(
+                "/" + folder + "/..", //$NON-NLS-1$ //$NON-NLS-2$
                 new ByteArrayInputStream(bos.toByteArray()),
                 ImportUUIDBehavior.IMPORT_UUID_COLLISION_REPLACE_EXISTING);
         session.save();

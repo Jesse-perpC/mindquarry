@@ -87,7 +87,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.mindquarry.jcr.changes.ChangeClient</mainClass>
+							<mainClass>com.mindquarry.jcr.change.ChangeClient</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
