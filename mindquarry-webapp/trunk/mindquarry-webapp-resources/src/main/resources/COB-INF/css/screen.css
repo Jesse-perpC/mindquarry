@@ -319,3 +319,23 @@ div.form_block {
 	clear:both;
 }
 
+div.mimetype {
+    display:block;
+    width:200px;
+    float:left;
+    font-size:100%;
+    height:24px;
+}
+
+div.mimetype img {
+    display:block;
+    float:left;
+    margin:1px;
+    margin-right:3px;
+}
+
+div.mimetype a {
+    display:block;
+    text-decoration:none;
+    padding-top:3px;
+}
