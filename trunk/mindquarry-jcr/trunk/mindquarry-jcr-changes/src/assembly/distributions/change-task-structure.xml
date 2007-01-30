@@ -8,12 +8,17 @@
 
     <files>
         <file>
-            <source>src/assembly/scripts/change-peoplestructure.sh</source>
+            <source>src/assembly/scripts/change-task-structure.sh</source>
             <outputDirectory>/</outputDirectory>
             <destName>run.sh</destName>
         </file>
         <file>
-            <source>src/main/xslt/change-peoplestructure.xsl</source>
+            <source>src/assembly/scripts/change-task-structure.bat</source>
+            <outputDirectory>/</outputDirectory>
+            <destName>run.bat</destName>
+        </file>
+        <file>
+            <source>src/main/xslt/change-task-structure.xsl</source>
             <outputDirectory>/xslt</outputDirectory>
             <destName>change.xsl</destName>
         </file>
