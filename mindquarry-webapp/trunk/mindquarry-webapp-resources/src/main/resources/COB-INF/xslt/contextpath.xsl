@@ -43,7 +43,7 @@
 				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/browser'),'/'),'/')"/>
 			</xsl:when>
 			<xsl:when test="contains($fullPath, '/workspace/changes')">
-				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/browser'),'/'),'/')"/>
+				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/changes'),'/'),'/')"/>
 			</xsl:when>
 			<xsl:when test="contains($fullPath, '/teamspace/team')">
 				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/teamspace/team'),'/'),'/')"/>
