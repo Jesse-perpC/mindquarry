@@ -48,6 +48,7 @@
 			<link rel="stylesheet"
 				href="{$pathToBlock}css/task-edit.css" media="screen,projection"
 				type="text/css" />
+      <link rel="alternate" type="application/pdf" title="PDF for print" />
 		</head>
 	</xsl:template>
 
