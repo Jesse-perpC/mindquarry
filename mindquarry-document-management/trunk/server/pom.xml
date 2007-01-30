@@ -34,6 +34,10 @@
 	<description>
 	             Root project for all server components of the Mindquarry Document Management system.
 	</description>
+	
+	<modules>
+		<module>xenodot</module>
+	</modules>
 
 	<build>
 	       <plugins>
