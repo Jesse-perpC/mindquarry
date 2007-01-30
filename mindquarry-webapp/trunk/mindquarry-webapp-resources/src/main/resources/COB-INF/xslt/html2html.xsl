@@ -231,6 +231,8 @@
 														<div id="background-se">
 															<div id="innercontent">
 																<xsl:apply-templates />
+																
+																<xsl:call-template name="alternate" />
 															</div>
 														</div>
 													</div>
@@ -268,6 +270,52 @@
 				</div>
 			</div>
 		</body>
+	</xsl:template>
+	
+	<!-- generate links for alternate content versions -->
+	<xsl:template name="alternate">
+		<xsl:if test="//link[@rel='alternate']|//xhtml:link[@rel='alternate']">
+			<div class="nifty">
+				<b class="rtop">
+					<b class="r1"><xsl:comment>t</xsl:comment></b>
+					<b class="rleft"><xsl:comment>tr</xsl:comment></b>
+					<b class="rright"><xsl:comment>tl</xsl:comment></b>
+				</b>
+				
+				<div class="niftycontent">
+					<h3>Alternative Versions</h3>
+					<xsl:apply-templates select="//link[@rel='alternate']|//xhtml:link[@rel='alternate']" mode="body"/>
+					<br style="clear:both"/>
+				</div>
+				
+				<b class="rbottom" >
+					<b class="r1"><xsl:comment>b</xsl:comment></b>
+					<b class="rleft"><xsl:comment>bl</xsl:comment></b>
+					<b class="rright"><xsl:comment>br</xsl:comment></b>
+				</b>
+			</div>
+		</xsl:if>
+	</xsl:template>
+	
+	<xsl:template match="//link[@rel='alternate']|//xhtml:link[@rel='alternate']" mode="body">
+		<xsl:variable name="icon">
+			<xsl:call-template name="iconname">
+				<xsl:with-param name="mimetype" select="@type"></xsl:with-param>
+			</xsl:call-template>
+		</xsl:variable>
+		<div class="mimetype"><img src="{$pathToRoot}resources/tango-icons/22/mimetypes/{$icon}.png" class="mimetype" /><a href="{@href}?http-accept-header={@type}"><xsl:value-of select="@title"/></a></div>
+	</xsl:template>
+	
+	<xsl:template name="iconname">
+		<xsl:param name="mimetype"/>
+		<xsl:choose>
+			<xsl:when test="$mimetype='application/pdf'">
+				<xsl:text>x-office-document</xsl:text>
+			</xsl:when>
+			<xsl:otherwise>
+				<xsl:value-of select="translate(translate($mimetype, '/', '-'),'+','-')"/>
+			</xsl:otherwise>
+		</xsl:choose>
 	</xsl:template>
 
 	<!-- 
