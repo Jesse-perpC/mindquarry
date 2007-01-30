@@ -53,6 +53,7 @@
 			<pattern name="atom">application/atom.xml</pattern>
 			<pattern name="pdf">application/pdf</pattern>
 			<pattern name="opml">text/x-opml</pattern>
+			<pattern name="ical">text/calendar</pattern>
 		</selector>
 
 		<selector name="exception"
