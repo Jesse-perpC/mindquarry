@@ -297,6 +297,12 @@
 		</xsl:if>
 	</xsl:template>
 	
+	<xsl:template match="//link[@rel='alternate']|//xhtml:link[@rel='alternate']">
+		<link rel="alternate" href="{@href}?http-accept-header={@type}">
+			<xsl:copy-of select="@*"/>
+		</link>
+	</xsl:template>
+	
 	<xsl:template match="//link[@rel='alternate']|//xhtml:link[@rel='alternate']" mode="body">
 		<xsl:variable name="icon">
 			<xsl:call-template name="iconname">
