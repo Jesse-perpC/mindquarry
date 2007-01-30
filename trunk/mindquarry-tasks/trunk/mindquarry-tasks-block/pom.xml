@@ -37,6 +37,11 @@
 			<artifactId>mindquarry-jcr-source</artifactId>
 			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-fop-ng-impl</artifactId>
+			<version>1.0.0_Mindquarry_1</version>
+		</dependency>
 	</dependencies>
 
 	<build>
