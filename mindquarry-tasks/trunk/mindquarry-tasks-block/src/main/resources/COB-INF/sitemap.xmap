@@ -693,7 +693,7 @@
 								<generate
 											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
 								<transform src="xslt/fo/task2fo.xsl" />
-
+								<serialize type="fo2pdf" />
 							</when>
 						</select>
 					</when>
