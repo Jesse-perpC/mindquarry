@@ -178,7 +178,9 @@ div.btm-link{
 
 }
 a#back {
-    height:30px;
+    height:22px;
+    margin-bottom:0px;
+    display:block;
 	background:url(../icons/22x22/actions/go-previous.png);
 	background-repeat:no-repeat;
 	overflow:visible;

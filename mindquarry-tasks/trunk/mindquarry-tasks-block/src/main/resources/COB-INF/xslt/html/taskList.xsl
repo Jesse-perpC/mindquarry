@@ -29,6 +29,8 @@
 				<script type="text/javascript">
 					dojo.require("mindquarry.widget.SortableHTMLTable");
 				</script>
+        <link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
+        <link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
 			</head>
 			<body>
 				<h1>Manage Tasks for 
