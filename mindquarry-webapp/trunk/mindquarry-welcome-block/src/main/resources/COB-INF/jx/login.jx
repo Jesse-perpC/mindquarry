@@ -12,9 +12,9 @@
 			<title>Login</title>
 		</head>
 		<body>
-			<h1>Login</h1>
+			<!--<h1>Login</h1>-->
 			<div class="login-block">
-				<p>You are not logged in. Please enter your username and password to proceed.</p>
+				<h1>Please login to proceed.</h1>
 				<div>
 					<a href="${cocoon.request.contextPath}/?request=login&amp;targetUri=${cocoon.request.targetUri}" class="httpauth" id="login-form">
 						Click here to login
