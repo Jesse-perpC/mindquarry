@@ -150,14 +150,14 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 
         Membership membership = teamsAdmin.membership(teamspace);
         assertEquals(1, membership.getMembers().size());
-        assertEquals(1, membership.getNonMembers().size());
+        assertEquals(2, membership.getNonMembers().size());
 
         membership.addMember(membership.getNonMembers().get(0));
         teamsAdmin.updateMembership(membership);
 
         Membership updatedMembership = teamsAdmin.membership(teamspace);
         assertEquals(2, updatedMembership.getMembers().size());
-        assertEquals(0, updatedMembership.getNonMembers().size());
+        assertEquals(1, updatedMembership.getNonMembers().size());
 
         UserRO memberToRemove = updatedMembership.getMembers().get(0);
         updatedMembership.removeMember(memberToRemove);
@@ -165,7 +165,7 @@ public class TeamspaceManagerTest extends TeamspaceTestBase {
 
         Membership originalMembership = teamsAdmin.membership(teamspace);
         assertEquals(1, originalMembership.getMembers().size());
-        assertEquals(1, updatedMembership.getNonMembers().size());
+        assertEquals(2, updatedMembership.getNonMembers().size());
     }
 
     private TeamspaceListenerRegistry lookupTeamspaceListenerRegistry()
