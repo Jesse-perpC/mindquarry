@@ -315,7 +315,7 @@
 			</match>
 
 			<!-- icons for people -->
-			<match pattern="resource/icons/*/ductform.people.*.peopleperson/*.*">
+			<match pattern="resource/icons/*/ductform.people.*.person/*.*">
 				<!--<act type="authorise" src="jcr:///teamspaces/{1}/user"/>-->
 				<read src="block:teams:/users/{1}/{3}.{4}" />
 			</match>
