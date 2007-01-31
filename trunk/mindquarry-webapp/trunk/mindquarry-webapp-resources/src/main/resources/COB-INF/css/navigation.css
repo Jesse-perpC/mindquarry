@@ -339,9 +339,11 @@ a b {
 }
 
 .login-block, .logout-block {
+    background-color: white;
 	width:400px;
 	margin-left:auto;
 	margin-right:auto;
+	margin-top:50px;
 	margin-bottom: 20px;
 	padding: 10px;
 	border: 2px solid #cccccc;
@@ -350,4 +352,9 @@ a b {
 .login-block p, .login-block a, .logout-block p, .logout-block a {
 	display:block;
 	text-align:center;
+}
+
+.login-block h1 {
+    margin-bottom: 30px;
+    /*text-align:left;*/
 }
