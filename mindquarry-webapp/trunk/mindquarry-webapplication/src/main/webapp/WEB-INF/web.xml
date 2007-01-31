@@ -114,13 +114,13 @@
     <servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
   </filter-mapping>
   
-  <filter-mapping>
-  	<filter-name>MindquarryAuthenticationFilter</filter-name>
+	<filter-mapping>
+  	<filter-name>HttpHeaderSpoofingFilter</filter-name>
   	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
   </filter-mapping>
 	
-	<filter-mapping>
-  	<filter-name>HttpHeaderSpoofingFilter</filter-name>
+  <filter-mapping>
+  	<filter-name>MindquarryAuthenticationFilter</filter-name>
   	<servlet-name>CocoonBlocksDispatcherServlet</servlet-name>
   </filter-mapping>
 
