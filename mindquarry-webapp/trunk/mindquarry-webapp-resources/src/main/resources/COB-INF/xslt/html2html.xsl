@@ -137,6 +137,7 @@
 			<script type="text/javascript">
 				dojo.require("mindquarry.widget.QuickSearch");
 				dojo.require("mindquarry.widget.TeamSwitcher");
+				dojo.require("mindquarry.widget.ChangePassword");
 			</script>
 
 			<xsl:apply-templates />
