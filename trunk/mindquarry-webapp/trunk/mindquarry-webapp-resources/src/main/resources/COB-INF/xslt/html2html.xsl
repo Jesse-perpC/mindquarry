@@ -318,6 +318,9 @@
 			<xsl:when test="$mimetype='application/pdf'">
 				<xsl:text>x-office-document</xsl:text>
 			</xsl:when>
+      <xsl:when test="$mimetype='text/calendar'">
+				<xsl:text>x-office-calendar</xsl:text>
+			</xsl:when>
 			<xsl:otherwise>
 				<xsl:value-of select="translate(translate($mimetype, '/', '-'),'+','-')"/>
 			</xsl:otherwise>
