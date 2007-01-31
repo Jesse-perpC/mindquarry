@@ -1,15 +1,13 @@
 package com.mindquarry.webapp.servlet;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletRequestWrapper;
-
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 
 public class HttpHeaderSpoofingRequestWrapper extends HttpServletRequestWrapper {
 	private Map<String, String> headers;
@@ -25,11 +23,12 @@ public class HttpHeaderSpoofingRequestWrapper extends HttpServletRequestWrapper 
 		}
 		return header;
 	}
-	@Override
+    
+	@SuppressWarnings("unchecked")
+    @Override
 	public Enumeration getHeaderNames() {
 		Set<String> names = this.headers.keySet();
-		Collection<String> othernames = Collections.list(super.getHeaderNames());
-		names.addAll(othernames);
+		names.addAll(Collections.list(super.getHeaderNames()));
 		
 		return Collections.enumeration(names);
 	}
