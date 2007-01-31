@@ -51,7 +51,7 @@
 					<img class="icon">
 						<xsl:attribute name="src">
 							<xsl:value-of select="$pathToRoot"/>							
-							<xsl:text>teamspace/</xsl:text>
+							<xsl:text>teams/</xsl:text>
 							<xsl:value-of select="@xlink:href"/>
 							<xsl:text>.png</xsl:text>
 						</xsl:attribute>
