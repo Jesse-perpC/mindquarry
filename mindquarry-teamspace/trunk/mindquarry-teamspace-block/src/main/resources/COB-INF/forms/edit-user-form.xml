@@ -24,10 +24,17 @@
 		<fd:group id="changePassword">
 			<fd:widgets>
 				
-				<!-- used to signal the success of changing password -->
-				<fd:output id="pwdChangeMessage">
+				<!-- used to signal the success of changing password.
+				     we need two message to allow dojo detecting (i18n-proof) 
+				     success or failure in changing password.
+				     if succeeded, some javascript is executed in order to
+				     relogin the user with new password.
+				 -->
+				<fd:output id="successfullyChanged" state="invisible">
 					<fd:datatype base="string" />
-					<fd:inial-value> </fd:inial-value>
+				</fd:output>
+				<fd:output id="passwordNotChanged" state="invisible">
+					<fd:datatype base="string" />
 				</fd:output>
 								
 				<fd:field id="currentPassword" required="true">
