@@ -229,7 +229,7 @@
 
   <xsl:template match="fi:output[fi:styling/@type='user-image']">
     <img alt="image of the user with id {normalize-space(fi:value)}"
-      src="{$pathToRoot}teamspace/users/{normalize-space(fi:value)}.png"/>
+      src="{$pathToRoot}teams/users/{normalize-space(fi:value)}.png"/>
   </xsl:template>
 
 </xsl:stylesheet>

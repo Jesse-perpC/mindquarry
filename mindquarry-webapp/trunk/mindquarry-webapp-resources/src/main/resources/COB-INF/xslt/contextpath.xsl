@@ -39,19 +39,19 @@
 	
 	<xsl:param name="teamspaceName">
 		<xsl:choose>
-			<xsl:when test="contains($fullPath, '/workspace/browser')">
-				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/browser'),'/'),'/')"/>
+			<xsl:when test="contains($fullPath, '/files/browser')">
+				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/files/browser'),'/'),'/')"/>
 			</xsl:when>
-			<xsl:when test="contains($fullPath, '/workspace/changes')">
-				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/workspace/changes'),'/'),'/')"/>
+			<xsl:when test="contains($fullPath, '/files/changes')">
+				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/files/changes'),'/'),'/')"/>
 			</xsl:when>
-			<xsl:when test="contains($fullPath, '/teamspace/team')">
-				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/teamspace/team'),'/'),'/')"/>
+			<xsl:when test="contains($fullPath, '/teams/team')">
+				<xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/teams/team'),'/'),'/')"/>
 			</xsl:when>
-			<xsl:when test="contains($fullPath, '/teamspace/editUser')">
+			<xsl:when test="contains($fullPath, '/teams/editUser')">
 				<!-- no team -->
 			</xsl:when>
-      <xsl:when test="contains($fullPath, '/help')">
+			<xsl:when test="contains($fullPath, '/help')">
 				<!-- no team -->
 			</xsl:when>
 			<xsl:otherwise><xsl:value-of select="substring-before(substring-after(substring-after($fullPath,'/'),'/'),'/')"/></xsl:otherwise>
@@ -60,19 +60,19 @@
 	
 	<xsl:param name="pathToTeamspaceBase">
 		<xsl:choose>
-			<xsl:when test="contains($fullPath, '/workspace/browser')">
+			<xsl:when test="contains($fullPath, '/files/browser')">
 				<xsl:value-of select="$pathToBlock"/>
 				<xsl:text>browser/</xsl:text>
 			</xsl:when>
-			<xsl:when test="contains($fullPath, '/workspace/changes')">
+			<xsl:when test="contains($fullPath, '/files/changes')">
 				<xsl:value-of select="$pathToBlock"/>
 				<xsl:text>changes/</xsl:text>
 			</xsl:when>
-			<xsl:when test="contains($fullPath, '/workspace')">
+			<xsl:when test="contains($fullPath, '/files')">
 				<xsl:value-of select="$pathToBlock"/>
 				<xsl:text>browser/</xsl:text>
 			</xsl:when>
-			<xsl:when test="contains($fullPath, '/teamspace')">
+			<xsl:when test="contains($fullPath, '/teams')">
 				<xsl:value-of select="$pathToBlock"/>
 				<xsl:text>team/</xsl:text>
 			</xsl:when>

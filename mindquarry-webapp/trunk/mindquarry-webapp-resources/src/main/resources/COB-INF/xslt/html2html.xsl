@@ -182,8 +182,8 @@
 				<!-- layouting the header -->
 				<div id="webapp-header">
 					<ul id="webapp-sections">
-						<li><a class="navTeams" href="{$pathToRoot}teamspace/team/{$teamspaceNameWithSlash}"><b>Teams</b></a></li>
-						<li><a class="navFiles" href="{$pathToRoot}workspace/{$teamspaceNameWithBrowse}"><b>Files</b></a></li>
+						<li><a class="navTeams" href="{$pathToRoot}teams/team/{$teamspaceNameWithSlash}"><b>Teams</b></a></li>
+						<li><a class="navFiles" href="{$pathToRoot}files/{$teamspaceNameWithBrowse}"><b>Files</b></a></li>
 						<li><a class="navWiki" href="{$pathToRoot}wiki/{$teamspaceNameWithSlash}"><b>Wiki</b></a></li>
 						<li><a class="navTasks" href="{$pathToRoot}tasks/{$teamspaceNameWithSlash}"><b>Tasks</b></a></li>
 						<!--li><a class="navTalk" href="{$pathToRoot}talk/">Talk</a></li-->
@@ -199,7 +199,7 @@
 							<div id="http-logout-hint"><b>(Close browser to logout)</b></div>
 							<a href="{$pathToRoot}" id="path-to-webapp-root" title="logout"/>
 							<div class="username-display">
-								<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="Edit your user profile ({$username})" rel="lightbox"><b><xsl:value-of select="$username" /></b></a>
+								<a href="{$pathToRoot}teams/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="Edit your user profile ({$username})" rel="lightbox"><b><xsl:value-of select="$username" /></b></a>
 							</div>
 							<a href="{$pathToRoot}help/" id="head-help-link" title="Show help"><b>Help</b></a>													
 						</div>
@@ -235,8 +235,8 @@
 				<div id="webapp-footer">
 					<ul id="webapp-footer-sections">
 						<li><a href="{$pathToRoot}">Home</a></li>
-						<li><a href="{$pathToRoot}teamspace/">Teams</a></li>
-						<li><a href="{$pathToRoot}workspace/">Files</a></li>
+						<li><a href="{$pathToRoot}teams/">Teams</a></li>
+						<li><a href="{$pathToRoot}files/">Files</a></li>
 						<li><a href="{$pathToRoot}wiki/">Wiki</a></li>
 						<li><a href="{$pathToRoot}tasks/">Tasks</a></li>
 						<!--li><a href="{$pathToRoot}talk/">Talk</a></li-->
@@ -363,8 +363,8 @@
 				<xsl:value-of select="@size"/><xsl:text>/</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<!-- TODO: add real contextPath before /teamspace  -->
-		<img id="{@id}" class="{@class}" src="/teamspace/users/{$size}{normalize-space($username)}.png" />
+		<!-- TODO: add real contextPath before /teams  -->
+		<img id="{@id}" class="{@class}" src="/teams/users/{$size}{normalize-space($username)}.png" />
 	</xsl:template>	
 	
 </xsl:stylesheet>
