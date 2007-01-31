@@ -98,6 +98,14 @@
 			<!--<preserve-uri>*</preserve-uri>-->
 			<!--<indent-size>4</indent-size>-->
 		</transformer>
+		<transformer name="i18n"
+			src="org.apache.cocoon.transformation.I18nTransformer">
+			<catalogues default="forms">
+				<catalogue id="forms" name="messages"
+					location="resource://org/apache/cocoon/forms/system/i18n"/>
+			</catalogues>
+			<cache-at-startup>true</cache-at-startup>
+		</transformer>
 	</transformers>
 
 	<serializers>
