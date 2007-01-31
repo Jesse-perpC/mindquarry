@@ -608,6 +608,7 @@
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
 					<parameter name="baselink" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}{request:servletPath}/{1}/" />
+					<parameter name="hostname" value="{request:serverName}" />
 				</transform>
 				<serialize type="text"/>
 			</match>
