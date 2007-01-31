@@ -32,14 +32,14 @@
 								
 				<fd:field id="currentPassword" required="true">
 					<fd:label>Current Password</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 				</fd:field>
 
 				<fd:field id="newPassword" required="true">
 					<fd:label>New Password</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 					<fd:validation>
-						<fd:regexp pattern="[\w]{5,}">
+						<fd:regexp pattern="[^\s]{5,}">
 							<fd:failmessage>
 								The password must contain 
 								(at least 5) characters.
@@ -50,7 +50,7 @@
 
 				<fd:field id="newPasswordRepeat" required="true">
 					<fd:label>New Password (repeat)</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 					<fd:validation>
 						<fd:assert test="newPassword = newPasswordRepeat">
 							<fd:failmessage>The passwords do not match.</fd:failmessage>
@@ -75,9 +75,9 @@
 			<fd:widgets>
 				<fd:field id="name" required="true">
 					<fd:label>First Name</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 					<fd:validation>
-						<fd:regexp pattern="\w[\w\s]*">
+						<fd:regexp pattern="[^\s].*">
 							<fd:failmessage>
 								The first name must contain at
 								least one character.
@@ -87,9 +87,9 @@
 				</fd:field>
 				<fd:field id="surname" required="true">
 					<fd:label>Surname</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 					<fd:validation>
-						<fd:regexp pattern="\w[\w\s]*">
+						<fd:regexp pattern="[^\s].*">
 							<fd:failmessage>
 								The surname must contain at
 								least one character.
@@ -100,7 +100,7 @@
 				
 				<fd:field id="email" required="true">
 					<fd:label>EMail</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 					<fd:validation>
 						<fd:email>
 							<fd:failmessage>
@@ -112,7 +112,7 @@
 				
 				<fd:field id="skills" required="false">
 					<fd:label>Skills</fd:label>
-					<fd:datatype base="string"></fd:datatype>
+					<fd:datatype base="string"/>
 				</fd:field>
 
 				<fd:action id="updateProfile" validate="true">
