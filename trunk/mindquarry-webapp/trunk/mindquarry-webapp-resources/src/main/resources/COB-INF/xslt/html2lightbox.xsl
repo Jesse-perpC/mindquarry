@@ -80,8 +80,8 @@
 				<xsl:value-of select="@size"/><xsl:text>/</xsl:text>
 			</xsl:if>
 		</xsl:variable>
-		<!-- TODO: add real contextPath before /teamspace  -->
-		<img id="{@id}" class="{@class}" src="/teamspace/users/{$size}{normalize-space($username)}.png" />
+		<!-- TODO: add real contextPath before /teams  -->
+		<img id="{@id}" class="{@class}" src="/teams/users/{$size}{normalize-space($username)}.png" />
 	</xsl:template>	
 	
 </xsl:stylesheet>
