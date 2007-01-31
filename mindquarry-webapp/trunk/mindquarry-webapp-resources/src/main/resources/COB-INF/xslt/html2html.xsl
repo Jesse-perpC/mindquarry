@@ -206,13 +206,14 @@
 					</xsl:if>
 				</div>
 				
-				<div title="{$teamspaceName}" dojoType="TeamSwitcher">
-					<a href="{$pathToTeamspaceBase}" id="teamspace-base-link">Teamspace Base</a>
-					<include src="block:teams:/user/{$username}/info" xmlns="http://apache.org/cocoon/include/1.0"/>
-				</div>	
-				
 				<!-- test if user is logged in -->
 				<xsl:if test="string-length($username) > 0">
+					<!-- teamspace switcher -->
+					<div title="{$teamspaceName}" dojoType="TeamSwitcher">
+						<a href="{$pathToTeamspaceBase}" id="teamspace-base-link">Teamspace Base</a>
+						<include src="block:teams:/user/{$username}/info" xmlns="http://apache.org/cocoon/include/1.0"/>
+					</div>	
+					
 					<!-- make quick search widget -->
 					<div class="quicksearch" dojoType="QuickSearch" url="/solr-select/" size="20" maxheight="300">&#160;</div>
 				</xsl:if>
