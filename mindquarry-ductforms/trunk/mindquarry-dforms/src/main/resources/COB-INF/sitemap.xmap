@@ -162,6 +162,7 @@
 				<transform type="browser-update" />
 				<!--<transform type="tee" src="file:///tmp/1-after-bu.xml" />-->
 				
+				<transform type="i18n"/>
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor -->
 				<transform src="block:resources:/xslt/forms/form2html_labelreplacement.xsl">
