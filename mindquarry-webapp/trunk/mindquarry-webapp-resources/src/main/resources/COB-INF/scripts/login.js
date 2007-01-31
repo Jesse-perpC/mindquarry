@@ -110,7 +110,7 @@ function createLoginForm(httpauth)
     
     var submit = document.createElement("input");
     submit.type = "submit";
-    submit.value = "Log in";
+    submit.value = "Dive in";
     submit.id = httpauth.id + "-submit";
 
     cell11.appendChild(usernameLabel);
