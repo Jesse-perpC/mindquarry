@@ -3,7 +3,7 @@ a b {
 }
 
 #webapp-header {
-	height:70px;
+	height:70px; /* sync this with div.body in screen.css */
 	width:100%;
 	overflow:hidden;
 	position:absolute;
