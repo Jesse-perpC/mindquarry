@@ -27,6 +27,7 @@
 		    	<!-- NB. You must use 'yyyy' for the year (not 'yy'), or dojo gets confused -->
 		      <fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
 		      <fd:pattern locale="en-UK">dd/MM/yyyy</fd:pattern>
+		      <fd:pattern locale="en-ZA">dd/MM/yyyy</fd:pattern>
 		      <fd:pattern locale="de">dd/MM/yyyy</fd:pattern>
 		      <fd:pattern locale="fr">dd/MM/yyyy</fd:pattern>
 		      <fd:pattern locale="it">dd/MM/yyyy</fd:pattern>
@@ -35,9 +36,9 @@
 		    </fd:patterns>
 		  </fd:convertor>
 		</fd:datatype>
-		<fd:label>Date</fd:label>
-		<fd:hint>The relevant date of this document</fd:hint>
-		<fd:help>Used the date to order your events. </fd:help>
+		<fd:label>Due Date</fd:label>
+		<fd:hint>The date on which the task is to be complete or done.</fd:hint>
+		<fd:help>Use this date to order your events according to their due date.</fd:help>
 	</fd:field>
 	<ft:widget>
 		<fi:styling type="date" autoactive="true" />

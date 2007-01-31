@@ -19,7 +19,6 @@
 	 the jndi:-protocol is used instead of the file:-protocol -->
 <collection:collection
 	xmlns:collection="http://apache.org/cocoon/collection/1.0" name="dforms-model">
-	<collection:resource name="archived.xml" />
 	<collection:resource name="date.xml" />
 	<collection:resource name="description.xml" />
 	<collection:resource name="people.xml" />
