@@ -30,6 +30,9 @@ function processEditUser(form) {
 	model_.profile.surname = user.getSurname();
 	model_.profile.email = user.getEmail();
 	model_.profile.skills = user.getSkills();
+	
+	form_.lookupWidget("/changePassword/successfullyChanged").value = "Password Changed";
+	form_.lookupWidget("/changePassword/passwordNotChanged").value = "Password could not be changed";
 
 	form.showForm("edit-user.instance");
 			
@@ -69,10 +72,13 @@ function changePassword() {
 	
 	if (changed) {
 	    userAdmin.updateUser(currentUser);
-		form_.lookupWidget("/changePassword/pwdChangeMessage").setValue("password changed");
+	    
+		form_.lookupWidget("/changePassword/successfullyChanged").state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+		form_.lookupWidget("/changePassword/passwordNotChanged").state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 	}
 	else {
-		form_.lookupWidget("/changePassword/pwdChangeMessage").setValue("password not changed");
+		form_.lookupWidget("/changePassword/passwordNotChanged").state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;
+		form_.lookupWidget("/changePassword/successfullyChanged").state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 	}
 }
 

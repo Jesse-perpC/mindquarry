@@ -91,8 +91,12 @@
 									<h3>Change Password</h3>
 									
 									<div>
-										<ft:widget id="pwdChangeMessage">
-											<ft:styling type="pwdChangeMessage"></ft:styling>
+										<ft:widget id="successfullyChanged">
+											<fi:styling type="pwdChanged"/>
+										</ft:widget>
+									</div>
+									<div>
+										<ft:widget id="passwordNotChanged">
 										</ft:widget>
 									</div>
 									
