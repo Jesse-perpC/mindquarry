@@ -219,30 +219,14 @@
 
 				<!-- layouting the content -->
 				<div id="webapp-content">
-					<div id="background-repeater">
-						<div id="background-lines">
-							<div id="background-n">
-								<div id="background-s">
-									<div id="background-w">
-										<div id="background-e">
-											<div id="background-nw">
-												<div id="background-ne">
-													<div id="background-sw">
-														<div id="background-se">
-															<div id="innercontent">
-																<xsl:apply-templates />
-																
-																<xsl:call-template name="alternate" />
-															</div>
-														</div>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
+					<div id="sidebar">
+						<!-- TODO: sidebar -->
+					</div>
+					
+					<div id="innercontent">
+						<xsl:apply-templates />
+						
+						<xsl:call-template name="alternate" />
 					</div>
 				</div>
 				
