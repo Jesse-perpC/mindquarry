@@ -52,10 +52,10 @@ public class UserManagerTest extends TeamspaceTestBase {
                 "Mindquarry User", "surname", "an email", "the skills");
         
         List<UserRO> users = userAdmin.allUsers();
-        assertEquals(1, users.size());
+        assertEquals(2, users.size());
         
         userAdmin.deleteUser((User) mqUser);
-        assertEquals(0, userAdmin.allUsers().size());
+        assertEquals(1, userAdmin.allUsers().size());
     }
     
     public void testGroupPersistence() throws ServiceException {

@@ -363,14 +363,15 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      *      java.lang.String, java.lang.String)
      */
     public boolean authorise(String userId, String uri, String method) {
-        // check if user is in teamspace
-
+        
         boolean mayPerform = false;
 
-        if (isCreateOrEditTeamspaceRequest(uri) 
-                || isCreateNewUserRequest(uri)) {
-            mayPerform = userId.equals("admin");
-        } else {
+        UserRO user = userManager_.userById(userId);
+        
+        if (userManager_.isAdminUser(user)) {
+            mayPerform = true;
+        }
+        else {
             // simple regular expression that looks for the teamspace name...
             Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
             Matcher m = p.matcher(uri);
@@ -381,21 +382,10 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                     throw new ResourceDoesNotExistException(uri, "Teamspace '"
                             + requestedTeamspaceID + "' does not exist.");
                 }
-                // ...and checks if the user is in that teamspace
-                UserRO user = userManager_.userById(userId);
-                
-                // FIXME: this is a temporary fix: admin can do everything
-                mayPerform = userId.equals("admin") || user.isMemberOf(requestedTeamspaceID);
+
+                mayPerform = user.isMemberOf(requestedTeamspaceID);
             }
         }
         return mayPerform;
-    }
-    
-    private boolean isCreateNewUserRequest(String uri) {
-        return uri.equals("jcr:///users");
-    }
-    
-    private boolean isCreateOrEditTeamspaceRequest(String uri) {
-        return uri.equals("jcr:///teamspaces");
     }
 }

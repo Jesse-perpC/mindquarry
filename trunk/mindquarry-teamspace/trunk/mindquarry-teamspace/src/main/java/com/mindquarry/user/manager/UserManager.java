@@ -26,25 +26,15 @@ import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
 
+import static com.mindquarry.user.manager.DefaultUsers.*;
+
 /**
  * Add summary documentation here.
  * 
  * @author <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public final class UserManager implements UserAdmin, Authentication {
-
-    static final String ADMIN_USER_ID = "admin"; //$NON-NLS-1$
-
-    static final String ADMIN_PWD = "admin"; //$NON-NLS-1$
-
-    static final String ADMIN_NAME = "Administrator"; //$NON-NLS-1$
-
-    static final String INDEX_USER_ID = "solr"; //$NON-NLS-1$
-
-    static final String INDEX_PWD = "solr"; //$NON-NLS-1$
-
-    static final String INDEX_NAME = "Index User"; //$NON-NLS-1$
-
+    
     private SessionFactory sessionFactory_;
 
     /**
@@ -57,11 +47,19 @@ public final class UserManager implements UserAdmin, Authentication {
     }
 
     public void initialize() {
-        if (!existsAdminUser())
-            createUser(ADMIN_USER_ID, ADMIN_PWD, ADMIN_NAME, "", null, null);
+        for (String[] userProfile : defaultUsers) {
+            if (!existsUser(userProfile))
+                createUser(userProfile);
+        }
+    }
 
-        if (!existsIndexUser())
-            createUser(INDEX_USER_ID, INDEX_PWD, INDEX_NAME, "", null, null);
+    private boolean existsUser(String[] userProfile) {
+        return null != queryUserById(login(userProfile));
+    }
+
+    private void createUser(String[] userProfile) {
+        createUser(login(userProfile), password(userProfile), 
+                   username(userProfile), "", null, null);
     }
 
     private void persistEntity(EntityBase entity) {
@@ -94,24 +92,20 @@ public final class UserManager implements UserAdmin, Authentication {
             return null;
     }
 
-    private boolean existsAdminUser() {
-        return null != queryUserById(ADMIN_USER_ID);
-    }
-
-    private boolean existsIndexUser() {
-        return null != queryUserById(INDEX_USER_ID);
-    }
-
     private Session currentSession() {
         return sessionFactory_.currentSession();
     }
 
     public boolean isAdminUser(UserRO user) {
-        return user.getId().equals(ADMIN_USER_ID);
+        return user.getId().equals(login(ADMIN_USER));
     }
 
     public boolean isIndexUser(UserRO user) {
-        return user.getId().equals(INDEX_USER_ID);
+        return user.getId().equals(login(INDEX_USER));
+    }
+
+    public boolean isAnonymousUser(UserRO user) {
+        return user.getId().equals(login(ANONYMOUS_USER));
     }
 
     public final boolean isValidUserId(String userId) {
