@@ -115,7 +115,7 @@
 			<!-- basic styling -->
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}screen.css" media="screen,projection" type="text/css" />
 			<link rel="stylesheet" href="{$pathToBlock}{$cssPath}headerandlines.css" media="screen,projection" type="text/css" />
-			<link rel="icon" href="{$pathToRoot}resources/icons/logo-red-gradient-256-colors.ico" type="image/x-icon" />
+			<link rel="icon" href="{$pathToRoot}resources/icons/mindquarry-icon.ico" type="image/x-icon" />
 
 			<!-- lightbox -->
 			<link rel="stylesheet" type="text/css" href="{$pathToBlock}{$cssPath}lightbox.css" />
