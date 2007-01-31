@@ -22,8 +22,39 @@
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 		
 	<xsl:param name="teamspaceID" />   
+  <xsl:param name="hostname" />
   <xsl:param name="baselink" />
+  
+<xsl:template match="/tasks">
+BEGIN:VCALENDAR
+VERSION: 2.0
+PRODID:-//hacksw/handcal//NONSGML v1.0//EN
+<xsl:apply-templates select="task" />
+END:VCALENDAR
+</xsl:template>
+  
+<xsl:template match="task">
+BEGIN:VTODO
+UID:<xsl:value-of select="$teamspaceID" />/<xsl:value-of select="@xlink:href" />@<xsl:value-of select="$hostname" />
+URL:<xsl:value-of select="$baselink"/><xsl:value-of select="@xlink:href" />
+<xsl:apply-templates />
+END:VTODO
+</xsl:template>
 
+<xsl:template match="title">
+SUMMARY: <xsl:value-of select="normalize-space(.)" />
+</xsl:template>
+
+<xsl:template match="summary[string-length(.)!=0]">
+DESCRIPTION: <xsl:value-of select="normalize-space(.)" />
+</xsl:template>
+
+<xsl:template match="date[string-length(.)!=0]">
+DUE: <xsl:value-of select="substring(.,7)" /><xsl:value-of select="substring(.,4,2)" /><xsl:value-of select="substring(.,1,2)" /><xsl:text>T0000Z</xsl:text>
+</xsl:template>
+
+<xsl:template match="*" />
+<!--
     <xsl:template match="/tasks">
     <feed xmlns="http://www.w3.org/2005/Atom">
       <updated><xsl:value-of select="date:date-time()"/></updated>
@@ -62,4 +93,5 @@
         <id>feed:<xsl:value-of select="$baselink" /><xsl:value-of select="@xlink:href"/></id>
       </entry>
     </xsl:template>
+-->
 </xsl:stylesheet>
