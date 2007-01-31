@@ -322,16 +322,12 @@
 			
 			<!-- icons for status -->
 			<match pattern="resource/icons/ductform.status/*.png">
-				<select type="resource-exists">
-					<!-- if it exists, load it from this sitemap's resources -->
-					<when test="images/status/{1}.png">
-						<read src="images/status/{1}.png" />
-					</when>
-					<!-- if not, look in the super block -->
-					<otherwise>
-						<read src="images/status/new.png" />
-					</otherwise>
-				</select>
+				<read src="cocoon:/tango-icons/22/status/task-{1}.png" />
+			</match>
+			
+			<!-- icons for priority -->
+			<match pattern="resource/icons/ductform.priority/*.png">
+				<read src="cocoon:/tango-icons/22/emblems/task-{1}.png" />
 			</match>
 			
 			<!-- @override: for inheriting sitemap resources -->

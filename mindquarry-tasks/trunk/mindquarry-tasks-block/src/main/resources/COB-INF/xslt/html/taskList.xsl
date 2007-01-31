@@ -51,7 +51,7 @@
 								<tr>
 									<th contentType="html" dataType="int" valign="top"></th>
 									<th contentType="html" id="title-col-header">Task</th>
-									<th dataType="date">Date</th>
+									<th dataType="date">Due Date</th>
 								</tr>
 							</thead>
 							<tbody>
