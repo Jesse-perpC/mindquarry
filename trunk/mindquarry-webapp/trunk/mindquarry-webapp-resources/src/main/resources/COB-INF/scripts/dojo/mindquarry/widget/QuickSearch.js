@@ -45,7 +45,7 @@ dojo.widget.defineWidget(
 									'<input name="q" size="${this.size}" class="input_box" dojoAttachPoint="widthNode" autocomplete="off"/>' +
 									'<input name="wt" value="mq" type="hidden"/>' +
 									'<input name="fl" value="score" type="hidden"/>' +
-									'<input type="image" src="'+dojo.uri.dojoUri('search.png') +'" value="${this.searchButton}" class="btn"/>' + 
+									'<input type="image" src="'+dojo.uri.dojoUri('search.png') +'" value="${this.searchButton}" class="btn" title="Search entire system"/>' + 
 								'</span>' +
 								'</form>' +
 							'<div class="result-popup" dojoAttachPoint="popupNode" >' +
