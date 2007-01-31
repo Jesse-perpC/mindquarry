@@ -201,7 +201,7 @@
 							<div class="username-display">
 								<a href="{$pathToRoot}teamspace/editUser/?targetUri={$pathToRoot}" id="edit-user-link" title="Edit your user profile ({$username})" rel="lightbox"><b><xsl:value-of select="$username" /></b></a>
 							</div>
-							<a href="{$pathToRoot}/help/" id="head-help-link"><b>Help</b></a>													
+							<a href="{$pathToRoot}help/" id="head-help-link" title="Show help"><b>Help</b></a>													
 						</div>
 					</xsl:if>
 				</div>
