@@ -21,7 +21,7 @@
 	<bean id="com.mindquarry.teamspace.teamspace-block" 
 		  class="org.apache.cocoon.blocks.BlockServlet">
 
-		<property name="mountPath" value="/teamspace"/>
+		<property name="mountPath" value="/teams"/>
 		
 		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
 		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>

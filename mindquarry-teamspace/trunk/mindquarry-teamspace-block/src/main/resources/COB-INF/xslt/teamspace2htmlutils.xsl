@@ -121,8 +121,8 @@
             <h4>
               Team Documents
             </h4>
-            Share documents with your team members. Browse <a href="{$pathToRoot}/workspace/browser/{normalize-space(id)}/">shared files</a> 
-            or view <a href="{$pathToRoot}/workspace/changes/{normalize-space(id)}">recent changes</a> to stay up to date.
+            Share documents with your team members. Browse <a href="{$pathToRoot}files/browser/{normalize-space(id)}/">shared files</a> 
+            or view <a href="{$pathToRoot}files/changes/{normalize-space(id)}">recent changes</a> to stay up to date.
           </div>
           <div class="member-details">
             <img src="{$pathToRoot}resources/tango-icons/48/apps/mindquarry-wiki.png" class="teamblock"/>
@@ -146,7 +146,7 @@
   </xsl:template>
 	
   <xsl:template match="user">
-    <li style="background:url({$pathToRoot}teamspace/users/{normalize-space(id)}.png);background-repeat:no-repeat;background-position:1px 0px;">
+    <li style="background:url({$pathToRoot}teams/users/{normalize-space(id)}.png);background-repeat:no-repeat;background-position:1px 0px;">
       <xsl:value-of select="name" />
       <xsl:value-of select="surname" />
     </li>
@@ -154,7 +154,7 @@
 
   <xsl:template match="user" mode="detail">
     <div class="member-details">
-      <img src="{$pathToRoot}teamspace/users/{normalize-space(id)}.png"/>
+      <img src="{$pathToRoot}teams/users/{normalize-space(id)}.png"/>
       <h4>
         <xsl:value-of select="name"/>
         <xsl:value-of select="surname"/>
