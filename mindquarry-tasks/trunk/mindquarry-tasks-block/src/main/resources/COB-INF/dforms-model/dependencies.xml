@@ -22,8 +22,8 @@
 	<fd:repeater>
 		<fd:datatype base="boolean"/>
 		<fd:label>Dependencies</fd:label>
-		<fd:hint>This tasks depends on</fd:hint>
-		<fd:help>Dependencies can be used for setting relationships between tasks.</fd:help>
+		<fd:hint>The task relies upon the completion of a preceding task.</fd:hint>
+		<fd:help>Use dependencies for setting relationships between tasks.</fd:help>
 		<fd:widgets>
 			<fd:field id="task">
 				<fd:datatype base="string"/>
