@@ -23,6 +23,7 @@
 	<collection:resource name="description.xml" />
 	<collection:resource name="people.xml" />
 	<collection:resource name="status.xml" />
+	<collection:resource name="priority.xml" />
 	<collection:resource name="summary.xml" />
 	<collection:resource name="dependencies.xml" />
 </collection:collection>
