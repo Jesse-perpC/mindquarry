@@ -46,11 +46,6 @@
 				<pattern name="xml">text/xml</pattern>
 			</selector>
 		</selectors>
-
-		<transformers default="xslt">
-			<transformer name="browser-update"
-				src="org.apache.cocoon.ajax.BrowserUpdateTransformer" />
-		</transformers>
 	</components>
 
 	<views>
@@ -227,6 +222,7 @@
 		</resource>
 
 		<resource name="form2html">
+			<transform type="i18n"/>
 			<transform src="block:super:/xslt/forms/form2html.xsl"
 				label="form">
 				<parameter name="fullPath"
