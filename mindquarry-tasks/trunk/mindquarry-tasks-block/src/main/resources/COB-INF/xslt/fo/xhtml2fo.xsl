@@ -319,13 +319,12 @@ THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLI
   </xsl:attribute-set>
 
   <xsl:attribute-set name="th">
-    <xsl:attribute name="font-weight">bolder</xsl:attribute>
+    <xsl:attribute name="font-weight">bold</xsl:attribute>
     <xsl:attribute name="text-align">center</xsl:attribute>
     <xsl:attribute name="border">1px</xsl:attribute>
-    <!--
     <xsl:attribute name="border-style">inset</xsl:attribute>
-    -->
     <xsl:attribute name="padding">1px</xsl:attribute>
+    <xsl:attribute name="background">#cccccc</xsl:attribute>
   </xsl:attribute-set>
 
   <xsl:attribute-set name="td">
