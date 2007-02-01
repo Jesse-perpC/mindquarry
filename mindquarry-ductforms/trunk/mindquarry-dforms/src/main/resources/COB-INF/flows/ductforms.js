@@ -210,6 +210,11 @@ function deleteIt(event) {
 	}
 }
 
+function keepAlive(event) {
+	// periodically called to keep the continuation alive
+	// so do nothing here...
+}
+
 /////////////////////////////////////////////////////////
 // form handling helper
 /////////////////////////////////////////////////////////
@@ -315,8 +320,9 @@ function setWidgetStates(form, isEdit) {
 		widgetMap.put(form.lookupWidget("/ductforms_editall"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
 
-    // the activate action is always active (but not visible)
+    // the activate and keepAlive actions are always active (but not visible)
 	widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	widgetMap.put(form.lookupWidget("/ductforms_keepalive"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	// the delete action is always active except when creating a document
     if (documentID_ != "new") {
 		widgetMap.put(form.lookupWidget("/ductforms_delete"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
