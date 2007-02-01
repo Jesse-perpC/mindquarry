@@ -24,6 +24,7 @@ mindquarry.widget.AutoActiveButton = function() {
 	dojo.widget.DomWidget.call(this);
 	
 	var cform = null;
+	var confirm = null;
 }
 
 

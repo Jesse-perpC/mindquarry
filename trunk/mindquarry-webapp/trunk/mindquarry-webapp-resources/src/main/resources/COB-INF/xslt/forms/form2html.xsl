@@ -74,6 +74,7 @@
     -->
     <script type="text/javascript">
       dojo.require("dojo.widget.Tooltip");
+      dojo.require("mindquarry.widget.TimerCFormAction");
     </script>
     
     <!-- <script src="{$resources-uri}/forms/mattkruse-lib/AnchorPosition.js" type="text/javascript"/> -->
@@ -126,11 +127,23 @@
 
   <!-- hide actions with the type "hidden" -->
   <xsl:template match="fi:action[fi:styling/@type='hidden']">
-    <input id="{@id}" type="submit" name="{@id}" title="{fi:hint}" style="display:none;"/>
+    <input>
+      <xsl:apply-templates select="fi:styling/@*" mode="copy-attributes"/>
+      <xsl:attribute name="type">submit</xsl:attribute>
+      <xsl:attribute name="name"><xsl:value-of select="@id"/></xsl:attribute>
+      <xsl:attribute name="title"><xsl:value-of select="fi:hint"/></xsl:attribute>
+      <xsl:attribute name="style">display:none;</xsl:attribute>
+    </input>
   </xsl:template>
 
+  <xsl:template match="attribute::*" mode="copy-attributes">
+    <xsl:copy-of select="."/>
+  </xsl:template>
+  
+  <!-- remove actions in output state -->
   <xsl:template match="fi:items//fi:action[@state='output']"/>
   
+  <!-- copy all bu:replace stuff -->
   <xsl:template match="bu:replace">
     <xsl:copy>
       <xsl:apply-templates select="node() | @*"/>
