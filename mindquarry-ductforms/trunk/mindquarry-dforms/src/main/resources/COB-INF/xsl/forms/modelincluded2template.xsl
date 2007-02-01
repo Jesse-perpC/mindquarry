@@ -66,6 +66,9 @@
 					<ft:widget id="ductforms_cancel">
 						<fi:styling class="ductform_button cancel_button" dojoType="AutoActiveButton"/>						
 					</ft:widget>
+					<ft:widget id="ductforms_delete">
+						<fi:styling class="ductform_button delete_button" dojoType="AutoActiveButton" confirm="Are you sure you want to delete it?"/>						
+					</ft:widget>
 					
 					<!-- all fields/widgets grouped for nice layouting -->
 					<fi:group>

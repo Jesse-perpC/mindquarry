@@ -191,6 +191,25 @@ function cancel(event) {
 	}
 }
 
+/* delete is a protected keyword in javascript... */
+function deleteIt(event) {
+	if (form_) {
+		var source = 0;
+		try {
+			source = resolveSource(getFullPath());
+			source["delete"]();
+		} finally {
+			releaseSource(source);
+		}
+
+	    // stop any further form processing to be able to do the redirect
+		form_.getWidget().endProcessing(false);
+		
+	    // reload the form in view mode (new continuation)
+	    cocoon.redirectTo("cocoon:/redirectTo/.");
+	}
+}
+
 /////////////////////////////////////////////////////////
 // form handling helper
 /////////////////////////////////////////////////////////
@@ -298,6 +317,10 @@ function setWidgetStates(form, isEdit) {
 
     // the activate action is always active (but not visible)
 	widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	// the delete action is always active except when creating a document
+    if (documentID_ != "new") {
+		widgetMap.put(form.lookupWidget("/ductforms_delete"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+    }
 	
 	//cycle through the widget map and set the states accordingly
 	var widgetList = widgetMap.keySet().toArray();
