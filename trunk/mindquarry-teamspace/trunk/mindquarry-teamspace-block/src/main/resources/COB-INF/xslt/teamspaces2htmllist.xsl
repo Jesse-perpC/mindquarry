@@ -27,9 +27,9 @@
 	
 	<xsl:template match="user">
 		<p class="userinfo">
-			<span class="username"><xsl:value-of select="@id"/></span>
+			<span id="userid"><xsl:value-of select="@id"/></span>
 			<span>Logged in as</span>
-			<span class="userid"><xsl:apply-templates/></span>
+			<span class="username"><xsl:apply-templates/></span>
 		</p>
 	</xsl:template>
 	
