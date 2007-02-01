@@ -75,6 +75,12 @@
 					</fd:on-action>
 				</fd:action>
 				
+				<fd:action id="ductforms_keepalive">
+					<fd:on-action>
+						<fd:javascript>keepAlive(event);</fd:javascript>
+					</fd:on-action>
+				</fd:action>
+				
 				<fd:action id="ductforms_editall">
 					<fd:label>Edit All</fd:label>
 					<fd:help>Edit all fields</fd:help>

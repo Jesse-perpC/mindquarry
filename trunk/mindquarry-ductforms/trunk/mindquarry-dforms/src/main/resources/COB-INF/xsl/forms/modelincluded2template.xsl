@@ -56,6 +56,12 @@
 						<fi:styling type="hidden" />
 					</ft:widget>
 					
+					<!-- hide the keepAlive action (only used for communication) -->				
+					<ft:widget id="ductforms_keepalive">
+						<!-- dummy widget call every 60 seconds to keep continuation alive -->
+						<fi:styling type="hidden" dojoType="TimerCFormAction" delay="60000"/>
+					</ft:widget>
+					
 					<!-- the buttons -->
 					<ft:widget id="ductforms_editall">
 						<fi:styling class="ductform_button editall_button" dojoType="AutoActiveButton"/>
