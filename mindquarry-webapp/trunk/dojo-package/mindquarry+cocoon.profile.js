@@ -28,7 +28,8 @@ var dependencies = [
 	"mindquarry.widget.TableExpandLink",
 	"mindquarry.widget.TeamSwitcher",
 	"mindquarry.widget.ToggleButton",
-	"mindquarry.widget.wikiLink"
+	"mindquarry.widget.wikiLink",
+	"mindquarry.widget.TimerCFormAction"
 ];
 
 dependencies.prefixes = [
