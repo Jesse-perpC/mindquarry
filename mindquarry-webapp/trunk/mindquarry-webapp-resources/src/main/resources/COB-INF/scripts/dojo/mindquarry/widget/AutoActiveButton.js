@@ -42,6 +42,8 @@ dojo.lang.extend(mindquarry.widget.AutoActiveButton, {
 	    this.domNode = parserFragment["dojo:"+this.widgetType.toLowerCase()].nodeRef;
 	    this.cform = parentWidget;
 
+		this.confirm = dojo.html.getAttribute(this.domNode, "confirm");
+        
 	    dojo.event.connect(this.domNode, "onclick", this, "onClick");
     },
     
@@ -55,6 +57,12 @@ dojo.lang.extend(mindquarry.widget.AutoActiveButton, {
         
         event.preventDefault();
 
+        if (this.confirm) {
+        	if (!confirm(this.confirm)) {
+        		return;
+        	}
+        }
+        
         if (this.cform==null) {
         	var form = cocoon.forms.getForm(this.domNode);
         	var dojoId = form.getAttribute("dojoWidgetId");
