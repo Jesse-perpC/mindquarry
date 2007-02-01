@@ -232,4 +232,5 @@
       src="{$pathToRoot}teams/users/{normalize-space(fi:value)}.png"/>
   </xsl:template>
 
+  
 </xsl:stylesheet>
