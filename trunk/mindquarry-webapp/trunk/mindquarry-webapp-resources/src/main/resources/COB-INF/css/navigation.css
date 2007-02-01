@@ -161,7 +161,7 @@ a b {
     
 }
 
-#user-and-teamspace-info p span.username {
+#user-and-teamspace-info p #userid {
     display:none;
 }
 

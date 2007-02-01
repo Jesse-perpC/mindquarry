@@ -44,7 +44,7 @@ function changePasswordInBrowser() {
 	var newPwdInputId = "changePassword.newPassword:input";
 	var newPwd = document.getElementById(newPwdInputId).value;
 	
-	var username = document.getElementById("edit-user-link").firstChild.nodeValue;
+	var username = document.getElementById("userid").firstChild.nodeValue;
 	
 	
     var pathToWebappRoot = document.getElementById("path-to-webapp-root").href;
