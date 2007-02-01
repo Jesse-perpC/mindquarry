@@ -50,6 +50,12 @@ input.cancel_button {
 	height: 32px;
 }
 
+input.delete_button {
+	background-image: url(../buttons/cancel_edit_task.png);
+	width: 154px;
+	height: 32px;
+}
+
 /* green labels for fields */
 dt label {
 	color:#339933;
