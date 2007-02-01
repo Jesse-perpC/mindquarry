@@ -264,6 +264,12 @@
 				<serialize type="xml" />
 			</match>
 			
+			<match pattern="views/teamspacesFullXMLView">
+				<generate src="jx/teamspace-list-view.jx" type="jx"
+					label="content" />
+				<serialize type="xml" />
+			</match>
+			
 			<match pattern="views/teamspaceXMLView">
 				<generate src="jx/teamspace-view.jx" type="jx"
 					label="content" />
@@ -377,6 +383,16 @@
 						value="{1}" />
 					<parameter name="target"
 						value="views/teamspacesHTMLListView" />
+				</call>
+			</match>
+			
+			<match pattern="user/*/info/teams.xml">
+				<call
+					function="listTeamspacesForUser">
+					<parameter name="username"
+						value="{1}" />
+					<parameter name="target"
+						value="views/teamspacesFullXMLView" />
 				</call>
 			</match>
 			
