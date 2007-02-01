@@ -624,6 +624,11 @@
 					<when test="xml">
 						<read src="cocoon:/internal/pipe/overview.xml" />
 					</when>
+					<when test="opml">
+						<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+						<transform src="xslt/opml/teamspaces2opml.xsl" />
+						<serialize type="xml" />
+					</when>
 				</select>
 			</match>
 
