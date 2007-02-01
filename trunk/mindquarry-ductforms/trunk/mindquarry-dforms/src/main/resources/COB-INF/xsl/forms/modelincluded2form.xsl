@@ -99,6 +99,13 @@
 					</fd:on-action>
 				</fd:action>
 				
+				<fd:action id="ductforms_delete">
+					<fd:label>Delete</fd:label>
+					<fd:help>Delete</fd:help>
+					<fd:on-action>
+						<fd:javascript>deleteIt(event);</fd:javascript>
+					</fd:on-action>
+				</fd:action>
 			</fd:widgets>
 		</fd:form>
 	</xsl:template>
