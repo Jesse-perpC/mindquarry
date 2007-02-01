@@ -449,12 +449,13 @@
 					<parameter name="target"
 						value="internal/pipe/flowed/teamspaces-task-overview.xml" />
 				</call>
+				
 			</match>
 
 			<!-- target pipeline for overview.xml -->
 			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
 				<!-- TODO: this can be made generic, put into webapp-resources -->
-				<generate src="jx/teamspaces.jx" type="jx" />
+				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
 					<parameter name="base"
 						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
