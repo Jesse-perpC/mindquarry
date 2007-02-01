@@ -31,6 +31,7 @@
 				</script>
         <link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
         <link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
+        <link rel="alternate" href="" type="application/pdf" title="PDF for print" />
 			</head>
 			<body>
 				<h1>Manage Tasks for 

@@ -548,6 +548,30 @@
 				</transform>
 				<call resource="layouting" />
 			</match>
+
+			<!-- PDF -->
+			<match pattern="internal/pipe/tasks/*/list.pdf">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				
+				<transform type="xinclude" />
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+
+				<transform src="xslt/fo/taskList.xsl">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+					<parameter name="teamspaceID" value="{1}"/>
+					<parameter name="baselink" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}{request:servletPath}/{1}/" />
+				</transform>
+
+				<serialize type="fo2pdf"/>
+			</match>
 			
 			<!-- ATOM -->
 			<match pattern="internal/pipe/tasks/*/list.atom">
@@ -681,6 +705,10 @@
 					<when test="ical">
 						<read
 							src="cocoon:/internal/pipe/tasks/{1}/list.ical" />
+					</when>
+					<when test="pdf">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.pdf" />
 					</when>
 				</select>
 			</match>

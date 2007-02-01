@@ -25,7 +25,7 @@
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/tasks.css" type="text/css" />
         <link rel="alternate" type="text/x-opml" title="reading list of tasks" />
-			</head>
+      </head>
 			<body>
 				<h1>Manage Your Tasks</h1>
 				
