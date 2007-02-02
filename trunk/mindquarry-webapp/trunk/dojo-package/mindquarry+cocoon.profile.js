@@ -17,7 +17,6 @@ var dependencies = [
 	"cocoon.ajax.common",
 	"cocoon.ajax.*",
 	"cocoon.forms.*",
-	"mindquarry.widget.AutoActiveButton",
 	"mindquarry.widget.AutoActiveField",
 	"mindquarry.widget.ChangePassword",
 	"mindquarry.widget.IconSelect",
