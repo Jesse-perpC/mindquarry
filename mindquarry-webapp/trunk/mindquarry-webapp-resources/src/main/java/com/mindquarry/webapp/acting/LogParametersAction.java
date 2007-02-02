@@ -47,9 +47,9 @@ public class LogParametersAction extends AbstractAction implements ThreadSafe {
             String[] values = req.getParameterValues(name);
             for (int i = 0; i < values.length; i++) {
                 System.err.println("LogParameters: " + name + " = " + values[i]);                
-                System.err.println("LogParameters (UTF-8 => " + req.getCharacterEncoding() + "): " + name + " = " + new String(values[i].getBytes("UTF-8"), req.getCharacterEncoding()));                
-                System.err.println("LogParameters (MacRoman => " + req.getCharacterEncoding() + "): " + name + " = " + new String(values[i].getBytes("MacRoman"), req.getCharacterEncoding()));                
-                System.err.println("LogParameters (ISO-8859-1 => MaRoman): " + name + " = " + new String(values[i].getBytes("ISO-8859-1"), "MacRoman"));                
+//                System.err.println("LogParameters (UTF-8 => " + req.getCharacterEncoding() + "): " + name + " = " + new String(values[i].getBytes("UTF-8"), req.getCharacterEncoding()));                
+//                System.err.println("LogParameters (MacRoman => " + req.getCharacterEncoding() + "): " + name + " = " + new String(values[i].getBytes("MacRoman"), req.getCharacterEncoding()));                
+//                System.err.println("LogParameters (ISO-8859-1 => MaRoman): " + name + " = " + new String(values[i].getBytes("ISO-8859-1"), "MacRoman"));                
             }
         }
 //        String[] paramNames = par.getNames();
