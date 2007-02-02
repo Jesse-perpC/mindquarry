@@ -63,14 +63,6 @@ function showDForm(form) {
     	}
     }
 	
-	/*
-    print("***************");
-    print("output");
-    print(form_.lookupWidget("/content").getValue());
-    print("");
-    print("***************");
-	*/
-	  
 	// set initial state to output
 	setWidgetStates(form, isEditStart);
 
@@ -135,14 +127,6 @@ function save(event) {
 	        documentID_ = evalJavaScriptSource("block:/uniqueName.js");
 	        newDocument = true;
 	    }
-	    
-	    /*
-	    print("***************");
-	    print("");
-	    print(form_.lookupWidget("/content").getValue());
-	    print("");
-	    print("***************");
-	    */
 	    
 		// the form includes all possible fields, but only some of them are
 		// actually used. the best solution would be to strip out forms
