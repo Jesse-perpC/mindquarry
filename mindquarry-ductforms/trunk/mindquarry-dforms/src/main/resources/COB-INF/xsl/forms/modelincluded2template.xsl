@@ -64,16 +64,16 @@
 					
 					<!-- the buttons -->
 					<ft:widget id="ductforms_editall">
-						<fi:styling class="ductform_button editall_button" dojoType="AutoActiveButton"/>
+						<fi:styling class="ductform_button editall_button"/>
 					</ft:widget>
 					<ft:widget id="ductforms_save">
-						<fi:styling class="ductform_button save_button" dojoType="AutoActiveButton"/>						
+						<fi:styling class="ductform_button save_button"/>				
 					</ft:widget>
 					<ft:widget id="ductforms_cancel">
-						<fi:styling class="ductform_button cancel_button" dojoType="AutoActiveButton"/>						
+						<fi:styling class="ductform_button cancel_button"/>						
 					</ft:widget>
 					<ft:widget id="ductforms_delete">
-						<fi:styling class="ductform_button delete_button" dojoType="AutoActiveButton" confirm="Are you sure you want to delete it?"/>						
+						<fi:styling class="ductform_button delete_button" onclick="return confirm('Are you sure you want to delete it?');"/>						
 					</ft:widget>
 					
 					<!-- all fields/widgets grouped for nice layouting -->
