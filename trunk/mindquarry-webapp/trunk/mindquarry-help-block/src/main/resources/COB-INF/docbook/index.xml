@@ -151,8 +151,11 @@ are working or we are using docbook 5 -->
       <section id="mindquarry.webdav.support">
         <title>WebDAV Support</title>
 
-        <para>As an alternative to synchronizing files with the desktop client
-        </para>
+        <para>Mindquarry's file sharing is 100% compatible to the WebDAV file
+        sharing protocol. You can use your operating systems capability to
+        mount WebDAV folders to access the shared document at real-time. The
+        relevant repository <abbrev>URL</abbrev> is <literal><replaceable
+        role="replaceable">http://your.mindquarryserver.com/repos</replaceable>/teamname/trunk/</literal>.</para>
       </section>
     </section>
 
@@ -201,6 +204,69 @@ are working or we are using docbook 5 -->
 
     <para id="wiki.introduction">The Wiki is your personal idea-store,
     blackboard and glossary for sharing information and creativity.</para>
+
+    <para>Each team's wiki consists of a list of Wiki pages. You can see this
+    list by clicking the <guilabel>All pages</guilabel> link at the bottom of
+    each Wiki page.</para>
+
+    <section>
+      <title>Editing Wiki pages</title>
+
+      <para>In order to edit a Wiki page's content, you have to double-click
+      the Wiki page. After editing or formatting the text, click the
+      <guibutton>Save</guibutton> button to save your changes. If you would
+      like to cancel the editing and revert the page to the original content,
+      click the <guibutton>Cancel</guibutton> button.</para>
+
+      <para>In order to edit a Wiki page's title, double-click the title and
+      click the Save button to save and share your changes. Use the
+      <guibutton>Cancel</guibutton> button to cancel editing a title.</para>
+
+      <para>You can edit a Wiki page's title and content at once by clicking
+      the <guibutton>Edit</guibutton> button. After clicking this button, the
+      whole page becomes editable and you can use the
+      <guibutton>Save</guibutton> button to save your changes and the
+      <guibutton>Cancel</guibutton> button to revert the page to the original
+      state.</para>
+    </section>
+
+    <section>
+      <title>Linking Wiki pages</title>
+
+      <para>In order to create links between two Wiki pages, you have to edit
+      one Wiki page and turn a part of it's text content into a link. The
+      general procedure is:</para>
+
+      <procedure>
+        <step>
+          <para>Start editing the page by clicking edit or double-clicking the
+          page's content.</para>
+        </step>
+
+        <step>
+          <para>Highlight a word or phrase in the Wiki page editor.</para>
+        </step>
+
+        <step>
+          <para>Click the create link button in the toolbar.</para>
+        </step>
+
+        <step>
+          <para>Continue editing the page and save your changes.</para>
+        </step>
+      </procedure>
+
+      <para>Afterwards all the new link can be clicked and will lead you to
+      the new page. If this page already exists, you will see it's contents.
+      If it is a completely new page, you will be able to edit the page's
+      contents right away.</para>
+
+      <tip>
+        <para>You can use the <guibutton>advanced link</guibutton> button in
+        the toolbar if you would like to specify the target of the newly
+        created link. </para>
+      </tip>
+    </section>
   </chapter>
 
   <chapter>
