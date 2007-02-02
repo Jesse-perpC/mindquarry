@@ -4,54 +4,32 @@ are working or we are using docbook 5 -->
 <!--DOCTYPE book PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd"-->
 <book>
-  <title>Mindquarry Collaboration Server</title>
+  <title>Mindquarry User Guide</title>
 
   <chapter>
-    <title>Installing Mindquarry</title>
+    <title>Introduction</title>
 
-    <section>
-      <title>Installation Prerequisites</title>
+    <para id="mindquarry.introduction">Mindquarry is a web-application that
+    supports your teamwork by combining file sharing, Wiki for knowledge
+    management and collaborative task management. </para>
 
-      <note>
-        <para>Nobody knows this.</para>
-      </note>
-
-      <tip>
-        <para>Nobody knows this.</para>
-      </tip>
-
-      <caution>
-        <para>Nobody</para>
-      </caution>
-
-      <warning>
-        <para>Nearly Nobody</para>
-      </warning>
-
-      <para>In order to install Mindquarry, you need things.</para>
-    </section>
-
-    <section>
-      <title>Installation Steps</title>
-
-      <para>In order to install Mindquarry, you need things.</para>
-    </section>
-
-    <section>
-      <title>Post-Installation</title>
-
-      <para>In order to install Mindquarry, you need things.</para>
-    </section>
+    <para>This user guide will introduce the most important features of the
+    Mindquarry system.</para>
   </chapter>
 
   <chapter>
     <title>Managing Teams with Mindquarry</title>
 
-    <para></para>
+    <para id="teams.introduction">The teams block allows you to see all the
+    teams you participate in. Additionally you can add members to your teams
+    and create new teams for new projects.</para>
   </chapter>
 
   <chapter>
     <title>Managing Files with Mindquarry</title>
+
+    <para id="files.introduction">The workspace management block stores all
+    your documents and keeps a history of changes.</para>
 
     <section>
       <title>Desktop Synchronization</title>
@@ -59,10 +37,10 @@ are working or we are using docbook 5 -->
       <tip id="getting.mindquarry.files">
         <title>How to access shared files</title>
 
-        <para>The <xref linkend="getting.mindquarry.files" /> files shown in the workspace browser are shared by all team
-        members. In order to edit them and to share your changes, you need to
-        synchronize the shared folder with your desktop. There are three ways
-        to do this:</para>
+        <para>The <xref linkend="getting.mindquarry.files" /> files shown in
+        the workspace browser are shared by all team members. In order to edit
+        them and to share your changes, you need to synchronize the shared
+        folder with your desktop. There are three ways to do this:</para>
 
         <itemizedlist>
           <listitem>
@@ -108,12 +86,15 @@ are working or we are using docbook 5 -->
   <chapter>
     <title>Sharing Ideas with Mindquarry</title>
 
-    <para></para>
+    <para id="wiki.introduction">The Wiki is your personal idea-store,
+    blackboard and glossary. Share ideas with your colleagues and develop
+    creativity.</para>
   </chapter>
 
   <chapter>
     <title>Managing Tasks with Mindquarry</title>
 
-    <para></para>
+    <para id="tasks.introduction">With the task management block you can see
+    your todo list and assign tasks to your team members.</para>
   </chapter>
 </book>
