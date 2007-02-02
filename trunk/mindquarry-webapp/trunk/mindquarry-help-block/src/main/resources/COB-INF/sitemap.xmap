@@ -169,7 +169,7 @@
 		<!-- external browser pipeline -->
 		<pipeline type="caching-point">
 			<match pattern="">
-				<redirect-to uri="index/index.html"/>
+				<redirect-to uri="help/index/index.html"/>
 			</match>
 
 			<match pattern="fragment/*/*.html">
@@ -183,13 +183,24 @@
 				<serialize type="xml"/>
 			</match>
       
-			<match pattern="*/*.html">
+			<match pattern="help/*/*.html">
 				<generate src="docbook/{1}.xml"/>
 				<transform src="xslt/docbook2html.xsl">
 					<parameter name="desiredfilename" value="{2}.html"/>
 				</transform>
 				<transform src="xslt/styledocbookhtml.xsl" label="html"/>
 				<call resource="layouting"/>
+			</match>
+			
+			<match pattern="dispatch/*/*.html">
+				<generate src="docbook/{1}.xml" />
+				<transform src="xslt/olinkresolver.xsl">
+					<parameter name="basepath" value="/help/help/" />
+					<parameter name="document" value="{1}" />
+					<parameter name="linkend" value="{2}" />
+				</transform>
+				<transform type="bu-redirect" />
+				<serialize type="xml" />
 			</match>
 
 			<handle-errors>
