@@ -22,6 +22,39 @@ are working or we are using docbook 5 -->
 
     <para id="teams.introduction">With Mindquarry teams you can see your teams
     and team members. Team managers can invite members. </para>
+
+    <para>You can see all your teams in a list. This list contains the team's
+    name, description and photos of some of the team members. You can use the
+    slider allows to the left and the right of the team member's photos to
+    scroll through the list of team members.</para>
+
+    <para>If you would like to see more details of the team or change team
+    settings or invite team members (only for team managers), click the team's
+    name. Now you see all details for the team including all team
+    members.</para>
+
+    <section>
+      <title>Adding and Removing Team Members</title>
+
+      <para>To add or remove team members click the <guibutton>Team
+      members</guibutton> button in the details view of your team. In the
+      resulting dialog you will see your team memers on the left (scroll to
+      see all) and other people registred in the Mindquarry Collaboration
+      Server on the right.</para>
+
+      <para>If you would like to add a team member, just click its profile on
+      the right side, if you would like to remove a team member, click its
+      profile on the left side. When you are finished, click done.</para>
+    </section>
+
+    <section>
+      <title>Editing a Team's Details</title>
+
+      <para>You can edit a team's details like name and description by
+      clicking the <guibutton>Edit settings</guibutton> button in the details
+      view of your team and editing the settings in the dialog
+      appearing.</para>
+    </section>
   </chapter>
 
   <chapter>
@@ -35,7 +68,7 @@ are working or we are using docbook 5 -->
     the history of changes made to your team's files.</para>
 
     <section id="files.desktop.synchronization">
-      <title>Desktop Synchronization</title>
+      <title>Synchronizing with Your Desktop</title>
 
       <para>There are various ways to access the files shared with your team
       using the Mindquarry Collaboration Server. This section explain the most
@@ -160,7 +193,7 @@ are working or we are using docbook 5 -->
     </section>
 
     <section>
-      <title>Shared Files</title>
+      <title>Browsing Shared Files</title>
 
       <para>The Mindquarry file sharing block includes a listing of all your
       teams. For each team you have the ability to browse files or view
@@ -210,7 +243,7 @@ are working or we are using docbook 5 -->
     each Wiki page.</para>
 
     <section>
-      <title>Editing Wiki pages</title>
+      <title>Editing Wiki Pages</title>
 
       <para>In order to edit a Wiki page's content, you have to double-click
       the Wiki page. After editing or formatting the text, click the
@@ -231,7 +264,7 @@ are working or we are using docbook 5 -->
     </section>
 
     <section>
-      <title>Linking Wiki pages</title>
+      <title>Linking Wiki Pages</title>
 
       <para>In order to create links between two Wiki pages, you have to edit
       one Wiki page and turn a part of it's text content into a link. The
@@ -274,5 +307,57 @@ are working or we are using docbook 5 -->
 
     <para id="tasks.introduction">With the task management block you can see
     your todo list and assign tasks to your team members.</para>
+
+    <para>Each team's task list consits of a list of tasks. Each tasks has a
+    number of detail fields like title, status, due date or description. Some
+    of these fields are required, others are optional and can be enabled
+    on-demand.</para>
+
+    <para>You can define a number of task filters for each team. Task filters
+    are lists of tasks with common values, e.g. all tasks with high
+    priority.</para>
+
+    <section>
+      <title>Editing Tasks</title>
+
+      <para>After clicking the <guibutton>new task</guibutton> button in the
+      task list, a new task is created. You can edit title by typing a title
+      in the title field and status by pressing one of the status
+      buttons.</para>
+
+      <para>Additionally you can select optional fields from the list of
+      available fields by clicking the button for the desired field. After
+      clicking for instance the <guibutton>Summary</guibutton> button, a new
+      field <guilabel>Summary</guilabel> will appear and you are able to edit
+      its contents. Clicking the <guibutton>Summary</guibutton> button again
+      will remove this fields.</para>
+
+      <para>When you are finished editing the task, click on the
+      <guibutton>Save</guibutton> button. This will save your changes and make
+      them visible to other team members. Clicking the
+      <guibutton>Cancel</guibutton> button resets the task list to the
+      original state before you started editing or before you created a new
+      task.</para>
+
+      <para>When viewing a task, you can switch back to the edit mode by
+      clicking the <guibutton>Edit</guibutton> button. You can also edit
+      single fields by double-clicking the field's value, e.g. by
+      double-clicking the title of the task, you are able to edit the
+      title.</para>
+    </section>
+
+    <section>
+      <title>Creating Filters</title>
+
+      <para>In order to reduce the list of tasks you can create a filter by
+      clicking the <guibutton>New filter</guibutton> button in the team's task
+      list. A filter allows you to define a number of contitions the tasks
+      shown have to fulfil. You can select whether all or only some conditions
+      have to be met to display a task in the list.</para>
+
+      <para>For each condition, you select a field to filter for, enter a
+      desired value and wether the field should excactly match the value or
+      should just contain the value.</para>
+    </section>
   </chapter>
 </book>
