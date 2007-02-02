@@ -196,14 +196,33 @@
 			</match>
 			
 			<match pattern="dispatch/*/*.html">
-				<generate src="docbook/{1}.xml" />
-				<transform src="xslt/olinkresolver.xsl">
-					<parameter name="basepath" value="/help/help/" />
-					<parameter name="document" value="{1}" />
-					<parameter name="linkend" value="{2}" />
-				</transform>
-				<transform type="bu-redirect" />
-				<serialize type="xml" />
+			<select type="lightbox-request">
+				<when test="true">
+					<generate src="docbook/{1}.xml"/>
+					
+					<transform src="xslt/docbookfragment2html.xsl">
+						<parameter name="rootid" value="{2}"/>
+						<parameter name="basepath" value="/help/help/" />
+						<parameter name="document" value="{1}" />
+					</transform>
+					
+					<transform src="xslt/extractdocbookfragment.xsl">
+						<parameter name="rootid" value="{2}"/>
+					</transform>
+					
+					<serialize type="xml"/>
+				</when>
+				<otherwise>
+					<generate src="docbook/{1}.xml" />
+					<transform src="xslt/olinkresolver.xsl">
+						<parameter name="basepath" value="/help/help/" />
+						<parameter name="document" value="{1}" />
+						<parameter name="linkend" value="{2}" />
+					</transform>
+					<transform type="bu-redirect" />
+					<serialize type="xml" />
+				</otherwise>
+			</select>
 			</match>
 
 			<handle-errors>

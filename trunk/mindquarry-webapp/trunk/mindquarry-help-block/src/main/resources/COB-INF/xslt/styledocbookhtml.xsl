@@ -10,9 +10,17 @@
   
   <xsl:template match="xhtml:body/xhtml:div">
     <div class="nifty">
-      <xsl:copy-of select="." />
+      <xsl:apply-templates />
     </div>
   </xsl:template>
   
-  <xsl:template match="xhtml:body/xhtml:p" />
+  <xsl:template match="xhtml:p">
+    <xsl:if test="ancestor::xhtml:div">
+      <xsl:copy>
+        <xsl:apply-templates select="@*|node()" />
+      </xsl:copy>
+    </xsl:if>
+  </xsl:template>
+  
+  <xsl:template match="xhtml:div[@class='book']/xhtml:p" />
 </xsl:stylesheet>

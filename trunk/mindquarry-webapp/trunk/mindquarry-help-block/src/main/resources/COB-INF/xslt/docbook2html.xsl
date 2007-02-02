@@ -25,6 +25,8 @@
   <xsl:param name="desiredfilename" select="'index.html'" />
   <xsl:param name="writerealfiles" select="0" />
   <xsl:param name="chunk.fast" select="1"/>
+  <xsl:param name="chunk.section.depth" select="1"/>
+  <xsl:param name="chunk.first.sections" select="1"/>
   <xsl:param name="admon.graphics" select="1"/>
   <xsl:param name="admon.graphics.path">../../images/docbook/</xsl:param>
   <xsl:param name="footer.rule" select="0"/>
