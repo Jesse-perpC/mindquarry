@@ -20,16 +20,15 @@ are working or we are using docbook 5 -->
   <chapter>
     <title>Managing Teams with Mindquarry</title>
 
-    <para id="teams.introduction">The teams block allows you to see all the
-    teams you participate in. Additionally you can add members to your teams
-    and create new teams for new projects.</para>
+    <para id="teams.introduction">With Mindquarry teams you can see your teams
+    and team members. Team managers can invite members. </para>
   </chapter>
 
   <chapter>
     <title>Managing Files with Mindquarry</title>
 
-    <para id="files.introduction">The workspace management block stores all
-    your documents and keeps a history of changes.</para>
+    <para id="files.introduction">Mindquarry file sharing stores all your
+    documents and keeps a history of changes.</para>
 
     <section>
       <title>Desktop Synchronization</title>
@@ -87,8 +86,7 @@ are working or we are using docbook 5 -->
     <title>Sharing Ideas with Mindquarry</title>
 
     <para id="wiki.introduction">The Wiki is your personal idea-store,
-    blackboard and glossary. Share ideas with your colleagues and develop
-    creativity.</para>
+    blackboard and glossary for sharing information and creativity.</para>
   </chapter>
 
   <chapter>
