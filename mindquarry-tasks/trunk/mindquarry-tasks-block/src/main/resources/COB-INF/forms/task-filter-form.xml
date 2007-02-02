@@ -29,8 +29,12 @@
 		
 					<!-- selectable values -->
 					<fd:selection-list>
-						<fd:item value="and" />
-						<fd:item value="or" />
+						<fd:item value="and">
+							<fd:label>All conditions must be met</fd:label>
+						</fd:item>
+						<fd:item value="or">
+							<fd:label>At least one condition must be met</fd:label>
+						</fd:item>
 					</fd:selection-list>
 		
 					<!-- helper information -->
