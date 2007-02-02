@@ -30,21 +30,30 @@ are working or we are using docbook 5 -->
     <para id="files.introduction">Mindquarry file sharing stores all your
     documents and keeps a history of changes.</para>
 
-    <section>
+    <para>With Mindquarry file sharing you can synchronize shared files with
+    your desktop, view shared files in the Mindquarry web application and see
+    the history of changes made to your team's files.</para>
+
+    <section id="files.desktop.synchronization">
       <title>Desktop Synchronization</title>
+
+      <para>There are various ways to access the files shared with your team
+      using the Mindquarry Collaboration Server. This section explain the most
+      common ways to access these files.</para>
 
       <tip id="getting.mindquarry.files">
         <title>How to access shared files</title>
 
-        <para>The <xref linkend="getting.mindquarry.files" /> files shown in
-        the workspace browser are shared by all team members. In order to edit
-        them and to share your changes, you need to synchronize the shared
-        folder with your desktop. There are three ways to do this:</para>
+        <para>The files shown in the file sharing browser are shared by all
+        team members. In order to edit them and to share your changes, you
+        need to synchronize the shared folder with your desktop. There are
+        three ways to do this:</para>
 
         <itemizedlist>
           <listitem>
-            <para>Using the <productname>Mindquarry Desktop
-            Client</productname>. The <productname>Mindquarry Desktop
+            <para>Using the <link
+            linkend="file.desktop.client"><productname>Mindquarry Desktop
+            Client</productname></link>. The <productname>Mindquarry Desktop
             Client</productname> requires <productname>Microsoft
             Windows</productname> and <productname>Java</productname>
             <productnumber>5</productnumber> and synchronizes all your
@@ -56,10 +65,11 @@ are working or we are using docbook 5 -->
           </listitem>
 
           <listitem>
-            <para>Using the <ulink
-            url="http://subversion.tigris.org">Subversion</ulink> program.
-            Mindquarry is fully Subversion compatible, meaning you can use any
-            Subversion client like <ulink
+            <para>Using the <link
+            linkend="file.subversion.client">Subversion</link> program.
+            Mindquarry is fully <ulink
+            url="http://subversion.tigris.org/">Subversion</ulink> compatible,
+            meaning you can use any Subversion client like <ulink
             url="http://tortoisesvn.tigris.org">TortoiseSVN</ulink>, <ulink
             url="http://www.syntevo.com/smartsvn/">SmartSVN</ulink> or <ulink
             url="http://rapidsvn.tigris.org/">RapidSVN</ulink> to synchronize
@@ -67,18 +77,122 @@ are working or we are using docbook 5 -->
           </listitem>
 
           <listitem>
-            <para>Using WebDAV. You can use the builtin-WebDAV-support of your
-            operating system to access the shared files and read and write
-            them on the fly.</para>
+            <para>Using <link
+            linkend="mindquarry.webdav.support">WebDAV</link>. You can use the
+            builtin-WebDAV-support of your operating system to access the
+            shared files and read and write them on the fly.</para>
           </listitem>
         </itemizedlist>
       </tip>
 
+      <section id="file.desktop.client">
+        <title>Mindquarry Desktop Client</title>
+
+        <para>The Mindquarry Desktop Client is installed via Java Webstart.
+        When clicking the <guibutton>Synchronize now</guibutton> button in the
+        workspace browser or the <guilabel>client</guilabel> link in the
+        footer of the Mindquarry Web Application, your browser will download a
+        small file that will install the Mindquarry Desktop Client on your
+        computer and start it automatically. The general procedure is:</para>
+
+        <procedure>
+          <step>
+            <para>Click the Client link</para>
+          </step>
+
+          <step>
+            <para>Java WebStart will start downloading your personalized
+            Mindquarry Desktop Client and ask you for your username and
+            password to access your personalized Mindquarry Desktop
+            Client.</para>
+          </step>
+
+          <step>
+            <para>Once the client is downloaded, Java WebStart will launch the
+            Client automatically. </para>
+          </step>
+
+          <step>
+            <para>In order to connect to your Mindquarry Collaboration Server,
+            you need to enter your username and password to the Mindquarry
+            Desktop client.</para>
+          </step>
+        </procedure>
+
+        <para>The Mindquarry Desktop client features a
+        <guibutton>Synchronize</guibutton> button. Clicking this button the
+        first time will download all shared files from the Mindquarry
+        Collaboration Server that you can access to your desktop computer.
+        </para>
+
+        <note>
+          <para>Depending on the size and number of shared files, this could
+          take some time. </para>
+        </note>
+
+        <para>Whenever you click this synchronize button again, the Mindquarry
+        Desktop Client will download all changed files from the Mindquarry
+        Collaboration Server to your desktop computer and will upload all
+        files modified or added on your desktop computer to the Mindquarry
+        Collaboration Server, so they become accessible by other team
+        members.</para>
+      </section>
+
+      <section id="file.subversion.client">
+        <title>Subversion Support</title>
+
+        <para>Mindquarry's file sharing is 100% compatible to the open source
+        version control system Subversion. You can use any Subversion client
+        to synchronize your files. The relevant repository
+        <abbrev>URL</abbrev> is <literal><replaceable
+        role="replaceable">http://your.mindquarryserver.com/repos</replaceable>/teamname/trunk/</literal>.</para>
+      </section>
+
       <section id="mindquarry.webdav.support">
         <title>WebDAV Support</title>
 
-        <para></para>
+        <para>As an alternative to synchronizing files with the desktop client
+        </para>
       </section>
+    </section>
+
+    <section>
+      <title>Shared Files</title>
+
+      <para>The Mindquarry file sharing block includes a listing of all your
+      teams. For each team you have the ability to browse files or view
+      changed files<footnote>
+          <para>Convered in <xref linkend="files.change.history" /></para>
+        </footnote>.</para>
+
+      <para>The file browser shows you the files in the base directory of your
+      team's shared files, shows subdirectories and files. For each file there
+      is information about file size, date of last modification, the author of
+      the last modification and the comment the last author made when
+      synchronizing her files.</para>
+
+      <para>You can expand subdirectories by clicking on the small
+      <guiicon>plus-icon</guiicon> or browse into the subdirectory by clicking
+      the directory name. When browsing a subdirectory, you will see a arrow
+      pointing up allowing you to switch back to the parent directory.</para>
+
+      <para>An additional feature is the ability to see previous states of the
+      shared files by clicking the left and right arrows on to to go back to
+      an earlier (left) or later (right) stage.</para>
+    </section>
+
+    <section id="files.change.history">
+      <title>History of Changes</title>
+
+      <para>The history of changes allows you to keep track with your
+      colleagues work. You will see what colleague changed what files at what
+      point of time. As an additional feature, you can subscribe to the feed
+      of changes using an feed reader<footnote>
+          <para>A feed reader will notify you when changes have been made to a
+          file sharing directory you subscribed to. It allows you to stay
+          informed without having to visit the history of changes page
+          regularily.</para>
+        </footnote>.</para>
     </section>
   </chapter>
 

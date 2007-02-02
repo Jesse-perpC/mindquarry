@@ -5,4 +5,6 @@ a img {
 h1.title, h2.title, h3.title, h4.title, h5.title, h6.title {
   margin-top:0px;
   padding-top:5px;
+  text-align:left;
+  font-weight:bold;
 }
