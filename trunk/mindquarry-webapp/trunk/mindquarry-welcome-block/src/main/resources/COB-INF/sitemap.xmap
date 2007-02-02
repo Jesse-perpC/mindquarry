@@ -126,7 +126,7 @@
 				<parameter name="version"
 					value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
 			</transform>
-
+			<transform type="cinclude" />
 			<serialize type="html" />
 		</resource>
 	</resources>
@@ -224,6 +224,7 @@
 
 			<match pattern="">
 				<generate src="html/index.html" />
+				<transform type="cinclude" />
 				<call resource="layouting" />
 			</match>
 

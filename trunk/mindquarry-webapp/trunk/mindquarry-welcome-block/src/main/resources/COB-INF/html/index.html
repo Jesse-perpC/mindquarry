@@ -88,17 +88,11 @@
 		</style>
 	</head>
 	<body>
-		<h1>Mindquarry - Achieving more together</h1>
-		<p>
-			Mindquarry is here to make your daily work more productive.
-			Click one of the buttons below to manage teams, files, tasks
-			or browse the wiki. If you need help, you can always click
-			the the help symbol at the upper right corner of the screen.
-			The expand button at the upper left corner of the screen shows
-			you a customizable list of small helper programs devoted to
-			making you more productive.
-		</p>
-		<table class="welcome">
+		<h1>Mindquarry</h1>
+    <div style="text-align:center;">
+      <include src="block:help:/fragment/index/mindquarry.introduction.html" xmlns="http://apache.org/cocoon/include/1.0"/>
+		</div>
+    <table class="welcome">
 			<tr>
 				<td style="text-align:center;"><a href="teamspace/"><img alt="Teams Icon" ><us:attribute name="src" test="MSIE" value="resources/icons/teams.gif" default="resources/tango-icons/128/apps/mindquarry-teams.png"/></img></a></td>
 				<td style="text-align:center;"><a href="workspace/"><img alt="Workspaces Icon"><us:attribute name="src" test="MSIE" value="resources/icons/workspaces.gif" default="resources/tango-icons/128/apps/mindquarry-documents.png"/></img></a></td>
@@ -108,32 +102,18 @@
 				<img alt="Talk Icon"><us:attribute name="src" test="MSIE" value="resources/icons/conversations.gif" default="resources/icons/conversations.png"/></img></a></td-->
 			</tr>
 			<tr>
-				<td>The teams block allows you to see all the 
-				teams you participate in. Additionally you can 
-				add members to your teams and create new teams 
-				for new projects.</td>
-				<td>The workspace management block stores all
-				your documents and keeps a history of changes.</td>
-				<td>The Wiki is your personal idea-store,
-				blackboard and glossary. Share ideas with your
-				colleagues and develop creativity.</td>
-				<td>With the task management block you can see
-				your todo list and assign tasks to your team
-				members</td>
-				<!-- 
-				<td>The conversation management block stores all
-				discussions, chat archives and meeting minutes.</td>
-				 -->
+				<td><include src="block:help:/fragment/index/teams.introduction.html" xmlns="http://apache.org/cocoon/include/1.0"/></td>
+				<td><include src="block:help:/fragment/index/files.introduction.html" xmlns="http://apache.org/cocoon/include/1.0"/></td>
+				<td><include src="block:help:/fragment/index/wiki.introduction.html" xmlns="http://apache.org/cocoon/include/1.0"/></td>
+				<td><include src="block:help:/fragment/index/tasks.introduction.html" xmlns="http://apache.org/cocoon/include/1.0"/></td>
 			</tr>
 			<tr>
-				<td style="text-align:center;"><a href="teamspace/" class="orangebutton">Teams</a></td>
-				<td style="text-align:center;"><a href="workspace/" class="redbutton">Workspaces</a></td>
+				<td style="text-align:center;"><a href="teams/" class="orangebutton">Teams</a></td>
+				<td style="text-align:center;"><a href="files/" class="redbutton">Files</a></td>
 				<td style="text-align:center;"><a href="wiki/" class="bluebutton">Wiki</a></td>
 				<td style="text-align:center;"><a href="tasks/" class="greenbutton">Tasks</a></td>
-				<!--
-				<td style="text-align:center;"><a href="talk/" class="yellowbutton">Talk</a></td>
-				-->
 			</tr>
+      <!--
 			<tr>
 				<td>
 					<p>I would like to...</p>
@@ -167,7 +147,6 @@
 						<li><a href="#">track my work's status</a></li>
 					</ul>
 				</td>
-				<!--
 				<td>
 					<p>I would like to...</p>
 					<ul>
@@ -176,8 +155,8 @@
 						<li><a href="#">lookup meeting minutes</a></li>
 					</ul>
 				</td>
-				-->
 			</tr>
+      -->
 		</table>
 	</body>
 </html>
