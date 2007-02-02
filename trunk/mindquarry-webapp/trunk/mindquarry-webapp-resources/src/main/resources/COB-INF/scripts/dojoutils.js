@@ -15,47 +15,45 @@
 dojo.require("dojo.event");
 dojo.require("dojo.widget.Editor2");
 
-
 dojo.require("cocoon.forms.CFormsForm");
-dojo.require("cocoon.ajax.common");
-dojo.require("cocoon.ajax.insertion");
-dojo.require("dojo.lfx.html");
 
- 
+// we want to replace the existing submit() method of CFormsForm with
+// a wrapper that handles special issues and then calls the original
+// submit(). therfore we store the original one and use it under a different
+// name (_renamedOldSubmit()) in the extension of the CFormsForm below
+var originalFormSubmitMethod = cocoon.forms.CFormsForm.prototype.submit;
+
 //copy the html content from the dojo editor2 to the
 //wrapped textarea before submitting a form
 dojo.lang.extend(cocoon.forms.CFormsForm, {
-    _fixDojoEditor2: function(invocation) {
-        if (invocation.proceed() == false) {
-            // onsubmit handlers stopped submission
-            return false;
-        }
-
-        var event = invocation.args[0] || window.event;
-        // Interestingly, FF provides the explicitOriginalTarget property that can avoid
-        // grabClickTarget above, but avoid browser specifics for now.
-        var target = /*event.explicitOriginalTarget ||*/ this.lastClickTarget;
-
-        dojo.lang.forEach(dojo.widget.byType("Editor2"), function(ed){
-           dojo.byId(ed.widgetId).value = ed.getEditorContent();
-          }
-        );
 	
-        this.submit(target && target.name);
-        
-        // If real submit has to occur, it's taken care of in submit()
-        return false;
-    }    
+    // use the original submit method/function prototype and register it under
+    // a new name in the same CFormsForm class
+    _renamedOldSubmit: originalFormSubmitMethod,
+    
+    // overwrite the existing submit() method so that we can do additional stuff
+    // before calling the original one via _renamedOldSubmit()
+    submit: function(name, params) {
+		this.prepareEditor2WidgetsForSubmit();
+		
+    	this._renamedOldSubmit(name, params);
+    },
+    
+    prepareEditor2WidgetsForSubmit: function() {
+    	// grab all editor2 widgets...
+    	var editor2Widgets = dojo.widget.byType("Editor2");
+    	if (editor2Widgets != null) {
+	        dojo.lang.forEach(editor2Widgets,
+	        	function(ed2) {
+	        		// ...and update the value of the forms widget with the
+	        		// current content of the editor2 "textarea" so that the
+	        		// text is included in the form parameters that are sent
+	        		var editor2DomNode = dojo.byId(ed2.widgetId);
+	        		if (editor2DomNode != null) { 
+						editor2DomNode.value = ed2.getEditorContent();
+	        		}
+				}
+	        );
+    	}
+    }
 });
-
-
-// Onload, make sure _fixDojoEditor2() is registered as around-advice when form.onsubmit() is called
-function initializeDojoUtils(){
-	dojo.lang.forEach(dojo.widget.byType("CFormsForm"), function(form) {
-	        dojo.event.disconnect("around", form.domNode, "onsubmit", form, "_browserSubmit");
-	        dojo.event.connect("around", form.domNode, "onsubmit", form, "_fixDojoEditor2");
-        }
-    );
-}
-
-dojo.event.connect(dojo.hostenv, "loaded", "initializeDojoUtils");
