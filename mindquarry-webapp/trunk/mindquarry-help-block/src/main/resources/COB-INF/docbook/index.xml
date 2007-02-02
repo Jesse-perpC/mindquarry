@@ -59,7 +59,7 @@ are working or we are using docbook 5 -->
       <tip id="getting.mindquarry.files">
         <title>How to access shared files</title>
 
-        <para>The files shown in the workspace browser are shared by all team
+        <para>The <xref linkend="getting.mindquarry.files" /> files shown in the workspace browser are shared by all team
         members. In order to edit them and to share your changes, you need to
         synchronize the shared folder with your desktop. There are three ways
         to do this:</para>
