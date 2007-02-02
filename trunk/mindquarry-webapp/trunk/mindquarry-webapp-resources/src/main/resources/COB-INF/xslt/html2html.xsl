@@ -269,7 +269,7 @@
 				</b>
 				
 				<div class="niftycontent">
-					<h3>Alternative Versions</h3>
+					<h3 class="bottom-header">Alternative Versions</h3>
 					<xsl:apply-templates select="//link[@rel='alternate']|//xhtml:link[@rel='alternate']" mode="body"/>
 					<br style="clear:both"/>
 				</div>
@@ -304,7 +304,7 @@
 			<xsl:when test="$mimetype='application/pdf'">
 				<xsl:text>x-office-document</xsl:text>
 			</xsl:when>
-      <xsl:when test="$mimetype='text/calendar'">
+			<xsl:when test="$mimetype='text/calendar'">
 				<xsl:text>x-office-calendar</xsl:text>
 			</xsl:when>
 			<xsl:otherwise>
