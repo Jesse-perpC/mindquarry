@@ -34,7 +34,15 @@
 		<resources>
 			<!-- MindClient resources -->
 			<jar href="dist/MindClient.jar"/>
-
+			
+			<!-- icon resources -->
+			<jar href="dist/icons/mindquarry-icons-0.3-20070202.135735-13.jar" />
+			<jar href="dist/icons/tango-icon-theme-0.7.1.jar" />
+			
+			<!-- logging resources -->
+			<jar href="dist/logging/log4j-1.2.12.jar" />
+			<jar href="dist/logging/logkit-1.0.1.jar" />
+			
 			<!-- jakarta-commons resources -->
 			<jar href="dist/commons/commons-codec-1.3.jar" />
 			<jar href="dist/commons/commons-httpclient-3.0.1.jar" />
@@ -42,29 +50,29 @@
 			<jar href="dist/commons/commons-logging-1.1.jar" />
 
 			<!-- JavaSVN resources -->
-			<jar href="dist/javasvn/ganymed.jar" />
-			<jar href="dist/javasvn/javasvn.jar" />
-			<jar href="dist/javasvn/javasvn-javahl.jar" />
+			<jar href="dist/javasvn/svnkit-1.1.0.jar" />
+			<jar href="dist/javasvn/javahl-api-1.4.2.jar" />
+			<jar href="dist/javasvn/ganymed-ssh2-build210.jar" />
 
 			<!-- Spring resources -->
-			<jar href="dist/spring/spring.jar" />
-			<jar href="dist/spring/spring-mock.jar" />
-			<jar href="dist/spring/spring-resources.jar" />
+			<jar href="dist/spring/spring-2.0.1.jar" />
+			<jar href="dist/spring/spring-mock-2.0.1.jar" />
+			<jar href="dist/spring/spring-resources-2.0.1.jar" />
 
-			<jar href="dist/spring/modules/spring-beans.jar" />
-			<jar href="dist/spring/modules/spring-context.jar" />
-			<jar href="dist/spring/modules/spring-core.jar" />
-			<jar href="dist/spring/modules/spring-support.jar" />
+			<jar href="dist/spring/modules/spring-beans-2.0.1.jar" />
+			<jar href="dist/spring/modules/spring-context-2.0.1.jar" />
+			<jar href="dist/spring/modules/spring-core-2.0.1.jar" />
+			<jar href="dist/spring/modules/spring-support-2.0.1.jar" />
 			
 			<!-- Dax resources -->
-			<jar href="dist/dax/dax.jar" />
-			<jar href="dist/dax/dom4j-1.5.2.jar" />
-			<jar href="dist/dax/jaxen-1.1-beta-4.jar" />
+			<jar href="dist/dax/dax-0.2.jar" />
+			<jar href="dist/dax/dom4j-1.6.1.jar" />
+			<jar href="dist/dax/jaxen-1.1-beta-11.jar" />
 
 			<!-- Eclipse resources -->
-			<jar href="dist/eclipse/org.eclipse.core.commands.jar" />
-			<jar href="dist/eclipse/org.eclipse.equinox.common.jar" />
-			<jar href="dist/eclipse/org.eclipse.jface.jar" />
+			<jar href="dist/eclipse/commands-3.3.0.I20061114.jar" />
+			<jar href="dist/eclipse/common-3.3.0.v20061117.jar" />
+			<jar href="dist/eclipse/jface-3.3.0.I20061213-0010.jar" />
 		</resources>
 
 		<resources os="Windows">
@@ -72,8 +80,8 @@
 				href="http://java.sun.com/products/autodl/j2se"
 				initial-heap-size="32m" max-heap-size="64m" />
 
-			<jar href="dist/win32/swt-win32.jar" />
-			<nativelib href="dist/win32/swt-native-win32.jar" />
+			<jar href="dist/win32/swt-win32-3.3M4.jar" />
+			<nativelib href="dist/win32/swt-win32-native-3.3M4.jar" />
 		</resources>
 		
 		<resources os="Linux">
@@ -81,8 +89,8 @@
 				href="http://java.sun.com/products/autodl/j2se"
 				initial-heap-size="32m" max-heap-size="64m" />
 
-			<jar href="dist/linux/swt-linux.jar" />
-			<nativelib href="dist/linux/swt-native-linux-gtk.jar" />
+			<jar href="dist/linux/swt-linux-3.3M4.jar" />
+			<nativelib href="dist/linux/swt-linux-native-gtk-3.3M4.jar" />
 		</resources>
 
 		<resources os="Mac OS X">
@@ -91,12 +99,13 @@
 				initial-heap-size="32m" max-heap-size="64m"
                                 java-vm-args="-XstartOnFirstThread" />
 
-			<jar href="dist/macosx/swt-macosx.jar" />
-			<nativelib href="dist/macosx/swt-native-macosx.jar" />
+			<jar href="dist/osx/swt-osx-3.3M4.jar" />
+			<nativelib href="dist/osx/swt-osx-native-carbon-3.3M4.jar" />
 		</resources>
 
 		<application-desc
-			main-class="com.mindquarry.client.MindClient">
+			main-class="org.eclipse.swt.MindClientWrapper">
+			<argument><jx:out value="${title}" /></argument>
 			<argument><jx:out value="${endpoint}" /></argument>
 			<argument><jx:out value="${username}" /></argument>
 		</application-desc>

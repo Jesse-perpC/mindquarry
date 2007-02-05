@@ -36,6 +36,8 @@
 						value="views/JNLPView" />
 					<parameter name="username"
 						value="{request-attr:username}" />
+					<parameter name="title"
+						value="{system-property:mindquarry.title}" />
 					<parameter name="endpoint"
 						value="{system-property:mindquarry.server.url}{request:contextPath}" />
 				</call>
