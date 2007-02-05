@@ -38,15 +38,6 @@
 						value="{request-attr:username}" />
 					<parameter name="endpoint"
 						value="{system-property:mindquarry.server.url}{request:contextPath}" />
-					
-					<!-- 
-						FIXME: use this as fallback after system property user 
-						module can handle defaults 
-					-->
-					<!--parameter name="endpoint"
-						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
-					<parameter name="servletPath"
-						value="{request:servletPath}" /-->
 				</call>
 			</match>
 
