@@ -31,20 +31,14 @@
 	<pipelines>
 		<pipeline type="expires-caching">
 			<match pattern="client/client.jnlp">
-				<call function="sendJNLP">
-					<parameter name="target"
-						value="views/JNLPView" />
+				<generate src="jx/MindClient.jx" type="jx" label="content" >
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="title"
 						value="{system-property:mindquarry.title}" />
 					<parameter name="endpoint"
 						value="{system-property:mindquarry.server.url}{request:contextPath}" />
-				</call>
-			</match>
-
-			<match pattern="views/JNLPView">
-				<generate src="jx/MindClient.jx" type="jx" label="content" />
+				</generate>
 				<serialize type="jnlp" />
 			</match>
 
