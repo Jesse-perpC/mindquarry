@@ -422,7 +422,7 @@
 				</generate>
 				<transform src="xslt/xml/collection2filterlist.xsl">
 					<parameter name="basePath"
-						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
 					<parameter name="teamspace" value="{1}" />
 				</transform>
 				<serialize type="xml" />
@@ -458,7 +458,7 @@
 				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
 					<parameter name="base"
-						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
 				</transform>
 				<transform type="xinclude" />
 				<transform src="xslt/xml/flatten-tasks-element.xsl" />
@@ -514,7 +514,7 @@
 				</generate>
 				<transform src="xslt/xml/collection2tasklist.xsl">
 					<parameter name="basePath"
-						value="http://{request:serverName}:{request:serverPort}{request:servletPath}/" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
 					<parameter name="teamspace" value="{1}" />
 				</transform>
 				<serialize type="xml" />
@@ -567,7 +567,7 @@
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
 					<parameter name="teamspaceID" value="{1}"/>
-					<parameter name="baselink" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}{request:servletPath}/{1}/" />
+					<parameter name="baselink" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/" />
 				</transform>
 
 				<serialize type="fo2pdf"/>
@@ -598,7 +598,7 @@
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
-					<parameter name="baselink" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}{request:servletPath}/{1}/" />
+					<parameter name="baselink" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/" />
 				</transform>
 				<serialize type="xml"/>
 			</match>
@@ -628,8 +628,8 @@
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
-					<parameter name="baselink" value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}{request:servletPath}/{1}/" />
-					<parameter name="hostname" value="{request:serverName}" />
+					<parameter name="baselink" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/" />
+					<parameter name="hostname" value="{system-property:mindquarry.server.url}" />
 				</transform>
 				<serialize type="text"/>
 			</match>
@@ -785,7 +785,7 @@
 								<transform
 									src="xslt/xml/task4client.xsl">
 									<parameter name="base"
-										value="http://{request:serverName}:{request:serverPort}{request:servletPath}/{1}/{2}" />
+										value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/{2}" />
 								</transform>
 								<serialize type="xml" />
 							</when>
