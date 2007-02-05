@@ -24,8 +24,8 @@
 				<title>Tasks</title>
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/tasks.css" type="text/css" />
-        <link rel="alternate" type="text/x-opml" title="reading list of tasks" />
-      </head>
+				<link rel="alternate" type="text/x-opml" title="reading list of tasks" />
+			</head>
 			<body>
 				<h1>Manage Your Tasks</h1>
 				
@@ -41,35 +41,36 @@
 	<xsl:template match="teamspace" >
 		<li>
 			<div class="nifty">
-			<div  style="margin-left:5px">
-				<div class="links">
-					<ul>
-	        			<li><a class="create_task_button" href="{@xlink:href}/new">Create task</a></li>
-	        			<li><a class="create_filter_button" href="{@xlink:href}/filters/new">Create filter</a></li>
-					</ul>
-				</div>
-			<div class="name">
-					<img class="icon">
-						<xsl:attribute name="src">
-							<xsl:value-of select="$pathToRoot"/>							
-							<xsl:text>teams/</xsl:text>
-							<xsl:value-of select="@xlink:href"/>
-							<xsl:text>.png</xsl:text>
-						</xsl:attribute>
-					</img>
-					<h2 class="name"><a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="name" /> Tasks</a></h2>
-					<span class="description"><xsl:value-of select="description" /></span>
-					
-					<div class="summary">
-						Teamspace <b><xsl:value-of select="name" /></b> contains 
-						<a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="count(task)" /> Tasks</a>
-						(<xsl:value-of select="count(task[status='new'])" /> New,
-						<xsl:value-of select="count(task[status='running'])" /> Running,
-						<xsl:value-of select="count(task[status='paused'])" /> Paused and
-						<xsl:value-of select="count(task[status='done'])" /> Done)
+				<div  style="margin-left:5px">
+					<div class="links">
+						<ul>
+		        			<li><a class="create_task_button" href="{@xlink:href}/new">Create task</a></li>
+		        			<li><a class="create_filter_button" href="{@xlink:href}/filters/new">Create filter</a></li>
+						</ul>
 					</div>
-				</div>			
-			</div>
+					<div class="name">
+						<img class="icon">
+							<xsl:attribute name="src">
+								<xsl:value-of select="$pathToRoot"/>							
+								<xsl:text>teams/</xsl:text>
+								<xsl:value-of select="@xlink:href"/>
+								<xsl:text>.png</xsl:text>
+							</xsl:attribute>
+						</img>
+						<h2 class="name"><a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="name" /> Tasks</a></h2>
+						<span class="description"><xsl:value-of select="description" /></span>
+						
+						<div class="summary">
+							Teamspace <b><xsl:value-of select="name" /></b> contains 
+							<a href="{$pathToBlock}{@xlink:href}/"><xsl:value-of select="count(task)" /> Tasks</a>
+							(<xsl:value-of select="count(task[status='new'])" /> New,
+							<xsl:value-of select="count(task[status='running'])" /> Running,
+							<xsl:value-of select="count(task[status='paused'])" /> Paused and
+							<xsl:value-of select="count(task[status='done'])" /> Done)
+						</div>
+					</div>			
+				</div>
+				
 				<xsl:if test="count(filter) > 0">
 					<div class="filters">
 						<h3>Saved Filters</h3>
@@ -85,7 +86,16 @@
 	<xsl:template name="filters">
 		<xsl:for-each select="filter">
 			<li>
-				<a href="{../@xlink:href}/{@xlink:href}"><xsl:value-of select="title"/></a>
+				<a href="{../@xlink:href}/{@xlink:href}">
+					<xsl:choose>
+						<xsl:when test="string-length(title) > 0">
+							<xsl:value-of select="title" />
+						</xsl:when>
+						<xsl:otherwise>
+							&lt;no title&gt;
+						</xsl:otherwise>
+					</xsl:choose>
+				</a>
 			</li>
 		</xsl:for-each>
 	</xsl:template>
