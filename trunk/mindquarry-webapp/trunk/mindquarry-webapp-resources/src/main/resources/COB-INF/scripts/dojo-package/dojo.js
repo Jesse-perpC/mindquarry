@@ -15630,7 +15630,9 @@ _df4.setCloseControl(_df5);
 _df4.setCloseControl(_df6);
 _df4.show();
 var _df7=document.getElementById("dojo-wiki-link-entry-input");
+if(_df7){
 _df7.focus();
+}
 }else{
 alert("Please select text to link");
 }

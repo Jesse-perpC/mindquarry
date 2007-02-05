@@ -37,7 +37,9 @@ mindquarry.widget.wikiLinkListClick = function() {
 		wikiLinkDialog.setCloseControl(wikiLinkDialogCancelBtn);
 		wikiLinkDialog.show();
     var wikiLinkInput = document.getElementById("dojo-wiki-link-entry-input");
-    wikiLinkInput.focus();
+    if (wikiLinkInput) {
+      wikiLinkInput.focus();
+    }
 	} else {
 		alert("Please select text to link");
 	}
