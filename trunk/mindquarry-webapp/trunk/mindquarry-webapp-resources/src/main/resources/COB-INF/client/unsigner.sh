@@ -26,6 +26,7 @@ unsign() {
     unzip $fname -d unzip_tmp
     rm -f unzip_tmp/META-INF/*.SF
     rm -f unzip_tmp/META-INF/*.RSA
+    rm -f unzip_tmp/META-INF/*.DSA
     
     # remove signing info from MANIFEST.MF
     TILL=`grep -n -m 1 "^Name:" unzip_tmp/META-INF/MANIFEST.MF`
