@@ -37,7 +37,7 @@
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="endpoint"
-						value="{system-property:mindquarry.client.jnlp.url}{request:contextPath}" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}" />
 					
 					<!-- 
 						FIXME: use this as fallback after system property user 
