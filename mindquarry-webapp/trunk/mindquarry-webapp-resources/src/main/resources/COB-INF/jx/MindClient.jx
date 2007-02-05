@@ -13,7 +13,7 @@
 	under the License.
 -->
 <jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
-	<jnlp spec="1.5+" codebase="${endpoint}${servletPath}/resources/client/">
+	<jnlp spec="1.5+" codebase="${cocoon.parameters.endpoint}/resources/client/">
 
 		<information>
 			<title>Mindquarry Desktop Application</title>
@@ -45,7 +45,7 @@
 			<jar href="dist/MindClient.jar"/>
 			
 			<!-- icon resources -->
-			<jar href="dist/icons/mindquarry-icons-0.3-20070202.135735-13.jar" />
+			<jar href="dist/icons/mindquarry-icons-0.3.jar" />
 			<jar href="dist/icons/tango-icon-theme-0.7.1.jar" />
 			
 			<!-- logging resources -->
@@ -114,9 +114,9 @@
 
 		<application-desc
 			main-class="org.eclipse.swt.MindClientWrapper">
-			<argument><jx:out value="${title}" /></argument>
-			<argument><jx:out value="${endpoint}" /></argument>
-			<argument><jx:out value="${username}" /></argument>
+			<argument><jx:out value="${cocoon.parameters.title}" /></argument>
+			<argument><jx:out value="${cocoon.parameters.endpoint}" /></argument>
+			<argument><jx:out value="${cocoon.parameters.username}" /></argument>
 		</application-desc>
 	</jnlp>
 </jx:template>
