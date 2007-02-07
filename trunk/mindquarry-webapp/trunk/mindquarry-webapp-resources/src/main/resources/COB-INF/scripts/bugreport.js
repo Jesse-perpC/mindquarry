@@ -21,7 +21,7 @@ dojo.addOnLoad(function()
     var browserPlatform = navigator.platform;
     
     // build body content
-    var body = "Thank you for supporting Mindquarry by reporting a bug!";
+    var body = "Thank you for supporting Mindquarry by reporting a bug! ";
     body += "Please add below a description of what you have done and which problem occurs!";
     
     var reportLink = document.getElementById("bugreport");
