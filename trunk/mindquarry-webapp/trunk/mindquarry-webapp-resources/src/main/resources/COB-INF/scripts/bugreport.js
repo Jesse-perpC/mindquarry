@@ -22,9 +22,14 @@ dojo.addOnLoad(function()
     
     // build body content
     var body = "Thank you for supporting Mindquarry by reporting a bug!";
-    body += "Please add a description of what you have done and what problem occurs below!";
+    body += "Please add below a description of what you have done and which problem occurs!";
     
     var reportLink = document.getElementById("bugreport");
-    reportLink.href += ":" + browserCodeName + ":" + browserName + ":" + browserVersion + ":" 
-        + cookieEnabled + ":" + browserLanguage + ":" + browserPlatform + "&body=" + body;
+    reportLink.href += ", code=" + browserCodeName 
+        + ", browser=" + browserName 
+        + " " + browserVersion 
+        + ", cookies=" + cookieEnabled 
+        + ", language=" + browserLanguage 
+        + ", platform=" + browserPlatform 
+        + "&body=" + body;
 });
