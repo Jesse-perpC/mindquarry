@@ -132,6 +132,7 @@
 			<link rel="stylesheet" type="text/css" href="{$resources-uri}/forms/css/forms.css"/>
 			
 			<!-- general scripts/dojo widgets -->
+			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}bugreport.js" >//</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}dojoutils.js" >//</script>
 			<script type="text/javascript">
@@ -251,6 +252,9 @@
 						<li><a href="{$pathToRoot}help/">Help</a></li>
 						<!--<li><a href="http://www.mindquarry.com">Mindquarry Version <xsl:value-of select="$version"/></a></li>-->
 						<li><a href="http://www.mindquarry.com/support/">Get Mindquarry Support</a></li>
+						<li><a id="bugreport" 
+							href="mailto:support@mindquarry.com?subject=Bug%20Report">Report a Bug</a>
+						</li>
 					</ul>
 					<span class="version-footer">Mindquarry Version <xsl:value-of select="$version"/></span>
 				</div>
