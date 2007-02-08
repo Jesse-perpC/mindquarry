@@ -31,6 +31,7 @@ a.create_filter_button:link, a.create_filter_button:visited {
 	padding-top: 9px;
 	padding-left: 13px;
 }
+
 div.summary {
 	margin-left:5px;
 	margin-top: 10px;
@@ -44,6 +45,32 @@ div.footbar {
 }
 
 /* similar to workspace / teamspace */
+
+ul.members {
+	margin: 0px;
+	padding: 0px;	
+	margin-right: 0px;
+	margin-left: 0px;
+	
+	padding-left: 0px;
+	
+    width: 156px;
+    height: 50px;
+    overflow: hidden;
+}
+
+ul.members li {
+	list-style: none;
+	float:left;
+	margin-left: 2px;
+	margin-right: 2px;
+
+    width:48px;
+    overflow: hidden;
+	font-size:8pt;
+	text-align:center;
+}
+
 
 ul.list {
 	list-style: none;
