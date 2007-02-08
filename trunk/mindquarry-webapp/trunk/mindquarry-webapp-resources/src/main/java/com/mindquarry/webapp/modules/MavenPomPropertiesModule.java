@@ -45,8 +45,15 @@ import org.springframework.web.context.support.ServletContextResourcePatternReso
  *  {pom-property:com.mindquarry.common/mindquarry-common/version}
  * </pre>
  * 
+ * <p>
+ * The additional property <code>timeStamp</code> is read from the comments at
+ * the top of the properties file and made available like the standard ones.
+ * </p>
+ * 
+ * <p>
  * All properties are cached since it is assumed that the pom.properties file
  * inside a jar does not change during runtime.
+ * </p>
  * 
  * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
  *         Alexander Klimetschek</a>
