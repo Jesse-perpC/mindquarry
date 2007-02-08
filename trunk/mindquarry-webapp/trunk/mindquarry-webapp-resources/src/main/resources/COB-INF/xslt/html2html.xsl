@@ -32,7 +32,9 @@
 	<!-- external parameters -->
 	<xsl:param name="user.agent" select="''"/>
 	<xsl:param name="username" select="''"/>
-	<xsl:param name="version" select="'undefined'"/>
+	<xsl:param name="artifactId" select="'undefined artifactId'"/>
+	<xsl:param name="version" select="'undefined version'"/>
+	<xsl:param name="timeStamp" select="'undefined timestamp'"/>
 	<xsl:param name="serverTitle" select="'Mindquarry'"/>
 	
 	<xsl:param name="cssPath" select="'css/'" />
@@ -132,6 +134,13 @@
 			<link rel="stylesheet" type="text/css" href="{$resources-uri}/forms/css/forms.css"/>
 			
 			<!-- general scripts/dojo widgets -->
+			<script type="text/javascript">
+				// mindquarry information for bugreport
+				var g_mindquarryPath = encodeURIComponent("<xsl:value-of select="$fullPath"/>");
+				var g_mindquarryBlock = "<xsl:value-of select="$artifactId"/>";
+				var g_mindquarryVersion = "<xsl:value-of select="$version"/>";
+				var g_mindquarryTimeStamp = "<xsl:value-of select="$timeStamp"/>";
+			</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}bugreport.js" >//</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}login.js" >//</script>
 			<script type="text/javascript" src="{$pathToBlock}{$scriptPath}dojoutils.js" >//</script>
@@ -213,7 +222,7 @@
 					<!-- teamspace switcher -->
 					<div title="{$teamspaceName}" dojoType="TeamSwitcher">
 						<a href="{$pathToTeamspaceBase}" id="teamspace-base-link">Teamspace Base</a>
-						<include src="block:teams:/user/{$username}/info" xmlns="http://apache.org/cocoon/include/1.0"/>
+						<include src="block:teams:/user/{$username}/loggedInInfo.html" xmlns="http://apache.org/cocoon/include/1.0"/>
 					</div>	
 					
 					<!-- make quick search widget -->
@@ -248,17 +257,18 @@
 							<li><a href="{$pathToRoot}resources/client/client.jnlp">Client</a></li>
 						</xsl:if>
 
-						<!--<li><a href="{$pathToRoot}search/">Search</a></li>-->
 						<li><a href="{$pathToRoot}help/">Help</a></li>
-						<!--<li><a href="http://www.mindquarry.com">Mindquarry Version <xsl:value-of select="$version"/></a></li>-->
 						<li><a href="http://www.mindquarry.com/support/">Get Mindquarry Support</a></li>
-						<li><a id="bugreport" 
-							href="mailto:support@mindquarry.com?subject=Bug%20Report, version={$version}">
+						<li>
+							<!-- href is replaced with detailed information when javascript is turned on.
+								 this is the no-js fallback link -->
+							<a id="bugreport"
+								href="mailto:support@mindquarry.com?subject=[Bug%20Report] {$artifactId}:{$fullPath} ({$version} {$timeStamp}) [no javascript]">
 								Report a Bug
 							</a>
 						</li>
 					</ul>
-					<span class="version-footer">Mindquarry Version <xsl:value-of select="$version"/></span>
+					<span class="version-footer">Mindquarry Version <xsl:value-of select="$version"/> (<xsl:value-of select="$artifactId"/> - <xsl:value-of select="$timeStamp"/>)</span>
 				</div>
 			</div>
 		</body>
