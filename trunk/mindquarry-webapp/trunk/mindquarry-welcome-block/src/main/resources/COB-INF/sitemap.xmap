@@ -71,8 +71,12 @@
 							value="{request-attr:username}" />
 						<parameter name="serverTitle"
 							value="{system-property:mindquarry.title}" />
+						<parameter name="artifactId"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-welcome-block/artifactId}"/>							
 						<parameter name="version"
-							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+							value="{pom-property:com.mindquarry.webapp/mindquarry-welcome-block/version}"/>							
+						<parameter name="timeStamp"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-welcome-block/timeStamp}"/>							
 					</transform>
 					<select type="parameter">
 						<parameter name="parameter-selector-test" value="{httpStatus}"/>
@@ -123,8 +127,12 @@
 					value="{request-attr:username}" />
 				<parameter name="serverTitle"
 					value="{system-property:mindquarry.title}" />
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.webapp/mindquarry-welcome-block/artifactId}"/>							
 				<parameter name="version"
-					value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					value="{pom-property:com.mindquarry.webapp/mindquarry-welcome-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.webapp/mindquarry-welcome-block/timeStamp}"/>							
 			</transform>
 			<transform type="cinclude" />
 			<serialize type="html" />
