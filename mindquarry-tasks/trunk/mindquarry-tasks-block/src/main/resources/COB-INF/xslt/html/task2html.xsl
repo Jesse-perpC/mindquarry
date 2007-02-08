@@ -48,7 +48,7 @@
 			<link rel="stylesheet"
 				href="{$pathToBlock}css/task-edit.css" media="screen,projection"
 				type="text/css" />
-      <link rel="alternate" type="application/pdf" title="PDF for print" />
+			<link rel="alternate" type="application/pdf" title="PDF for print" />
 		</head>
 	</xsl:template>
 
@@ -70,8 +70,7 @@
 			
 			<div class="nifty">
 				<div class="btm-link">
-				<a href="." id="back" title="back to teamspace overview">
-					Back to tasks list</a></div>				
+				<a href="." id="back">Back to tasks list</a></div>				
 			</div>
 		</body>
 	</xsl:template>
