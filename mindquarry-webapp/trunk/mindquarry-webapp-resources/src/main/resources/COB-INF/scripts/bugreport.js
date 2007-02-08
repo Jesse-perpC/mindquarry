@@ -40,18 +40,20 @@ dojo.addOnLoad(function()
     body += eol + "...";
     body += eol;
     body += eol;
+    body += eol;
     
     body += eol + "Please keep the error information below.";
     body += eol + "It should not contain any personal information.";
+    body += eol;
     body += eol + sep;
-    body += eol + tab + "Mindquarry Information                                       |";
+    body += eol + tab + "Mindquarry Information";
     body += eol + sep;
-    body += eol + tab + "Path    : " + g_mindquarryPath;
+    body += eol + tab + "Path    : " + encodeURIComponent(g_mindquarryPath);
     body += eol + tab + "Block   : " + g_mindquarryBlock;
     body += eol + tab + "Version : " + g_mindquarryVersion;
     body += eol + tab + "Time    : " + g_mindquarryTimeStamp;
     body += eol + sep;
-    body += eol + tab + "Browser Information                                          |";
+    body += eol + tab + "Browser Information";
     body += eol + sep;
     body += eol + tab + "Code    : " + browserCodeName;
     body += eol + tab + "Browser : " + browserName + " " + browserVersion;
@@ -61,8 +63,32 @@ dojo.addOnLoad(function()
     body += eol + sep;
 
     var reportLink = document.getElementById("bugreport");
-    reportLink.href = "mailto:support@mindquarry.com";
-    reportLink.href += "?subject=[Bug%20Report] " + g_mindquarryBlock + ":" + g_mindquarryPath + "(" + g_mindquarryVersion + ")";
-    reportLink.href += "&body=" + body;
+    if (reportLink) {
+	    reportLink.href = "mailto:support@mindquarry.com";
+	    reportLink.href += "?subject=[Bug%20Report] " + g_mindquarryBlock + ":" + g_mindquarryPath + "(" + g_mindquarryVersion + ")";
+	    reportLink.href += " [yn]"; // javascript enabled, no error message
+	    reportLink.href += "&body=" + body;
+    }
 
+	// on the error page there is an additional report link with more details
+    reportLink = document.getElementById("bugreport-onerror");
+    if (reportLink) {
+    	var stacktraceNewlineRE = / at /gi
+    	var stacktraceNewlineReplace = eol + "    at ";
+	    body += eol + tab + "Error information";
+	    body += eol + sep;
+        body += eol + tab + "Message:";
+        body += eol + tab + g_mindquarryErrorMessage;
+        body += eol + sep;
+        body += eol + tab + "Stacktrace:";
+        body += eol + g_mindquarryStacktrace.replace(stacktraceNewlineRE, stacktraceNewlineReplace);
+        body += eol + sep;
+        body += eol + tab + "Full Stacktrace:";
+        body += eol + g_mindquarryFullStacktrace.replace(stacktraceNewlineRE, stacktraceNewlineReplace);
+        
+	    reportLink.href = "mailto:support@mindquarry.com";
+	    reportLink.href += "?subject=[Bug%20Report] " + g_mindquarryBlock + ":" + g_mindquarryPath + "(" + g_mindquarryVersion + ")";
+	    reportLink.href += " [yy]"; // javascript enabled, with error message
+	    reportLink.href += "&body=" + body;
+    }
 });

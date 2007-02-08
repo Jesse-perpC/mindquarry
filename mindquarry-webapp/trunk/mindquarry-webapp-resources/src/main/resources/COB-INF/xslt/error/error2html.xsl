@@ -24,8 +24,10 @@
   <!-- let sitemap override default page title -->
   <xsl:param name="pageTitle" select="//error:notify/error:title"/>
   <xsl:param name="httpStatus" select="''"/>
-  <xsl:param name="showSupportContact" select="'false'"/>
+  <xsl:param name="showSupportContact" select="'true'"/>
+  <xsl:param name="artifactId" select="'undefined'"/>
   <xsl:param name="version" select="'undefined'"/>
+  <xsl:param name="timeStamp" select="'undefined'"/>
   
   <xsl:variable name="title">
     <xsl:value-of select="$pageTitle"/>
@@ -74,6 +76,7 @@
             margin-top: 2em;
             color: grey;
           }
+          
         </style>
         <script type="text/javascript">
           function toggle(id) {
@@ -92,10 +95,16 @@
                   switch_link.style.backgroundPosition = "0px 2px";
                   //text.nodeValue = "[Show technical details]";
               }
-          }          
+          }
+          
+          // for bugreport.js
+          var g_mindquarryErrorMessage = "<xsl:value-of select="error:message"/>";
+          var g_mindquarryStacktrace = "<xsl:value-of select="normalize-space(error:extra[@error:description='stacktrace'])"/>";
+          var g_mindquarryFullStacktrace = "<xsl:value-of select="normalize-space(error:extra[@error:description='full exception chain stacktrace'])"/>";
+          
         </script>
       </head>
-      <body>
+      <body onload="createBugReport(); /* not called when dojo is active */">
 
         <h1 id="title">
           <xsl:value-of select="$title"/>
@@ -106,15 +115,25 @@
             <xsl:value-of select="error:message"/>
           </h2>
 
-          <xsl:if test="$showSupportContact = 'true'">
+          <!--<xsl:if test="$showSupportContact = 'true'">-->
             <p>
-              If you need technical support go to the
+              <!-- href is replaced with detailed information when javascript is turned on.
+                   this is the no-js fallback link -->
+              <!-- [nn] at the end : first is javascript enabled, second is error page (n=no, y=yes) -->
+              <a id="bugreport-onerror"
+                href="mailto:support@mindquarry.com?subject=[Bug%20Report] {error:message} - {$artifactId} ({$version} {$timeStamp}) [ny]">
+                Report this error
+              </a>
+              (via mail) or visit the 
               <a href="http://www.mindquarry.com/support">Mindquarry Support page</a>.
-              Please refer to the detailed technical information below.
+            </p>
+            <p>
+              Please refer to the detailed technical information below (it will
+              be included in your bugreport automatically).
             </p>            
-          </xsl:if>
+          <!--</xsl:if>-->
           
-          <p class="version">Mindquarry Version <xsl:value-of select="$version"/></p>
+          <p class="version">Mindquarry Version <xsl:value-of select="$version"/> (<xsl:value-of select="$artifactId"/> - <xsl:value-of select="$timeStamp"/>)</p>
           
           <div class="technical">
             <a id="technical_details_switch" href="#" onclick="toggle('technical_details')">Technical details</a>
