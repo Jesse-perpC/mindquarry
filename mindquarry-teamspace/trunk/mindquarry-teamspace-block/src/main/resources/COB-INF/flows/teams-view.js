@@ -16,7 +16,7 @@ importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
 importPackage(Packages.com.mindquarry.user);
 cocoon.load("flows/users.js");
 
-function listTeamspacesForUser() {
+function listTeamsForUser() {
     var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
     var userId = cocoon.parameters["username"];
@@ -27,21 +27,10 @@ function listTeamspacesForUser() {
     cocoon.sendPage(target, parameterMap);
 }
 
-function teamspacesByID() {
+function teamByID() {
 	var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
-    var id = cocoon.parameters["teamspaceID"];
-    var teamspace = teamspaceQuery.teamspaceById(id);
-    
-    var parameterMap = { "teamspace" : teamspace }
-    var target = cocoon.parameters["target"];
-    cocoon.sendPage(target, parameterMap);
-}
-
-function showTeamspaceDetails() {
-    var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
-    
-    var id = cocoon.parameters["teamspaceID"];
+    var id = cocoon.parameters["teamID"];
     var teamspace = teamspaceQuery.teamspaceById(id);
     
     var parameterMap = { "teamspace" : teamspace }
