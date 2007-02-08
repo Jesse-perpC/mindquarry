@@ -148,33 +148,6 @@
               
               <xsl:apply-templates select="error:extra"/>
               
-              <!--
-                
-                <ul>
-                <li>specify the version of Cocoon you're using, or we'll assume that you are talking
-                about the latest released version;</li>
-                <li>specify the platform-operating system-version-servlet container version;</li>
-                <li>send any pertinent error message;</li>
-                <li>send pertinent log snippets;</li>
-                <li>send pertinent sitemap snippets;</li>
-                <li>send pertinent parts of the page that give you problems.</li>
-                </ul>
-                
-                <p>For more detailed technical information, take a look at the log files in the log
-                directory of Cocoon, which is placed by default in the <code>WEB-INF/logs/</code>
-                folder of your cocoon webapp context.<br/> If the logs don't give you enough
-                information, you might want to increase the log level by changing the Logging
-                configuration which is by default the <code>WEB-INF/log4j.xconf</code> file. </p>
-                
-                <p>If you think you found a bug, please report it to <a
-                href="http://issues.apache.org/jira/browse/COCOON">Apache Cocoon issue tracker</a>;
-                a message will automatically be sent to the developer mailing list and you'll be kept
-                in contact automatically with the further progress on that bug. </p>
-                
-                <p>Thanks, and sorry for the trouble if this is our fault. </p>
-                
-                <p>The <a href="http://cocoon.apache.org/">Apache Cocoon</a> Project</p>
-              -->
             </div>
           </div>
 
