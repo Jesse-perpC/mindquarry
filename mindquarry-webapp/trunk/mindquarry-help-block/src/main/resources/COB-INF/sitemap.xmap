@@ -66,8 +66,12 @@
 						<parameter name="pageTitle" value="{pageTitle}"/>
 						<parameter name="httpStatus" value="{httpStatus}"/>
 						<parameter name="showSupportContact" value="{showSupportContact}"/>
+						<parameter name="artifactId"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/artifactId}"/>							
 						<parameter name="version"
-							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/version}"/>							
+						<parameter name="timeStamp"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/timeStamp}"/>							
 					</transform>
 					<transform src="block:/xslt/html2html.xsl" type="xalan">
 						<parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
@@ -76,8 +80,12 @@
 						<parameter name="username" value="{request-attr:username}"/>
 						<parameter name="serverTitle"
 							value="{system-property:mindquarry.title}" />
+						<parameter name="artifactId"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/artifactId}"/>							
 						<parameter name="version"
-							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/version}"/>							
+						<parameter name="timeStamp"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/timeStamp}"/>							
 					</transform>
 					<select type="parameter">
 						<parameter name="parameter-selector-test" value="{httpStatus}"/>
@@ -135,8 +143,12 @@
 						<parameter name="username" value="{request-attr:username}"/>
 						<parameter name="serverTitle"
 							value="{system-property:mindquarry.title}" />
+						<parameter name="artifactId"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/artifactId}"/>							
 						<parameter name="version"
-							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/version}"/>							
+						<parameter name="timeStamp"
+							value="{pom-property:com.mindquarry.webapp/mindquarry-help-block/timeStamp}"/>							
 					</transform>
 					<transform type="include" />
 				</otherwise>
