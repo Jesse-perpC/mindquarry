@@ -20,16 +20,49 @@ dojo.addOnLoad(function()
     var browserLanguage = navigator.language;
     var browserPlatform = navigator.platform;
     
-    // build body content
-    var body = "Thank you for supporting Mindquarry by reporting a bug! ";
-    body += "Please add below a description of what you have done and which problem occurs!";
+    // trick to get a new line in the body
+    var eol = "%0A";
+    var sep = "+--------------------------------------------------------------+";
+    var tab = "| ";
     
+    // build body content
+    var body = "Bug Report:" + eol;
+    body += "===========" + eol;
+    body += eol + "Thank you for supporting Mindquarry by reporting a bug!";
+    body += eol + "Please fill in the bug information below:";
+    body += eol;
+    body += eol + "What steps have you done?";
+    body += eol;
+    body += eol + "...";
+    body += eol;
+    body += eol + "What problem has occured?";
+    body += eol;
+    body += eol + "...";
+    body += eol;
+    body += eol;
+    
+    body += eol + "Please keep the error information below.";
+    body += eol + "It should not contain any personal information.";
+    body += eol + sep;
+    body += eol + tab + "Mindquarry Information                                       |";
+    body += eol + sep;
+    body += eol + tab + "Path    : " + g_mindquarryPath;
+    body += eol + tab + "Block   : " + g_mindquarryBlock;
+    body += eol + tab + "Version : " + g_mindquarryVersion;
+    body += eol + tab + "Time    : " + g_mindquarryTimeStamp;
+    body += eol + sep;
+    body += eol + tab + "Browser Information                                          |";
+    body += eol + sep;
+    body += eol + tab + "Code    : " + browserCodeName;
+    body += eol + tab + "Browser : " + browserName + " " + browserVersion;
+    body += eol + tab + "Cookies : " + cookieEnabled;
+    body += eol + tab + "Language: " + browserLanguage;
+    body += eol + tab + "Platform: " + browserPlatform;
+    body += eol + sep;
+
     var reportLink = document.getElementById("bugreport");
-    reportLink.href += ", code=" + browserCodeName 
-        + ", browser=" + browserName 
-        + " " + browserVersion 
-        + ", cookies=" + cookieEnabled 
-        + ", language=" + browserLanguage 
-        + ", platform=" + browserPlatform 
-        + "&body=" + body;
+    reportLink.href = "mailto:support@mindquarry.com";
+    reportLink.href += "?subject=[Bug%20Report] " + g_mindquarryBlock + ":" + g_mindquarryPath + "(" + g_mindquarryVersion + ")";
+    reportLink.href += "&body=" + body;
+
 });
