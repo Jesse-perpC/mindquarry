@@ -64,7 +64,7 @@
 
 	<flow language="javascript">
 		<script src="flows/teamspaces.js" />
-		<script src="flows/teamspaces-view.js" />
+		<script src="flows/teams-view.js" />
 		<script src="flows/users.js" />
 		<script src="flows/edit-members.js" />
 		<script src="flows/edit-user.js" />
@@ -313,7 +313,7 @@
 				<serialize type="xml" />
 			</match>
 			
-			<match pattern="views/teamspaceXMLViewWithUsers">
+			<match pattern="views/usersForTeamspaceAsFormsSelectionList">
 				<generate src="jx/teamspace-view.jx" type="jx"
 					label="content" />
 				<transform src="xslt/teamspace2selectionlist.xsl" />
@@ -351,10 +351,10 @@
 				<!-- check request type: REST / HTML or other -->
 				<select type="REST">
 					
-					<!--  handle HTML request -->
+					<!-- handle HTML request -->
 					<when test="html">
 						<call
-							function="listTeamspacesForUser">
+							function="listTeamsForUser">
 							<parameter name="username"
 								value="{request-attr:username}" />
 							<parameter name="target"
@@ -362,10 +362,11 @@
 						</call>
 					</when>
 					
-					<!--  handle REST request -->
+					<!-- handle REST request -->
+					<!-- used by desktop client to get informed about the teamspaces for the user --> 
 					<when test="xml">
 						<call
-							function="listTeamspacesForUser">
+							function="listTeamsForUser">
 							<parameter name="username"
 								value="{request-attr:username}" />
 							<parameter name="target"
@@ -375,10 +376,10 @@
 				</select>
 			</match>
 						
-			<!-- user info -->
-			<match pattern="user/*/info">
+			<!-- user info for inclusion in general styling (html2html) -->
+			<match pattern="user/*/loggedInInfo.html">
 				<call
-					function="listTeamspacesForUser">
+					function="listTeamsForUser">
 					<parameter name="username"
 						value="{1}" />
 					<parameter name="target"
@@ -386,9 +387,10 @@
 				</call>
 			</match>
 			
+			<!-- user with name and all his teams with all their users and full user info -->
 			<match pattern="user/*/info/teams.xml">
 				<call
-					function="listTeamspacesForUser">
+					function="listTeamsForUser">
 					<parameter name="username"
 						value="{1}" />
 					<parameter name="target"
@@ -526,8 +528,8 @@
 					<!--  handle HTML request -->
 					<when test="html">
 						<call
-							function="showTeamspaceDetails">
-							<parameter name="teamspaceID"
+							function="teamByID">
+							<parameter name="teamID"
 								value="{1}" />
 							<parameter name="target"
 								value="views/teamspaceHTMLView" />
@@ -536,8 +538,8 @@
 					
 					<!--  handle REST request -->
 					<when test="xml">
-						<call function="teamspacesByID">
-							<parameter name="teamspaceID"
+						<call function="teamByID">
+							<parameter name="teamID"
 								value="{1}" />
 							<parameter name="target"
 								value="views/teamspaceXMLView" />
@@ -546,15 +548,15 @@
 				</select>
 			</match>
 			
-			<!-- single teamspace -->
-			<match pattern="*/users.xml">
+			<!-- users for a single teamspace as fd:selection-list -->
+			<match pattern="*/users.selectionlist.xml">
 				<!-- TODO: enable this authorisation when the authorisation for internal block calls works -->
 				<!-- <act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/> -->
-				<call function="teamspacesByID">
-					<parameter name="teamspaceID"
+				<call function="teamByID">
+					<parameter name="teamID"
 						value="{1}" />
 					<parameter name="target"
-						value="views/teamspaceXMLViewWithUsers" />
+						value="views/usersForTeamspaceAsFormsSelectionList" />
 				</call>
 			</match>
 
