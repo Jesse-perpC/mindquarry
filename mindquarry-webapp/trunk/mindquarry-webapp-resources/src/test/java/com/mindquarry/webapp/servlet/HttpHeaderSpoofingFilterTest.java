@@ -36,7 +36,7 @@ public class HttpHeaderSpoofingFilterTest extends TestCase {
 
 			@Override
 			public Map getParameterMap() {
-				Map parameters = new HashMap();
+				Map<String, Object> parameters = new HashMap<String, Object>();
 				parameters.put("hallo", "ballo");
 				parameters.put("http-Accept-header", new String[] {"text/plain"});
 				return parameters;
