@@ -359,33 +359,50 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     /**
-     * @see com.mindquarry.teamspace.Authorisation#authorise(java.lang.String,
-     *      java.lang.String, java.lang.String)
+     * Simple authorisation implementation. Considers 'userId' and 'uri',
+     * 'method' is completely ignored.
+     * 
+     * <ul>
+     * <li>'admin' can do anything</li>
+     * <li>all other users can do anything in the teams they belong to</li>
+     * <li><code>ResourceNotFoundException</code> if the uri contains a
+     * non-existing team</li>
+     * </ul>
+     * 
+     * The uri containing the team-id that a user might belong to should have
+     * the form <code>jcr:///teamspaces/&lt;team-id&gt;/[sub-resource]</code>.
+     * If the uri is different, only the 'admin' will be allowed to do
+     * something.
+     * 
      */
     public boolean authorise(String userId, String uri, String method) {
         
-        boolean mayPerform = false;
-
         UserRO user = userManager_.userById(userId);
         
-        if (userManager_.isAdminUser(user)) {
-            mayPerform = true;
-        }
-        else {
-            // simple regular expression that looks for the teamspace name...
-            Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
-            Matcher m = p.matcher(uri);
-            if (m.matches()) {
-                String requestedTeamspaceID = m.group(1); // "mindquarry";
-                // ...check if that teamspace exists
-                if (this.teamspaceById(requestedTeamspaceID) == null) {
-                    throw new ResourceDoesNotExistException(uri, "Teamspace '"
-                            + requestedTeamspaceID + "' does not exist.");
-                }
+        // always check if the teamspace does exist (even for admin)
+        
+        // simple regular expression that looks for the teamspace name...
+        Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
+        Matcher m = p.matcher(uri);
+        if (m.matches()) {
+            String requestedTeamspaceID = m.group(1); // "mindquarry";
+            // ...check if that teamspace exists
+            if (this.teamspaceById(requestedTeamspaceID) == null) {
+                throw new ResourceDoesNotExistException(uri, "Teamspace '"
+                        + requestedTeamspaceID + "' does not exist.");
+            }
 
-                mayPerform = user.isMemberOf(requestedTeamspaceID);
+            // admin can do everything
+            if (userManager_.isAdminUser(user) || user.isMemberOf(requestedTeamspaceID)) {
+                return true;
+            }
+        } else {
+            // shorter or different URL (eg. jcr:///users) is only for admin
+            if (userManager_.isAdminUser(user)) {
+                return true;
             }
         }
-        return mayPerform;
+        
+        return false;
     }
 }
