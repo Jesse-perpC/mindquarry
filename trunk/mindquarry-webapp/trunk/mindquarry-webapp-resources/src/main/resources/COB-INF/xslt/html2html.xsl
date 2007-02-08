@@ -136,7 +136,7 @@
 			<!-- general scripts/dojo widgets -->
 			<script type="text/javascript">
 				// mindquarry information for bugreport
-				var g_mindquarryPath = encodeURIComponent("<xsl:value-of select="$fullPath"/>");
+				var g_mindquarryPath = "<xsl:value-of select="$fullPath"/>";
 				var g_mindquarryBlock = "<xsl:value-of select="$artifactId"/>";
 				var g_mindquarryVersion = "<xsl:value-of select="$version"/>";
 				var g_mindquarryTimeStamp = "<xsl:value-of select="$timeStamp"/>";
@@ -262,8 +262,9 @@
 						<li>
 							<!-- href is replaced with detailed information when javascript is turned on.
 								 this is the no-js fallback link -->
+							<!-- [nn] at the end : first is javascript enabled, second is error page (n=no, y=yes) -->
 							<a id="bugreport"
-								href="mailto:support@mindquarry.com?subject=[Bug%20Report] {$artifactId}:{$fullPath} ({$version} {$timeStamp}) [no javascript]">
+								href="mailto:support@mindquarry.com?subject=[Bug%20Report] {$artifactId}:{$fullPath} ({$version} {$timeStamp}) [nn]">
 								Report a Bug
 							</a>
 						</li>
