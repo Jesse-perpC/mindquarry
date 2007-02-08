@@ -68,7 +68,12 @@
 						<parameter name="pageTitle" value="{pageTitle}"/>			
 						<parameter name="httpStatus" value="{httpStatus}"/>
 						<parameter name="showSupportContact" value="{showSupportContact}"/>
-						<parameter name="version" value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+						<parameter name="artifactId"
+							value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/artifactId}"/>							
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/version}"/>							
+						<parameter name="timeStamp"
+							value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
 					</transform>
 					<transform src="block:/xslt/html2html.xsl"
 						type="xalan">
