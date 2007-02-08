@@ -554,6 +554,7 @@
 
 				<transform src="xslt/html/taskList.xsl">
 					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="username" value="{request-attr:username}" />
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"

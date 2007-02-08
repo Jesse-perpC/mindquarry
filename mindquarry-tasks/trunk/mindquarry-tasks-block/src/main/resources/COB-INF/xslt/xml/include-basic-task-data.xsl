@@ -27,6 +27,7 @@
 			<status><xsl:value-of select="$doc//status" /></status>
 			<summary><xsl:value-of select="$doc//summary" /></summary>
 			<date><xsl:value-of select="$doc//date" /></date>
+			<people><xsl:copy-of select="$doc//people" /></people>
 		</task>
 	</xsl:template>
 

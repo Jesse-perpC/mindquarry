@@ -27,7 +27,7 @@
 		<fd:widgets>
 			<fd:field id="person">
 				<fd:datatype base="string"/>
-				<fd:selection-list src="block:teams:/{teamspace}/users.xml" cache="request"> </fd:selection-list>
+				<fd:selection-list src="block:teams:/{teamspace}/users.selectionlist.xml" cache="request"> </fd:selection-list>
 				<fd:label>Person</fd:label>
 			</fd:field>
 			<fd:field id="role">

@@ -14,13 +14,18 @@
 -->
 <xsl:stylesheet version="1.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-        xmlns:xlink="http://www.w3.org/1999/xlink">
+        xmlns:xlink="http://www.w3.org/1999/xlink"
+		xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
 		
 	<xsl:param name="teamspaceID" />    
-
-    <xsl:template match="/tasks">
+	<xsl:param name="username" />
+	
+	<xsl:variable name="teamspaceUsers"
+		select="document(concat('block:teams:/', $teamspaceID, '/users.selectionlist.xml'))"/>
+	
+	<xsl:template match="/tasks">
 		<html>
 			<head>
 				<title>Tasks for <xsl:value-of select="$teamspaceID" /></title>
@@ -29,9 +34,9 @@
 				<script type="text/javascript">
 					dojo.require("mindquarry.widget.SortableHTMLTable");
 				</script>
-        <link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
-        <link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
-        <link rel="alternate" href="" type="application/pdf" title="PDF for print" />
+				<link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
+				<link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
+				<link rel="alternate" href="" type="application/pdf" title="PDF for print" />
 			</head>
 			<body>
 				<h1>Manage Tasks for 
@@ -50,9 +55,10 @@
 						<table class="task-list" dojoType="SortableHTMLTable" id="taskList">
 							<thead>
 								<tr>
-									<th contentType="html" dataType="int" valign="top"></th>
-									<th contentType="html" id="title-col-header">Task</th>
-									<th dataType="date">Due Date</th>
+									<th contentType="html" dataType="int"        valign="top"></th>
+									<th contentType="html" id="title-col-header" valign="top">Task</th>
+									<th                    dataType="date"       valign="top">Due Date</th>
+									<th contentType="html"                       valign="top">People</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -74,8 +80,7 @@
 				</div>
 				
 				<div class="nifty">
-					<a href=".." id="back" title="back to teamspace overview">
-						Back to overview</a>				
+					<a href=".." id="back">Back to overview</a>				
 				</div>
 			</body>
 		</html>
@@ -117,14 +122,45 @@
     		<td>
     			<xsl:value-of select="date" />
     		</td>
+    		<xsl:variable name="meOrFirstPerson">
+    			<xsl:choose>
+    				<xsl:when test="people//item[@value=$username]"><xsl:value-of select="$username"/></xsl:when>
+    				<xsl:otherwise><xsl:value-of select="people//item[position()=1]/person"/></xsl:otherwise>
+    			</xsl:choose>
+    		</xsl:variable>
+    		<td style="width:170px;" sortValue="{$meOrFirstPerson}">
+    			<ul class="members">
+    				<xsl:apply-templates select="people/*"/>
+    			</ul>
+    		</td>
     	</tr>
     </xsl:template>
+	
+	<xsl:template match="people/item">
+		<xsl:variable name="person" select="normalize-space(person)"/>
+		<xsl:variable name="role" select="normalize-space(role)"/>
+		<xsl:variable name="personFullName" select="$teamspaceUsers/fd:selection-list/fd:item[@value=$person]/fd:label"/>
+		<li title="{$personFullName} has role {$role}">
+			<img src="{$pathToRoot}teams/users/48/{$person}.png" />
+			<!--<xsl:copy-of select="$personFullName"/>-->
+		</li>		
+	</xsl:template>
 
 	<xsl:template name="filters">
 		<xsl:for-each select="filter">
 			<li>
-				<a href="{@xlink:href}"><xsl:value-of select="title"/></a>
+				<a href="{@xlink:href}">
+					<xsl:choose>
+						<xsl:when test="string-length(title) > 0">
+							<xsl:value-of select="title" />
+						</xsl:when>
+						<xsl:otherwise>
+							&lt;no title&gt;
+						</xsl:otherwise>
+					</xsl:choose>
+				</a>
 			</li>
 		</xsl:for-each>
 	</xsl:template>
+	
 </xsl:stylesheet>
