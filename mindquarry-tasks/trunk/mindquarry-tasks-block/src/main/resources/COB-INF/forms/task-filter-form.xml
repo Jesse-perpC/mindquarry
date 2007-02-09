@@ -205,6 +205,9 @@
 				<fd:field id="summary" required="true" state="output">
 					<fd:datatype base="string" />
 				</fd:field>
+				<fd:field id="people" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
 			</fd:widgets>
 			
 			<!-- helper information -->

@@ -52,4 +52,10 @@
 			<xsl:value-of select="normalize-space(.)" />
 		</summary>
 	</xsl:template>
+	
+	<xsl:template match="people">
+		<people>
+			<xsl:for-each select="item"><xsl:value-of select="person"/>|</xsl:for-each>
+		</people>
+	</xsl:template>
 </xsl:stylesheet>

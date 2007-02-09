@@ -88,9 +88,10 @@
 						<table class="task-list" dojoType="SortableHTMLTable">
 							<thead>
 								<tr>
-									<th contentType="html" dataType="int" valign="top"></th>
-									<th contentType="html" id="title-col-header">Task</th>
-									<th dataType="date">Date</th>
+									<th contentType="html" dataType="Number"                       valign="top"></th>
+									<th contentType="html"                   id="title-col-header" valign="top">Task</th>
+									<th                    dataType="Date"   style="width:70px;"   valign="top">Due Date</th>
+									<th contentType="html"                                         valign="top">People</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -118,7 +119,11 @@
 										<td>
 											<ft:widget id="date" />
 										</td>
-										<td></td>								
+										
+										<td>
+											<ft:widget id="people">
+											</ft:widget>
+										</td>								
 									</tr>
 								</ft:repeater-rows>
 							</tbody>

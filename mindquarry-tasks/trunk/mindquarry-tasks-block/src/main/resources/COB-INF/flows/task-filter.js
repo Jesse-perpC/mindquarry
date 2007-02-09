@@ -150,6 +150,8 @@ function executeFilter() {
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
 		filterSource = srcResolver.resolveURI(filter);
 		
+        //print("\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n");
+        	
     	// process result
 		var results = filterSource.getChildren();
 		for(var i = 0; i < results.size(); i++) {
@@ -171,6 +173,8 @@ function executeFilter() {
 	        transformer.setParameter("teamspaceID", teamspaceID_);
 	        transformer.transform(xmlSource,
 	        	new Packages.javax.xml.transform.stream.StreamResult( os ));
+	        
+	        //print(new Packages.java.lang.String(os.toByteArray()));
 	        
 	        // add filter result to results repeater
 			var row = resultRepeater.addRow();
