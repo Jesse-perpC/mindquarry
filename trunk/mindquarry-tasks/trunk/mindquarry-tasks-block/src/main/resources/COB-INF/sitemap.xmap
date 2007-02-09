@@ -572,7 +572,6 @@
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
 				</transform>
-				
 
 				<transform src="xslt/fo/taskList.xsl">
 					<parameter name="teamspaceID" value="{1}" />
@@ -591,21 +590,11 @@
 			<match pattern="internal/pipe/tasks/*/list.atom">
 				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
 				
-				<transform src="xslt/xml/include-filters-for-tasks.xsl"/>
-				<transform type="xinclude" />
-				<transform src="xslt/xml/flatten-filters-element.xsl"/>
-				
 				<transform src="xslt/xml/include-basic-task-data.xsl">
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
 				</transform>
 				
-				<transform src="xslt/xml/include-basic-filter-data.xsl"
-					label="xml">
-					<parameter name="basePath"
-						value="jcr:///teamspaces/" />
-				</transform>
-
 				<transform src="xslt/atom/taskList.xsl">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="fullPath"
@@ -621,21 +610,11 @@
 			<match pattern="internal/pipe/tasks/*/list.ical">
 				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
 				
-				<transform src="xslt/xml/include-filters-for-tasks.xsl"/>
-				<transform type="xinclude" />
-				<transform src="xslt/xml/flatten-filters-element.xsl"/>
-				
 				<transform src="xslt/xml/include-basic-task-data.xsl">
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
 				</transform>
 				
-				<transform src="xslt/xml/include-basic-filter-data.xsl"
-					label="xml">
-					<parameter name="basePath"
-						value="jcr:///teamspaces/" />
-				</transform>
-
 				<transform src="xslt/ical/taskList.xsl">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="fullPath"
@@ -665,7 +644,7 @@
 					<when test="opml">
 						<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
 						<transform src="xslt/opml/teamspaces2opml.xsl" />
-						<serialize type="xml" />
+						<serialize type="xml" mime-type="text/x-opml"/>
 					</when>
 				</select>
 			</match>
@@ -710,19 +689,19 @@
 					</when>
 					<when test="xml">
 						<read
-							src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+							src="cocoon:/internal/pipe/tasks/{1}/list.xml" mime-type="text/xml"/>
 					</when>
 					<when test="atom">
 						<read
-							src="cocoon:/internal/pipe/tasks/{1}/list.atom" />
+							src="cocoon:/internal/pipe/tasks/{1}/list.atom" mime-type="application/atom+xml"/>
 					</when>
 					<when test="ical">
 						<read
-							src="cocoon:/internal/pipe/tasks/{1}/list.ical" />
+							src="cocoon:/internal/pipe/tasks/{1}/list.ical" mime-type="text/calendar"/>
 					</when>
 					<when test="pdf">
 						<read
-							src="cocoon:/internal/pipe/tasks/{1}/list.pdf" />
+							src="cocoon:/internal/pipe/tasks/{1}/list.pdf" mime-type="application/pdf"/>
 					</when>
 				</select>
 			</match>
@@ -807,7 +786,7 @@
 								<generate
 											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
 								<transform src="xslt/fo/task2fo.xsl" />
-								<serialize type="fo2pdf" />
+								<serialize type="fo2pdf" mime-type="application/pdf"/>
 							</when>
 						</select>
 					</when>
