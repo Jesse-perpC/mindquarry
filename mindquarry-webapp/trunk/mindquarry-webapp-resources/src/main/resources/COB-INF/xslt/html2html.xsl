@@ -136,7 +136,7 @@
 			<!-- general scripts/dojo widgets -->
 			<script type="text/javascript">
 				// mindquarry information for bugreport
-				var g_mindquarryPath = "<xsl:value-of select="$fullPath"/>";
+				var g_mindquarryPath = "<xsl:value-of select="translate($fullPath, '&#10;&#13;','  ')"/>";
 				var g_mindquarryBlock = "<xsl:value-of select="$artifactId"/>";
 				var g_mindquarryVersion = "<xsl:value-of select="$version"/>";
 				var g_mindquarryTimeStamp = "<xsl:value-of select="$timeStamp"/>";
