@@ -20,7 +20,6 @@
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<fd:repeater>
-		<fd:datatype base="boolean"/>
 		<fd:label>People</fd:label>
 		<fd:hint>People connected to this document</fd:hint>
 		<fd:help> This field can be used for setting responsibilities and roles. </fd:help>

@@ -20,7 +20,6 @@
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
 	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
 	<fd:repeater>
-		<fd:datatype base="boolean"/>
 		<fd:label>Dependencies</fd:label>
 		<fd:hint>The task relies upon the completion of a preceding task.</fd:hint>
 		<fd:help>Use dependencies for setting relationships between tasks.</fd:help>
