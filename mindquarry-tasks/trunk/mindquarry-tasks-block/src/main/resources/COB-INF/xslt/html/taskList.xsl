@@ -128,7 +128,6 @@
     				<xsl:when test="people/*">
     					<xsl:choose>
     						<!-- have the user itself at the top when sorting ascendingly -->
-		    				<!--<xsl:when test="people//item[@value=$username]">-->
     						<xsl:when test="people//item[person=$username]">
     							<xsl:text>000</xsl:text><xsl:value-of select="$username"/>
 		    				</xsl:when>
