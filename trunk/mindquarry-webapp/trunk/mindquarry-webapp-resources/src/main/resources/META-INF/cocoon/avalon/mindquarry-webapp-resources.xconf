@@ -48,12 +48,12 @@
 		<selector name="REST"
 			src="org.apache.cocoon.selection.RegexpHeaderSelector">
 			<header-name>accept</header-name>
-			<pattern name="html">application/xhtml\+xml|text/html|\*/\*</pattern>
-			<pattern name="xml">text/xml</pattern>
-			<pattern name="atom">application/atom.xml</pattern>
-			<pattern name="pdf">application/pdf</pattern>
-			<pattern name="opml">text/x-opml</pattern>
-			<pattern name="ical">text/calendar</pattern>
+			<pattern name="html" >application/xhtml\+xml|text/html|\*/\*</pattern>
+			<pattern name="xml"  >text/xml</pattern>
+			<pattern name="atom" >application/atom.xml</pattern>
+			<pattern name="pdf"  >application/pdf</pattern>
+			<pattern name="opml" >text/x-opml</pattern>
+			<pattern name="ical" >text/calendar</pattern>
 		</selector>
 
 		<selector name="exception"
