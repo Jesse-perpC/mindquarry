@@ -163,14 +163,13 @@ dojo.lang.extend(mindquarry.widget.SortableHTMLTable, {
 				// look for the sortValue attribute which will be used for
 				// sorting if present (instead of the cell content)
 				if (dojo.html.hasAttribute(cells[j], this.sortValueAttribute)) {
-					sortValue = dojo.html.getAttribute(cells[j], this.sortValueAttribute);
+					var val = dojo.html.getAttribute(cells[j], this.sortValueAttribute);
 					
 					var type=this.columns[j].getType();
-					var val=dojo.html.renderedTextContent(cells[j]); //	should be the same index as the column.
 					if (val) sortValue=new type(val);
 					else sortValue=new type();	//	let it use the default.
 				}
-				
+
 				o[field] = [sortValue, cellContent];
 			}
 			if(dojo.html.hasAttribute(rows[i],"value")&&!o[this.valueField]){
@@ -240,6 +239,14 @@ dojo.lang.extend(mindquarry.widget.SortableHTMLTable, {
 				var cell=document.createElement("td");
 				cell.setAttribute("align", this.columns[j].align);
 				cell.setAttribute("valign", this.columns[j].valign);
+				
+				// keep the sortValue attribute if different from visible content
+				var sortValue = data[i][this.columns[j].getField()][0];
+				var cellContent = data[i][this.columns[j].getField()][1];
+				if (sortValue != cellContent) {
+					cell.setAttribute(this.sortValueAttribute, sortValue);
+				}
+				
 				dojo.html.disableSelection(cell);
 				if(this.sortIndex==j){
 					cell.className=this.columnSelected;
