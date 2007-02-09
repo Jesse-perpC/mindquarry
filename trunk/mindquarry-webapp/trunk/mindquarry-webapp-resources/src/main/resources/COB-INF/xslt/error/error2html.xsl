@@ -98,9 +98,9 @@
           }
           
           // for bugreport.js
-          var g_mindquarryErrorMessage = "<xsl:value-of select="translate(error:message, '&#10;&#13;','  ')"/>";
-          var g_mindquarryStacktrace = "<xsl:value-of select="substring(normalize-space(error:extra[@error:description='stacktrace']), 0, 6774)"/>";
-          var g_mindquarryFullStacktrace = "<xsl:value-of select="substring(normalize-space(error:extra[@error:description='full exception chain stacktrace']), 0, 6774)"/>";
+          var g_mindquarryErrorMessage = "<xsl:value-of select="translate(error:message, '&quot;&#10;&#13;','   ')"/>";
+          var g_mindquarryStacktrace = "<xsl:value-of select="substring(normalize-space(translate(error:extra[@error:description='stacktrace'], '&quot;&#10;&#13;','   ')), 0, 6774)"/>";
+          var g_mindquarryFullStacktrace = "<xsl:value-of select="substring(normalize-space(translate(error:extra[@error:description='full exception chain stacktrace'], '&quot;&#10;&#13;','   ')), 0, 6774)"/>";
           
         </script>
       </head>
