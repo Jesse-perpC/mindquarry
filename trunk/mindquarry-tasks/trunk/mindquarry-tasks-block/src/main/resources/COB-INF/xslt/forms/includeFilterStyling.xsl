@@ -71,19 +71,61 @@
 							<xsl:value-of select="$pathToBlock" />images/status/done.png</xsl:when>
 					</xsl:choose>
 				</xsl:attribute>
-				<xsl:attribute name="alt">
-					<xsl:value-of select="normalize-space(./span)"/>
-				</xsl:attribute>
+				<xsl:attribute name="alt"><xsl:value-of select="normalize-space(./span)"/></xsl:attribute>
 			</img>
 		</xsl:copy>
 	</xsl:template>
 		
 	<xsl:template match="td[./a/span[starts-with(./@id,'results') and contains(./@id,'title')]]">
 		<xsl:copy>
-			<xsl:attribute name="sortValue">
-				<xsl:copy-of select="./a/span"/>
-			</xsl:attribute>
+			<xsl:attribute name="sortValue"><xsl:copy-of select="./a/span"/></xsl:attribute>
 			<xsl:copy-of select="./*"/>
 		</xsl:copy>
 	</xsl:template>
+
+	<xsl:template match="td[./span[starts-with(./@id,'results') and contains(./@id,'date')]]">
+		<xsl:copy>
+			<xsl:value-of select="./span"/>
+		</xsl:copy>
+	</xsl:template>
+	
+	<xsl:template match="td[./span[starts-with(./@id,'results') and contains(./@id,'people')]]">
+		<xsl:copy>
+			<xsl:attribute name="sortValue"><xsl:value-of select="./span"/></xsl:attribute>
+			<ul class="members">
+				<xsl:call-template name="splitNamesIntoImages">
+					<xsl:with-param name="allPersonsString" select="normalize-space(./span)"/>
+				</xsl:call-template>
+			</ul>
+		</xsl:copy>
+	</xsl:template>
+	
+	<!-- makes this
+		
+			<li><img src='...admin'/></li>
+			<li><img src='...frank'/></li>
+			<li><img src='...peter'/></li>
+			<li><img src='...lisa'/></li>
+			
+		 out of
+		 
+		 	'admin|frank|peter|lisa|'
+	-->
+	<xsl:template name="splitNamesIntoImages">
+		<!-- example: 'admin|frank|peter|lisa|' -->
+		<xsl:param name="allPersonsString"/>
+		<xsl:choose>
+			<!-- stops when the last '|' is reached -->
+			<xsl:when test="string-length($allPersonsString) > 1">
+				<xsl:variable name="person" select="substring-before($allPersonsString, '|')"/>
+				<li title="{$person}">
+					<img src="{$pathToRoot}teams/users/48/{$person}.png" />
+				</li>
+				<xsl:call-template name="splitNamesIntoImages">
+					<xsl:with-param name="allPersonsString" select="substring-after($allPersonsString, '|')"/>
+				</xsl:call-template>
+			</xsl:when>
+		</xsl:choose>
+	</xsl:template>
+	
 </xsl:stylesheet>
