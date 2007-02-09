@@ -6,7 +6,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
 	<xsl:import href="block:/xslt/contextpath.xsl" />
-	<xsl:import href="xhtml2fo.xsl" />
+	<xsl:import href="block:/xslt/fo/xhtml2fo.xsl" />
 
 	<xsl:param name="viewDocumentLink" />
 
