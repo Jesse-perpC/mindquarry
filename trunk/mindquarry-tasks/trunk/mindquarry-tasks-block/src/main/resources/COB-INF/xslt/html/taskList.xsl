@@ -55,10 +55,10 @@
 						<table class="task-list" dojoType="SortableHTMLTable" id="taskList">
 							<thead>
 								<tr>
-									<th contentType="html" dataType="int"        valign="top"></th>
-									<th contentType="html" id="title-col-header" valign="top">Task</th>
-									<th                    dataType="date"       valign="top">Due Date</th>
-									<th contentType="html"                       valign="top">People</th>
+									<th contentType="html" dataType="Number"                       valign="top"></th>
+									<th contentType="html"                   id="title-col-header" valign="top">Task</th>
+									<th                    dataType="Date"   style="width:70px;"   valign="top">Due Date</th>
+									<th contentType="html"                                         valign="top">People</th>
 								</tr>
 							</thead>
 							<tbody>
@@ -122,13 +122,29 @@
     		<td>
     			<xsl:value-of select="date" />
     		</td>
+    		
     		<xsl:variable name="meOrFirstPerson">
     			<xsl:choose>
-    				<xsl:when test="people//item[@value=$username]"><xsl:value-of select="$username"/></xsl:when>
-    				<xsl:otherwise><xsl:value-of select="people//item[position()=1]/person"/></xsl:otherwise>
+    				<xsl:when test="people/*">
+    					<xsl:choose>
+    						<!-- have the user itself at the top when sorting ascendingly -->
+		    				<!--<xsl:when test="people//item[@value=$username]">-->
+    						<xsl:when test="people//item[person=$username]">
+    							<xsl:text>000</xsl:text><xsl:value-of select="$username"/>
+		    				</xsl:when>
+		    				<xsl:otherwise>
+		    					<xsl:value-of select="people//item[position()=1]/person"/>
+		    				</xsl:otherwise>
+    					</xsl:choose>
+    				</xsl:when>
+    				<!-- in the case when no user is assigned put them at the bottom -->
+    				<xsl:otherwise>
+    					<xsl:text>zzz_no_people</xsl:text>
+    				</xsl:otherwise>
     			</xsl:choose>
     		</xsl:variable>
-    		<td style="width:170px;" sortValue="{$meOrFirstPerson}">
+    		
+    		<td sortValue="{$meOrFirstPerson}">
     			<ul class="members">
     				<xsl:apply-templates select="people/*"/>
     			</ul>
