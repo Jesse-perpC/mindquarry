@@ -408,9 +408,9 @@
 		<!-- provides the files for forms (internal) -->
 		<pipeline type="caching-point" internal-only="true">
 			
-			<!-- internal pipeline for the filter editor -->
-			<match pattern="internal/pipe/forms/*.xml">
-				<generate type="jx" src="forms/{1}.xml" />
+			<!-- internal pipeline for the filter editor (teamspace/form-file.xml) -->
+			<match pattern="internal/pipe/forms/*/*.xml">
+				<generate type="jx" src="forms/{2}.xml" />
 				
 				<transform type="browser-update" />
 				<call resource="form2html" />
@@ -420,6 +420,8 @@
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
+					<parameter name="teamspaceID"
+						value="{1}" />
 				</transform>
 				<call resource="layouting" />
 			</match>
@@ -662,20 +664,20 @@
 					<parameter name="definitionURI"
 						value="forms/task-filter-form.xml" />
 					<parameter name="templatePipeline"
-						value="internal/pipe/forms/task-filter-form-template.xml" />
+						value="internal/pipe/forms/{1}/task-filter-form-template.xml" />
 				</call>
 			</match>
 			
 			<!-- display saved filter -->
 			<match pattern="*/filters/*">
-				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/{1}"/>
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/{2}"/>
 				<call function="displaySavedFilterForm">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="filterID" value="{2}" />
 					<parameter name="definitionURI"
 						value="forms/task-filter-form.xml" />
 					<parameter name="templatePipeline"
-						value="internal/pipe/forms/task-filter-form-template.xml" />
+						value="internal/pipe/forms/{1}/task-filter-form-template.xml" />
 				</call>
 			</match>
 

@@ -15,9 +15,15 @@
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:bu="http://apache.org/cocoon/browser-update/1.0"
-	xmlns:xhtml="http://www.w3.org/1999/xhtml">
-
+	xmlns:xhtml="http://www.w3.org/1999/xhtml"
+	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	
 	<xsl:import href="block:/xslt/contextpath.xsl" />
+	
+	<xsl:param name="teamspaceID"/>
+	
+	<xsl:variable name="teamspaceUsers"
+		select="document(concat('block:teams:/', $teamspaceID, '/users.selectionlist.xml'))"/>
 	
 	<xsl:template match="@*|node()">
 		<xsl:copy>
@@ -118,7 +124,8 @@
 			<!-- stops when the last '|' is reached -->
 			<xsl:when test="string-length($allPersonsString) > 1">
 				<xsl:variable name="person" select="substring-before($allPersonsString, '|')"/>
-				<li title="{$person}">
+				<xsl:variable name="personFullName" select="$teamspaceUsers/fd:selection-list/fd:item[@value=$person]/fd:label"/>
+				<li title="{$personFullName}">
 					<img src="{$pathToRoot}teams/users/48/{$person}.png" />
 				</li>
 				<xsl:call-template name="splitNamesIntoImages">
