@@ -1,8 +1,8 @@
-Name "Mindquarry"
+Name "Mindquarry Collaboration Server"
 
 # Defines
 !define REGKEY "SOFTWARE\$(^Name)"
-!define VERSION "0.0.1-SNAPSHOT"
+!define VERSION "1.0-Alpha"
 !define COMPANY "Mindquarry GmbH"
 !define URL "http://www.mindquarry.com"
 !define DESCRIPTION "Launcher for the Mindquarry Collaboration Server. The Mindquarry Collaboration Server enables teams to collaborate using document management, wikis, task management and conversation management."
@@ -13,27 +13,42 @@ Name "Mindquarry"
 !define MUI_HEADERIMAGE_BITMAP "images\header.bmp"
 !define MUI_WELCOMEFINISHPAGE_BITMAP "images\welcome.bmp"
 !define MUI_UNWELCOMEFINISHPAGE_BITMAP "images\welcome.bmp"
+
+# default installer icon
 !define MUI_ICON "${NSISDIR}\Contrib\Graphics\Icons\modern-install-blue.ico"
+!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-blue.ico"
+
+# Mindquarry installer icon
+#!define MUI_ICON "icons\mindquarry-icon.ico"
+#!define MUI_UNICON "icons\mindquarry-icon.ico"
+
 !define MUI_LICENSEPAGE_RADIOBUTTONS
+
 !define MUI_STARTMENUPAGE_REGISTRY_ROOT HKLM
 !define MUI_STARTMENUPAGE_NODISABLE
 !define MUI_STARTMENUPAGE_REGISTRY_KEY "Software\Mindquarry Collaboration Server"
 !define MUI_STARTMENUPAGE_REGISTRY_VALUENAME StartMenuGroup
 !define MUI_STARTMENUPAGE_DEFAULT_FOLDER "Mindquarry Collaboration Server"
-!define MUI_UNICON "${NSISDIR}\Contrib\Graphics\Icons\modern-uninstall-blue.ico"
-!define MUI_UNFINISHPAGE_NOAUTOCLOSE
+
 !define MUI_LANGDLL_REGISTRY_ROOT HKLM
 !define MUI_LANGDLL_REGISTRY_KEY ${REGKEY}
 !define MUI_LANGDLL_REGISTRY_VALUENAME InstallerLanguage
-!define MUI_FINISHPAGE_NOAUTOCLOSE
+
 !define MUI_FINISHPAGE_RUN
+!define MUI_FINISHPAGE_NOAUTOCLOSE
 !define MUI_FINISHPAGE_RUN_TEXT $(START_LINK)
 !define MUI_FINISHPAGE_RUN_FUNCTION "StartServer"
-!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.txt"
+
+!define MUI_UNFINISHPAGE_NOAUTOCLOSE
+
+# uncomment this if we have a README file
+#!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.txt"
 
 # Included files
 !include Sections.nsh
 !include MUI.nsh
+!include LogicLib.nsh
+!include utilities.nsh
 
 # Reserved Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
@@ -49,9 +64,9 @@ Var StartMenuGroup
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE ../assembly/txt/LICENSE.txt
+Page custom SettingsPage ValidateSettings
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
-#Page custom SettingsPage
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -65,7 +80,7 @@ Var StartMenuGroup
 !insertmacro MUI_LANGUAGE German
 
 # Installer attributes
-OutFile "Mindquarry Collaboration Server.exe"
+OutFile "Mindquarry Collaboration Server ${VERSION}.exe"
 InstallDir $PROGRAMFILES\mindquarry
 CRCCheck on
 XPStyle on
@@ -73,11 +88,11 @@ ShowInstDetails show
 VIProductVersion 0.0.1.0
 VIAddVersionKey /LANG=${LANG_ENGLISH} ProductName "Mindquarry Collaboration Server"
 VIAddVersionKey ProductVersion "${VERSION}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName "${COMPANY}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyWebsite "${URL}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} FileVersion "${VERSION}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyName     "${COMPANY}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} CompanyWebsite  "${URL}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} FileVersion     "${VERSION}"
 VIAddVersionKey /LANG=${LANG_ENGLISH} FileDescription "${DESCRIPTION}"
-VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright "${COPYRIGHT}"
+VIAddVersionKey /LANG=${LANG_ENGLISH} LegalCopyright  "${COPYRIGHT}"
 InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails show
 
@@ -85,7 +100,7 @@ ShowUninstDetails show
 Section -Main SEC0000
     SetOutPath $INSTDIR
     SetOverwrite on
-    File /r C:\mindquarry-0.0.1-SNAPSHOT\*
+    File /r C:\mindquarry-windows-bin\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
@@ -156,14 +171,48 @@ Function .onInit
     Pop $R1
     !insertmacro MUI_LANGDLL_DISPLAY
     
-    ;Extract InstallOptions INI files
+    #Extract InstallOptions INI files
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "settings.ini"
 FunctionEnd
 
-#Function SettingsPage
-#  !insertmacro MUI_HEADER_TEXT "$(TEXT_SETTINGS_TITLE)" "$(TEXT_SETTINGS_SUBTITLE)"
-#  !insertmacro MUI_INSTALLOPTIONS_DISPLAY "settings.ini"
-#FunctionEnd
+# functions for the settings page
+Function SettingsPage
+    !insertmacro MUI_HEADER_TEXT "$(TEXT_SETTINGS_TITLE)" "$(TEXT_SETTINGS_SUBTITLE)"
+    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "settings.ini"
+FunctionEnd
+
+Var DOMAIN
+Var TITLE
+Var APACHE_LOCATION
+
+Function ValidateSettings
+    # check domain settings
+    !insertmacro MUI_INSTALLOPTIONS_READ $DOMAIN "settings.ini" "Field 3" "State"
+    ${If} $DOMAIN == ""
+        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_DOMAIN_ERROR)"
+        Abort
+    ${EndIf}
+
+    # check title settings
+    !insertmacro MUI_INSTALLOPTIONS_READ $TITLE "settings.ini" "Field 5" "State"
+    ${If} $TITLE == ""
+        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_TITLE_ERROR)"
+        Abort
+    ${EndIf}
+    
+    # check Apache settings
+    !insertmacro MUI_INSTALLOPTIONS_READ $APACHE_LOCATION "settings.ini" "Field 7" "State"
+    ${If} $APACHE_LOCATION == ""
+        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_APACHE_LOCATION_ERROR)"
+        Abort
+    ${EndIf}
+    
+    ${DirState} "$APACHE_LOCATION" $R0
+    ${If} $R0 == -1
+        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_APACHE_LOCATION_ERROR)"
+        Abort
+    ${EndIf}
+FunctionEnd
 
 # Uninstaller functions
 Function un.onInit
@@ -173,27 +222,9 @@ Function un.onInit
     !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
 FunctionEnd
 
-# cusomt functions
+# custom functions
 Function StartServer
     ExecShell "" "$INSTDIR\start.bat"
 FunctionEnd
 
-# Installer Language Strings
-# TODO Update the Language Strings with the appropriate translations.
-
-LangString ^UninstallLink ${LANG_ENGLISH} "Uninstall $(^Name)"
-LangString ^UninstallLink ${LANG_GERMAN} "Deinstallieren der $(^Name)"
-
-# cusomt page strings
-LangString TEXT_SETTINGS_TITLE ${LANG_ENGLISH} "Settings"
-LangString TEXT_SETTINGS_SUBTITLE ${LANG_ENGLISH} "Please enter your settings."
-
-LangString TEXT_SETTINGS_TITLE ${LANG_GERMAN} "Einstellungen"
-LangString TEXT_SETTINGS_SUBTITLE ${LANG_GERMAN} "Bitte geben sie ihre Einstellungen ein."
-
-# start menu strings
-LangString START_LINK ${LANG_ENGLISH} "Start Mindquarry Collaboration Server"
-LangString STOP_LINK ${LANG_ENGLISH} "Stop Mindquarry Collaboration Server"
-
-LangString START_LINK ${LANG_GERMAN} "Mindquarry Collaboration Server starten"
-LangString STOP_LINK ${LANG_GERMAN} "Mindquarry Collaboration Server beenden"
+!include l18n.nsh
