@@ -39,8 +39,11 @@
         <groupId>org.apache.cocoon</groupId>
         <artifactId>cocoon-deployer-plugin</artifactId>
         <version>1.0.0-M2_Mindquarry_1</version>
+        <configuration>
+          <useShieldingClassLoader>true</useShieldingClassLoader>
+        </configuration>
       </plugin>
-
+      
       <plugin>
         <groupId>org.mortbay.jetty</groupId>
         <artifactId>maven-jetty-plugin</artifactId>
