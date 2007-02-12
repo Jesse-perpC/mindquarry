@@ -42,7 +42,9 @@ dojo.lang.extend(mindquarry.widget.TimerCFormAction, {
 	    
 		var delay = dojo.html.getAttribute(this.domNode, "delay");
 		
-		if (delay == null) {
+		// in case no delay value was given or if it is smaller than 1 second,
+		// we reset it to 1 minute to avoid continous requests blocking the site 
+		if (delay == null || delay == "" || delay < 1000) {
 			delay = 60000; // 1 minute
 		}
 		
