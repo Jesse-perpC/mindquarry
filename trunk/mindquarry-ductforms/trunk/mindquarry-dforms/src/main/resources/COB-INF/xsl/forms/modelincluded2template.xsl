@@ -24,17 +24,8 @@
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	exclude-result-prefixes="df fd ft fi jx xhtml">
 	
-	<xsl:param name="widgetArrangement" />
+	<xsl:param name="keepAliveDelay" select="'300000'"/>
 	
-	<xsl:variable name="widgetArrangementOrDefault">
-		<xsl:choose>
-			<xsl:when test="string-length(normalize-space($widgetArrangement)) > 0">
-				<xsl:value-of select="normalize-space($widgetArrangement)" />
-			</xsl:when>
-			<xsl:otherwise>default</xsl:otherwise>
-		</xsl:choose>
-	</xsl:variable>
-
 	<xsl:template match="/df:model">
 		<xhtml:html>
 			<xhtml:head>
@@ -58,8 +49,8 @@
 					
 					<!-- hide the keepAlive action (only used for communication) -->				
 					<ft:widget id="ductforms_keepalive">
-						<!-- dummy widget call every 5 minutes to keep continuation alive -->
-						<fi:styling type="hidden" dojoType="TimerCFormAction" delay="300000"/>
+						<!-- dummy widget call every x minutes to keep continuation alive -->
+						<fi:styling type="hidden" dojoType="TimerCFormAction" delay="{$keepAliveDelay}"/>
 					</ft:widget>
 					
 					<!-- the buttons -->
@@ -78,7 +69,7 @@
 					
 					<!-- all fields/widgets grouped for nice layouting -->
 					<fi:group>
-						<fi:styling layout="{$widgetArrangementOrDefault}" />
+						<fi:styling layout="default" />
 						<fi:items>
 							<!-- the fields -->
 							<xsl:apply-templates select="df:datatype" />
