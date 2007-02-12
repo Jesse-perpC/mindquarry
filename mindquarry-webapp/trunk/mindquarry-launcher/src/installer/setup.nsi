@@ -5,7 +5,7 @@ Name "Mindquarry Collaboration Server"
 !define VERSION "1.0-Alpha"
 !define COMPANY "Mindquarry GmbH"
 !define URL "http://www.mindquarry.com"
-!define DESCRIPTION "Launcher for the Mindquarry Collaboration Server. The Mindquarry Collaboration Server enables teams to collaborate using document management, wikis, task management and conversation management."
+!define DESCRIPTION "The Mindquarry Collaboration Server enables teams to collaborate using document management, wikis, task management and conversation management."
 !define COPYRIGHT "Mindquarry GmbH"
 
 # MUI defines
@@ -41,6 +41,8 @@ Name "Mindquarry Collaboration Server"
 
 !define MUI_UNFINISHPAGE_NOAUTOCLOSE
 
+!define MUI_COMPONENTSPAGE_SMALLDESC
+
 # uncomment this if we have a README file
 #!define MUI_FINISHPAGE_SHOWREADME "$INSTDIR\README.txt"
 
@@ -49,6 +51,7 @@ Name "Mindquarry Collaboration Server"
 !include MUI.nsh
 !include LogicLib.nsh
 !include utilities.nsh
+!include settings.nsh
 
 # Reserved Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
@@ -65,8 +68,11 @@ Var StartMenuGroup
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE ../assembly/txt/LICENSE.txt
 Page custom SettingsPage ValidateSettings
+#!insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
+
+!define MUI_PAGE_CUSTOMFUNCTION_LEAVE ApplySettings
 !insertmacro MUI_PAGE_INSTFILES
 !insertmacro MUI_PAGE_FINISH
 
@@ -81,7 +87,7 @@ Page custom SettingsPage ValidateSettings
 
 # Installer attributes
 OutFile "Mindquarry Collaboration Server ${VERSION}.exe"
-InstallDir $PROGRAMFILES\mindquarry
+InstallDir "$PROGRAMFILES\Mindquarry Collaboration Server"
 CRCCheck on
 XPStyle on
 ShowInstDetails show
@@ -97,14 +103,14 @@ InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails show
 
 # Installer sections
-Section -Main SEC0000
+Section -Main INSTALL_MAIN
     SetOutPath $INSTDIR
     SetOverwrite on
     File /r C:\mindquarry-windows-bin\*
     WriteRegStr HKLM "${REGKEY}\Components" Main 1
 SectionEnd
 
-Section -post SEC0001
+Section -post INSTALL_POST
     WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
     WriteUninstaller $INSTDIR\uninstall.exe
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
@@ -138,7 +144,7 @@ done${UNSECTION_ID}:
 !macroend
 
 # Uninstaller sections
-Section /o un.Main UNSEC0000
+Section /o un.Main UNINSTALL_MAIN
     # stop server if it is running
     ExecWait "$INSTDIR\stop.bat"
     
@@ -147,7 +153,7 @@ Section /o un.Main UNSEC0000
     DeleteRegValue HKLM "${REGKEY}\Components" Main
 SectionEnd
 
-Section un.post UNSEC0001
+Section un.post UNINSTALL_POST
     DeleteRegKey HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk"
     Delete /REBOOTOK "$SMPROGRAMS\$StartMenuGroup\$(START_LINK).lnk"
@@ -175,51 +181,12 @@ Function .onInit
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "settings.ini"
 FunctionEnd
 
-# functions for the settings page
-Function SettingsPage
-    !insertmacro MUI_HEADER_TEXT "$(TEXT_SETTINGS_TITLE)" "$(TEXT_SETTINGS_SUBTITLE)"
-    !insertmacro MUI_INSTALLOPTIONS_DISPLAY "settings.ini"
-FunctionEnd
-
-Var DOMAIN
-Var TITLE
-Var APACHE_LOCATION
-
-Function ValidateSettings
-    # check domain settings
-    !insertmacro MUI_INSTALLOPTIONS_READ $DOMAIN "settings.ini" "Field 3" "State"
-    ${If} $DOMAIN == ""
-        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_DOMAIN_ERROR)"
-        Abort
-    ${EndIf}
-
-    # check title settings
-    !insertmacro MUI_INSTALLOPTIONS_READ $TITLE "settings.ini" "Field 5" "State"
-    ${If} $TITLE == ""
-        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_TITLE_ERROR)"
-        Abort
-    ${EndIf}
-    
-    # check Apache settings
-    !insertmacro MUI_INSTALLOPTIONS_READ $APACHE_LOCATION "settings.ini" "Field 7" "State"
-    ${If} $APACHE_LOCATION == ""
-        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_APACHE_LOCATION_ERROR)"
-        Abort
-    ${EndIf}
-    
-    ${DirState} "$APACHE_LOCATION" $R0
-    ${If} $R0 == -1
-        MessageBox MB_ICONEXCLAMATION|MB_OK "$(TEXT_APACHE_LOCATION_ERROR)"
-        Abort
-    ${EndIf}
-FunctionEnd
-
 # Uninstaller functions
 Function un.onInit
     ReadRegStr $INSTDIR HKLM "${REGKEY}" Path
     ReadRegStr $StartMenuGroup HKLM "${REGKEY}" StartMenuGroup
     !insertmacro MUI_UNGETLANGUAGE
-    !insertmacro SELECT_UNSECTION Main ${UNSEC0000}
+    !insertmacro SELECT_UNSECTION Main ${UNINSTALL_MAIN}
 FunctionEnd
 
 # custom functions
@@ -227,4 +194,5 @@ Function StartServer
     ExecShell "" "$INSTDIR\start.bat"
 FunctionEnd
 
+# include l18n strings
 !include l18n.nsh
