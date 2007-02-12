@@ -37,7 +37,10 @@ Function ValidateSettings
     ${EndIf}
 FunctionEnd
 
+# write settings to config file for Mindquarry web application 
 Function ApplySettings
-    
-    MessageBox MB_ICONINFORMATION|MB_OK "$INSTDIR"
+    ${ConfigWrite} "$INSTDIR\etc\mindquarry-webapplication.properties" "mindquarry.title=" $TITLE $R0
+    ${ConfigWrite} "$INSTDIR\etc\mindquarry-webapplication.properties" "mindquarry.server.url=" "http://$DOMAIN" $R0
+    ${ConfigWrite} "$INSTDIR\etc\mindquarry-webapplication.properties" "mindquarry.repos.uri=" "http://$DOMAIN/repos" $R0
+    ${ConfigWrite} "$INSTDIR\etc\mindquarry-webapplication.properties" "mindquarry.solr.endpoint=" "http://$DOMAIN/solr/update" $R0
 FunctionEnd
