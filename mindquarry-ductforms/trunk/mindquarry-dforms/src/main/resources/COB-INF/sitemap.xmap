@@ -141,7 +141,7 @@
 			<match pattern="form-template">
 				<generate src="cocoon:/complete-model.xml" />
 				<transform src="xsl/forms/modelincluded2template.xsl">
-					<parameter name="widgetArrangement" value="{request-param:widgetArrangement}" />
+					<parameter name="keepAliveDelay" value="{global:org.apache.cocoon.forms.keep-alive-delay}" />
 				</transform>
 				<serialize type="xml" />
 			</match>
