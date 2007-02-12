@@ -4,7 +4,6 @@ use strict;
 use warnings;
 
 use LWP::UserAgent;
-use Params::Validate qw[];
 use Apache2::Const -compile => qw(OK DECLINED HTTP_UNAUTHORIZED);
 use Apache2::RequestRec;
 use Apache2::ServerUtil ();
@@ -33,9 +32,10 @@ sub handler {
 
 sub authenticate {
 	my ($username, $password, $url) = @_;
-	my $agent = LWP::UserAgent->new;
+	my $agent = LWP::UserAgent->new("Mindquarry Authentication Handler");
 	my $override = sprintf '%s::get_basic_credentials', ref $agent;
 	my $response;
+	my $req;
 
 	my $s = Apache2::ServerUtil->server;
 	$s->log_error("AuthURL: " . $url . " User: " . $username);
@@ -46,13 +46,20 @@ sub authenticate {
 	local *$override = sub {
             return ( $username, $password );
         };
-	
-	$agent->default_header('Accept' => "text/plain");
+	#$agent->request_redirectable() = {};	
+	#$agent->default_header('Accept' => "text/plain");
 
-	#$url = $url."?request=login&targetUri=/";
+
+	$url = $url."?request=login&targetUri=/";
 	$s->log_error("URL: ".$url);
-	$response = $agent->head($url);
+	#$response = $agent->head($url, 'Accept' => 'text/plain');
 	
+	$req = HTTP::Request->new(HEAD => $url);
+	$req->header('Accept' => 'text/xml');
+
+	$response = $agent->request($req);
+
+
 	$s->log_error("Response Code: ".$response->code);	
 	#$s->log_error("Response: ".$response->as_string);
 	if ($response->code == 401) {
