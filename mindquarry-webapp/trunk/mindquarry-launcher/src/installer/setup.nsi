@@ -68,7 +68,7 @@ Var StartMenuGroup
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE ../assembly/txt/LICENSE.txt
 Page custom SettingsPage ValidateSettings
-#!insertmacro MUI_PAGE_COMPONENTS
+!insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
 
@@ -103,7 +103,9 @@ InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails show
 
 # Installer sections
-Section -Main INSTALL_MAIN
+Section "Server (Required)" INSTALL_MAIN
+    SectionIn RO
+    
     SetOutPath $INSTDIR
     SetOverwrite on
     File /r C:\mindquarry-windows-bin\*
@@ -113,13 +115,15 @@ SectionEnd
 Section -post INSTALL_POST
     WriteRegStr HKLM "${REGKEY}" Path $INSTDIR
     WriteUninstaller $INSTDIR\uninstall.exe
+    
     !insertmacro MUI_STARTMENU_WRITE_BEGIN Application
-    SetOutPath $SMPROGRAMS\$StartMenuGroup
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
-    SetOutPath $INSTDIR
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(START_LINK).lnk" $INSTDIR\start.bat
-    CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(STOP_LINK).lnk" $INSTDIR\stop.bat
+        SetOutPath $SMPROGRAMS\$StartMenuGroup
+        CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(^UninstallLink).lnk" $INSTDIR\uninstall.exe
+        SetOutPath $INSTDIR
+        CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(START_LINK).lnk" $INSTDIR\start.bat
+        CreateShortcut "$SMPROGRAMS\$StartMenuGroup\$(STOP_LINK).lnk" $INSTDIR\stop.bat
     !insertmacro MUI_STARTMENU_WRITE_END
+    
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayName "$(^Name)"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" DisplayVersion "${VERSION}"
     WriteRegStr HKLM "SOFTWARE\Microsoft\Windows\CurrentVersion\Uninstall\$(^Name)" Publisher "${COMPANY}"
