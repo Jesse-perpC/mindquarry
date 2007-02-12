@@ -103,7 +103,7 @@ InstallDirRegKey HKLM "${REGKEY}" Path
 ShowUninstDetails show
 
 # Installer sections
-Section "Server (Required)" INSTALL_MAIN
+Section "Collaboration Server (Required)" INSTALL_MAIN
     SectionIn RO
     
     SetOutPath $INSTDIR
@@ -141,11 +141,16 @@ SectionEnd
     StrCmp $R0 1 0 next${UNSECTION_ID}
     !insertmacro SelectSection "${UNSECTION_ID}"
     GoTo done${UNSECTION_ID}
+    
 next${UNSECTION_ID}:
     !insertmacro UnselectSection "${UNSECTION_ID}"
+    
 done${UNSECTION_ID}:
     Pop $R0
 !macroend
+
+# include additional installer components
+!include component.nsh
 
 # Uninstaller sections
 Section /o un.Main UNINSTALL_MAIN

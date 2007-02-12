@@ -23,3 +23,9 @@ LangString STOP_LINK ${LANG_ENGLISH} "Stop Mindquarry Collaboration Server"
 
 LangString START_LINK ${LANG_GERMAN} "Mindquarry Collaboration Server starten"
 LangString STOP_LINK ${LANG_GERMAN} "Mindquarry Collaboration Server beenden"
+
+LangString DOCS_LINK ${LANG_ENGLISH} "User Documentation"
+LangString DOCS_LINK ${LANG_GERMAN} "Benutzer Dokumentation"
+
+LangString DOCS_FOLDER ${LANG_ENGLISH} "Documentation"
+LangString DOCS_FOLDER ${LANG_GERMAN} "Dokumentation"
