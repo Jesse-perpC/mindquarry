@@ -77,7 +77,7 @@ wrapper.syslog.loglevel=NONE
 # Wrapper Windows Properties
 #********************************************************************
 # Title to use when running as a console
-wrapper.console.title=${app.name}
+wrapper.console.title=Mindquarry Collaboration Server
 
 #********************************************************************
 # Wrapper Windows NT/2000/XP Service Properties
@@ -88,13 +88,13 @@ wrapper.console.title=${app.name}
 #  service can then be reinstalled.
 
 # Name of the service
-wrapper.ntservice.name=${app.name}
+wrapper.ntservice.name=Mindquarry Collaboration Server
 
 # Display name of the service
-wrapper.ntservice.displayname=${app.name}
+wrapper.ntservice.displayname=Mindquarry Collaboration Server
 
 # Description of the service
-wrapper.ntservice.description=${app.description}
+wrapper.ntservice.description=The Mindquarry Collaboration Server enables teams to collaborate using document management, wikis, task management and conversation management.
 
 # Service dependencies.  Add dependencies as needed starting from 1
 #wrapper.ntservice.dependency.1=
