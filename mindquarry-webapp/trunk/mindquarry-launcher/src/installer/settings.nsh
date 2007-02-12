@@ -38,5 +38,6 @@ Function ValidateSettings
 FunctionEnd
 
 Function ApplySettings
+    
     MessageBox MB_ICONINFORMATION|MB_OK "$INSTDIR"
 FunctionEnd
