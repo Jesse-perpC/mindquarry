@@ -44,7 +44,6 @@
 		</dependency>
 	</dependencies>
 	<build>
-		<finalName>mindquarry-${pom.version}</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
@@ -118,7 +117,7 @@
 				<plugins>
 					<plugin>
 						<artifactId>maven-assembly-plugin</artifactId>
-						<version>2.2-SNAPSHOT</version>
+						<version>2.2</version>
 						<configuration>
 							<descriptors>
 								<descriptor>src/assembly/distributions/generic.xml</descriptor>
@@ -149,6 +148,13 @@
 			<id>alexs</id>
 			<name>Alexander Saar</name>
 			<email>alexander.saar@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>lars</id>
+			<name>Lars Trieloff</name>
+			<email>lars.trieloff@mindquarry.com</email>
 			<organization>Mindquarry GmbH</organization>
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>

@@ -1,26 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <assembly>
     <id>windows_x86_32</id>
+    <includeBaseDirectory>false</includeBaseDirectory>
 
     <formats>
         <format>zip</format>
     </formats>
-    
+
     <files>
         <file>
-          <source>src/assembly/bin/wrapper.exe</source>
-          <outputDirectory>/bin</outputDirectory>
+            <source>src/assembly/bin/wrapper.exe</source>
+            <outputDirectory>/bin</outputDirectory>
             <destName>mindquarry.exe</destName>
         </file>
         <file>
-          <source>src/assembly/lib/wrapper.dll</source>
-          <outputDirectory>/lib</outputDirectory>
+            <source>src/assembly/lib/wrapper.dll</source>
+            <outputDirectory>/lib</outputDirectory>
         </file>
         <file>
-          <source>src/assembly/conf/wrapper.conf.in</source>
-          <outputDirectory>/etc</outputDirectory>
-          <filtered>true</filtered>
-          <destName>wrapper.conf</destName>
+            <source>src/assembly/conf/wrapper.conf.in</source>
+            <outputDirectory>/etc</outputDirectory>
+            <filtered>true</filtered>
+            <destName>wrapper.conf</destName>
         </file>
         <file>
             <source>src/assembly/scripts/start-service.bat</source>
