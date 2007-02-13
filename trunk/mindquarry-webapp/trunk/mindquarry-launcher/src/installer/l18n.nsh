@@ -2,7 +2,7 @@
 LangString ^UninstallLink ${LANG_ENGLISH} "Uninstall $(^Name)"
 LangString ^UninstallLink ${LANG_GERMAN} "$(^Name) deinstallieren"
 
-# custom page strings
+# settings page strings
 LangString SETTINGS_TITLE ${LANG_ENGLISH} "Settings"
 LangString SETTINGS_SUBTITLE ${LANG_ENGLISH} "Please enter your settings."
 
@@ -16,6 +16,19 @@ LangString APACHE_LOCATION_ERROR ${LANG_ENGLISH} "Location of your Apache instal
 LangString DOMAIN_ERROR ${LANG_GERMAN} "Bitte geben sie die Domain ihres Servers ein."
 LangString TITLE_ERROR ${LANG_GERMAN} "Bitte geben sie den Titel ihres Servers ein."
 LangString APACHE_LOCATION_ERROR ${LANG_GERMAN} "Das angegebene Apache Installationsverzeichnis existiert nicht."
+
+# JRE check page
+LangString DESC_SecAppFiles ${LANG_ENGLISH} "Application files copy"
+LangString JRE_TITLE ${LANG_ENGLISH} "Java Runtime Environment"
+LangString JRE_SUBTITLE ${LANG_ENGLISH} "Installation"
+LangString PRODVER_TITLE ${LANG_ENGLISH} "Installed version of ${AppName}"
+LangString PRODVER_SUBTITLE ${LANG_ENGLISH} "Installation cancelled"
+
+LangString DESC_SecAppFiles ${LANG_GERMAN} "Kopiere Anwendungsdateien"
+LangString JRE_TITLE ${LANG_GERMAN} "Java Runtime Environment"
+LangString JRE_SUBTITLE ${LANG_GERMAN} "Installation"
+LangString PRODVER_TITLE ${LANG_GERMAN} "Installierte Version von ${AppName}"
+LangString PRODVER_SUBTITLE ${LANG_GERMAN} "Installation abgebrochen"
 
 # start menu strings
 LangString START_LINK ${LANG_ENGLISH} "Start Mindquarry Collaboration Server"

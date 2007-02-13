@@ -52,12 +52,14 @@ Name "Mindquarry Collaboration Server"
 !include LogicLib.nsh
 !include utilities.nsh
 !include settings.nsh
+#!include jrecheck.nsh
 
 # Reserved Files
 !insertmacro MUI_RESERVEFILE_LANGDLL
 ReserveFile "${NSISDIR}\Plugins\AdvSplash.dll"
 
 ReserveFile "settings.ini"
+#ReserveFile "jrecheck.ini"
 !insertmacro MUI_RESERVEFILE_INSTALLOPTIONS
 
 # Variables
@@ -66,6 +68,7 @@ Var StartMenuGroup
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE ../assembly/txt/LICENSE.txt
+#Page custom CheckInstalledJRE
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
@@ -186,6 +189,7 @@ Function .onInit
     
     #Extract InstallOptions INI files
     !insertmacro MUI_INSTALLOPTIONS_EXTRACT "settings.ini"
+    #!insertmacro MUI_INSTALLOPTIONS_EXTRACT "jrecheck.ini"
 FunctionEnd
 
 # Uninstaller functions
