@@ -251,11 +251,14 @@
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>docbook-maven-plugin</artifactId>
         <!-- we need a mindquarry-specific fork until our patches are applied -->
-        <version>1.0.0-alpha-3-Mindquarry</version>
+        <version>1.0.0-alpha-4-Mindquarry</version>
         <configuration>
           <!-- we can configure the plugin to use our own customization layer -->
           <customizations>
+						<!--
             <pdf>resource://com/mindquarry/docbook/mindquarry-fo.xsl</pdf>
+						-->
+						<pdf>file:///Users/lars/Documents/Teamspaces/mindquarry-base/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets/src/main/resources/com/mindquarry/docbook/mindquarry-fo.xsl</pdf>
           </customizations>
           <!-- and can restrict the number of output formats (xhtml also possible) -->
           <outputFormats>
@@ -268,7 +271,7 @@
           <dependency>
             <groupId>com.mindquarry.docbook</groupId>
             <artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
-            <version>0.5</version>
+            <version>0.5.1</version>
           </dependency>
         </dependencies>
       </plugin>
