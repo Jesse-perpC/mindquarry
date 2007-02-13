@@ -1,5 +1,5 @@
 # additional installer components
-Section "Apache + Subversion" INSTALL_XAMPP
+Section "Apache (mod_perl + mod_svn)" INSTALL_XAMPP
     SectionIn 1
     
     SetOutPath "$INSTDIR\xampp\"
