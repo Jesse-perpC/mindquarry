@@ -335,15 +335,11 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
   </section>
 
   <appendix>
-    <title>Troubleshooting</title>
+    <title>Troubleshooting &amp; FAQ</title>
 
-    <para>Support for Mindquarry is available from the <phrase
-    xlink:href="http://www.mindquarry.com/support/">Mindquarry
-    Support</phrase> site.</para>
-  </appendix>
-
-  <appendix>
-    <title>Frequently Asked Questions</title>
+    <para>Support for Mindquarry is also available from the <phrase
+    xlink:href="http://www.mindquarry.com/support/"
+    xlink:type="simple">Mindquarry Support</phrase> site.</para>
 
     <qandaset>
       <qandadiv>
@@ -355,12 +351,48 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
 
           <answer>
             <para>Yes it is. Just add another parameter to
-            /opt/mindquarry/etc/wrapper.conf, e.g.</para>
+            <filename>/opt/mindquarry/etc/wrapper.conf</filename>, e.g.</para>
 
             <programlisting>wrapper.java.additional.4=-Djetty.port=8889</programlisting>
 
             <para>You need to change the Apache 2 configuration file
             accordingly.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>I get file not found errors when restarting Mindquarry under
+            Linux. There are messages about too many open files.</para>
+          </question>
+
+          <answer>
+            <para>This is most likely due to security limits set by your Linux
+            distribution. The problem can be solved by modifiying the
+            <filename>/etc/security/limit.conf</filename> file by adding
+            following lines:</para>
+
+            <programlisting><replaceable>mindquarry</replaceable>        soft    nofile          65536
+<replaceable>mindquarry</replaceable>        hard    nofile          65536</programlisting>
+
+            <para>This example assumes, Mindquarry is run as user
+            <literal>mindquarry</literal>.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>After some time of inactivity, Mindquarry complains about
+            some files in the <code>/tmp</code> directory cannot be
+            found.</para>
+          </question>
+
+          <answer>
+            <para>Some operating systems as RedHat Enterprise use tools like
+            <code>tmpwatch</code> for deleting files that are not use for a
+            certain period of time. If this is the case then, deactivate this
+            recurring task by deleting it from
+            <filename>/etc/cron.daily/tmpwatch</filename>. </para>
           </answer>
         </qandaentry>
       </qandadiv>
