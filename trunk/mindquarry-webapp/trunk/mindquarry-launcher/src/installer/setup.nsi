@@ -62,20 +62,18 @@ ReserveFile "settings.ini"
 
 # Variables
 Var StartMenuGroup
-;Var INI_VALUE
 
 # Installer pages
 !insertmacro MUI_PAGE_WELCOME
 !insertmacro MUI_PAGE_LICENSE ../assembly/txt/LICENSE.txt
-Page custom SettingsPage ValidateSettings
 !insertmacro MUI_PAGE_COMPONENTS
 !insertmacro MUI_PAGE_DIRECTORY
 !insertmacro MUI_PAGE_STARTMENU Application $StartMenuGroup
-
-!define MUI_PAGE_CUSTOMFUNCTION_LEAVE ApplySettings
 !insertmacro MUI_PAGE_INSTFILES
+Page custom SettingsPage ValidateSettings
 !insertmacro MUI_PAGE_FINISH
 
+# Uninstaller pages
 !insertmacro MUI_UNPAGE_WELCOME
 !insertmacro MUI_UNPAGE_CONFIRM
 !insertmacro MUI_UNPAGE_INSTFILES

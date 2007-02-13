@@ -35,6 +35,8 @@ Function ValidateSettings
         MessageBox MB_ICONEXCLAMATION|MB_OK "$(APACHE_LOCATION_ERROR)"
         Abort
     ${EndIf}
+    
+    Call ApplySettings
 FunctionEnd
 
 # write settings to config file for Mindquarry web application 
