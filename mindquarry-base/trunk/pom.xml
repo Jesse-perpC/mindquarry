@@ -255,10 +255,7 @@
         <configuration>
           <!-- we can configure the plugin to use our own customization layer -->
           <customizations>
-						<!--
             <pdf>resource://com/mindquarry/docbook/mindquarry-fo.xsl</pdf>
-						-->
-						<pdf>file:///Users/lars/Documents/Teamspaces/mindquarry-base/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets/src/main/resources/com/mindquarry/docbook/mindquarry-fo.xsl</pdf>
           </customizations>
           <!-- and can restrict the number of output formats (xhtml also possible) -->
           <outputFormats>
