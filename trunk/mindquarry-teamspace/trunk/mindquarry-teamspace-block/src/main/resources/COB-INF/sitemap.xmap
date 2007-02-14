@@ -333,20 +333,12 @@
 				<serialize type="xml" />
 			</match>
 			
-			<match pattern="edit-user.instance">
-				<generate type="jx" src="forms/edit-user-template.xml">
-					<parameter name="locale"
-						value="{flow-attribute:locale}" />
-				</generate>
-				<transform type="browser-update" />
-				<call resource="form2html" />
-				<call resource="layouting" />
-			</match>
-			
 			<match pattern="*.instance">
 				<generate type="jx" src="forms/{1}-template.xml">
 					<parameter name="locale"
 						value="{flow-attribute:locale}" />
+					<parameter name="serverContextURL"
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
 				</generate>
 				<transform type="browser-update" />
 				<call resource="form2html" />
@@ -417,7 +409,7 @@
 					<parameter name="function"
 						value="processEditMembersForm" />
 					<parameter name="redirectURL"
-						value="{block-path:}" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
 					<parameter name="definitionURI"
 						value="forms/edit-members-form.xml" />
 					<parameter name="teamId" value="{1}" />
@@ -431,7 +423,7 @@
 					<parameter name="function"
 						value="processEditMembersForm" />
 					<parameter name="redirectURL"
-						value="{block-path:}/team/{1}/" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 					<parameter name="definitionURI"
 						value="forms/edit-members-form.xml" />
 					<parameter name="teamId" value="{1}" />
@@ -448,7 +440,8 @@
 						value="forms/edit-members-form.xml" />
 					<parameter name="username"
 						value="{request-attr:username}" />
-					<parameter name="redirectURL" value="{block-path:}" />
+					<parameter name="redirectURL" 
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
 				</call>
 			</match>
 			
@@ -462,7 +455,7 @@
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="redirectURL" 
-						value="{block-path:}/team/{1}/" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 				</call>
 			</match>
 			
@@ -486,7 +479,8 @@
 						value="forms/teamspace-form.xml" />
 					<parameter name="username"
 						value="{request-attr:username}" />
-					<parameter name="blockPath" value="{block-path:}" />
+					<parameter name="redirectURL" 
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
 				</call>
 			</match>
 
@@ -500,7 +494,8 @@
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="teamspaceId" value="{1}" />
-					<parameter name="redirectURL" value="{block-path:}" />					
+					<parameter name="redirectURL" 
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />				
 				</call>
 			</match>
 			
@@ -515,7 +510,8 @@
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="teamspaceId" value="{1}" />
-					<parameter name="redirectURL" value="{block-path:}/team/{1}/" />					
+					<parameter name="redirectURL" 
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 				</call>
 			</match>
 

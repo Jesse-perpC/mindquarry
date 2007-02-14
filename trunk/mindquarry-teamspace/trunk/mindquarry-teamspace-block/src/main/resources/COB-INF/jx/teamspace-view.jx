@@ -12,7 +12,10 @@
 	License for the specific language governing rights and limitations
 	under the License.
 --> 
-<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" 
+	jx:cache-key="${teamspace.toString()}"
+	jx:cache-validity="${Packages.org.apache.excalibur.source.impl.validity.NOPValidity()}">
+	
 	<teamspace>
 		<id>
 			<jx:out value="${teamspace.id}" />

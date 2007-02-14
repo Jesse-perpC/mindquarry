@@ -30,8 +30,8 @@
 				 can be requested from nearly every site within the entire application,
 				 and not only from the teams tool -->
 			<ft:form-template
-				action="/teams/#{$cocoon/continuation/id}.continue"
-				ajax-action="/teams/#{$cocoon/continuation/id}.continue" ajax="true"
+				action="#{$cocoon/parameters/serverContextURL}#{$cocoon/continuation/id}.continue"
+				ajax-action="#{$cocoon/parameters/serverContextURL}#{$cocoon/continuation/id}.continue" ajax="true"
 				method="POST" enctype="multipart/form-data"
 				id="edit-user-form">
 
