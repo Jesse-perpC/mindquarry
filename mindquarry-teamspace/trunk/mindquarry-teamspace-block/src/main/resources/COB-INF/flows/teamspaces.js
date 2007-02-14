@@ -20,7 +20,7 @@ var model_;
 
 function processCreateTeamspaceForm(form) {
 	model_ = form.getModel();
-	var blockPath = cocoon.parameters["blockPath"];
+	var redirectURL = cocoon.parameters["redirectURL"];
 	
 	var userId = cocoon.parameters["username"];
 	var user = userById(userId);
@@ -36,7 +36,7 @@ function processCreateTeamspaceForm(form) {
       
       cocoon.releaseComponent(teamspaceAdmin);
     }	
-	cocoon.redirectTo(blockPath + "/");
+	cocoon.redirectTo(redirectURL);
 }
 
 function existsTeamspaceWithId(teamspaceIdWidget) {
@@ -84,5 +84,5 @@ function processEditTeamspaceForm(form) {
     	cocoon.releaseComponent(teamspaceAdmin);
     }
 	
-	cocoon.redirectTo(redirectURL + "/");
+	cocoon.redirectTo(redirectURL);
 }
