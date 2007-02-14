@@ -13,8 +13,6 @@
  */ 
  
 importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
-importPackage(Packages.com.mindquarry.user);
-cocoon.load("flows/users.js");
 
 function listTeamsForUser() {
     var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
