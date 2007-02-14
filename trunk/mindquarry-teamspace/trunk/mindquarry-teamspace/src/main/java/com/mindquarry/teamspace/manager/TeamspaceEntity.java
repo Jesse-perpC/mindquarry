@@ -21,6 +21,7 @@ import java.util.Map;
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.user.UserRO;
+import com.mindquarry.user.manager.UserEntity;
 
 
 /**
@@ -116,5 +117,19 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
      */
     public void setProperty(String key, String value) {
         properties.put(key, value);
+    }
+    
+    public boolean equals(Object other) {
+        if (this == other)
+            return true;
+        if (!(other instanceof TeamspaceEntity))
+            return false;
+        
+        TeamspaceEntity otherTeam = (TeamspaceEntity) other;
+        return this.id.equals(otherTeam.id);
+    }
+    
+    public String toString() {
+        return this.id;
     }
 }
