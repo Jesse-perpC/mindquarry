@@ -45,7 +45,7 @@ class MembersLoading implements ListLoading<UserRO> {
      * @see com.mindquarry.teamspace.manager.ListLoading#load()
      */
     public List<UserRO> load() {
-        return teamspaceManager_.queryMembersForTeamspace(teamspace_);
+        return teamspaceManager_.membersForTeamspace(teamspace_);
     }
 
 }

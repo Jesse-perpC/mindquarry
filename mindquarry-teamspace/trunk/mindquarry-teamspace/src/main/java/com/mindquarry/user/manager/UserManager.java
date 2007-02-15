@@ -13,9 +13,18 @@
  */
 package com.mindquarry.user.manager;
 
+import static com.mindquarry.user.manager.DefaultUsers.ADMIN_USER;
+import static com.mindquarry.user.manager.DefaultUsers.ANONYMOUS_USER;
+import static com.mindquarry.user.manager.DefaultUsers.INDEX_USER;
+import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
+import static com.mindquarry.user.manager.DefaultUsers.login;
+import static com.mindquarry.user.manager.DefaultUsers.password;
+import static com.mindquarry.user.manager.DefaultUsers.username;
+
 import java.util.LinkedList;
 import java.util.List;
 
+import com.mindquarry.cache.JcrCache;
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
@@ -26,8 +35,6 @@ import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
 
-import static com.mindquarry.user.manager.DefaultUsers.*;
-
 /**
  * Add summary documentation here.
  * 
@@ -36,15 +43,26 @@ import static com.mindquarry.user.manager.DefaultUsers.*;
 public final class UserManager implements UserAdmin, Authentication {
     
     private SessionFactory sessionFactory_;
+    
+    private JcrCache jcrCache_;
 
     /**
-     * Setter for sessionFactory.
-     * 
-     * @param sessionFactory the sessionFactory to set
+     * Setter for sessionFactory bean, set by spring at object creation
      */
     public void setSessionFactory(SessionFactory sessionFactory) {
         sessionFactory_ = sessionFactory;
-    }
+    } 
+
+    /**
+     * Setter for jcrCache bean, set by spring at object creation
+     */
+    public void setJcrCache(JcrCache jcrCache) {
+        jcrCache_ = jcrCache;
+    }   
+
+    public JcrCache getJcrCache() {
+        return jcrCache_;
+    }  
 
     public void initialize() {
         for (String[] userProfile : defaultUsers) {
@@ -54,7 +72,7 @@ public final class UserManager implements UserAdmin, Authentication {
     }
 
     private boolean existsUser(String[] userProfile) {
-        return null != queryUserById(login(userProfile));
+        return null != internalUserById(login(userProfile));
     }
 
     private void createUser(String[] userProfile) {
@@ -130,15 +148,19 @@ public final class UserManager implements UserAdmin, Authentication {
     public void updateUser(User user) {
         UserEntity userEntity = (UserEntity) user;
         updateEntity(userEntity);
+        
+        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
     }
 
     public void deleteUser(User user) {
         UserEntity userEntity = (UserEntity) user;
         deleteEntity(userEntity);
+        
+        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
     }
 
     public User userById(String userId) {
-        return queryUserById(userId);
+        return internalUserById(userId);
     }
 
     public List<UserRO> allUsers() {
@@ -161,19 +183,52 @@ public final class UserManager implements UserAdmin, Authentication {
      *      java.lang.String)
      */
     public boolean authenticate(String userId, String password) {
-        UserEntity user = queryUserById(userId);
+        UserEntity user = internalUserById(userId);
         return (user != null) && user.authenticate(password);
     }
+    
+    private String userByIdCacheKey(String userId) {
+        return "Mindquarry.UserManager.USER_ID-" + userId;
+    }
 
-    /**
-     * @returns an user object if it can be found otherwise null
-     */
+    private UserEntity internalUserById(String id) {        
+        String cacheKey = userByIdCacheKey(id);
+        UserEntity result = (UserEntity) jcrCache_.resultFromCache(cacheKey);
+        
+        if (result == null) {
+            result = (UserEntity) queryUserById(id);
+            if (result != null)
+                jcrCache_.putResultInCache(cacheKey, result);
+        }
+        
+        return result;
+    }
+    
     private UserEntity queryUserById(String id) {
         return (UserEntity) queryEntityById("getUserById", id);
     }
 
-    public List<UserRO> queryMembersForTeamspace(String teamspaceId) {
-        return queryUsersForTeamspace("getMembersForTeamspace", teamspaceId);
+    
+    
+    public List<UserRO> membersForTeamspace(String teamspaceId) {
+        return internalMembersForTeamspace(teamspaceId);
+    }
+    
+    private String membersCacheKey(String teamspaceId) {
+        return "Mindquarry.UserManager.MEMBERs-" + teamspaceId;
+    }
+
+    private List<UserRO> internalMembersForTeamspace(String teamspaceId) {
+        String cacheKey = membersCacheKey(teamspaceId);
+        List<UserRO> result = (List<UserRO>) jcrCache_.resultFromCache(cacheKey);
+        
+        if (result == null) {
+            result = (List<UserRO>) queryUsersForTeamspace("getMembersForTeamspace", teamspaceId);
+            if (result != null)
+                jcrCache_.putResultInCache(cacheKey, result);
+        }
+        
+        return result;
     }
 
     private List<UserRO> queryUsersForTeamspace(String queryKey,
@@ -196,8 +251,12 @@ public final class UserManager implements UserAdmin, Authentication {
     public UserRO removeUserFromTeamspace(UserRO user, String teamspaceId) {
         UserEntity userEntity = (UserEntity) user;
         userEntity.teamspaceReferences.remove(teamspaceId);
-
+        
         updateEntity(userEntity);
+        
+        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
+        jcrCache_.removeFromCache(membersCacheKey(teamspaceId));
+        
         return userEntity;
     }
 
@@ -206,6 +265,10 @@ public final class UserManager implements UserAdmin, Authentication {
         userEntity.teamspaceReferences.add(teamspaceId);
 
         updateEntity(userEntity);
+
+        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
+        jcrCache_.removeFromCache(membersCacheKey(teamspaceId));
+        
         return userEntity;
     }
 

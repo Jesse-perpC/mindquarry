@@ -27,6 +27,7 @@ import java.util.regex.Pattern;
 import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.ProfileRO;
 import com.mindquarry.auth.RightRO;
+import com.mindquarry.cache.JcrCache;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
@@ -93,6 +94,8 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private UserManager userManager_;
 
     private AuthorizationAdmin authAdmin_;
+    
+    private JcrCache jcrCache_;
 
     /**
      * Setter for listenerRegistry bean, set by spring at object creation
@@ -116,12 +119,17 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     /**
-     * Setter for authAdmin.
-     * 
-     * @param authAdmin the authAdmin to set
+     * Setter for authAdmin bean, set by spring at object creation
      */
     public void setAuthAdmin(AuthorizationAdmin authAdmin) {
         authAdmin_ = authAdmin;
+    }    
+
+    /**
+     * Setter for jcrCache bean, set by spring at object creation
+     */
+    public void setJcrCache(JcrCache jcrCache) {
+        jcrCache_ = jcrCache;
     }
 
     public void initialize() {
@@ -130,23 +138,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         for (TeamspaceRO teamspace : queryAllTeamspaces()) {
             GroupRO teamGroup = userManager_.groupById(teamspace.getId());
             if (teamGroup == null) {
-                teamGroup = userManager_.createGroup(teamspace.getId());
-                List<UserRO> teamMembers = userManager_
-                        .queryMembersForTeamspace(teamspace.getId());
-
-                for (UserRO teamMember : teamMembers)
-                    userManager_.addUser(teamMember, teamGroup);
-
-                String teamspaceUri = "/teamspaces/" + teamspace.getId();
-                RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
-                RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
-
-                String profileName = teamspace.getId() + "-user";
-                ProfileRO profile = authAdmin_.createProfile(profileName);
-                authAdmin_.addRight(rRight, profile);
-                authAdmin_.addRight(wRight, profile);
-
-                authAdmin_.addAllowance(profile, teamGroup);
+                createGroupForTeam(teamspace);
             }
         }
     }
@@ -176,16 +168,46 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         if (! userManager_.isAdminUser(teamspaceCreator))
             userManager_.addUserToTeamspace(teamspaceCreator, teamspace.getId());
 
+        // create the teams default group
+        createGroupForTeam(teamspace);
+        jcrCache_.removeFromCache(allTeamsCacheKey());
+        
         Session session = currentSession();
         session.persist(teamspace);
         session.commit();
         return teamspace;
+    }
+    
+    private void createGroupForTeam(TeamspaceRO teamspace) {
+        GroupRO teamGroup = userManager_.createGroup(teamspace.getId());
+        List<UserRO> teamMembers = membersForTeamspace(teamspace);
+
+        for (UserRO teamMember : teamMembers)
+            userManager_.addUser(teamMember, teamGroup);
+
+        String teamspaceUri = "/teamspaces/" + teamspace.getId();
+        RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
+        RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
+
+        String profileName = teamspace.getId() + "-user";
+        ProfileRO profile = authAdmin_.createProfile(profileName);
+        authAdmin_.addRight(rRight, profile);
+        authAdmin_.addRight(wRight, profile);
+
+        authAdmin_.addAllowance(profile, teamGroup);
+    }
+    
+    private String teamByIdCacheKey(String teamId) {
+        return "Mindquarry.TeamspaceManager.TEAM_ID-" + teamId;
     }
 
     public void updateTeamspace(Teamspace teamspace) {
         Session session = currentSession();
         session.update(teamspace);
         session.commit();
+        
+        jcrCache_.removeFromCache(teamByIdCacheKey(teamspace.getId()));
+        jcrCache_.removeFromCache(allTeamsCacheKey());
     }
 
     public void deleteTeamspace(Teamspace teamspace)
@@ -193,9 +215,12 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
         Session session = currentSession();
         session.delete(teamspace);
-        session.commit();        
+        session.commit();
+               
+        jcrCache_.removeFromCache(teamByIdCacheKey(teamspace.getId()));
+        jcrCache_.removeFromCache(allTeamsCacheKey());
 
-        List<UserRO> users = queryMembersForTeamspace(teamspace);
+        List<UserRO> users = membersForTeamspace(teamspace);
         for (UserRO user : users)
             userManager_.removeUserFromTeamspace(user, teamspace.getId());
 
@@ -211,15 +236,30 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         assert userManager_.isValidUserId(userId) : "the userId: " + userId
                 + " is not valid";
 
-        Session session = currentSession();
         List<TeamspaceRO> result;
-
+        
         if (ADMIN_USER_ID.equals(userId))
-            result = queryAllTeamspaces();
+            result = allTeamspaces();
         else
             result = queryTeamspacesForUser(userId);
+        
+        return result;
+    }
+    
+    private String allTeamsCacheKey() {
+        return "Mindquarry.TeamspaceManager.ALL_TEAMS";
+    }
 
-        session.commit();
+    private List<TeamspaceRO> allTeamspaces() {
+        String cacheKey = allTeamsCacheKey();
+        List<TeamspaceRO> result = (List<TeamspaceRO>) jcrCache_.resultFromCache(cacheKey);
+        
+        if (result == null) {
+            result = queryAllTeamspaces();
+            if (result != null)
+                jcrCache_.putResultInCache(cacheKey, result);
+        }
+        
         return result;
     }
 
@@ -241,30 +281,49 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     private List<TeamspaceRO> queryTeamspacesForUser(String userId) {
-        Session session = currentSession();
-
+        
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
 
         UserRO user = userManager_.userById(userId);
         if (user != null) {
             for (String teamRef : user.teamspaces()) {
-                TeamspaceEntity teamspace = queryTeamspaceById(session, teamRef);
+                TeamspaceEntity teamspace = queryTeamspaceById(teamRef);
                 result.add(teamspace);
             }
         }
-
-        session.commit();
+        
         return result;
     }
 
-    List<UserRO> queryMembersForTeamspace(TeamspaceRO teamspace) {
-        return userManager_.queryMembersForTeamspace(teamspace.getId());
+    List<UserRO> membersForTeamspace(TeamspaceRO teamspace) {
+        return userManager_.membersForTeamspace(teamspace.getId());
+    }
+
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceById(java.lang.String)
+     */
+    public Teamspace teamspaceById(String teamspaceId) {        
+        return internalTeamspaceById(teamspaceId);
+    }
+
+    private Teamspace internalTeamspaceById(String teamspaceId) {        
+        String cacheKey = teamByIdCacheKey(teamspaceId);
+        Teamspace result = (Teamspace) jcrCache_.resultFromCache(cacheKey);
+        
+        if (result == null) {
+            result = queryTeamspaceById(teamspaceId);
+            if (result != null)
+                jcrCache_.putResultInCache(cacheKey, result);
+        }
+        
+        return result;
     }
 
     /**
      * @returns a teamspace object if it can be found otherwise null
      */
-    private TeamspaceEntity queryTeamspaceById(Session session, String id) {
+    private TeamspaceEntity queryTeamspaceById(String id) {
+        Session session = currentSession();
         TeamspaceEntity result = null;
         List queryResult = session.query("getTeamspaceById",
                 new Object[] { id });
@@ -305,14 +364,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         return sessionFactory_.currentSession();
     }
 
-    /**
-     * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceById(java.lang.String)
-     */
-    public Teamspace teamspaceById(String teamspaceId) {
-        Session session = currentSession();
-        return queryTeamspaceById(session, teamspaceId);
-    }
-
     public Membership membership(TeamspaceRO teamspace) {
         List<UserRO> users = userManager_.allUsers();
         Set<UserRO> members = new HashSet<UserRO>();
@@ -347,12 +398,16 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         String teamspaceId = membership.teamspace.getId();
 
         // check old members for removal from teamspace
-        for (UserRO user : membership.getRemovedMembers())
+        for (UserRO user : membership.getRemovedMembers()) {
             userManager_.removeUserFromTeamspace(user, teamspaceId);
+            jcrCache_.removeFromCache(allTeamsCacheKey());
+        }
 
         // check new members for adding to teamspace
-        for (UserRO user : membership.getAddedMembers())
+        for (UserRO user : membership.getAddedMembers()) {
             userManager_.addUserToTeamspace(user, teamspaceId);
+            jcrCache_.removeFromCache(allTeamsCacheKey());
+        }
 
         // return a new calculated membership
         return membership(membership.teamspace);
