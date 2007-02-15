@@ -29,7 +29,7 @@ public class UrlResolvedEvent extends EventBase {
     private boolean directResolved;
 
     public UrlResolvedEvent(Object source, String url, boolean directResolved) {
-        super(source, "URL resolved: " + url);
+        super(source, "URL resolved: " + url); //$NON-NLS-1$
         this.url = url;
         this.directResolved = directResolved;
     }
