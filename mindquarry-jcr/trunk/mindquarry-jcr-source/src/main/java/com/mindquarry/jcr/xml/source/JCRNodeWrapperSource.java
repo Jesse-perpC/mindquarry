@@ -36,6 +36,7 @@ import org.apache.excalibur.source.ModifiableTraversableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceNotFoundException;
+import org.apache.excalibur.source.SourceValidity;
 import org.apache.excalibur.xml.sax.XMLizable;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
@@ -371,6 +372,19 @@ public class JCRNodeWrapperSource extends AbstractJCRNodeSource implements
             throw new SAXException("Repository path not found.", e);
         } catch (RepositoryException e) {
             throw new SAXException("Repository not accessable.", e);
+        }
+    }
+
+    /* (non-Javadoc)
+     * @see com.mindquarry.jcr.xml.source.AbstractJCRNodeSource#getValidity()
+     */
+    @Override
+    public SourceValidity getValidity() {
+        long lastModified = this.getLastModified();
+        if (lastModified == 0) {
+            return null;
+        } else {
+            return new JCRNodeLastModifiedSourceValidity(this.getLastModified());
         }
     }
 }

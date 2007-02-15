@@ -183,7 +183,7 @@ public abstract class AbstractJCRNodeSource implements Source {
     }
 
     /**
-     * {@inheritDoc}
+     * Returns null, aka non-cacheable. Overwrite this in subclasses.
      * 
      * @see org.apache.excalibur.source.Source#getValidity()
      */
