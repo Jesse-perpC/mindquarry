@@ -21,11 +21,11 @@
       <artifactId>cocoon-extractor-impl</artifactId>
       <version>1.0.0-M2</version>
     </dependency>
-    <dependency>
+    <!--<dependency>
       <groupId>org.apache.cocoon</groupId>
       <artifactId>cocoon-blocks-fw-impl</artifactId>
       <version>1.0.0-M2_Mindquarry_1</version>
-    </dependency>
+    </dependency>-->
   </dependencies>
   
   <build>
