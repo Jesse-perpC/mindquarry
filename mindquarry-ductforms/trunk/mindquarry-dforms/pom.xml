@@ -22,11 +22,11 @@
 			<artifactId>cocoon-core</artifactId>
 			<version>2.2.0-M3_Mindquarry_1</version>
 		</dependency>
-		<dependency>
+		<!--<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-blocks-fw-impl</artifactId>
-			<version>1.0.0-M2_Mindquarry_1</version>
-		</dependency>
+			<version>1.0.0-M2_Mindquarry_2</version>
+		</dependency>-->
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-forms-impl</artifactId>
