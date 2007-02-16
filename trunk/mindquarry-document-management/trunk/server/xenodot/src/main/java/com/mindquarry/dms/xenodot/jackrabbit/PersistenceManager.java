@@ -20,6 +20,8 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Properties;
 
@@ -27,8 +29,12 @@ import javax.jcr.PropertyType;
 
 import org.apache.jackrabbit.core.NodeId;
 import org.apache.jackrabbit.core.PropertyId;
+import org.apache.jackrabbit.core.nodetype.NodeDefId;
+import org.apache.jackrabbit.core.nodetype.PropDefId;
 import org.apache.jackrabbit.core.persistence.AbstractPersistenceManager;
 import org.apache.jackrabbit.core.persistence.PMContext;
+import org.apache.jackrabbit.core.state.ChangeLog;
+import org.apache.jackrabbit.core.state.ItemState;
 import org.apache.jackrabbit.core.state.ItemStateException;
 import org.apache.jackrabbit.core.state.NoSuchItemStateException;
 import org.apache.jackrabbit.core.state.NodeReferences;
@@ -44,6 +50,47 @@ import org.apache.jackrabbit.name.QName;
  */
 public class PersistenceManager extends AbstractPersistenceManager {
     private Connection database = null;
+    
+    public synchronized void store(ChangeLog changeLog) throws ItemStateException {
+        ItemState state;
+        
+        for(Iterator iter = changeLog.deletedStates(); iter.hasNext();) {
+            state = (ItemState) iter.next();
+            if (!state.isNode()) {
+                destroy((PropertyState) state);
+            }
+        }
+        for(Iterator iter = changeLog.modifiedStates(); iter.hasNext();) {
+            state = (ItemState) iter.next();
+            if (state.isNode()) {
+                store((NodeState) state);
+            }
+        }
+        for(Iterator iter = changeLog.addedStates(); iter.hasNext();) {
+            state = (ItemState) iter.next();
+            if (state.isNode()) {
+                store((NodeState) state);
+            }
+        } 
+        for(Iterator iter = changeLog.deletedStates(); iter.hasNext();) {
+            state = (ItemState) iter.next();
+            if (state.isNode()) {
+                destroy((NodeState) state);
+            }
+        }        
+        for(Iterator iter = changeLog.modifiedStates(); iter.hasNext();) {
+            state = (ItemState) iter.next();
+            if (!state.isNode()) {
+                store((PropertyState) state);
+            }
+        }
+        for(Iterator iter = changeLog.addedStates(); iter.hasNext();) {
+            state = (ItemState) iter.next();
+            if (!state.isNode()) {
+                store((PropertyState) state);
+            }
+        }
+    }
 
     private abstract class CallDB {
         protected boolean execute(String sql) throws ItemStateException {
@@ -67,35 +114,65 @@ public class PersistenceManager extends AbstractPersistenceManager {
                 throws SQLException;
     }
 
-    private interface QueryDB {
+    private abstract class QueryDB {
+        boolean execValue;
+        
+        protected boolean execute(String sql) throws ItemStateException {
+            PreparedStatement statement = null;
+            ResultSet rs = null;
+            try {
+                statement = database.prepareCall(sql);
+                initStatement(statement);
+                execValue = statement.execute();
+                rs = statement.getResultSet();
+                read(rs);
+            } catch (SQLException sqle) {
+                throw new ItemStateException(sqle.getLocalizedMessage(), sqle);
+            } finally {
+                try {
+                    if (rs != null) {
+                        rs.close();
+                    }
+                    statement.close();
+                } catch (Exception ignore) {
+                    ignore.printStackTrace();
+                }
+            }
+            return execValue;
+        }
+
+        public abstract void initStatement(PreparedStatement statement)
+                throws SQLException;
+        
+        public abstract void read(ResultSet result) throws SQLException;
 
     }
 
-    @Override
-    protected void destroy(NodeState state) throws ItemStateException {
-        System.err.println("destroy:" + state.getId());
-
-        // TODO Auto-generated method stub
-
+    protected void destroy(final NodeState state) throws ItemStateException {
+        new CallDB() {
+            public void initStatement(CallableStatement statement) throws SQLException {
+                statement.setString(1, state.getId().toString());
+            }
+        
+        }.execute("select jcr.delete_node(jcr.uuid(?));");
     }
 
-    @Override
-    protected void destroy(PropertyState state) throws ItemStateException {
-        System.err.println("destroy:" + state.getId());
-        // TODO Auto-generated method stub
-
+    protected void destroy(final PropertyState state) throws ItemStateException {
+        new CallDB() {
+            public void initStatement(CallableStatement statement) throws SQLException {
+                statement.setString(1, state.getParentId().toString());
+                statement.setString(2, state.getName().getNamespaceURI());
+                statement.setString(3, state.getName().getLocalName());
+            }
+        
+        }.execute("select jcr.delete_property(jcr.uuid(?), jcr.name(?, ?);");
     }
 
-    @Override
     protected void destroy(NodeReferences refs) throws ItemStateException {
-        System.err.println("destroy:" + refs.getId());
-        // TODO Auto-generated method stub
-
+        // do nothing!
     }
 
     protected void store(final NodeState state) throws ItemStateException {
-        System.err.println("store!" + state.getId());
-
         new CallDB() {
             public void initStatement(CallableStatement statement)
                     throws SQLException {
@@ -103,21 +180,16 @@ public class PersistenceManager extends AbstractPersistenceManager {
                 statement.setString(2, state.getParentId() != null ? state
                         .getParentId().toString() : state.getNodeId()
                         .toString());
-                statement.setString(3, state.getNodeTypeName()
-                        .getNamespaceURI());
-                statement.setString(4, state.getNodeTypeName().getLocalName());
-                statement.setInt(5, Integer.parseInt(state.getDefinitionId()
+                statement.setInt(3, Integer.parseInt(state.getDefinitionId()
                         .toString()));
-
-                StringBuffer mixinTypes = new StringBuffer();
-                for (Object name : state.getMixinTypeNames()) {
-                    mixinTypes.append(name.toString());
-                    mixinTypes.append(' ');
-                }
-                statement.setString(6, mixinTypes.toString());
+                statement.setString(4, state.getNodeTypeName()
+                        .getNamespaceURI());
+                statement.setString(5, state.getNodeTypeName().getLocalName());
+                statement.setArray(6, new SQLStringArray(state
+                        .getMixinTypeNames()));
             }
         }
-                .execute("select jcr.ensure_node(jcr.uuid(?), jcr.uuid(?), jcr.name(?, ?), ?, ?);");
+                .execute("select jcr.ensure_node(jcr.uuid(?), jcr.uuid(?), jcr.ensure_node_def(?, jcr.name(?, ?)), ?);");
 
         Iterator iter = state.getRemovedChildNodeEntries().iterator();
         while (iter.hasNext()) {
@@ -143,8 +215,7 @@ public class PersistenceManager extends AbstractPersistenceManager {
                     statement.setString(3, entry.getName().getNamespaceURI());
                     statement.setString(4, entry.getName().getLocalName());
                 }
-            }.execute("insert into jcr.node_head(id, parent_id, name_id)"
-                    + "values(jcr.uu_id(?), jcr.uu_id(?), jcr.name_id(?, ?));");
+            }.execute("select jcr.ensure_node_child(jcr.uuid(?), jcr.uuid(?), jcr.name(?, ?));");
         }
 
         iter = new Iterator() {
@@ -172,11 +243,11 @@ public class PersistenceManager extends AbstractPersistenceManager {
             new CallDB() {
                 public void initStatement(CallableStatement statement)
                         throws SQLException {
-                    statement.setInt(1, entry.getIndex());
-                    statement.setString(2, entry.getId().toString());
+                    statement.setString(1, entry.getId().toString());
+                    statement.setInt(2, entry.getIndex());
                 }
             }
-                    .execute("update jcr.node_head set position = ? where id = jcr.uu_id(?)");
+                    .execute("select jcr.reorder_node(jcr.uuid(?), ?);");
         }
 
         iter = state.getRemovedPropertyNames().iterator();
@@ -208,13 +279,12 @@ public class PersistenceManager extends AbstractPersistenceManager {
             }
         }
                 .execute("select jcr.ensure_property(jcr.uuid(?), jcr.name(?, ?), ?, ?);");
+
         InternalValue[] values = state.getValues();
         if (values != null) {
-            System.err.println(values.length);
             for (int ii = 0; ii < values.length; ii++) {
                 final InternalValue val = values[ii];
                 final int pos = ii;
-                System.err.println("Prop " + ii + ": " + val.toString());
                 if (val != null) {
                     new CallDB() {
                         public void initStatement(CallableStatement statement)
@@ -239,8 +309,9 @@ public class PersistenceManager extends AbstractPersistenceManager {
                                         .internalValue()).booleanValue());
                                 break;
                             case PropertyType.DATE:
-                                statement
-                                        .setDate(5, (Date) val.internalValue());
+                                Calendar cal = (Calendar) val.internalValue();
+                                Date date = new Date(cal.getTimeInMillis());
+                                statement.setDate(5, date, cal);
                                 break;
                             case PropertyType.DOUBLE:
                                 statement.setDouble(5, ((Double) val
@@ -276,54 +347,60 @@ public class PersistenceManager extends AbstractPersistenceManager {
         }
     }
 
-    @Override
     protected void store(NodeReferences refs) throws ItemStateException {
-        System.err.println("store:" + refs.toString());
-        // TODO Auto-generated method stub
-
+        // do nothing!
     }
 
     public void close() throws Exception {
-        // TODO Auto-generated method stub
-
+        database.close();
     }
 
-    public boolean exists(NodeId id) throws ItemStateException {
-        System.err.println("exists?" + id.toString());
-        PreparedStatement statement = null;
-        ResultSet rs = null;
-        try {
-            statement = database.prepareStatement("select jcr.node_exists(?)");
-            statement.setString(1, id.toString());
-            rs = statement.executeQuery();
-            if (rs.next()) {
-                boolean result = rs.getBoolean(1);
-                System.err.println("Result is " + result);
-                return result;
+    public boolean exists(final NodeId id) throws ItemStateException {
+        return new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                if (result.next()) {
+                    execValue = result.getBoolean(1);
+                }
             }
-            throw new ItemStateException("This can never happen :-)");
-        } catch (SQLException sqle) {
-            throw new ItemStateException("Error accessing DB", sqle);
-        } finally {
-            try {
-                rs.close();
-                statement.close();
-            } catch (Exception ignore) {
-                ignore.printStackTrace();
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id.toString());
             }
-        }
+            
+        }.execute("select jcr.node_exists(jcr.uuid(?));");
     }
 
-    public boolean exists(PropertyId id) throws ItemStateException {
-        System.err.println("exists:" + id.toString());
-        // TODO Auto-generated method stub
-        return false;
+    public boolean exists(final PropertyId id) throws ItemStateException {
+        return new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                if (result.next()) {
+                    execValue = result.getBoolean(1);
+                }
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id.getParentId().toString());
+                statement.setString(2, id.getName().getNamespaceURI());
+                statement.setString(3, id.getName().getLocalName());
+            }
+            
+        }.execute("select jcr.property_exists(jcr.uuid(?), jcr.name(?, ?));");
     }
 
-    public boolean exists(NodeReferencesId targetId) throws ItemStateException {
-        System.err.println("exists" + targetId.toString());
-        // TODO Auto-generated method stub
-        return false;
+    public boolean exists(final NodeReferencesId targetId) throws ItemStateException {
+        return new QueryDB() {
+        
+            public void read(ResultSet result) throws SQLException {
+                if (result.next()) {
+                    execValue = result.getBoolean(1);
+                }
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, targetId.getTargetId().toString());
+            }
+        
+        }.execute("select jcr.reference_exists(jcr.uuid(?));");
     }
 
     public void init(PMContext context) throws Exception {
@@ -333,26 +410,141 @@ public class PersistenceManager extends AbstractPersistenceManager {
         Properties props = new Properties();
         props.setProperty("user", "xenodot");
         database = DriverManager.getConnection(url, props);
+        //database.setAutoCommit(false);
     }
 
-    public NodeState load(NodeId id) throws NoSuchItemStateException,
+    public NodeState load(final NodeId id) throws NoSuchItemStateException,
             ItemStateException {
-        System.err.println("load" + id.toString());
-        // TODO Auto-generated method stub
-        return null;
+        final NodeState state = createNew(id);
+        new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                if (!result.next()) {
+                    throw new SQLException("Node not found!");
+                }
+                state.setNodeTypeName(QName.valueOf(result.getString("type")));
+                String parentUUID = result.getString("parent_uuid");
+                if (parentUUID != null) {
+                    state.setParentId(NodeId.valueOf(parentUUID));
+                }
+                state.setDefinitionId(NodeDefId.valueOf(result.getString("definition_id")));
+                state.setModCount(result.getShort("mod_count"));
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id.toString());
+            }
+        }.execute("select * from jcr.node(jcr.uuid(?))");
+        
+        new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                while (result.next()) {
+                    state.addPropertyName(QName.valueOf(result.getString("name")));
+                }
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id.toString());
+            }
+        }.execute("select name from jcr.property(jcr.uuid(?))");
+
+        new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                while (result.next()) {
+                    QName qname = QName.valueOf(result.getString("name"));
+                    NodeId nodeId = NodeId.valueOf(result.getString("uuid"));
+                    state.addChildNodeEntry(qname, nodeId);
+                }
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id.toString());
+            }
+        }.execute("select name, uuid from jcr.node where parent_uuid = ? order by position;");
+        
+        return state;
     }
 
     public PropertyState load(PropertyId id) throws NoSuchItemStateException,
             ItemStateException {
-        System.err.println("load" + id.toString());
-        // TODO Auto-generated method stub
-        return null;
+        final PropertyState state = createNew(id);
+        
+        new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                if (!result.next()) {
+                    throw new SQLException("Property does not exist!");
+                }
+                state.setMultiValued(result.getBoolean("is_multi_valued"));
+                state.setDefinitionId(PropDefId.valueOf(result.getString("definition_id")));
+                state.setModCount(result.getShort("mod_count"));
+                state.setType(result.getInt("value_type"));
+            
+                //TODO: the type should be factored out to a property_definition table
+
+                ArrayList<InternalValue> values = new ArrayList<InternalValue>();
+                do {
+                    switch(result.getInt("value_type")) {
+                    case PropertyType.STRING:
+                        values.add(InternalValue.create(result.getString("string")));
+                        break;
+                    case PropertyType.LONG:
+                        values.add(InternalValue.create(result.getLong("long")));
+                        break;
+                    case PropertyType.DOUBLE:
+                        values.add(InternalValue.create(result.getDouble("double")));
+                        break;
+                    case PropertyType.DATE:
+                        Calendar cal = Calendar.getInstance();
+                        cal.setTime(result.getDate("date"));
+                        values.add(InternalValue.create(cal));
+                        break;
+                    case PropertyType.BOOLEAN:
+                        values.add(InternalValue.create(result.getBoolean("boolean")));
+                        break;
+                    case PropertyType.NAME:
+                        values.add(InternalValue.create(new QName(result.getString("value_name_uri"),
+                                result.getString("value_name_local"))));
+                        break;
+                    // TODO
+                    case PropertyType.BINARY:
+                    case PropertyType.PATH:
+                    case PropertyType.REFERENCE:
+                    default:
+                       throw new SQLException("This should never happen!");
+                    }
+                    
+                } while(result.next());
+                state.setValues((InternalValue[])
+                        values.toArray(new InternalValue[values.size()]));
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, state.getParentId().toString());
+                statement.setString(2, state.getName().getNamespaceURI());
+                statement.setString(3, state.getName().getLocalName());
+            }
+        
+        }.execute("select * from jcr.property(jcr.uuid(?), jcr.name(?, ?)) order by index;");
+        return state;
     }
 
-    public NodeReferences load(NodeReferencesId id)
+    public NodeReferences load(final NodeReferencesId id)
             throws NoSuchItemStateException, ItemStateException {
-        System.err.println("load" + id.toString());
-        // TODO Auto-generated method stub
-        return null;
+
+        final NodeReferences refs = new NodeReferences(id);
+        refs.clearAllReferences();
+        
+        new QueryDB() {
+            public void read(ResultSet result) throws SQLException {
+                while (result.next()) {
+                    refs.addReference(PropertyId.valueOf(result.getString(1)));
+                }
+            }
+        
+            public void initStatement(PreparedStatement statement) throws SQLException {
+                statement.setString(1, id.getTargetId().toString());
+            }
+        
+        }.execute("select parent_uuid || '/' || name from jcr.property where reference = ?");
+        return refs;
     }
 }
