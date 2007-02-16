@@ -81,8 +81,8 @@
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
 							value="{request:pathInfo}" />
-						<parameter name="user.agent"
-							value="{request-header:User-Agent}" />
+						<parameter name="serverBasePath" 
+							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
 							value="{request-attr:username}" />
 						<parameter name="serverTitle"
@@ -132,9 +132,10 @@
 			<select type="lightbox-request">
 				<when test="true">
 					<transform src="block:/xslt/html2lightbox.xsl">
-						<parameter name="fullPath" value="{block-path:}{request:pathInfo}" />
-						<parameter name="sitemapPath" value="{request:pathInfo}" />
-						<parameter name="user.agent" value="{request-header:User-Agent}" />
+						<parameter name="serverBasePath" 
+							value="{system-property:mindquarry.server.url}{request:contextPath}" />
+						<parameter name="username"
+							value="{request-attr:username}" />
 					</transform>
 					<serialize type="xml" />
 				</when>
@@ -145,8 +146,8 @@
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
 							value="{request:pathInfo}" />
-						<parameter name="user.agent"
-							value="{request-header:User-Agent}" />
+						<parameter name="serverBasePath" 
+							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
 							value="{request-attr:username}" />
 						<parameter name="serverTitle"
