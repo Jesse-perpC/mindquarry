@@ -23,13 +23,12 @@
 	</parent>
 
 	<name>Mindquarry DocBook XSL</name>
-	<url>http://www.mindquarry.com</url>
 	<description>DocBook XSL customization layer that matches the Mindquarry
   corporate identity.</description>
 
 	<groupId>com.mindquarry.docbook</groupId>
 	<artifactId>mindquarry-docbook-xsl</artifactId>
-	<version>0.5</version>
+	<version>0.6-SNAPSHOT</version>
   
   <modules>
     <module>mindquarry-docbook-xsl-stylesheets</module>
