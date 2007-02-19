@@ -12,7 +12,6 @@
 	</parent>
 
 	<name>Mindquarry Event Management</name>
-	<url>http://www.mindquarry.com</url>
 	<description>Mindquarry Event Management Block for Cocoon</description>
 
 	<groupId>com.mindquarry.events</groupId>
