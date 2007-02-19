@@ -1,0 +1,23 @@
+<project name="Mindquarry Collaboration Server">
+	<body>
+    <links>
+      <item name="Mindquarry" href="http://www.mindquarry.com/" />
+      <item name="Mindquarry Development" href="https://www.mindquarry.org/"/>
+      <item name="Mindquarry Blog" href="http://weblogs.goshaky.com/weblogs/mindquarry/"/>
+			<iten name="Planet Mindquarry" href="http://planet.mindquarry.com" />
+    </links>
+
+    <menu name="User Documentation">
+      <item name="Installation Guide" href="docbook/installation.pdf"/>
+			<item name="Features" href="docbook/features.pdf"/>
+    </menu>
+		
+    <menu name="Developer Documentation">
+      <item name="Development Process" href="docbook/dev-process.pdf"/>
+      <item name="Architecture Guide" href="docbook/architecture.pdf"/>
+      <item name="Documentation Styleguide" href="docbook/documentation-styleguide.pdf"/>
+    </menu>
+		
+		${reports}
+  </body>
+</project>
