@@ -13,6 +13,10 @@
  */
 package com.mindquarry.jcr.xml.source;
 
+import java.util.Date;
+import java.util.List;
+import java.util.Vector;
+
 import javax.jcr.Item;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
@@ -29,7 +33,11 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
+import com.ibm.icu.util.Calendar;
 import com.mindquarry.common.index.IndexClient;
+import com.mindquarry.common.source.Change;
+import com.mindquarry.common.source.ChangeableSource;
+import com.mindquarry.common.source.RevisedPath;
 
 /**
  * Base class for all JCR Node Sources as well as the wrapper source.
@@ -40,7 +48,7 @@ import com.mindquarry.common.index.IndexClient;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public abstract class AbstractJCRNodeSource implements Source, VersionableSource {
+public abstract class AbstractJCRNodeSource implements Source, VersionableSource, ChangeableSource {
     /**
      * The factory that created this Source.
      */
@@ -334,4 +342,52 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 	}
 
 	public void setSourceRevisionBranch(String branch) throws SourceException {}
+
+	public List<Change> changesFrom(long startRevision, long nMaxChanges) throws SourceException {
+		List<Change> changes = new Vector<Change>();
+		if (isVersioned()) {
+			try {
+				VersionHistory history = this.baseNode.getVersionHistory();
+				VersionIterator hit = history.getAllVersions();
+				int revision = 0;
+				while(hit.hasNext()) {
+					Version version = hit.nextVersion();
+					if ((revision>=startRevision)) {
+						changes.add(makeChange(version));
+					}
+					if ((nMaxChanges>0)&&(changes.size()>=nMaxChanges)) {
+						break;
+					}
+					revision++;
+				}
+			} catch (RepositoryException re) {
+				throw new SourceException("Unable to access repository", re);
+			}
+		}
+		return new Vector<Change>();
+	}
+
+	private Change makeChange(Version version) {
+		try {
+			return new Change(version.getCreated().getTime(), "unknown author", "no message", version.getName(), new RevisedPath[] {new RevisedPath(path, 'M')});
+		} catch (RepositoryException e) {
+			return new Change(new Date(), "unknown author", "no message", "-1", new RevisedPath[] {new RevisedPath(path, 'M')});
+		}
+	}
+
+	public boolean isHeadRevision() {
+		try {
+			return !this.node.isNodeType("nt:frozenNode");
+		} catch (RepositoryException e) {
+			return true;
+		}
+	}
+
+	public String revision() {
+		try {
+			return this.getSourceRevision();
+		} catch (SourceException e) {
+			return null;
+		}
+	}
 }
