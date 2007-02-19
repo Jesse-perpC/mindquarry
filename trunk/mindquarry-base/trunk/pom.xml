@@ -114,6 +114,10 @@
       <name>Mindquarry Snapshots Repository</name>
       <url>scp://www.mindquarry.org/var/lib/maven/snapshots</url>
     </snapshotRepository>
+    <site>
+      <id>website</id>
+      <url>scp://www.mindquarry.org/var/lib/maven/site/</url>
+   </site>
   </distributionManagement>
 	
   <profiles>
@@ -276,7 +280,7 @@
   </build>
 	
   <ciManagement>
-    <system>continuum</system>
+    <system>hudson</system>
     <notifiers>
       <notifier>
         <type>mail</type>

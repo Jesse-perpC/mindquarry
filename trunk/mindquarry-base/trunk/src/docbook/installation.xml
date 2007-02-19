@@ -331,14 +331,52 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
       to revise the <varname>PerlRequire</varname> directive. If you changed
       the <varname>mindquarry.repos.path configuration</varname>, you have to
       revise the <varname>SVNParentPath</varname> directive.</para>
+
+      <para>Restart the Apache Web Server to let these settings take
+      effect.</para>
     </example>
+  </section>
+
+  <section>
+    <title>Starting Mindquarry</title>
+
+    <para>Start Mindquarry using the Mindquarry start script. Windows users
+    that used the Mindquarry Installer can start and stop Mindquarry through
+    the services menu.</para>
+
+    <example>
+      <title>Starting Mindquarry under Linux</title>
+
+      <programlisting># /opt/mindquarry/bin/mindquarry start</programlisting>
+
+      <para>Mindquarry can be stopped using the same script with the
+      <parameter>stop</parameter> parameter. If you would like to follow the
+      console output, start Mindquarry with the <parameter>console</parameter>
+      parameter.</para>
+    </example>
+
+    <example>
+      <title>Starting Mindquarry under Windows</title>
+
+      <programlisting>C:&gt; C:\Program Files\Mindquarry\bin\mindquarry start</programlisting>
+
+      <para>Mindquarry can be stopped using the same script with the
+      <parameter>stop</parameter> parameter. If you would like to follow the
+      console output, start Mindquarry with the <parameter>console</parameter>
+      parameter.</para>
+    </example>
+
+    <para>Mindquarry can then be accessed using your web browser at
+    <uri>http://localhost/</uri>. Log in as user <literal>admin</literal> with
+    password <literal>admin</literal> to create new users and teams.</para>
   </section>
 
   <appendix>
     <title>Troubleshooting &amp; FAQ</title>
 
     <para>Support for Mindquarry is also available from the <phrase
-    xlink:href="http://www.mindquarry.com/support/">Mindquarry Support</phrase> site.</para>
+    xlink:href="http://www.mindquarry.com/support/">Mindquarry
+    Support</phrase> site.</para>
 
     <qandaset>
       <qandadiv>
@@ -391,7 +429,21 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
             <code>tmpwatch</code> for deleting files that are not use for a
             certain period of time. If this is the case then, deactivate this
             recurring task by deleting it from
-            <filename>/etc/cron.daily/tmpwatch</filename>. </para>
+            <filename>/etc/cron.daily/tmpwatch</filename>.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>I cannot access the Mindquarry Document Repository using the
+            Mindquarry Desktop Client. Looking at the Apache Error logs, I get
+            <quote>permission denied</quote> errors.</para>
+          </question>
+
+          <answer>
+            <para>Under some Linux configurations with SELinux, especially
+            with RHEL, you have to extend the security context of the Apache
+            Web Server by issuing following command.</para>
           </answer>
         </qandaentry>
       </qandadiv>
