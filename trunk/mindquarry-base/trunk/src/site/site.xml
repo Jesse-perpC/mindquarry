@@ -8,15 +8,15 @@
     </links>
 
     <menu name="User Documentation">
-			<item name="User Guide" href="/mindquarry/mindquarry-webapp/mindquarry-help-block/docbook/index.pdf" />
-      <item name="Installation Guide" href="/mindquarry/docbook/installation.pdf"/>
-			<item name="Features" href="/mindquarry/docbook/features.pdf"/>
+			<item name="User Guide" href="http://www.mindquarry.org/mindquarry/mindquarry-webapp/mindquarry-help-block/docbook/index.pdf" />
+      <item name="Installation Guide" href="http://www.mindquarry.org/mindquarry/docbook/installation.pdf"/>
+			<item name="Mindquarry Features" href="http://www.mindquarry.org/mindquarry/docbook/features.pdf"/>
     </menu>
 		
     <menu name="Developer Documentation">
-      <item name="Development Process" href="/mindquarry/docbook/dev-process.pdf"/>
-      <item name="Architecture Guide" href="/mindquarry/docbook/architecture.pdf"/>
-      <item name="Documentation Styleguide" href="/mindquarry/docbook/documentation-styleguide.pdf"/>
+      <item name="Development Process" href="http://www.mindquarry.org/mindquarry/docbook/dev-process.pdf"/>
+      <item name="Architecture Guide" href="http://www.mindquarry.org/mindquarry/docbook/architecture.pdf"/>
+      <item name="Documentation Styleguide" href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.pdf"/>
     </menu>
 		${reports}
   </body>
