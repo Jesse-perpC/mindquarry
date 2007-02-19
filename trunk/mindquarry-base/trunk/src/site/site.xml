@@ -1,6 +1,5 @@
 <project name="Mindquarry Collaboration Server">
 	<body>
-	
     <links>
       <item name="Mindquarry" href="http://www.mindquarry.com/" />
       <item name="Mindquarry Development" href="https://www.mindquarry.org/"/>

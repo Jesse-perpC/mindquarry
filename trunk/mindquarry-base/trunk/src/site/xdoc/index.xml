@@ -33,7 +33,7 @@
 				<li>Mindquarry Ductile Forms</li>
 				<li>Mindquarry Desktop Client</li>
 				<li>Mindquarry Icons</li>
-				<li>Mindquarry Java Content Repository</li>
+				<li><a href="mindquarry-jcr">Mindquarry Java Content Repository</a></li>
 				<li>Mindquarry Maven Plugins</li>
 				<li>Mindquarry Maven Repository Browser</li>
 				<li>Mindquarry Persistence Framework</li>
