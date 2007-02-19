@@ -23,5 +23,15 @@
 					</p>
 				 </subsection>
 		</section>
+		<section name="Mindquarry's Components">
+			<p>
+				For Mindquarry developers this site and all component sites include links
+				to the continuous integration system, API documentation, test results and
+				access to the source code.
+			</p>
+			<ul>
+				<li></li>
+			</ul>
+		</section>
 	</body>
 </document>
