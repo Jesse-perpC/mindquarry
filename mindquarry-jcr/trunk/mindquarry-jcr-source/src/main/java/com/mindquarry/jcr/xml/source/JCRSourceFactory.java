@@ -189,7 +189,10 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
 
         // check for query syntax (eg. 'jcr:///users#//name' interpreted
         // as 'jcr:///jcr:root/users//name')
-        if (uri.indexOf("?") != -1) { //$NON-NLS-1$
+        
+        String path = SourceUtil
+			                    .getPath(uri);
+		if (uri.indexOf("?") != -1) { //$NON-NLS-1$
             try {
                 // publish URL resolved event
                 broker.publishEvent(new UrlResolvedEvent(this, uri, false),
@@ -198,8 +201,12 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
                 // we can't publish the event, something went totally wrong,
                 // because we registered the event during initialization
             }
-            return (QueryResultSource) executeQuery(session, SourceUtil
-                    .getPath(uri), SourceUtil.getQuery(uri));
+            String query = SourceUtil.getQuery(uri);
+            if (query.startsWith("revision=")) {
+            	return (JCRNodeWrapperSource) createSource(session, path, query);
+            } else {
+				return (QueryResultSource) executeQuery(session, path, query);
+            }
         } else {
             try {
                 // publish URL resolved event
@@ -210,8 +217,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
                 // because we registered the event during initialization
             }
             // standard direct hierarchy-resolving
-            return (JCRNodeWrapperSource) createSource(session, SourceUtil
-                    .getPath(uri));
+            return (JCRNodeWrapperSource) createSource(session, path);
         }
     }
 
@@ -225,7 +231,6 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
     // =========================================================================
     // Custom public interface
     // =========================================================================
-
     /**
      * Creates a new source given a session and a path
      * 
@@ -236,7 +241,22 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      */
     public AbstractJCRNodeSource createSource(Session session, String path)
             throws SourceException {
-        return new JCRNodeWrapperSource(this, session, path, iClient);
+        return createSource(session, path, null);
+    }
+    
+    
+    /**
+     * Creates a new source given a session and a path and a revision
+     * 
+     * @param session the session
+     * @param path the absolute path
+     * @return a new source
+     * @throws SourceException
+     */
+    public AbstractJCRNodeSource createSource(Session session, String path, String revision)
+            throws SourceException {
+    	String myrevision = (revision==null) ? null : revision.substring("revision=".length());
+        return new JCRNodeWrapperSource(this, session, path, iClient, myrevision);
     }
 
     /**

@@ -19,7 +19,12 @@ import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.UnsupportedRepositoryOperationException;
+import javax.jcr.version.Version;
+import javax.jcr.version.VersionHistory;
+import javax.jcr.version.VersionIterator;
 
+import org.apache.cocoon.components.source.VersionableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
@@ -35,7 +40,7 @@ import com.mindquarry.common.index.IndexClient;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public abstract class AbstractJCRNodeSource implements Source {
+public abstract class AbstractJCRNodeSource implements Source, VersionableSource {
     /**
      * The factory that created this Source.
      */
@@ -50,6 +55,8 @@ public abstract class AbstractJCRNodeSource implements Source {
      * The node pointed to by this source (can be null).
      */
     protected Node node;
+    
+    protected Node baseNode;
 
     /**
      * The node path (cannot be changed later).
@@ -65,6 +72,10 @@ public abstract class AbstractJCRNodeSource implements Source {
      * Indexing client to be used for update notifications.
      */
     protected IndexClient iClient;
+    
+    protected final boolean isVersioned;
+    
+    protected String baseRevision;
 
     /**
      * Basic constructor for initializing what every JCRNodeSource must have.
@@ -77,11 +88,42 @@ public abstract class AbstractJCRNodeSource implements Source {
      */
     public AbstractJCRNodeSource(JCRSourceFactory factory, Session session,
             String path, IndexClient iClient) throws SourceException {
+    	this(factory, session, path, iClient, true, null);
+    }
+    
+    /**
+     * Basic constructor for initializing what every JCRNodeSource must have.
+     * Checks if the given path represents a node. If not a SourceException is
+     * thrown.
+     * 
+     * @param factory The factory that manages us.
+     * @param session The current JCR session in use.
+     * @throws SourceException
+     */
+    public AbstractJCRNodeSource(JCRSourceFactory factory, Session session,
+            String path, IndexClient iClient, String revision) throws SourceException {
+    	this(factory, session, path, iClient, true, revision);
+    }
+    
+    /**
+     * Basic constructor for initializing what every JCRNodeSource must have.
+     * Checks if the given path represents a node. If not a SourceException is
+     * thrown.
+     * 
+     * @param factory The factory that manages us.
+     * @param session The current JCR session in use.
+     * @param makeVersionable Make the node versionable if it is not already
+     * @throws SourceException
+     */
+    public AbstractJCRNodeSource(JCRSourceFactory factory, Session session,
+            String path, IndexClient iClient, boolean makeVersionable, String revison) throws SourceException {
         this.factory = factory;
         this.session = session;
         this.path = path;
         this.iClient = iClient;
 
+        this.baseRevision = null;
+        
         try {
             Item item = session.getItem(path);
             if (!item.isNode()) {
@@ -94,6 +136,8 @@ public abstract class AbstractJCRNodeSource implements Source {
                 if (tmp.isNodeType("nt:hierarchyNode")
                         || tmp.getPath().equals("/")) {
                     node = (Node) item;
+                    this.baseNode = node;
+                    getRevisionNode(revison);
                 } else {
                     throw new SourceException("Path '" + path
                             + "' should be a nt:file or nt:folder");
@@ -106,7 +150,23 @@ public abstract class AbstractJCRNodeSource implements Source {
             throw new SourceException("Cannot lookup repository path: " + path,
                     e);
         }
+        this.isVersioned = makeVersionable;
     }
+
+	private void getRevisionNode(String revison) throws SourceException, UnsupportedRepositoryOperationException, RepositoryException {
+		if (isVersioned()&&(revison!=null)) {
+			VersionHistory history = this.baseNode.getVersionHistory();
+			VersionIterator hit = history.getAllVersions();
+			while(hit.hasNext()) {
+				Version version = hit.nextVersion();
+				if (version.getName().equals(revison)) {
+					node = version.getNodes().nextNode();
+					this.baseRevision = revison;
+					break;
+				}
+			}
+		}
+	}
 
     // =========================================================================
     // Source interface
@@ -207,4 +267,71 @@ public abstract class AbstractJCRNodeSource implements Source {
     public long getContentLength() {
         return -1;
     }
+    
+    
+    
+    /*
+     * Versionable Source
+     */
+    
+
+	public String getLatestSourceRevision() throws SourceException {
+		if (isVersioned()&&exists()) {
+			try {
+				return node.getBaseVersion().getName();
+			} catch (UnsupportedRepositoryOperationException e) {
+				throw new SourceException("Unable to access version history", e);
+			} catch (RepositoryException e) {
+				throw new SourceException("Unable to access underlying node", e);
+			}
+		}
+		return null;
+	}
+
+	public String getSourceRevision() throws SourceException {
+		try {
+			if ((this.baseRevision!=null)&&(this.node.isNodeType("nt:frozenNode"))) {
+				return this.baseRevision;
+			}
+		} catch (RepositoryException e) {
+			throw new SourceException("Unable to access underlying node", e);
+		}
+		if (isVersioned()&&exists()) {
+			try {
+				return node.getBaseVersion().getName();
+			} catch (UnsupportedRepositoryOperationException e) {
+				throw new SourceException("Unable to access version history", e);
+			} catch (RepositoryException e) {
+				throw new SourceException("Unable to access underlying node", e);
+			}
+		}
+		return null;
+	}
+
+	public String getSourceRevisionBranch() throws SourceException {
+		return "";
+	}
+
+	public boolean isVersioned() throws SourceException {
+		if (exists()) {
+			try {
+				return this.node.isNodeType("mix:versionable");
+			} catch (RepositoryException e) {
+				throw new SourceException("Unable to access underlying node", e);
+			}
+		}
+		return this.isVersioned;
+	}
+
+	public void setSourceRevision(String revision) throws SourceException {
+		try {
+			getRevisionNode(revision);
+		} catch (UnsupportedRepositoryOperationException e) {
+			throw new SourceException("Unable to get version from repository",e);
+		} catch (RepositoryException e) {
+			throw new SourceException("Unable to access underlying node",e);
+		}
+	}
+
+	public void setSourceRevisionBranch(String branch) throws SourceException {}
 }

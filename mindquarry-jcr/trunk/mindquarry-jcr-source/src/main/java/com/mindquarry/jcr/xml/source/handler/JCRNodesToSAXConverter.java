@@ -19,10 +19,12 @@ import javax.jcr.NamespaceException;
 import javax.jcr.NamespaceRegistry;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
+import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
 import javax.jcr.PropertyIterator;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.ValueFormatException;
 import javax.jcr.Workspace;
 
 import org.xml.sax.ContentHandler;
@@ -71,7 +73,7 @@ public class JCRNodesToSAXConverter {
         while (nit.hasNext()) {
             Node child = nit.nextNode();
 
-            if (child.isNodeType("xt:element")) {
+            if (isElement(child)) {
                 AttributesImpl atts = new AttributesImpl();
                 PropertyIterator pit = child.getProperties();
 
@@ -112,13 +114,25 @@ public class JCRNodesToSAXConverter {
                 convertChildsToSAX(child, handler, nr);
 
                 handler.endElement(namespaceURI, localName, qName);
-            } else if (child.isNodeType("xt:text")) {
+            } else if (isText(child)) {
                 String str = child.getProperty("xt:characters").getString();
                 char[] characters = str.toCharArray();
                 handler.characters(characters, 0, characters.length);
             }
         }
     }
+
+	private static boolean isText(Node child) throws RepositoryException {
+		return hasOrHadType(child, "xt:text");
+	}
+
+	public static boolean hasOrHadType(Node node, String type) throws RepositoryException, ValueFormatException, PathNotFoundException {
+		return node.isNodeType(type) || (node.isNodeType("nt:frozenNode") && node.getProperty("jcr:frozenPrimaryType").getString().equals(type));
+	}
+
+	private static boolean isElement(Node child) throws RepositoryException {
+		return hasOrHadType(child, "xt:element");
+	}
 
     private static String getNamespace(String prefix, NamespaceRegistry nr)
             throws NamespaceException, RepositoryException {

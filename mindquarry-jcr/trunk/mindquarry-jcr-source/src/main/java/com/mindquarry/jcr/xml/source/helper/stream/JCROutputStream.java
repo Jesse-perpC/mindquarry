@@ -83,6 +83,9 @@ public class JCROutputStream extends ByteArrayOutputStream {
             isClosed = true;
             try {
                 // node.lock(true, true);
+            	if (node.isNodeType("mix:versionable")) {
+            		node.checkout();
+            	}
                 try {
                     node.getNode("jcr:content"); //$NON-NLS-1$
                     if (isXML()) {
@@ -106,6 +109,9 @@ public class JCROutputStream extends ByteArrayOutputStream {
                 // don't forget to commit
                 // node.unlock();
                 session.save();
+                if (node.isNodeType("mix:versionable")) {
+            		node.checkin();
+            	}
             } catch (RepositoryException e) {
                 throw new IOException("Unable to write to repository "
                         + e.getLocalizedMessage());
