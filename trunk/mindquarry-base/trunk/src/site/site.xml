@@ -17,7 +17,6 @@
       <item name="Architecture Guide" href="docbook/architecture.pdf"/>
       <item name="Documentation Styleguide" href="docbook/documentation-styleguide.pdf"/>
     </menu>
-		
 		${reports}
   </body>
 </project>

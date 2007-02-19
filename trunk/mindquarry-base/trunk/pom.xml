@@ -282,7 +282,7 @@
 	
   <ciManagement>
     <system>hudson</system>
-    <url>http://internal.mindquarry.com/hudson/
+    <url>http://internal.mindquarry.com/hudson/</url>
     <notifiers>
       <notifier>
         <type>mail</type>
