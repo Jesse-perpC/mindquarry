@@ -10,7 +10,6 @@
 	</parent>
 
 	<name>Mindquarry Common</name>
-	<url>http://www.mindquarry.com</url>
 	<description>Mindquarry Common</description>
 
 	<groupId>com.mindquarry.common</groupId>
