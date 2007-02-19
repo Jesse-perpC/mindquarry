@@ -23,10 +23,9 @@
 	</parent>
 
 	<name>Mindquarry DocBook XSL Stylesheet Customization Layer</name>
-	<url>http://www.mindquarry.com</url>
 	<description>DocBook XSL customization layer that matches the Mindquarry
   corporate identity.</description>
-	<version>0.5.1</version>
+	<version>0.5.1-SNAPSHOT</version>
 
 	<artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
 

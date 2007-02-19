@@ -1,0 +1,27 @@
+
+<document>
+	<properties>
+		<author email="lars.trieloff@mindq	uarry.com">Lars Trieloff</author>
+		<title>Mindquarry Collaboration Server</title>
+	</properties>
+	<body>
+		<section name="Introduction">
+			<p> 
+         The Mindquarry Collaboration Server is an Open Source infrastructure
+				 for information workers of all kinds that allows them to share files,
+				 share ideas and manage tasks.
+         </p>
+				 <p>Mindquarry has an easy to use web-interface and a zero-install
+				 desktop client, but under the hood powerful open source software components
+				 and applications are used.</p>
+				 <subsection name="This Site">
+				 	<p>
+						This site provides an overview of resources valuable for developers
+						of Mindquarry (this could be you) and developers that wish to use
+						Mindquarry's components in their systems, which is possible thanks
+						to Mindquarry's open source license (Mozilla Public License)
+					</p>
+				 </subsection>
+		</section>
+	</body>
+</document>
