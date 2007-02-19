@@ -5,8 +5,8 @@
   <modelVersion>4.0.0</modelVersion>
   <packaging>pom</packaging>
 	
-  <name>Mindquarry Root Pom</name>
-  <url>http://www.mindquarry.org</url>
+  <name>Mindquarry Collaboration Server</name>
+  <url>http://www.mindquarry.org/mindquarry/</url>
   <description>
     This is the root POM for all Mindquarry projects.
   </description>
