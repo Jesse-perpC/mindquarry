@@ -13,7 +13,6 @@
 
 	<artifactId>mindquarry-jcr-source</artifactId>
 	<packaging>jar</packaging>
-
 	<name>Mindquarry JCR XML/Sourceresolver Wrapper</name>
 
 	<build>
@@ -67,6 +66,11 @@
 			<version>1.0-M1-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-repository-impl</artifactId>
+			<version>1.0.0_Mindquarry_1</version>
 		</dependency>
 	</dependencies>
 
