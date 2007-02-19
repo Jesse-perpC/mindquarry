@@ -18,6 +18,7 @@
   <modules>
     <module>mindquarry-common</module>
     <module>mindquarry-events</module>
+    <module>mindquarry-docbook-xsl</module>
   </modules>
 	
   <licenses>
