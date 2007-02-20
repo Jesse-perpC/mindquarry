@@ -44,13 +44,7 @@
   </xsl:template>
   
   <xsl:template match="id">
-    <img class="icon">
-      <xsl:attribute name="src">
-        <xsl:value-of select="$pathToBlock"/>
-        <xsl:value-of select="normalize-space(.)"/>
-        <xsl:text>.png</xsl:text>
-      </xsl:attribute>
-    </img>
+    <img class="icon" src="{$pathToBlock}{normalize-space(.)}.png"/>
   </xsl:template>
   
   <xsl:template match="name">

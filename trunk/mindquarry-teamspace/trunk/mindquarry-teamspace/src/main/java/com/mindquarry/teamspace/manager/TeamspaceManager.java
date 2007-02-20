@@ -13,10 +13,6 @@
  */
 package com.mindquarry.teamspace.manager;
 
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationHandler;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Proxy;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,7 +24,6 @@ import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.ProfileRO;
 import com.mindquarry.auth.RightRO;
 import com.mindquarry.cache.JcrCache;
-import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.common.resources.ResourceDoesNotExistException;
@@ -55,37 +50,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     static final String ADMIN_PWD = "admin";
 
     static final String ADMIN_NAME = "Administrator";
-
-    /**
-     * helds the constructor of a dynamic generated proxy for interface
-     * java.util.List. a proxy is used for lazy loading of team members within a
-     * teamspace entity object.
-     */
-    private static Constructor listProxyConstructor_;
-
-    static {
-        prepareLazyListLoading();
-    }
-
-    /**
-     * creates a proxy class for the java.util.List interface and stores the
-     * default constructor of this class in a member variable.
-     */
-    static private void prepareLazyListLoading() {
-        Class proxyClazz = Proxy.getProxyClass(TeamspaceManager.class
-                .getClassLoader(), new Class[] { List.class });
-
-        Class[] constrParamType = new Class[] { InvocationHandler.class };
-        try {
-            listProxyConstructor_ = proxyClazz.getConstructor(constrParamType);
-        } catch (SecurityException e) {
-            throw new InitializationException(
-                    "could not get constructor method from dynamic proxy", e);
-        } catch (NoSuchMethodException e) {
-            throw new InitializationException(
-                    "could not get constructor method from dynamic proxy", e);
-        }
-    }
 
     private SessionFactory sessionFactory_;
 
@@ -133,8 +97,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     public void initialize() {
-        prepareLazyListLoading();
-
         for (TeamspaceRO teamspace : queryAllTeamspaces()) {
             GroupRO teamGroup = userManager_.groupById(teamspace.getId());
             if (teamGroup == null) {
@@ -272,7 +234,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
         for (Object teamspaceObj : queriedTeamspaces) {
             TeamspaceEntity teamspace = (TeamspaceEntity) teamspaceObj;
-            teamspace.setUsers(createLazyLoadMembersList(teamspace));
+            teamspace.setUsers(membersForTeamspace(teamspace));
             result.add(teamspace);
         }
 
@@ -329,35 +291,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                 new Object[] { id });
         if (queryResult.size() == 1) {
             result = (TeamspaceEntity) queryResult.get(0);
-            result.setUsers(createLazyLoadMembersList(result));
+            result.setUsers(membersForTeamspace(result));
         }
         return result;
-    }
-
-    private List<UserRO> createLazyLoadMembersList(TeamspaceRO teamspace) {
-
-        ListLoading<UserRO> loader = new MembersLoading(teamspace, this);
-
-        LazyLoadListInvocationHandler<UserRO> invocationHandler;
-        invocationHandler = new LazyLoadListInvocationHandler<UserRO>(loader);
-
-        Object[] params = new Object[] { invocationHandler };
-        try {
-            Object proxy = listProxyConstructor_.newInstance(params);
-            return (List<UserRO>) proxy;
-        } catch (IllegalArgumentException e) {
-            throw new InitializationException(
-                    "could not create lazyLoadList proxy", e);
-        } catch (InstantiationException e) {
-            throw new InitializationException(
-                    "could not create lazyLoadList proxy", e);
-        } catch (IllegalAccessException e) {
-            throw new InitializationException(
-                    "could not create lazyLoadList proxy", e);
-        } catch (InvocationTargetException e) {
-            throw new InitializationException(
-                    "could not create lazyLoadList proxy", e);
-        }
     }
 
     private Session currentSession() {

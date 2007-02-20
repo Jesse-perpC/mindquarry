@@ -18,9 +18,5 @@
 		
 	<role name="com.mindquarry.common.persistence.SessionFactory"
 		default-class="com.mindquarry.persistence.castor.CastorSessionFactoryCocoon" />
-
-	<role
-		name="com.mindquarry.persistence.castor.config.PersistenceConfiguration"
-		default-class="com.mindquarry.persistence.castor.config.PersistenceConfiguration" />
 		
 </role-list>
