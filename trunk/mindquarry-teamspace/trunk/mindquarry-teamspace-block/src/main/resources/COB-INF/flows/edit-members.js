@@ -101,29 +101,6 @@ function createUser() {
 	return result;
 }
 
-function containsPhotoUpload(userForm) {
-	var uploadWidget = form_.lookupWidget("/userModel/photo");
-	return (uploadWidget.getValue() != null);
-}
-
-function persistUserPhoto(userId, userForm) {
-	
-	var photoJcrUri = "jcr:///users/" + userId + ".png"		
-	var photoSource = resolveSource(photoJcrUri);
-
-	var uploadWidget = userForm.lookupWidget("/userModel/photo");
-	var uploadValue = uploadWidget.getValue();
-	
-	uploadValue.copyToSource(photoSource);
-}
-
-function resolveSource(uri) {
-	var resolver = cocoon.getComponent(Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
-    var result = resolver.resolveURI(uri);
-    cocoon.releaseComponent(resolver);
-    return result;
-}
-
 function activateUserForm() {
 	model_.editMembersModel.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE;
 	model_.userModel.state = Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE;

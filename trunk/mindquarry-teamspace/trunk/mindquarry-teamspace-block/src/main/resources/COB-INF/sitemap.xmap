@@ -575,6 +575,7 @@
 		<pipeline type="expires-caching"><!-- eg. users/[size]/[name].[type] -->
 			<match pattern="users/*/*.*">
 				<select type="resource-exists">
+					<!-- Note: image op will set the mime type / http content type -->
 					<when test="jcr:///users/{2}.{3}">
 						<read type="image-op-crop-resize" src="jcr:///users/{2}.{3}">
 							<parameter name="crop-ratio" value="1"/>
