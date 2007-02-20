@@ -22,6 +22,8 @@
 	<modules>
 		<module>castor-persistence</module>
 		<module>persistence-client</module>
+		<module>persistence-config</module>
+		<module>persistence-mock</module>
 	</modules>
 	
 	<dependencies>
