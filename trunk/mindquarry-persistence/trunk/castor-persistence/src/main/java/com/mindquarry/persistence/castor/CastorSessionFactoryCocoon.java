@@ -18,7 +18,7 @@ import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.avalon.framework.service.Serviceable;
 
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
+import com.mindquarry.persistence.config.PersistenceConfiguration;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverCocoon;
 

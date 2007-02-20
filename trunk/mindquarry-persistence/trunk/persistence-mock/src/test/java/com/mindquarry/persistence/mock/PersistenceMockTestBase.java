@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.castor;
+package com.mindquarry.persistence.mock;
 
 import java.io.IOException;
 import java.net.URL;
@@ -21,7 +21,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
-import com.mindquarry.jcr.jackrabbit.JCRTestBase;
+import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 
 /**
  * Abstract base classes for all JCR XML source test cases.
@@ -29,27 +29,34 @@ import com.mindquarry.jcr.jackrabbit.JCRTestBase;
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
  */
-public abstract class CastorPersistenceTestBase extends JCRTestBase {
+public abstract class PersistenceMockTestBase extends AvalonSpringContainerTestBase {
 	
 	protected List<String> springConfigClasspathResources() {
         List<String> result = super.springConfigClasspathResources();
-        result.add("META-INF/cocoon/spring/castor-persistence-test-context.xml");
+        result.add("META-INF/cocoon/spring/persistence-mock-context.xml");
         return result;
     }
     
-	/**
-	 * Initializes the ComponentLocator
-	 * 
-	 * The configuration file is determined by the class name plus .xtest
-	 * appended, all '.' replaced by '/' and loaded as a resource via classpath
-	 */
-	@Override
-	protected void prepare() throws Exception {
-		String className = CastorPersistenceTestBase.class.getName();
-		String xtestResourceName = className.replace('.', '/') + ".xtest";
+    protected Source resolveSource(String uri) throws ServiceException, IOException {
+        SourceResolver resolver = (SourceResolver) lookup(SourceResolver.ROLE);
+        return resolver.resolveURI(uri);
+    }
 
-		URL xtestResource = getClass().getClassLoader().getResource(
-				xtestResourceName);
-		prepare(xtestResource.openStream());
-	}
+    /**
+     * Initializes the ComponentLocator
+     * 
+     * The configuration file is determined by the class name plus .xtest
+     * appended, all '.' replaced by '/' and loaded as a resource via classpath
+     */
+    protected void prepare() throws Exception {
+        String className = PersistenceMockTestBase.class.getName();
+        String xtestResourceName = className.replace('.', '/') + ".xtest";
+
+        URL xtestResource = classLoader().getResource(xtestResourceName);
+        this.prepare(xtestResource.openStream());
+    }
+    
+    private ClassLoader classLoader() {
+        return getClass().getClassLoader();
+    }
 }

@@ -11,22 +11,33 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.castor.config;
-
-import java.io.InputStream;
+package com.mindquarry.persistence.mock;
 
 /**
  * Add summary documentation here.
  *
  * @author <a href="mailto:your-email-address">your full name</a>
  */
-public class PersistenceConfigFileLoader extends PersistenceConfigLoader {
- 
-    private static final String CONFIG_FILE = "/com/mindquarry/persistence/mindquarry-persistence.xml";
+class QueryPreparer {
+
+    private StringBuilder querySB_;
+    private Object[] params_;
     
-    protected InputStream resolveConfig() {
-        getLogger().info("lookup xmlbeans persistence " +
-                "configuration file at: " + CONFIG_FILE);
-        return getClass().getResourceAsStream(CONFIG_FILE);
+    QueryPreparer(String queryString, Object[] params) {
+        querySB_ = new StringBuilder(queryString);
+        params_ = params;
+    }
+    
+    String prepare() {        
+        for (Object param : params_) {
+            int start = querySB_.indexOf("{$".intern());
+            int end = querySB_.indexOf("}".intern(), start);            
+            querySB_.replace(start, end + 1 , param.toString());
+        }        
+        return querySB_.toString();
+    }
+    
+    public String toString() {
+        return querySB_.toString();
     }
 }

@@ -17,7 +17,7 @@ import org.apache.avalon.framework.configuration.Configurable;
 import org.apache.avalon.framework.configuration.Configuration;
 import org.apache.avalon.framework.configuration.ConfigurationException;
 
-import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
+import com.mindquarry.persistence.config.PersistenceConfiguration;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverStandalone;
 
@@ -63,7 +63,6 @@ public class CastorSessionFactoryStandalone
     @Override
     public PersistenceConfiguration makeConfiguration() {
         PersistenceConfiguration result = new PersistenceConfiguration();
-        result.enableLogging(getLogger());
         result.initialize();
         return result;
     }
