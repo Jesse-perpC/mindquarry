@@ -40,13 +40,25 @@
 	</flow>
 
 	<views>
-		<view name="raw" from-label="raw">
+		<view name="xml" from-label="xml">
+			<serialize type="xml" />
+		</view>
+		<view name="i18n" from-label="i18n">
+			<serialize type="xml" />
+		</view>
+		<view name="html" from-label="html">
 			<serialize type="xml" />
 		</view>
 	</views>
 
 	<pipelines>
 		<pipeline type="expires-caching">
+			<!-- @virtual: implementations can choose the form2html stylesheet -->
+			<match pattern="xslt/forms/dforms_form2html.xsl">
+				<generate src="block:resources:/xslt/forms/form2html_labelreplacement.xsl"/>
+				<serialize type="xml" />		
+			</match>
+			
 			<match pattern="scripts/*.js">
 				<select type="resource-exists">
 					<when test="scripts/{1}.js">
@@ -85,12 +97,11 @@
 			<!-- internal -->
 			<!-- @virtual: getting basic model stuff -->
 			<match pattern="dforms-model-directory.xml">
-				<!-- <generate type="collection" src="model" label="raw"/> -->
-				<generate src="model-index.xml" label="raw" />
+				<generate src="model-index.xml" label="xml" />
 				<transform src="xsl/model/collection2resourceincludes.xsl" />
 				<serialize type="xml" />
 			</match>
-
+			
 			<!-- internal -->
 			<!-- for child blocks to create includes of files in directories
 				with the correct block:/resource/* source format -->
@@ -151,39 +162,34 @@
 			<match pattern="*.xml.instance">
 
 				<!-- get the form template from a dynamic pipeline -->
-				<generate type="jx" src="cocoon:/form-template" label="raw" >
+				<generate type="jx" src="cocoon:/form-template" label="xml" >
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
-				<!--<transform type="tee" src="file:///tmp/after-jx.xml" />-->
 				
 				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
 				
-				<!--<transform type="tee" src="file:///tmp/0-before-bu.xml" />-->
 				<transform type="browser-update" />
-				<!--<transform type="tee" src="file:///tmp/1-after-bu.xml" />-->
 				
-				<transform type="i18n"/>
+				<transform type="i18n" label="i18n"/>
+				
 				<!-- overwritten standard cocoon form2html stylesheet
-					 + dojo-editor -->
-				<transform src="block:resources:/xslt/forms/form2html_labelreplacement.xsl">
+					 + dojo-editor (can be changed by implementations, see above) -->
+				<transform src="block:/xslt/forms/dforms_form2html.xsl" label="html">
 					<parameter name="fullPath"
 						value="{request-param:callerFullPath}" />
 					<parameter name="sitemapPath"
 						value="{request-param:callerSitemapPath}" />
 				</transform>
 				
-				<!--<transform type="tee" src="file:///tmp/html.xml" />-->
-
 				<!-- convert escaped html in dojo-editor content (marked with
 					 htmllize tags) into real html (nekohtml from cocoon-html) -->
 				<transform type="nekohtml">
 					<parameter name="tags" value="htmllize" />
 				</transform>
 				<!-- remove the html-document-envelope created by nekohtml -->
-				<transform src="xsl/forms/remove-htmllize.xsl" />
+				<transform src="xsl/forms/remove-htmllize.xsl"/>
 
-				<!--<transform type="tee" src="file:///tmp/end.xml" />-->						
-				<!-- layouting is done by sub-blocks -->
+				<!-- final html layouting is done by sub-blocks -->
 				<serialize type="xml" />
 			</match>
 			
@@ -218,8 +224,20 @@
 
 			<!-- internal, for child to debug -->
 			<match pattern="dform-debug">
+				<call function="handleForm">
+					<parameter name="function" value="showDForm" />
+					<parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<parameter name="documentID"
+						value="{request-param:documentID}" />
+					<parameter name="rootElement"
+						value="{request-param:rootElement}" />
+					<parameter name="definitionURI"
+						value="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+				</call>
 				<!--<read src="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />-->
-				<read src="block:/form-template" />
+				<!--<read src="block:/form-template" />-->
+				<read src="block:/xslt/forms/dforms_form2html.xsl"/>
 			</match>
 
 			<!-- internal, for child to retrieve xml -->

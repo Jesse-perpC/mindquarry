@@ -16,7 +16,7 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 cocoon.load("block:resources:/flows/util.js"); // only reloaded on restart!
 
 /////////////////////////////////////////////////////////
-// global variables (TODO: make an object)
+// global variables (TODO: make an object OR write Java code)
 /////////////////////////////////////////////////////////
 
 var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
@@ -102,6 +102,10 @@ function activate(event) {
 				relwidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 			}
 			
+			// only show the delete button in full output mode, but not in partial edit nor full edit mode
+			form_.lookupWidget("/ductforms_delete").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+			
+			// as soon something can be edited, you can save or cancel it
 			form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 			form_.lookupWidget("/ductforms_cancel").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 		}
@@ -181,6 +185,9 @@ function deleteIt(event) {
 		var source = 0;
 		try {
 			source = resolveSource(getFullPath());
+			
+			// to avoid the 'delete' keyword, we use the alternative array-style
+			// notation for object members to call the delete() method
 			source["delete"]();
 		} finally {
 			releaseSource(source);
@@ -302,15 +309,14 @@ function setWidgetStates(form, isEdit) {
 	} else {
 		// show the edit all button in view mode
 		widgetMap.put(form.lookupWidget("/ductforms_editall"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+		
+		// delete button only in view mode
+		widgetMap.put(form.lookupWidget("/ductforms_delete"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	}
 
     // the activate and keepAlive actions are always active (but not visible)
 	widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	widgetMap.put(form.lookupWidget("/ductforms_keepalive"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-	// the delete action is always active except when creating a document
-    if (documentID_ != "new") {
-		widgetMap.put(form.lookupWidget("/ductforms_delete"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-    }
 	
 	//cycle through the widget map and set the states accordingly
 	var widgetList = widgetMap.keySet().toArray();
