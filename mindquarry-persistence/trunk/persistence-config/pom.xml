@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>mindquarry-persistence</artifactId>
+		<groupId>com.mindquarry.persistence</groupId>
+		<version>1.0-M1-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>persistence-config</artifactId>
+	<name>Mindquarry Persistence config</name>
+	<description>
+		config persistence classes for Mindquarry types.
+	</description>
+
+	<dependencies>
+		<dependency>
+			<groupId>castor</groupId>
+			<artifactId>castor</artifactId>
+			<version>1.0M2</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M1-SNAPSHOT</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>castor-maven-plugin</artifactId>
+				<version>1.0</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://www.mindquarry.org/repos/mindquarry-persistence/tags/persistence-config/
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-config/
+		</connection>
+		<url>
+			https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-config/
+		</url>
+		<developerConnection>
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-config/
+		</developerConnection>
+	</scm>
+</project>

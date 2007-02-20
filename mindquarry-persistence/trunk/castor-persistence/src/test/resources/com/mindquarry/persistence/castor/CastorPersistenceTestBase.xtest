@@ -32,9 +32,6 @@
 
 		<role name="com.mindquarry.common.persistence.SessionFactory"
 			default-class="com.mindquarry.persistence.castor.CastorSessionFactoryCocoon" />
-			
-		<role name="com.mindquarry.persistence.castor.config.PersistenceConfiguration"
-			default-class="com.mindquarry.persistence.castor.config.PersistenceConfiguration" />
 
 		<!-- configure a serializer for XML output -->
 		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>

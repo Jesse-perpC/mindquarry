@@ -3,7 +3,7 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
-        <parent>
+	<parent>
 		<artifactId>mindquarry-persistence</artifactId>
 		<groupId>com.mindquarry.persistence</groupId>
 		<version>1.0-M1-SNAPSHOT</version>
@@ -16,9 +16,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>castor</groupId>
-			<artifactId>castor</artifactId>
-			<version>1.0M2</version>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>persistence-config</artifactId>
+			<version>1.0-M1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>xmlunit</groupId>
@@ -72,18 +72,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>castor-maven-plugin</artifactId>
-				<version>1.0</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>generate</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
 			<plugin>
         <artifactId>maven-release-plugin</artifactId>
         <configuration>

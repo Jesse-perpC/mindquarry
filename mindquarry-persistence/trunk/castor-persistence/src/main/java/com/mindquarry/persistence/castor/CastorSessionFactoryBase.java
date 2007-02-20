@@ -22,7 +22,7 @@ import org.exolab.castor.mapping.Mapping;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
-import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
+import com.mindquarry.persistence.config.PersistenceConfiguration;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
 
 public abstract class CastorSessionFactoryBase extends AbstractLogEnabled 

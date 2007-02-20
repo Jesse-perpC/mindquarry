@@ -42,7 +42,7 @@ import org.exolab.castor.xml.ValidationException;
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.common.persistence.PersistenceException;
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.persistence.castor.config.PersistenceConfiguration;
+import com.mindquarry.persistence.config.PersistenceConfiguration;
 import com.mindquarry.persistence.castor.source.JcrSourceResolverBase;
 
 /**

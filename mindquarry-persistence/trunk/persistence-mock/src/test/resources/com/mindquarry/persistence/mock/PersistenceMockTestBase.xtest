@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testcase>
+	<roles>
+		<role name="org.apache.excalibur.source.SourceFactorySelector"
+			shorthand="source-factories"
+			default-class="org.apache.cocoon.core.container.DefaultServiceSelector" />
+
+		<role name="org.apache.excalibur.source.SourceResolver"
+			shorthand="source-resolver"
+			default-class="org.apache.excalibur.source.impl.SourceResolverImpl" />
+
+		<!-- configure a serializer for XML output -->
+		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
+	</roles>
+
+	<components>
+		<source-factories>
+			<component-instance name="resource"
+				class="org.apache.excalibur.source.impl.ResourceSourceFactory" />
+
+			<component-instance name="file"
+				class="org.apache.excalibur.source.impl.FileSourceFactory" />
+		</source-factories>
+		
+		<!-- define the exact XMLSerializer we want to use (taken from
+			 standard cocoon configuration) -->
+		<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+		</serializer>
+	</components>
+</testcase>
