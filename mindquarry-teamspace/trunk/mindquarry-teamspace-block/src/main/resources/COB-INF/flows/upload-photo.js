@@ -17,12 +17,29 @@ function containsPhotoUpload(uploadWidget) {
 	return (uploadWidget.getValue() != null);
 }
 
-function persistUserPhoto(userId, uploadWidget) {
-	
-	var photoJcrUri = "jcr:///users/" + userId + ".png"
-	var photoSource = resolveSource(photoJcrUri);
+function getFileExtension(filename) {
+	var dotPos = filename.lastIndexOf(".");
+	if (dotPos >= 0) {
+		return filename.substr(dotPos+1);
+	} else {
+		return "";
+	}
+}
 
-	var uploadValue = uploadWidget.getValue();	
+function persistUserPhoto(userId, uploadWidget) {
+	var uploadValue = uploadWidget.getValue();
+	var ext = getFileExtension(uploadValue.getUploadName());
+	
+	// use the original extension to identify the image type later
+	// or use jpg as fallback if no extension is available
+	var photoJcrUri = "jcr:///users/" + userId + ".";
+	if (ext == "") {
+		photoJcrUri = photoJcrUri + "jpg";
+	} else {
+		photoJcrUri = photoJcrUri + ext;		
+	}
+	
+	var photoSource = resolveSource(photoJcrUri);	
 	uploadValue.copyToSource(photoSource);
 }
 
