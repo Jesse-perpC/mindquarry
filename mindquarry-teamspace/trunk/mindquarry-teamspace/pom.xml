@@ -1,22 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-
-	<modelVersion>4.0.0</modelVersion>
-	<packaging>jar</packaging>
-
+<project>
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
 		<version>1.0-M1-SNAPSHOT</version>
 	</parent>
-
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-teamspace</artifactId>
 	<name>Mindquarry Teamspace</name>
 	<version>1.0-M1-SNAPSHOT</version>
-
 	<developers>
 		<developer>
 			<id>bastian</id>
@@ -26,25 +19,29 @@
 			<organizationUrl>http://www.mindquarry.com</organizationUrl>
 		</developer>
 	</developers>
-	
+	<scm>
+		<connection>
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
+		</connection>
+		<developerConnection>
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
+		</developerConnection>
+		<url>
+			https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
+		</url>
+	</scm>
 	<build>
-	       <plugins>
-	                <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
+		<plugins>
+			<plugin>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
-					<tagBase>https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-teamspace/</tagBase>
+					<tagBase>
+						https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-teamspace/
+					</tagBase>
 				</configuration>
 			</plugin>
-	       </plugins>
+		</plugins>
 	</build>
-
-	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/</url>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/</developerConnection>
-	</scm>
-
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
@@ -65,21 +62,20 @@
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
-			<artifactId>castor-persistence</artifactId>
+			<artifactId>persistence-mock</artifactId>
 			<version>1.0-M1-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.7.0</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-core</artifactId>
 			<version>2.2.0-M3_Mindquarry_1</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mindquarry.jcr</groupId>
-			<artifactId>mindquarry-jackrabbit</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
