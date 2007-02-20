@@ -5,10 +5,7 @@
 	xmlns:fo="http://www.w3.org/1999/XSL/Format"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
-	<xsl:import href="block:/xslt/contextpath.xsl" />
 	<xsl:import href="block:/xslt/fo/xhtml2fo.xsl" />
-
-	<xsl:param name="viewDocumentLink" />
 
 	<xsl:variable name="pageTitle">
 		<xsl:choose>
@@ -87,30 +84,5 @@
 	</xsl:template>
 		
 	<xsl:template match="div[@class='ductform']/dl[@id='ductform.ductforms']|xhtml:div[@class='ductform']/xhtml:dl[@id='ductform.ductforms']" priority="7"/>
-	
-	<xsl:template match="form/@action">
-		<xsl:attribute name="action">
-			<xsl:value-of select="$viewDocumentLink" />
-		</xsl:attribute>
-	</xsl:template>
-
-	<!-- complete restructuring of the form fields:
-		 put the title field at the beginning and wrap the rest inside
-		 one large nifty box and the ductforms field chooser is removed -->
-	
-	<!-- the edit/save button is moved inside (see template below) -->
-	<xsl:template match="div[@id='block_ductform_switch']" />
-	
-	<!-- include the edit/save button inside the nifty, have the title before -->
-	<xsl:template match="div[@class='ductform']">
-			<xsl:apply-templates select="dl[@id='ductform.title']"/>
-
-			<xsl:apply-templates select="dl[@id!='ductform.title']"/>
-	</xsl:template>
-		
-	<!-- Change 'Edit all' to 'Edit' (simpler for wiki) -->
-	<xsl:template match="input[@id='ductform.ductforms_editall']/@value">
-		<xsl:attribute name="value">Edit</xsl:attribute>
-	</xsl:template>
 	
 </xsl:stylesheet>
