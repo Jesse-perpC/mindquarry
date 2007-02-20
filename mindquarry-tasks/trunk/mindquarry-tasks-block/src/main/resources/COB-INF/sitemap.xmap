@@ -226,9 +226,6 @@
 	</resources>
 
 	<flow language="javascript">
-		<!-- TODO: this is generic and could be put into webapp-resources,
-			but how to reference it? block:super:/flows/teamspaces-for-user.js -->
-		<script src="flows/teamspaces-for-user.js" />
 		<script src="flows/task-filter.js" />
 	</flow>
 
@@ -460,17 +457,6 @@
 
 			<!-- raw XML -->
 			<match pattern="internal/pipe/overview.xml">
-				<call function="listTeamspacesForUser">
-					<parameter name="username" value="{request-attr:username}" />
-					<parameter name="target"
-						value="internal/pipe/flowed/teamspaces-task-overview.xml" />
-				</call>
-				
-			</match>
-
-			<!-- target pipeline for overview.xml -->
-			<match pattern="internal/pipe/flowed/teamspaces-task-overview.xml">
-				<!-- TODO: this can be made generic, put into webapp-resources -->
 				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
 					<parameter name="base"
@@ -484,17 +470,8 @@
 
 			<!-- HTML (which is different from the xml content) -->
 			<match pattern="internal/pipe/overview.html">
-				<call function="listTeamspacesForUser">
-					<parameter name="username" value="{request-attr:username}" />
-					<parameter name="target"
-						value="internal/pipe/flowed/teamspaces-task-overview.html" />
-				</call>
-			</match>
-
-			<!-- target pipeline for overview.html -->
-			<match pattern="internal/pipe/flowed/teamspaces-task-overview.html">
 				<generate
-					src="cocoon:/internal/pipe/flowed/teamspaces-task-overview.xml"/>
+					src="cocoon:/internal/pipe/overview.xml"/>
 
 				<transform src="xslt/xml/include-basic-task-data.xsl">
 					<parameter name="basePath"
@@ -578,12 +555,6 @@
 
 				<transform src="xslt/fo/taskList.xsl">
 					<parameter name="teamspaceID" value="{1}" />
-					<parameter name="fullPath"
-						value="{block-path:}{request:pathInfo}" />
-					<parameter name="sitemapPath"
-						value="{request:pathInfo}" />
-					<parameter name="teamspaceID" value="{1}"/>
-					<parameter name="baselink" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/" />
 				</transform>
 
 				<serialize type="fo2pdf"/>
