@@ -337,12 +337,14 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         for (UserRO user : membership.getRemovedMembers()) {
             userManager_.removeUserFromTeamspace(user, teamspaceId);
             jcrCache_.removeFromCache(allTeamsCacheKey());
+            jcrCache_.removeFromCache(teamByIdCacheKey(teamspaceId));
         }
 
         // check new members for adding to teamspace
         for (UserRO user : membership.getAddedMembers()) {
             userManager_.addUserToTeamspace(user, teamspaceId);
             jcrCache_.removeFromCache(allTeamsCacheKey());
+            jcrCache_.removeFromCache(teamByIdCacheKey(teamspaceId));
         }
 
         // return a new calculated membership
