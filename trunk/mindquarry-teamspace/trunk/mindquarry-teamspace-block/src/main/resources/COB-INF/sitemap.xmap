@@ -257,8 +257,6 @@
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
-					<parameter name="user.agent"
-						value="{request-header:User-Agent}" />
 				</transform>
 				
 				<call resource="form2html" />
@@ -303,8 +301,6 @@
 						value="{block-path:}{request:pathInfo}" />
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
-					<parameter name="user.agent"
-						value="{request-header:User-Agent}" />
 				</transform>
 				
 				<call resource="form2html" />
