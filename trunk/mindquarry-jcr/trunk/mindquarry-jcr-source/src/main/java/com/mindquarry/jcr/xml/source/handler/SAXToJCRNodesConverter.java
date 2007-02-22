@@ -29,6 +29,7 @@ import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.mindquarry.jcr.xml.source.JCRConstants;
 import com.mindquarry.jcr.xml.source.JCRSourceFactory;
 
 /**
@@ -57,19 +58,18 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     /**
      * Default constructor.
      * 
-     * @param node the node representing the nt:file parent of this document
+     * @param node the node representing the jcr:content node
      * @param configured namespace mappings
      * @throws PathNotFoundException
      * @throws RepositoryException
      */
-    public SAXToJCRNodesConverter(Node node) 
+    public SAXToJCRNodesConverter(Node contentNode) 
             throws PathNotFoundException, RepositoryException {
         
         prefixMapStack = new Stack<Map<String,String>>();
         pushNewPrefixMap();
         
-        //prefixMapStack
-        this.node = node.getNode("jcr:content");
+        this.node = contentNode;
     }
 
     // =========================================================================
@@ -90,7 +90,7 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
         String jcrElementQName = buildJcrQName(elementPrefix, localName);
                 
         try {
-            node = node.addNode(jcrElementQName, "xt:element");
+            node = node.addNode(jcrElementQName, JCRConstants.XT_ELEMENT);
             for (int i = 0; i < atts.getLength(); i++) {                
                 String jcrAttributeQName = buildJcrAttributeQName(i, atts);
                 node.setProperty(jcrAttributeQName, atts.getValue(i));
@@ -139,8 +139,8 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
     public void characters(char[] ch, int start, int length)
             throws SAXException {
         try {
-            Node text = node.addNode("text", "xt:text");
-            text.setProperty("xt:characters", new String(getTextContent(ch,
+            Node text = node.addNode(JCRConstants.TEXT, JCRConstants.XT_TEXT);
+            text.setProperty(JCRConstants.XT_CHARACTERS, new String(getTextContent(ch,
                     start, length)));
         } catch (Exception e) {
             throw new SAXException("Error while storing content.", e);

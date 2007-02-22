@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.jcr.LoginException;
+import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 import javax.jcr.query.Query;
@@ -187,11 +188,9 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
             throw new SourceException("Cannot access repository.", e);
         }
 
-        // check for query syntax (eg. 'jcr:///users#//name' interpreted
-        // as 'jcr:///jcr:root/users//name')
+        String path = SourceUtil.getPath(uri);
         
-        String path = SourceUtil
-			                    .getPath(uri);
+        // check for query or revision
 		if (uri.indexOf("?") != -1) { //$NON-NLS-1$
             try {
                 // publish URL resolved event
@@ -203,8 +202,11 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
             }
             String query = SourceUtil.getQuery(uri);
             if (query.startsWith("revision=")) {
+                // revision node
             	return (JCRNodeWrapperSource) createSource(session, path, query);
             } else {
+                // check for query syntax (eg. 'jcr:///users?//name' interpreted
+                // as 'jcr:///jcr:root/users//name')
 				return (QueryResultSource) executeQuery(session, path, query);
             }
         } else {
@@ -225,7 +227,11 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
      */
     public void release(Source source) {
-        // nothing to do here
+// not sure yet, committing this in a later version for separate testing
+//        if (source instanceof AbstractJCRNodeSource) {
+//            AbstractJCRNodeSource nodeSource = (AbstractJCRNodeSource) source;
+//            nodeSource.getSession().logout();
+//        }
     }
 
     // =========================================================================
@@ -265,7 +271,74 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
     public String getScheme() {
         return scheme;
     }
+    
+    // =========================================================================
+    // Helper methods
+    // =========================================================================
 
+    public static boolean hadType(Node node, String type) throws RepositoryException {
+        return node.isNodeType(JCRConstants.NT_FROZENNODE)
+            && node.getProperty(JCRConstants.JCR_FROZENPRIMARYTYPE).getString().equals(type);
+    }
+    
+    public static boolean hasOrHadType(Node node, String type) throws RepositoryException {
+        return node.isNodeType(type) || hadType(node, type);
+    }
+    
+    public static boolean isFolder(Node node) throws RepositoryException {
+        return hasOrHadType(node, JCRConstants.NT_FOLDER);
+    }
+    
+    public static boolean isFile(Node node) throws RepositoryException {
+        return hasOrHadType(node, JCRConstants.NT_FILE);
+    }
+    
+    public static boolean isElement(Node child) throws RepositoryException {
+        return hasOrHadType(child, JCRConstants.XT_ELEMENT);
+    }
+
+    public static boolean isText(Node child) throws RepositoryException {
+        return hasOrHadType(child, JCRConstants.XT_TEXT);
+    }
+    
+    /**
+     * Checks whether the given node is a nt:file and contains binary content,
+     * aka jcr:content node with type nt:resource.
+     */
+    public static boolean hasBinaryContent(Node node) throws RepositoryException {
+        return (isFile(node) &&
+                node.hasNode(JCRConstants.JCR_CONTENT) &&
+                hasOrHadType(node.getNode(JCRConstants.JCR_CONTENT), JCRConstants.NT_RESOURCE));
+    }
+
+    /**
+     * Checks whether the given node is a nt:file and contains XML content,
+     * aka jcr:content node with type xt:document.
+     */
+    public static boolean hasXMLContent(Node node) throws RepositoryException {
+        return (isFile(node) &&
+                node.hasNode(JCRConstants.JCR_CONTENT) &&
+                hasOrHadType(node.getNode(JCRConstants.JCR_CONTENT), JCRConstants.XT_DOCUMENT));
+    }
+
+    /**
+     * Checks whether the given node is a jcr:content and contains binary
+     * content, aka has the type nt:resource.
+     */
+    public static boolean isBinaryResource(Node node) throws RepositoryException {
+        return (node.getName().equals(JCRConstants.JCR_CONTENT) &&
+                hasOrHadType(node, JCRConstants.NT_RESOURCE));
+    }
+
+    /**
+     * Checks whether the given node is a jcr:content and contains XML
+     * content, aka has the type xt:document.
+     */
+    public static boolean isXMLResource(Node node) throws RepositoryException {
+        return (node.getName().equals(JCRConstants.JCR_CONTENT) &&
+                hasOrHadType(node, JCRConstants.XT_DOCUMENT));
+    }
+    
     // =========================================================================
     // Internal methods
     // =========================================================================

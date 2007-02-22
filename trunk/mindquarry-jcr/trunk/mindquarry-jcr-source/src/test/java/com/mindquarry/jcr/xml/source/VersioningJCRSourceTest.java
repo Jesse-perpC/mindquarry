@@ -131,20 +131,6 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     	String testSourceUri = BASE_URL + "users/lars.trieloff?revision=1.1";
     	JCRNodeWrapperSource secondSource = (JCRNodeWrapperSource) resolveSource(testSourceUri);
     	
-    	for (int i=0;i<3;i++) {
-	    	OutputStream sourceOut = emptySource.getOutputStream();
-	
-	        InputStream contentIn = getClass().getResourceAsStream(CONTENT_FILE);
-	        try {
-	            IOUtils.copy(contentIn, sourceOut);        
-	            sourceOut.flush();
-	        } finally {
-	            sourceOut.close();
-	            contentIn.close();
-	        }
-    	}
-    	
-
     	System.out.println("Read again at:" + secondSource.getSourceRevision());
         
     	InputStream expected = emptySource.getInputStream();

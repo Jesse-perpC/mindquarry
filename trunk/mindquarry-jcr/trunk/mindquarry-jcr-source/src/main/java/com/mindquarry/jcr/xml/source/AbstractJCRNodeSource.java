@@ -33,7 +33,6 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
 import org.apache.excalibur.source.SourceValidity;
 
-import com.ibm.icu.util.Calendar;
 import com.mindquarry.common.index.IndexClient;
 import com.mindquarry.common.source.Change;
 import com.mindquarry.common.source.ChangeableSource;
@@ -60,10 +59,15 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
     protected final Session session;
 
     /**
-     * The node pointed to by this source (can be null).
+     * The node pointed to by this source (can be null). It contains the actual
+     * data (as on versionized sources this differs from the baseNode)
      */
     protected Node node;
     
+    /**
+     * The node that holds the version information and representing the HEAD
+     * version.
+     */
     protected Node baseNode;
 
     /**
@@ -81,9 +85,16 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
      */
     protected IndexClient iClient;
     
+    /**
+     * Indicates whether this node gets versioned.
+     */
     protected final boolean isVersioned;
     
-    protected String baseRevision;
+    /**
+     * The revision this node represents or null if non-versionized or HEAD
+     * version.
+     */
+    protected String revision;
 
     /**
      * Basic constructor for initializing what every JCRNodeSource must have.
@@ -130,7 +141,7 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
         this.path = path;
         this.iClient = iClient;
 
-        this.baseRevision = null;
+        this.revision = null;
         
         try {
             Item item = session.getItem(path);
@@ -141,7 +152,7 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
                 // check if it is a file, a folder or the root node
                 // (nt:file and nt:folder extend nt:hierarchyNode, others too)
                 Node tmp = (Node) item;
-                if (tmp.isNodeType("nt:hierarchyNode")
+                if (tmp.isNodeType(JCRConstants.NT_HIERARCHYNODE)
                         || tmp.getPath().equals("/")) {
                     node = (Node) item;
                     this.baseNode = node;
@@ -169,7 +180,7 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 				Version version = hit.nextVersion();
 				if (version.getName().equals(revison)) {
 					node = version.getNodes().nextNode();
-					this.baseRevision = revison;
+					this.revision = revison;
 					break;
 				}
 			}
@@ -190,8 +201,6 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
     }
 
     /**
-     * {@inheritDoc}
-     * 
      * Uses the standard jcr:lastModified property.
      * 
      * @see org.apache.excalibur.source.Source#getLastModified()
@@ -201,8 +210,8 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
             return 0;
         }
         try {
-            Property prop = node.getNode("jcr:content").getProperty(
-                    "jcr:lastModified");
+            Property prop = node.getNode(JCRConstants.JCR_CONTENT).getProperty(
+                    JCRConstants.JCR_LASTMODIFIED);
             return prop == null ? 0 : prop.getDate().getTime().getTime();
         } catch (RepositoryException e) {
             return 0;
@@ -210,8 +219,6 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
     }
 
     /**
-     * {@inheritDoc}
-     * 
      * Uses the standard jcr:mimeType property.
      * 
      * @see org.apache.excalibur.source.Source#getMimeType()
@@ -221,8 +228,8 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
             return null;
         }
         try {
-            Property prop = node.getNode("jcr:content").getProperty(
-                    "jcr:mimeType");
+            Property prop = node.getNode(JCRConstants.JCR_CONTENT).getProperty(
+                    JCRConstants.JCR_MIMETYPE);
             return prop == null ? null : prop.getString();
         } catch (RepositoryException re) {
             return null;
@@ -245,7 +252,11 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
      */
     public String getURI() {
         if (computedURI == null) {
-            computedURI = factory.getScheme() + "://" + path;
+            if (revision != null) {
+                computedURI = factory.getScheme() + "://" + path + "?revision=" + revision;
+            } else {
+                computedURI = factory.getScheme() + "://" + path;
+            }
         }
         return computedURI;
     }
@@ -267,22 +278,11 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
     public void refresh() {
     }
 
-    /**
-     * {@inheritDoc}
-     * 
-     * @see org.apache.excalibur.source.Source#getContentLength()
-     */
-    public long getContentLength() {
-        return -1;
-    }
     
+    // =========================================================================
+    // VersionableSource interface
+    // =========================================================================
     
-    
-    /*
-     * Versionable Source
-     */
-    
-
 	public String getLatestSourceRevision() throws SourceException {
 		if (isVersioned()&&exists()) {
 			try {
@@ -298,8 +298,8 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 
 	public String getSourceRevision() throws SourceException {
 		try {
-			if ((this.baseRevision!=null)&&(this.node.isNodeType("nt:frozenNode"))) {
-				return this.baseRevision;
+			if ((this.revision!=null)&&(this.node.isNodeType(JCRConstants.NT_FROZENNODE))) {
+				return this.revision;
 			}
 		} catch (RepositoryException e) {
 			throw new SourceException("Unable to access underlying node", e);
@@ -323,7 +323,7 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 	public boolean isVersioned() throws SourceException {
 		if (exists()) {
 			try {
-				return this.node.isNodeType("mix:versionable");
+				return this.node.isNodeType(JCRConstants.MIX_VERSIONABLE);
 			} catch (RepositoryException e) {
 				throw new SourceException("Unable to access underlying node", e);
 			}
@@ -343,6 +343,10 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 
 	public void setSourceRevisionBranch(String branch) throws SourceException {}
 
+    // =========================================================================
+    // ChangeableSource interface
+    // =========================================================================
+    
 	public List<Change> changesFrom(long startRevision, long nMaxChanges) throws SourceException {
 		List<Change> changes = new Vector<Change>();
 		if (isVersioned()) {
@@ -367,6 +371,30 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 		return new Vector<Change>();
 	}
 
+    // =========================================================================
+    // RevisableSource interface
+    // =========================================================================
+    
+    public boolean isHeadRevision() {
+        try {
+            return !this.node.isNodeType(JCRConstants.NT_FROZENNODE);
+        } catch (RepositoryException e) {
+            return true;
+        }
+    }
+
+    public String revision() {
+        try {
+            return this.getSourceRevision();
+        } catch (SourceException e) {
+            return null;
+        }
+    }
+
+    // =========================================================================
+    // custom methods
+    // =========================================================================
+    
 	private Change makeChange(Version version) {
 		try {
 			return new Change(version.getCreated().getTime(), "unknown author", "no message", version.getName(), new RevisedPath[] {new RevisedPath(path, 'M')});
@@ -375,19 +403,7 @@ public abstract class AbstractJCRNodeSource implements Source, VersionableSource
 		}
 	}
 
-	public boolean isHeadRevision() {
-		try {
-			return !this.node.isNodeType("nt:frozenNode");
-		} catch (RepositoryException e) {
-			return true;
-		}
-	}
-
-	public String revision() {
-		try {
-			return this.getSourceRevision();
-		} catch (SourceException e) {
-			return null;
-		}
-	}
+    public Session getSession() {
+        return session;
+    }
 }

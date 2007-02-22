@@ -50,9 +50,9 @@ public class XMLFileSourceHelper {
     /**
      * Delegate for toSAX.
      */
-    public static void toSAX(ContentHandler handler, Node node)
+    public static void toSAX(ContentHandler handler, Node content)
             throws SAXException {
-        JCRNodesToSAXConverter.convertToSAX(node, handler);
+        JCRNodesToSAXConverter.convertToSAX(content, handler);
     }
 
     // =========================================================================
@@ -64,7 +64,7 @@ public class XMLFileSourceHelper {
      * 
      * @param manager
      */
-    public static InputStream getInputStream(ServiceManager manager, Node node)
+    public static InputStream getInputStream(ServiceManager manager, Node content)
             throws IOException, SourceNotFoundException {
 
         Serializer serializer = createSerializer();
@@ -74,7 +74,7 @@ public class XMLFileSourceHelper {
             outputStream = new ByteArrayOutputStream();
             serializer.setOutputStream(outputStream);
 
-            XMLFileSourceHelper.toSAX(serializer, node);
+            XMLFileSourceHelper.toSAX(serializer, content);
 
             return new ByteArrayInputStream(outputStream.toByteArray());
         } catch (SAXException e) {
