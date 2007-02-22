@@ -32,7 +32,7 @@ import org.apache.excalibur.source.TraversableSource;
 import com.mindquarry.common.index.IndexClient;
 
 /**
- * Add summary documentation here.
+ * A virtual source containing all matching jcr nodes of the query as children.
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
@@ -75,6 +75,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * Returns the matching nodes of the query.
+     * 
      * @see org.apache.excalibur.source.TraversableSource#getChildren()
      */
     public Collection getChildren() throws SourceException {
@@ -91,6 +93,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * A query is purely virtual, thus has no name.
+     * 
      * @see org.apache.excalibur.source.TraversableSource#getName()
      */
     public String getName() {
@@ -98,6 +102,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * A query result is virtual thus has no parent.
+     * 
      * @see org.apache.excalibur.source.TraversableSource#getParent()
      */
     public Source getParent() throws SourceException {
@@ -105,6 +111,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * A query result is a collection of matching nodes.
+     * 
      * @see org.apache.excalibur.source.TraversableSource#isCollection()
      */
     public boolean isCollection() {
@@ -119,6 +127,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * Content length cannot be computed for query results.
+     * 
      * @see org.apache.excalibur.source.Source#getContentLength()
      */
     public long getContentLength() {
@@ -126,6 +136,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * A query result has no data, only children.
+     * 
      * @see org.apache.excalibur.source.Source#getInputStream()
      */
     public InputStream getInputStream() throws IOException,
@@ -134,6 +146,8 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * Query results are purely virtual, thus cannot be modified.
+     * 
      * @see org.apache.excalibur.source.Source#getLastModified()
      */
     public long getLastModified() {
@@ -141,17 +155,26 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * Queries have no mimetype.
+     * 
      * @see org.apache.excalibur.source.Source#getMimeType()
      */
     public String getMimeType() {
         return null;
     }
 
+    /**
+     * Same scheme as defined in JCRSourceFactory.
+     * 
+     * @see org.apache.excalibur.source.Source#getScheme()
+     */
     public String getScheme() {
         return factory.getScheme();
     }
 
     /**
+     * A virtual query has no uri.
+     * 
      * @see org.apache.excalibur.source.Source#getURI()
      */
     public String getURI() {
@@ -159,10 +182,11 @@ public class QueryResultSource implements TraversableSource {
     }
 
     /**
+     * A query cannot be cached.
+     * 
      * @see org.apache.excalibur.source.Source#getValidity()
      */
     public SourceValidity getValidity() {
-        // TODO Auto-generated method stub
         return null;
     }
 
