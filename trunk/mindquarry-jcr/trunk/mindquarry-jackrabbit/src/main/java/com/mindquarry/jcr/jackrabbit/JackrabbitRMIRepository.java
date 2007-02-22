@@ -28,6 +28,8 @@ import org.apache.jackrabbit.rmi.server.ServerAdapterFactory;
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
+ * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
+ *         Alexander Klimetschek</a>
  */
 public class JackrabbitRMIRepository extends JackrabbitRepository {
     /**
@@ -49,16 +51,28 @@ public class JackrabbitRMIRepository extends JackrabbitRepository {
         
         // register RMI repository
         ServerAdapterFactory factory = new ServerAdapterFactory();
+        RemoteRepository remoteRepo = null;
         try {
-            RemoteRepository remoteRepo = factory.getRemoteRepository(this);
+            remoteRepo = factory.getRemoteRepository(this);
 
             reg = LocateRegistry.createRegistry(Registry.REGISTRY_PORT);
+        } catch (RemoteException e) {
+            try {
+                // upon restart inside the same jvm the registry is already present
+                reg = LocateRegistry.getRegistry(Registry.REGISTRY_PORT);
+            } catch (RemoteException e1) {
+                throw new ConfigurationException(
+                        "An error occured during RMI repository setup.", config, e);
+            }
+        }
+
+        try {
             reg.rebind(REMOTE_REPO_NAME, remoteRepo);
         } catch (RemoteException e) {
             throw new ConfigurationException(
                     "An error occured during RMI repository setup.", config, e);
         }
-
+        
         if (getLogger().isInfoEnabled()) {
             getLogger().info("Embedded Jackrabbit is running as RMI service: '" + REMOTE_REPO_NAME + "'");
         }
