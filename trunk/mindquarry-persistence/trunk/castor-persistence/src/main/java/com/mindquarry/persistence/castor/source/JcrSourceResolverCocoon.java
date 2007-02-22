@@ -58,4 +58,9 @@ public class JcrSourceResolverCocoon extends JcrSourceResolverBase {
         }
     }
 
+    @Override
+    public void releaseJcrSource(Source source) {
+        lookupSourceResolver().release(source);
+    }
+
 }

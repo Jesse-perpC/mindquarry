@@ -16,10 +16,12 @@ package com.mindquarry.persistence.castor.source;
 import org.apache.excalibur.source.Source;
 
 /**
- * Add summary documentation here.
+ * Simple base class which allows different source resolving implementations
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
+ * @author 
+ * <a href="mailto:alexander.klimetschek(at)mindquarry.com">Alexander Klimetschek</a>
  */
 public abstract class JcrSourceResolverBase {
 
@@ -29,6 +31,8 @@ public abstract class JcrSourceResolverBase {
         String jcrUri = JCR_SOURCE_PREFIX + path;
         return resolveJcrSourceInternal(jcrUri);
     }
+    
+    public abstract void releaseJcrSource(Source source);
     
     protected abstract Source resolveJcrSourceInternal(String jcrPath);
 }
