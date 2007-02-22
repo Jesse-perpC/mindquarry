@@ -93,9 +93,11 @@ class CastorSession extends AbstractLogEnabled implements Session {
         EntityBase entity = validateEntity(object);
         ModifiableSource source = resolveJcrSource(entity);
         if (source.exists()) {
+            jcrSourceResolver_.releaseJcrSource(source);
             throw new PersistenceException("an entity with id: " + 
                     entity.getId() + " already exists.");
         }
+        jcrSourceResolver_.releaseJcrSource(source);
         createdEntities_.add(entity);      
     }
 
@@ -117,6 +119,7 @@ class CastorSession extends AbstractLogEnabled implements Session {
             EntityBase entity = createdEntitiesIt.next();
             ModifiableSource source = resolveJcrSource(entity);
             writeToSource(entity, source);
+            jcrSourceResolver_.releaseJcrSource(source);
             createdEntitiesIt.remove();
         }
         
@@ -169,6 +172,8 @@ class CastorSession extends AbstractLogEnabled implements Session {
                 result.add(entity);
             }            
         }
+        
+        jcrSourceResolver_.releaseJcrSource(source);
         return result;
     }
     

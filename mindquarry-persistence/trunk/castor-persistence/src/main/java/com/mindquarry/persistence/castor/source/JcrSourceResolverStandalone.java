@@ -53,4 +53,8 @@ public class JcrSourceResolverStandalone extends JcrSourceResolverBase {
         }
     }
 
+    @Override
+    public void releaseJcrSource(Source source) {
+        jcrSourceFactory_.release(source);
+    }
 }
