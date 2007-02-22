@@ -22,7 +22,6 @@ import java.util.List;
 
 import javax.jcr.AccessDeniedException;
 import javax.jcr.InvalidItemStateException;
-import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
@@ -32,14 +31,13 @@ import javax.jcr.UnsupportedRepositoryOperationException;
 import javax.jcr.ValueFormatException;
 import javax.jcr.lock.LockException;
 import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
 import javax.jcr.version.VersionException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import org.apache.cocoon.CascadingIOException;
 import org.apache.cocoon.util.WildcardMatcherHelper;
-import org.apache.excalibur.source.SourceException;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
@@ -54,6 +52,8 @@ import com.mindquarry.jcr.xml.source.helper.XMLFileSourceHelper;
  * 
  * @author <a href="mailto:alexander(dot)saar(at)mindquarry(dot)com">Alexander
  *         Saar</a>
+ * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
+ *         Alexander Klimetschek</a>
  */
 public class JCROutputStream extends ByteArrayOutputStream {
     private boolean isClosed = false;
@@ -90,43 +90,58 @@ public class JCROutputStream extends ByteArrayOutputStream {
      */
     @Override
     public void close() throws IOException {
-        if (!isClosed) {
-            super.close();
-            isClosed = true;
-            try {
-            	if (isVersioned) {
-            		node.checkout();
-            	}
-                try {
-                    Node content = node.getNode(JCRConstants.JCR_CONTENT);
-                    if (JCRSourceFactory.isXMLResource(content)) {
-                        deleteChildren();
-                        if (canParse()) {
-                            writeXML(content);
-                        } else {
-                            throw new IOException("XML is not well-formed");
-                        }
-                    } else {
-                        writeBinary(content);
-                    }
-                } catch (PathNotFoundException e) {
-                    boolean isXML = canParse();
-                    if (isXML) {
-                        createXML(node);
-                    } else {
-                        createBinary(node);
-                    }
-                }
-                // don't forget to commit
-                session.save();
-                if (isVersioned) {
-            		node.checkin();
-            	}
-            } catch (RepositoryException e) {
-                throw new IOException("Unable to write to repository "
-                        + e.getLocalizedMessage());
-            }
+        if (isClosed) {
+            return;
         }
+        
+        super.close();
+        isClosed = true;
+        
+        try {
+        	if (isVersioned) {
+        		node.checkout();
+        	}
+
+            if (node.hasNode(JCRConstants.JCR_CONTENT)) {
+                Node content = node.getNode(JCRConstants.JCR_CONTENT);
+                if (JCRSourceFactory.isXMLResource(content)) {
+                    deleteChildren();
+                    try {
+                        writeXML(content);
+                    } catch (SAXException e) {
+                        throw new CascadingIOException("XML is not well-formed", e);
+                    }
+                } else {
+                    writeBinary(content);
+                }
+            } else {
+                // jcr:content node needs to be created
+                if (isXML()) {
+                    try {
+                        createXML(node);
+                    } catch (SAXException se) {
+                        throw new CascadingIOException("XML is not well-formed", se);
+                    }
+                } else {
+                    createBinary(node);
+                }
+            }
+            // don't forget to commit
+            session.save();
+            
+            if (isVersioned) {
+        		node.checkin();
+        	}
+            
+            index(uri);
+            
+        } catch (RepositoryException e) {
+            throw new CascadingIOException("Unable to write to repository "
+                    + e.getLocalizedMessage(), e);
+        }
+    }
+
+    private void index(String uri) {
         // check if the path of the JCR source matches one of the excludes
         // patterns
         boolean index = true;
@@ -145,29 +160,13 @@ public class JCROutputStream extends ByteArrayOutputStream {
         }
     }
 
-    private void createXML(Node node) throws IOException {
+    private void createXML(Node node) throws IOException, SAXException {
         try {
             Node content = node.addNode(JCRConstants.JCR_CONTENT, JCRConstants.XT_DOCUMENT);
             writeXML(content);
-        } catch (ItemExistsException e) {
-            throw new IOException("Content node already exists: "
-                    + e.getLocalizedMessage());
-        } catch (PathNotFoundException e) {
-            throw new IOException("Path not found: " + e.getLocalizedMessage());
-        } catch (NoSuchNodeTypeException e) {
-            throw new IOException("Node type does not exist: "
-                    + e.getLocalizedMessage());
-        } catch (LockException e) {
-            throw new IOException("Resource is locked: "
-                    + e.getLocalizedMessage());
-        } catch (VersionException e) {
-            throw new IOException("Invalid version: " + e.getLocalizedMessage());
-        } catch (ConstraintViolationException e) {
-            throw new IOException("Constraints are violated: "
-                    + e.getLocalizedMessage());
         } catch (RepositoryException e) {
-            throw new IOException("Unable to write to repository: "
-                    + e.getLocalizedMessage());
+            throw new CascadingIOException("Unable to write XML content into repository: "
+                    + e.getLocalizedMessage(), e);
         }
     }
 
@@ -175,48 +174,25 @@ public class JCROutputStream extends ByteArrayOutputStream {
         try {
             Node content = node.addNode(JCRConstants.JCR_CONTENT, JCRConstants.NT_RESOURCE);
             writeBinary(content);
-        } catch (ItemExistsException e) {
-            throw new IOException("Content node already exists: "
-                    + e.getLocalizedMessage());
-        } catch (PathNotFoundException e) {
-            throw new IOException("Path not found: " + e.getLocalizedMessage());
-        } catch (NoSuchNodeTypeException e) {
-            throw new IOException("Node type does not exist: "
-                    + e.getLocalizedMessage());
-        } catch (LockException e) {
-            throw new IOException("Resource is locked: "
-                    + e.getLocalizedMessage());
-        } catch (VersionException e) {
-            throw new IOException("Invalid version: " + e.getLocalizedMessage());
-        } catch (ConstraintViolationException e) {
-            throw new IOException("Constraints are violated: "
-                    + e.getLocalizedMessage());
         } catch (RepositoryException e) {
-            throw new IOException("Unable to write to repository: "
-                    + e.getLocalizedMessage());
+            throw new CascadingIOException("Unable to write binary content into repository: "
+                    + e.getLocalizedMessage(), e);
         }
     }
 
-    private void writeXML(Node content) throws IOException {
-        try {
-            createSaxParser().parse(
-                    new ByteArrayInputStream(this.toByteArray()),
-                    new SAXToJCRNodesConverter(content));
-        } catch (PathNotFoundException e) {
-            throw new IOException("Path not found: " + e.getLocalizedMessage());
-        } catch (SAXException e) {
-            throw new SourceException("Unable to parse: ", e);
-        } catch (ParserConfigurationException e) {
-            throw new SourceException("Unable to configure parser: ", e);
-        } catch (RepositoryException e) {
-            throw new SourceException("Unable to write to repository: ", e);
-        }
+    private void writeXML(Node content) throws IOException, SAXException {
+        createSaxParser().parse(
+                // no need to copy the byte array (toByteArray()), since we have access to it
+                new ByteArrayInputStream(this.buf, 0, this.size()),
+                new SAXToJCRNodesConverter(content)
+        );
     }
 
     private void writeBinary(Node content) throws IOException {
         try {
+            // no need to copy the byte array (toByteArray()), since we have access to it
             content.setProperty(JCRConstants.JCR_DATA,
-                    new ByteArrayInputStream(this.toByteArray()));
+                    new ByteArrayInputStream(this.buf, 0, this.size()));
             content.setProperty(JCRConstants.JCR_MIMETYPE,
                     "application/octetstream"); //$NON-NLS-1$
             content.setProperty(JCRConstants.JCR_LASTMODIFIED,
@@ -265,26 +241,31 @@ public class JCROutputStream extends ByteArrayOutputStream {
         }
     }
 
-    private boolean canParse() {
+    private boolean isXML() {
         try {
             createSaxParser().parse(
-                    new ByteArrayInputStream(this.toByteArray()),
-                    new DefaultHandler());
+                    // no need to copy the byte array (toByteArray()), since we have access to it
+                    new ByteArrayInputStream(this.buf, 0, this.size()),
+                    new DefaultHandler()
+            );
+            return true;
         } catch (SAXException e) {
             return false;
         } catch (IOException e) {
             return false;
-        } catch (ParserConfigurationException e) {
-            return false;
         }
-        return true;
     }
 
-    private SAXParser createSaxParser() throws ParserConfigurationException,
-            SAXException {
+    private SAXParser createSaxParser() {
         SAXParserFactory parserFactory = SAXParserFactory.newInstance();
         parserFactory.setNamespaceAware(true);
-        return parserFactory.newSAXParser();
+        try {
+            return parserFactory.newSAXParser();
+        } catch (ParserConfigurationException e) {
+            throw new RuntimeException("Cannot create XML SAX parser", e);
+        } catch (SAXException e) {
+            throw new RuntimeException("Cannot create XML SAX parser", e);
+        }
     }
 
     public boolean canCancel() {
@@ -293,6 +274,6 @@ public class JCROutputStream extends ByteArrayOutputStream {
     }
 
     public void cancel() throws IOException {
-        // TODO: cancel is possible before session.save() is called
+        // TODO: cancel is possible before session.save() is called -> implement
     }
 }
