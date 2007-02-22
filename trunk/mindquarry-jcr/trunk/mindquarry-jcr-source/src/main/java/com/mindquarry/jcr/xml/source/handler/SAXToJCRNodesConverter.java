@@ -63,8 +63,7 @@ public class SAXToJCRNodesConverter extends DefaultHandler {
      * @throws PathNotFoundException
      * @throws RepositoryException
      */
-    public SAXToJCRNodesConverter(Node contentNode) 
-            throws PathNotFoundException, RepositoryException {
+    public SAXToJCRNodesConverter(Node contentNode) {
         
         prefixMapStack = new Stack<Map<String,String>>();
         pushNewPrefixMap();
