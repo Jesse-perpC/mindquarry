@@ -227,11 +227,10 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
      */
     public void release(Source source) {
-// not sure yet, committing this in a later version for separate testing
-//        if (source instanceof AbstractJCRNodeSource) {
-//            AbstractJCRNodeSource nodeSource = (AbstractJCRNodeSource) source;
-//            nodeSource.getSession().logout();
-//        }
+        if (source instanceof AbstractJCRNodeSource) {
+            AbstractJCRNodeSource nodeSource = (AbstractJCRNodeSource) source;
+            nodeSource.getSession().logout();
+        }
     }
 
     // =========================================================================
