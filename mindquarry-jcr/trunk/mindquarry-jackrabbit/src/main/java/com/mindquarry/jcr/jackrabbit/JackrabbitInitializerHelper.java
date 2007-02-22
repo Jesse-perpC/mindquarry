@@ -84,6 +84,8 @@ public class JackrabbitInitializerHelper {
         registerNodeTypesFromTextFile(nDefs, ntreg, uri);
 
         setupInitialRepositoryStructure(session);
+        
+        session.save();
     }
 
     private static void registerNodeTypesFromTextFile(InputStreamReader reader,
