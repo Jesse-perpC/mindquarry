@@ -15,6 +15,8 @@ package com.mindquarry.jcr.jackrabbit;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 
 import javax.jcr.Repository;
 import javax.jcr.Session;
@@ -38,6 +40,8 @@ public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
 
     public static final String BASE_URL = SCHEME + ":///";
     
+    public static final String MQ_JCR_XML_NODETYPES_FILE = "/com/mindquarry/jcr/jackrabbit/node-types.txt";
+
     protected Session session;
 
     @Override
@@ -52,6 +56,12 @@ public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
         Repository repo = (Repository) lookup(Repository.class.getName());
         session = repo.login(new SimpleCredentials("alexander.saar",
                 "mypwd".toCharArray()));
+        
+        InputStream nodeTypeDefIn = getClass().getResourceAsStream(
+                MQ_JCR_XML_NODETYPES_FILE);
+
+        JackrabbitInitializerHelper.setupRepository(session,
+                new InputStreamReader(nodeTypeDefIn), ""); //$NON-NLS-1$        
     }
 
     /**
