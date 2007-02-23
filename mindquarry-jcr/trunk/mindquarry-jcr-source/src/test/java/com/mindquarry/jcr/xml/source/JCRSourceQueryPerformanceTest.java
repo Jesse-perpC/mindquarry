@@ -29,7 +29,7 @@ public class JCRSourceQueryPerformanceTest extends JCRSourceTestBase {
     public void testQueryInLargeRepository() throws Exception {
 
         for (int i = 0; i < 100; i++) {
-            JCRNodeWrapperSource dummySource = (JCRNodeWrapperSource) resolveSource(BASE_URL
+            JCRNodeSource dummySource = (JCRNodeSource) resolveSource(BASE_URL
                     + "users/" + i);
             assertNotNull(dummySource);
 

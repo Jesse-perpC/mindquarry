@@ -28,7 +28,6 @@ import org.custommonkey.xmlunit.Diff;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 
 /**
  * Test cases for the JCRNodeWrapperSource implementation.
@@ -42,17 +41,17 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     private static final String CONTENT2_FILE = "/com/mindquarry/jcr/xml/source/ComplexContentV2.xml";
     
     public void testIsVersionableSource() throws ServiceException, IOException {
-    	JCRNodeWrapperSource emptySource = loadTestSource();
+    	JCRNodeSource emptySource = loadTestSource();
     	assertTrue(emptySource instanceof VersionableSource);
     }
     
     public void testGetSourceRevisionBranch() throws ServiceException, IOException {
-    	JCRNodeWrapperSource emptySource = loadTestSource();
+    	JCRNodeSource emptySource = loadTestSource();
     	assertNotNull(emptySource.getSourceRevisionBranch());
     }
     
     public void testIsVersioned() throws ServiceException, IOException {
-    	JCRNodeWrapperSource emptySource = loadTestSource();
+    	JCRNodeSource emptySource = loadTestSource();
     	assertTrue(emptySource.isVersioned());
     	
     	OutputStream sourceOut = emptySource.getOutputStream();
@@ -71,7 +70,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     }
     
     public void testRevcounter() throws ServiceException, IOException {
-    	JCRNodeWrapperSource emptySource = loadTestSource();
+    	JCRNodeSource emptySource = loadTestSource();
 
     	for (int i=0;i<3;i++) {
 	    	OutputStream sourceOut = emptySource.getOutputStream();
@@ -88,7 +87,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     	}
     	
     	String testSourceUri = BASE_URL + "users/lars.trieloff?revision=1.1";
-    	JCRNodeWrapperSource secondSource = (JCRNodeWrapperSource) resolveSource(testSourceUri);
+    	JCRNodeSource secondSource = (JCRNodeSource) resolveSource(testSourceUri);
     	
     	System.out.println("Created at: " + secondSource.getSourceRevision());
     	
@@ -113,7 +112,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     }
     
     public void testGetOldVersion() throws ServiceException, IOException, SAXException, ParserConfigurationException {
-    	JCRNodeWrapperSource emptySource = loadTestSource();
+    	JCRNodeSource emptySource = loadTestSource();
 
     	for (int i=0;i<3;i++) {
 	    	OutputStream sourceOut = emptySource.getOutputStream();
@@ -129,7 +128,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     	}
     	
     	String testSourceUri = BASE_URL + "users/lars.trieloff?revision=1.1";
-    	JCRNodeWrapperSource secondSource = (JCRNodeWrapperSource) resolveSource(testSourceUri);
+    	JCRNodeSource secondSource = (JCRNodeSource) resolveSource(testSourceUri);
     	
     	System.out.println("Read again at:" + secondSource.getSourceRevision());
         
@@ -141,7 +140,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
     public void testCreateNewXMLFile() throws InvalidNodeTypeDefException,
             ParseException, Exception {
          
-        JCRNodeWrapperSource emptySource = loadTestSource();        
+        JCRNodeSource emptySource = loadTestSource();        
         assertEquals(false, emptySource.exists());
 
         OutputStream sourceOut = emptySource.getOutputStream();
@@ -169,7 +168,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
         
         InputStream expected = getClass().getResourceAsStream(CONTENT2_FILE);
         
-        JCRNodeWrapperSource persistentSource = loadTestSource();
+        JCRNodeSource persistentSource = loadTestSource();
         assertEquals(true, persistentSource.exists());
         InputStream actual = persistentSource.getInputStream();
        
@@ -179,7 +178,7 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
             expected.close();
             actual.close();
         }
-        JCRNodeWrapperSource tmpSrc = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users/alexander.saar");
+        JCRNodeSource tmpSrc = (JCRNodeSource) resolveSource(BASE_URL + "users/alexander.saar");
         persistentSource.delete();
         tmpSrc.delete();
     }
@@ -193,13 +192,13 @@ public class VersioningJCRSourceTest extends JCRSourceTestBase {
         return xmlDiff.similar();
     }
     
-    private JCRNodeWrapperSource loadTestSource()
+    private JCRNodeSource loadTestSource()
         throws ServiceException, IOException {
         
-        JCRNodeWrapperSource result;
+        JCRNodeSource result;
         
         String testSourceUri = BASE_URL + "users/lars.trieloff"; 
-        result = (JCRNodeWrapperSource) resolveSource(testSourceUri);
+        result = (JCRNodeSource) resolveSource(testSourceUri);
         assertNotNull(result);
         
         return result;

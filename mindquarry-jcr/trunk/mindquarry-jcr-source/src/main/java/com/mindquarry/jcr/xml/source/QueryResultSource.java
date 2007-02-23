@@ -58,13 +58,13 @@ public class QueryResultSource implements TraversableSource {
      * @see org.apache.excalibur.source.TraversableSource#getChild(java.lang.String)
      */
     public Source getChild(String name) throws SourceException {
-        JCRNodeWrapperSource result = null;
+        JCRNodeSource result = null;
         try {
             while (nit.hasNext()) {
                 Node node = nit.nextNode();
 
                 if (node.getName().equals(name)) {
-                    result = new JCRNodeWrapperSource(factory, session, node
+                    result = new JCRNodeSource(factory, session, node
                             .getPath(), iClient);
                 }
             }
@@ -81,9 +81,9 @@ public class QueryResultSource implements TraversableSource {
      */
     public Collection getChildren() throws SourceException {
         try {
-            Collection<JCRNodeWrapperSource> result = new ArrayList<JCRNodeWrapperSource>();
+            Collection<JCRNodeSource> result = new ArrayList<JCRNodeSource>();
             while (nit.hasNext()) {
-                result.add(new JCRNodeWrapperSource(factory, session, nit
+                result.add(new JCRNodeSource(factory, session, nit
                         .nextNode().getPath(), iClient));
             }
             return result;

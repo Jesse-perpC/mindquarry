@@ -27,7 +27,6 @@ import org.custommonkey.xmlunit.Diff;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
 
-import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
 
 /**
  * Test cases for the JCRNodeWrapperSource implementation.
@@ -42,7 +41,7 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
     public void testCreateNewXMLFile() throws InvalidNodeTypeDefException,
             ParseException, Exception {
          
-        JCRNodeWrapperSource emptySource = loadTestSource();        
+        JCRNodeSource emptySource = loadTestSource();        
         assertEquals(false, emptySource.exists());
 
         OutputStream sourceOut = emptySource.getOutputStream();
@@ -59,7 +58,7 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
         
         InputStream expected = getClass().getResourceAsStream(CONTENT_FILE);
         
-        JCRNodeWrapperSource persistentSource = loadTestSource();
+        JCRNodeSource persistentSource = loadTestSource();
         assertEquals(true, persistentSource.exists());
         InputStream actual = persistentSource.getInputStream();
        
@@ -69,7 +68,7 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
             expected.close();
             actual.close();
         }
-        JCRNodeWrapperSource tmpSrc = (JCRNodeWrapperSource) resolveSource(BASE_URL + "users/alexander.saar");
+        JCRNodeSource tmpSrc = (JCRNodeSource) resolveSource(BASE_URL + "users/alexander.saar");
         persistentSource.delete();
         tmpSrc.delete();
     }
@@ -83,13 +82,13 @@ public class JCRSourceComplexXmlTest extends JCRSourceTestBase {
         return xmlDiff.similar();
     }
     
-    private JCRNodeWrapperSource loadTestSource()
+    private JCRNodeSource loadTestSource()
         throws ServiceException, IOException {
         
-        JCRNodeWrapperSource result;
+        JCRNodeSource result;
         
         String testSourceUri = BASE_URL + "users/lars.trieloff"; 
-        result = (JCRNodeWrapperSource) resolveSource(testSourceUri);
+        result = (JCRNodeSource) resolveSource(testSourceUri);
         assertNotNull(result);
         
         return result;
