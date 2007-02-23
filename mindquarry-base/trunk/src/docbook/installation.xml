@@ -130,7 +130,7 @@
       Linux distributions and UNIX derivates.</para>
     </section>
 
-    <section>
+    <section xml:id="install_mod_perl">
       <title>Installing mod_perl</title>
 
       <para>mod_perl is a module for the Apache 2 web server that allows you
@@ -163,6 +163,56 @@
       the <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
       meta-packaging software that provides easy-to install packages for many
       Linux distributions and UNIX derivates.</para>
+    </section>
+
+    <section>
+      <title>Checking Activated Modules</title>
+
+      <para>In order to make Mindquarry work as expected, some Apache modules
+      are neccessary. These are included in the default Apache distribution
+      and most often also activated, but some Linux distributions deactivate
+      these modules on purpose. These modules are:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>mod_rewrite</para>
+        </listitem>
+
+        <listitem>
+          <para>mod_proxy</para>
+        </listitem>
+
+        <listitem>
+          <para>mod_poxy_http</para>
+        </listitem>
+
+        <listitem>
+          <para>mod_dav</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Additionally there are the required modules, whose installation
+      has been covered in the previous sections:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><phrase
+          xlink:href="#install_mod_perl">mod_perl</phrase></para>
+        </listitem>
+
+        <listitem>
+          <para><phrase
+          xlink:href="#install_subversion">mod_dav_svn</phrase></para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Suse Linux users should edit the
+      <filename>/etc/sysconfig/apache2</filename> file, which is used for
+      configuring Apache modules and look for the definition of the
+      <varname>APACHE_MODULES</varname> variable. Here the modules
+      <literal>rewrite perl proxy proxy_http dav dav_svn</literal> should be
+      added. Newer Suse distributions using Apache 2.2 also require inclusion
+      of <literal>mod_dav_fs</literal>.</para>
     </section>
   </section>
 
@@ -444,6 +494,23 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
             <para>Under some Linux configurations with SELinux, especially
             with RHEL, you have to extend the security context of the Apache
             Web Server by issuing following command.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>How do I allow read-only anonymous access to the Subversion
+            repository?</para>
+          </question>
+
+          <answer>
+            <para>The Mindquarry Authentiaction perl module has a parameter
+            called AnonymousMethods that specifies a list of HTTP methods that
+            do not require authentication and enable anonymous access. Adding
+            a line like the following allows anonymous read-only access to the
+            repository.</para>
+
+            <programlisting>PerlSetVar AnonymousMethods     "GET PROPFIND OPTIONS REPORT"</programlisting>
           </answer>
         </qandaentry>
       </qandadiv>
