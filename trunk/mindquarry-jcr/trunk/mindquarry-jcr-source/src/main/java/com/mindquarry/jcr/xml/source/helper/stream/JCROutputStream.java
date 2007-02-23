@@ -70,6 +70,9 @@ public class JCROutputStream extends ByteArrayOutputStream {
 
     public JCROutputStream(Node node, Session session, IndexClient iClient,
             String uri) {
+        // more size at the beginning
+        super(1024);
+        
         this.node = node;
         this.session = session;
         this.iClient = iClient;
