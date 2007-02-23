@@ -203,7 +203,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
             String query = SourceUtil.getQuery(uri);
             if (query.startsWith("revision=")) {
                 // revision node
-            	return (JCRNodeWrapperSource) createSource(session, path, query);
+            	return (JCRNodeSource) createSource(session, path, query);
             } else {
                 // check for query syntax (eg. 'jcr:///users?//name' interpreted
                 // as 'jcr:///jcr:root/users//name')
@@ -219,7 +219,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
                 // because we registered the event during initialization
             }
             // standard direct hierarchy-resolving
-            return (JCRNodeWrapperSource) createSource(session, path);
+            return (JCRNodeSource) createSource(session, path);
         }
     }
 
@@ -227,8 +227,8 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * @see org.apache.excalibur.source.SourceFactory#release(org.apache.excalibur.source.Source)
      */
     public void release(Source source) {
-        if (source instanceof AbstractJCRNodeSource) {
-            AbstractJCRNodeSource nodeSource = (AbstractJCRNodeSource) source;
+        if (source instanceof JCRNodeSource) {
+            JCRNodeSource nodeSource = (JCRNodeSource) source;
             nodeSource.getSession().logout();
         }
     }
@@ -244,7 +244,7 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * @return a new source
      * @throws SourceException
      */
-    public AbstractJCRNodeSource createSource(Session session, String path)
+    public JCRNodeSource createSource(Session session, String path)
             throws SourceException {
         return createSource(session, path, null);
     }
@@ -258,10 +258,10 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
      * @return a new source
      * @throws SourceException
      */
-    public AbstractJCRNodeSource createSource(Session session, String path, String revision)
+    public JCRNodeSource createSource(Session session, String path, String revision)
             throws SourceException {
     	String myrevision = (revision==null) ? null : revision.substring("revision=".length());
-        return new JCRNodeWrapperSource(this, session, path, iClient, myrevision);
+        return new JCRNodeSource(this, session, path, iClient, myrevision);
     }
 
     /**

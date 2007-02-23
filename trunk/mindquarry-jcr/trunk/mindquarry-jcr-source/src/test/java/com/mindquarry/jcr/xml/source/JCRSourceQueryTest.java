@@ -33,7 +33,7 @@ import org.apache.jackrabbit.core.nodetype.compact.ParseException;
 public class JCRSourceQueryTest extends JCRSourceTestBase {
     
     public void testSimpleQuery() throws Exception {
-        JCRNodeWrapperSource dummySource = (JCRNodeWrapperSource) resolveSource(BASE_URL
+        JCRNodeSource dummySource = (JCRNodeSource) resolveSource(BASE_URL
                 + "users/alexander.klimetschek");
         assertNotNull(dummySource);
 
@@ -45,7 +45,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         os.flush();
         os.close();
 
-        JCRNodeWrapperSource source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+        JCRNodeSource source = (JCRNodeSource) resolveSource(BASE_URL
                 + "users/bastian");
         assertNotNull(source);
 
@@ -66,7 +66,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         assertEquals(1, results.size());
 
         Iterator it = results.iterator();
-        JCRNodeWrapperSource rSrc = (JCRNodeWrapperSource) it.next();
+        JCRNodeSource rSrc = (JCRNodeSource) it.next();
         InputStream rSrcIn = rSrc.getInputStream();
 
         ByteArrayOutputStream actualOut = new ByteArrayOutputStream();
@@ -82,7 +82,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
     public void testQueryForBinary() throws InvalidNodeTypeDefException,
             ParseException, Exception {
 
-        JCRNodeWrapperSource source = (JCRNodeWrapperSource) resolveSource(BASE_URL
+        JCRNodeSource source = (JCRNodeSource) resolveSource(BASE_URL
                 + "images/photo.png");
 
         assertNotNull(source);
@@ -104,7 +104,7 @@ public class JCRSourceQueryTest extends JCRSourceTestBase {
         assertEquals(1, results.size());
 
         Iterator it = results.iterator();
-        JCRNodeWrapperSource rSrc = (JCRNodeWrapperSource) it.next();
+        JCRNodeSource rSrc = (JCRNodeSource) it.next();
         InputStream rSrcIn = rSrc.getInputStream();
 
         ByteArrayOutputStream actualOut = new ByteArrayOutputStream();

@@ -21,7 +21,7 @@ import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.jcr.xml.source.JCRNodeWrapperSource;
+import com.mindquarry.jcr.xml.source.JCRNodeSource;
 import com.mindquarry.jcr.xml.source.JCRSourceTestBase;
 
 /**
@@ -44,7 +44,7 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
         super.setUp();
         results = new ArrayList<Long>();
 
-        JCRNodeWrapperSource source = (JCRNodeWrapperSource) resolveSource("jcr://"
+        JCRNodeSource source = (JCRNodeSource) resolveSource("jcr://"
                 + jcrPath);
         // ensure the path exists
         if (!source.exists()) {
