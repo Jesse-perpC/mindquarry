@@ -363,18 +363,15 @@ Form.prototype.saveXML = function(uri, xsluri) {
         }
 
     } finally {
-        if (source != null)
+        if (outputStream != null) {
+            outputStream.flush();
+            outputStream.close();
+        }
+
+        if (source != null) {
             resolver.release(source);
+        }
 
         cocoon.releaseComponent(resolver);
-
-        if (outputStream != null) {
-            try {
-                outputStream.flush();
-                outputStream.close();
-            } catch (error) {
-                cocoon.log.error("Could not flush/close outputstream: " + error);
-            }
-        }
     }
 }
