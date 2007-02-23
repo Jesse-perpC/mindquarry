@@ -41,6 +41,7 @@ import javax.jcr.version.VersionHistory;
 import javax.jcr.version.VersionIterator;
 
 import org.apache.cocoon.components.source.VersionableSource;
+import org.apache.cocoon.components.source.helpers.SourceProperty;
 import org.apache.excalibur.source.ModifiableTraversableSource;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceException;
@@ -70,7 +71,7 @@ import com.mindquarry.jcr.xml.source.helper.stream.JCROutputStream;
  *         Saar</a>
  */
 public class JCRNodeSource implements Source, ModifiableTraversableSource,
-        VersionableSource, ChangeableSource, XMLizable {
+        /*InspectableSource,*/ VersionableSource, ChangeableSource, XMLizable {
     /**
      * The factory that created this Source.
      */
@@ -445,6 +446,10 @@ public class JCRNodeSource implements Source, ModifiableTraversableSource,
      */
     public OutputStream getOutputStream() throws IOException {
         if (exists()) {
+            if (!isHeadRevision()) {
+                throw new SourceException("Source is read-only. Try changing the head revision");
+            }
+            
             try {
                 // check for current type here (must not be NT_FROZENNODE)
                 if (node.isNodeType(JCRConstants.NT_FILE)) {
@@ -602,6 +607,10 @@ public class JCRNodeSource implements Source, ModifiableTraversableSource,
      */
     public void makeCollection() throws SourceException {
         if (exists()) {
+            if (!isHeadRevision()) {
+                throw new SourceException("Source is read-only. Try changing the head revision");
+            }
+            
             if (!isCollection()) {
                 throw new SourceException(
                         "Cannot make a collection with existing node at "
@@ -752,6 +761,63 @@ public class JCRNodeSource implements Source, ModifiableTraversableSource,
         } catch (SourceException e) {
             return null;
         }
+    }
+
+    // =========================================================================
+    // InspectableSource interface
+    // =========================================================================
+    
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.cocoon.components.source.InspectableSource#getSourceProperties()
+     */
+    public SourceProperty[] getSourceProperties() throws SourceException {
+        // TODO: read source properties directly from node        
+        // JCR_AUTHOR
+        // JCR_MESSAGE
+        
+        return null;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.cocoon.components.source.InspectableSource#getSourceProperty(java.lang.String, java.lang.String)
+     */
+    public SourceProperty getSourceProperty(String namespace, String name) throws SourceException {
+        // TODO: read requested source property directly from node        
+        // JCR_AUTHOR
+        // JCR_MESSAGE
+        
+        return null;
+    }
+
+    /**
+     * Not supported for jcr nodes.
+     * 
+     * @see org.apache.cocoon.components.source.InspectableSource#removeSourceProperty(java.lang.String, java.lang.String)
+     */
+    public void removeSourceProperty(String namespace, String name) throws SourceException {
+        throw new UnsupportedOperationException("Cannot remove source properties on JCR node sources.");
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.apache.cocoon.components.source.InspectableSource#setSourceProperty(org.apache.cocoon.components.source.helpers.SourceProperty)
+     */
+    public void setSourceProperty(SourceProperty property) throws SourceException {
+        if (exists()) {
+            if (!isHeadRevision()) {
+                throw new SourceException("Source is read-only. Try changing the head revision");
+            }
+        }
+        // TODO: a) write property directly to node OR b) remember prop and set on output stream
+        // for a) need to create node if it does not exist yet - check with getOutputStream()
+        // for b) remembering needs another getter method for JCROutputStream
+        // JCR_AUTHOR
+        // JCR_MESSAGE
     }
 
     // =========================================================================

@@ -32,4 +32,10 @@ public interface JCRConstants extends org.apache.jackrabbit.JcrConstants {
     public static final String TEXT = "text";
 
     public static final String XT_CHARACTERS = "xt:characters";
+
+    /*
+    public static final String JCR_AUTHOR = "jcr:author";
+
+    public static final String JCR_MESSAGE = "jcr:message";
+    */
 }
