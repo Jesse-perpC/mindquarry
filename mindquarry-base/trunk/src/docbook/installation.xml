@@ -20,6 +20,47 @@
         <orgname>Mindquarry GmbH</orgname>
       </affiliation>
     </author>
+
+    <revhistory>
+      <revision>
+        <date>05/02/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>Initial creation of the installation guide.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <date>19/02/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>Added troubleshooting section to the installation
+          guide.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <date>23/02/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>More detailed information about installing Mindquarry on Suse
+          Linux, with thanks to Hans-Georg Dück, instructions on allowing
+          anonymous repository access.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
   </info>
 
   <section>
