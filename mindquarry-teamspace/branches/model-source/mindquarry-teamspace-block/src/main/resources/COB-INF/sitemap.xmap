@@ -531,6 +531,9 @@
 						<generate src="model://TeamQuery#teamspaceById({1})"
 							label="content" /> 
 				
+						<transform src="xslt/includeMembersForTeamspace.xsl" />
+						<transform type="include" />
+						
 						<transform src="xslt/teamspace2html.xsl"
 							label="html">
 							<parameter name="username"

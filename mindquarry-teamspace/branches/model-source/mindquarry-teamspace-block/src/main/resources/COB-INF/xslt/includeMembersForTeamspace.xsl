@@ -25,7 +25,7 @@
 	<xsl:template match="teamspace">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|*" />
-			<include src="model://UserQuery#membersForTeamspace({id})" xmlns="http://apache.org/cocoon/include/1.0"/>
+			<i:include src="model://UserQuery#membersForTeamspace({id})" xmlns:i="http://apache.org/cocoon/include/1.0" />
 		</xsl:copy>
 	</xsl:template>
 </xsl:stylesheet>
