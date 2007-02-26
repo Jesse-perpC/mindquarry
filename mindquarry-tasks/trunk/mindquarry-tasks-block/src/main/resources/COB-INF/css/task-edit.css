@@ -5,6 +5,11 @@ dl {
     margin-top: 0px;
 }
 
+/* let the buttons float at the right side */
+dt, dd {
+    clear: none;
+}
+
 table.forms {
 	border:0px;
 	text-align:left;
