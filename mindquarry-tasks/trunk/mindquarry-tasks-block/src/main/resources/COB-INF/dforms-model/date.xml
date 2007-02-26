@@ -23,16 +23,28 @@
 		<fd:datatype base="date">
 			<fd:convertor type="formatting">
 		    <fd:patterns>
-		    	<!-- locales for dates are not working properly yet -->
-		    	<!-- NB. You must use 'yyyy' for the year (not 'yy'), or dojo gets confused -->
-		      <fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
-		      <fd:pattern locale="en-UK">dd/MM/yyyy</fd:pattern>
-		      <fd:pattern locale="en-ZA">dd/MM/yyyy</fd:pattern>
-		      <fd:pattern locale="de">dd/MM/yyyy</fd:pattern>
-		      <fd:pattern locale="fr">dd/MM/yyyy</fd:pattern>
-		      <fd:pattern locale="it">dd/MM/yyyy</fd:pattern>
-		      <fd:pattern locale="es">dd/MM/yyyy</fd:pattern>
-		      <fd:pattern locale="fr">dd-MM-yyyy</fd:pattern>
+		    	<!-- locales for dates are not working properly yet; the
+		    		 dojo 0.3.1 DropdownDatePicker can only handle the american
+		    		 format (MM/dd/yyyy), so we force Cocoon in all standard
+		    		 locales to print out the date in exactly that format -->
+		    	<fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="en-UK">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="en-ZA">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="de">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="fr">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="it">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="es">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="fr">MM/dd/yyyy</fd:pattern>
+		    		
+				<!-- NB. You must use 'yyyy' for the year (not 'yy'), or dojo gets confused -->
+				<!--<fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
+				<fd:pattern locale="en-UK">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="en-ZA">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="de">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="fr">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="it">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="es">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="fr">dd-MM-yyyy</fd:pattern>-->
 		    </fd:patterns>
 		  </fd:convertor>
 		</fd:datatype>
