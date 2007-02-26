@@ -13,6 +13,7 @@
  */
 package com.mindquarry.user;
 
+
 /**
  * Add summary documentation here.
  *

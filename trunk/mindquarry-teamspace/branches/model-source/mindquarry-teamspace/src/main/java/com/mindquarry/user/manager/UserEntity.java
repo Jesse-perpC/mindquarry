@@ -21,12 +21,15 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 
+import com.mindquarry.common.model.SerializationIgnore;
+import com.mindquarry.common.model.SerializationName;
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.User;
 
+@SerializationName("user")
 public final class UserEntity extends EntityBase implements User {
-    
+
     private String password;
     
     private String name;
@@ -36,7 +39,7 @@ public final class UserEntity extends EntityBase implements User {
     private String email;
     
     private String skills;
-    
+
     Set<String> teamspaceReferences;
 
 
@@ -67,6 +70,7 @@ public final class UserEntity extends EntityBase implements User {
      * This method is not part of the contract, please use instead of
      * the methods authenticate and changePassword.
      */
+    @SerializationIgnore
     public String getPassword() {
         return password;
     }
@@ -158,6 +162,7 @@ public final class UserEntity extends EntityBase implements User {
      * This method is not part of the contract and 
      * thus must not be used by any clients except the persistence layer.
      */
+    @SerializationIgnore
     public Set<String> getTeamspaceReferences() {
         return teamspaceReferences;
     }

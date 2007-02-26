@@ -22,6 +22,7 @@ import com.mindquarry.auth.AuthorizationCheck;
 import com.mindquarry.auth.ProfileRO;
 import com.mindquarry.auth.RightRO;
 import com.mindquarry.user.AbstractUserRO;
+import com.mindquarry.user.UserQuery;
 import com.mindquarry.user.manager.UserManager;
 
 
@@ -36,7 +37,7 @@ public class Authorization implements AuthorizationCheck,
 
     private ResourceEntity resourcesRoot;
     
-    private UserManager userManager;
+    private UserQuery userManager;
     
     public Authorization() {
         this.resourcesRoot = new ResourceEntity("/", "root");

@@ -30,4 +30,6 @@ public interface UserQuery {
     List<UserRO> allUsers();
     
     GroupRO groupById(String groupId);
+
+	List<UserRO> membersForTeamspace(String teamspaceId);
 }

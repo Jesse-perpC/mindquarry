@@ -37,7 +37,10 @@
 	
 	<alias name="com.mindquarry.user.manager.UserManager" 
 		   alias="com.mindquarry.user.UserAdmin" />
-		   
+	
+	<alias name="com.mindquarry.user.manager.UserManager" 
+		   alias="com.mindquarry.user.UserQuery" />
+		   	   
 	<alias name="com.mindquarry.user.manager.UserManager" 
 		   alias="com.mindquarry.user.Authentication" />
 	
