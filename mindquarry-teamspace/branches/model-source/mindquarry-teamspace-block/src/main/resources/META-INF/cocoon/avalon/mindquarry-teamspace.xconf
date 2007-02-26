@@ -46,6 +46,17 @@
 		<!--component-instance name="jcr"/
 		
 			rmi="rmi://localhost:1099/jackrabbit"-->
+			
+		
+		<component-instance name="model"
+			class="com.mindquarry.model.source.ModelSourceFactory">
+			<component-shorthands>
+				<component shorthand="TeamQuery"
+					fullname="com.mindquarry.teamspace.TeamspaceQuery" />
+				<component shorthand="UserQuery"
+					fullname="com.mindquarry.user.UserQuery" />
+			</component-shorthands>
+		</component-instance>
 
 	</source-factories>
 

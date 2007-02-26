@@ -528,6 +528,26 @@
 				<select type="REST">
 					<!--  handle HTML request -->
 					<when test="html">
+						<generate src="model://TeamQuery#teamspaceById({1})"
+							label="content" /> 
+				
+						<transform src="xslt/teamspace2html.xsl"
+							label="html">
+							<parameter name="username"
+								value="{request-attr:username}" />
+							<parameter name="fullPath"
+								value="{block-path:}{request:pathInfo}" />
+							<parameter name="sitemapPath"
+								value="{request:pathInfo}" />
+							<parameter name="user.agent"
+								value="{request-header:User-Agent}" />
+						</transform>
+						
+						<call resource="form2html" />
+						<call resource="layouting" />
+						
+						<serialize type="html" />
+						<!--
 						<call
 							function="teamByID">
 							<parameter name="teamID"
@@ -535,6 +555,7 @@
 							<parameter name="target"
 								value="views/teamspaceHTMLView" />
 						</call>
+						-->
 					</when>
 					
 					<!--  handle REST request -->
