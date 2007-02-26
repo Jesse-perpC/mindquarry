@@ -18,7 +18,7 @@
 	
 	<bean id="com.mindquarry.common.persistence.SessionFactory" 
 		class="com.mindquarry.persistence.mock.SessionFactoryMock"
-		init-method="initialize">
+		init-method="initialize" scope="singleton">
 		
 		<property name="configuration" 
 				  ref="com.mindquarry.persistence.config.PersistenceConfiguration" />	

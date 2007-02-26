@@ -18,10 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mindquarry.common.model.SerializationName;
 import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.user.UserRO;
-import com.mindquarry.user.manager.UserEntity;
 
 
 /**
@@ -30,6 +30,7 @@ import com.mindquarry.user.manager.UserEntity;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
+@SerializationName("teamspace")
 public class TeamspaceEntity extends EntityBase implements Teamspace {
 
     private String name;

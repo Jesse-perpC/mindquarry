@@ -20,8 +20,6 @@ import java.util.List;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 
 import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 import com.mindquarry.user.UserAdmin;
