@@ -1,0 +1,181 @@
+@import "teamspace-details.css";
+
+a.create_teamspace_button:link, a.create_teamspace_button:visited {
+	background-image: url(../buttons/create_teamspace.gif);
+	display:block;
+	width: 140px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+	float:right;
+	/*
+	margin-left:auto;
+	*/
+	margin-right:11px;
+}
+
+a.create_user_button:link, a.create_user_button:visited {
+	background-image: url(../buttons/create_user.gif);
+	display:block;
+	width: 142px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+	float:right;
+	/*
+	margin-left:auto;
+	*/
+	margin-right:11px;
+}
+
+ul.teamspace-list {
+	list-style: none;
+	margin: 0px;
+	clear:both;
+	padding: 0px;
+}
+
+ul.members {
+/**************************
+	width:320px;
+	float:right;
+	margin-top:-15px;	
+	margin-right:5px;
+	position:relative;
+**************************/	
+	clear:both;
+	margin-top: -60px;	
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;	
+	float: right;	
+	padding: 0;
+	z-index:2;
+
+}
+
+ul.members li {
+	display:block;
+	width:50px;
+	font-size:8pt;
+	padding-top:50px;
+	overflow:hidden;
+	float:left;
+	margin:0px 2px;
+	text-align:center;
+}
+
+ul.tags {
+	clear:left;
+	background-image:url(../images/tag_32.png);
+	height:32px;
+	background-repeat:no-repeat;
+	padding-top:6px;
+	background-position:6px 0px;
+	overflow:hidden;
+}
+
+ul.tags li {
+	display:inline;
+	font-size:9pt;
+	margin:0px 3px;
+}
+
+/*a:link, a:visited {
+ 	color:#3333ff;
+ 	text-decoration:none;
+}*/
+
+a.slidernext {
+	display:block;
+	background:url(../icons/22x22/actions/go-next.png);
+	height:22px;
+	width:22px;
+	overflow:hidden;
+	/*color:none;*/
+	font-size:0px;
+	background-repeat:no-repeat;
+	margin-top:12px;
+}
+
+a.sliderprev {
+	display:block;
+	background:url(../icons/22x22/actions/go-previous.png);
+	height:22px;
+	width:22px;
+	overflow:hidden;
+	float:left;
+	/*color:none;*/
+	font-size:0px;
+	background-repeat:no-repeat;
+	margin-top:12px;
+}
+
+a.slidernext b, a.sliderprev b {
+	visibility:hidden;
+}
+
+a.details-collapsed {
+	background-image: url(../buttons/details_collapsed.gif);
+	height:16px;
+	width:16px;
+	overflow:hidden;
+	float:left;
+	margin-right:6px;
+	display: block;
+	color: none;
+	font-size:0px;
+	background-repeat: no-repeat;
+/*	display: inline-block;
+	text-overflow: ellipsis-word; 
+*/
+}
+
+
+a.details-expanded {
+	background-image: url(../buttons/details_expanded.gif);
+	height:16px;
+	width:16px;
+	overflow:hidden;
+	float:left;
+	margin-right:6px;
+	display: block;
+	color: none;
+	font-size:0px;
+	background-repeat: no-repeat;
+
+/*	display: inline-block;
+	text-overflow: ellipsis-word; 
+*/	
+}
+
+a.details-collapsed b, a.details-expanded b{
+	text-decoration: none;
+}
+
+a.details-collapsed b, a.details-expanded b{
+	display:none;
+}
+
+/*
+  override this, because in teamspace overview this is hidden 
+  by default and only display after click on the details link.
+  
+  in individual teamspace view, there is no ancestor li, so this
+  will by displayed
+*/
+li div.edit-buttons {
+	display:none;
+}
+
+
