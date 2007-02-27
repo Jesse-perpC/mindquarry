@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2007 MindQuarry GmbH, All Rights Reserved
+ * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
  * 
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
@@ -20,7 +20,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 

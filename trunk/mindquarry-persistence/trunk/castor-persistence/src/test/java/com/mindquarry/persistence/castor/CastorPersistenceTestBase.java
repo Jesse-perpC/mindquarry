@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2006-2007 MindQuarry GmbH, All Rights Reserved
+ * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
  * 
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
@@ -13,13 +13,8 @@
  */
 package com.mindquarry.persistence.castor;
 
-import java.io.IOException;
 import java.net.URL;
 import java.util.List;
-
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
 
 import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 
