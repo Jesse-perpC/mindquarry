@@ -17,7 +17,16 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- *
+ * This annotation can be used to define a certain name
+ * for a class or a property that shall be considered by
+ * a serialization process. For example the defined name can 
+ * be used for an xml element representing a class. 
+ * 
+ * It is especially used by the model-source component, which
+ * enables an xml serialization of java beans/pojos by means of 
+ * introspecting them. Currently only annotated property getters 
+ * are considered, but annotated property fields should be supported too.
+ * 
  * @author 
  * <a href="mailto:bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
