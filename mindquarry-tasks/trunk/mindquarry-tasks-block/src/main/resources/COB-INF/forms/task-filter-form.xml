@@ -39,11 +39,8 @@
 		
 					<!-- helper information -->
 					<fd:hint>
-						The aggregator is used for assembling the filter.
+						Choose how multiple rules are applied.
 					</fd:hint>
-					<fd:help>
-						Can be used for building different link types between filter parts.
-					</fd:help>
 				</fd:field>
 						
 				<!-- filter part repeater -->
@@ -72,9 +69,6 @@
 							<fd:hint>
 								Name of the field that should be evaluated.
 							</fd:hint>
-							<fd:help>
-								Can be used for selecting a field that is used in a filter.
-							</fd:help>
 						</fd:field>
 		
 						<!-- selector configuration -->
@@ -91,15 +85,12 @@
 		
 							<!-- helper information -->
 							<fd:hint>
-								Selector is used for evaluating the specified field.
+								How should it be evaluated?.
 							</fd:hint>
-							<fd:help>
-								Can be used for specifing selection criteria.
-							</fd:help>
 						</fd:field>
 		
 						<!-- value configuration -->
-						<fd:field id="value" required="true">
+						<fd:field id="value">
 							<!-- basic configuration -->
 							<fd:label>Value</fd:label>
 							<fd:datatype base="string" />
@@ -113,11 +104,8 @@
 		
 							<!-- helper information -->
 							<fd:hint>
-								The value that is used in the field evaluation according to the specified selection criteria.
+								What value should be checked against?
 							</fd:hint>
-							<fd:help>
-								Can be used for specifing values to be used in the selection criteria.
-							</fd:help>
 						</fd:field>
 						
 						<fd:row-action id="delete" command="delete">
@@ -127,9 +115,6 @@
 		
 					<!-- helper information -->
 					<fd:hint>Rules of a filter.</fd:hint>
-					<fd:help>
-						Use this field for configuring the rules of a filter.
-					</fd:help>
 				</fd:repeater>
 				
 				<!-- add field to filter action -->
@@ -145,29 +130,26 @@
 					<fd:validation>
 						<fd:length min="1">
 							<fd:failmessage>
-								Title field must contain at least one ore more characters.
+								Title field must contain one ore more characters.
 							</fd:failmessage>
 						</fd:length>
 					</fd:validation>
 					
 					<fd:hint>
-						Name of the filter.
+						This name will be displayed as link in the filter list.
 					</fd:hint>
-					<fd:help>
-						Can be used for setting the name of a stored filter.
-					</fd:help>
 				</fd:field>
 			</fd:widgets>
 		</fd:group>
 
 		<!-- execute filter action -->
 		<fd:action id="executeFilterAction">
-			<fd:label>Execute Filter</fd:label>
+			<fd:label>Run Filter</fd:label>
 			<fd:on-action>
 				<fd:javascript>executeFilter();</fd:javascript>
 			</fd:on-action>
 		</fd:action>
-				
+		
 		<!-- save filter widgets -->
 		<fd:group id="saveFilterWidgets">
 			<fd:widgets>
@@ -212,9 +194,6 @@
 			
 			<!-- helper information -->
 			<fd:hint>Results of the filter execution.</fd:hint>
-			<fd:help>
-				Use this field for configuring the filter parts.
-			</fd:help>
 		</fd:repeater>
 	</fd:widgets>
 </fd:form>

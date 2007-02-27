@@ -37,8 +37,14 @@ td.task_status {
 div.actions {
     text-align:right;
     width:100%;
-    margin-top:10px;
     float:right;
+}
+
+div.run_action {
+    text-align:right;
+    width:100%;
+    float:right;
+    margin-top: -40px;
 }
 
 div.results {
@@ -49,6 +55,10 @@ div.results {
     position:absolute;
 }
 
+#rules_block {
+    margin-top:15px;
+    margin-bottom:15px;
+}
 
 /* Form styles */
 div.form-container { margin: 10px; padding: 5px; background-color: #FFF; border: #EEE 1px solid; }

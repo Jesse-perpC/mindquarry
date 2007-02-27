@@ -46,7 +46,6 @@
 					<ft:group id="deleteFilterWidgets">
 						<ft:widget id="deleteFilterAction" />
 					</ft:group>
-					<ft:widget id="executeFilterAction" />
 				</div>
 				
 				<ft:group id="filterBuilderWidgets">
@@ -54,7 +53,7 @@
 						<ft:widget id="aggregator" />
 						<ft:widget id="addRule" />
 					</div>
-					<div>
+					<div id="rules_block">
 						<ft:repeater id="rules"
 							xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 							<table>
@@ -81,7 +80,10 @@
 						</ft:repeater>
 					</div>
 				</ft:group>
-			
+				<div class="run_action">
+					<ft:widget id="executeFilterAction" />
+				</div>					
+				
 				<div class="results">
 					<ft:repeater id="results"
 						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
