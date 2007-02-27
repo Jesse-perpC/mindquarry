@@ -17,7 +17,14 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 
 /**
- *
+ * This annotation is intented to mark properties of a bean/pojo
+ * that should not be serialized, e.g. the password of a user.
+ * 
+ * It is especially used by the model-source component, which
+ * enables an xml serialization of java beans/pojos by means of 
+ * introspecting them. Currently only annotated property getters 
+ * are considered, but annotated property fields should be supported too.
+ * 
  * @author 
  * <a href="mailto:bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
