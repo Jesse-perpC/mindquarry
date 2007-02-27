@@ -44,5 +44,11 @@
 				</component-shorthands>
 			</component-instance>
 		</source-factories>
+		
+		<!-- define the exact XMLSerializer we want to use (taken from
+			 standard cocoon configuration) -->
+		<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+		</serializer>
 	</components>
 </testcase>

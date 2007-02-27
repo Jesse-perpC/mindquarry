@@ -13,7 +13,6 @@
  */
 package com.mindquarry.model.source;
 
-import static com.mindquarry.common.xml.SerializerUtil.makeSerializer;
 import static com.mindquarry.model.source.ReflectionUtil.invokeGetter;
 
 import java.io.ByteArrayInputStream;
@@ -21,12 +20,14 @@ import java.io.ByteArrayOutputStream;
 import java.io.Closeable;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 import java.lang.reflect.Method;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.apache.cocoon.serialization.Serializer;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceValidity;
 import org.xml.sax.ContentHandler;
@@ -45,13 +46,16 @@ class ModelSource implements Source {
 	
 	private String url_;
 	private ModelSourceInterpreter businessSourceInterpreter_;
+    
+    private ContainerUtil containerUtil_;
 	
 	private InputStream xmlInputStream_;
 	
-	public ModelSource(String url,
+	public ModelSource(String url, ContainerUtil containerUtil,
 			ModelSourceInterpreter businessSourceInterpreter) {
 		
 		url_ = url;
+        containerUtil_ = containerUtil;
 		businessSourceInterpreter_ = businessSourceInterpreter;
 	}
 	
@@ -106,8 +110,6 @@ class ModelSource implements Source {
 				toSax(makeSerializer(outputStream));
 			} catch (SAXException e) {
 				throw new ModelSourceException(e);
-			} catch (IOException e) {
-				throw new ModelSourceException(e);
 			}
 			return new ByteArrayInputStream(outputStream.toByteArray());
 		}
@@ -117,6 +119,21 @@ class ModelSource implements Source {
 			}
 		}
 	}
+    
+    private Serializer makeSerializer(OutputStream outputStream) {
+        Serializer result = (Serializer) lookupComponent(Serializer.ROLE);
+        try {
+            result.setOutputStream(outputStream);
+        } catch (IOException e) {
+            throw new ModelSourceException("could not set outputstream " +
+                    "to cocoon serializer.", e);
+        }
+        return result;
+    }
+    
+    private Object lookupComponent(String name) {
+        return containerUtil_.lookupComponent(name); 
+    }
 	
 	private void closeStream(Closeable stream) {
 		try {
