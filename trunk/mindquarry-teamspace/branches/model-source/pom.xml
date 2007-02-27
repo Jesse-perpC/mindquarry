@@ -19,6 +19,7 @@
 
 	<modules>
 		<module>mindquarry-teamspace</module>
+		<module>model-source</module>
 		<module>mindquarry-authorization</module>
 		<module>mindquarry-teamspace-block</module>
 	</modules>
