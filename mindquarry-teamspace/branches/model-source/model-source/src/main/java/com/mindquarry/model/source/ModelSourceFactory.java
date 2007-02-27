@@ -49,11 +49,11 @@ public class ModelSourceFactory implements SourceFactory,
 	}
 	
 	
-	private ServiceManager serviceManager_;
+	private ContainerUtil containerUtil_;
 	
 	public void service(ServiceManager serviceManager) 
         	throws ServiceException {
-    	serviceManager_ = serviceManager;
+        containerUtil_ = new ContainerUtil(serviceManager);
     }
 	
     
@@ -97,9 +97,9 @@ public class ModelSourceFactory implements SourceFactory,
     	String[] statements = resourceParts[1].split("\\."); // the args is a reg exp
     	
     	ModelSourceInterpreter interpreter = 
-    		new ModelSourceInterpreter(serviceManager_, componentName, statements);
+    		new ModelSourceInterpreter(containerUtil_, componentName, statements);
     	
-    	ModelSource result = new ModelSource(url, interpreter);
+    	ModelSource result = new ModelSource(url, containerUtil_, interpreter);
     	result.initialize();
     	return result;
     }

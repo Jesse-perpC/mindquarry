@@ -17,9 +17,6 @@ import static com.mindquarry.model.source.ReflectionUtil.invokeMethod;
 
 import java.lang.reflect.Method;
 
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.avalon.framework.service.ServiceManager;
-
 /**
  *
  * @author 
@@ -30,19 +27,19 @@ class ModelSourceInterpreter {
 	private String componentName_;
 	private String[] statements_;
 	
-	private ServiceManager serviceManager_;
+	private ContainerUtil containerUtil_;
 	
-	ModelSourceInterpreter(ServiceManager serviceManager,
+	ModelSourceInterpreter(ContainerUtil containerUtil,
 			String componentName, String[] statements) {
 
-		serviceManager_ = serviceManager;
+        containerUtil_ = containerUtil;
 		
 		componentName_ = componentName;
 		statements_ = statements;
 	}
 	
 	Object interpret() {
-		Object context = lookupComponent(componentName_);
+		Object context = containerUtil_.lookupComponent(componentName_);
     	
     	for (String statement : statements_) {
     		
@@ -109,15 +106,5 @@ class ModelSourceInterpreter {
 			}
 		}
 		return result;
-	}
-	
-	private Object lookupComponent(String name) {
-		try {
-			return serviceManager_.lookup(name);
-		}
-		catch (ServiceException e) {
-			throw new ModelSourceException("could not resolve component " +
-					"for name: " + name, e);
-		}
 	}
 }
