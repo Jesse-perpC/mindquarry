@@ -13,9 +13,11 @@
  */
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 var form_;
+var filterID_;
 var teamspaceID_;
 
 function displayNewFilterForm() {
+	filterID_ = null;
 	teamspaceID_ = cocoon.parameters["teamspaceID"];
 	form_ = new Form(cocoon.parameters["definitionURI"]);
 	
@@ -24,18 +26,15 @@ function displayNewFilterForm() {
     var deleteFilterWidgets = form_.lookupWidget("/deleteFilterWidgets");
     deleteFilterWidgets.setState(WidgetState.INVISIBLE);
     
-    var executeFilterAction = form_.lookupWidget("/executeFilterAction");
-    executeFilterAction.setState(WidgetState.INVISIBLE);
-    
-    var resultsRepeater = form_.lookupWidget("/results");
-    resultsRepeater.setState(WidgetState.INVISIBLE);
-    	
+	var partRepeater = form_.lookupWidget("/filterBuilderWidgets/rules");
+	partRepeater.addRow();
+	
 	form_.showForm(cocoon.parameters["templatePipeline"]);
 	finishForm();
 }
 
 function displaySavedFilterForm() {
-    var filterID = cocoon.parameters["filterID"];
+    filterID_ = cocoon.parameters["filterID"];
     teamspaceID_ = cocoon.parameters["teamspaceID"];
     
     // retrieve saved filter
@@ -46,7 +45,7 @@ function displaySavedFilterForm() {
 		srcResolver = cocoon.getComponent(
 				Packages.org.apache.cocoon.environment.SourceResolver.ROLE);
 		pfSource = srcResolver.resolveURI("jcr:///teamspaces/" + teamspaceID_ + 
-										"/tasks/filters/" + filterID);
+										"/tasks/filters/" + filterID_);
 		
 		form_ = new Form(cocoon.parameters["definitionURI"]);
 		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
@@ -58,14 +57,6 @@ function displaySavedFilterForm() {
     	parser.parse(new Packages.org.xml.sax.InputSource(pfSource.getInputStream()));
     	
     	executeFilter();
-    	
-    	// deactivate unecessary widgets
-    	var WidgetState = Packages.org.apache.cocoon.forms.formmodel.WidgetState;
-    	var saveFilterWidgets = form_.lookupWidget("/saveFilterWidgets");
-    	saveFilterWidgets.setState(WidgetState.INVISIBLE);
-    	
-    	var filterBuilderWidgets = form_.lookupWidget("/filterBuilderWidgets");
-    	filterBuilderWidgets.setState(WidgetState.INVISIBLE);
     	
     	// set filter title
     	var filterTitleField = form_.lookupWidget("/filterBuilderWidgets/title");
@@ -79,7 +70,7 @@ function displaySavedFilterForm() {
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
-	finishForm(filterID);
+	finishForm(filterID_);
 }
 
 function finishForm(fID) {
@@ -203,7 +194,6 @@ function saveFilter() {
 	// save filter
 	var fdSource;
 	var srcResolver;
-	var fID = 0;
 	try {
 	    var baseURI = "jcr:///teamspaces/" + teamspaceID_ +	"/tasks/filters";
 		// resolve filter directory
@@ -214,16 +204,18 @@ function saveFilter() {
 		// if filter dir not yet exist, create it
 		if(!fdSource.exists()) fdSource.makeCollection();
 		
-        var tasksManager;
-    	try {
-    		tasksManager = cocoon.getComponent("com.mindquarry.tasks.TasksManager");
-    		fID = tasksManager.getUniqueId(baseURI);
-    	} finally {
-    		cocoon.releaseComponent(tasksManager);
-    	}
+		if (filterID_ == null) {
+	        var tasksManager;
+	    	try {
+	    		tasksManager = cocoon.getComponent("com.mindquarry.tasks.TasksManager");
+	    		filterID_ = tasksManager.getUniqueId(baseURI);
+	    	} finally {
+	    		cocoon.releaseComponent(tasksManager);
+	    	}
+		}
 		
 		// save filter definition
-		var pfTitleSource = srcResolver.resolveURI(baseURI + "/" + fID);
+		var pfTitleSource = srcResolver.resolveURI(baseURI + "/" + filterID_);
 		var os = pfTitleSource.getOutputStream();
 		
 		var xmlAdapter = new Packages.org.apache.cocoon.forms.util.XMLAdapter(
@@ -241,7 +233,7 @@ function saveFilter() {
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
-	cocoon.redirectTo(fID);
+	cocoon.redirectTo(filterID_);
 }
 
 function deleteFilter(fID) {
