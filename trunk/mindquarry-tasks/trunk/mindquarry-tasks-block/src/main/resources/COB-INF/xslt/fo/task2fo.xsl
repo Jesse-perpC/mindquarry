@@ -82,7 +82,19 @@
 			<xsl:apply-templates select="dd/*"></xsl:apply-templates>
 		</fo:block>
 	</xsl:template>
-		
+
+	<xsl:template match="xhtml:table|table" priority="7">
+		<fo:table xsl:use-attribute-sets="table">
+			<xsl:attribute name="table-layout">fixed</xsl:attribute>
+			<!-- give fixed width for columns to avoid table stretching across the page border -->
+			<xsl:variable name="nColumns" select="count(tbody/tr/th)"/>
+			<xsl:for-each select="tbody/tr/th">
+				<fo:table-column column-width="{100 div $nColumns}%"/>
+			</xsl:for-each>
+			<xsl:call-template name="process-table"/>
+		</fo:table>
+	</xsl:template>
+	
 	<xsl:template match="div[@class='ductform']/dl[@id='ductform.ductforms']|xhtml:div[@class='ductform']/xhtml:dl[@id='ductform.ductforms']" priority="7"/>
 	
 </xsl:stylesheet>
