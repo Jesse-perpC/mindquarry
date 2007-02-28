@@ -26,6 +26,7 @@
 				 <p>Mindquarry has an easy to use web-interface and a zero-install
 				 desktop client, but under the hood powerful open source software components
 				 and applications are used.</p>
+         
 				 <subsection name="This Site">
 				 	<p>
 						This site provides an overview of resources valuable for developers
@@ -35,6 +36,7 @@
 					</p>
 				 </subsection>
 		</section>
+    
 		<section name="Mindquarry's Components">
 			<p>
 				For Mindquarry developers this site and all component sites include links
@@ -44,10 +46,9 @@
 			<ul>
 				<li>Mindquarry Ductile Forms</li>
 				<li>Mindquarry Desktop Client</li>
-				<li>Mindquarry Icons</li>
+				<!--<li>Mindquarry Icons</li>-->
 				<li><a href="mindquarry-jcr">Mindquarry Java Content Repository</a></li>
 				<li>Mindquarry Maven Plugins</li>
-				<li>Mindquarry Maven Repository Browser</li>
 				<li>Mindquarry Persistence Framework</li>
 				<li>Mindquarry Search</li>
 				<li>Mindquarry System Tests</li>
@@ -58,5 +59,30 @@
 				<li>Mindquarry Workspace</li>
 			</ul>
 		</section>
-	</body>
+    
+		<section name="Developer documentation">
+      <ul>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.html">           Developing Mindquarry         </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.pdf">            Developing Mindquarry [pdf]   </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/dev-process.html">              Development Process           </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/dev-process.pdf">               Development Process [pdf]     </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/architecture.html">             Architecture Guide            </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/architecture.pdf">              Architecture Guide [pdf]      </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.html"> Documentation Styleguide      </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.pdf">  Documentation Styleguide [pdf]</a></li>
+      </ul>
+    </section>
+
+		<section name="User documentation">
+      <ul>
+        <li> <a href="http://www.mindquarry.org/mindquarry/mindquarry-webapp/mindquarry-help-block/docbook/index.html"> User Guide                </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/mindquarry-webapp/mindquarry-help-block/docbook/index.pdf">  User Guide [pdf]          </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/installation.html">                                  Installation Guide        </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/installation.pdf">                                   Installation Guide [pdf]  </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/features.html">                                      Mindquarry Features       </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/features.pdf">                                       Mindquarry Features [pdf] </a></li>
+      </ul>
+    </section>
+    
+  </body>
 </document>

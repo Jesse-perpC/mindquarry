@@ -276,7 +276,9 @@
           <!-- and can restrict the number of output formats (xhtml also possible) -->
           <outputFormats>
             <param>pdf</param>
+            <param>xhtml</param>
           </outputFormats>
+          <resourceDirectory>${basedir}/src/docbook</resourceDirectory>
         </configuration>
         <dependencies>
           <!-- in order to use our customization layer, we need to add this
