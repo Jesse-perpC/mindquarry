@@ -1,27 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
-	
-	The contents of this file are subject to the Mozilla Public License
-	Version 1.1 (the "License"); you may not use this file except in
-	compliance with the License. You may obtain a copy of the License at
-	http://www.mozilla.org/MPL/
-	
-	Software distributed under the License is distributed on an "AS IS"
-	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-	License for the specific language governing rights and limitations
-	under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.mindquarry.dforms</groupId>
 		<artifactId>mindquarry-ductforms</artifactId>
-		<version>1.0-M1-SNAPSHOT</version>
+		<version>1.0-M1</version>
 	</parent>
 
 	<artifactId>mindquarry-dforms</artifactId>
@@ -59,14 +43,14 @@
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 	</dependencies>
 	
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-ductforms/trunk/mindquarry-dforms/</connection>
-		<url>https://www.mindquarry.org/mindquarry-ductforms/trunk/mindquarry-dforms/</url>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-ductforms/trunk/mindquarry-dforms/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
 	</scm>
 
 	<build>
