@@ -1,0 +1,115 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <parent>
+    <artifactId>cocoon-extractor</artifactId>
+    <groupId>com.mindquarry.search.cocoon</groupId>
+    <version>2</version>
+  </parent>
+  
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>cocoon-extractor-impl</artifactId>
+  <name>Cocoon Extractor Block Implementation</name>
+  <version>1.0.0-M3</version>
+  
+  <build>
+    <plugins>
+        <plugin>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>2.0.1</version>
+          <configuration>
+            <source>1.5</source>
+            <target>1.5</target>
+          </configuration>
+        </plugin>
+        <plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://www.mindquarry.org/repos/mindquarry-search/tags/cocoon-extractor/cocoon-extractor-impl/
+					</tagBase>
+				</configuration>
+			</plugin>
+    </plugins>
+  </build>
+
+  <dependencies>
+    <dependency>
+      <groupId>com.mindquarry.common</groupId>
+      <artifactId>mindquarry-common</artifactId>
+      <version>1.0-M1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-core</artifactId>
+      <version>2.2.0-M3_Mindquarry_2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-core</artifactId>
+      <version>2.2.0-M3_Mindquarry_2</version>
+      <type>test-jar</type>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>slide</groupId>
+      <artifactId>slide-kernel</artifactId>
+      <version>2.1</version>
+    </dependency>
+    <!-- slide does not include depdencies -->
+    <dependency>
+      <groupId>poi</groupId>
+      <artifactId>poi</artifactId>
+      <version>2.5.1-final-20040804</version>  
+    </dependency>
+    <dependency>
+      <groupId>pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>0.6.4</version>
+    </dependency>
+    <dependency>
+      <groupId>org.textmining</groupId>
+      <artifactId>tm-extractors</artifactId>
+      <version>0.4</version>
+    </dependency>
+    <dependency>
+      <groupId>nekohtml</groupId>
+      <artifactId>nekohtml</artifactId>
+      <version>0.9.4</version>
+    </dependency>
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>  
+    </dependency>
+    
+    <!-- libraries for mime-type-guessing -->
+    <dependency>
+        <groupId>javax.activation</groupId>
+        <artifactId>activation</artifactId>
+        <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>jmimemagic</groupId>
+      <artifactId>jmimemagic</artifactId>
+      <version>0.0.4a</version>
+    </dependency>
+    
+    <!-- http client for posting -->
+    <dependency>
+      <groupId>commons-httpclient</groupId>
+      <artifactId>commons-httpclient</artifactId>
+      <version>3.0.1</version>
+    </dependency>
+  </dependencies>
+
+  <properties>
+    <docs.name>Cocoon Extractor</docs.name>
+    <docs.version>1.0</docs.version>
+  </properties>
+  
+  <scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+	</scm>
+</project>

@@ -1,0 +1,228 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<components>
+		<actions>
+			<action name="log" src="com.mindquarry.webapp.acting.DebugLogAction"/>
+		</actions>
+
+		<serializers>
+			<serializer name="jnlp" src="org.apache.cocoon.serialization.XMLSerializer"
+				mime-type="application/x-java-jnlp-file"/>
+		</serializers>
+
+		<selectors>
+			<selector name="lightbox-request"
+				src="com.mindquarry.webapp.ajax.LightboxRequestSelector"/>
+			<selector name="ajax-request" src="org.apache.cocoon.ajax.AjaxRequestSelector"/>
+			<selector name="request-parameter" src="org.apache.cocoon.selection.RequestParameterSelector"/>
+		</selectors>
+
+		<transformers>
+			<transformer name="browser-update" src="org.apache.cocoon.ajax.BrowserUpdateTransformer"
+			/>
+		</transformers>
+	</components>
+
+	<resources>
+		<resource name="layouting" xmlns:map="http://apache.org/cocoon/sitemap/1.0">
+			<select type="lightbox-request">
+				<when test="true">
+					<transform src="block:super:/xslt/html2lightbox.xsl">
+						<parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+						<parameter name="sitemapPath" value="{request:pathInfo}"/>
+						<parameter name="user.agent" value="{request-header:User-Agent}"/>
+					</transform>
+					<serialize type="xml"/>
+				</when>
+				<otherwise>
+					<transform src="block:super:/xslt/html2html.xsl" type="xalan">
+						<parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
+						<parameter name="sitemapPath" value="{request:pathInfo}"/>
+						<parameter name="user.agent" value="{request-header:User-Agent}"/>
+						<parameter name="username" value="{request-attr:username}"/>
+						<parameter name="version"
+							value="{pom-property:com.mindquarry.common/mindquarry-common/version}"/>							
+					</transform>
+				</otherwise>
+			</select>
+
+			<!-- check AJAX request attribute -->
+			<select type="ajax-request">
+				<when test="true">
+					<select type="request-parameter">
+
+						<parameter name="parameter-name" value="dojo.transport"/>
+						<when test="iframe">
+
+							<transform
+								src="resource://org/apache/cocoon/forms/resources/IframeTransport-bu-styling.xsl"/>
+							<serialize type="xhtml"/>
+							<!-- this is REALLY important -->
+
+						</when>
+						<otherwise>
+							<serialize type="xml"/>
+						</otherwise>
+					</select>
+				</when>
+				<otherwise>
+					<serialize type="html"/>
+				</otherwise>
+			</select>
+		</resource>
+
+		<resource name="form2html">
+			<transform src="block:super:/xslt/forms/form2html.xsl">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+		</resource>
+	</resources>
+
+	<flow language="javascript">
+		<script src="flows/search.js"/>
+	</flow>
+
+	<pipelines>
+		<!-- resources pipeline / use noncaching for debugging -->
+		<pipeline type="noncaching">
+			<match pattern="css/*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="css/{1}.css"/>
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="block:super:/css/{1}.css"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xslt/{1}.xsl"/>
+					</when>
+					<!-- if not, look in the resources block -->
+					<otherwise>
+						<read src="block:super:/xslt/{1}.xsl"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js"/>
+					</when>
+					<otherwise>
+						<read src="block:super:/scripts/{1}.js"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="images/status/*.png">
+				<select type="resource-exists">
+					<when test="images/status/{1}.png">
+						<read src="images/status/{1}.png"/>
+					</when>
+					<otherwise>
+						<read src="images/status/done.png"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="images/*.*">
+				<select type="resource-exists">
+					<when test="images/{1}.{2}">
+						<read src="images/{1}.{2}"/>
+					</when>
+					<otherwise>
+						<read src="block:welcome:/{1}.{2}"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}"/>
+					</when>
+					<otherwise>
+						<read src="block:super:/buttons/{1}.{2}"/>
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="icons/*x*/*/*.png">
+				<select type="resource-exists">
+					<when test="icons/{1}x{2}/{3}/{4}.png">
+						<read src="icons/{1}x{2}/{3}/{4}.png"/>
+					</when>
+					<otherwise>
+						<read src="block:super:/icons/{1}x{2}/{3}/{4}.png"/>
+					</otherwise>
+				</select>
+			</match>
+		</pipeline>
+		
+		<!-- search form pipeline -->
+		<pipeline>
+			<match pattern="">
+				<call function="displaySearchForm">
+					<parameter name="definitionURI" value="forms/search-form.xml"/>
+					<parameter name="templatePipeline"
+						value="internal/forms/search-form-template.xml"/>
+					<parameter name="endpoint"
+						value="{request:scheme}://{request:serverName}:{request:serverPort}{request:contextPath}" />
+				</call>
+			</match>
+
+			<!-- quick search demo -->
+			<match pattern="quick">
+				<generate src="pages/quick-search.xml"/>
+				<call resource="layouting"/>			
+			</match>
+
+			<match pattern="*.continue">
+				<call continuation="{1}"/>
+			</match>
+		</pipeline>
+
+		<pipeline internal-only="true">
+			<match pattern="internal/forms/*.xml">
+				<generate type="jx" src="forms/{1}.xml"/>
+				<transform type="browser-update"/>
+				<call resource="form2html"/>
+				<call resource="layouting"/>
+			</match>
+		</pipeline>
+
+		<pipeline>
+			<!--+
+			| forward any unknown stuff to the super block 
+			| NOTE: This must be the last matcher!
+			+-->
+			<match pattern="**">
+				<read src="block:super:/{1}"/>
+			</match>
+		</pipeline>
+	</pipelines>
+</sitemap>

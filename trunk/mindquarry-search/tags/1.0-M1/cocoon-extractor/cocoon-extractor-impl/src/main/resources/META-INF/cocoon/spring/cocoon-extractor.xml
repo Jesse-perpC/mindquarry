@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+    
+    The contents of this file are subject to the Mozilla Public License
+    Version 1.1 (the "License"); you may not use this file except in
+    compliance with the License. You may obtain a copy of the License at
+    http://www.mozilla.org/MPL/
+    
+    Software distributed under the License is distributed on an "AS IS"
+    basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+    License for the specific language governing rights and limitations
+    under the License.
+-->
+
+
+<!--
+    Configuration for dforms-block that concrete implementations can inherit from.
+-->
+<beans xmlns="http://www.springframework.org/schema/beans"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+    
+    <!-- configure text filters like this -->
+    <!-- pdf -->
+    <bean name="com.mindquarry.search.TextFilter/application/pdf" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="pdfextractor"/>
+    </bean>
+    
+    <!-- word -->
+    <bean name="com.mindquarry.search.TextFilter/application/msword" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="mswordextractor"/>
+    </bean>
+    
+    <alias name="com.mindquarry.search.TextFilter/application/msword" 
+        alias="com.mindquarry.search.TextFilter/application/vnd.ms-word" />
+
+    <!-- excel -->
+    <bean name="com.mindquarry.search.TextFilter/application/msexcel" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="msexcelextractor"/>
+    </bean>
+    
+    <alias name="com.mindquarry.search.TextFilter/application/msexcel" 
+        alias="com.mindquarry.search.TextFilter/application/vnd.ms-excel" />
+
+    <!-- powerpoint -->
+    <bean name="com.mindquarry.search.TextFilter/application/mspowerpoint" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="mspowerpointextractor"/>
+    </bean>
+    
+    <alias name="com.mindquarry.search.TextFilter/application/mspowerpoint" 
+        alias="com.mindquarry.search.TextFilter/application/vnd.ms-powerpoint" />
+    
+    <!-- xml -->
+    <bean name="com.mindquarry.search.TextFilter/text/xml" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="xmlextractor"/>
+        <property name="titleExtractor" ref="xmltitleextractor"/>
+    </bean>
+    
+    <alias name="com.mindquarry.search.TextFilter/text/xml" 
+        alias="com.mindquarry.search.TextFilter/application/xml" />
+    
+    <!-- text -->
+    <bean name="com.mindquarry.search.TextFilter/text/plain" class="com.mindquarry.search.cocoon.filters.impl.SlideTextFilter">
+        <property name="extractor" ref="textextractor"/>
+    </bean>
+
+    <!-- configure slide extractors like this -->
+    <bean id="mswordextractor" class="org.apache.slide.extractor.MSWordExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="msexcelextractor" class="org.apache.slide.extractor.MSExcelExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="mspowerpointextractor" class="org.apache.slide.extractor.MSPowerPointExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="pdfextractor" class="org.apache.slide.extractor.PDFExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="xmlextractor" class="com.mindquarry.search.cocoon.filters.impl.XmlContentExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+    <bean id="textextractor" class="com.mindquarry.search.cocoon.filters.impl.TextContentExtractor">
+        <constructor-arg index="0" type="java.lang.String" value=""/>
+        <constructor-arg index="1" type="java.lang.String" value=""/>
+        <constructor-arg index="2" type="java.lang.String" value=""/>
+    </bean>
+
+    <!-- title extractors -->
+    <bean id="xmltitleextractor" class="com.mindquarry.search.cocoon.filters.impl.XmlTitleExtractor" />
+</beans>
