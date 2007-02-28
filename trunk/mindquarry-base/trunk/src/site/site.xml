@@ -21,16 +21,16 @@
     </links>
 
     <menu name="User Documentation">
-			<item name="User Guide" href="http://www.mindquarry.org/mindquarry/mindquarry-webapp/mindquarry-help-block/docbook/index.pdf" />
-      <item name="Installation Guide" href="http://www.mindquarry.org/mindquarry/docbook/installation.pdf"/>
-			<item name="Mindquarry Features" href="http://www.mindquarry.org/mindquarry/docbook/features.pdf"/>
+			<item name="User Guide" href="http://www.mindquarry.org/mindquarry/mindquarry-webapp/mindquarry-help-block/docbook/index.html" />
+      <item name="Installation Guide" href="http://www.mindquarry.org/mindquarry/docbook/installation.html"/>
+			<item name="Mindquarry Features" href="http://www.mindquarry.org/mindquarry/docbook/features.html"/>
     </menu>
 		
     <menu name="Developer Documentation">
-			<item name="Developing Mindquarry" href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.pdf"/>
-      <item name="Development Process" href="http://www.mindquarry.org/mindquarry/docbook/dev-process.pdf"/>
-      <item name="Architecture Guide" href="http://www.mindquarry.org/mindquarry/docbook/architecture.pdf"/>
-      <item name="Documentation Styleguide" href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.pdf"/>
+			<item name="Developing Mindquarry" href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.html"/>
+      <item name="Development Process" href="http://www.mindquarry.org/mindquarry/docbook/dev-process.html"/>
+      <item name="Architecture Guide" href="http://www.mindquarry.org/mindquarry/docbook/architecture.html"/>
+      <item name="Documentation Styleguide" href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.html"/>
     </menu>
 		${reports}
   </body>
