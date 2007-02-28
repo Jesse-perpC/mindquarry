@@ -1,0 +1,53 @@
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+
+	<jx:import uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml"/>
+
+	<head>
+		<title>Quick Search</title>
+	</head>
+	<body>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" method="POST" ajax="true">
+			<h1>Quick Search</h1>
+			
+			<div style="float:right;background:#fff4c2;color:#676767;">
+				<ft:widget id="messageField"/>
+			</div>
+
+			<div>
+				<ft:widget id="searchField"/>
+				<ft:widget id="executeSearch"/>
+			</div>
+
+			<div>
+				<ft:repeater id="results" xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
+					<table>
+						<tbody>
+							<ft:repeater-rows>
+								<tr class="forms-row-${repeaterLoop.index % 2}">
+									<td>
+										<ft:widget id="source"/>
+									</td>
+								</tr>
+							</ft:repeater-rows>
+						</tbody>
+					</table>
+				</ft:repeater>
+			</div>
+		</ft:form-template>
+	</body>
+</html>
