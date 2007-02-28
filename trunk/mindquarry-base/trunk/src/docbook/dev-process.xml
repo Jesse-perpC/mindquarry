@@ -11,7 +11,7 @@
   basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
   License for the specific language governing rights and limitations
   under the License.
---> 
+-->
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <article class="specification" lang="en" status="draft">
@@ -22,12 +22,12 @@
     Process</subtitle>
 
     <abstract>
-      <para>The paper in hand defines the software development process,
-      quality assurance and guidelines of Mindquarry. First the requirements
-      for the process are explained. After that the development process as
-      well as the present roles are described in detail. Finally the quality
-      assurance mechanisms and the rules that are applied to the software
-      development are explained.</para>
+      <para>The paper in hand defines the Open Source software development
+      process, quality assurance and general guidelines of Mindquarry. After
+      the requirements are explained, the development process as well as its
+      roles are described in detail. Finally quality assurance mechanisms and
+      the rules that are applied to the software development are
+      presented.</para>
     </abstract>
 
     <author>
@@ -42,17 +42,28 @@
       </affiliation>
     </author>
 
+    <author>
+      <firstname>Alexander</firstname>
+
+      <surname>Klimetschek</surname>
+
+      <affiliation>
+        <jobtitle>Chief Architect Mindquarry GmbH</jobtitle>
+      </affiliation>
+    </author>
+
     <address>August-Bebel-Str. 88, D-14482 Potsdam</address>
 
-    <date>12. October 2006</date>
+    <date>28. February 2007</date>
 
     <copyright>
-      <year>2006</year>
+      <year>2006-2007</year>
 
       <holder>Mindquarry GmbH</holder>
     </copyright>
 
-    <releaseinfo>Version 1.0 (draft)</releaseinfo>
+    <releaseinfo>Version 1.0 (draft - subject to change during the second
+    release cycle)</releaseinfo>
   </articleinfo>
 
   <section>
@@ -64,27 +75,30 @@
     document is the provision of a clear and transparent definition of the
     process that is used for development of Mindquarry's products, thus
     allowing all stakeholders like users, developers or customers to
-    understand how Mindquarry achieves it's high quality pretensions and how
-    people can support the community.</para>
+    understand how people can support the community and how Mindquarry
+    achieves it's high quality pretensions.</para>
 
     <para>The definition of the process is based on reviews of the development
-    processes of popular open source projects like Eclipse, the Apache
-    Foundation and Gnome. You will find several parts from the development
-    strategy of these projects within this document. We consider these parts
-    as best of breed in current open source software development.</para>
+    processes of popular open source projects like <ulink
+    url="http://www.eclipse.org/projects/dev_process/">Eclipse</ulink>, the
+    <ulink url="http://www.apache.org/foundation/how-it-works.html">Apache
+    Foundation</ulink> and <ulink
+    url="http://developer.gnome.org/">Gnome</ulink>. You will find several
+    parts from the development strategy of these projects within this
+    document. We consider these parts as best of breed in current open source
+    software development.</para>
 
     <section>
       <title>Process Requirements</title>
 
-      <para>The requirements for the software development process of
-      Mindquarry are described as follows. First of all the process should
-      follow the principles of agile software development. This implies that
-      the process allows high flexibility, because the environment and
-      requirements can change often and the process must be able to handle
-      such changes. Second, the process must allow participation of external
-      developers and other community members like users of the software and
-      customers of Mindquarry. For a detailed description of all roles present
-      in the process see <xref linkend="roles" />.</para>
+      <para>The process should follow the principles of agile software
+      development. This implies that the process allows high flexibility,
+      because the environment and requirements change often and the process
+      must be able to handle such changes. Second, the process must allow
+      participation of external developers and other community members like
+      users of the software and customers of Mindquarry. For a detailed
+      description of all roles present in the process see <xref
+      linkend="roles" />.</para>
 
       <para>Finally the most important requirement is that the process must
       lead to the provision of a stable and highly usable software product,
@@ -98,13 +112,13 @@
     <title>Process Definition</title>
 
     <para>This section gives an overview of the whole process including all
-    steps and the tasks, that have to be applied during an iteration. The
+    steps and the tasks that have to be applied during an iteration. The
     process itself is an iterative development process that leads to the
     release of a new product version after each iteration. The length of each
     iteration depends on the actual requirements that should be implemented
-    during the iteration, but the length should be ideally between 2 and 4
-    months. <xref linkend="process-overview" /> shows an overview of the whole
-    process while the individual steps of the process are described
+    during the iteration, but the length should be ideally between 2 and 5
+    months. Figure <xref linkend="process-overview" /> shows an overview of
+    the whole process while the individual steps of the process are described
     below.</para>
 
     <figure id="process-overview">
@@ -114,8 +128,10 @@
         <imageobject role="html">
           <imagedata fileref="images/dev-process-overview.png" format="PNG" />
         </imageobject>
+
         <imageobject role="fo">
-          <imagedata fileref="images/dev-process-overview.png" format="PNG" width="12cm"/>
+          <imagedata fileref="images/dev-process-overview.png" format="PNG"
+                     width="12cm" />
         </imageobject>
       </mediaobject>
     </figure>
@@ -125,95 +141,110 @@
 
       <para>The evaluation phase is the first part of the process. It takes
       place when a new process iteration starts. In this phase feedback from
-      developers and customers is analysed and evaluated by the
-      <glossterm>Project Management Committee</glossterm>
-      (<abbrev>PMC</abbrev>). This information is used for redefinition of the
-      process, if lessons learned from the previous period or actual
-      conditions require such a change. Very important in this step is the
-      evaluation of user feedback, which ensures that user requirements and
-      usability issues are kept in mind by the team of developers. Thus some
-      usability experts should be consulted during the evaluation of the
-      feedback.</para>
+      developers and customers is analysed, requirements and feature ideas are
+      collected and evaluated by the <glossterm>Project Management
+      Committee</glossterm> (<abbrev>PMC</abbrev>). This gives a list of all
+      possible goals for the next release. By estimating the expenditures for
+      the features and asking users for their needs, the goals are weighted by
+      the PMC. This results in the list of actual goals for this release
+      cycle.</para>
 
-      <para>After evaluation of feedback the functional requirements for the
-      release cycle are defined and specified in a document that describes the
-      goals for the following process iteration. Additionally several quality
-      goals for functions, performance and usability are defined, too. Please
-      see section about <link linkend="qa">quality assurance</link> (QA)
-      documentation for more information about quality goals and quality
-      assurance.</para>
-
-      <para>The final action in the evaluation phase is the statement of a
-      theme for the next release cycle. The theme gives a kind of big picture
-      for the whole release cycle. An example the theme <quote>Tag
-      Support</quote> can describe that in the next release cycle tagging
-      shall be introduced.</para>
+      <para>Additionally several quality goals for functions, performance and
+      usability are defined, too. Please see the section about <link
+      linkend="qa">quality assurance</link> (QA) for more information about
+      quality goals and quality assurance. The collected information is also
+      used for redefinition of the process, if lessons learned from the
+      previous period or actual conditions require such a change.</para>
     </section>
 
     <section>
       <title>Implementation Phase</title>
 
       <para>During the implementation phase new features specified in the
-      evaluation phase are implemented. This includes refactoring and redesign
-      of the existing architecture if appropriate. Beside implementing new
-      features, their should be a continuous consideration of performance,
-      stability, usability and other quality issues (e.g. by writing unit
-      tests). Please see section about <link linkend="qa">quality
-      assurance</link> (QA) documentation for more information about quality
-      goals and quality assurance.</para>
+      evaluation phase are designed and implemented. With the goals stated,
+      backend implementation, bug-fixing and other non-user-interface related
+      work can start. This gives freedom for all external contributors to
+      integrate their patches. For the user-interface part a user-centered
+      design process is done before any implemenation.</para>
 
-      <para>The internals of the implementation phase are not further
-      specified, because their should be enough flexibility for change. At a
-      certain point in time, their is a feature freeze. After that
-      implementation of new features is stopped and a phase with intensive
-      quality assurance is started. This means finalizing important features
-      that should go into the upcomming release as well as testing,
-      internationalization and documentation. These steps are described below
-      in detail.</para>
+      <section>
+        <title>User-Centered Design</title>
+
+        <para>This creative and iterative process designs the actual user
+        interfaces needed to fullfil the stated goals by using a cycle of
+        paper prototyping, user tests and improvement of the designs based on
+        the user feedback. The team for the process is chosen by Mindquarry
+        and should contain different skills to increase the creativity and
+        experience needed for brainstorming, problem solution and interface
+        designing. The output of this process is a design document that
+        includes sketches and descriptions of the user interface and notes
+        that minimize misinterpretions for developers.</para>
+      </section>
+
+      <section>
+        <title>Implementation</title>
+
+        <para>Implementation should follow the goals and the design document.
+        It also includes refactoring and redesign of the existing architecture
+        if appropriate. Beside implementing new features, there should be a
+        continuous consideration of performance, stability, usability and
+        other quality issues (e.g. by writing unit tests).</para>
+
+        <para>The internals of the implementation phase are not further
+        specified, because there should be enough flexibility for change. At a
+        certain point in time, there is a feature freeze. After that
+        implementation of new features is stopped and a phase with intensive
+        quality assurance is started.</para>
+      </section>
     </section>
 
     <section>
-      <title>System Test</title>
+      <title>Finalization Phase</title>
 
-      <para>During the system test every function that is described in the
-      goals document for the current iteration has to be tested by using
-      testing frameworks for web testing. Additionally some usability tests
-      with existing user should be performed. The result of the system testing
-      is a user interface and string freeze, so that internationalization can
-      start. Please see section about <link linkend="qa">quality
-      assurance</link> (QA) documentation for more information about quality
-      goals and quality assurance.</para>
-    </section>
+      <para>This phase includes testing, internationalization, documentation
+      and the final release. These steps are described below in detail.</para>
 
-    <section>
-      <title>Internationalization and Documentation</title>
+      <section>
+        <title>System Test</title>
 
-      <para>Documentation is done in parallel with the implementation of new
-      features, which means mainly source documentation of public APIs and
-      algorithms. Additionally a feature and architecture documentation is
-      created by the developers.</para>
+        <para>During the system test every function that is described in the
+        goals document for the current iteration has to be tested by using
+        testing frameworks for web testing. Additionally some final usability
+        tests with existing user should be performed. The result of the system
+        testing is a user interface and string freeze, so that
+        internationalization can start.</para>
+      </section>
 
-      <para>For now, internationalization for english and german language is
-      targeted by Mindquarry. Internationalization for other languages has to
-      be provided by the community, namely external developers, until this is
-      a requirement of existing customers.</para>
-    </section>
+      <section>
+        <title>Internationalization and Documentation</title>
 
-    <section>
-      <title>Release Preparation</title>
+        <para>Documentation is done in parallel with the implementation of new
+        features, which means source documentation of public APIs, protocols
+        and data formats. Additionally a feature and architecture
+        documentation is created by the developers.</para>
 
-      <para>Preparing the release includes packaging of binary and source
-      release bundles for various platforms and publishing them together with
-      documentation and other according files on the Mindquarry web
-      site.</para>
-    </section>
+        <para>For now, internationalization for english and german language is
+        targeted by Mindquarry. Internationalization for other languages can
+        be provided by the community, until this is a requirement of existing
+        customers.</para>
+      </section>
 
-    <section>
-      <title>Freeze breaks</title>
+      <section>
+        <title>Release Preparation</title>
 
-      <para>Freeze breaks are only allowed for important reason and with
-      approval from the release team. For string freeze breaks an approval by
-      the l18n team is also necessary.</para>
+        <para>Preparing the release includes packaging of binary and source
+        release bundles for the major platforms Windows, Mac OSX and Linux and
+        publishing them together with documentation and other according files
+        on the Mindquarry web site.</para>
+      </section>
+
+      <section>
+        <title>Freeze breaks</title>
+
+        <para>Freeze breaks are only allowed for important reasons and with
+        approval from the release team. For string freeze breaks an approval
+        by the l18n team is also necessary.</para>
+      </section>
     </section>
   </section>
 
@@ -224,35 +255,38 @@
     is done in several ways according to what kind of quality is considered.
     For code and functions it is done by using unit and system/integration
     testing. For layouting and internationalization issues we use human based
-    reviews and inspections of the system. </para>
+    reviews and inspections of the system, for which as much automization as
+    possible should be implemented.</para>
 
     <section>
       <title>Unit and System Test</title>
 
       <para>Unit test are written during the development by the respective
       developers. They are executed nightly by using a continuous integration
-      system called <ulink url="???">Cruise Control</ulink>. This ensures a
-      stable development branch and allows tracking of the status of the
-      current development version. To get the most out of this continuous
-      integration, developers should write unit tests before starting with
-      implementation of a new feature.</para>
+      system called <ulink url="https://hudson.dev.java.net/">Hudson</ulink>.
+      This ensures a stable development branch and allows tracking of the
+      status of the current development version. To get the most out of this
+      continuous integration, developers should write unit tests before
+      starting with implementation of a new feature.</para>
 
       <para>Due to the nature of the Mindquarry system, which is mainly based
-      on XML processing with XSLT, there should be an additional test
-      mechanism that can handle these kind of sources. Therefore Mindquarry
-      uses system test. System tests are based on the <ulink
-      url="???">Selenium</ulink> framework, which provides a web test
-      environment. Selenium allows execution of web requests via browser
-      proxies. This allows the reuse of the system tests with different kind
-      of browsers (e.g. Internet Explorer or Mozilla Firefox). Additionally
-      this concept allows testing of functionality based on concepts like
-      AJAX, IFrames etc.</para>
+      on a rich HTML-client architecture, produced by XSLT processing and
+      Javascript code, there should be an additional test mechanism that can
+      handle these kind of sources. Therefore Mindquarry uses web-enabled
+      system test. They are based on the <ulink url="???">Selenium</ulink>
+      framework, which provides a web test environment. Selenium allows
+      execution of web requests via browser proxies. This allows the reuse of
+      the system tests with different kind of browsers (Internet Explorer or
+      Mozilla Firefox). Additionally this concept allows testing of
+      web-specific features based on concepts like AJAX, IFrames etc. Because
+      not all features are automatically testable by a system like Selenium, a
+      manual walk-through of the application is needed as well.</para>
 
-      <para>The execution of the system tests within a browser implies that
-      the tests consider the Mindquarry system as a black box and execute
-      tests on the system in the same way a user would do. As a general rule
-      there should be a system test for each feature provided by the
-      Mindquarry Collaboration Server.</para>
+      <para>Execution of the system tests within a browser implies that the
+      tests consider the Mindquarry system as a black box and execute tests on
+      the system in the same way a user would do. As a general rule there
+      should be a system test for each feature provided by the Mindquarry
+      Collaboration Server.</para>
     </section>
 
     <section>
@@ -280,12 +314,12 @@
       <title>Organization Structure</title>
 
       <para>The overall structure of Mindquarry's open source community is
-      illustrated in <xref linkend="community-overview" />. As shown in the
-      figure the overall control of the Mindquarry open source project is
-      taken by the <emphasis>Project Management Committee</emphasis> (PMC).
-      The PMC consists of key employees from Mindquarry such as the CEO, CTO,
-      Chief architect or company developers. Additonally external community
-      members which hold the status of a <link
+      illustrated in <xref linkend="community-overview" />. The overall
+      control of the Mindquarry open source project is taken by the
+      <emphasis>Project Management Committee</emphasis> (PMC). The PMC
+      consists of key employees from Mindquarry such as the CEO, CTO, Chief
+      architect or company developers. Additonally external community members
+      which hold the status of a <link
       linkend="role-committer">Committer</link> can be selected unanimously by
       the PMC members to join the PMC. The main responsibility of the PMC is
       the specification of goals, rules and requirements during the <link
@@ -298,8 +332,10 @@
           <imageobject role="html">
             <imagedata fileref="images/organization.png" format="PNG" />
           </imageobject>
-        <imageobject role="fo">
-            <imagedata fileref="images/organization.png" format="PNG" width="12cm" />
+
+          <imageobject role="fo">
+            <imagedata fileref="images/organization.png" format="PNG"
+                       width="12cm" />
           </imageobject>
         </mediaobject>
       </figure>
@@ -341,8 +377,8 @@
       <section>
         <title>Developer</title>
 
-        <para>A Developer is user who contributes to Mindquarry in the form of
-        code or documentation. They take extra steps to participate in a
+        <para>A Developer is a user who contributes to Mindquarry in the form
+        of code or documentation. They take extra steps to participate in a
         project, are active on the developer mailing list, participate in
         discussions, provide patches, documentation, suggestions, and
         criticism. Developers are also known as contributors.</para>
@@ -370,6 +406,14 @@
         Mindquarry community by helping other users on mailing lists and user
         support forums.</para>
       </section>
+
+      <section>
+        <title>Test User</title>
+
+        <para>A test user is a chosen user that is involved in the UCD
+        process. He or she represents typical users/customers and will be
+        chosen by Mindquarry and the UCD team.</para>
+      </section>
     </section>
 
     <section>
@@ -377,17 +421,18 @@
 
       <para>Documentation artifacts are managed by using an existing
       installation of Mindquarry's Collaboration Server. This means that wiki
-      pages and document managed by the document management are used to
+      pages and documents managed by the document management are used to
       describe concepts like system architecture or the build process.</para>
     </section>
 
     <section>
       <title>Communication</title>
 
-      <para>Communication is done via mailing lists and instant messaging for
-      the first time. Later Mindquarry's conversation system is used to manage
-      conversations about development. Whenever possible, their should be a
-      moderator for key discussions.</para>
+      <para>Communication is done via the community forum on the
+      Mindquarry.com website and instant messaging for now. Later Mindquarry's
+      conversation system will be used to manage conversations about
+      development. Whenever possible, there should be a moderator for key
+      discussions.</para>
     </section>
 
     <section>
@@ -395,9 +440,9 @@
 
       <para>Long term decisions are made by the PMC by setting the rules,
       goals and requirements in the evaluation period of each release cycle.
-      Short term decisions are done by simple voting on a conversation
-      (mailing list). Voting duration is 72 hours from the voting request,
-      after that additional voting's are rejected.</para>
+      Short term decisions are done by voting on a conversation (mailing
+      list). Voting duration is 72 hours from the voting request, after that
+      additional voting's are rejected.</para>
 
       <itemizedlist>
         <listitem>
@@ -425,25 +470,49 @@
     <section>
       <title>Versioning Guidelines</title>
 
-      <para>The template for version numbers is as follows: A.B.C</para>
+      <para>There are two types of versions: the versions of the many small
+      projects represented as maven modules and the major versions of the
+      final packages that are for the end-user.</para>
 
-      <itemizedlist>
-        <listitem>
-          <para>A: identification number of the global release (is incremented
-          with every release)</para>
-        </listitem>
+      <section>
+        <title>Maven Module Versions</title>
 
-        <listitem>
-          <para>B: identification number of the current interface version
-          (should be incremented when the interface has changed)</para>
-        </listitem>
+        <para>The version scheme is based on Maven's conventions for
+        versioning. Note that this scheme description is still in progress.
+        The template for release version numbers is as follows: A.B.C</para>
 
-        <listitem>
-          <para>C. identification number of the current build (should be
-          increased when functionality is changed or new features are
-          added)</para>
-        </listitem>
-      </itemizedlist>
+        <itemizedlist>
+          <listitem>
+            <para>A: identification number of the global release (is
+            incremented with every release)</para>
+          </listitem>
+
+          <listitem>
+            <para>B: identification number of the current interface version
+            (should be incremented when the interface has changed).</para>
+          </listitem>
+
+          <listitem>
+            <para>C. identification number of the current build (should be
+            increased when functionality is changed, new features are added or
+            bug fixes are integrated)</para>
+          </listitem>
+        </itemizedlist>
+
+        <para>There are milestone versions before an A.0 or A.B release that
+        are suffixed by -Mn. For example, prior to the 1.2 release, there are
+        1.2-M1 and maybe 1.2-M2 milestones. There should not be milestone
+        versions for A.B.C versions.</para>
+      </section>
+
+      <section>
+        <title>Package Versions</title>
+
+        <para>These version numbers are more arbitrary and defined under the
+        aspects of marketing. They should appeal to end-users and are
+        integrated with the services provided by the Mindquarry
+        company.</para>
+      </section>
     </section>
 
     <section>
@@ -513,6 +582,58 @@
       <para>Additional conventions and each kind of modification are subject
       to votings. Simple majority is needed, but the CTO can veto. The veto is
       to be discussed in regards to a wider open source community.</para>
+
+      <section>
+        <title>License header for Java files</title>
+
+        <programlisting>/*
+ * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+ *
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ */</programlisting>
+      </section>
+    </section>
+
+    <section>
+      <title>XML</title>
+
+      <para>The following conventions apply to all XML files:</para>
+
+      <para><itemizedlist>
+          <listitem>
+            <para>Use only tabs for indentation (no spaces).</para>
+          </listitem>
+
+          <listitem>
+            <para>Encode in UTF-8.</para>
+          </listitem>
+        </itemizedlist></para>
+
+      <section>
+        <title>License header for XML files</title>
+
+        <programlisting>&lt;!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+--&gt;</programlisting>
+      </section>
     </section>
   </section>
 </article>
