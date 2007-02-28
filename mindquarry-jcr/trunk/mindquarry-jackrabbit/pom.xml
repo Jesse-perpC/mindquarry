@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
         <parent>
 		<artifactId>mindquarry-jcr</artifactId>
 		<groupId>com.mindquarry.jcr</groupId>
-		<version>1.0-M1-SNAPSHOT</version>
+		<version>1.0-M1</version>
 	</parent>
 	
         <modelVersion>4.0.0</modelVersion>
@@ -42,16 +39,16 @@
 	</build>
 	
 	<scm>
-    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/</connection>
-    <url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/</url>
-    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit/</developerConnection>
+    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+    <url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
   </scm>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
