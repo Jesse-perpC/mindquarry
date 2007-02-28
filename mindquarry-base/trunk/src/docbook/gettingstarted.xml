@@ -13,7 +13,8 @@
   <section>
     <title>Mindquarry's Goals</title>
 
-    <para></para>
+    <para>The goal of the Mindquarry project is the creation of an powerful
+    and easy-to-use collaboration environment for knowledge workers. </para>
   </section>
 
   <section>
@@ -79,22 +80,62 @@
     </example>
   </section>
 
-  <section>
+  <section xml:id="build">
     <title>Building Mindquarry</title>
 
-    <para></para>
+    <para>In order to build Mindquarry, run <command>mvn install</command> in
+    the <filename>mindquarry</filename> checkout directory.</para>
+
+    <example>
+      <title>Building Mindquarry with Maven</title>
+
+      <programlisting><prompt># </prompt>mvn install</programlisting>
+    </example>
+
+    <para>Maven will build all of Mindquarry's modules and download all
+    dependencies neccessary for building Mindquarry.</para>
   </section>
 
   <section>
     <title>Running Mindquarry in Development Mode</title>
 
-    <para></para>
+    <para>In order to run Mindquarry, you have to to <phrase
+    xlink:href="#build">build it first</phrase>. Afterwards you can switch to
+    the directory
+    <filename>mindquarry-webapp/mindquarry-webapplication</filename>. As a
+    first and initial step, you have to create a comfiguration file for
+    running Mindquarry. The easiest way to do so is copying the file
+    <filename>config.template/mindquarry-webapplication.properties</filename>
+    to your current working directory.</para>
+
+    <para>Then you can run <command>mvn jetty:run</command> to start the
+    Mindquarry Web Application.</para>
+
+    <example>
+      <title>Running Mindquarry</title>
+
+      <programlisting># mvn jetty:run</programlisting>
+    </example>
+
+    <para>After a short startup time, you can open Mindquarry in your web
+    browser at the location <uri>http://localhost:8888/</uri>. Log in as user
+    <literal>admin</literal> with password <literal>admin</literal> and create
+    some test data.</para>
   </section>
 
   <section>
     <title>Creating Patches</title>
 
-    <para></para>
+    <para>In order to create patches, switch to the subdirectory of the
+    affected module and type <command>svn diff</command>. After reviewing the
+    output you can redirect the output into a patch file and send this file to
+    <literal>bugs@mindquarry.com</literal>.</para>
+
+    <example>
+      <title>Creating a Patch</title>
+
+      <programlisting># svn diff &gt; my-patch.patch</programlisting>
+    </example>
   </section>
 
   <appendix>
@@ -110,5 +151,9 @@
     xlink:href="http://www.mindquarry.org/mindquarry/docbook/dev-process.pdf">Mindquarry
     Development Process</phrase> document might be of interest for you.
     </para>
+
+    <para>In order to get in touch with the Mindquarry developers, join the
+    <phrase xlink:href="http://www.mindquarry.com/forum/">Mindquarry
+    Forum</phrase>.</para>
   </appendix>
 </article>
