@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+--> 
+
+<df:datatype id="dependencies" position="7" xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
+	<fd:repeater>
+		<fd:label>Dependencies</fd:label>
+		<fd:hint>The task relies upon the completion of a preceding task.</fd:hint>
+		<fd:help>Use dependencies for setting relationships between tasks.</fd:help>
+		<fd:widgets>
+			<fd:field id="task">
+				<fd:datatype base="string"/>
+				<fd:selection-list src="block:tasks:/{teamspace}/lists/form.xml" cache="request"> </fd:selection-list>
+				<fd:label>Task</fd:label>
+			</fd:field>
+			<fd:field id="role">
+				<fd:datatype base="string"/>
+				<fd:label>Role</fd:label>
+			</fd:field>
+			<fd:row-action id="delete" command="delete">
+				<fd:label>Remove</fd:label>
+				<fd:hint>Remove a dependency that is no longer relevant to this task</fd:hint>
+			</fd:row-action>
+		</fd:widgets>
+		<fd:attributes>
+			<fd:attribute name="related" value="dependenciesadd"/>
+		</fd:attributes>
+	</fd:repeater>
+	<fd:repeater-action id="add" command="add-row">
+		<fd:label>Add Dependency</fd:label>
+	</fd:repeater-action>
+
+
+	<ft:repeater>
+		<div class="repeater">
+			<!-- add a dummy widget that will handle the auto activation but
+				only in the output case (this cannot be done in form2html
+				styling because we don't know the state of the repeater there
+				- it is lost due to our custom structure here (div) -->
+			<jx:if test="${repeater.getState().equals(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT)}">
+				<div class="use-parent-for-autoactive use-parent-id" dojoType="autoactivefield"/>
+			</jx:if>
+			
+			<fi:label class="hidden">Dependencies</fi:label>
+			<jx:choose>
+				<jx:when test="${repeater.getSize() == 0}">
+					<p>There are currently no dependencies assigned to this task</p>
+				</jx:when>
+				<jx:otherwise>
+					<table>
+						<tbody>
+							<tr>
+								<th class="task">
+									<ft:repeater-widget-label widget-id="task"/>
+								</th>
+								<th class="role">
+									<ft:repeater-widget-label widget-id="role"/>
+								</th>
+							</tr>
+							<ft:repeater-rows>
+								<tr class="forms-row-${repeaterLoop.index % 2}">
+									<td class="task">
+										<ft:widget id="task" />
+									</td>
+									<td class="role">
+										<ft:widget id="role"/>
+										<ft:widget id="delete"/>
+									</td>
+								</tr>
+							</ft:repeater-rows>
+						</tbody>
+					</table>
+				</jx:otherwise>
+			</jx:choose>
+			<ft:widget id="../dependenciesadd"/>
+		</div>
+	</ft:repeater>
+
+
+</df:datatype>

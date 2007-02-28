@@ -1,0 +1,159 @@
+/* dl has by default a 1em (16px) margin top and bottom, but they overlap when
+ * two dl follow each other, thus removing the top margin will still result in
+ * a 16px gap between them due to the bottom margin */ 
+dl {
+    margin-top: 0px;
+}
+
+/* let the buttons float at the right side */
+dt, dd {
+    clear: none;
+}
+
+table.forms {
+	border:0px;
+	text-align:left;
+	margin-bottom:15px;
+	width:100%;
+}
+
+label {
+	font-weight:bold;
+}
+
+/* the buttons */
+input.ductform_button {
+	display: block;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 0px;
+	padding-left: 13px;
+	border:0px;
+	float:right;
+	clear:both;
+	margin-bottom:4px;
+}
+
+input.editall_button {
+	background-image: url(../buttons/editall_task.png);
+	width: 154px;
+	height: 32px;
+}
+
+input.save_button {
+	background-image: url(../buttons/save_task.png);
+	width: 154px;
+	height: 32px;
+}
+
+input.cancel_button {
+	background-image: url(../buttons/cancel_edit_task.png);
+	width: 154px;
+	height: 32px;
+}
+
+input.delete_button {
+	background-image: url(../buttons/cancel_edit_task.png);
+	width: 154px;
+	height: 32px;
+}
+
+/* green labels for fields */
+dt label {
+	color:#339933;
+}
+
+/* turn action labels off */
+dt label.action {
+    display:none;
+}
+
+/* dforms field hovering */
+dd.output /*span.output, div.output*/ {
+    border: 1px solid white;
+    padding: 2px;
+}
+
+dd.output:hover /*, span.output:hover, div.output:hover*/ {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
+
+/* hovering highlight should not overlay with the edit/save/cancel buttons */
+dd.output {
+    margin-right: 160px;
+}
+
+/* styling for repeater tables (dependencies and people) */
+dd div.repeater table {
+    border-spacing: 0px;
+    border: 1px solid #aaaaaa;
+}
+
+dd div.repeater th {
+    font-size: 10pt;
+	color:#339933;
+	background-color:#eeeeee;
+	text-align: left;
+}
+
+dd div.repeater td {
+    padding: 6px;
+}
+
+/* for people and dependencies, we want only the table to get highlighted */
+dd#ductform_people.output:hover, dd#ductform_dependencies.output:hover {
+    background-color: white;
+    border: 1px solid white;
+}
+
+dd.output div.repeater table:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+}
+
+dd.output div.repeater table td img {
+    margin-right: 5px;
+}
+
+/* nothing in repeater list (no table) */
+dd div.repeater p:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+}
+
+/* hide wiki link buttons in editor2 */
+.createWikiLinkContainer {
+    display: none;
+}
+
+/* help on/off */
+
+/*dl a.help {
+	display:none;
+	padding-top:6px;
+	width:24px;
+	height:24px;
+}
+
+dl a.help img {
+	border:0px;
+	display:none;
+}
+*/
+
+input.field, textarea.field {
+    display:block;
+    width:80%;
+    font-size:12pt;
+    padding:2px;
+}
+
+td input.field {
+    display:inline;
+    width:350px;
+}
