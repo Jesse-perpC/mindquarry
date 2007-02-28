@@ -27,12 +27,14 @@
 	
 	<xsl:template match="user">
 		<p class="userinfo">
-			<span id="userid"><xsl:value-of select="@id"/></span>
-			<span>Logged in as</span>
-			<span class="username"><xsl:apply-templates/></span>
+			<span id="userid"><xsl:value-of select="id"/></span>
+			<span><xsl:text>Logged in as </xsl:text></span>
+			<span class="username">
+				<xsl:value-of select="name" /><xsl:text> </xsl:text><xsl:value-of select="surname" />
+			</span>
 		</p>
 	</xsl:template>
-	
+
 	<xsl:template match="teamspace">
 		<li class="team"><a href="/{normalize-space(id)}" title="{normalize-space(id)}"><xsl:apply-templates select="name" /></a></li>
 	</xsl:template>

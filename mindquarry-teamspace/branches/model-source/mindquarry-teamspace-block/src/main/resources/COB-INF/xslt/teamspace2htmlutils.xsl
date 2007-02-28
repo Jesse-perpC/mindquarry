@@ -15,45 +15,37 @@
 <xsl:stylesheet version="1.0"
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 	
-  <xsl:import href="block:/xslt/contextpath.xsl" />
+	<xsl:param name="username" />
 	
-  <xsl:param name="username" select="''" />
+	<xsl:param name="blockPath" />
+	<xsl:param name="serverBaseUrl" />
+	
+	<xsl:variable name="pathToRoot"><xsl:value-of select="$serverBaseUrl" />/</xsl:variable>
+	<xsl:variable name="pathToBlock"><xsl:value-of select="$serverBaseUrl" /><xsl:value-of select="$blockPath" />/</xsl:variable>
 
-  <xsl:template match="/">
-    <html>
-      <head>
-        <xsl:apply-templates mode="title" />
-        <link rel="stylesheet"
-            href="{$pathToBlock}css/teamspace.css" type="text/css" />
-        <link rel="stylesheet"
-            href="{$pathToBlock}css/edit-members.css" type="text/css" />
+	<xsl:template match="/">
+		<html>
+			<head>
+				<xsl:apply-templates mode="title" />
 				
-        <script type="text/javascript"
-            src="{$pathToBlock}scripts/slider.js">//</script>
-        <script type="text/javascript"
-            src="{$pathToBlock}scripts/teamspace.js">//</script>
-        <script type="text/javascript">
-					dojo.require("cocoon.forms");
-				</script>
-      </head>
-      <body>
-        <xsl:apply-templates mode="heading" />
-        <xsl:apply-templates />
-      </body>
-    </html>
-  </xsl:template>
+				<link rel="stylesheet"
+				    href="{$pathToBlock}css/teamspace.css" type="text/css" />
+				<link rel="stylesheet"
+				    href="{$pathToBlock}css/edit-members.css" type="text/css" />
+				
+				<script type="text/javascript"
+				    src="{$pathToBlock}scripts/slider.js">//</script>
+				<script type="text/javascript"
+				    src="{$pathToBlock}scripts/teamspace.js">//</script>
+				<script type="text/javascript">dojo.require("cocoon.forms");</script>			  
+			</head>
+			<body>
+				<xsl:apply-templates mode="heading" />
+				<xsl:apply-templates />
+			</body>
+		</html>
+	</xsl:template>
   
-  <xsl:template match="id">
-    <img class="icon" src="{$pathToBlock}{normalize-space(.)}.png"/>
-  </xsl:template>
-  
-  <xsl:template match="name">
-    <h2 class="name">
-      <a href="team/{normalize-space(../id)}/">
-        <xsl:apply-templates />
-      </a>
-    </h2>
-  </xsl:template>
   
   <xsl:template match="description">
     <span class="description">
@@ -61,20 +53,20 @@
     </span>
   </xsl:template>
   
-  <xsl:template match="teamspace">
-    <div class="nifty">
-      <xsl:if test="parent::teamspaces">
-        <a class="details-collapsed" href="#" title="Click here to show project details"><b>more</b></a>
-      </xsl:if>
-      <div>
-        <xsl:if test="parent::teamspaces">
-          <xsl:attribute name="style">margin-left:24px;</xsl:attribute>
-        </xsl:if>
+	<xsl:template match="teamspace">
+		<div class="nifty">
+			<xsl:if test="parent::teamspaces">
+				<a class="details-collapsed" href="#" title="Click here to show project details"><b>more</b></a>
+			</xsl:if>
+		<div>
+		<xsl:if test="parent::teamspaces">
+			<xsl:attribute name="style">margin-left:24px;</xsl:attribute>
+		</xsl:if>
         
-        <div class="name">
-          <xsl:apply-templates select="id" />
-          <xsl:apply-templates select="name" />
-          <xsl:apply-templates select="description" />
+		<div class="name">
+			<img class="icon" src="{$pathToBlock}{normalize-space(id)}.png"/>
+			<xsl:apply-templates select="name" />
+			<xsl:apply-templates select="description" />
         </div>
 
         <xsl:if test="parent::teamspaces">
