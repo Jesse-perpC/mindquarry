@@ -111,7 +111,8 @@ class ModelSource implements Source {
 			} catch (SAXException e) {
 				throw new ModelSourceException(e);
 			}
-			return new ByteArrayInputStream(outputStream.toByteArray());
+            byte[] bytes = outputStream.toByteArray();
+			return new ByteArrayInputStream(bytes);
 		}
 		finally {
 			if (outputStream != null) {
@@ -147,17 +148,31 @@ class ModelSource implements Source {
 		
 		Object context = businessSourceInterpreter_.interpret();
 		
+        if (isEmptyContext(context))
+            return;
+        
 		contentHandler.startDocument();
 		if (context instanceof Collection) {
 			Collection<?> entityList = (Collection<?>) context;
-			entityListToSax(contentHandler, entityList);
+            entityListToSax(contentHandler, entityList);
 		}
 		else {
 			entityToSax(contentHandler, context);
-		}
-			
+		}			
 		contentHandler.endDocument();
 	}
+    
+    private boolean isEmptyContext(Object context) {        
+        if (context == null) 
+            return true;
+        
+        if (context instanceof Collection) {
+            Collection<?> entityList = (Collection<?>) context;
+            if (entityList.isEmpty())
+                return true;
+        }        
+        return false;
+    }
 	
 	private void entityToSax(ContentHandler contentHandler, 
 			Object entity) throws SAXException {
