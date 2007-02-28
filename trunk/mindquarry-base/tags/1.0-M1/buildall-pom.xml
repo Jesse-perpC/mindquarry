@@ -1,0 +1,52 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+  <modelVersion>4.0.0</modelVersion>
+  <packaging>pom</packaging>
+
+  <artifactId>mindquarry-buildall</artifactId>
+  <name>Mindquarry Build All Pom</name>
+  <description>
+    Builds all Mindquarry projects
+  </description>
+
+  <parent>
+  	<groupId>com.mindquarry</groupId>
+  	<artifactId>mindquarry</artifactId>
+  	<version>1.1</version>
+  </parent>
+
+  <modules>
+    <module>.</module>
+    <!-- persistence layer -->
+    <module>../mindquarry-persistence</module>
+    <module>../mindquarry-jcr</module>
+    <!-- central module for deploying the cocoon based webapp -->
+    <module>../mindquarry-webapp</module>
+    <!-- our cocoon blocks -->
+    <module>../mindquarry-teamspace</module>
+    <module>../mindquarry-workspace</module>
+    <module>../mindquarry-wiki</module>
+    <module>../mindquarry-tasks</module>
+    <module>../mindquarry-search</module>
+    <module>../mindquarry-ductforms</module>
+    <module>../mindquarry-desktop-client</module>
+  </modules>
+  
+  <scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+	</scm>
+	
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-base/tags/</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>

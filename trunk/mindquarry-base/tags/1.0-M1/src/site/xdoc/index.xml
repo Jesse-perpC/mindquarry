@@ -1,0 +1,62 @@
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+--> 
+<document>
+	<properties>
+		<author email="lars.trieloff@mindq	uarry.com">Lars Trieloff</author>
+		<title>Mindquarry Collaboration Server</title>
+	</properties>
+	<body>
+		<section name="Introduction">
+			<p> 
+         The Mindquarry Collaboration Server is an Open Source infrastructure
+				 for information workers of all kinds that allows them to share files,
+				 share ideas and manage tasks.
+         </p>
+				 <p>Mindquarry has an easy to use web-interface and a zero-install
+				 desktop client, but under the hood powerful open source software components
+				 and applications are used.</p>
+				 <subsection name="This Site">
+				 	<p>
+						This site provides an overview of resources valuable for developers
+						of Mindquarry (this could be you) and developers that wish to use
+						Mindquarry's components in their systems, which is possible thanks
+						to Mindquarry's open source license (Mozilla Public License)
+					</p>
+				 </subsection>
+		</section>
+		<section name="Mindquarry's Components">
+			<p>
+				For Mindquarry developers this site and all component sites include links
+				to the continuous integration system, API documentation, test results and
+				access to the source code.
+			</p>
+			<ul>
+				<li>Mindquarry Ductile Forms</li>
+				<li>Mindquarry Desktop Client</li>
+				<li>Mindquarry Icons</li>
+				<li><a href="mindquarry-jcr">Mindquarry Java Content Repository</a></li>
+				<li>Mindquarry Maven Plugins</li>
+				<li>Mindquarry Maven Repository Browser</li>
+				<li>Mindquarry Persistence Framework</li>
+				<li>Mindquarry Search</li>
+				<li>Mindquarry System Tests</li>
+				<li>Mindquarry Task Management</li>
+				<li><a href="mindquarry-webapp">Mindquarry Web Application</a></li>
+				<li>Mindquarry Wiki</li>
+				<li>Mindquarry Teamspace Management</li>
+				<li>Mindquarry Workspace</li>
+			</ul>
+		</section>
+	</body>
+</document>

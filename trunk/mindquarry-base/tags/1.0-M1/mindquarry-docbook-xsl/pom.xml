@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1.1</version>
+	</parent>
+
+	<name>Mindquarry DocBook XSL</name>
+	<description>DocBook XSL customization layer that matches the Mindquarry
+  corporate identity.</description>
+
+	<groupId>com.mindquarry.docbook</groupId>
+	<artifactId>mindquarry-docbook-xsl</artifactId>
+	<version>0.6</version>
+  
+  <modules>
+    <module>mindquarry-docbook-xsl-stylesheets</module>
+    <module>mindquarry-docbook-xsl-example</module>
+  </modules>
+
+	<developers>
+		<developer>
+			<id>lars</id>
+			<name>Lars Trieloff</name>
+			<email>lars.trieloff@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+	</developers>
+
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+	</scm>
+</project>

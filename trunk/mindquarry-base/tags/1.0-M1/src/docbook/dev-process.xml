@@ -1,0 +1,518 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+--> 
+<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
+"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
+<article class="specification" lang="en" status="draft">
+  <articleinfo>
+    <title>Mindquarry Software Development Process</title>
+
+    <subtitle>Description of the Mindquarry Software Development
+    Process</subtitle>
+
+    <abstract>
+      <para>The paper in hand defines the software development process,
+      quality assurance and guidelines of Mindquarry. First the requirements
+      for the process are explained. After that the development process as
+      well as the present roles are described in detail. Finally the quality
+      assurance mechanisms and the rules that are applied to the software
+      development are explained.</para>
+    </abstract>
+
+    <author>
+      <firstname>Alexander</firstname>
+
+      <surname>Saar</surname>
+
+      <affiliation>
+        <jobtitle>Chief Technology Officer</jobtitle>
+
+        <orgname>Mindquarry GmbH</orgname>
+      </affiliation>
+    </author>
+
+    <address>August-Bebel-Str. 88, D-14482 Potsdam</address>
+
+    <date>12. October 2006</date>
+
+    <copyright>
+      <year>2006</year>
+
+      <holder>Mindquarry GmbH</holder>
+    </copyright>
+
+    <releaseinfo>Version 1.0 (draft)</releaseinfo>
+  </articleinfo>
+
+  <section>
+    <title>Introduction</title>
+
+    <para>This document describes the software development process as it is
+    implemented within Mindquarry and the surrounding community that drives
+    the development of Mindquarry's software products. The aim of this
+    document is the provision of a clear and transparent definition of the
+    process that is used for development of Mindquarry's products, thus
+    allowing all stakeholders like users, developers or customers to
+    understand how Mindquarry achieves it's high quality pretensions and how
+    people can support the community.</para>
+
+    <para>The definition of the process is based on reviews of the development
+    processes of popular open source projects like Eclipse, the Apache
+    Foundation and Gnome. You will find several parts from the development
+    strategy of these projects within this document. We consider these parts
+    as best of breed in current open source software development.</para>
+
+    <section>
+      <title>Process Requirements</title>
+
+      <para>The requirements for the software development process of
+      Mindquarry are described as follows. First of all the process should
+      follow the principles of agile software development. This implies that
+      the process allows high flexibility, because the environment and
+      requirements can change often and the process must be able to handle
+      such changes. Second, the process must allow participation of external
+      developers and other community members like users of the software and
+      customers of Mindquarry. For a detailed description of all roles present
+      in the process see <xref linkend="roles" />.</para>
+
+      <para>Finally the most important requirement is that the process must
+      lead to the provision of a stable and highly usable software product,
+      which means it should include quality assurance and intensive testing
+      steps. Additionally it is important that success, namely the provision
+      of a stable and usable product, must be repeatable.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Process Definition</title>
+
+    <para>This section gives an overview of the whole process including all
+    steps and the tasks, that have to be applied during an iteration. The
+    process itself is an iterative development process that leads to the
+    release of a new product version after each iteration. The length of each
+    iteration depends on the actual requirements that should be implemented
+    during the iteration, but the length should be ideally between 2 and 4
+    months. <xref linkend="process-overview" /> shows an overview of the whole
+    process while the individual steps of the process are described
+    below.</para>
+
+    <figure id="process-overview">
+      <title>Process Overview</title>
+
+      <mediaobject>
+        <imageobject role="html">
+          <imagedata fileref="images/dev-process-overview.png" format="PNG" />
+        </imageobject>
+        <imageobject role="fo">
+          <imagedata fileref="images/dev-process-overview.png" format="PNG" width="12cm"/>
+        </imageobject>
+      </mediaobject>
+    </figure>
+
+    <section id="phase-evaluation">
+      <title>Evaluation Phase</title>
+
+      <para>The evaluation phase is the first part of the process. It takes
+      place when a new process iteration starts. In this phase feedback from
+      developers and customers is analysed and evaluated by the
+      <glossterm>Project Management Committee</glossterm>
+      (<abbrev>PMC</abbrev>). This information is used for redefinition of the
+      process, if lessons learned from the previous period or actual
+      conditions require such a change. Very important in this step is the
+      evaluation of user feedback, which ensures that user requirements and
+      usability issues are kept in mind by the team of developers. Thus some
+      usability experts should be consulted during the evaluation of the
+      feedback.</para>
+
+      <para>After evaluation of feedback the functional requirements for the
+      release cycle are defined and specified in a document that describes the
+      goals for the following process iteration. Additionally several quality
+      goals for functions, performance and usability are defined, too. Please
+      see section about <link linkend="qa">quality assurance</link> (QA)
+      documentation for more information about quality goals and quality
+      assurance.</para>
+
+      <para>The final action in the evaluation phase is the statement of a
+      theme for the next release cycle. The theme gives a kind of big picture
+      for the whole release cycle. An example the theme <quote>Tag
+      Support</quote> can describe that in the next release cycle tagging
+      shall be introduced.</para>
+    </section>
+
+    <section>
+      <title>Implementation Phase</title>
+
+      <para>During the implementation phase new features specified in the
+      evaluation phase are implemented. This includes refactoring and redesign
+      of the existing architecture if appropriate. Beside implementing new
+      features, their should be a continuous consideration of performance,
+      stability, usability and other quality issues (e.g. by writing unit
+      tests). Please see section about <link linkend="qa">quality
+      assurance</link> (QA) documentation for more information about quality
+      goals and quality assurance.</para>
+
+      <para>The internals of the implementation phase are not further
+      specified, because their should be enough flexibility for change. At a
+      certain point in time, their is a feature freeze. After that
+      implementation of new features is stopped and a phase with intensive
+      quality assurance is started. This means finalizing important features
+      that should go into the upcomming release as well as testing,
+      internationalization and documentation. These steps are described below
+      in detail.</para>
+    </section>
+
+    <section>
+      <title>System Test</title>
+
+      <para>During the system test every function that is described in the
+      goals document for the current iteration has to be tested by using
+      testing frameworks for web testing. Additionally some usability tests
+      with existing user should be performed. The result of the system testing
+      is a user interface and string freeze, so that internationalization can
+      start. Please see section about <link linkend="qa">quality
+      assurance</link> (QA) documentation for more information about quality
+      goals and quality assurance.</para>
+    </section>
+
+    <section>
+      <title>Internationalization and Documentation</title>
+
+      <para>Documentation is done in parallel with the implementation of new
+      features, which means mainly source documentation of public APIs and
+      algorithms. Additionally a feature and architecture documentation is
+      created by the developers.</para>
+
+      <para>For now, internationalization for english and german language is
+      targeted by Mindquarry. Internationalization for other languages has to
+      be provided by the community, namely external developers, until this is
+      a requirement of existing customers.</para>
+    </section>
+
+    <section>
+      <title>Release Preparation</title>
+
+      <para>Preparing the release includes packaging of binary and source
+      release bundles for various platforms and publishing them together with
+      documentation and other according files on the Mindquarry web
+      site.</para>
+    </section>
+
+    <section>
+      <title>Freeze breaks</title>
+
+      <para>Freeze breaks are only allowed for important reason and with
+      approval from the release team. For string freeze breaks an approval by
+      the l18n team is also necessary.</para>
+    </section>
+  </section>
+
+  <section id="qa">
+    <title>Quality Assurance</title>
+
+    <para>Quality assurance in the software development process of Midquarry
+    is done in several ways according to what kind of quality is considered.
+    For code and functions it is done by using unit and system/integration
+    testing. For layouting and internationalization issues we use human based
+    reviews and inspections of the system. </para>
+
+    <section>
+      <title>Unit and System Test</title>
+
+      <para>Unit test are written during the development by the respective
+      developers. They are executed nightly by using a continuous integration
+      system called <ulink url="???">Cruise Control</ulink>. This ensures a
+      stable development branch and allows tracking of the status of the
+      current development version. To get the most out of this continuous
+      integration, developers should write unit tests before starting with
+      implementation of a new feature.</para>
+
+      <para>Due to the nature of the Mindquarry system, which is mainly based
+      on XML processing with XSLT, there should be an additional test
+      mechanism that can handle these kind of sources. Therefore Mindquarry
+      uses system test. System tests are based on the <ulink
+      url="???">Selenium</ulink> framework, which provides a web test
+      environment. Selenium allows execution of web requests via browser
+      proxies. This allows the reuse of the system tests with different kind
+      of browsers (e.g. Internet Explorer or Mozilla Firefox). Additionally
+      this concept allows testing of functionality based on concepts like
+      AJAX, IFrames etc.</para>
+
+      <para>The execution of the system tests within a browser implies that
+      the tests consider the Mindquarry system as a black box and execute
+      tests on the system in the same way a user would do. As a general rule
+      there should be a system test for each feature provided by the
+      Mindquarry Collaboration Server.</para>
+    </section>
+
+    <section>
+      <title>Inspections and Reviews</title>
+
+      <para>Inspections and reviews are used to ensure that the layout of the
+      web interface works fine with several browsers. Furthermore QA of the
+      internationalization is also part of the inspections. Problems with the
+      layout should be reported directly to the developers and according web
+      designers. Internationalization issues should be reported to the l18n
+      team.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Organization &amp; Roles</title>
+
+    <para>An essential requirement for an efficient process is a clear
+    definition of the involved roles as well as the relationships between
+    them. Therefore the following section describes the structure of
+    Mindquarry's open source community and how the work of the community is
+    organized.</para>
+
+    <section>
+      <title>Organization Structure</title>
+
+      <para>The overall structure of Mindquarry's open source community is
+      illustrated in <xref linkend="community-overview" />. As shown in the
+      figure the overall control of the Mindquarry open source project is
+      taken by the <emphasis>Project Management Committee</emphasis> (PMC).
+      The PMC consists of key employees from Mindquarry such as the CEO, CTO,
+      Chief architect or company developers. Additonally external community
+      members which hold the status of a <link
+      linkend="role-committer">Committer</link> can be selected unanimously by
+      the PMC members to join the PMC. The main responsibility of the PMC is
+      the specification of goals, rules and requirements during the <link
+      linkend="phase-evaluation">evaluation phase</link>.</para>
+
+      <figure id="community-overview">
+        <title>Community Overview</title>
+
+        <mediaobject>
+          <imageobject role="html">
+            <imagedata fileref="images/organization.png" format="PNG" />
+          </imageobject>
+        <imageobject role="fo">
+            <imagedata fileref="images/organization.png" format="PNG" width="12cm" />
+          </imageobject>
+        </mediaobject>
+      </figure>
+    </section>
+
+    <section id="roles">
+      <title>Community Roles</title>
+
+      <para>This section describes the roles that are present in the
+      development process of Mindquarry's community.</para>
+
+      <section>
+        <title>PMC Member</title>
+
+        <para>A PMC member is a Committer which has provided excellent
+        contributions to the evolution of the project and which was selected
+        unanimously by the existing PMC members to join the PMC.</para>
+      </section>
+
+      <section>
+        <title>Release Manager</title>
+
+        <para>The Release Manager is a Committer that was selected by the PMC
+        to be the person in charge for a single release cycle. He is
+        responsible for managing the whole release cycle. This includes
+        controlling that project rules are not ignored, focus on the
+        requirements specified in the evaluation period is achieved.</para>
+      </section>
+
+      <section id="role-qamanager">
+        <title>QA Manager</title>
+
+        <para>The QA manager is a Committer that was selected by the PMC to be
+        responsible for quality assurance. The QA manager controls the QA
+        within a release cycle. He is responsible for ensuring that the QA
+        process as described in the QA documentation is applied.</para>
+      </section>
+
+      <section>
+        <title>Developer</title>
+
+        <para>A Developer is user who contributes to Mindquarry in the form of
+        code or documentation. They take extra steps to participate in a
+        project, are active on the developer mailing list, participate in
+        discussions, provide patches, documentation, suggestions, and
+        criticism. Developers are also known as contributors.</para>
+      </section>
+
+      <section id="role-committer">
+        <title>Committer</title>
+
+        <para>A Committer is a developer that was given write access to the
+        code repository and has a signed Contributor License Agreement (CLA)
+        which is described in detail in the IP rights documentation. Not
+        needing to depend on other people for the patches, they are actually
+        making short-term decisions for the project. The PMC can (even
+        tacitly) agree and approve it into permanency, or they can reject it.
+        Remember that the PMC makes the decisions, not the individual
+        people.</para>
+      </section>
+
+      <section>
+        <title>User</title>
+
+        <para>A User is someone that uses Mindquarry software. Users
+        contribute to Mindquarry by providing feedback to developers in the
+        form of bug reports and feature suggestions. Users participate in the
+        Mindquarry community by helping other users on mailing lists and user
+        support forums.</para>
+      </section>
+    </section>
+
+    <section>
+      <title>Documentation</title>
+
+      <para>Documentation artifacts are managed by using an existing
+      installation of Mindquarry's Collaboration Server. This means that wiki
+      pages and document managed by the document management are used to
+      describe concepts like system architecture or the build process.</para>
+    </section>
+
+    <section>
+      <title>Communication</title>
+
+      <para>Communication is done via mailing lists and instant messaging for
+      the first time. Later Mindquarry's conversation system is used to manage
+      conversations about development. Whenever possible, their should be a
+      moderator for key discussions.</para>
+    </section>
+
+    <section>
+      <title>Decision Making</title>
+
+      <para>Long term decisions are made by the PMC by setting the rules,
+      goals and requirements in the evaluation period of each release cycle.
+      Short term decisions are done by simple voting on a conversation
+      (mailing list). Voting duration is 72 hours from the voting request,
+      after that additional voting's are rejected.</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>+1 means voting with yes</para>
+        </listitem>
+
+        <listitem>
+          <para>+0 means no vote</para>
+        </listitem>
+
+        <listitem>
+          <para>-1 means voting with no, there must be an important reason for
+          that</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+  </section>
+
+  <section>
+    <title>Guidelines</title>
+
+    <para>The following guidelines are applied to the development of
+    Mindquarry' software products.</para>
+
+    <section>
+      <title>Versioning Guidelines</title>
+
+      <para>The template for version numbers is as follows: A.B.C</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>A: identification number of the global release (is incremented
+          with every release)</para>
+        </listitem>
+
+        <listitem>
+          <para>B: identification number of the current interface version
+          (should be incremented when the interface has changed)</para>
+        </listitem>
+
+        <listitem>
+          <para>C. identification number of the current build (should be
+          increased when functionality is changed or new features are
+          added)</para>
+        </listitem>
+      </itemizedlist>
+    </section>
+
+    <section>
+      <title>Namespace Guidelines</title>
+
+      <para>The following namespace guidelines should be applied:</para>
+
+      <section>
+        <title>Maven</title>
+
+        <para>The following schema should be used for Maven projects.</para>
+
+        <programlisting language="xml">&lt;groupId&gt;com.mindquarry.<replaceable>product</replaceable>&lt;/groupId&gt;
+&lt;artifactId&gt;<replaceable>component</replaceable>&lt;/artifactId&gt;
+&lt;version&gt;<replaceable>A</replaceable>.<replaceable>B</replaceable>.<replaceable>C</replaceable>&lt;/version&gt;</programlisting>
+      </section>
+
+      <section>
+        <title>XML and Ontologies</title>
+
+        <para>The following schema should be used for naming XSDs and
+        ontologies.</para>
+
+        <programlisting>http://www.mindquarry.com/ns/<replaceable>LANG</replaceable>/<replaceable>DOMAIN</replaceable>/<replaceable>VERSION</replaceable></programlisting>
+
+        <itemizedlist>
+          <listitem>
+            <para>LANG conventions:</para>
+
+            <itemizedlist>
+              <listitem>
+                <para><emphasis>ontology</emphasis>: for ontology
+                naming</para>
+              </listitem>
+
+              <listitem>
+                <para><emphasis>schema</emphasis>: for XSD naming</para>
+              </listitem>
+            </itemizedlist>
+          </listitem>
+        </itemizedlist>
+      </section>
+    </section>
+
+    <section>
+      <title>Java</title>
+
+      <para>The Mindquarry Coding Style Conventions for the Java Programming
+      Language are based on <ulink
+      url="http://java.sun.com/docs/codeconv/">Code Conventions for the
+      <trademark class="registered">Java</trademark> Programming
+      Language</ulink> edited by <trademark class="registered">Sun
+      Microsystems</trademark>.</para>
+
+      <para>Additional Conventions:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>Use only spaces for indentation (no tabs).</para>
+        </listitem>
+
+        <listitem>
+          <para>Use 4 space for each indentation level.</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Additional conventions and each kind of modification are subject
+      to votings. Simple majority is needed, but the CTO can veto. The veto is
+      to be discussed in regards to a wider open source community.</para>
+    </section>
+  </section>
+</article>

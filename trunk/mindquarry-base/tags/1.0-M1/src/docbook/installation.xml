@@ -1,0 +1,611 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+--> 
+<article version="5.0" xmlns="http://docbook.org/ns/docbook"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xi="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:mml="http://www.w3.org/1998/Math/MathML"
+         xmlns:html="http://www.w3.org/1999/xhtml"
+         xmlns:db="http://docbook.org/ns/docbook">
+  <info>
+    <title>Mindquarry Installation Guide</title>
+
+    <subtitle>Installing the Mindquarry Collaboration Server</subtitle>
+
+    <author>
+      <personname>Lars Trieloff</personname>
+
+      <email>lars.trieloff@mindquarry.com</email>
+
+      <affiliation>
+        <orgname>Mindquarry GmbH</orgname>
+      </affiliation>
+    </author>
+
+    <revhistory>
+      <revision>
+        <date>05/02/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>Initial creation of the installation guide.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <date>19/02/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>Added troubleshooting section to the installation
+          guide.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <date>23/02/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>More detailed information about installing Mindquarry on Suse
+          Linux, with thanks to Hans-Georg Dück, instructions on allowing
+          anonymous repository access.</para>
+        </revdescription>
+      </revision>
+    </revhistory>
+  </info>
+
+  <section>
+    <title>Installation Prerequisites</title>
+
+    <para>The Mindquarry Collaboration Server can be installed on any
+    operating system, provided following prerequistes are met.</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>Java 5 (or higher) Software Development Kit</para>
+      </listitem>
+
+      <listitem>
+        <para>Apache 2</para>
+      </listitem>
+
+      <listitem>
+        <para>Subversion</para>
+      </listitem>
+
+      <listitem>
+        <para>mod_perl</para>
+      </listitem>
+    </itemizedlist>
+
+    <section>
+      <title>Installing Java 6</title>
+
+      <para>If you do not already have Java 5 or higher installed, download
+      the <phrase
+      xlink:href="http://java.sun.com/javase/downloads/index.jsp">JDK 6 from
+      Sun</phrase>. It is available for Windows, Linux and Solaris. <phrase
+      os="macosx">Users of Mac OS X 10.4 Tiger have Java 5 already
+      installed.</phrase></para>
+
+      <para><phrase>For many Linux distributions there are packages of Java 5
+      or Java 6 available from the Linux distributors. </phrase></para>
+    </section>
+
+    <section>
+      <title>Installing Apache 2</title>
+
+      <para>Apache 2 is the HTTP server that is used to provide the Subversion
+      repositories for file sharing. Additionally it can be used to secure the
+      Mindquarry installation by adding SSL encryption. Apache 2 is available
+      for <phrase xlink:href="http://httpd.apache.org/download.cgi">download
+      from the Apache Software Foundation</phrase>. There are binary packages
+      for Windows, Linux, Mac OS X and many UNIX derivates.</para>
+
+      <tip>
+        <para>The easiest way of getting up and running with Apache on Windows
+        is downloading the Mindquarry Prerequisites package from the <phrase
+        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
+        site</phrase>.</para>
+      </tip>
+
+      <para>For many Linux distributions there are packages of Apache 2
+      available from the Linux distributors.</para>
+
+      <para>Another recommended way of installing Apache 2 is using the
+      <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
+      meta-packaging software that provides easy-to install packages for many
+      Linux distributions and UNIX derivates.</para>
+
+      <note>
+        <para>Mac OS X comes with a pre-installed Apache 2. As this version is
+        not compatible with most binary packages of Subversion, it is
+        recommended to use a <phrase
+        xlink:href="http://fink.sourceforge.net/">Fink</phrase> or <phrase
+        xlink:href="http://www.macports.org/">MacPorts</phrase>
+        package.</para>
+      </note>
+    </section>
+
+    <section xml:id="install_subversion">
+      <title>Installing Subversion</title>
+
+      <para>Subversion is the version control system that powers Mindquarry's
+      file sharing. It is available for download from the <phrase
+      xlink:href="http://subversion.tigris.org/project_packages.html">Subversion
+      Open Source project's Download site</phrase>. There are packages
+      available for Micosoft Windows Red Hat Linux, Fedora Core, Debian,
+      FreeBSD, Solaris and Mac OS X.</para>
+
+      <note>
+        <para>The Subversion Server cannot be installed on Windows 95, Windows
+        98 or Windows ME. You need at least Windows 2000, Windows XP, Windows
+        2003 Server or Windows Vista.</para>
+      </note>
+
+      <para>Make sure to install the mod_dav_svn module into your Apache 2 web
+      server. Usually this is done by having a line like this in the Apache 2
+      configuration file.</para>
+
+      <programlisting>LoadModule dav_svn_module     modules/mod_dav_svn.so</programlisting>
+
+      <tip>
+        <para>The easiest way of getting up and running with Subversion on
+        Windows is downloading the Mindquarry Prerequisites package from the
+        <phrase xlink:href="http://www.mindquarry.com/downloads/">Mindquarry
+        Download site</phrase>.</para>
+      </tip>
+
+      <para>Another recommended way of installing Subversion is using the
+      <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
+      meta-packaging software that provides easy-to install packages for many
+      Linux distributions and UNIX derivates.</para>
+    </section>
+
+    <section xml:id="install_mod_perl">
+      <title>Installing mod_perl</title>
+
+      <para>mod_perl is a module for the Apache 2 web server that allows you
+      to configure Apache to use Mindquarry's authentication to prevent
+      unauthorized access to the shared files. mod_perl in turn requires Perl,
+      which is preinstalled on nearly every Linux, Mac OS X and UNIX operating
+      system and is available for Windows from <phrase
+      xlink:href="http://www.activestate.com/Products/ActivePerl/">ActiveState
+      in a bundle called ActivePerl</phrase>.</para>
+
+      <para>Following perl modules must be present in order to authenticate
+      Apache 2 against Mindquarry:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>LWP::UserAgent, which is part of every standard Perl
+          installation</para>
+        </listitem>
+      </itemizedlist>
+
+      <tip>
+        <para>The easiest way of getting up and running with mod_perl on
+        Windows is installing ActivePerl and downloading the Mindquarry
+        Prerequisites package from the <phrase
+        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
+        site</phrase>.</para>
+      </tip>
+
+      <para>Another recommended way of installing Perl and mod_perl is using
+      the <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
+      meta-packaging software that provides easy-to install packages for many
+      Linux distributions and UNIX derivates.</para>
+    </section>
+
+    <section>
+      <title>Checking Activated Modules</title>
+
+      <para>In order to make Mindquarry work as expected, some Apache modules
+      are neccessary. These are included in the default Apache distribution
+      and most often also activated, but some Linux distributions deactivate
+      these modules on purpose. These modules are:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para>mod_rewrite</para>
+        </listitem>
+
+        <listitem>
+          <para>mod_proxy</para>
+        </listitem>
+
+        <listitem>
+          <para>mod_poxy_http</para>
+        </listitem>
+
+        <listitem>
+          <para>mod_dav</para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Additionally there are the required modules, whose installation
+      has been covered in the previous sections:</para>
+
+      <itemizedlist>
+        <listitem>
+          <para><phrase
+          xlink:href="#install_mod_perl">mod_perl</phrase></para>
+        </listitem>
+
+        <listitem>
+          <para><phrase
+          xlink:href="#install_subversion">mod_dav_svn</phrase></para>
+        </listitem>
+      </itemizedlist>
+
+      <para>Suse Linux users should edit the
+      <filename>/etc/sysconfig/apache2</filename> file, which is used for
+      configuring Apache modules and look for the definition of the
+      <varname>APACHE_MODULES</varname> variable. Here the modules
+      <literal>rewrite perl proxy proxy_http dav dav_svn</literal> should be
+      added. Newer Suse distributions using Apache 2.2 also require inclusion
+      of <literal>mod_dav_fs</literal>.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Installing Mindquarry</title>
+
+    <para>In order to install Mindquarry on Microsoft Windows, following steps
+    are neccessary:</para>
+
+    <procedure>
+      <step>
+        <para>Download the Mindquarry Installer from the <phrase
+        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
+        site</phrase></para>
+      </step>
+
+      <step>
+        <para>Double-click the Installer and follow the Instructions</para>
+      </step>
+    </procedure>
+
+    <para>Mindquarry is then available as a system service and can be started
+    from the administration panel.</para>
+
+    <para>In order to install Mindquarry on an operating system without an
+    installer, following steps are neccessary:</para>
+
+    <procedure>
+      <step>
+        <para>Download a Mindquarry binary package for yor operating system
+        from the <phrase
+        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
+        site</phrase></para>
+      </step>
+
+      <step>
+        <para>Unpack the binary package and copy it to a location of your
+        choice. Mindquarry recommends <filename
+        class="directory">/opt/mindquarry</filename> as the installation
+        directory.</para>
+      </step>
+    </procedure>
+
+    <para>Mindquarry can then be started by running the
+    <filename>/opt/mindquarry/bin/mindquarry</filename> script.</para>
+
+    <para>In the future there will be packages available for most Linux
+    distributions that allow installation of Mindquarry using the operating
+    system's package management.</para>
+  </section>
+
+  <section>
+    <title>Configuring Mindquarry</title>
+
+    <para>All configuration of Mindquarry is handled in
+    <filename>/opt/mindquarry/etc/mindquarry-webapplication.properties</filename>.
+    This file is a simple list of name-value-pairs. A line starting with a has
+    (<literal>#</literal>) is ignored. Most properties are tuned for running
+    Mindquarry out of the box, you only need to configure three
+    settings:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><varname>mindquarry.title</varname></term>
+
+        <listitem>
+          <para>How your Mindquarry server is called. Use this to distinguish
+          one Mindquarry installation from another. This could for instance be
+          the name of your company or your workgroup.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><varname>mindquarry.repos.uri</varname></term>
+
+        <listitem>
+          <para>The location where Mindquarry's file sharing repositories are
+          located. Usually you need to replace
+          <literal><replaceable>your.mindquarry.server</replaceable></literal>
+          with the actual DNS name of the machine where Mindquarry is
+          installed.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><varname>mindquarry.server.url</varname></term>
+
+        <listitem>
+          <para>The location where Mindquarry is installed and available from
+          the network. Usually you need to replace
+          <literal><replaceable>your.mindquarry.server</replaceable></literal>
+          with the actual DNS name of the machine where Mindquarry is
+          installed. If your server is called
+          <literal>mindquarry.mycompany.com</literal>, the value of this
+          variable should be
+          <literal>http://mindquarry.mycompany.com/repos</literal>.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <para>Other settings are purely optional:</para>
+
+    <variablelist>
+      <varlistentry>
+        <term><varname>mindquarry.jcr.path</varname></term>
+
+        <listitem>
+          <para>Where Mindquarry's data files are stored.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><varname>mindquarry.repos.path</varname></term>
+
+        <listitem>
+          <para>Where Mindquarry's file sharing repositories are
+          stored.</para>
+        </listitem>
+      </varlistentry>
+
+      <varlistentry>
+        <term><varname>mindquarry.solr.path</varname></term>
+
+        <listitem>
+          <para>Where Mindquarry's search index is stored.</para>
+        </listitem>
+      </varlistentry>
+    </variablelist>
+
+    <section>
+      <title>Advanced Configuration</title>
+
+      <para>For advanced configuration parameters, the files
+      <filename>/opt/mindquarry/bin/mindquarry</filename> and
+      <filename>/opt/mindquarry/etc/wrapper.conf</filename> are important. The
+      most important parameter for the first file is
+      <parameter>RUN_AS_USER</parameter>. This parameter is commented out by
+      default, but by removing the leading # and entering a user name, you can
+      specify the user that should run Mindquarry.</para>
+
+      <para>For many Linux distributions it is advisable to set this parameter
+      to the username of the user that runs the Apache web server, so that
+      shared access to the created Subversion repositories is possible.</para>
+
+      <example>
+        <title>Running Mindquarry as user <literal>apache</literal></title>
+
+        <programlisting># If specified, the Wrapper will be run as the specified user.
+# IMPORTANT - Make sure that the user has the required privileges to write
+#  the PID file and wrapper.log files.  Failure to be able to write the log
+#  file will cause the Wrapper to exit without any way to write out an error
+#  message.
+# NOTE - This will set the user which is used to run the Wrapper as well as
+#  the JVM and is not useful in situations where a privileged resource or
+#  port needs to be allocated prior to the user being changed.
+RUN_AS_USER=apache</programlisting>
+      </example>
+
+      <para>The file <filename>/opt/mindquarry/etc/wrapper.conf</filename> can
+      be used to set memory limits for the Mindquarry installation. Usually
+      the default settings need no change, but installations with many users
+      might need more memory.</para>
+    </section>
+  </section>
+
+  <section>
+    <title>Configuring Apache</title>
+
+    <para>Apache needs configuration for three purposes: Requests to the
+    Mindquarry application should be handled by Mindquarry. Requests to the
+    Mindquarry file sharing repository should be handled by Subversion and
+    requests to the Mindquarry file sharing repository should be authenticated
+    by Mindquarry.</para>
+
+    <example>
+      <title>Running Mindquarry in a virtual host</title>
+
+      <programlisting>NameVirtualHost *:80
+DavLockDB /var/lock/apache
+PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authenticate.pm
+&lt;VirtualHost *:80&gt;
+  ServerName <replaceable>your.mindquarry.server</replaceable>
+  &lt;Location /repos&gt;
+    DAV svn
+    SVNParentPath <replaceable>/opt/mindquarry/data/docs</replaceable>
+    SVNAutoversioning on
+
+    PerlAuthenHandler Mindquarry::Authenticate
+    PerlSetVar AuthBase "http://localhost:8080/files/authorise"
+    AuthType Basic
+    AuthName "Mindquarry Document Repository"
+    Require valid-user
+  &lt;/Location&gt;
+  ProxyRequests Off
+  RewriteEngine On
+  RewriteCond %{REQUEST_URI} !^/(repos|error)/(.*)$
+  RewriteRule ^/(.*)$     http://localhost:8080/$1 [P,NC]
+  ProxyPassReverse /      http://localhost:8080/
+&lt;/VirtualHost&gt;</programlisting>
+
+      <para>In this example only the <varname>ServerName</varname> directive
+      needs to be changed, all other directives are perfect for a default
+      installation. If you changed the Mindquarry installation path, you need
+      to revise the <varname>PerlRequire</varname> directive. If you changed
+      the <varname>mindquarry.repos.path configuration</varname>, you have to
+      revise the <varname>SVNParentPath</varname> directive.</para>
+
+      <para>Restart the Apache Web Server to let these settings take
+      effect.</para>
+    </example>
+  </section>
+
+  <section>
+    <title>Starting Mindquarry</title>
+
+    <para>Start Mindquarry using the Mindquarry start script. Windows users
+    that used the Mindquarry Installer can start and stop Mindquarry through
+    the services menu.</para>
+
+    <example>
+      <title>Starting Mindquarry under Linux</title>
+
+      <programlisting># /opt/mindquarry/bin/mindquarry start</programlisting>
+
+      <para>Mindquarry can be stopped using the same script with the
+      <parameter>stop</parameter> parameter. If you would like to follow the
+      console output, start Mindquarry with the <parameter>console</parameter>
+      parameter.</para>
+    </example>
+
+    <example>
+      <title>Starting Mindquarry under Windows</title>
+
+      <programlisting>C:&gt; C:\Program Files\Mindquarry\bin\mindquarry start</programlisting>
+
+      <para>Mindquarry can be stopped using the same script with the
+      <parameter>stop</parameter> parameter. If you would like to follow the
+      console output, start Mindquarry with the <parameter>console</parameter>
+      parameter.</para>
+    </example>
+
+    <para>Mindquarry can then be accessed using your web browser at
+    <uri>http://localhost/</uri>. Log in as user <literal>admin</literal> with
+    password <literal>admin</literal> to create new users and teams.</para>
+  </section>
+
+  <appendix>
+    <title>Troubleshooting &amp; FAQ</title>
+
+    <para>Support for Mindquarry is also available from the <phrase
+    xlink:href="http://www.mindquarry.com/support/">Mindquarry
+    Support</phrase> site.</para>
+
+    <qandaset>
+      <qandadiv>
+        <qandaentry>
+          <question>
+            <para>Is it possible to run Mindquarry on another port than
+            8888?</para>
+          </question>
+
+          <answer>
+            <para>Yes it is. Just add another parameter to
+            <filename>/opt/mindquarry/etc/wrapper.conf</filename>, e.g.</para>
+
+            <programlisting>wrapper.java.additional.4=-Djetty.port=8889</programlisting>
+
+            <para>You need to change the Apache 2 configuration file
+            accordingly.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>I get file not found errors when restarting Mindquarry under
+            Linux. There are messages about too many open files.</para>
+          </question>
+
+          <answer>
+            <para>This is most likely due to security limits set by your Linux
+            distribution. The problem can be solved by modifiying the
+            <filename>/etc/security/limit.conf</filename> file by adding
+            following lines:</para>
+
+            <programlisting><replaceable>mindquarry</replaceable>        soft    nofile          65536
+<replaceable>mindquarry</replaceable>        hard    nofile          65536</programlisting>
+
+            <para>This example assumes, Mindquarry is run as user
+            <literal>mindquarry</literal>.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>After some time of inactivity, Mindquarry complains about
+            some files in the <code>/tmp</code> directory cannot be
+            found.</para>
+          </question>
+
+          <answer>
+            <para>Some operating systems as RedHat Enterprise use tools like
+            <code>tmpwatch</code> for deleting files that are not use for a
+            certain period of time. If this is the case then, deactivate this
+            recurring task by deleting it from
+            <filename>/etc/cron.daily/tmpwatch</filename>.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>I cannot access the Mindquarry Document Repository using the
+            Mindquarry Desktop Client. Looking at the Apache Error logs, I get
+            <quote>permission denied</quote> errors.</para>
+          </question>
+
+          <answer>
+            <para>Under some Linux configurations with SELinux, especially
+            with RHEL, you have to extend the security context of the Apache
+            Web Server by issuing following command.</para>
+          </answer>
+        </qandaentry>
+
+        <qandaentry>
+          <question>
+            <para>How do I allow read-only anonymous access to the Subversion
+            repository?</para>
+          </question>
+
+          <answer>
+            <para>The Mindquarry Authentiaction perl module has a parameter
+            called AnonymousMethods that specifies a list of HTTP methods that
+            do not require authentication and enable anonymous access. Adding
+            a line like the following allows anonymous read-only access to the
+            repository.</para>
+
+            <programlisting>PerlSetVar AnonymousMethods     "GET PROPFIND OPTIONS REPORT"</programlisting>
+          </answer>
+        </qandaentry>
+      </qandadiv>
+    </qandaset>
+  </appendix>
+</article>
