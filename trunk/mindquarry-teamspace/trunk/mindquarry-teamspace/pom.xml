@@ -12,17 +12,17 @@
 	License for the specific language governing rights and limitations
 	under the License.
 -->
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.0-M1-SNAPSHOT</version>
+		<version>1.0-M1</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-teamspace</artifactId>
 	<name>Mindquarry Teamspace</name>
-	<version>1.0-M1-SNAPSHOT</version>
+	<version>1.0-M1</version>
 	<developers>
 		<developer>
 			<id>bastian</id>
@@ -33,15 +33,9 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
-		</connection>
-		<developerConnection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
-		</developerConnection>
-		<url>
-			https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
-		</url>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
 	</scm>
 	<build>
 		<plugins>
@@ -69,7 +63,7 @@
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
@@ -81,12 +75,12 @@
 		<dependency>
 			<groupId>com.mindquarry.workspace</groupId>
 			<artifactId>mindquarry-dma-admin</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>persistence-mock</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
