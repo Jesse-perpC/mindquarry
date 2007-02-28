@@ -72,7 +72,7 @@
 					<tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jcr-changes</tagBase>
 				</configuration>
 			</plugin>
-			<plugin>
+			<!--plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2-SNAPSHOT</version>
 				<configuration>
@@ -80,7 +80,7 @@
 						<descriptor>src/assembly/distributions/change-task-structure.xml</descriptor>
 					</descriptors>
 				</configuration>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
