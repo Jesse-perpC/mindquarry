@@ -43,6 +43,15 @@
   <appendix>
     <title>Further Reading</title>
 
-    <para>Read the Architecture Guide.</para>
+    <para>Further valuable information can be found in the <phrase
+    xlink:href="http://www.mindquarry.org/mindquarry/docbook/architecture.pdf">Mindquarry
+    Collaboration Server Architecture Documentation</phrase> which explains
+    the main building blocks and cocepts behind Mindquarry.</para>
+
+    <para>If you are interested in becomming a permanent member of the
+    Mindquarry team and join us as a comitter, the <phrase
+    xlink:href="http://www.mindquarry.org/mindquarry/docbook/dev-process.pdf">Mindquarry
+    Development Process</phrase> document might be of interest for you.
+    </para>
   </appendix>
 </article>
