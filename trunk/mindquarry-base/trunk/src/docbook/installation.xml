@@ -359,7 +359,10 @@
           the network. Usually you need to replace
           <literal><replaceable>your.mindquarry.server</replaceable></literal>
           with the actual DNS name of the machine where Mindquarry is
-          installed.</para>
+          installed. If your server is called
+          <literal>mindquarry.mycompany.com</literal>, the value of this
+          variable should be
+          <literal>http://mindquarry.mycompany.com/repos</literal>.</para>
         </listitem>
       </varlistentry>
     </variablelist>
@@ -392,6 +395,41 @@
         </listitem>
       </varlistentry>
     </variablelist>
+
+    <section>
+      <title>Advanced Configuration</title>
+
+      <para>For advanced configuration parameters, the files
+      <filename>/opt/mindquarry/bin/mindquarry</filename> and
+      <filename>/opt/mindquarry/etc/wrapper.conf</filename> are important. The
+      most important parameter for the first file is
+      <parameter>RUN_AS_USER</parameter>. This parameter is commented out by
+      default, but by removing the leading # and entering a user name, you can
+      specify the user that should run Mindquarry.</para>
+
+      <para>For many Linux distributions it is advisable to set this parameter
+      to the username of the user that runs the Apache web server, so that
+      shared access to the created Subversion repositories is possible.</para>
+
+      <example>
+        <title>Running Mindquarry as user <literal>apache</literal></title>
+
+        <programlisting># If specified, the Wrapper will be run as the specified user.
+# IMPORTANT - Make sure that the user has the required privileges to write
+#  the PID file and wrapper.log files.  Failure to be able to write the log
+#  file will cause the Wrapper to exit without any way to write out an error
+#  message.
+# NOTE - This will set the user which is used to run the Wrapper as well as
+#  the JVM and is not useful in situations where a privileged resource or
+#  port needs to be allocated prior to the user being changed.
+RUN_AS_USER=apache</programlisting>
+      </example>
+
+      <para>The file <filename>/opt/mindquarry/etc/wrapper.conf</filename> can
+      be used to set memory limits for the Mindquarry installation. Usually
+      the default settings need no change, but installations with many users
+      might need more memory.</para>
+    </section>
   </section>
 
   <section>
