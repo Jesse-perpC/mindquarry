@@ -1,27 +1,11 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!--
-	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
-	
-	The contents of this file are subject to the Mozilla Public License
-	Version 1.1 (the "License"); you may not use this file except in
-	compliance with the License. You may obtain a copy of the License at
-	http://www.mozilla.org/MPL/
-	
-	Software distributed under the License is distributed on an "AS IS"
-	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
-	License for the specific language governing rights and limitations
-	under the License.
--->
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
 		<groupId>com.mindquarry.tasks</groupId>
 		<artifactId>mindquarry-tasks</artifactId>
-		<version>1.0-M1-SNAPSHOT</version>
+		<version>1.0-M1</version>
 	</parent>
 
 	<artifactId>mindquarry-tasks-block</artifactId>
@@ -33,22 +17,22 @@
 		<dependency>
 			<groupId>com.mindquarry.dforms</groupId>
 			<artifactId>mindquarry-dforms</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace-block</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jcr-source</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
@@ -102,8 +86,8 @@
 	</build>
 	
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/</url>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
 	</scm>
 </project>
