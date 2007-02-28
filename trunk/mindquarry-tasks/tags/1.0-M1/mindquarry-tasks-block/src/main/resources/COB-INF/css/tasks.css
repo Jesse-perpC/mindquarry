@@ -1,0 +1,282 @@
+/* buttons */
+
+a.create_task_button:link, a.create_task_button:visited {
+	background-image: url(../buttons/create_task.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+a.create_filter_button:link, a.create_filter_button:visited {
+	background-image: url(../buttons/create_filter.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+div.summary {
+	margin-left:5px;
+	margin-top: 10px;
+	font-weight:normal;
+	color:#666666;
+	font-size:10pt;
+}
+
+div.footbar {
+	clear:both;
+}
+
+/* similar to workspace / teamspace */
+
+ul.members {
+	margin: 0px;
+	padding: 0px;	
+	margin-right: 0px;
+	margin-left: 0px;
+	
+	padding-left: 0px;
+	
+    width: 156px;
+    height: 50px;
+    overflow: hidden;
+}
+
+ul.members li {
+	list-style: none;
+	float:left;
+	margin-left: 2px;
+	margin-right: 2px;
+
+    width:48px;
+    overflow: hidden;
+	font-size:8pt;
+	text-align:center;
+}
+
+
+ul.list {
+	list-style: none;
+	margin: 0px;
+	clear:both;
+	padding: 0px;
+}
+
+div.name h2 {
+	display:inline;
+	font-weight:bold;
+	color:black;
+	font-size:12pt;
+	margin-right:5px;
+}
+
+div.name img {
+	float:left;
+}
+
+div.name span {
+	font-weight:normal;
+	color:#666666;
+	font-size:10pt;
+}
+div.name {
+    margin-top:0px;
+    height:80px;
+	/*margin-right:320px;*/
+	overflow:hidden;
+	text-overflow: ellipsis;
+	width:80%;
+}
+
+/* task list, filter list */
+
+div.task-area, div.filter-area {
+    /*margin-right:320px;*/
+    margin-top:0px;
+    overflow:visible;
+    width:80%;
+    position:relative;
+}
+
+img.task_status {
+	height:22px;
+	width:22px;
+	display:block;
+	float:left;
+	margin-right:5px;
+}
+
+div.task-area table, div.filter-area table {
+	border:0px;
+	font-size:10pt;
+	text-align:left;
+	margin-bottom:15px;
+	width:100%;
+	padding:0px;
+	border-spacing:0px;
+}
+
+div.task-area table th, div.filter-area table th {
+	background-color:#bee5b8;
+	color:black;
+}
+
+#title-col-header {
+    text-align: center;
+}
+
+table.task-list th {
+    padding-left: 16px;
+	cursor: pointer;
+	border-right: 2px solid white;
+}
+
+table.task-list th.selected-sortup {
+    background-image: url(../images/sort-up.png);
+    background-repeat: no-repeat;
+    background-position: 3px 3px;
+    background-color: #66CC66;
+}
+
+table.task-list th.selected-sortdown {
+    background-image: url(../images/sort-down.png);
+    background-repeat: no-repeat;
+    background-position: 3px 3px;
+    background-color: #66CC66;
+}
+
+table.task-list tr td {
+    background-color:white;
+	color:#333333;
+	border-top:1px solid white;
+	border-bottom:1px solid white;
+	padding-top:2px;
+}
+
+table.task-list tr.alt td {
+	background-color: #e6fbe3;
+}
+
+table.task-list tr:hover td {
+	border-bottom-color:#bee5b8;
+	border-top-color:#dff7da;
+	background-color:#cff6c9;
+	color:#666666;
+}
+
+tr a.task_edit_link {
+	visibility:hidden;
+}
+
+tr:hover a.task_edit_link {
+	visibility:visible;
+}
+
+table.task-list td div.summary {
+    color: #bbbbbb;
+}
+
+table.task-list td div.summary {
+    color: #aaaaaa;
+}
+
+/* back link */
+div.btm-link{
+    height:30px;
+    position:relative;
+    float:left;
+
+}
+a#back {
+    height:22px;
+    margin-bottom:0px;
+    display:block;
+	background:url(../icons/22x22/actions/go-previous.png);
+	background-repeat:no-repeat;
+	overflow:visible;
+	padding-left:24px;
+}
+
+/* same as in workspace.css, should be shared in one css file */
+div.links, div.firstlinks {
+	width:200px;
+	float:right;
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;
+	padding: 0;
+	clear:both;
+}
+
+div.firstlinks {
+
+	/*margin-top: -12px;*/
+}
+
+div.links {
+	width:200px;
+	float:right;
+	margin-top:0px;
+	margin-bottom:0px;
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;	
+	padding: 0;
+	clear:both;
+}
+
+div.links ul, div.firstlinks ul {                                   
+	list-style: none; /* modified for tasks */
+}
+
+div.links ul li, div.firstlinks ul li {
+	padding-top: 0px;
+	padding-bottom: 0px;
+}
+
+div.links ul a, div.firstlinks ul a  {
+	font-size:13.3333px;
+	font-weight:400;
+	color:#666666;
+}
+
+img.icon {
+	height:48px;
+	width:48px;
+	border:1px solid black;
+	padding:2px;
+	background-color:white;
+	margin-right:5px;
+}
+
+/* filter list on overview page */
+
+div.filters h3 {
+	font-size: 12px;
+	border-bottom: 1px solid gray;
+}
+
+div.filters {
+	color: #666666;
+	font-size: 12px;
+	clear:both;
+}
