@@ -1,0 +1,114 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	
+        <parent>
+		<artifactId>mindquarry-teamspace-root</artifactId>
+		<groupId>com.mindquarry.teamspace</groupId>
+		<version>1.0-M1</version>
+	</parent>
+	
+        <modelVersion>4.0.0</modelVersion>
+	<groupId>com.mindquarry.teamspace</groupId>
+	<artifactId>mindquarry-teamspace-block</artifactId>
+	<name>Mindquarry Teamspace Block</name>
+
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+	</scm>
+	<build>
+		<finalName>mindquarry-teamspace-block</finalName>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.cocoon</groupId>
+				<artifactId>cocoon-deployer-plugin</artifactId>
+				<version>1.0.0-M2_Mindquarry_1</version>
+			</plugin>
+			<plugin>
+				<groupId>org.mortbay.jetty</groupId>
+				<artifactId>maven-jetty-plugin</artifactId>
+				<version>6.0.0rc3</version>
+				<configuration>
+					<connectors>
+						<connector implementation="org.mortbay.jetty.nio.SelectChannelConnector">
+							<port>8888</port>
+							<maxIdleTime>30000</maxIdleTime>
+						</connector>
+					</connectors>
+					<webAppSourceDirectory>
+						target/mindquarry-teamspace-block
+					</webAppSourceDirectory>
+					<contextPath>/</contextPath>
+					<classesDirectory>
+						${basedir}/src/main/resources
+					</classesDirectory>
+					<scanIntervalSeconds>0</scanIntervalSeconds>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-teamspace-block/</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<repositories>
+		<repository>
+			<id>apache.snapshot</id>
+			<name>Apache Snapshot Repository</name>
+			<url>http://svn.apache.org/maven-snapshot-repository</url>
+		</repository>
+	</repositories>
+
+        <dependencies>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.teamspace</groupId>
+			<artifactId>mindquarry-teamspace</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>castor-persistence</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.webapp</groupId>
+			<artifactId>mindquarry-webapp-resources</artifactId>
+			<version>1.0-M1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M3_Mindquarry_2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-forms-impl</artifactId>
+			<version>1.0.0-M2_Mindquarry_1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-template-impl</artifactId>
+			<version>1.0.0-M3_Mindquarry_1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.tango-project</groupId>
+			<artifactId>tango-icon-theme</artifactId>
+			<version>0.7.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-imageop-impl</artifactId>
+			<version>1.0.0_Mindquarry_1</version>
+		</dependency>
+	</dependencies>
+</project>

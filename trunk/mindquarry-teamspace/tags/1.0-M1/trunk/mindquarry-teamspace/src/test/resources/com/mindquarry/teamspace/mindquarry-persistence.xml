@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+<configuration
+	xmlns="http://www.mindquarry.com/ns/schema/persistence">
+	
+	<entity>
+		<className>com.mindquarry.user.manager.UserEntity</className>
+		<path>/users/{$id}</path>
+	</entity>
+	<entity>
+		<className>com.mindquarry.user.manager.GroupEntity</className>
+		<path>/groups/{$id}</path>
+	</entity>
+	<entity>
+		<className>com.mindquarry.teamspace.manager.TeamspaceEntity</className>
+		<path>/teamspaces/{$id}/metadata.xml</path>
+	</entity>
+	<entity>
+		<className>com.mindquarry.auth.manager.ResourceEntity</className>
+		<path>/resources/{$id}</path>
+	</entity>
+	<queryInfo>
+		<key>getUserById</key>
+		<query>byId</query>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getAllUsers</key>
+		<!-- exclude all documents with a dot, because .png files cannot be parsed -->
+		<query>byClass</query>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getMembersForTeamspace</key>
+		<query>byClass[teamspaceReferences='{$teamspaceId}']</query>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getNonMembersForTeamspace</key>
+		<query>byClass[teamspaceReferences!='{$teamspaceId}']</query>
+		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
+	</queryInfo>
+ 	<queryInfo>
+		<key>getGroupById</key>
+		<query>byId</query>
+		<resultEntityClass>com.mindquarry.user.manager.GroupEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getTeamspaceById</key>
+		<query>byId</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getAllTeamspaces</key>
+		<query>byClass</query>
+		<resultEntityClass>com.mindquarry.teamspace.manager.TeamspaceEntity</resultEntityClass>
+	</queryInfo>
+	<queryInfo>
+		<key>getResourceById</key>
+		<query>byId</query>
+		<resultEntityClass>com.mindquarry.auth.manager.ResourceEntity</resultEntityClass>
+	</queryInfo>
+</configuration>
