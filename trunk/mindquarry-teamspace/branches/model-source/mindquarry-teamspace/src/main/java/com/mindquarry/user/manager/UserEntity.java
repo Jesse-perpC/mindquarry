@@ -21,9 +21,9 @@ import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.mindquarry.common.model.SerializationIgnore;
-import com.mindquarry.common.model.SerializationName;
 import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.common.source.SerializationIgnore;
+import com.mindquarry.common.source.SerializationName;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.User;
 
