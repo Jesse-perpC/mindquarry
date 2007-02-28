@@ -19,13 +19,64 @@
   <section>
     <title>Development Prerequisites</title>
 
-    <para></para>
+    <para>In order to develop Mindquarry, you need:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>A Java Development Kit, Version 1.5 or higher</para>
+      </listitem>
+
+      <listitem>
+        <para>Apache Maven 2.0.4 or higher</para>
+      </listitem>
+
+      <listitem>
+        <para>Subversion 1.3 or higher (a Subversion client is
+        sufficient)</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>Additional tools for Mindquarry development that are not neccessary,
+    but ease the development process are:</para>
+
+    <itemizedlist>
+      <listitem>
+        <para>An XML Editor</para>
+      </listitem>
+
+      <listitem>
+        <para>A good editor for Javascript and CSS</para>
+      </listitem>
+
+      <listitem>
+        <para>An IDE for Java Development</para>
+      </listitem>
+    </itemizedlist>
+
+    <para>A good combination that has proven success in Mindquarry's
+    development team is the Eclipse IDE with the Subclipse Plugin, oXygen XML
+    Plugin and JSEclipse Javascript Editor Plugin.</para>
   </section>
 
   <section>
     <title>Getting Mindquarry's Source Code</title>
 
-    <para></para>
+    <para>Mindquarry consists of many small projects (Maven modules), each
+    with its own Subversion repository.</para>
+
+    <para>The easiest way to check out Mindquarry's source code is to check
+    out the Mindquarry Meta-System, which includes all Mindquarry projects as
+    externals. This includes everything neccessary to run the Mindquarry
+    Webapplication.</para>
+
+    <example>
+      <title>Checking out Mindquarry</title>
+
+      <programlisting><prompt># </prompt>svn co https://www.mindquarry.org/repos/mindquarry-meta-system/trunk/ mindquarry</programlisting>
+
+      <para>This command will put all of Mindquarry's source code into the
+      directory <filename>mindquarry</filename>.</para>
+    </example>
   </section>
 
   <section>
