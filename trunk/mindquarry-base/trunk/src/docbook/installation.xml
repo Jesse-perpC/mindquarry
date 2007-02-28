@@ -11,7 +11,7 @@
   basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
   License for the specific language governing rights and limitations
   under the License.
---> 
+-->
 <article version="5.0" xmlns="http://docbook.org/ns/docbook"
          xmlns:xlink="http://www.w3.org/1999/xlink"
          xmlns:xi="http://www.w3.org/2001/XInclude"
@@ -347,7 +347,11 @@
           located. Usually you need to replace
           <literal><replaceable>your.mindquarry.server</replaceable></literal>
           with the actual DNS name of the machine where Mindquarry is
-          installed.</para>
+          installed. With the default Apache and mod_dav_svn configuration,
+          this is the server name + <literal>/repos</literal>. If your server
+          is called <literal>mindquarry.mycompany.com</literal>, the value of
+          this variable should be
+          <literal>http://mindquarry.mycompany.com/repos</literal></para>
         </listitem>
       </varlistentry>
 
@@ -356,25 +360,27 @@
 
         <listitem>
           <para>The location where Mindquarry is installed and available from
-          the network. Usually you need to replace
-          <literal><replaceable>your.mindquarry.server</replaceable></literal>
-          with the actual DNS name of the machine where Mindquarry is
-          installed. If your server is called
-          <literal>mindquarry.mycompany.com</literal>, the value of this
-          variable should be
-          <literal>http://mindquarry.mycompany.com/repos</literal>.</para>
+          the network via a browser, either through the http:// or the
+          https:// protocol (depending on the configuration). If your server
+          is called <literal>mindquarry.mycompany.com</literal>, the value of
+          this variable should be
+          <literal>http://mindquarry.mycompany.com</literal>.</para>
         </listitem>
       </varlistentry>
     </variablelist>
 
-    <para>Other settings are purely optional:</para>
+    <para>The following settings can be left unchanged. They depict the data
+    repositories, so use one common directory which has large space available,
+    eg. <literal>/var/mindquarry</literal>. The three settings must have
+    different directories though.</para>
 
     <variablelist>
       <varlistentry>
         <term><varname>mindquarry.jcr.path</varname></term>
 
         <listitem>
-          <para>Where Mindquarry's data files are stored.</para>
+          <para>Where Mindquarry's data files are stored, eg.
+          <literal>/var/mindquarry/jcr</literal></para>
         </listitem>
       </varlistentry>
 
@@ -382,8 +388,8 @@
         <term><varname>mindquarry.repos.path</varname></term>
 
         <listitem>
-          <para>Where Mindquarry's file sharing repositories are
-          stored.</para>
+          <para>Where Mindquarry's file sharing repositories are stored, eg.
+          <literal>/var/mindquarry/svn</literal></para>
         </listitem>
       </varlistentry>
 
@@ -391,7 +397,8 @@
         <term><varname>mindquarry.solr.path</varname></term>
 
         <listitem>
-          <para>Where Mindquarry's search index is stored.</para>
+          <para>Where Mindquarry's search index is stored, eg.
+          <literal>/var/mindquarry/solr</literal></para>
         </listitem>
       </varlistentry>
     </variablelist>
