@@ -1,0 +1,40 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1.1</version>
+	</parent>
+
+	<groupId>com.mindquarry.dforms</groupId>
+	<artifactId>mindquarry-ductforms</artifactId>
+	<version>1.0-M1</version>
+	<packaging>pom</packaging>
+
+	<name>Mindquarry Ductforms Package</name>
+
+	<modules>
+		<module>mindquarry-dforms</module>
+	</modules>
+
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+	</scm>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://www.mindquarry.org/repos/mindquarry-ductforms/tags
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project>
