@@ -34,8 +34,8 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.AttributesImpl;
 
-import com.mindquarry.common.model.SerializationIgnore;
-import com.mindquarry.common.model.SerializationName;
+import com.mindquarry.common.source.SerializationIgnore;
+import com.mindquarry.common.source.SerializationName;
 
 /**
  *
