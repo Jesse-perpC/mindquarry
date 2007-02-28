@@ -1,0 +1,114 @@
+/*
+ * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+ *
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ */ 
+a.edit_members_button:link, a.edit_members_button:visited {
+	background-image: url(../buttons/edit_member.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+a.edit_settings_button:link, a.edit_settings_button:visited {
+	background-image: url(../buttons/edit_settings.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
+	background-image: url(../buttons/edit_subprojects.png);
+	display: block;
+	width: 140px;
+	height: 32px;
+	text-decoration: none;
+	text-align: center;
+	color: white;
+	background-repeat: no-repeat;
+	font-size: 10pt;
+	padding-top: 9px;
+	padding-left: 13px;
+}
+
+div.edit-buttons {
+	float: right;
+	clear:both;
+	margin-top: -60px;	
+	margin-right: 10px;
+	margin-left: 10px;
+	position: relative;	
+	padding: 0;
+}
+
+img.icon {
+	height:48px;
+	width:48px;
+	border:1px solid black;
+	padding:2px;
+	margin-right:5px;
+}
+
+div.name h2 {
+	display:inline;
+	font-weight:bold;
+	color:black;
+	font-size:12pt;
+	margin-right:5px;
+}
+div.name img {
+	float:left;
+}
+
+div.name span {
+	font-weight:normal;
+	color:#666666;
+	font-size:10pt;
+}
+
+div.name {
+	height:60px;
+	margin-right:320px;
+	overflow:hidden;
+	text-overflow: ellipsis;
+	width:auto;
+}
+
+div.details h3 {
+	color: #666666;
+	font-size: 12px;
+	border-bottom: 1px solid #cccccc;
+	margin-top:-5px;
+	margin-bottom:5px;	
+}
+
+div.details {
+	clear:both;
+	font-size:9pt;
+	color:#999999;
+	margin-top:4px;
+	margin-bottom:6px;
+}
+

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<bean id="com.mindquarry.auth.manager.Authorization" 
+		class="com.mindquarry.auth.manager.Authorization"
+		scope="singleton">
+	</bean>
+	
+	<alias name="com.mindquarry.auth.manager.Authorization" 
+		   alias="com.mindquarry.auth.AuthorizationAdmin" />
+		   
+	<alias name="com.mindquarry.auth.manager.Authorization" 
+		   alias="com.mindquarry.auth.AuthorizationCheck" />
+	
+	<bean id="com.mindquarry.cache.JcrCache" 
+		class="com.mindquarry.cache.JcrCache">
+		
+		<property name="transientStore"
+				  ref="org.apache.excalibur.store.Store/TransientStore" />			  
+	</bean>
+	
+	<bean id="com.mindquarry.user.manager.UserManager" 
+		class="com.mindquarry.user.manager.UserManager"
+		init-method="initialize">
+		
+		<property name="sessionFactory" 
+				  ref="com.mindquarry.common.persistence.SessionFactory" />	
+				  
+		<property name="jcrCache" ref="com.mindquarry.cache.JcrCache" />
+	</bean>
+	
+	<alias name="com.mindquarry.user.manager.UserManager" 
+		   alias="com.mindquarry.user.UserAdmin" />
+		   
+	<alias name="com.mindquarry.user.manager.UserManager" 
+		   alias="com.mindquarry.user.Authentication" />
+	
+	
+	<bean id="com.mindquarry.teamspace.manager.TeamspaceManager" 
+		class="com.mindquarry.teamspace.manager.TeamspaceManager"
+		init-method="initialize">
+		
+		<property name="sessionFactory" 
+				  ref="com.mindquarry.common.persistence.SessionFactory" />
+				  
+		<property name="listenerRegistry" 
+				  ref="com.mindquarry.teamspace.manager.DefaultListenerRegistry" />
+				 
+		<property name="userManager" 
+				  ref="com.mindquarry.user.manager.UserManager" />
+		
+		<property name="authAdmin" 
+				  ref="com.mindquarry.auth.AuthorizationAdmin" />
+		
+		<property name="jcrCache">
+			<ref local="com.mindquarry.cache.JcrCache" />
+		</property>
+	</bean>	
+	
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+		   alias="com.mindquarry.teamspace.TeamspaceAdmin" />
+		   	
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+		   alias="com.mindquarry.teamspace.TeamspaceQuery" />
+	
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+		   alias="com.mindquarry.teamspace.Authentication" />
+		   		   
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+		alias="com.mindquarry.teamspace.Authorisation" />
+
+	
+	<bean id="com.mindquarry.teamspace.manager.DefaultListenerRegistry" 
+		class="com.mindquarry.teamspace.manager.DefaultListenerRegistry" 
+		scope="singleton" />
+		
+	<alias name="com.mindquarry.teamspace.manager.DefaultListenerRegistry"
+		   alias="com.mindquarry.teamspace.TeamspaceListenerRegistry" />
+</beans>

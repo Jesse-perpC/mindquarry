@@ -1,0 +1,33 @@
+/*
+ * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+ * 
+ * The contents of this file are subject to the Mozilla Public License
+ * Version 1.1 (the "License"); you may not use this file except in
+ * compliance with the License. You may obtain a copy of the License at
+ * http://www.mozilla.org/MPL/
+ *
+ * Software distributed under the License is distributed on an "AS IS"
+ * basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+ * License for the specific language governing rights and limitations
+ * under the License.
+ */
+package com.mindquarry.teamspace;
+
+/**
+ * Interface for REST-style authorisation.
+ *
+ * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
+ *         Alexander Klimetschek</a>
+ */
+public interface Authorisation {
+    
+    /**
+     * tries to authorise the user with the given URI and method
+     *  
+     * @param userId user id
+     * @param uri REST-style URI for the protected resource
+     * @param method REST-style method, eg. HTTP GET, PUT, DELETE etc.
+     * @returns true if the user is allowed to do that, otherwise false
+     */
+    boolean authorise(String userId, String uri, String method);
+}
