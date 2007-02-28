@@ -1,0 +1,79 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+
+	<parent>
+		<groupId>com.mindquarry.jcr</groupId>
+		<artifactId>mindquarry-jcr</artifactId>
+		<version>1.0-M1</version>
+	</parent>
+
+	<artifactId>mindquarry-jcr-source</artifactId>
+	<packaging>jar</packaging>
+	<name>Mindquarry JCR XML/Sourceresolver Wrapper</name>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*PerformanceTest.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<!-- export our test classes in a separate jar -->
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+        <artifactId>maven-release-plugin</artifactId>
+        <configuration>
+          <tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jcr-source</tagBase>
+        </configuration>
+      </plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jackrabbit</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jackrabbit</artifactId>
+			<version>1.0-M1-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M1</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-repository-impl</artifactId>
+			<version>1.0.0_Mindquarry_1</version>
+		</dependency>
+	</dependencies>
+
+        <scm>
+    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+    <url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+  </scm>
+</project>

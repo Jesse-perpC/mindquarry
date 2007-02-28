@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component>
+    <fileSets>
+        <fileSet>
+            <directory>target</directory>
+            <outputDirectory></outputDirectory>
+            <includes>
+                <include>mindquarry-jcr-changes-*.jar</include>
+            </includes>
+        </fileSet>
+    </fileSets>
+    
+    <dependencySets>
+        <dependencySet>
+            <includes>
+                <include>com.mindquarry.jcr:mindquarry-jcr-changes</include>
+            </includes>
+        </dependencySet>
+    </dependencySets>
+</component>
