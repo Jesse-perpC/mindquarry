@@ -18,8 +18,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.mindquarry.common.model.SerializationName;
 import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.common.source.SerializationName;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.user.UserRO;
 
