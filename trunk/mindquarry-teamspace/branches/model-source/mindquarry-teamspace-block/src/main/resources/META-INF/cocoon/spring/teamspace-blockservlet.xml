@@ -33,8 +33,11 @@
 				<entry key="super"
 					value-ref="com.mindquarry.webapp.resources-block" />
 				<entry key="teams"
-					value-ref="com.mindquarry.teamspace.teamspace-block" />
+					value-ref="com.mindquarry.teamspace.teamspace-block" />					
+				<entry key="resources"
+					value-ref="com.mindquarry.webapp.resources-block" />
 			</map>
+			
 		</property>
 	</bean>
 </beans>

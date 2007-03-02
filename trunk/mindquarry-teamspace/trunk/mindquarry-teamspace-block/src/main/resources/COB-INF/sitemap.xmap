@@ -76,7 +76,6 @@
 
 	<flow language="javascript">
 		<script src="flows/teamspaces.js" />
-		<script src="flows/teams-view.js" />
 		<script src="flows/users.js" />
 		<script src="flows/edit-members.js" />
 		<script src="flows/edit-user.js" />
@@ -244,13 +243,6 @@
 
 		<pipeline type="caching-point" internal-only="true">
 			
-			<match pattern="views/usersForTeamspaceAsFormsSelectionList">
-				<generate src="jx/teamspace-view.jx" type="jx"
-					label="content" />
-				<transform src="xslt/teamspace2selectionlist.xsl" />
-				<serialize type="xml" />
-			</match>
-			
 			<match pattern="*.instance">
 				<generate type="jx" src="forms/{1}-template.xml">
 					<parameter name="locale"
@@ -308,24 +300,6 @@
 						<serialize type="xml" />
 					</when>
 				</select>
-			</match>
-			
-			<!-- TODO find users and remove it -->
-			<!-- user info for inclusion in general styling (html2html) -->
-			<match pattern="user/*/loggedInInfo.html">
-				
-				<generate src="model://TeamQuery#teamspacesForUser({1})"
-					label="content" />
-				
-				<transform src="xslt/includeUserDetails.xsl" >
-					<parameter name="username" value="{1}" />
-				</transform>
-				<transform type="include" />
-				
-				<transform src="xslt/teamspaces2htmllist.xsl"/>
-				
-				<serialize type="xml" />
-
 			</match>
 			
 			<!-- TODO find users and remove it -->
@@ -387,18 +361,10 @@
 				</select>
 			</match>
 			
-			
-			<!-- TODO: used within tasks - has to be moved to tasks block -->
-			<!-- users for a single teamspace as fd:selection-list -->
-			<!-- TODO: enable this authorisation when the authorisation for internal block calls works -->
-			<!-- <act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/> -->
-			<match pattern="*/users.selectionlist.xml">
-				<call function="teamByID">
-					<parameter name="teamID"
-						value="{1}" />
-					<parameter name="target"
-						value="views/usersForTeamspaceAsFormsSelectionList" />
-				</call>
+			<match pattern="*/members/asFormsSelectionlist">
+				<generate src="model://UserQuery#membersForTeamspace({1})" />
+				<transform src="xslt/teamMembers2formsSelectionlist.xsl" />
+				<serialize type="xml" />
 			</match>
 			
 			<match pattern="*/editMembers/">
