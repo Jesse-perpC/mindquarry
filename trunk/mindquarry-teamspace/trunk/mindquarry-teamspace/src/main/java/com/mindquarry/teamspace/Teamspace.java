@@ -13,6 +13,7 @@
  */
 package com.mindquarry.teamspace;
 
+
 /**
  * Add summary documentation here.
  *

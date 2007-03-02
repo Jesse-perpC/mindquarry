@@ -60,6 +60,18 @@
 		<view name="form" from-label="form">
 			<serialize type="xml" />
 		</view>
+		
+		<view name="step1" from-label="step1">
+			<serialize type="xml" />
+		</view>
+		
+		<view name="step2" from-label="step2">
+			<serialize type="xml" />
+		</view>
+		
+		<view name="step3" from-label="step3">
+			<serialize type="xml" />
+		</view>
 	</views>
 
 	<flow language="javascript">
@@ -71,6 +83,39 @@
 	</flow>
 
 	<resources>
+		<resource name="form2html">
+			<transform type="i18n"/>
+			<transform src="block:super:/xslt/forms/form2html.xsl"
+				label="form">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+		</resource>
+		
+		<resource name="html2html">
+			<transform src="block:/xslt/html2html.xsl"
+				type="xalan">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+				<parameter name="serverBasePath" 
+					value="{system-property:mindquarry.server.url}{request:contextPath}" />
+				<parameter name="username"
+					value="{request-attr:username}" />
+				<parameter name="serverTitle"
+					value="{system-property:mindquarry.title}" />
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>							
+			</transform>
+		</resource>
+		
 		<!-- general resource called upon errors (in each external pipeline
 			 below), calls error-layouting pipeline for styling -->
 		<resource name="error-handling">
@@ -118,25 +163,7 @@
 						<parameter name="timeStamp"
 							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>							
 					</transform>
-					<transform src="block:/xslt/html2html.xsl"
-						type="xalan">
-						<parameter name="fullPath"
-							value="{block-path:}{request:pathInfo}" />
-						<parameter name="sitemapPath"
-							value="{request:pathInfo}" />
-						<parameter name="serverBasePath" 
-							value="{system-property:mindquarry.server.url}{request:contextPath}" />
-						<parameter name="username"
-							value="{request-attr:username}" />
-						<parameter name="serverTitle"
-							value="{system-property:mindquarry.title}" />
-						<parameter name="artifactId"
-							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>							
-						<parameter name="version"
-							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>							
-						<parameter name="timeStamp"
-							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>							
-					</transform>
+					<call resource="html2html" />
 					<select type="parameter">
 						<parameter name="parameter-selector-test" value="{httpStatus}"/>
 						
@@ -183,26 +210,8 @@
 					</transform>
 					<serialize type="xml" />
 				</when>
-				<otherwise>
-					<transform src="block:/xslt/html2html.xsl"
-						type="xalan">
-						<parameter name="fullPath"
-							value="{block-path:}{request:pathInfo}" />
-						<parameter name="sitemapPath"
-							value="{request:pathInfo}" />
-						<parameter name="serverBasePath" 
-							value="{system-property:mindquarry.server.url}{request:contextPath}" />
-						<parameter name="username"
-							value="{request-attr:username}" />
-						<parameter name="serverTitle"
-							value="{system-property:mindquarry.title}" />
-						<parameter name="artifactId"
-							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>							
-						<parameter name="version"
-							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>							
-						<parameter name="timeStamp"
-							value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>							
-					</transform>
+				<otherwise>					
+					<call resource="html2html" />
 					<transform type="cinclude"/>
 				</otherwise>
 			</select>
@@ -229,94 +238,11 @@
 				</otherwise>
 			</select>
 		</resource>
-
-		<resource name="form2html">
-			<transform type="i18n"/>
-			<transform src="block:super:/xslt/forms/form2html.xsl"
-				label="form">
-				<parameter name="fullPath"
-					value="{block-path:}{request:pathInfo}" />
-				<parameter name="sitemapPath"
-					value="{request:pathInfo}" />
-			</transform>
-		</resource>
 	</resources>
 
 	<pipelines>
 
 		<pipeline type="caching-point" internal-only="true">
-			<match pattern="views/teamspacesView">
-				<generate src="jx/teamspace-list-view.jx" type="jx"
-					label="content" />
-				
-				<transform src="xslt/teamspaces2html.xsl"
-					label="html">
-					<parameter name="username"
-						value="{request-attr:username}" />
-					<parameter name="fullPath"
-						value="{block-path:}{request:pathInfo}" />
-					<parameter name="sitemapPath"
-						value="{request:pathInfo}" />
-				</transform>
-				
-				<call resource="form2html" />
-				<call resource="layouting" />
-			</match>
-
-			<match pattern="views/teamspacesXMLView">
-				<generate src="jx/teamspace-list-view.jx" type="jx"
-					label="content" />
-				
-				<transform src="xslt/teamspaces2xml.xsl" />
-				<serialize type="xml" />
-			</match>
-			
-			<match pattern="views/teamspacesFullXMLView">
-				<generate src="jx/teamspace-list-view.jx" type="jx"
-					label="content" />
-				<serialize type="xml" />
-			</match>
-			
-			<match pattern="views/teamspaceXMLView">
-				<generate src="jx/teamspace-view.jx" type="jx"
-					label="content" />
-				
-				<transform src="xslt/teamspace2xml.xsl">
-					<parameter name="reposURI"
-						value="{system-property:mindquarry.repos.uri}" />
-				</transform>
-				
-				<serialize type="xml" />
-			</match>
-			
-			<match pattern="views/teamspaceHTMLView">
-				<generate src="jx/teamspace-view.jx" type="jx"
-					label="content" />
-				
-				<transform src="xslt/teamspace2html.xsl"
-					label="html">
-					<parameter name="username"
-						value="{request-attr:username}" />
-					<parameter name="fullPath"
-						value="{block-path:}{request:pathInfo}" />
-					<parameter name="sitemapPath"
-						value="{request:pathInfo}" />
-				</transform>
-				
-				<call resource="form2html" />
-				<call resource="layouting" />
-				
-				<serialize type="html" />
-			</match>
-			
-			<match pattern="views/teamspacesHTMLListView">
-				<generate src="jx/teamspace-list-view.jx" type="jx"
-					label="content" />
-				
-				<transform src="xslt/teamspaces2htmllist.xsl" />
-				
-				<serialize type="xml" />
-			</match>
 			
 			<match pattern="views/usersForTeamspaceAsFormsSelectionList">
 				<generate src="jx/teamspace-view.jx" type="jx"
@@ -345,53 +271,133 @@
 						
 			<!-- teamspace list -->
 			<match pattern="">
+			
+				<generate src="model://TeamQuery#teamspacesForUser({request-attr:username})"
+					label="content" />
+				
+				<transform src="xslt/includeMembersForTeamspace.xsl" />
+				<transform type="include" />
+				
 				<!-- check request type: REST / HTML or other -->
 				<select type="REST">
-					
+								
 					<!-- handle HTML request -->
-					<when test="html">
-						<call
-							function="listTeamsForUser">
+					<when test="html">				
+						<transform src="xslt/teamspaces2html.xsl"
+							label="html">
 							<parameter name="username"
 								value="{request-attr:username}" />
-							<parameter name="target"
-								value="views/teamspacesView" />
-						</call>
+							<parameter name="fullPath"
+								value="{block-path:}{request:pathInfo}" />
+							<parameter name="sitemapPath"
+								value="{request:pathInfo}" />
+								
+							<parameter name="blockPath" value="{block-path:}" />
+							<parameter name="serverBaseUrl" 
+								value="{system-property:mindquarry.server.url}{request:contextPath}" />
+						</transform>
+						
+						<call resource="form2html" />
+						<call resource="layouting" />
 					</when>
 					
 					<!-- handle REST request -->
 					<!-- used by desktop client to get informed about the teamspaces for the user --> 
 					<when test="xml">
-						<call
-							function="listTeamsForUser">
-							<parameter name="username"
-								value="{request-attr:username}" />
-							<parameter name="target"
-								value="views/teamspacesXMLView" />
-						</call>
+						<transform src="xslt/teamspaces2xml.xsl" />
+						<serialize type="xml" />
 					</when>
 				</select>
 			</match>
-						
+			
+			<!-- TODO find users and remove it -->
 			<!-- user info for inclusion in general styling (html2html) -->
 			<match pattern="user/*/loggedInInfo.html">
-				<call
-					function="listTeamsForUser">
-					<parameter name="username"
-						value="{1}" />
-					<parameter name="target"
-						value="views/teamspacesHTMLListView" />
-				</call>
+				
+				<generate src="model://TeamQuery#teamspacesForUser({1})"
+					label="content" />
+				
+				<transform src="xslt/includeUserDetails.xsl" >
+					<parameter name="username" value="{1}" />
+				</transform>
+				<transform type="include" />
+				
+				<transform src="xslt/teamspaces2htmllist.xsl"/>
+				
+				<serialize type="xml" />
+
 			</match>
 			
+			<!-- TODO find users and remove it -->
 			<!-- user with name and all his teams with all their users and full user info -->
 			<match pattern="user/*/info/teams.xml">
-				<call
-					function="listTeamsForUser">
-					<parameter name="username"
+							
+				<generate src="model://TeamQuery#teamspacesForUser({1})"
+					label="content" />
+				
+				<transform src="xslt/includeUserDetails.xsl" >
+					<parameter name="username" value="{1}" />
+				</transform>
+				<transform type="include" />
+				
+				<transform src="xslt/includeMembersForTeamspace.xsl" />
+				<transform type="include" />
+				
+				<serialize type="xml" />
+				
+			</match>
+			
+			<match pattern="team/">
+				<redirect-to uri=".." />
+			</match>
+			
+			<!-- single teamspace details -->
+			<match pattern="team/*/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
+				
+				<generate src="model://TeamQuery#teamspaceById({1})" label="content" />
+								
+				<transform src="xslt/includeMembersForTeamspace.xsl" />
+				<transform type="include" />
+						
+				<select type="REST">
+					<when test="html">
+						<transform src="xslt/teamspace2html.xsl" label="html">
+							<parameter name="username" value="{request-attr:username}" />								
+							<parameter name="blockPath" value="{block-path:}" />
+							<parameter name="serverBaseUrl" 
+								value="{system-property:mindquarry.server.url}{request:contextPath}" />
+						</transform>
+						
+						<call resource="form2html" />
+						<call resource="layouting" />
+						
+						<serialize type="html" />
+					</when>
+					
+					<!--  handle REST request -->
+					<when test="xml">
+						<transform src="xslt/teamspace2xml.xsl">
+							<parameter name="reposURI"
+								value="{system-property:mindquarry.repos.uri}" />
+						</transform>
+						
+						<serialize type="xml" />
+					</when>
+				</select>
+			</match>
+			
+			
+			<!-- TODO: used within tasks - has to be moved to tasks block -->
+			<!-- users for a single teamspace as fd:selection-list -->
+			<!-- TODO: enable this authorisation when the authorisation for internal block calls works -->
+			<!-- <act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/> -->
+			<match pattern="*/users.selectionlist.xml">
+				<call function="teamByID">
+					<parameter name="teamID"
 						value="{1}" />
 					<parameter name="target"
-						value="views/teamspacesFullXMLView" />
+						value="views/usersForTeamspaceAsFormsSelectionList" />
 				</call>
 			</match>
 			
@@ -516,49 +522,6 @@
 			<match pattern="*.continue">
 				<act type="setnohttpcache" />
 				<call continuation="{1}" />
-			</match>
-			
-			<match pattern="team/">
-				<redirect-to uri=".." />
-			</match>
-			<!-- single teamspace details -->
-			<match pattern="team/*/">
-				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
-				<!-- check request type: REST / HTML or other -->
-				<select type="REST">
-					<!--  handle HTML request -->
-					<when test="html">
-						<call
-							function="teamByID">
-							<parameter name="teamID"
-								value="{1}" />
-							<parameter name="target"
-								value="views/teamspaceHTMLView" />
-						</call>
-					</when>
-					
-					<!--  handle REST request -->
-					<when test="xml">
-						<call function="teamByID">
-							<parameter name="teamID"
-								value="{1}" />
-							<parameter name="target"
-								value="views/teamspaceXMLView" />
-						</call>
-					</when>
-				</select>
-			</match>
-			
-			<!-- users for a single teamspace as fd:selection-list -->
-			<match pattern="*/users.selectionlist.xml">
-				<!-- TODO: enable this authorisation when the authorisation for internal block calls works -->
-				<!-- <act type="authorise" src="jcr:///teamspaces/{1}/users.xml"/> -->
-				<call function="teamByID">
-					<parameter name="teamID"
-						value="{1}" />
-					<parameter name="target"
-						value="views/usersForTeamspaceAsFormsSelectionList" />
-				</call>
 			</match>
 
 			<handle-errors>

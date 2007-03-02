@@ -14,17 +14,6 @@
  
 importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
 
-function listTeamsForUser() {
-    var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
-    
-    var userId = cocoon.parameters["username"];
-    var teamspaces = teamspaceQuery.teamspacesForUser(userId);
-    
-    var parameterMap = { "teamspaces" : teamspaces, "userId" : userById(userId) }
-    var target = cocoon.parameters["target"];
-    cocoon.sendPage(target, parameterMap);
-}
-
 function teamByID() {
 	var teamspaceQuery = cocoon.getComponent(TeamspaceQuery.ROLE);
     
