@@ -14,12 +14,12 @@
 -->
 <article class="specification" status="draft" version="5.0" xml:lang="en"
          xmlns="http://docbook.org/ns/docbook"
-         xmlns:m="http://www.w3.org/1998/Math/MathML"
-         xmlns:xhtml="http://www.w3.org/1999/xhtml"
          xmlns:xlink="http://www.w3.org/1999/xlink"
          xmlns:xinclude="http://www.w3.org/2001/XInclude"
+         xmlns:xhtml="http://www.w3.org/1999/xhtml"
          xmlns:svg="http://www.w3.org/2000/svg"
-         xmlns:ns="http://docbook.org/ns/docbook">
+         xmlns:ns="http://docbook.org/ns/docbook"
+         xmlns:m="http://www.w3.org/1998/Math/MathML">
   <info>
     <title>Mindquarry Document Management System - Technical
     Documentation</title>
@@ -114,12 +114,60 @@
       Version Control Systems like Subversion, which is the most important
       open source version control system today a step ahead in order to make
       them more accessible for non-technical users.</para>
+
+      <para>Core requirements of the Mindquarry Document Managament Systems
+      are:</para>
+
+      <orderedlist>
+        <listitem>
+          <para>Implemented in Java in order to allow easy integration with
+          the existing Mindquarry components and to allow easy cross-platform
+          deployment</para>
+        </listitem>
+
+        <listitem>
+          <para>Distributed - there should be no single version repository
+          that needs access for every operation and accordingly network
+          connectivity. Instead operations like updating and comparing
+          revisions should be made from a local repository whenever possible
+          in order to reduce network load.</para>
+        </listitem>
+
+        <listitem>
+          <para>Content-aware - The version control system should be able to
+          detect different file types and merge them intelligently. XML-based
+          Office file formats are of highest priority.</para>
+        </listitem>
+
+        <listitem>
+          <para>Web Integration - The system should offer a web based user
+          interface and operations should fit into the architecture model of
+          the world wide web to allow integration with other web-based
+          applications</para>
+        </listitem>
+
+        <listitem>
+          <para>Replicatability - the underlying content store should be
+          replicable in order to allow for heavy load deployments</para>
+        </listitem>
+
+        <listitem>
+          <para>Support for XML as a content format with intelligent
+          merge</para>
+        </listitem>
+
+        <listitem>
+          <para>Support for Office-documents in ODF and OpenXML as document
+          formats with intelligent merge</para>
+        </listitem>
+      </orderedlist>
     </section>
   </section>
 
   <bibliography xml:id="bibliography">
     <biblioentry xml:id="bib-fmc">
-      <title><phrase xlink:href="http://f-m-c.org/">Fundamental Modeling Concepts Homepage</phrase></title>
+      <title><phrase xlink:href="http://f-m-c.org/">Fundamental Modeling
+      Concepts Homepage</phrase></title>
     </biblioentry>
   </bibliography>
 </article>
