@@ -73,7 +73,7 @@
 		<dependency>
 			<groupId>com.mindquarry.search</groupId>
 			<artifactId>mindquarry-solr</artifactId>
-			<version>1.0-M1</version>
+			<version>1.0-M2-SNAPSHOT</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -85,7 +85,7 @@
 		<dependency>
 			<groupId>com.mindquarry.search.cocoon</groupId>
 			<artifactId>cocoon-extractor-impl</artifactId>
-			<version>1.0.0-M2</version>
+			<version>1.0.0-M4-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
