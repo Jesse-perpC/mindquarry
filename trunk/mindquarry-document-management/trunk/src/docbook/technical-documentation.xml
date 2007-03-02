@@ -1,6 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
-"http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
 <!--
   Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
 
@@ -14,8 +12,15 @@
   License for the specific language governing rights and limitations
   under the License.
 -->
-<article class="specification" lang="en" status="draft">
-  <articleinfo>
+<article class="specification" status="draft" version="5.0" xml:lang="en"
+         xmlns="http://docbook.org/ns/docbook"
+         xmlns:m="http://www.w3.org/1998/Math/MathML"
+         xmlns:xhtml="http://www.w3.org/1999/xhtml"
+         xmlns:xlink="http://www.w3.org/1999/xlink"
+         xmlns:xinclude="http://www.w3.org/2001/XInclude"
+         xmlns:svg="http://www.w3.org/2000/svg"
+         xmlns:ns="http://docbook.org/ns/docbook">
+  <info>
     <title>Mindquarry Document Management System - Technical
     Documentation</title>
 
@@ -28,9 +33,7 @@
     </abstract>
 
     <author>
-      <firstname>Bastian</firstname>
-
-      <surname>Steinert</surname>
+      <personname>Bastian Steinert</personname>
 
       <affiliation>
         <jobtitle>Software Developer</jobtitle>
@@ -40,9 +43,7 @@
     </author>
 
     <author>
-      <firstname>Hagen</firstname>
-
-      <surname>Overdick</surname>
+      <personname>Hagen Overdick</personname>
 
       <affiliation>
         <jobtitle>Software Developer</jobtitle>
@@ -52,9 +53,7 @@
     </author>
 
     <author>
-      <firstname>Alexander</firstname>
-
-      <surname>Klimetschek</surname>
+      <personname>Alexander Klimetschek</personname>
 
       <affiliation>
         <jobtitle>Chief Architect</jobtitle>
@@ -64,9 +63,7 @@
     </author>
 
     <author>
-      <firstname>Alexander</firstname>
-
-      <surname>Saar</surname>
+      <personname>Alexander Saar</personname>
 
       <affiliation>
         <jobtitle>Chief Technology Officer</jobtitle>
@@ -76,9 +73,7 @@
     </author>
 
     <author>
-      <firstname>Lars</firstname>
-
-      <surname>Trieloff</surname>
+      <personname>Lars Trieloff</personname>
 
       <affiliation>
         <jobtitle>Chief Operational Officer</jobtitle>
@@ -98,9 +93,9 @@
     </copyright>
 
     <releaseinfo>Version 1.0 (draft)</releaseinfo>
-  </articleinfo>
+  </info>
 
-  <section id="intro">
+  <section xml:id="intro">
     <title>Introduction and Overview</title>
 
     <para>The <productname>Mindquarry Document Management
@@ -122,10 +117,9 @@
     </section>
   </section>
 
-  <bibliography id="bibliography">
-    <biblioentry id="bib-fmc">
-      <title><ulink url="http://f-m-c.org/">Fundamental Modeling Concepts
-      Homepage</ulink></title>
+  <bibliography xml:id="bibliography">
+    <biblioentry xml:id="bib-fmc">
+      <title><phrase xlink:href="http://f-m-c.org/">Fundamental Modeling Concepts Homepage</phrase></title>
     </biblioentry>
   </bibliography>
 </article>
