@@ -26,7 +26,7 @@
 	<xsl:template match="/">
 		<html>
 			<head>
-				<xsl:apply-templates mode="title" />
+				<xsl:apply-templates select="." mode="title" />
 				
 				<link rel="stylesheet"
 				    href="{$pathToBlock}css/teamspace.css" type="text/css" />
@@ -40,7 +40,7 @@
 				<script type="text/javascript">dojo.require("cocoon.forms");</script>			  
 			</head>
 			<body>
-				<xsl:apply-templates mode="heading" />
+				<xsl:apply-templates select="."  mode="heading" />
 				<xsl:apply-templates />
 			</body>
 		</html>

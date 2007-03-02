@@ -16,11 +16,11 @@
 	 
 	<xsl:import href="teamspace2htmlutils.xsl"/>
 	
-	<xsl:template match="teamspaces" mode="title">
+	<xsl:template match="/" mode="title">
 		<title>Teams</title>
 	</xsl:template>
   
-	<xsl:template match="teamspaces" mode="heading">
+	<xsl:template match="/" mode="heading">
 		<h1>Manage Your Teams</h1>
     
 		<xsl:if test="$username = 'admin'" >
