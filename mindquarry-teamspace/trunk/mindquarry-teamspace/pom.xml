@@ -3,13 +3,12 @@
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.0-M1-SNAPSHOT</version>
+		<version>1.0-M2-SNAPSHOT</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.teamspace</groupId>
 	<artifactId>mindquarry-teamspace</artifactId>
 	<name>Mindquarry Teamspace</name>
-	<version>1.0-M1-SNAPSHOT</version>
 	<developers>
 		<developer>
 			<id>bastian</id>
