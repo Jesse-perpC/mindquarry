@@ -78,7 +78,6 @@ public class ModelSourceTest extends ModelSourceTestBase {
         String membersTeam2Url = "model://UserQuery#membersForTeamspace(" + team2.getId() + ")";
         Source source2 = resolveSource(membersTeam2Url, ModelSource.class);
         assertNotNull(source2.getInputStream());
-        assertTrue(source2.getInputStream().available() == 0);
 	}
 
 	private Source resolveSource(String url, Class expectedSourceClass) throws MalformedURLException, IOException {

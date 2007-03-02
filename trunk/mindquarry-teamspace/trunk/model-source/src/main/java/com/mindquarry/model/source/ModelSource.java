@@ -148,11 +148,12 @@ class ModelSource implements Source {
 		
 		Object context = businessSourceInterpreter_.interpret();
 		
-        if (isEmptyContext(context))
-            return;
+        contentHandler.startDocument();
         
-		contentHandler.startDocument();
-		if (context instanceof Collection) {
+        if (isEmptyContext(context)) {
+            writeElementWithText(contentHandler, "no-data-available", "");
+        }
+        else if (context instanceof Collection) {
 			Collection<?> entityList = (Collection<?>) context;
             entityListToSax(contentHandler, entityList);
 		}
