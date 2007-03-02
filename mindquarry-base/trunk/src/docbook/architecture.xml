@@ -23,13 +23,10 @@
 
     <abstract>
       <para>This document provides a description of the architecture of the
-      Mindquarry Collaboration Server. Therefore it starts with an overview of
-      the whole system. This includes and overview of the system components
-      and how they play together as well as a short introduction to the open
-      source software frameworks the Mindquarry Collaboration Server relies
-      on. After that the several system components are described in detail
-      grouped by backend and frontend parts. Finally it is described how the
-      system can be integrated in existing IT landscapes.</para>
+      Mindquarry Collaboration Server, including high-level overview as well
+      as technical details for certain important parts. It also contains
+      description of the directory conventions in the various modules and
+      basic data API references. </para>
 
       <para>The document should help developers to get in touch with the
       Mindquarry Collaboration Server if they plan to participate in the
@@ -1378,7 +1375,7 @@
           is a central concept used in Cocoon to get access to different data
           sources. By using standard URIs like
           <code>jcr://teamspace/mindquarry/metadata.xml</code>, it allows to
-          write different so-called SourceFactories for each scheme like http,
+          have different so-called SourceFactories for each scheme like http,
           file or in this case jcr. Each <code>SourceFactory</code> provides a
           <code>Source</code>, which maps to an entity like a file or a JCR
           node. The XML mapping implementation is contained in the
