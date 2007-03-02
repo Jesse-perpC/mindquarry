@@ -36,12 +36,12 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace-block</artifactId>
-			<version>1.0-M1</version>
+			<version>1.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
 			<artifactId>mindquarry-webapp-resources</artifactId>
-			<version>1.0-M1</version>
+			<version>1.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>

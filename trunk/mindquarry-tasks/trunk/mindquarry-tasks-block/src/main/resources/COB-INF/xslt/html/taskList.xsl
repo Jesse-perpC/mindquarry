@@ -23,7 +23,7 @@
 	<xsl:param name="username" />
 	
 	<xsl:variable name="teamspaceUsers"
-		select="document(concat('block:teams:/', $teamspaceID, '/users.selectionlist.xml'))"/>
+		select="document(concat('block:teams:/', $teamspaceID, '/members/asFormsSelectionlist'))"/>
 	
 	<xsl:template match="/tasks">
 		<html>
