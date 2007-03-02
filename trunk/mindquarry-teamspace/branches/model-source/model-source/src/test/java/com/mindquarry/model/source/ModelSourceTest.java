@@ -17,11 +17,9 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
-import com.mindquarry.model.source.ModelSource;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.User;
@@ -30,7 +28,7 @@ import com.mindquarry.user.UserAdmin;
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public class ModelSourceFactoryTest extends ModelSourceTestBase {
+public class ModelSourceTest extends ModelSourceTestBase {
 	
 	SourceResolver resolver_;
 
@@ -55,7 +53,6 @@ public class ModelSourceFactoryTest extends ModelSourceTestBase {
         InputStream inputStream = source.getInputStream();
         assertNotNull(inputStream);
         assertTrue(inputStream.available() > 0);
-        IOUtils.copy(inputStream, System.out);
 	}
 
 	public void testQueryMembersForTeam() throws Exception {
@@ -63,18 +60,25 @@ public class ModelSourceFactoryTest extends ModelSourceTestBase {
 		TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
 		UserAdmin userAdmin = lookupUserAdmin();
 		
-        User mqUser = userAdmin.createUser("mindquarry-user", "aSecretPassword",
-                "Mindquarry User", "surname", "an email", "the skills");
+        User user = userAdmin.createUser("user", "aSecretPassword",
+                "User", "surname", "an email", "the skills");
         
-        TeamspaceRO team = teamsAdmin.createTeamspace("mindquarry-teamspace",
-                "Mindquarry Teamspace", "a greate description", mqUser);
+        TeamspaceRO team = teamsAdmin.createTeamspace("teamspace",
+                "Teamspace", "a greate description", user);
         
-        String resourceUrl = "model://UserQuery#membersForTeamspace(" + team.getId() + ")";
-        Source source = resolveSource(resourceUrl, ModelSource.class);
-        InputStream inputStream = source.getInputStream();
-        assertNotNull(inputStream);
-        assertTrue(inputStream.available() > 0);
-        IOUtils.copy(inputStream, System.out);
+        String membersTeamUrl = "model://UserQuery#membersForTeamspace(" + team.getId() + ")";
+        Source source = resolveSource(membersTeamUrl, ModelSource.class);
+        assertNotNull(source.getInputStream());
+        assertTrue(source.getInputStream().available() > 0);
+        
+        TeamspaceRO team2 = teamsAdmin.createTeamspace("teamspace2", 
+                "Teamspace2", "a greate description", 
+                userAdmin.userById("admin"));
+        
+        String membersTeam2Url = "model://UserQuery#membersForTeamspace(" + team2.getId() + ")";
+        Source source2 = resolveSource(membersTeam2Url, ModelSource.class);
+        assertNotNull(source2.getInputStream());
+        assertTrue(source2.getInputStream().available() == 0);
 	}
 
 	private Source resolveSource(String url, Class expectedSourceClass) throws MalformedURLException, IOException {
