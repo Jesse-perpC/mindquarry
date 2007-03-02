@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!DOCTYPE article PUBLIC "-//OASIS//DTD DocBook XML V4.4//EN"
 "http://www.oasis-open.org/docbook/xml/4.4/docbookx.dtd">
-
 <!--
   Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
 
@@ -16,7 +14,6 @@
   License for the specific language governing rights and limitations
   under the License.
 -->
-
 <article class="specification" lang="en" status="draft">
   <articleinfo>
     <title>Mindquarry Document Management System - Technical
@@ -112,7 +109,17 @@
         <para>Under the conditions of the Mozilla Public License
         (<abbrev>MPL</abbrev>), Version 1.1</para>
       </footnote> version control and document management system that provides
-    ...</para>
+    version controlled access to shared documents, offline synchronization
+    with your desktop computer and atom changes.</para>
+
+    <section>
+      <title>Design Goals</title>
+
+      <para>The Mindquarry Document Management System will take existing
+      Version Control Systems like Subversion, which is the most important
+      open source version control system today a step ahead in order to make
+      them more accessible for non-technical users.</para>
+    </section>
   </section>
 
   <bibliography id="bibliography">
