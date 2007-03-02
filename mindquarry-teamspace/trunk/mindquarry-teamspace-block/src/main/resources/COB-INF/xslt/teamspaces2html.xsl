@@ -13,29 +13,30 @@
 	under the License.
 --> 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-  <xsl:import href="teamspace2htmlutils.xsl"/>
+	 
+	<xsl:import href="teamspace2htmlutils.xsl"/>
 	
-  <xsl:template match="teamspaces" mode="title">
-    <title>Teams</title>
-  </xsl:template>
+	<xsl:template match="teamspaces" mode="title">
+		<title>Teams</title>
+	</xsl:template>
   
-  <xsl:template match="teamspaces" mode="heading">
-    <h1>Manage Your Teams</h1>
+	<xsl:template match="teamspaces" mode="heading">
+		<h1>Manage Your Teams</h1>
     
-    <xsl:if test="$username = 'admin'" >
-      <a class="create_teamspace_button" href="createTeamspace/" rel="lightbox">
-        New Team
-      </a>
-      <xsl:call-template name="create_user_button" />
-    </xsl:if>
-  </xsl:template>
+		<xsl:if test="$username = 'admin'" >
+			<a class="create_teamspace_button" href="createTeamspace/" 
+				rel="lightbox">New Team</a>
+      	
+      		<xsl:call-template name="create_user_button" />
+    	</xsl:if>
+  	</xsl:template>
   
 	<xsl:template match="teamspaces">
-    <ul class="teamspace-list">
-      <xsl:apply-templates select="teamspace">
-        <xsl:sort select="name" />
-      </xsl:apply-templates>
-    </ul>
+		<ul class="teamspace-list">
+			<xsl:apply-templates select="teamspace">
+				<xsl:sort select="name" />
+			</xsl:apply-templates>
+		</ul>
 	</xsl:template>
     
   <xsl:template match="teamspace">
@@ -43,6 +44,14 @@
       <xsl:apply-imports />
     </li>
   </xsl:template>
+  
+	<xsl:template match="teamspace/name">
+		<h2 class="name">
+			<a href="team/{normalize-space(../id)}/">
+				<xsl:value-of select="." />
+			</a>
+		</h2>
+	</xsl:template>
   
   <xsl:template name="create_user_button">
     <a class="create_user_button" href="createUser/" rel="lightbox">

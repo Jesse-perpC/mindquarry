@@ -13,9 +13,9 @@
 	under the License.
 --> 
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
-
-	<xsl:import href="teamspace2htmlutils.xsl"/>
-  
+ 
+  <xsl:import href="teamspace2htmlutils.xsl"/>
+   
   <xsl:template match="teamspace" mode="title">
     <title><xsl:value-of select="name"/></title>
   </xsl:template>
@@ -30,7 +30,7 @@
   
   <xsl:template match="name">
     <h2 class="name">
-      <xsl:apply-templates />
+		<xsl:value-of select="." />
     </h2>
   </xsl:template>
   
