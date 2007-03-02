@@ -164,6 +164,12 @@
     </section>
   </section>
 
+  <section>
+    <title>Architecture Proposal</title>
+
+    <para></para>
+  </section>
+
   <bibliography xml:id="bibliography">
     <biblioentry xml:id="bib-fmc">
       <title><phrase xlink:href="http://f-m-c.org/">Fundamental Modeling
