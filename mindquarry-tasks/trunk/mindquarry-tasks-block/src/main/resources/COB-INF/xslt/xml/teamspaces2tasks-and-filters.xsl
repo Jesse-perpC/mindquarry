@@ -25,7 +25,7 @@
 
 	<xsl:template match="/">
 		<tasks xml:base="{$base}">
-			<xsl:apply-templates select="teamspace" />
+			<xsl:apply-templates select="*/teamspace" />
 		</tasks>
 	</xsl:template>
 
