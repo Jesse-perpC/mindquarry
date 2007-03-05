@@ -23,7 +23,7 @@
 		named "teamspaces" with a new root element "tasks"
 		and add includes for the list of tasks per teamspace -->
 
-	<xsl:template match="/teamspaces">
+	<xsl:template match="/">
 		<tasks xml:base="{$base}">
 			<xsl:apply-templates select="teamspace" />
 		</tasks>
