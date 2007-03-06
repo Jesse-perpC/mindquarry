@@ -26,7 +26,7 @@
       Mindquarry Collaboration Server, including high-level overview as well
       as technical details for certain important parts. It also contains
       description of the directory conventions in the various modules and
-      basic data API references. </para>
+      basic data API references.</para>
 
       <para>The document should help developers to get in touch with the
       Mindquarry Collaboration Server if they plan to participate in the
@@ -1758,7 +1758,7 @@
               <listitem>
                 <para>A task including all data can be retrieved via a HTTP
                 GET on the URL
-                <code>/tasks/&lt;team-id&gt;/&lt;task-id&gt;.xml</code></para>
+                <code>/tasks/&lt;team-id&gt;/&lt;task-id&gt;</code></para>
               </listitem>
             </varlistentry>
 
@@ -1778,7 +1778,7 @@
               <listitem>
                 <para>A task can be changed/overwritten with an HTTP PUT
                 including the new XML data on the URL
-                <code>/tasks/&lt;team-id&gt;/&lt;task-id&gt;.xml</code></para>
+                <code>/tasks/&lt;team-id&gt;/&lt;task-id&gt;</code></para>
               </listitem>
             </varlistentry>
           </variablelist></para>
