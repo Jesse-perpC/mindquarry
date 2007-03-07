@@ -47,13 +47,13 @@
 				<li>Mindquarry Ductile Forms</li>
 				<li>Mindquarry Desktop Client</li>
 				<!--<li>Mindquarry Icons</li>-->
-				<li><a href="mindquarry-jcr">Mindquarry Java Content Repository</a></li>
+				<li><!--<a href="mindquarry-jcr">-->Mindquarry Java Content Repository<!--</a>--></li>
 				<li>Mindquarry Maven Plugins</li>
 				<li>Mindquarry Persistence Framework</li>
 				<li>Mindquarry Search</li>
 				<li>Mindquarry System Tests</li>
 				<li>Mindquarry Task Management</li>
-				<li><a href="mindquarry-webapp">Mindquarry Web Application</a></li>
+				<li><!--<a href="mindquarry-webapp">-->Mindquarry Web Application<!--</a>--></li>
 				<li>Mindquarry Wiki</li>
 				<li>Mindquarry Teamspace Management</li>
 				<li>Mindquarry Workspace</li>
@@ -62,8 +62,8 @@
     
 		<section name="Developer documentation">
       <ul>
-        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.html">           Developing Mindquarry         </a></li>
-        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.pdf">            Developing Mindquarry [pdf]   </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.html">           Getting Started as Developer       </a></li>
+        <li> <a href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.pdf">            Getting Started as Developer [pdf] </a></li>
         <li> <a href="http://www.mindquarry.org/mindquarry/docbook/dev-process.html">              Development Process           </a></li>
         <li> <a href="http://www.mindquarry.org/mindquarry/docbook/dev-process.pdf">               Development Process [pdf]     </a></li>
         <li> <a href="http://www.mindquarry.org/mindquarry/docbook/architecture.html">             Architecture Guide            </a></li>
