@@ -27,7 +27,7 @@
     </menu>
 		
     <menu name="Developer Documentation">
-			<item name="Developing Mindquarry" href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.html"/>
+			<item name="Getting Started as Developer" href="http://www.mindquarry.org/mindquarry/docbook/gettingstarted.html"/>
       <item name="Development Process" href="http://www.mindquarry.org/mindquarry/docbook/dev-process.html"/>
       <item name="Architecture Guide" href="http://www.mindquarry.org/mindquarry/docbook/architecture.html"/>
       <item name="Documentation Styleguide" href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.html"/>
