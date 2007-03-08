@@ -498,7 +498,8 @@
 		</pipeline>
 
 		<!-- user/team image pipeline -->
-		<pipeline type="expires-caching"><!-- eg. users/[size]/[name].[type] -->
+		<!-- Note: images can change due to uploads, thus no expires-caching! -->
+		<pipeline type="caching"><!-- eg. users/[size]/[name].[type] -->
 			<match pattern="users/*/*.*">
 				<select type="resource-exists">
 					<!-- Note: image op will set the mime type / http content type -->
