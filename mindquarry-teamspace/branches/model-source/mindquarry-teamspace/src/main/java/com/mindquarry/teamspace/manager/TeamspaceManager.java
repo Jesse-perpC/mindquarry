@@ -13,6 +13,9 @@
  */
 package com.mindquarry.teamspace.manager;
 
+import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
+import static com.mindquarry.user.manager.DefaultUsers.isAnonymousUser;
+
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -127,7 +130,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         // within the teamspace views
         // Nevertheless she/he is not only allowed to create and teamspaces
         // but also to edit existing ones.
-        if (! userManager_.isAdminUser(teamspaceCreator))
+        if (! isAdminUser(teamspaceCreator))
             userManager_.addUserToTeamspace(teamspaceCreator, teamspace.getId());
 
         // create the teams default group
@@ -371,12 +374,28 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     public boolean authorise(String userId, String uri, String method) {
         
         UserRO user = userManager_.userById(userId);
+        if (isRequestForTeamsContent(uri))
+            return authorizeTeamsContent(uri, user);
+        else if (isRequestForUserManagement(uri))
+            return authorizeUserManagement(uri, user);
+        else
+            return false;
+    }
+    
+    private boolean isRequestForTeamsContent(String uri) {
+        return uri.startsWith("jcr:///teamspaces");
+    }
+    
+    // simple regular expression that looks for the teamspace name...
+    private static final Pattern teamContentPattern = 
+                Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
+    
+    private boolean authorizeTeamsContent(String uri, UserRO user) {
+        if (isAdminUser(user)) {
+            return true;
+        }
         
-        // always check if the teamspace does exist (even for admin)
-        
-        // simple regular expression that looks for the teamspace name...
-        Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
-        Matcher m = p.matcher(uri);
+        Matcher m = teamContentPattern.matcher(uri);
         if (m.matches()) {
             String requestedTeamspaceID = m.group(1); // "mindquarry";
             // ...check if that teamspace exists
@@ -385,17 +404,22 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                         + requestedTeamspaceID + "' does not exist.");
             }
 
-            // admin can do everything
-            if (userManager_.isAdminUser(user) || user.isMemberOf(requestedTeamspaceID)) {
-                return true;
-            }
-        } else {
-            // shorter or different URL (eg. jcr:///users) is only for admin
-            if (userManager_.isAdminUser(user)) {
+            if (user.isMemberOf(requestedTeamspaceID)) {
                 return true;
             }
         }
-        
-        return false;
+        return false;            
+    }
+    
+    private boolean isRequestForUserManagement(String uri) {
+        return uri.startsWith("jcr:///users");
+    }
+    
+    private boolean authorizeUserManagement(String uri, UserRO user) {
+        if (uri.contains("editUser")) {
+            return  ! isAnonymousUser(user);
+        }
+        else
+            return isAdminUser(user);
     }
 }
