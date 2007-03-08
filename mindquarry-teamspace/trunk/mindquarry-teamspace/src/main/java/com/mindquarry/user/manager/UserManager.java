@@ -65,7 +65,7 @@ public final class UserManager implements UserAdmin, Authentication {
     }  
 
     public void initialize() {
-        for (String[] userProfile : defaultUsers) {
+        for (String[] userProfile : defaultUsers()) {
             if (!existsUser(userProfile))
                 createUser(userProfile);
         }
