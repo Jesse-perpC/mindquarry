@@ -13,13 +13,12 @@
  */
 package com.mindquarry.user.manager;
 
-import static com.mindquarry.user.manager.DefaultUsers.ADMIN_USER;
-import static com.mindquarry.user.manager.DefaultUsers.ANONYMOUS_USER;
-import static com.mindquarry.user.manager.DefaultUsers.INDEX_USER;
 import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
 import static com.mindquarry.user.manager.DefaultUsers.login;
 import static com.mindquarry.user.manager.DefaultUsers.password;
 import static com.mindquarry.user.manager.DefaultUsers.username;
+import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
+import static com.mindquarry.user.manager.DefaultUsers.isIndexUser;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -65,7 +64,7 @@ public final class UserManager implements UserAdmin, Authentication {
     }  
 
     public void initialize() {
-        for (String[] userProfile : defaultUsers) {
+        for (String[] userProfile : defaultUsers()) {
             if (!existsUser(userProfile))
                 createUser(userProfile);
         }
@@ -112,18 +111,6 @@ public final class UserManager implements UserAdmin, Authentication {
 
     private Session currentSession() {
         return sessionFactory_.currentSession();
-    }
-
-    public boolean isAdminUser(UserRO user) {
-        return user.getId().equals(login(ADMIN_USER));
-    }
-
-    public boolean isIndexUser(UserRO user) {
-        return user.getId().equals(login(INDEX_USER));
-    }
-
-    public boolean isAnonymousUser(UserRO user) {
-        return user.getId().equals(login(ANONYMOUS_USER));
     }
 
     public final boolean isValidUserId(String userId) {

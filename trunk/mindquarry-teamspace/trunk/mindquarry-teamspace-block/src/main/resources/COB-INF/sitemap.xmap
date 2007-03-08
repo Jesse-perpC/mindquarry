@@ -424,6 +424,7 @@
 			</match>
 			
 			<match pattern="editUser/">
+				<act type="authorise" src="jcr:///users/editUser"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditUser" />
