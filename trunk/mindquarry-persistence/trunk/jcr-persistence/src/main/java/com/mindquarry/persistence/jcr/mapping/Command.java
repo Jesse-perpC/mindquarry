@@ -11,8 +11,9 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr;
+package com.mindquarry.persistence.jcr.mapping;
 
+import javax.jcr.Session;
 
 /**
  * Add summary documentation here.
@@ -20,9 +21,7 @@ package com.mindquarry.persistence.jcr;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface Configuration {
-    
-    public void addClass(Class<?> clazz);
-    
-    public void configure();
+public interface Command {
+
+    void execute(Session jcrSession);
 }
