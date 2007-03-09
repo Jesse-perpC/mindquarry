@@ -11,8 +11,10 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr;
+package com.mindquarry.persistence.jcr.annotations;
 
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
 
 /**
  * Add summary documentation here.
@@ -20,9 +22,7 @@ package com.mindquarry.persistence.jcr;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface Configuration {
-    
-    public void addClass(Class<?> clazz);
-    
-    public void configure();
+@Retention(RetentionPolicy.RUNTIME)
+public @interface Id {
+
 }
