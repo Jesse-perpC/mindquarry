@@ -43,7 +43,11 @@ public class Model  {
     
     public String jcrPathForEntity(Object entity) {
         EntityClass entityClazz = entityClazzes_.get(entity.getClass());
-        String clazzPath = entityClazz.path();
+        String clazzPath = entityClazz.pathForEntity(entity);
         return clazzPath;
+    }
+    
+    public EntityClass entityClass(Object entity) {
+        return entityClazzes_.get(entity.getClass());
     }
 }

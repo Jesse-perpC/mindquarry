@@ -15,6 +15,7 @@ package com.mindquarry.persistence.jcr.mapping;
 
 import javax.jcr.Session;
 
+
 /**
  * Add summary documentation here.
  *
@@ -23,5 +24,5 @@ import javax.jcr.Session;
  */
 public interface Command {
 
-    void execute(Session jcrSession);
+    void execute(Session session);
 }

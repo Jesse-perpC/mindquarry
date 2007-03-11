@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
- *
+ * 
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -11,21 +11,18 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.annotations;
+package com.mindquarry.persistence.jcr.mapping.trafo;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.jcr.Node;
 
 /**
  * Add summary documentation here.
  *
- * @author
+ * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Entity {
-    String folder();
+public interface Transformer {
+
+    void toJcr(Object object, Node entityNode);
+    Object fromJcr(Node entityNode);
 }

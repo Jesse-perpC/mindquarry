@@ -16,7 +16,7 @@ package com.mindquarry.persistence.jcr;
 import com.mindquarry.persistence.jcr.annotations.Entity;
 import com.mindquarry.persistence.jcr.annotations.Id;
 
-@Entity(path="/users")
+@Entity(folder="/users")
 public class User  {
     
     @Id

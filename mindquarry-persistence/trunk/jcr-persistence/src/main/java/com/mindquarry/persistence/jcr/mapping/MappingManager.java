@@ -24,7 +24,7 @@ public class MappingManager {
         
         Model model = Model.buildFromClazzes(clazzes);
         
-        MappingManager result = new MappingManager();        
+        MappingManager result = new MappingManager();
         result.commandManager_ = new CommandManager(model);
         
         return result;

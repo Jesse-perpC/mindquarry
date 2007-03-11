@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
- *
+ * 
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -11,21 +11,31 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.annotations;
+package com.mindquarry.persistence.jcr.mapping.commands;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import javax.jcr.Node;
+import javax.jcr.Session;
 
 /**
  * Add summary documentation here.
  *
- * @author
+ * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface Entity {
-    String folder();
+class UpdateCommand extends CommandBase {
+
+    private Object entity_;
+    
+    public UpdateCommand(Object entity) {
+        entity_ = entity;
+    }
+    
+    /**
+     * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
+     */
+    public void execute(Session session) {
+        Node entityNode = null;
+        
+    }
+
 }
