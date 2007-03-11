@@ -13,8 +13,10 @@
  */
 package com.mindquarry.persistence.jcr.annotations;
 
+import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Add summary documentation here.
@@ -23,6 +25,7 @@ import java.lang.annotation.RetentionPolicy;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 @Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.FIELD)
 public @interface Id {
 
 }

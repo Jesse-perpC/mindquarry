@@ -13,18 +13,21 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import org.apache.avalon.framework.service.ServiceException;
+
 import com.mindquarry.common.persistence.Session;
 
-import junit.framework.TestCase;
 
-
-public class JcrPersistenceTest extends TestCase {
+public class JcrPersistenceTest extends JcrPersistenceTestBase {
     
     public JcrPersistenceTest() {
     }
     
-    public void testPersistUser() {
-        JcrPersistence jcrPersistence = new JcrPersistence();
+    public void testPersistUser() throws ServiceException {
+        
+        JcrPersistence jcrPersistence = 
+            (JcrPersistence) lookup(JcrPersistence.class.getName());
+        
         jcrPersistence.addClass(User.class);
         jcrPersistence.configure();
         

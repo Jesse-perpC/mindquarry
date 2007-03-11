@@ -13,6 +13,8 @@
  */
 package com.mindquarry.persistence.jcr.session;
 
+import javax.jcr.Repository;
+
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.jcr.mapping.MappingManager;
@@ -24,10 +26,14 @@ import com.mindquarry.persistence.jcr.mapping.MappingManager;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class JcrSessionFactory implements SessionFactory {
-    
+
+    private Repository repository_;
     private MappingManager mappingManager_;
     
-    public JcrSessionFactory(MappingManager mappingManager) {
+    public JcrSessionFactory(MappingManager mappingManager, 
+            Repository repository) {
+        
+        repository_ = repository;
         mappingManager_ = mappingManager;
     }
     
@@ -39,6 +45,6 @@ public class JcrSessionFactory implements SessionFactory {
     }
     
     private Session buildJcrSession() {
-        return new JcrSession(mappingManager_);
+        return new JcrSession(mappingManager_, repository_);
     }
 }

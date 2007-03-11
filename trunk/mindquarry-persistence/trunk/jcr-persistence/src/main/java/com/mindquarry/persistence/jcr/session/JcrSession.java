@@ -15,7 +15,13 @@ package com.mindquarry.persistence.jcr.session;
 
 import java.util.List;
 
-import com.mindquarry.common.persistence.Session;
+import javax.jcr.LoginException;
+import javax.jcr.Repository;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+import javax.jcr.SimpleCredentials;
+
+import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 import com.mindquarry.persistence.jcr.mapping.Command;
 import com.mindquarry.persistence.jcr.mapping.MappingManager;
 import com.mindquarry.persistence.jcr.mapping.Operations;
@@ -26,11 +32,14 @@ import com.mindquarry.persistence.jcr.mapping.Operations;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class JcrSession implements Session {
+class JcrSession implements com.mindquarry.common.persistence.Session {
 
+    private Repository repository_;
     private MappingManager mappingManager_;
     
-    JcrSession(MappingManager mappingManager) {
+    JcrSession(MappingManager mappingManager, Repository repository) {
+        
+        repository_ = repository;
         mappingManager_ = mappingManager;
     }
     
@@ -62,7 +71,15 @@ class JcrSession implements Session {
      * @see com.mindquarry.common.persistence.Session#persist(java.lang.Object)
      */
     public void persist(Object entity) {
-        Command jcrCommand = createPersistCommand(entity);
+        Session session;
+        try {
+            session = repository_.login(new SimpleCredentials("alexander.saar", "mypwd".toCharArray()));
+        } catch (LoginException e) {
+            throw new JcrPersistenceInternalException(e);
+        } catch (RepositoryException e) {
+            throw new JcrPersistenceInternalException(e);
+        }
+        //createPersistCommand(entity).execute(session);
     }
 
     /**

@@ -16,6 +16,8 @@ package com.mindquarry.persistence.jcr;
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jcr.Repository;
+
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.jcr.mapping.MappingManager;
@@ -31,9 +33,14 @@ public class JcrPersistence implements SessionFactory, Configuration {
 
     private List<Class<?>> entityClazzes_;
     private SessionFactory sessionFactory_;
+    private Repository repository_;
     
     public JcrPersistence() {
         entityClazzes_ = new LinkedList<Class<?>>();
+    }
+    
+    public void setRepository(Repository repository) {
+        repository_ = repository;
     }
     
     public void addClass(Class<?> clazz) {
@@ -43,7 +50,7 @@ public class JcrPersistence implements SessionFactory, Configuration {
     public void configure() {
         MappingManager mappingManager = 
             MappingManager.buildFromClazzes(entityClazzes_);
-        sessionFactory_ = new JcrSessionFactory(mappingManager);
+        sessionFactory_ = new JcrSessionFactory(mappingManager, repository_);
     }
 
     public Session currentSession() {
