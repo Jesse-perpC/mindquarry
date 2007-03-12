@@ -11,9 +11,10 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.commands;
+package com.mindquarry.persistence.jcr.mapping.cmds;
 
 import com.mindquarry.persistence.jcr.mapping.Command;
+import com.mindquarry.persistence.jcr.mapping.Operations;
 import com.mindquarry.persistence.jcr.mapping.model.Model;
 
 /**
@@ -22,11 +23,19 @@ import com.mindquarry.persistence.jcr.mapping.model.Model;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-abstract class CommandBase implements Command {
+public class CommandManager {
 
-    protected Model model_;
+    private Model model_;
     
-    void configure(Model model) {
+    public CommandManager(Model model) {
         model_ = model;
+    }
+    
+    public Command createCommand(Operations operation, Object entity) {
+        switch (operation) {
+            case PERSIST : return new PersistCommand(entity, model_);
+            case DELETE : return new DeleteCommand(entity, model_);
+            default : return null;
+        }
     }
 }

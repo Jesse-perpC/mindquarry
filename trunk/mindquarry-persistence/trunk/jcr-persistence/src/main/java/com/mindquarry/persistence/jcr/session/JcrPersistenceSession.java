@@ -15,13 +15,14 @@ package com.mindquarry.persistence.jcr.session;
 
 import java.util.List;
 
+import javax.jcr.Credentials;
 import javax.jcr.LoginException;
 import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 import javax.jcr.SimpleCredentials;
 
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.mapping.Command;
 import com.mindquarry.persistence.jcr.mapping.MappingManager;
 import com.mindquarry.persistence.jcr.mapping.Operations;
@@ -32,23 +33,23 @@ import com.mindquarry.persistence.jcr.mapping.Operations;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class JcrSession implements com.mindquarry.common.persistence.Session {
+class JcrPersistenceSession implements com.mindquarry.common.persistence.Session {
 
     private Repository repository_;
     private MappingManager mappingManager_;
     
-    JcrSession(MappingManager mappingManager, Repository repository) {
+    JcrPersistenceSession(MappingManager mappingManager, Repository repository) {
         
         repository_ = repository;
         mappingManager_ = mappingManager;
     }
     
-    private MappingManager mappingManager() {
+    private MappingManager getMappingManager() {
         return mappingManager_;
     }
     
-    private Command createPersistCommand(Object entity) {
-        return mappingManager().createCommand(entity, Operations.PERSIST);
+    private Command createCommand(Operations operation, Object entity) {
+        return getMappingManager().createCommand(operation, entity);
     }
     
     /**
@@ -62,24 +63,22 @@ class JcrSession implements com.mindquarry.common.persistence.Session {
     /**
      * @see com.mindquarry.common.persistence.Session#delete(java.lang.Object)
      */
-    public boolean delete(Object arg0) {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean delete(Object entity) {
+        Command command = createCommand(Operations.DELETE, entity);
+        JcrSession session = createJcrSession();
+        command.execute(session);
+        session.save();
+        return true;
     }
 
     /**
      * @see com.mindquarry.common.persistence.Session#persist(java.lang.Object)
      */
     public void persist(Object entity) {
-        Session session;
-        try {
-            session = repository_.login(new SimpleCredentials("alexander.saar", "mypwd".toCharArray()));
-        } catch (LoginException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (RepositoryException e) {
-            throw new JcrPersistenceInternalException(e);
-        }
-        //createPersistCommand(entity).execute(session);
+        Command command = createCommand(Operations.PERSIST, entity);
+        JcrSession session = createJcrSession();
+        command.execute(session);
+        session.save();
     }
 
     /**
@@ -96,5 +95,18 @@ class JcrSession implements com.mindquarry.common.persistence.Session {
     public void update(Object arg0) {
         // TODO Auto-generated method stub
 
+    }
+    
+    private JcrSession createJcrSession() {
+        
+        Credentials credentials = 
+            new SimpleCredentials("alexander.saar", "mypwd".toCharArray());
+        try {
+            return new JcrSession(repository_.login(credentials));
+        } catch (LoginException e) {
+            throw new JcrPersistenceInternalException(e);
+        } catch (RepositoryException e) {
+            throw new JcrPersistenceInternalException(e);
+        }
     }
 }

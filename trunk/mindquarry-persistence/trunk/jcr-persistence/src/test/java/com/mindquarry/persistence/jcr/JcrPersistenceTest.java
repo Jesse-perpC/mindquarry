@@ -24,7 +24,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     }
     
     public void testPersistUser() throws ServiceException {
-        
+        /*
         JcrPersistence jcrPersistence = 
             (JcrPersistence) lookup(JcrPersistence.class.getName());
         
@@ -33,10 +33,29 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Session session = jcrPersistence.currentSession();
         User user = new User();
-        user.setLogin("test");
+        user.setLogin("testUser");
         user.setPwd("pwd");
         user.setFirstname("test");
         user.setLastname("test");        
         session.persist(user);
+        */
+    }
+    
+    public void testDeleteUser() throws ServiceException {
+        /*
+        JcrPersistence jcrPersistence = 
+            (JcrPersistence) lookup(JcrPersistence.class.getName());
+        
+        jcrPersistence.addClass(User.class);
+        jcrPersistence.configure();
+        
+        Session session = jcrPersistence.currentSession();
+        User user = new User();
+        user.setLogin("testUser");
+        user.setPwd("pwd");
+        user.setFirstname("test");
+        user.setLastname("test");        
+        session.delete(user);
+        */
     }
 }

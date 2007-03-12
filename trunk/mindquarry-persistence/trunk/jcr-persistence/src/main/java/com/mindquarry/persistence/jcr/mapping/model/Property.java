@@ -13,14 +13,16 @@
  */
 package com.mindquarry.persistence.jcr.mapping.model;
 
+import java.beans.IndexedPropertyDescriptor;
+import java.beans.PropertyDescriptor;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
-
-import javax.jcr.Node;
+import java.lang.reflect.Method;
+import java.util.Arrays;
 
 import org.apache.commons.beanutils.PropertyUtils;
 
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
-import com.mindquarry.persistence.jcr.mapping.trafo.Transformer;
 
 /**
  * Add summary documentation here.
@@ -28,26 +30,34 @@ import com.mindquarry.persistence.jcr.mapping.trafo.Transformer;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class Property implements Transformer {
+public final class Property {
 
-    private String name_;
-    private Transformer contentTransformer_;
+    private Field field_;
     
-    public Property(String name) {
-        name_ = name;
+    public Property(Field field) {
+        field_ = field;
     }
     
     public String getName() {
-        return name_;
+        return field_.getName();
     }
     
-    public Transformer getContentTransformer() {
-        return contentTransformer_;
+    public Class<?> getContentType() {
+        return field_.getClass();
     }
     
-    public Object getValue(Object bean) {
+    public boolean hasIterableContentType() {
+        return getContentType().isArray() 
+            || getContentType().isAssignableFrom(Iterable.class);
+    }
+    
+    public Class<?> getDeclaringClass() {
+        return field_.getDeclaringClass();
+    }
+    
+    public Object getContent(Object bean) {
         try {
-            return PropertyUtils.getProperty(bean, name_);
+            return PropertyUtils.getProperty(bean, getName());
         } catch (IllegalAccessException e) {
             throw new JcrPersistenceInternalException(e);
         } catch (InvocationTargetException e) {
@@ -57,24 +67,59 @@ public class Property implements Transformer {
         }
     }
     
-    public void setValue(Object bean, Object value) {
-        try {
-            PropertyUtils.setProperty(bean, name_, value);
-        } catch (IllegalAccessException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (InvocationTargetException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (NoSuchMethodException e) {
-            throw new JcrPersistenceInternalException(e);
-        }
-    }
-
-    public Object fromJcr(Node entityNode) {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public void toJcr(Object object, Node entityNode) {
+    public Iterable getIterableContent(Object bean) {
+        Object content = getContent(bean);
         
+        if (getContentType().isArray()) {
+            return Arrays.asList((Object[]) content);
+        }
+        else {
+            return (Iterable) content;
+        }
+    }
+    
+    public void setContent(Object bean, Object value) {
+        try {
+            PropertyUtils.setProperty(bean, getName(), value);
+        } catch (IllegalAccessException e) {
+            throw new JcrPersistenceInternalException(e);
+        } catch (InvocationTargetException e) {
+            throw new JcrPersistenceInternalException(e);
+        } catch (NoSuchMethodException e) {
+            throw new JcrPersistenceInternalException(e);
+        }
+    }
+    
+    public boolean isReadable() {
+        PropertyDescriptor descriptor = getPropertyDescriptor();
+        if (descriptor != null) {
+            Method readMethod = descriptor.getReadMethod();
+            if ((readMethod == null) &&
+                (descriptor instanceof IndexedPropertyDescriptor)) {
+                readMethod = getIndexedReadMethod(descriptor);
+            }
+            return readMethod != null;
+        } else {
+            return false;
+        }
+    }
+    
+    private Method getIndexedReadMethod(PropertyDescriptor descriptor) {
+        return ((IndexedPropertyDescriptor) descriptor).getIndexedReadMethod();
+    }
+    
+    private PropertyDescriptor getPropertyDescriptor() {
+        
+        PropertyDescriptor result = null;
+        
+        for (PropertyDescriptor descriptor : 
+            PropertyUtils.getPropertyDescriptors(getDeclaringClass())) {
+            
+            if (getName().equals(descriptor.getName())) {
+                result = descriptor;
+                break;
+            }
+        }
+        return result;
     }
 }

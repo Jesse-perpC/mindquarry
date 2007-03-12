@@ -50,7 +50,7 @@
 		<!--jcr-repository
 			class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository"-->
 
-		 
+		<!-- 
 		<jcr-repository
 			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
 
@@ -59,13 +59,11 @@
 			<configuration
 				src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
 		</jcr-repository>
-		
+		-->
 
-		<!--<jcr-repository
+		<jcr-repository
 			class="com.mindquarry.persistence.jcr.ClientRepository">
 		</jcr-repository>
-
-		-->
 		
 		<jcr-initializer
 			class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
