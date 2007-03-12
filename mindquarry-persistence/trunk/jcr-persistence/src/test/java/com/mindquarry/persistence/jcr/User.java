@@ -13,10 +13,12 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import java.util.List;
+
 import com.mindquarry.persistence.jcr.annotations.Entity;
 import com.mindquarry.persistence.jcr.annotations.Id;
 
-@Entity(folder="/users")
+@Entity(folder="users")
 public class User  {
     
     @Id
@@ -24,11 +26,8 @@ public class User  {
     private String pwd;
     private String firstname;
     private String lastname;
+    private List<String> skills;
     
-    public User() {
-        
-    }
-
     public String getFirstname() {
         return firstname;
     }
@@ -59,5 +58,23 @@ public class User  {
 
     public void setPwd(String pwd) {
         this.pwd = pwd;
+    }
+
+    /**
+     * Getter for skills.
+     *
+     * @return the skills
+     */
+    public List<String> getSkills() {
+        return skills;
+    }
+
+    /**
+     * Setter for skills.
+     *
+     * @param skills the skills to set
+     */
+    public void setSkills(List<String> skills) {
+        this.skills = skills;
     }
 }

@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
- * 
+ *
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -11,34 +11,32 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.commands;
+package com.mindquarry.persistence.jcr.api;
 
-import com.mindquarry.persistence.jcr.mapping.Command;
-import com.mindquarry.persistence.jcr.mapping.Operations;
-import com.mindquarry.persistence.jcr.mapping.model.Model;
+import static com.mindquarry.common.lang.ReflectionUtil.invoke;
+
+import javax.jcr.Node;
+import javax.jcr.Session;
 
 /**
  * Add summary documentation here.
  *
- * @author 
+ * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class CommandManager {
+public class JcrSession {
 
-    private Model model_;
+    private Session session_;
     
-    public CommandManager(Model model) {
-        model_ = model;
+    public JcrSession(Session session) {
+        session_ = session;
     }
     
-    public Command createCommand(Object entity, Operations operation) {
-        switch (operation) {
-            case PERSIST : return createPersistCommand(entity);
-            default : return null;
-        }
+    public JcrNode getRootNode() {
+        return new JcrNode((Node) invoke("getRootNode", session_));
     }
     
-    private Command createPersistCommand(Object entity) {        
-        return new PersistCommand(entity, model_.entityClass(entity));
+    public void save() {
+        invoke("save", session_);
     }
 }

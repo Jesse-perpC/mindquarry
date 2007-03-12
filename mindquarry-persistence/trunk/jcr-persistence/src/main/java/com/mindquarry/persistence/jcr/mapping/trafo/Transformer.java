@@ -13,7 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.mapping.trafo;
 
-import javax.jcr.Node;
+import com.mindquarry.persistence.jcr.api.JcrNode;
 
 /**
  * Add summary documentation here.
@@ -23,6 +23,6 @@ import javax.jcr.Node;
  */
 public interface Transformer {
 
-    void toJcr(Object object, Node entityNode);
-    Object fromJcr(Node entityNode);
+    void writeToJcr(Object object, JcrNode node);
+    Object readFromJcr(JcrNode node);
 }

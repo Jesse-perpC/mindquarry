@@ -5,7 +5,7 @@ package com.mindquarry.persistence.jcr.mapping;
 
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.mapping.commands.CommandManager;
+import com.mindquarry.persistence.jcr.mapping.cmds.CommandManager;
 import com.mindquarry.persistence.jcr.mapping.model.Model;
 
 /**
@@ -30,7 +30,7 @@ public class MappingManager {
         return result;
     }
     
-    public Command createCommand(Object entity, Operations operation) {
-        return commandManager_.createCommand(entity, operation);
+    public Command createCommand(Operations operation, Object entity) {
+        return commandManager_.createCommand(operation, entity);
     }
 }

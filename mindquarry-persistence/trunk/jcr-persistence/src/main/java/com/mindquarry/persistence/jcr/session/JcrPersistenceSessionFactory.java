@@ -25,12 +25,12 @@ import com.mindquarry.persistence.jcr.mapping.MappingManager;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class JcrSessionFactory implements SessionFactory {
+public class JcrPersistenceSessionFactory implements SessionFactory {
 
     private Repository repository_;
     private MappingManager mappingManager_;
     
-    public JcrSessionFactory(MappingManager mappingManager, 
+    public JcrPersistenceSessionFactory(MappingManager mappingManager, 
             Repository repository) {
         
         repository_ = repository;
@@ -45,6 +45,6 @@ public class JcrSessionFactory implements SessionFactory {
     }
     
     private Session buildJcrSession() {
-        return new JcrSession(mappingManager_, repository_);
+        return new JcrPersistenceSession(mappingManager_, repository_);
     }
 }

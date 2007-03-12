@@ -11,9 +11,12 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.trafo;
+package com.mindquarry.persistence.jcr.mapping.cmds;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import javax.jcr.Node;
+
+import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.mapping.Command;
 
 /**
  * Add summary documentation here.
@@ -21,15 +24,19 @@ import com.mindquarry.persistence.jcr.api.JcrNode;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class StringTransformer implements Transformer {
-    
-    public Object readFromJcr(JcrNode jcrNode) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+class ReadCommand implements Command {
 
-    public void writeToJcr(Object object, JcrNode jcrNode) {
-        JcrNode textNode = jcrNode.addNode("text", "xt:text");
-        textNode.setProperty("xt:characters", object.toString());
-    }    
+    private Object entity_;
+    
+    public ReadCommand(Object entity) {
+        entity_ = entity;
+    }
+    
+    /**
+     * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
+     */
+    public void execute(JcrSession session) {
+        Node entityNode = null;
+        
+    }
 }

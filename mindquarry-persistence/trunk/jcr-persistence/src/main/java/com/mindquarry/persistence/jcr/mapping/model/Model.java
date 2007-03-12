@@ -13,24 +13,39 @@
  */
 package com.mindquarry.persistence.jcr.mapping.model;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
+import com.mindquarry.persistence.jcr.mapping.trafo.CollectionTransformer;
+import com.mindquarry.persistence.jcr.mapping.trafo.EntityTransformer;
+import com.mindquarry.persistence.jcr.mapping.trafo.StringTransformer;
+import com.mindquarry.persistence.jcr.mapping.trafo.Transformer;
+
 
 public class Model  {
 
-    private Map<Class<?>, EntityClass> entityClazzes_;
+    private List<Class<?>> clazzes_;
+    private Map<Class<?>, EntityType> entityTypes_;
+    private Map<Class<?>, EntityTransformer> entityTransformers_;
     
     private Model(List<Class<?>> clazzes) {
-        entityClazzes_ = new HashMap<Class<?>, EntityClass>();
-        for (Class<?> clazz : clazzes) {
-            entityClazzes_.put(clazz, new EntityClass(clazz));
-        }
+        clazzes_ = clazzes;
+        
+        entityTypes_ = new HashMap<Class<?>, EntityType>();
+        entityTransformers_ = new HashMap<Class<?>, EntityTransformer>();
     }
     
     private void initialize() {
-        
+        for (Class<?> clazz : clazzes_) {
+            EntityType entityType = new EntityType(clazz);
+            entityType.initialize(this);
+            entityTypes_.put(clazz, entityType);
+            
+            entityTransformers_.put(clazz, new EntityTransformer(entityType));
+        }      
     }
     
     public static Model buildFromClazzes(
@@ -41,13 +56,21 @@ public class Model  {
         return result;
     }
     
+    public String entityFolderName(Object entity) {
+        return entityTypes_.get(entity.getClass()).folder();
+    }
+    
+    public EntityTransformer entityTransformer(Object entity) {
+        return entityTransformers_.get(entity.getClass());
+    }
+    
     public String jcrPathForEntity(Object entity) {
-        EntityClass entityClazz = entityClazzes_.get(entity.getClass());
+        EntityType entityClazz = entityTypes_.get(entity.getClass());
         String clazzPath = entityClazz.pathForEntity(entity);
         return clazzPath;
     }
     
-    public EntityClass entityClass(Object entity) {
-        return entityClazzes_.get(entity.getClass());
+    public EntityType entityType(Object entity) {
+        return entityTypes_.get(entity.getClass());
     }
 }

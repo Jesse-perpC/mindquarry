@@ -11,10 +11,13 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.commands;
+package com.mindquarry.persistence.jcr.mapping.cmds;
 
 import javax.jcr.Node;
 import javax.jcr.Session;
+
+import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.mapping.Command;
 
 /**
  * Add summary documentation here.
@@ -22,18 +25,18 @@ import javax.jcr.Session;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class ReadCommand extends CommandBase {
+class UpdateCommand implements Command {
 
     private Object entity_;
     
-    public ReadCommand(Object entity) {
+    public UpdateCommand(Object entity) {
         entity_ = entity;
     }
     
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public void execute(Session session) {
+    public void execute(JcrSession session) {
         Node entityNode = null;
         
     }

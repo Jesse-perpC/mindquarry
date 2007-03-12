@@ -13,17 +13,8 @@
  */
 package com.mindquarry.persistence.jcr.mapping.trafo;
 
-import javax.jcr.ItemExistsException;
-import javax.jcr.Node;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
-import javax.jcr.lock.LockException;
-import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.version.VersionException;
-
-import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
-import com.mindquarry.persistence.jcr.mapping.model.EntityClass;
-import com.mindquarry.persistence.jcr.mapping.model.Property;
+import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.mapping.model.EntityType;
 
 /**
  * Add summary documentation here.
@@ -33,57 +24,30 @@ import com.mindquarry.persistence.jcr.mapping.model.Property;
  */
 public class EntityTransformer implements Transformer {
     
-    private EntityClass entityClazz_;
+    private EntityType entityType_;
     
-    public Object fromJcr(Node entityNode) {
-        /*
-         * String name = entityNode.parent().name();
-         * entityClazz = model_.entityClass(name);
-         * entity = entityClazz.createNewEntity();
-         * 
-         * NodeIterator nodeIt = entityNode.getNodes();
-         * while(nodeIt.hasNext()) {
-         *   childNode = nodeIt.next();
-         *   transformer = entityClazz.getPropertyTransformer(childNode.name());
-         *   propertyValue = transformer.fromJcr(childNode);
-         *   entity.setProperty(name, propertyValue); 
-         * }
-         * 
-         */
+    public EntityTransformer(EntityType entityType) {
+        entityType_ = entityType;
+    }
+    
+    public Object readFromJcr(JcrNode folderNode) {
         return null;
     }
 
-    public void toJcr(Object entity, Node parentNode) {
-        try {
-            toJcrInternal(entity, parentNode);
-        } catch (ItemExistsException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (PathNotFoundException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (VersionException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (ConstraintViolationException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (LockException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (RepositoryException e) {
-            throw new JcrPersistenceInternalException(e);
-        }
-    }
-    
-    private void toJcrInternal(Object entity, Node parentNode) 
-        throws ItemExistsException, PathNotFoundException, VersionException, 
-        ConstraintViolationException, LockException, RepositoryException {
+    public void writeToJcr(Object entity, JcrNode folderNode) {
         
-        Node entityNode = parentNode.addNode(id(entity));
-        for (Property property : entityClazz_.getNonIdProperties()) {
-            Node propertyNode = entityNode.addNode(property.getName());
-            Object propertyValue = property.getValue(entity);
-            property.getContentTransformer().toJcr(propertyValue, propertyNode);
+        JcrNode fileNode = folderNode.addNode(id(entity), "nt:file");
+        JcrNode entityNode = fileNode.addNode("jcr:content", "xt:document");
+        entityNode.setProperty("jcr:lastModified", System.currentTimeMillis());
+        
+        for (PropertyTransformer propertyTransformer 
+                            : entityType_.propertyTransformers()) {
+            
+            propertyTransformer.writeToJcr(entity, entityNode);
         }
     }
     
     private String id(Object entity) {
-        return entityClazz_.getIdProperty().getValue(entity);
+        return entityType_.getEntityId().getValue(entity);
     }
 }

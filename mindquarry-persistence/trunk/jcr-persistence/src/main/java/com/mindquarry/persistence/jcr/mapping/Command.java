@@ -13,7 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.mapping;
 
-import javax.jcr.Session;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 
 
 /**
@@ -24,5 +24,5 @@ import javax.jcr.Session;
  */
 public interface Command {
 
-    void execute(Session session);
+    void execute(JcrSession session);
 }

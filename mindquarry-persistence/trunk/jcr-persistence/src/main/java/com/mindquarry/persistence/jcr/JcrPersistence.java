@@ -21,7 +21,7 @@ import javax.jcr.Repository;
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.jcr.mapping.MappingManager;
-import com.mindquarry.persistence.jcr.session.JcrSessionFactory;
+import com.mindquarry.persistence.jcr.session.JcrPersistenceSessionFactory;
 
 /**
  * Add summary documentation here.
@@ -50,7 +50,7 @@ public class JcrPersistence implements SessionFactory, Configuration {
     public void configure() {
         MappingManager mappingManager = 
             MappingManager.buildFromClazzes(entityClazzes_);
-        sessionFactory_ = new JcrSessionFactory(mappingManager, repository_);
+        sessionFactory_ = new JcrPersistenceSessionFactory(mappingManager, repository_);
     }
 
     public Session currentSession() {
