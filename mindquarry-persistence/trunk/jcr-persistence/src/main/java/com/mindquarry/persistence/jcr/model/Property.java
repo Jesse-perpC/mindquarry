@@ -11,13 +11,14 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.model;
+package com.mindquarry.persistence.jcr.model;
 
 import java.beans.IndexedPropertyDescriptor;
 import java.beans.PropertyDescriptor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.lang.reflect.Type;
 import java.util.Arrays;
 
 import org.apache.commons.beanutils.PropertyUtils;
@@ -42,16 +43,15 @@ public final class Property {
         return field_.getName();
     }
     
-    public Class<?> getContentType() {
+    public Type getContentType() {
+        return field_.getGenericType();
+    }
+    
+    private Class<?> getContentClass() {
         return field_.getClass();
     }
     
-    public boolean hasIterableContentType() {
-        return getContentType().isArray() 
-            || getContentType().isAssignableFrom(Iterable.class);
-    }
-    
-    public Class<?> getDeclaringClass() {
+    private Class<?> getDeclaringClass() {
         return field_.getDeclaringClass();
     }
     
@@ -70,7 +70,8 @@ public final class Property {
     public Iterable getIterableContent(Object bean) {
         Object content = getContent(bean);
         
-        if (getContentType().isArray()) {
+        field_.getGenericType();
+        if (getContentClass().isArray()) {
             return Arrays.asList((Object[]) content);
         }
         else {
@@ -121,5 +122,10 @@ public final class Property {
             }
         }
         return result;
+    }
+    
+    public String toString() {
+        return "property '" + getName() + 
+               "' of class: " + getDeclaringClass().getSimpleName();
     }
 }

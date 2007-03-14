@@ -17,7 +17,7 @@ import javax.jcr.Repository;
 
 import com.mindquarry.common.persistence.Session;
 import com.mindquarry.common.persistence.SessionFactory;
-import com.mindquarry.persistence.jcr.mapping.MappingManager;
+import com.mindquarry.persistence.jcr.cmds.CommandManager;
 
 /**
  * Add summary documentation here.
@@ -27,24 +27,33 @@ import com.mindquarry.persistence.jcr.mapping.MappingManager;
  */
 public class JcrPersistenceSessionFactory implements SessionFactory {
 
-    private Repository repository_;
-    private MappingManager mappingManager_;
+    private ThreadLocal<Session> currentSession_;
     
-    public JcrPersistenceSessionFactory(MappingManager mappingManager, 
+    private Repository repository_;
+    private CommandManager commandManager_;
+    
+    public JcrPersistenceSessionFactory(CommandManager commandManager, 
             Repository repository) {
         
+        currentSession_ = new ThreadLocal<Session>();
         repository_ = repository;
-        mappingManager_ = mappingManager;
+        commandManager_ = commandManager;
     }
     
     /**
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
     public Session currentSession() {
-        return buildJcrSession();
+        if (currentSession_.get() == null) {
+            currentSession_.set(buildJcrSession());
+        }
+        return currentSession_.get();
     }
     
     private Session buildJcrSession() {
-        return new JcrPersistenceSession(mappingManager_, repository_);
+        JcrPersistenceSession result = 
+            new JcrPersistenceSession(commandManager_, repository_);
+        result.initialize();
+        return result;
     }
 }

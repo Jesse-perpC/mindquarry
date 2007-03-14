@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.model;
+package com.mindquarry.persistence.jcr.model;
 
 import com.mindquarry.common.persistence.PersistenceException;
 
@@ -21,7 +21,7 @@ import com.mindquarry.common.persistence.PersistenceException;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class ModelException extends PersistenceException {
+public class ModelException extends PersistenceException {
 
     /**
      * 

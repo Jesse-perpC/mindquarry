@@ -11,12 +11,13 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.cmds;
+package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.mapping.Command;
-import com.mindquarry.persistence.jcr.mapping.model.Model;
+import com.mindquarry.persistence.jcr.trafo.TransformationManager;
+import com.mindquarry.persistence.jcr.trafo.Transformer;
 
 /**
  * Add summary documentation here.
@@ -24,27 +25,34 @@ import com.mindquarry.persistence.jcr.mapping.model.Model;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class PersistCommand implements Command {
+class WriteCommand implements Command {
 
     private Object entity_;
-    private Model model_;
+    private TransformationManager transformationManager_;
     
-    public PersistCommand(Object entity, Model model) {
+    public WriteCommand(Object entity, TransformationManager transformationManager) {
         entity_ = entity;
-        model_ = model;
+        transformationManager_ = transformationManager;
     }
     
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public void execute(JcrSession session) {
+    public Object execute(JcrSession session) {
         JcrNode folderNode = findEntityFolder(session);
-        model_.entityTransformer(entity_).writeToJcr(entity_, folderNode);
+        return entityTransformer().writeToJcr(entity_, folderNode);
     }
     
     private JcrNode findEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();
-        return rootNode.getNode(model_.entityFolderName(entity_));
+        return rootNode.getNode(entityFolderName());
     }
-
+    
+    private String entityFolderName() {
+        return transformationManager_.entityFolderName(entity_);
+    }
+    
+    private Transformer entityTransformer() {
+        return transformationManager_.entityTransformer(entity_);
+    }
 }

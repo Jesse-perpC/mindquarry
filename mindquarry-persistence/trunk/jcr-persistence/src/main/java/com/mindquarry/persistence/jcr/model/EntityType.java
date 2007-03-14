@@ -11,10 +11,11 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.model;
+package com.mindquarry.persistence.jcr.model;
 
 import static com.mindquarry.common.fp.FP.not;
 import static com.mindquarry.common.fp.FP.select;
+import static com.mindquarry.common.lang.ReflectionUtil.hasPublicDefaultConstructor;
 import static com.mindquarry.common.lang.StringUtil.concat;
 
 import java.lang.reflect.Field;
@@ -25,9 +26,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.mindquarry.common.fp.UnaryPredicate;
+import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 import com.mindquarry.persistence.jcr.annotations.Entity;
 import com.mindquarry.persistence.jcr.annotations.Id;
-import com.mindquarry.persistence.jcr.mapping.trafo.PropertyTransformer;
 
 /**
  * Add summary documentation here.
@@ -37,32 +38,40 @@ import com.mindquarry.persistence.jcr.mapping.trafo.PropertyTransformer;
  */
 public class EntityType {
 
-    private Class<?> clazz_;
+    private Class<?> entityClazz_;
     private EntityId entityId_;
-    private Map<String, PropertyTransformer> propertyTransformers_;
+    private Map<String, Property> properties_;
     
-    EntityType(Class<?> clazz) {
-        clazz_ = clazz;
+    EntityType(Class<?> entityClazz) {
+        entityClazz_ = entityClazz;
     }
     
     void initialize(Model model) {
         assert containsExactlyOneIdProperty() : 
             "each entity class must contain exactly one id annotated property";
         
+        assert hasPublicDefaultConstructor(entityClazz_) : 
+            "each entity class must provide a public default constructor";
+        
         entityId_ = findIdProperty();
         
         List<Field> allNonIdFields = select(not(idAnnotated()), allFields());
         
-        propertyTransformers_ = new HashMap<String, PropertyTransformer>();
-        for (Field field : allNonIdFields) {
-            
-            Property property = new Property(field);
-            
-            PropertyTransformer propertyTransformer = 
-                new PropertyTransformer(property);
-            propertyTransformer.initialize();
-            
-            propertyTransformers_.put(property.getName(), propertyTransformer);
+        properties_ = new HashMap<String, Property>();
+        for (Field field : allNonIdFields) {            
+            Property property = new Property(field);            
+            properties_.put(property.getName(), property);
+        }
+    }
+
+    public Object createNewEntity() {
+        try {
+            return entityClazz_.newInstance();
+        } catch (InstantiationException e) {
+            throw new ModelException("could not create an instance of " +
+                    "entity type: " + entityClazz_, e);
+        } catch (IllegalAccessException e) {
+            throw new JcrPersistenceInternalException(e);
         }
     }
     
@@ -70,12 +79,12 @@ public class EntityType {
         return entityId_;
     }
     
-    public PropertyTransformer propertyTransformer(String propertyName) {
-        return propertyTransformers_.get(propertyName);
+    public Property property(String propertyName) {
+        return properties_.get(propertyName);
     }
     
-    public Collection<PropertyTransformer> propertyTransformers() {
-        return propertyTransformers_.values();
+    public Collection<Property> properties() {
+        return properties_.values();
     }
     
     private boolean containsExactlyOneIdProperty() {
@@ -107,7 +116,7 @@ public class EntityType {
     }
     
     private List<Field> allFields() {
-        return Arrays.asList(clazz_.getDeclaredFields());
+        return Arrays.asList(entityClazz_.getDeclaredFields());
     }
     
     private UnaryPredicate<Field> idAnnotated() {
@@ -123,10 +132,26 @@ public class EntityType {
     }
     
     public String folder() {
-        return clazz_.getAnnotation(Entity.class).folder();
+        return entityClazz_.getAnnotation(Entity.class).folder();
+    }
+    
+    public Class<?> entityClazz() {
+        return entityClazz_;
+    }
+    
+    public boolean describes(Class<?> clazz) {
+        return entityClazz_.equals(clazz);
+    }
+    
+    public boolean usesJcrFolder(String folder) {
+        return folder().equals(folder);
     }
     
     String id(Object entity) {
         return entityId_.getValue(entity);
+    }
+    
+    public String toString() {
+        return "EntityType for entity class: " + entityClazz_.getSimpleName();
     }
 }

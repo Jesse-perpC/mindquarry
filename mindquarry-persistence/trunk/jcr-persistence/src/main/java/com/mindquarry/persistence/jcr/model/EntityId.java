@@ -11,13 +11,8 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.cmds;
+package com.mindquarry.persistence.jcr.model;
 
-import javax.jcr.Node;
-import javax.jcr.Session;
-
-import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.mapping.Command;
 
 /**
  * Add summary documentation here.
@@ -25,20 +20,23 @@ import com.mindquarry.persistence.jcr.mapping.Command;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class UpdateCommand implements Command {
+public class EntityId  {
 
-    private Object entity_;
+    private Property idProperty_;
     
-    public UpdateCommand(Object entity) {
-        entity_ = entity;
+    public EntityId(Property idProperty) {
+        idProperty_ = idProperty;
     }
     
-    /**
-     * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
-     */
-    public void execute(JcrSession session) {
-        Node entityNode = null;
-        
+    public String getName() {
+        return idProperty_.getName();
     }
-
+    
+    public String getValue(Object bean) {
+        return idProperty_.getContent(bean).toString();
+    }
+    
+    public void setValue(Object bean, String value) {
+        idProperty_.setContent(bean, value);
+    }
 }

@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Property;
+import javax.jcr.Session;
 
 /**
  * Add summary documentation here.
@@ -30,10 +31,14 @@ import javax.jcr.Property;
  */
 public class JcrNode {
 
-    private Node node_;
+    Node node_;
     
     public JcrNode(Node node) {
         node_ = node;
+    }
+    
+    public void addMixin(String mixinName) {
+        invoke("addMixin", node_, mixinName);
     }
 
     public JcrNode addNode(String relPath) {
@@ -118,13 +123,14 @@ public class JcrNode {
     public PropertyIterator getProperties(String namePattern) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
+    }*/
+
+    public JcrProperty getProperty(String relPath) {
+        Object result = invoke("getProperty", node_, relPath);
+        return new JcrProperty((Property) result);
     }
 
-    public Property getProperty(String relPath) throws PathNotFoundException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    /*
     public PropertyIterator getReferences() throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
@@ -138,13 +144,13 @@ public class JcrNode {
     public VersionHistory getVersionHistory() throws UnsupportedRepositoryOperationException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
-    }
+    }*/
 
-    public boolean hasNode(String relPath) throws RepositoryException {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean hasNode(String relPath) {
+        return (Boolean) invoke("hasNode", node_, relPath);
     }
-
+    
+/*
     public boolean hasNodes() throws RepositoryException {
         // TODO Auto-generated method stub
         return false;
@@ -154,12 +160,12 @@ public class JcrNode {
         // TODO Auto-generated method stub
         return false;
     }
+    */
 
-    public boolean hasProperty(String relPath) throws RepositoryException {
-        // TODO Auto-generated method stub
-        return false;
+    public boolean hasProperty(String relPath) {
+        return (Boolean) invoke("hasProperty", node_, relPath);
     }
-
+    /*
     public boolean holdsLock() throws RepositoryException {
         // TODO Auto-generated method stub
         return false;
@@ -268,12 +274,16 @@ public class JcrNode {
         // TODO Auto-generated method stub
         return null;
     }
+    */
 
-    public Property setProperty(String name, Node value) throws ValueFormatException, VersionException, LockException, ConstraintViolationException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
+    public JcrProperty setProperty(String name, JcrNode value) {
+        Class<?>[] paramTypes = new Class<?>[] {String.class, Node.class};
+        Method method = findMethod(Node.class, "setProperty", paramTypes);        
+        Object result = invoke(method, node_, name, value.node_);
+        return new JcrProperty((Property) result);
     }
-
+    
+/*
     public Property setProperty(String name, Value value, int type) throws ValueFormatException, VersionException, LockException, ConstraintViolationException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
@@ -318,27 +328,28 @@ public class JcrNode {
         // TODO Auto-generated method stub
         return 0;
     }
-
-    public String getName() throws RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
+*/
+    public String getName() {
+        return (String) invoke("getName", node_);
     }
 
-    public Node getParent() throws ItemNotFoundException, AccessDeniedException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
+    public JcrNode getParent() {
+        Object result = invoke("getParent", node_);
+        return new JcrNode((Node) result);
     }
-
+/*
     public String getPath() throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
+    */
 
-    public Session getSession() throws RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
+    public JcrSession getSession() {
+        Object result = invoke("getSession", node_);
+        return new JcrSession((Session) result);
     }
 
+    /*
     public boolean isModified() {
         // TODO Auto-generated method stub
         return false;
@@ -375,4 +386,7 @@ public class JcrNode {
     }
     */
     
+    public String toString() {
+        return getName();
+    }
 }
