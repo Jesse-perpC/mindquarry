@@ -13,6 +13,9 @@
  */
 package com.mindquarry.persistence.jcr.api;
 
+import java.util.Iterator;
+
+import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 
 /**
@@ -21,7 +24,7 @@ import javax.jcr.NodeIterator;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class JcrNodeIterator {
+public class JcrNodeIterator implements Iterator<JcrNode>, Iterable<JcrNode> {
 
     private NodeIterator nodeIterator_;
     
@@ -49,11 +52,15 @@ public class JcrNodeIterator {
         return nodeIterator_.hasNext();
     }
 
-    public Object next() {
-        return nodeIterator_.next();
+    public JcrNode next() {
+        return new JcrNode((Node) nodeIterator_.next());
     }
 
     public void remove() {
         nodeIterator_.remove();
+    }
+
+    public Iterator<JcrNode> iterator() {
+        return this;
     }
 }

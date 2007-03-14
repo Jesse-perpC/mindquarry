@@ -27,6 +27,9 @@ public class User  {
     private String firstname;
     private String lastname;
     private List<String> skills;
+    private String[] skillsArray;
+    
+    private List<Team> teams;
     
     public String getFirstname() {
         return firstname;
@@ -76,5 +79,41 @@ public class User  {
      */
     public void setSkills(List<String> skills) {
         this.skills = skills;
+    }
+
+    /**
+     * Getter for skillsArray.
+     *
+     * @return the skillsArray
+     */
+    public String[] getSkillsArray() {
+        return skillsArray;
+    }
+
+    /**
+     * Setter for skillsArray.
+     *
+     * @param skillsArray the skillsArray to set
+     */
+    public void setSkillsArray(String[] skillsArray) {
+        this.skillsArray = skillsArray;
+    }
+
+    /**
+     * Getter for teams.
+     *
+     * @return the teams
+     */
+    public List<Team> getTeams() {
+        return teams;
+    }
+
+    /**
+     * Setter for teams.
+     *
+     * @param teams the teams to set
+     */
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
     }
 }

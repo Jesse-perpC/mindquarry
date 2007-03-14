@@ -11,15 +11,12 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.trafo;
+package com.mindquarry.persistence.jcr.trafo;
 
-import java.lang.reflect.Array;
-import java.util.Collection;
+import java.lang.reflect.Type;
 
-import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.mapping.model.Model;
-import com.mindquarry.persistence.jcr.mapping.model.Property;
+import com.mindquarry.persistence.jcr.model.Property;
 
 /**
  * Add summary documentation here.
@@ -27,7 +24,7 @@ import com.mindquarry.persistence.jcr.mapping.model.Property;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class PropertyTransformer implements Transformer{
+public class PropertyTransformer implements Transformer {
 
     private Property property_;    
     private Transformer contentTransformer_;
@@ -36,26 +33,28 @@ public class PropertyTransformer implements Transformer{
         property_ = property;
     }
     
-    public void initialize() {
-        
-        Class<?> contentType = property_.getContentType();
-        if (property_.hasIterableContentType())
-            contentTransformer_ = new CollectionTransformer();
-        else 
-            contentTransformer_ = new StringTransformer(); 
-        
-        
+    public void initialize(TransformerRegistry transformerRegistry) {
+        Type contentType = property_.getContentType();
+        contentTransformer_ = 
+            transformerRegistry.findContentTransformer(contentType);
     }
     
     public Object readFromJcr(JcrNode entityNode) {
-        // TODO Auto-generated method stub
-        return null;
+        JcrNode propertyNode = entityNode.getNode(property_.getName());
+        return contentTransformer_.readFromJcr(propertyNode);
     }
 
-    public void writeToJcr(Object entity, JcrNode entityNode) {
+    public JcrNode writeToJcr(Object propertyValue, JcrNode entityNode) {
         String propertyName = property_.getName();
-        Object propertyValue = property_.getContent(entity);
-        JcrNode propertyNode = entityNode.addNode(propertyName, "xt:element");        
+        
+        JcrNode propertyNode;
+        if (entityNode.hasNode(propertyName))
+            propertyNode = entityNode.getNode(propertyName);
+        else
+            propertyNode = entityNode.addNode(propertyName, "xt:element");
+        
         contentTransformer_.writeToJcr(propertyValue, propertyNode);
+        
+        return propertyNode;
     }
 }

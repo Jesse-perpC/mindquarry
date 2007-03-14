@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.trafo;
+package com.mindquarry.persistence.jcr.trafo;
 
 import com.mindquarry.persistence.jcr.api.JcrNode;
 
@@ -21,15 +21,9 @@ import com.mindquarry.persistence.jcr.api.JcrNode;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class StringTransformer implements Transformer {
-    
-    public Object readFromJcr(JcrNode jcrNode) {
-        // TODO Auto-generated method stub
-        return null;
-    }
+public interface Transformer {
 
-    public void writeToJcr(Object object, JcrNode jcrNode) {
-        JcrNode textNode = jcrNode.addNode("text", "xt:text");
-        textNode.setProperty("xt:characters", object.toString());
-    }    
+    void initialize(TransformerRegistry transformerRegistry);
+    JcrNode writeToJcr(Object object, JcrNode node);
+    Object readFromJcr(JcrNode node);
 }

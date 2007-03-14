@@ -11,12 +11,13 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.cmds;
+package com.mindquarry.persistence.jcr.cmds;
 
-import javax.jcr.Node;
-
+import com.mindquarry.persistence.jcr.Command;
+import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.mapping.Command;
+import com.mindquarry.persistence.jcr.trafo.TransformationManager;
+import com.mindquarry.persistence.jcr.trafo.Transformer;
 
 /**
  * Add summary documentation here.
@@ -26,17 +27,25 @@ import com.mindquarry.persistence.jcr.mapping.Command;
  */
 class ReadCommand implements Command {
 
-    private Object entity_;
+    private JcrNode entityNode_;
+    private TransformationManager transformationManager_;
     
-    public ReadCommand(Object entity) {
-        entity_ = entity;
+    public ReadCommand(JcrNode entityNode,
+            TransformationManager transformationManager) {
+        
+        entityNode_ = entityNode;
+        transformationManager_ = transformationManager;
     }
     
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public void execute(JcrSession session) {
-        Node entityNode = null;
-        
+    public Object execute(JcrSession session) {
+        String folder = entityNode_.getParent().getName();
+        return entityTransformer(folder).readFromJcr(entityNode_);
+    }
+    
+    private Transformer entityTransformer(String folder) {
+        return transformationManager_.entityTransformerByFolder(folder);
     }
 }

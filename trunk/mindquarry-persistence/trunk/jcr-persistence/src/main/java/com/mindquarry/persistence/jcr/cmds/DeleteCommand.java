@@ -11,13 +11,13 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.cmds;
+package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.mapping.Command;
-import com.mindquarry.persistence.jcr.mapping.model.EntityType;
-import com.mindquarry.persistence.jcr.mapping.model.Model;
+import com.mindquarry.persistence.jcr.model.EntityType;
+import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 
 /**
  * Add summary documentation here.
@@ -28,24 +28,25 @@ import com.mindquarry.persistence.jcr.mapping.model.Model;
 class DeleteCommand implements Command {
 
     private Object entity_;
-    private Model model_;
+    private TransformationManager transformationManager_;
     
-    public DeleteCommand(Object entity, Model model) {
+    public DeleteCommand(Object entity, TransformationManager transformationManager) {
         entity_ = entity;
-        model_ = model;
+        transformationManager_ = transformationManager;
     }
     
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public void execute(JcrSession session) {
+    public Object execute(JcrSession session) {
         JcrNode folderNode = findEntityFolder(session);
-        folderNode.getNode(id()).remove();        
+        folderNode.getNode(id()).remove();
+        return null;
     }
     
     private JcrNode findEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();
-        return rootNode.getNode(model_.entityFolderName(entity_));
+        return rootNode.getNode(entityFolderName());
     }
 
     private String id() {
@@ -53,6 +54,10 @@ class DeleteCommand implements Command {
     }
     
     private EntityType entityType() {
-        return model_.entityType(entity_);
+        return transformationManager_.entityType(entity_);
+    }
+    
+    private String entityFolderName() {
+        return transformationManager_.entityFolderName(entity_);
     }
 }

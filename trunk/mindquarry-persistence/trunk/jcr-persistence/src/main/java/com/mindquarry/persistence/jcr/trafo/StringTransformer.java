@@ -11,10 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping.trafo;
-
-import java.util.Arrays;
-import java.util.Collection;
+package com.mindquarry.persistence.jcr.trafo;
 
 import com.mindquarry.persistence.jcr.api.JcrNode;
 
@@ -24,19 +21,24 @@ import com.mindquarry.persistence.jcr.api.JcrNode;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class CollectionTransformer implements Transformer {
+public class StringTransformer implements Transformer {
     
-    public Object readFromJcr(JcrNode jcrNode) {
-        // TODO Auto-generated method stub
-        return null;
+    public void initialize(TransformerRegistry transformerRegistry) {}
+    
+    public Object readFromJcr(JcrNode propertyNode) {
+        JcrNode textNode = propertyNode.getNode("text");
+        return textNode.getProperty("xt:characters").getString();
     }
 
-    public void writeToJcr(Object object, JcrNode jcrNode) {
-        Collection collection = (Collection) object;
-        for (Object item : collection) {
-            JcrNode textNode = jcrNode.addNode("text", "xt:text");
-        }
-        JcrNode textNode = jcrNode.addNode("text", "xt:text");
+    public JcrNode writeToJcr(Object object, JcrNode propertyNode) {
+        JcrNode textNode;
+        if (propertyNode.hasNode("text"))
+            textNode = propertyNode.getNode("text");
+        else
+            textNode = propertyNode.addNode("text", "xt:text");
+        
         textNode.setProperty("xt:characters", object.toString());
-    }
+        
+        return textNode;
+    }    
 }

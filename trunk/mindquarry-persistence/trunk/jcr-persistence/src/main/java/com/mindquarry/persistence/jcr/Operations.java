@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.mapping;
+package com.mindquarry.persistence.jcr;
 
 /**
  * Add summary documentation here.

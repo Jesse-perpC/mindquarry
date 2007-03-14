@@ -13,6 +13,9 @@
  */
 package com.mindquarry.persistence.jcr.api;
 
+import static com.mindquarry.common.lang.ReflectionUtil.invoke;
+
+import javax.jcr.Node;
 import javax.jcr.Property;
 
 /**
@@ -64,22 +67,26 @@ public class JcrProperty {
         // TODO Auto-generated method stub
         return 0;
     }
-
-    public Node getNode() throws ValueFormatException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
+    */
+    
+    public JcrNode getNode() {
+        Object result = invoke("getNode", property_);
+        return new JcrNode((Node) result);
     }
-
+    
+    /*
     public InputStream getStream() throws ValueFormatException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
-
-    public String getString() throws ValueFormatException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
+*/
+    
+    public String getString() {
+        Object result = invoke("getString", property_);
+        return (String) result;
     }
 
+/*
     public int getType() throws RepositoryException {
         // TODO Auto-generated method stub
         return 0;
