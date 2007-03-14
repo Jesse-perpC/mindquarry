@@ -26,7 +26,7 @@
 	<queryInfo>
 		<key>getAllUsers</key>
 		<!-- exclude all documents with a dot, because .png files cannot be parsed -->
-		<query>/users?/*[not(contains(local-name(.),'.'))]</query>
+		<query>/users?/*[local-name() != 'photos']</query>
 		<resultEntityClass>com.mindquarry.user.manager.UserEntity</resultEntityClass>
 	</queryInfo>
 	<queryInfo>

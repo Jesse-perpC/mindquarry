@@ -244,7 +244,7 @@
 		<pipeline type="caching-point" internal-only="true">
 			
 			<match pattern="*.instance">
-				<generate type="jx" src="forms/{1}-template.xml">
+				<generate type="jx" src="forms/{1}-template.xml" label="content">
 					<parameter name="locale"
 						value="{flow-attribute:locale}" />
 					<parameter name="serverContextURL"
@@ -503,40 +503,40 @@
 			<match pattern="users/*/*.*">
 				<select type="resource-exists">
 					<!-- Note: image op will set the mime type / http content type -->
-					<when test="jcr:///users/{2}.{3}">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.{3}">
+					<when test="jcr:///users/photos/{2}.{3}">
+						<read type="image-op-crop-resize" src="jcr:///users/photos/{2}.{3}">
 							<parameter name="crop-ratio" value="1"/>
 							<parameter name="size-width" value="{1}"/>
 							<parameter name="size-height" value="{1}"/>
 							<parameter name="output-format" value="{3}"/>
 						</read>
 					</when>
-					<when test="jcr:///users/{2}.png">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.png">
+					<when test="jcr:///users/photos/{2}.png">
+						<read type="image-op-crop-resize" src="jcr:///users/photos/{2}.png">
 							<parameter name="crop-ratio" value="1"/>
 							<parameter name="size-width" value="{1}"/>
 							<parameter name="size-height" value="{1}"/>
 							<parameter name="output-format" value="{3}"/>
 						</read>
 					</when>
-					<when test="jcr:///users/{2}.gif">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.gif">
+					<when test="jcr:///users/photos/{2}.gif">
+						<read type="image-op-crop-resize" src="jcr:///users/photos/{2}.gif">
 							<parameter name="crop-ratio" value="1"/>
 							<parameter name="size-width" value="{1}"/>
 							<parameter name="size-height" value="{1}"/>
 							<parameter name="output-format" value="{3}"/>
 						</read>
 					</when>
-					<when test="jcr:///users/{2}.jpg">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.jpg">
+					<when test="jcr:///users/photos/{2}.jpg">
+						<read type="image-op-crop-resize" src="jcr:///users/photos/{2}.jpg">
 							<parameter name="crop-ratio" value="1"/>
 							<parameter name="size-width" value="{1}"/>
 							<parameter name="size-height" value="{1}"/>
 							<parameter name="output-format" value="{3}"/>
 						</read>
 					</when>
-					<when test="jcr:///users/{2}.bmp">
-						<read type="image-op-crop-resize" src="jcr:///users/{2}.bmp">
+					<when test="jcr:///users/photos/{2}.bmp">
+						<read type="image-op-crop-resize" src="jcr:///users/photos/{2}.bmp">
 							<parameter name="crop-ratio" value="1"/>
 							<parameter name="size-width" value="{1}"/>
 							<parameter name="size-height" value="{1}"/>
@@ -554,8 +554,8 @@
 				</select>
 			</match>
 			
-			<match pattern="users/*.*">
-				<read src="cocoon:/users/48/{1}.{2}"/>
+			<match pattern="users/*.png">
+				<read src="cocoon:/users/48/{1}.png"/>
 			</match>
 			
 			<match pattern="*.22.png">

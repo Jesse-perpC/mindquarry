@@ -32,7 +32,7 @@ function persistUserPhoto(userId, uploadWidget) {
 	
 	// use the original extension to identify the image type later
 	// or use jpg as fallback if no extension is available
-	var photoJcrUri = "jcr:///users/" + userId + ".";
+	var photoJcrUri = "jcr:///users/photos/" + userId + ".";
 	if (ext == "") {
 		photoJcrUri = photoJcrUri + "jpg";
 	} else {

@@ -14,7 +14,9 @@
 package com.mindquarry.model.source;
 
 import java.net.MalformedURLException;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.Map;
 
 import org.apache.avalon.framework.configuration.Configurable;
@@ -93,15 +95,31 @@ public class ModelSourceFactory implements SourceFactory,
     	String resource = removeProtocol(url);
     	String[] resourceParts = resource.split("#");
     	
-    	String componentName = componentFullname(resourceParts[0]);
-    	String[] statements = resourceParts[1].split("\\."); // the args is a reg exp
-    	
+    	String componentName = componentFullname(resourceParts[0]);        
+        Collection<String> statements = parseStatements(resourceParts[1]);
+        
     	ModelSourceInterpreter interpreter = 
     		new ModelSourceInterpreter(containerUtil_, componentName, statements);
     	
+        
     	ModelSource result = new ModelSource(url, containerUtil_, interpreter);
     	result.initialize();
     	return result;
+    }
+    
+    private Collection<String> parseStatements(String unparsedStatements) {
+        StringBuilder remainingStatements = 
+            new StringBuilder(unparsedStatements);
+        
+        Collection<String> result = new LinkedList<String>();
+        int i;
+        while ( (i = remainingStatements.indexOf(").")) != -1) {
+            String statement = remainingStatements.substring(0, i + 1);
+            remainingStatements = remainingStatements.delete(0, i + 2);
+            result.add(statement);
+        }
+        result.add(remainingStatements.toString());
+        return result;
     }
 
     /**
