@@ -16,6 +16,7 @@ package com.mindquarry.model.source;
 import static com.mindquarry.model.source.ReflectionUtil.invokeMethod;
 
 import java.lang.reflect.Method;
+import java.util.Collection;
 
 /**
  *
@@ -25,12 +26,12 @@ import java.lang.reflect.Method;
 class ModelSourceInterpreter {
 
 	private String componentName_;
-	private String[] statements_;
+	private Collection<String> statements_;
 	
 	private ContainerUtil containerUtil_;
 	
 	ModelSourceInterpreter(ContainerUtil containerUtil,
-			String componentName, String[] statements) {
+			String componentName, Collection<String> statements) {
 
         containerUtil_ = containerUtil;
 		
