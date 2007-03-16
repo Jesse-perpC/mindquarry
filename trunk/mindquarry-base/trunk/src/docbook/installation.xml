@@ -22,7 +22,35 @@
   <info>
     <title>Mindquarry Installation Guide</title>
 
-    <subtitle>Installing the Mindquarry Collaboration Server</subtitle>
+    <subtitle>Installing the Mindquarry Collaboration Server on <phrase
+    os="windows">Windows, </phrase><phrase os="macosx">Mac OS X,
+    </phrase><phrase os="macosx">Linux, </phrase><phrase os="ubuntu">Ubuntu,
+    </phrase>and other Systems</subtitle>
+
+    <abstract>
+      <title>Quick Installation</title>
+
+      <para><procedure>
+          <step>
+            <para>Install Java, Apache 2, mod_perl, Subversion <phrase
+            os="windows">(available as Mindquarry XAMPP
+            package)</phrase></para>
+          </step>
+
+          <step>
+            <para>Install Mindquarry</para>
+          </step>
+
+          <step>
+            <para>Start Mindquarry</para>
+          </step>
+
+          <step>
+            <para>Go to http://localhost/ and log in with username
+            <quote>admin</quote> and password <quote>admin</quote>.</para>
+          </step>
+        </procedure></para>
+    </abstract>
 
     <author>
       <personname>Lars Trieloff</personname>
@@ -71,6 +99,19 @@
           <para>More detailed information about installing Mindquarry on Suse
           Linux, with thanks to Hans-Georg Dück, instructions on allowing
           anonymous repository access.</para>
+        </revdescription>
+      </revision>
+
+      <revision>
+        <date>16/03/2007</date>
+
+        <author>
+          <personname>Lars Trieloff</personname>
+        </author>
+
+        <revdescription>
+          <para>Operating system-specific installation instructions, reflects
+          the new Mindquarry Installer,</para>
         </revdescription>
       </revision>
     </revhistory>
@@ -139,7 +180,7 @@
       of Java 5 or Java 6 available from the Linux distributors.
       </phrase></para>
 
-      <procedure>
+      <procedure os="ubuntu">
         <title>Installing Java on Ubuntu Linux (Console Mode)</title>
 
         <step>
@@ -215,7 +256,7 @@
         <step>
           <para>Open the file
           <filename>/opt/local/apache2/conf/httpd.conf</filename> in a text
-          editor. </para>
+          editor.</para>
 
           <substeps>
             <step>
@@ -262,7 +303,7 @@
       <literal>mod_proxy</literal>, <literal>mod_proxy_http</literal> and
       <literal>mod_rewrite</literal> modules into your Apache 2 web server.
       Usually this is done by having a following lines in the Apache 2
-      configuration file. </para>
+      configuration file.</para>
 
       <programlisting>LoadModule dav_svn_module     modules/mod_dav_svn.so
 LoadModule dav_module         modules/mod_dav.so
@@ -281,7 +322,7 @@ LoadModule rewrite_module     modules/mod_rewrite.so</programlisting>
         <step>
           <para>Type <command>sudo apt-get install apache2 libapache2-svn
           libapache2-mod-perl2</command>. When asked for a password, enter
-          your password </para>
+          your password</para>
         </step>
 
         <step>
@@ -702,15 +743,16 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
             <filename>/etc/security/limit.conf</filename> file by adding
             following lines:</para>
 
-            <programlisting><replaceable>mindquarry</replaceable>        soft    nofile          65536
-<replaceable>mindquarry</replaceable>        hard    nofile          65536</programlisting>
+            <programlisting><replaceable>apache</replaceable>        soft    nofile          65536
+<replaceable>apache</replaceable>        hard    nofile          65536</programlisting>
 
             <para>This example assumes, Mindquarry is run as user
-            <literal>mindquarry</literal>.</para>
+            <literal>apache</literal>. The Mindquarry installer will add these
+            lines by default.</para>
           </answer>
         </qandaentry>
 
-        <qandaentry os="linux">
+        <qandaentry os="redhat">
           <question>
             <para>After some time of inactivity, Mindquarry complains about
             some files in the <code>/tmp</code> directory cannot be
@@ -726,7 +768,7 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
           </answer>
         </qandaentry>
 
-        <qandaentry os="linux">
+        <qandaentry os="redhat">
           <question>
             <para>I cannot access the Mindquarry Document Repository using the
             Mindquarry Desktop Client. Looking at the Apache Error logs, I get
