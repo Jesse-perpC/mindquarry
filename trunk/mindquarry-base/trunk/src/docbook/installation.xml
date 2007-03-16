@@ -46,8 +46,13 @@
           </step>
 
           <step>
-            <para>Go to http://localhost/ and log in with username
+            <para>Go to http://localhost:8080/ and log in with username
             <quote>admin</quote> and password <quote>admin</quote>.</para>
+          </step>
+
+          <step>
+            <para>When this works, start Apache 2 and go to http://localhost/
+            and use Mindquarry</para>
           </step>
         </procedure></para>
     </abstract>
