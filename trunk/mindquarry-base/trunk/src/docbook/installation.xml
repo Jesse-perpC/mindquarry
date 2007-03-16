@@ -92,11 +92,16 @@
       </listitem>
 
       <listitem>
-        <para>Subversion</para>
+        <para>Subversion as an Apache module</para>
       </listitem>
 
       <listitem>
         <para>mod_perl</para>
+      </listitem>
+
+      <listitem>
+        <para>mod_rewrite <phrase os="linux">(comes with Apache 2, but is not
+        enabled on all Linux distributions by default)</phrase></para>
       </listitem>
     </itemizedlist>
 
@@ -107,176 +112,219 @@
       the <phrase
       xlink:href="http://java.sun.com/javase/downloads/index.jsp">JDK 6 from
       Sun</phrase>. It is available for Windows, Linux and Solaris. <phrase
-      os="macosx">Users of Mac OS X 10.4 Tiger have Java 5 already
-      installed.</phrase></para>
+      os="macosx"><phrase os="macosx">Users of Mac OS X 10.4 Tiger have Java 5
+      already installed.</phrase></phrase></para>
 
-      <para><phrase>For many Linux distributions there are packages of Java 5
-      or Java 6 available from the Linux distributors. </phrase></para>
+      <procedure os="windows">
+        <title>Installing Java 6</title>
+
+        <step>
+          <para>Download the Java Installer from Sun</para>
+        </step>
+
+        <step>
+          <para>Double click the downloaded installer file</para>
+        </step>
+
+        <step>
+          <para>Follow the instructions given by the installer</para>
+        </step>
+
+        <step>
+          <para>Java is installed</para>
+        </step>
+      </procedure>
+
+      <para os="linux"><phrase>For many Linux distributions there are packages
+      of Java 5 or Java 6 available from the Linux distributors.
+      </phrase></para>
+
+      <procedure>
+        <title>Installing Java on Ubuntu Linux (Console Mode)</title>
+
+        <step>
+          <para>Open a terminal window</para>
+        </step>
+
+        <step>
+          <para>Type <command>sudo apt-get install sun-java5-jdk</command>.
+          When asked for a password, enter your password</para>
+        </step>
+      </procedure>
     </section>
 
-    <section>
-      <title>Installing Apache 2</title>
+    <section os="windows">
+      <title>Installing Apache 2 with Subversion and mod_perl on
+      Windows</title>
+
+      <para>Apache 2 is the HTTP server that is used to probide the Subversion
+      repositories for file sharing. In order to use and install Apache 2 for
+      Mindquarry, following steps are neccessary:</para>
+
+      <procedure>
+        <step>
+          <para>Download the <phrase
+          xlink:href="http://releases.mindquarry.org/com/mindquarry/xampp/1.0-M1/xampp-1.0-M1.exe">Mindquarry
+          XAMPP installer</phrase></para>
+        </step>
+
+        <step>
+          <para>Double-click the downloaded installer file</para>
+        </step>
+
+        <step>
+          <para>Follow the instructions given by the installer</para>
+        </step>
+
+        <step>
+          <para>Apache 2 with Subversion and mod_perl is installed</para>
+        </step>
+      </procedure>
+
+      <para>You can start and stop Apache using the Windows services menu, or
+      from Mindquarry XAMPP start menu entries.</para>
+
+      <note>
+        <para>If you do not want to use the Mindquarry XAMPP package, for
+        example because you already have an existing Apache 2 installation,
+        you should make sure to install Subversion as an Apache module and
+        mod_perl separately.</para>
+      </note>
+    </section>
+
+    <section os="macosx">
+      <title>Installing Apache 2 with Subversion and mod_perl on Mac OS
+      X</title>
+
+      <para>Install the Developer Tools from the Mac OS X installation DVD and
+      install the Darwinports package. Darwinports is a package management
+      system that gives you convenient access to thousands of Open Source
+      tools.</para>
+
+      <procedure>
+        <step>
+          <para>Open a terminal window</para>
+        </step>
+
+        <step>
+          <para>type <command>sudo port install apache2 mod_perl2
+          p5-libwww-perl subversion +mod_dav_svn</command>. When asked for a
+          password, enter your password.</para>
+        </step>
+
+        <step>
+          <para>Open the file
+          <filename>/opt/local/apache2/conf/httpd.conf</filename> in a text
+          editor. </para>
+
+          <substeps>
+            <step>
+              <para>Locate the line <literal>LoadModule rewrite_module
+              modules/mod_rewrite.so</literal></para>
+            </step>
+
+            <step>
+              <para>Add the line <literal>LoadModule perl_module
+              modules/mod_perl.so</literal></para>
+            </step>
+
+            <step>
+              <para>Add the line <literal>LoadModule dav_svn_module
+              modules/dav_svn_perl.so</literal></para>
+            </step>
+
+            <step>
+              <para>Save the file</para>
+            </step>
+          </substeps>
+        </step>
+
+        <step>
+          <para>Test Apache's configuration by running <command>sudo apachectl
+          configtest</command>.</para>
+        </step>
+      </procedure>
+    </section>
+
+    <section os="linux">
+      <title>Installing Apache 2 with Subversion and mod_perl on Linux</title>
 
       <para>Apache 2 is the HTTP server that is used to provide the Subversion
       repositories for file sharing. Additionally it can be used to secure the
       Mindquarry installation by adding SSL encryption. Apache 2 is available
       for <phrase xlink:href="http://httpd.apache.org/download.cgi">download
-      from the Apache Software Foundation</phrase>. There are binary packages
-      for Windows, Linux, Mac OS X and many UNIX derivates.</para>
+      from the Apache Software Foundation</phrase>. Many Linux distributions
+      have pre-configured packages of Apache 2, Subversion and mod_perl
+      available.</para>
 
-      <tip>
-        <para>The easiest way of getting up and running with Apache on Windows
-        is downloading the Mindquarry Prerequisites package from the <phrase
-        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
-        site</phrase>.</para>
-      </tip>
+      <para>Make sure to install the <literal>mod_dav_svn</literal>,
+      <literal>mod_dav</literal>, <literal>mod_perl</literal>,
+      <literal>mod_proxy</literal>, <literal>mod_proxy_http</literal> and
+      <literal>mod_rewrite</literal> modules into your Apache 2 web server.
+      Usually this is done by having a following lines in the Apache 2
+      configuration file. </para>
 
-      <para>For many Linux distributions there are packages of Apache 2
-      available from the Linux distributors.</para>
+      <programlisting>LoadModule dav_svn_module     modules/mod_dav_svn.so
+LoadModule dav_module         modules/mod_dav.so
+LoadModule proxy_module       modules/mod_proxy.so
+LoadModule proxy_http_module  modules/mod_proxy_http.so
+LoadModule perl_module        modules/mod_perl.so
+LoadModule rewrite_module     modules/mod_rewrite.so</programlisting>
 
-      <para>Another recommended way of installing Apache 2 is using the
-      <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
-      meta-packaging software that provides easy-to install packages for many
-      Linux distributions and UNIX derivates.</para>
+      <procedure os="ubuntu">
+        <title>Installing Apache 2, Subversion and mod_perl on Ubuntu</title>
 
-      <note>
-        <para>Mac OS X comes with a pre-installed Apache 2. As this version is
-        not compatible with most binary packages of Subversion, it is
-        recommended to use a <phrase
-        xlink:href="http://fink.sourceforge.net/">Fink</phrase> or <phrase
-        xlink:href="http://www.macports.org/">MacPorts</phrase>
-        package.</para>
-      </note>
-    </section>
+        <step>
+          <para>Open a terminal window</para>
+        </step>
 
-    <section xml:id="install_subversion">
-      <title>Installing Subversion</title>
+        <step>
+          <para>Type <command>sudo apt-get install apache2 libapache2-svn
+          libapache2-mod-perl2</command>. When asked for a password, enter
+          your password </para>
+        </step>
 
-      <para>Subversion is the version control system that powers Mindquarry's
-      file sharing. It is available for download from the <phrase
-      xlink:href="http://subversion.tigris.org/project_packages.html">Subversion
-      Open Source project's Download site</phrase>. There are packages
-      available for Micosoft Windows Red Hat Linux, Fedora Core, Debian,
-      FreeBSD, Solaris and Mac OS X.</para>
+        <step>
+          <para>Activate mod_perl by typing <command>sudo ln -s
+          /etc/apache2/mods-available/perl.load
+          /etc/apache2/mods-enabled/</command></para>
+        </step>
 
-      <note>
-        <para>The Subversion Server cannot be installed on Windows 95, Windows
-        98 or Windows ME. You need at least Windows 2000, Windows XP, Windows
-        2003 Server or Windows Vista.</para>
-      </note>
+        <step>
+          <para>Activate Subversion by typing <command>sudo ln -s
+          /etc/apache2/mods-available/dav.load
+          /etc/apache2/mods-enabled/</command> and <command>sudo ln -s
+          /etc/apache2/mods-available/dav_svn.load
+          /etc/apache2/mods_enabled/</command></para>
+        </step>
 
-      <para>Make sure to install the mod_dav_svn module into your Apache 2 web
-      server. Usually this is done by having a line like this in the Apache 2
-      configuration file.</para>
+        <step>
+          <para>Activate mod_proxy by typing <command>sudo ln -s
+          /etc/apache2/mods-available/proxy.load
+          /etc/apache2/mods-enabled/</command></para>
+        </step>
 
-      <programlisting>LoadModule dav_svn_module     modules/mod_dav_svn.so</programlisting>
+        <step>
+          <para>Activate mod_rewrite by typing <command>sudo ln -s
+          /etc/apache2/mods-available/rewrite.load
+          /etc/apache2/mods-enabled/</command></para>
+        </step>
 
-      <tip>
-        <para>The easiest way of getting up and running with Subversion on
-        Windows is downloading the Mindquarry Prerequisites package from the
-        <phrase xlink:href="http://www.mindquarry.com/downloads/">Mindquarry
-        Download site</phrase>.</para>
-      </tip>
-
-      <para>Another recommended way of installing Subversion is using the
-      <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
-      meta-packaging software that provides easy-to install packages for many
-      Linux distributions and UNIX derivates.</para>
-    </section>
-
-    <section xml:id="install_mod_perl">
-      <title>Installing mod_perl</title>
-
-      <para>mod_perl is a module for the Apache 2 web server that allows you
-      to configure Apache to use Mindquarry's authentication to prevent
-      unauthorized access to the shared files. mod_perl in turn requires Perl,
-      which is preinstalled on nearly every Linux, Mac OS X and UNIX operating
-      system and is available for Windows from <phrase
-      xlink:href="http://www.activestate.com/Products/ActivePerl/">ActiveState
-      in a bundle called ActivePerl</phrase>.</para>
-
-      <para>Following perl modules must be present in order to authenticate
-      Apache 2 against Mindquarry:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>LWP::UserAgent, which is part of every standard Perl
-          installation</para>
-        </listitem>
-      </itemizedlist>
-
-      <tip>
-        <para>The easiest way of getting up and running with mod_perl on
-        Windows is installing ActivePerl and downloading the Mindquarry
-        Prerequisites package from the <phrase
-        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
-        site</phrase>.</para>
-      </tip>
-
-      <para>Another recommended way of installing Perl and mod_perl is using
-      the <phrase xlink:href="http://www.openpkg.org/">OpenPKG</phrase>
-      meta-packaging software that provides easy-to install packages for many
-      Linux distributions and UNIX derivates.</para>
-    </section>
-
-    <section>
-      <title>Checking Activated Modules</title>
-
-      <para>In order to make Mindquarry work as expected, some Apache modules
-      are neccessary. These are included in the default Apache distribution
-      and most often also activated, but some Linux distributions deactivate
-      these modules on purpose. These modules are:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para>mod_rewrite</para>
-        </listitem>
-
-        <listitem>
-          <para>mod_proxy</para>
-        </listitem>
-
-        <listitem>
-          <para>mod_poxy_http</para>
-        </listitem>
-
-        <listitem>
-          <para>mod_dav</para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Additionally there are the required modules, whose installation
-      has been covered in the previous sections:</para>
-
-      <itemizedlist>
-        <listitem>
-          <para><phrase
-          xlink:href="#install_mod_perl">mod_perl</phrase></para>
-        </listitem>
-
-        <listitem>
-          <para><phrase
-          xlink:href="#install_subversion">mod_dav_svn</phrase></para>
-        </listitem>
-      </itemizedlist>
-
-      <para>Suse Linux users should edit the
-      <filename>/etc/sysconfig/apache2</filename> file, which is used for
-      configuring Apache modules and look for the definition of the
-      <varname>APACHE_MODULES</varname> variable. Here the modules
-      <literal>rewrite perl proxy proxy_http dav dav_svn</literal> should be
-      added. Newer Suse distributions using Apache 2.2 also require inclusion
-      of <literal>mod_dav_fs</literal>.</para>
+        <step>
+          <para>Test Apache's configuration by running <command>sudo
+          apache2ctl configtest</command>.</para>
+        </step>
+      </procedure>
     </section>
   </section>
 
   <section>
-    <title>Installing Mindquarry</title>
+    <title>Installing Mindquarry on Windows</title>
 
-    <para>In order to install Mindquarry on Microsoft Windows, following steps
-    are neccessary:</para>
+    <para os="windows">In order to install Mindquarry on Microsoft Windows,
+    following steps are neccessary:</para>
 
-    <procedure>
+    <procedure os="windows">
       <step>
         <para>Download the Mindquarry Installer from the <phrase
         xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
@@ -288,18 +336,85 @@
       </step>
     </procedure>
 
-    <para>Mindquarry is then available as a system service and can be started
-    from the administration panel.</para>
+    <para os="windows">Mindquarry is then available as a system service and
+    can be started from the administration panel. Additionally you can start
+    and stop Mindquarry from the Start Menu. Mindquarry will run on its own
+    server on port 8080, so make sure, you also start Apache to be able to
+    access Mindquarry at port 80 like any other web server. Starting Apache is
+    also neccessary to be able to use the Desktop synchronization.</para>
 
-    <para>In order to install Mindquarry on an operating system without an
-    installer, following steps are neccessary:</para>
+    <para os="linux">In order to install Mindquarry on Linux, following steps
+    are neccessary:</para>
+
+    <procedure os="linux">
+      <step>
+        <para>Download the Mindquarry Installer for your hardware architecture
+        from the <phrase
+        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
+        site</phrase></para>
+      </step>
+
+      <step>
+        <para>Open a terminal window</para>
+      </step>
+
+      <step>
+        <para>Type <command>sudo sh mindquarry-launcher-*.bin</command>. When
+        asked for a password, enter your password</para>
+
+        <para>The installer will check for required software like Java,
+        mod_perl and Subversion, ask you for some configuration parameters and
+        install Mindquarry.</para>
+      </step>
+    </procedure>
+
+    <para os="linux">Mindquarry can then be started by running the
+    <filename>/opt/mindquarry/bin/mindquarry</filename> script. Make sure to
+    restart the Apache Web server to relect the configuration changes made by
+    Mindquarry. This is usually done using the <command>/etc/init.d/apache2
+    restart</command> command.</para>
+
+    <para os="macosx">In order to install Mindquarry on Linux, following steps
+    are neccessary:</para>
+
+    <procedure os="macosx">
+      <step>
+        <para>Download the Mindquarry Installer for your hardware architecture
+        from the <phrase
+        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
+        site</phrase></para>
+      </step>
+
+      <step>
+        <para>Open a terminal window</para>
+      </step>
+
+      <step>
+        <para>Type <command>sudo sh mindquarry-launcher-*.bin</command>. When
+        asked for a password, enter your password</para>
+
+        <para>The installer will check for required software like Java,
+        mod_perl and Subversion, ask you for some configuration parameters and
+        install Mindquarry.</para>
+      </step>
+    </procedure>
+
+    <para os="macosx">Mindquarry can then be started by running the
+    <filename>/opt/mindquarry/bin/mindquarry</filename> script. Make sure to
+    restart the Apache Web server to relect the configuration changes made by
+    Mindquarry. This is usually done using the
+    <command>/opt/local/apache2/bin/apachectl restart</command>
+    command.</para>
+
+    <para>In order to install Mindquarry with a binary package, following
+    steps are neccessary:</para>
 
     <procedure>
       <step>
         <para>Download a Mindquarry binary package for yor operating system
         from the <phrase
-        xlink:href="http://www.mindquarry.com/downloads/">Mindquarry Download
-        site</phrase></para>
+        xlink:href="http://releases.mindquarry.org/com/mindquarry/launcher/mindquarry-launcher/">Mindquarry
+        Download Repository</phrase></para>
       </step>
 
       <step>
@@ -307,6 +422,11 @@
         choice. Mindquarry recommends <filename
         class="directory">/opt/mindquarry</filename> as the installation
         directory.</para>
+      </step>
+
+      <step>
+        <para>You have to follow the instructions in <xref
+        linkend="configuration" />.</para>
       </step>
     </procedure>
 
@@ -318,8 +438,12 @@
     system's package management.</para>
   </section>
 
-  <section>
+  <section xml:id="configuration">
     <title>Configuring Mindquarry</title>
+
+    <para>These configuration settings are for advanced use of Mindquarry.
+    When you are using an installer, reasonable default already have been set,
+    so you can skip this section safely.</para>
 
     <para>All configuration of Mindquarry is handled in
     <filename>/opt/mindquarry/etc/mindquarry-webapplication.properties</filename>.
@@ -442,6 +566,11 @@ RUN_AS_USER=apache</programlisting>
   <section>
     <title>Configuring Apache</title>
 
+    <para>If you are using an Installer, the Apache configuration already has
+    been changed to handle Mindquarry, so you can safely skip this section
+    unless you want to run Mindquarry on a virtual host or need more
+    fine-grained configuration tuning.</para>
+
     <para>Apache needs configuration for three purposes: Requests to the
     Mindquarry application should be handled by Mindquarry. Requests to the
     Mindquarry file sharing repository should be handled by Subversion and
@@ -468,6 +597,10 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
     Require valid-user
   &lt;/Location&gt;
   ProxyRequests Off
+  &lt;Proxy *&gt;
+    Order Allow,Deny
+    Allow from all
+  &lt;/Proxy&gt;
   RewriteEngine On
   RewriteCond %{REQUEST_URI} !^/(repos|error)/(.*)$
   RewriteRule ^/(.*)$     http://localhost:8080/$1 [P,NC]
@@ -493,7 +626,7 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
     that used the Mindquarry Installer can start and stop Mindquarry through
     the services menu.</para>
 
-    <example>
+    <example os="linux">
       <title>Starting Mindquarry under Linux</title>
 
       <programlisting># /opt/mindquarry/bin/mindquarry start</programlisting>
@@ -504,7 +637,18 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
       parameter.</para>
     </example>
 
-    <example>
+    <example os="macosx">
+      <title>Starting Mindquarry under Mac OS X</title>
+
+      <programlisting># /opt/mindquarry/bin/mindquarry start</programlisting>
+
+      <para>Mindquarry can be stopped using the same script with the
+      <parameter>stop</parameter> parameter. If you would like to follow the
+      console output, start Mindquarry with the <parameter>console</parameter>
+      parameter.</para>
+    </example>
+
+    <example os="windows">
       <title>Starting Mindquarry under Windows</title>
 
       <programlisting>C:&gt; C:\Program Files\Mindquarry\bin\mindquarry start</programlisting>
@@ -532,7 +676,7 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
         <qandaentry>
           <question>
             <para>Is it possible to run Mindquarry on another port than
-            8888?</para>
+            8080?</para>
           </question>
 
           <answer>
@@ -546,7 +690,7 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
           </answer>
         </qandaentry>
 
-        <qandaentry>
+        <qandaentry os="linux">
           <question>
             <para>I get file not found errors when restarting Mindquarry under
             Linux. There are messages about too many open files.</para>
@@ -566,7 +710,7 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
           </answer>
         </qandaentry>
 
-        <qandaentry>
+        <qandaentry os="linux">
           <question>
             <para>After some time of inactivity, Mindquarry complains about
             some files in the <code>/tmp</code> directory cannot be
@@ -582,7 +726,7 @@ PerlRequire <replaceable>/opt/mindquarry</replaceable>/perl/Mindquarry/Authentic
           </answer>
         </qandaentry>
 
-        <qandaentry>
+        <qandaentry os="linux">
           <question>
             <para>I cannot access the Mindquarry Document Repository using the
             Mindquarry Desktop Client. Looking at the Apache Error logs, I get
