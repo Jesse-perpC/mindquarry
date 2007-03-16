@@ -17,7 +17,7 @@
     xmlns:fo="http://www.w3.org/1999/XSL/Format" 
     xmlns:xlink='http://www.w3.org/1999/xlink'>
   
-  <xsl:import href="resource://net/sourceforge/docbook/fo/docbook.xsl"/>
+  <xsl:import href="resource://net/sourceforge/docbook/fo/profile-docbook.xsl"/>
 	
   <!-- this is a very basic stylesheet customization layer -->
   <xsl:param name="body.font.family" select="'Helvetica'"/>
