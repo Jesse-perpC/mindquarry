@@ -17,8 +17,14 @@ import java.util.List;
 
 import com.mindquarry.persistence.jcr.annotations.Entity;
 import com.mindquarry.persistence.jcr.annotations.Id;
+import com.mindquarry.persistence.jcr.annotations.NamedQueries;
+import com.mindquarry.persistence.jcr.annotations.NamedQuery;
 
 @Entity(folder="users")
+@NamedQueries({ 
+    @NamedQuery(name="userByLogin", query="/users/{$userId}"),
+    @NamedQuery(name="allUsers", query="/users/*[local-name() != 'photos']")
+})
 public class User  {
     
     @Id

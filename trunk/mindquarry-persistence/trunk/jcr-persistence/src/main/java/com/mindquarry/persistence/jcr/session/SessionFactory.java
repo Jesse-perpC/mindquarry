@@ -20,7 +20,7 @@ import javax.jcr.RepositoryException;
 import javax.jcr.SimpleCredentials;
 
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
-import com.mindquarry.persistence.jcr.ModuleRegistry;
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 
 /**
@@ -34,14 +34,12 @@ public class SessionFactory implements com.mindquarry.common.persistence.Session
     private ThreadLocal<Session> currentSession_;
     
     private Repository repository_;
-    private ModuleRegistry moduleRegistry_;
+    private Persistence persistence_;
     
-    public SessionFactory(ModuleRegistry moduleRegistry, 
-            Repository repository) {
-        
+    public SessionFactory(Repository repository, Persistence persistence) {        
         currentSession_ = new ThreadLocal<Session>();
         repository_ = repository;
-        moduleRegistry_ = moduleRegistry;
+        persistence_ = persistence;
     }
     
     /**
@@ -55,7 +53,7 @@ public class SessionFactory implements com.mindquarry.common.persistence.Session
     }
     
     private Session buildJcrSession() {
-        return new Session(moduleRegistry_, createJcrSession());
+        return new Session(persistence_, createJcrSession());
     }
     
     private JcrSession createJcrSession() {        

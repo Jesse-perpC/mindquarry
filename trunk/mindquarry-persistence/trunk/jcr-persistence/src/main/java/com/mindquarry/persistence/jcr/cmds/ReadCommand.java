@@ -14,6 +14,7 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.Command;
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
@@ -28,13 +29,11 @@ import com.mindquarry.persistence.jcr.trafo.Transformer;
 class ReadCommand implements Command {
 
     private JcrNode entityNode_;
-    private TransformationManager transformationManager_;
-    
-    public ReadCommand(JcrNode entityNode,
-            TransformationManager transformationManager) {
+    private Persistence persistence_;
         
-        entityNode_ = entityNode;
-        transformationManager_ = transformationManager;
+    public void initialize(Persistence persistence, Object... objects) {
+        entityNode_ = (JcrNode) objects[0];
+        persistence_ = persistence;
     }
     
     /**
@@ -46,6 +45,10 @@ class ReadCommand implements Command {
     }
     
     private Transformer entityTransformer(String folder) {
-        return transformationManager_.entityTransformerByFolder(folder);
+        return getTransformationManager().entityTransformerByFolder(folder);
+    }
+    
+    private TransformationManager getTransformationManager() {
+        return persistence_.getTransformationManager();
     }
 }

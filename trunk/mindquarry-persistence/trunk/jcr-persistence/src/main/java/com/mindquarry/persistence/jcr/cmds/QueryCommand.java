@@ -13,12 +13,15 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import com.mindquarry.persistence.jcr.Command;
+import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.trafo.TransformationManager;
-import com.mindquarry.persistence.jcr.trafo.Transformer;
+import com.mindquarry.persistence.jcr.query.QueryResolver;
 
 /**
  * Add summary documentation here.
@@ -26,13 +29,16 @@ import com.mindquarry.persistence.jcr.trafo.Transformer;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class WriteCommand implements Command {
+class QueryCommand implements Command {
 
-    private Object entity_;
+    private String queryKey_;
+    private Object[] queryParameters_;
+    
     private Persistence persistence_;
     
-    public void initialize(Persistence persistence, Object... objects) {
-        entity_ = objects[0];
+    public void initialize(Persistence persistence, final Object... objects) {
+        queryKey_ = (String) objects[0];
+        queryParameters_ = (Object[]) objects[1];
         persistence_ = persistence;
     }
     
@@ -40,24 +46,24 @@ class WriteCommand implements Command {
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        JcrNode folderNode = findEntityFolder(session);
-        return entityTransformer().writeToJcr(entity_, folderNode);
+        List<Object> result = new LinkedList<Object>();
+        for (JcrNode jcrNode : resolveQuery(session)) {
+            Command command = createReadCommand(jcrNode);
+            result.add(command.execute(session));
+        }
+        return result;
     }
     
-    private JcrNode findEntityFolder(JcrSession session) {
-        JcrNode rootNode = session.getRootNode();
-        return rootNode.getNode(entityFolderName());
+    private Command createReadCommand(JcrNode jcrNode) {
+        return getCommandManager().createCommand(Operations.READ, jcrNode);
     }
     
-    private String entityFolderName() {
-        return getTransformationManager().entityFolderName(entity_);
+    private CommandManager getCommandManager() {
+        return persistence_.getCommandManager();
     }
     
-    private Transformer entityTransformer() {
-        return getTransformationManager().entityTransformer(entity_);
-    }
-    
-    private TransformationManager getTransformationManager() {
-        return persistence_.getTransformationManager();
+    private Iterable<JcrNode> resolveQuery(JcrSession jcrSession) {
+        QueryResolver queryResolver = persistence_.getQueryResolver();
+        return queryResolver.resolve(jcrSession, queryKey_, queryParameters_);
     }
 }

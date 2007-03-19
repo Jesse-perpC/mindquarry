@@ -19,20 +19,30 @@ import java.util.List;
 import org.apache.avalon.framework.service.ServiceException;
 
 import com.mindquarry.common.persistence.Session;
+import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.persistence.jcr.query.QueryException;
 
 
 public class JcrPersistenceTest extends JcrPersistenceTestBase {
     
+    private SessionFactory sessionFactory_;
+    
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        Persistence persistence = 
+            (Persistence) lookup(Persistence.class.getName());
+        
+        persistence.addClass(User.class);
+        persistence.addClass(Team.class);
+        persistence.configure();
+        
+        sessionFactory_ = persistence;    
+    }
+    
     public void testPersistUser() throws ServiceException {
         
-        JcrPersistence jcrPersistence = 
-            (JcrPersistence) lookup(JcrPersistence.class.getName());
-        
-        jcrPersistence.addClass(User.class);
-        jcrPersistence.addClass(Team.class);
-        jcrPersistence.configure();
-        
-        Session session = jcrPersistence.currentSession();
+        Session session = sessionFactory_.currentSession();
         User user = new User();
         user.setLogin("testUser");
         user.setPwd("pwd");
@@ -59,17 +69,33 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         session.commit();
     }
     
+    public void testInvalidQuery() throws ServiceException {
+        
+        Session session = sessionFactory_.currentSession();
+        try {
+            session.query("userByLogin", new Object[0]);
+        }
+        catch (QueryException e) {
+            return;
+        }
+        fail();
+    }
+    
+    public void testQueryAllUsers() throws ServiceException {
+        
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query("allUsers", new Object[0]);
+        
+        assertEquals(1, queryResult.size());
+        
+        session.commit();
+    }
+    
     public void testQueryAndUpdateUser() throws ServiceException {
         
-        JcrPersistence jcrPersistence = 
-            (JcrPersistence) lookup(JcrPersistence.class.getName());
-        
-        jcrPersistence.addClass(User.class);
-        jcrPersistence.addClass(Team.class);
-        jcrPersistence.configure();
-        
-        Session session = jcrPersistence.currentSession();
-        List<Object> queryResult = session.query("", new Object[0]);
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query(
+                "userByLogin", new Object[] {"testUser"});
         
         User user = (User) queryResult.get(0);
         assertEquals("testUser", user.getLogin());
@@ -88,15 +114,9 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     
     public void testQueryDeleteUser() throws ServiceException {
         
-        JcrPersistence jcrPersistence = 
-            (JcrPersistence) lookup(JcrPersistence.class.getName());
-        
-        jcrPersistence.addClass(User.class);
-        jcrPersistence.addClass(Team.class);
-        jcrPersistence.configure();
-        
-        Session session = jcrPersistence.currentSession();
-        List<Object> queryResult = session.query("", new Object[0]);
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query(
+                "userByLogin", new Object[] {"testUser"});
         
         User user = (User) queryResult.get(0);
         assertEquals("lastName", user.getLastname());

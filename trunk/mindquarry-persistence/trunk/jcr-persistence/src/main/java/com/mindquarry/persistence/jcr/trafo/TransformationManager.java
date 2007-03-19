@@ -16,7 +16,7 @@ package com.mindquarry.persistence.jcr.trafo;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mindquarry.persistence.jcr.cmds.CommandManager;
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 
@@ -27,22 +27,22 @@ import com.mindquarry.persistence.jcr.model.Model;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class TransformationManager {
-
+    
     private Model model_;
-    private CommandManager commandManager_;
+    private Persistence persistence_;
     private TransformerRegistry transformerRegistry_;
     
     private Map<EntityType, Transformer> entityTransformers_;
     
-    public TransformationManager(Model model, CommandManager commandManager) {
+    public TransformationManager(Model model, Persistence persistence) {
         model_ = model;
-        commandManager_ = commandManager;
+        persistence_ = persistence;
         entityTransformers_ = new HashMap<EntityType, Transformer>();
     }
     
-    public void initialize(CommandManager commandManager) {
+    public void initialize() {
         transformerRegistry_ = new TransformerRegistry(this);
-        for (EntityType entityType : model_.allEntityTypes()) {
+        for (EntityType entityType : getModel().allEntityTypes()) {
             Transformer transformer = new EntityTransformer(entityType);
             transformer.initialize(transformerRegistry_);            
             entityTransformers_.put(entityType, transformer);
@@ -50,11 +50,11 @@ public class TransformationManager {
     }
     
     public boolean isPartOfModel(Class<?> clazz) {
-        return model_.entityType(clazz) != null;
+        return getModel().entityType(clazz) != null;
     }
     
     public String entityFolderName(Object entity) {
-        return model_.entityFolderName(entity);
+        return getModel().entityFolderName(entity);
     }
     
     public Transformer entityTransformer(Object entity) {
@@ -62,18 +62,22 @@ public class TransformationManager {
     }
     
     public Transformer entityTransformerByFolder(String folder) {
-        EntityType entityType = model_.entityTypeForFolder(folder);
+        EntityType entityType = getModel().entityTypeForFolder(folder);
         return entityTransformers_.get(entityType);
     }
     
     public EntityType entityType(Object entity) {
-        return model_.entityType(entity.getClass());
+        return getModel().entityType(entity.getClass());
     }
     
     public Transformer createReferenceTransformer(Class<?> referenceesClazz) {
         Transformer result =
-            new ReferenceTransformer(referenceesClazz, commandManager_);
+            new ReferenceTransformer(referenceesClazz, persistence_);
         result.initialize(transformerRegistry_);
         return result;
+    }
+    
+    private Model getModel() {
+        return model_;
     }
 }

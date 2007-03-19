@@ -19,10 +19,11 @@ import java.util.List;
 import javax.jcr.Repository;
 
 import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.persistence.jcr.cmds.CommandManager;
 import com.mindquarry.persistence.jcr.model.Model;
-import com.mindquarry.persistence.jcr.session.JcrPersistenceSessionFactory;
+import com.mindquarry.persistence.jcr.query.DefaultQueryResolver;
+import com.mindquarry.persistence.jcr.query.QueryResolver;
+import com.mindquarry.persistence.jcr.session.SessionFactory;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 
 /**
@@ -31,38 +32,58 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class JcrPersistence implements SessionFactory, Configuration {
+public class Persistence implements Configuration, 
+             com.mindquarry.common.persistence.SessionFactory {
 
     private List<Class<?>> entityClazzes_;
     private SessionFactory sessionFactory_;
     private Repository repository_;
     
-    public JcrPersistence() {
+    private Model model_;
+    private QueryResolver queryResolver_;
+    private CommandManager commandManager_;    
+    private TransformationManager transformationManager_;
+    
+    public Persistence() {
         entityClazzes_ = new LinkedList<Class<?>>();
     }
     
     public void setRepository(Repository repository) {
         repository_ = repository;
     }
+
+    public Session currentSession() {
+        return sessionFactory_.currentSession();
+    }
     
     public void addClass(Class<?> clazz) {
         entityClazzes_.add(clazz);
     }
     
-    public void configure() {
-        Model model = Model.buildFromClazzes(entityClazzes_);
+    public void configure() {        
+        model_ = Model.buildFromClazzes(entityClazzes_);
         
-        CommandManager commandManager = new CommandManager();
-        TransformationManager transformationManager = 
-            new TransformationManager(model, commandManager);        
+        transformationManager_ = new TransformationManager(model_, this);        
+        transformationManager_.initialize();
         
-        transformationManager.initialize(commandManager);
-        commandManager.initialize(transformationManager);
+        queryResolver_ = new DefaultQueryResolver(model_);
+        queryResolver_.initialize();
         
-        sessionFactory_ = new JcrPersistenceSessionFactory(commandManager, repository_);
+        commandManager_ = new CommandManager(this);        
+        
+        
+        sessionFactory_ = new SessionFactory(repository_, this);        
     }
-
-    public Session currentSession() {
-        return sessionFactory_.currentSession();
+    
+    public QueryResolver getQueryResolver() {
+        return queryResolver_;
+    }
+    
+    public CommandManager getCommandManager() {
+        return commandManager_;
+    }
+    
+    public TransformationManager getTransformationManager() {
+        return transformationManager_;
     }
 }
