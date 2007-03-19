@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
-    <parent>
+	<parent>
 		<artifactId>mindquarry-jcr</artifactId>
 		<groupId>com.mindquarry.jcr</groupId>
 		<version>1.0-M2-SNAPSHOT</version>
 	</parent>
 
-        <modelVersion>4.0.0</modelVersion>
+	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.jcr</groupId>
 	<artifactId>mindquarry-jcr-block</artifactId>
 	<name>Mindquarry Teamspace Block</name>
@@ -40,16 +40,11 @@
 		</repository>
 	</repositories>
 
-        <dependencies>
+	<dependencies>
 		<dependency>
-			<groupId>com.mindquarry.common</groupId>
-			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
-			<groupId>org.tango-project</groupId>
-			<artifactId>tango-icon-theme</artifactId>
-			<version>0.7.1</version>
+			<groupId>org.springmodules</groupId>
+			<artifactId>spring-modules-jcr</artifactId>
+			<version>0.8</version>
 		</dependency>
 	</dependencies>
 </project>
