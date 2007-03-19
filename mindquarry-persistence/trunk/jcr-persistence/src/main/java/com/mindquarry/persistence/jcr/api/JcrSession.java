@@ -16,7 +16,9 @@ package com.mindquarry.persistence.jcr.api;
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
 
 import javax.jcr.Node;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.query.QueryManager;
 
 /**
  * Add summary documentation here.
@@ -38,5 +40,9 @@ public class JcrSession {
     
     public void save() {
         invoke("save", session_);
+    }
+    
+    public QueryManager getQueryManager() throws RepositoryException {
+        return session_.getWorkspace().getQueryManager();
     }
 }

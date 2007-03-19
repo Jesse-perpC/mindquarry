@@ -21,7 +21,7 @@ import com.mindquarry.persistence.jcr.api.JcrNode;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class StringTransformer implements Transformer {
+class StringTransformer implements Transformer {
     
     public void initialize(TransformerRegistry transformerRegistry) {}
     

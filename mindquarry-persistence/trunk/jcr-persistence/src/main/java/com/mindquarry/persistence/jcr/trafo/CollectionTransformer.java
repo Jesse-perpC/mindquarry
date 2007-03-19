@@ -27,7 +27,7 @@ import com.mindquarry.persistence.jcr.model.ModelException;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class CollectionTransformer implements Transformer {
+class CollectionTransformer implements Transformer {
 
     private Type componentType_;
     private Class<?> collectionImplementation_;

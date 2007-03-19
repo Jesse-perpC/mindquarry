@@ -14,6 +14,7 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.Command;
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.model.EntityType;
@@ -28,11 +29,11 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 class DeleteCommand implements Command {
 
     private Object entity_;
-    private TransformationManager transformationManager_;
+    private Persistence persistence_;
     
-    public DeleteCommand(Object entity, TransformationManager transformationManager) {
-        entity_ = entity;
-        transformationManager_ = transformationManager;
+    public void initialize(Persistence persistence, Object... objects) {
+        entity_ = objects[0];
+        persistence_ = persistence;
     }
     
     /**
@@ -54,10 +55,14 @@ class DeleteCommand implements Command {
     }
     
     private EntityType entityType() {
-        return transformationManager_.entityType(entity_);
+        return getTransformationManager().entityType(entity_);
     }
     
     private String entityFolderName() {
-        return transformationManager_.entityFolderName(entity_);
+        return getTransformationManager().entityFolderName(entity_);
+    }
+    
+    private TransformationManager getTransformationManager() {
+        return persistence_.getTransformationManager();
     }
 }

@@ -11,7 +11,12 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr;
+package com.mindquarry.persistence.jcr.annotations;
+
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
  * Add summary documentation here.
@@ -19,10 +24,8 @@ package com.mindquarry.persistence.jcr;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public enum Operations {
-    PERSIST,
-    READ,
-    UPDATE,
-    DELETE,
-    QUERY;
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface NamedQueries {
+    NamedQuery[] value();
 }

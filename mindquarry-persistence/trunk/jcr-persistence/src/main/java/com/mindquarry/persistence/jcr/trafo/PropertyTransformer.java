@@ -24,7 +24,7 @@ import com.mindquarry.persistence.jcr.model.Property;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class PropertyTransformer implements Transformer {
+class PropertyTransformer implements Transformer {
 
     private Property property_;    
     private Transformer contentTransformer_;

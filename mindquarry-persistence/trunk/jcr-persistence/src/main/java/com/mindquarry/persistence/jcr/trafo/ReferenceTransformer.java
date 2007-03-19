@@ -15,6 +15,7 @@ package com.mindquarry.persistence.jcr.trafo;
 
 import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.Operations;
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.cmds.CommandManager;
@@ -27,10 +28,10 @@ import com.mindquarry.persistence.jcr.cmds.CommandManager;
  */
 class ReferenceTransformer implements Transformer {
     
-    private CommandManager commandManager_;
+    private Persistence persistence_;
     
-    ReferenceTransformer(Class<?> entityClazz, CommandManager commandManager) {
-        commandManager_ = commandManager;
+    ReferenceTransformer(Class<?> entityClazz, Persistence persistence) {
+        persistence_ = persistence;
     }
     
     public void initialize(TransformerRegistry transformerRegistry) {}
@@ -43,8 +44,7 @@ class ReferenceTransformer implements Transformer {
         
         JcrNode entityNode = propertyNode.getProperty("reference").getNode();
         
-        Command command = 
-            commandManager_.createCommand(Operations.READ, entityNode);
+        Command command = createCommand(Operations.READ, entityNode);
         return command.execute(propertyNode.getSession());
     }
 
@@ -57,10 +57,18 @@ class ReferenceTransformer implements Transformer {
         
         JcrSession jcrSession = propertyNode.getSession();
         
-        Command command = commandManager_.createCommand(operation, entity);
+        Command command = createCommand(operation, entity);
         JcrNode entityNode = (JcrNode) command.execute(jcrSession);
         propertyNode.setProperty("reference", entityNode);        
         
         return propertyNode;
+    }
+    
+    private Command createCommand(Operations operation, Object... objects) {
+        return getCommandManager().createCommand(operation, objects);
+    }
+    
+    private CommandManager getCommandManager() {
+        return persistence_.getCommandManager();
     }
 }

@@ -32,7 +32,7 @@ import com.mindquarry.persistence.jcr.model.ModelException;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class TransformerRegistry {
+class TransformerRegistry {
 
     private TransformationManager transformationManager_;
     

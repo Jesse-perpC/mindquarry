@@ -13,13 +13,11 @@
  */
 package com.mindquarry.persistence.jcr.session;
 
-import java.util.LinkedList;
 import java.util.List;
 
 import com.mindquarry.persistence.jcr.Command;
-import com.mindquarry.persistence.jcr.ModuleRegistry;
 import com.mindquarry.persistence.jcr.Operations;
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.cmds.CommandManager;
 
@@ -34,19 +32,17 @@ class Session implements com.mindquarry.common.persistence.Session {
     private JcrSession jcrSession_;
     private CommandManager commandManager_;
     
-    Session(ModuleRegistry moduleRegistry, JcrSession jcrSession) {
-        
+    Session(Persistence persistence, JcrSession jcrSession) {        
         jcrSession_ = jcrSession;
-        commandManager_ = (CommandManager) 
-                moduleRegistry.lookup(CommandManager.class);
+        commandManager_ = persistence.getCommandManager();
     }
     
     JcrSession jcrSession() {
         return jcrSession_;
     }
     
-    private Command createCommand(Operations operation, Object entity) {
-        return commandManager_.createCommand(operation, entity);
+    private Command createCommand(Operations operation, Object... objects) {
+        return commandManager_.createCommand(operation, objects);
     }
     
     /**
@@ -76,8 +72,14 @@ class Session implements com.mindquarry.common.persistence.Session {
     /**
      * @see com.mindquarry.common.persistence.Session#query(java.lang.String, java.lang.Object[])
      */
-    public List<Object> query(String arg0, Object[] arg1) {
+    public List<Object> query(String queryName, Object[] queryParameters) {
 
+        Command command = createCommand(
+                Operations.QUERY, queryName, queryParameters);
+        
+        return (List<Object>) command.execute(jcrSession_);
+        
+        /*
         JcrNode userNode = jcrSession_.getRootNode().getNode("users").getNodes().nextNode();
         
         Command command = createCommand(Operations.READ, userNode);
@@ -86,6 +88,7 @@ class Session implements com.mindquarry.common.persistence.Session {
         List<Object> result = new LinkedList<Object>();
         result.add(entity);
         return result;
+        */
     }
 
     /**

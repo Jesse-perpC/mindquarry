@@ -7,15 +7,15 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
-	<bean id="com.mindquarry.persistence.jcr.JcrPersistence" 
-		class="com.mindquarry.persistence.jcr.JcrPersistence"
+	<bean id="com.mindquarry.persistence.jcr.Persistence" 
+		class="com.mindquarry.persistence.jcr.Persistence"
 		scope="singleton">				  
 		<property name="repository" ref="javax.jcr.Repository" />
 	</bean>
 	
-	<alias name="com.mindquarry.persistence.jcr.JcrPersistence" 
+	<alias name="com.mindquarry.persistence.jcr.Persistence" 
 	       alias="com.mindquarry.persistence.jcr.Configuration"/>
 	       
-	<alias name="com.mindquarry.persistence.jcr.JcrPersistence" 
+	<alias name="com.mindquarry.persistence.jcr.Persistence" 
 	       alias="com.mindquarry.common.persistence.SessionFactory"/>
 </beans>

@@ -24,5 +24,6 @@ import com.mindquarry.persistence.jcr.api.JcrSession;
  */
 public interface Command {
 
+    void initialize(Persistence persistence, Object... objects);
     Object execute(JcrSession session);
 }

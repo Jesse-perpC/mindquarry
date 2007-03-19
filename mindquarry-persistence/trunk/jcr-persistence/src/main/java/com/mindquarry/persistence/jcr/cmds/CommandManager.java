@@ -15,8 +15,7 @@ package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.Operations;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.trafo.TransformationManager;
+import com.mindquarry.persistence.jcr.Persistence;
 
 /**
  * Add summary documentation here.
@@ -26,27 +25,22 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
  */
 public class CommandManager {
 
-    private TransformationManager transformationManager_;
+    private Persistence persistence_;
     
-    public void initialize(TransformationManager transformationManager) {
-        transformationManager_ = transformationManager;
+    public CommandManager(Persistence persistence) {
+        persistence_ = persistence;
     }
     
-    public Command createCommand(Operations operation, Object object) {
+    public Command createCommand(Operations operation, Object... objects) {
+        Command command = null;
         switch (operation) {
-            case PERSIST : return createWriteCommand(object);
-            case UPDATE : return createWriteCommand(object);
-            case READ : return createReadCommand(object);
-            case DELETE : return new DeleteCommand(object, transformationManager_);
-            default : return null;
+            case PERSIST : command = new WriteCommand(); break;
+            case UPDATE : command = new WriteCommand(); break;
+            case READ : command = new ReadCommand(); break;
+            case DELETE : command = new DeleteCommand(); break;
+            case QUERY : command = new QueryCommand(); break;
         }
-    }
-    
-    private Command createWriteCommand(Object entity) {
-        return new WriteCommand(entity, transformationManager_);
-    }
-    
-    private Command createReadCommand(Object entityNode) {
-        return new ReadCommand((JcrNode) entityNode, transformationManager_);
+        command.initialize(persistence_, objects);
+        return command;
     }
 }
