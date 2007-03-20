@@ -33,7 +33,7 @@
     <module>mindquarry-jackrabbit</module>
     <module>mindquarry-jcr-source</module>
     <module>mindquarry-jcr-changes</module>
-    <module>mindquarry-jcr-block</module>
+    <!--module>mindquarry-jcr-block</module-->
   </modules>
 
   <repositories>
