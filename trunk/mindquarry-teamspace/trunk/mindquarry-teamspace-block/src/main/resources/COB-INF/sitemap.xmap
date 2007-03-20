@@ -296,7 +296,10 @@
 					<!-- handle REST request -->
 					<!-- used by desktop client to get informed about the teamspaces for the user --> 
 					<when test="xml">
-						<transform src="xslt/teamspaces2xml.xsl" />
+						<transform src="xslt/teamspaces2xml.xsl">
+							<parameter name="basePath"
+								value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+						</transform>
 						<serialize type="xml" />
 					</when>
 				</select>

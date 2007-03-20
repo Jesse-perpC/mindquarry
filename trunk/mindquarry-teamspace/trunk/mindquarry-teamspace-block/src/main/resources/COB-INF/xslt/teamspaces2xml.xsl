@@ -16,8 +16,10 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 	
+	<xsl:param name="basePath" />
+	
 	<xsl:template match="/">
-		<teamspaces>
+		<teamspaces xml:base="{$basePath}team/">
 			<xsl:apply-templates select="*/teamspace" />
 		</teamspaces>
 	</xsl:template>
