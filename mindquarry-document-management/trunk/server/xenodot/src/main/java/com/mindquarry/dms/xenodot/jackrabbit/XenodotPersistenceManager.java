@@ -13,6 +13,7 @@
  */
 package com.mindquarry.dms.xenodot.jackrabbit;
 
+import java.io.IOException;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.Date;
@@ -70,9 +71,13 @@ public class XenodotPersistenceManager implements PersistenceManager {
     public PropertyState createNew(PropertyId id) {
         return new PropertyState(id, PropertyState.STATUS_NEW, false);
     }
+    
+    public Connection getConnection() {
+        return database;
+    }
 
-    private abstract class CallDB {
-        protected boolean execute(String sql) throws ItemStateException {
+    protected abstract class CallDB {
+        public boolean execute(String sql) throws ItemStateException {
             CallableStatement statement = null;
             try {
                 statement = database.prepareCall(sql);
@@ -96,10 +101,10 @@ public class XenodotPersistenceManager implements PersistenceManager {
                 throws SQLException;
     }
 
-    private abstract class QueryDB {
+    protected abstract class QueryDB {
         boolean execValue;
 
-        protected boolean execute(String sql) throws ItemStateException {
+        public boolean execute(String sql) throws ItemStateException {
             PreparedStatement statement = null;
             ResultSet rs = null;
             try {
@@ -133,6 +138,7 @@ public class XenodotPersistenceManager implements PersistenceManager {
     }
 
     public void close() throws Exception {
+        database.commit();
         database.close();
     }
 
@@ -318,7 +324,12 @@ public class XenodotPersistenceManager implements PersistenceManager {
                                              result.getLong("reference_uuid_ksb"))));
                             break;
                         case PropertyType.BINARY:
-                            throw new SQLException("Must implement reading binary");
+                            try {
+                                    values.add(InternalValue.create(result.getBinaryStream("value_binary")));
+                                } catch (IOException ioe) {
+                                    throw new SQLException(ioe.getLocalizedMessage());
+                                }
+                            break;
                         case PropertyType.PATH:
                             throw new SQLException("Must implement reading path");
                         default:
@@ -521,7 +532,7 @@ public class XenodotPersistenceManager implements PersistenceManager {
                                 statement.setString(3, propState.getName().getNamespaceURI());
                                 statement.setString(4, propState.getName().getLocalName());
                             }
-                        }.execute("select xenodot.delete(jackrabbit.node(?, ?), xenodot.name(?, ?);");
+                        }.execute("select xenodot.delete(jackrabbit.node(?, ?), xenodot.name(?, ?));");
                     }
                 }
                 delIterator = changeLog.deletedStates();
@@ -545,6 +556,7 @@ public class XenodotPersistenceManager implements PersistenceManager {
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
             }
+            iteme.printStackTrace();
             throw iteme;
         } catch (SQLException sqle) {
             try {
@@ -552,6 +564,7 @@ public class XenodotPersistenceManager implements PersistenceManager {
             } catch (SQLException sqle2) {
                 sqle2.printStackTrace();
             }
+            sqle.printStackTrace();
             throw new ItemStateException("Error storing", sqle);
         }
     }
