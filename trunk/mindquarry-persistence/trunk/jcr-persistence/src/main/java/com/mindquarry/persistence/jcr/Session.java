@@ -24,7 +24,7 @@ import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class Session implements com.mindquarry.common.persistence.Session {
+class Session implements com.mindquarry.persistence.api.Session {
 
     private JcrSession jcrSession_;
     private CommandProcessor commandProcessor_;
