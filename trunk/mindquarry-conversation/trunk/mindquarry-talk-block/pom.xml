@@ -73,7 +73,6 @@
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace-block</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>

@@ -24,6 +24,10 @@
 				src="org.apache.cocoon.generation.TraversableGenerator" />
 		</generators>
 	</components>
+	
+	<flow language="javascript">
+		<script src="flows/withTalkManager.js" />
+	</flow>
 
 	<resources>
 		<!-- general resource called upon errors (in each external pipeline
@@ -307,20 +311,169 @@
 					</when>
 				</select>
 			</match>
-
+			
+			<!-- Get all conversations -->
 			<match pattern="*/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
-				<select type="REST">
-				    <when test="xml">
-				        <generate type="collection" source="jcr://teamspaces/{1}/talk/conversations/" />
-				        <serialize type="xml" />
-				    </when>
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/conversations/">
+						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
 				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<!-- Team metadata -->
+			<match pattern="*/meta">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				<select type="request-method">
+					<when test="GET">
+						<select type="resource-exists">
+							<when test="jcr:///teamspaces/{1}/talk/meta.xml">
+								<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
+							</when>
+							<otherwise>
+								<generate src="xml/empty.xml" />
+							</otherwise>
+						</select>
+					</when>
+					<when test="PUT">
+						<generate type="stream">
+							<parameter name="defaultContentType" value="text/xml" />
+						</generate>
+						<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+							<parameter name="path" value="jcr:///teamspaces/{1}/talk/meta.xml" />
+						</transform>
+						<transform type="write-source" />
+					</when>
+					<when test="POST">
+						
+						<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
+						<transform src="xslt/xml/meta2subscribeteam.xsl" >
+							<parameter name="path" value="jcr:///teamspaces/{1}/talk/meta.xml" />
+							<parameter name="subscribe-email" value="{request-param:subscribe-email}" />
+							<parameter name="subscribe-jabber" value="{request-param:subscribe-jabber}" />
+							<parameter name="unsubscribe-email" value="{request-param:unsubscribe-email}" />
+							<parameter name="unsubscribe-jabber" value="{request-param:unsubscribe-jabber}" />
+							<parameter name="unsubscribe-all" value="{request-param:unsubscribe-all}" />
+						</transform>
+						<transform type="write-source" />
+						
+						<transform type="clear" src="jcr:///teamspaces/{1}/talk/meta.xml" />
+					</when>
+				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<!-- Create new conversation -->
+			<match pattern="*/new">
+				<select type="request-method">
+					<when test="PUT">
+						<call function="withTalkManager">
+							<parameter name="target" value="internal/pipe/{1}/create-new-talk"/>
+						</call>
+					</when>
+				</select>
+			</match>
+			
+			<!-- Conversation metadata -->
+			<match pattern="*/*/meta">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				<select type="request-method">
+					<when test="GET">
+						<select type="resource-exists">
+							<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml">
+								<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml" />
+							</when>
+							<otherwise>
+								<generate src="xml/empty.xml" />
+							</otherwise>
+						</select>
+					</when>
+					<when test="PUT">
+						<generate type="stream">
+							<parameter name="defaultContentType" value="text/xml" />
+						</generate>
+						<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+							<parameter name="path" value="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml" />
+						</transform>
+						<transform type="write-source" />
+					</when>
+					<when test="POST">
+						<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml" />
+						<transform src="xslt/xml/meta2subscribeconversation.xsl" >
+							<parameter name="path" value="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml" />
+							<parameter name="subscribe-email" value="{request-param:subscribe-email}" />
+							<parameter name="subscribe-jabber" value="{request-param:subscribe-jabber}" />
+							<parameter name="unsubscribe-email" value="{request-param:unsubscribe-email}" />
+							<parameter name="unsubscribe-jabber" value="{request-param:unsubscribe-jabber}" />
+							<parameter name="unsubscribe-all" value="{request-param:unsubscribe-all}" />
+						</transform>
+						<transform type="write-source" />
+					</when>
+				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<!-- Get one message -->
+			<match pattern="*/*/message*">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/message{3}.xml" />
+				<serialize type="xml" />
+			</match>
+			
+			<!-- Get all messages from a conversation -->
+			<match pattern="*/*/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/">
+						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/{2}/" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
+				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<!-- Append new message -->
+			<match pattern="*/*/new">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				<generate type="stream">
+					<parameter name="defaultContentType" value="text/xml" />
+				</generate>
+				<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+					<parameter name="path" value="jcr:///teamspaces/{1}/talk/conversations/{2}/message{date:yyyyMMdd-HHmmss}.xml"/>
+				</transform>
+				<transform type="write-source" />
+				<transform type="redirect" src="message{date:yyyyMMdd-HHmmss}" />
+				<serialize type="xml" />
 			</match>
 			
 			<handle-errors>
 				<call resource="error-handling" />
 			</handle-errors>
+		</pipeline>
+		
+		<pipeline type="caching-point" internal-only="true">
+			<match pattern="internal/pipe/*/create-new-talk">
+				<generate type="stream">
+					<parameter name="defaultContentType" value="text/xml" />
+				</generate>
+				<transform src="xslt/xml/extract-title-and-prepare-sourcewriting.xsl">
+					<parameter name="basePath" value="jcr:///teamspaces/{1}/talk/conversations/" />
+				</transform>
+				<!-- jx can access the TalkManager component passed by the flowscript -->
+				<transform type="jx" />
+				<transform type="write-source" />
+				<transform src="xslt/xml/create-bu-redirect.xsl" />
+				<transform type="bu-redirect" />
+				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
+				<serialize type="xml" />
+			</match>
 		</pipeline>
 		
 	</pipelines>
