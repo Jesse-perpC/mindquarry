@@ -34,6 +34,7 @@
 				<configuration>
 					<excludes>
 						<exclude>**/*PerformanceTest.java</exclude>
+						<exclude>**/Xenodot*</exclude>
 					</excludes>
 				</configuration>
 			</plugin>
