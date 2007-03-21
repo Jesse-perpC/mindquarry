@@ -13,7 +13,7 @@ import javax.jcr.query.QueryManager;
 import javax.jcr.query.QueryResult;
 
 import com.mindquarry.common.persistence.PersistenceException;
-import com.mindquarry.persistence.jcr.Configuration;
+import com.mindquarry.persistence.api.Configuration;
 import com.mindquarry.persistence.jcr.annotations.NamedQueries;
 import com.mindquarry.persistence.jcr.annotations.NamedQuery;
 import com.mindquarry.persistence.jcr.api.JcrNodeIterator;

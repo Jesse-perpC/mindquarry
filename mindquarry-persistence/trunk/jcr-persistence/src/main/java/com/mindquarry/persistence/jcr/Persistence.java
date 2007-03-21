@@ -21,6 +21,8 @@ import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
 import javax.jcr.SimpleCredentials;
 
+import com.mindquarry.persistence.api.Configuration;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 import com.mindquarry.persistence.jcr.model.Model;
@@ -34,8 +36,7 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class Persistence implements 
-        com.mindquarry.common.persistence.SessionFactory {
+public class Persistence implements SessionFactory {
 
     private List<Class<?>> entityClazzes_;
     private Repository repository_;

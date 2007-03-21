@@ -27,6 +27,11 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jackrabbit</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>

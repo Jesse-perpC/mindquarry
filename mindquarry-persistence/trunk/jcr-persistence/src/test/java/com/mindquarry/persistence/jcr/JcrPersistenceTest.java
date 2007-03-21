@@ -18,8 +18,8 @@ import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.persistence.api.Session;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.jcr.query.QueryException;
 
 
