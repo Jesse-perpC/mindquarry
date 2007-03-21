@@ -30,12 +30,13 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         
-        Persistence persistence = 
-            (Persistence) lookup(Persistence.class.getName());
+        JavaConfiguration configuration = new JavaConfiguration();
+        configuration.addClass(User.class);
+        configuration.addClass(Team.class);
         
-        persistence.addClass(User.class);
-        persistence.addClass(Team.class);
-        persistence.configure();
+        Persistence persistence = 
+            (Persistence) lookup(Persistence.class.getName());        
+        persistence.configure(configuration);
         
         sessionFactory_ = persistence;    
     }

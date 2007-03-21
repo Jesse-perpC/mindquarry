@@ -16,7 +16,6 @@ package com.mindquarry.persistence.jcr.cmds;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
@@ -48,18 +47,17 @@ class QueryCommand implements Command {
     public Object execute(JcrSession session) {
         List<Object> result = new LinkedList<Object>();
         for (JcrNode jcrNode : resolveQuery(session)) {
-            Command command = createReadCommand(jcrNode);
-            result.add(command.execute(session));
+            result.add(processReadCommand(session, jcrNode));
         }
         return result;
     }
     
-    private Command createReadCommand(JcrNode jcrNode) {
-        return getCommandManager().createCommand(Operations.READ, jcrNode);
+    private Object processReadCommand(JcrSession session, JcrNode jcrNode) {
+        return getCommandManager().process(session, Operations.READ, jcrNode);
     }
     
-    private CommandManager getCommandManager() {
-        return persistence_.getCommandManager();
+    private CommandProcessor getCommandManager() {
+        return persistence_.getCommandProcessor();
     }
     
     private Iterable<JcrNode> resolveQuery(JcrSession jcrSession) {

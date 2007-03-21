@@ -21,24 +21,50 @@ package com.mindquarry.persistence.jcr.query;
  */
 class QueryPreparer {
 
-    private StringBuilder querySB_;
+    private String query_;
     private Object[] queryParameters_;
     
-    QueryPreparer(String queryString, Object[] queryParameters) {
-        querySB_ = new StringBuilder(queryString);
+    private QueryPreparer(String queryString, Object[] queryParameters) {
+        query_ = new String(queryString);
         queryParameters_ = queryParameters;
     }
     
-    String prepare() {        
-        for (Object param : queryParameters_) {
-            int start = querySB_.indexOf("{$".intern());
-            int end = querySB_.indexOf("}".intern(), start);            
-            querySB_.replace(start, end + 1 , param.toString());
+    private String prepare() {
+        int nPlaceholders = numberOfPlaceholders(query_);
+        if (queryParameters_.length > nPlaceholders) {
+            throw new QueryException("there are too many query parameters " +
+                    "for the query: " + query_);
         }
-        return querySB_.toString();
+        else if (queryParameters_.length < nPlaceholders) {
+            throw new QueryException("there are too less query parameters " +
+                    "for the query: " + query_);
+        }
+        
+        StringBuilder querySB = new StringBuilder(query_);
+        for (Object param : queryParameters_) {
+            int start = querySB.indexOf("{$".intern());
+            int end = querySB.indexOf("}".intern(), start);            
+            querySB.replace(start, end + 1 , param.toString());
+        }
+        return querySB.toString();
+    }
+    
+    private int numberOfPlaceholders(String query) {
+        final String pattern = "{$";
+        int index = 0;
+        int nPlaceholders = 0;
+        while ((index = query.indexOf(pattern, index)) != -1 ) {
+            nPlaceholders++;
+            index += pattern.length();
+        }
+        return nPlaceholders;
     }
     
     public String toString() {
-        return querySB_.toString();
+        return "QueryPreparer: query=" + query_;
+    }
+    
+    public static String prepare(String query, Object[] queryParameters) {
+        return new QueryPreparer(query, queryParameters).prepare();
     }
 }

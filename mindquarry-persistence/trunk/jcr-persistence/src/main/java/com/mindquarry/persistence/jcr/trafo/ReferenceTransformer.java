@@ -13,12 +13,11 @@
  */
 package com.mindquarry.persistence.jcr.trafo;
 
-import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.cmds.CommandManager;
+import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
  * Add summary documentation here.
@@ -42,10 +41,10 @@ class ReferenceTransformer implements Transformer {
             return null;
         }
         
+        JcrSession session = propertyNode.getSession();
         JcrNode entityNode = propertyNode.getProperty("reference").getNode();
         
-        Command command = createCommand(Operations.READ, entityNode);
-        return command.execute(propertyNode.getSession());
+        return processCommand(session, Operations.READ, entityNode);
     }
 
     public JcrNode writeToJcr(Object entity, JcrNode propertyNode) {
@@ -55,20 +54,21 @@ class ReferenceTransformer implements Transformer {
         else
             operation = Operations.PERSIST;
         
-        JcrSession jcrSession = propertyNode.getSession();
+        JcrSession session = propertyNode.getSession();        
         
-        Command command = createCommand(operation, entity);
-        JcrNode entityNode = (JcrNode) command.execute(jcrSession);
-        propertyNode.setProperty("reference", entityNode);        
+        Object entityNode = processCommand(session, operation, entity);
+        propertyNode.setProperty("reference", (JcrNode) entityNode);        
         
         return propertyNode;
     }
     
-    private Command createCommand(Operations operation, Object... objects) {
-        return getCommandManager().createCommand(operation, objects);
+    private Object processCommand(JcrSession session,
+                    Operations operation, Object... objects) {
+        
+        return getCommandManager().process(session, operation, objects);
     }
     
-    private CommandManager getCommandManager() {
-        return persistence_.getCommandManager();
+    private CommandProcessor getCommandManager() {
+        return persistence_.getCommandProcessor();
     }
 }

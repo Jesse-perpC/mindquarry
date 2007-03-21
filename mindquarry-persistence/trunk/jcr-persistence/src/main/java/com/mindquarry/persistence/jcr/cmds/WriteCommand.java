@@ -13,7 +13,6 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
-import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
