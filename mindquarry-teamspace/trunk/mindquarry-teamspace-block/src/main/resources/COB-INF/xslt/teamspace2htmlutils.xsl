@@ -108,7 +108,7 @@
               Team Documents
             </h4>
             Share documents with your team members. Browse <a href="{$pathToRoot}files/browser/{normalize-space(id)}/">shared files</a> 
-            or view <a href="{$pathToRoot}files/changes/{normalize-space(id)}">recent changes</a> to stay up to date.
+            or view <a href="{$pathToRoot}files/changes/{normalize-space(id)}/">recent changes</a> to stay up to date.
           </div>
           <div class="member-details">
             <img src="{$pathToRoot}resources/tango-icons/48/apps/mindquarry-wiki.png" class="teamblock"/>
