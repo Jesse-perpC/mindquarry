@@ -29,10 +29,11 @@
 
 	<groupId>com.mindquarry.conversation</groupId>
 	<artifactId>mindquarry-conversation</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0-M2-SNAPSHOT</version>
 
         <modules>
-                 <module>mindquarry-mailets</module>
+            <!-- <module>mindquarry-mailets</module> -->
+            <module>mindquarry-talk-block</module>
         </modules>
 
 	<build>
