@@ -11,8 +11,9 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr;
+package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrSession;
 
 
@@ -22,7 +23,7 @@ import com.mindquarry.persistence.jcr.api.JcrSession;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface Command {
+interface Command {
 
     void initialize(Persistence persistence, Object... objects);
     Object execute(JcrSession session);

@@ -20,10 +20,10 @@ import java.util.List;
 
 public class Model  {
 
-    private List<Class<?>> clazzes_;
-    private List<EntityType> entityTypes_;
+    private Collection<Class<?>> clazzes_;
+    private Collection<EntityType> entityTypes_;
     
-    private Model(List<Class<?>> clazzes) {
+    private Model(Collection<Class<?>> clazzes) {
         clazzes_ = clazzes;        
         entityTypes_ = new LinkedList<EntityType>();
     }
@@ -37,9 +37,7 @@ public class Model  {
         }
     }
     
-    public static Model buildFromClazzes(
-            List<Class<?>> entityClazzes) {
-        
+    public static Model buildFromClazzes(Collection<Class<?>> entityClazzes) {        
         Model result = new Model(entityClazzes);
         result.initialize();
         return result;

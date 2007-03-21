@@ -11,15 +11,12 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.session;
+package com.mindquarry.persistence.jcr;
 
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.Command;
-import com.mindquarry.persistence.jcr.Operations;
-import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.cmds.CommandManager;
+import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
  * Add summary documentation here.
@@ -30,19 +27,19 @@ import com.mindquarry.persistence.jcr.cmds.CommandManager;
 class Session implements com.mindquarry.common.persistence.Session {
 
     private JcrSession jcrSession_;
-    private CommandManager commandManager_;
+    private CommandProcessor commandProcessor_;
     
     Session(Persistence persistence, JcrSession jcrSession) {        
         jcrSession_ = jcrSession;
-        commandManager_ = persistence.getCommandManager();
+        commandProcessor_ = persistence.getCommandProcessor();
     }
     
     JcrSession jcrSession() {
         return jcrSession_;
     }
     
-    private Command createCommand(Operations operation, Object... objects) {
-        return commandManager_.createCommand(operation, objects);
+    private Object processCommand(Operations operation, Object... objects) {
+        return commandProcessor_.process(jcrSession(), operation, objects);
     }
     
     /**
@@ -56,8 +53,7 @@ class Session implements com.mindquarry.common.persistence.Session {
      * @see com.mindquarry.common.persistence.Session#delete(java.lang.Object)
      */
     public boolean delete(Object entity) {
-        Command command = createCommand(Operations.DELETE, entity);
-        command.execute(jcrSession_);
+        processCommand(Operations.DELETE, entity);
         return true;
     }
 
@@ -65,37 +61,21 @@ class Session implements com.mindquarry.common.persistence.Session {
      * @see com.mindquarry.common.persistence.Session#persist(java.lang.Object)
      */
     public void persist(Object entity) {
-        Command command = createCommand(Operations.PERSIST, entity);
-        command.execute(jcrSession_);
+        processCommand(Operations.PERSIST, entity);
     }
 
     /**
      * @see com.mindquarry.common.persistence.Session#query(java.lang.String, java.lang.Object[])
      */
     public List<Object> query(String queryName, Object[] queryParameters) {
-
-        Command command = createCommand(
-                Operations.QUERY, queryName, queryParameters);
-        
-        return (List<Object>) command.execute(jcrSession_);
-        
-        /*
-        JcrNode userNode = jcrSession_.getRootNode().getNode("users").getNodes().nextNode();
-        
-        Command command = createCommand(Operations.READ, userNode);
-        Object entity = command.execute(jcrSession_);
-        
-        List<Object> result = new LinkedList<Object>();
-        result.add(entity);
-        return result;
-        */
+        return (List<Object>) processCommand(
+                Operations.QUERY, queryName, queryParameters); 
     }
 
     /**
      * @see com.mindquarry.common.persistence.Session#update(java.lang.Object)
      */
     public void update(Object entity) {
-        Command command = createCommand(Operations.UPDATE, entity);
-        command.execute(jcrSession_);
+        processCommand(Operations.UPDATE, entity);
     }
 }

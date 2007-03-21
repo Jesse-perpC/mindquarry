@@ -13,9 +13,9 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
-import com.mindquarry.persistence.jcr.Command;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 
 /**
  * Add summary documentation here.
@@ -23,15 +23,17 @@ import com.mindquarry.persistence.jcr.Persistence;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class CommandManager {
+public class CommandProcessor {
 
     private Persistence persistence_;
     
-    public CommandManager(Persistence persistence) {
+    public CommandProcessor(Persistence persistence) {
         persistence_ = persistence;
     }
     
-    public Command createCommand(Operations operation, Object... objects) {
+    public Object process(JcrSession jcrSession, 
+            Operations operation, Object... objects) {
+        
         Command command = null;
         switch (operation) {
             case PERSIST : command = new WriteCommand(); break;
@@ -41,6 +43,6 @@ public class CommandManager {
             case QUERY : command = new QueryCommand(); break;
         }
         command.initialize(persistence_, objects);
-        return command;
+        return command.execute(jcrSession);
     }
 }
