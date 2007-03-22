@@ -181,13 +181,12 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
         // init session
         Session session;
         try {
-            session = login();
+            session = getSession();
         } catch (LoginException e) {
             throw new SourceException("Login to repository failed.", e);
         } catch (RepositoryException e) {
             throw new SourceException("Cannot access repository.", e);
         }
-
         String path = SourceUtil.getPath(uri);
         
         // check for query or revision

@@ -28,6 +28,17 @@
 		<property name="homeDir" value="${mindquarry.jcr.path}"/>
 	</bean>
 
+	<!-- 
+		Helper for initializing repository node types and structure. Can be 
+		removed after this initialization is working with the spring mopdule 
+		configuration. 
+	-->
+	<bean id="jcrInitializer"
+		class="com.mindquarry.jcr.jackrabbit.setup.JackrabbitInitializer"
+		init-method="initRepository">
+		<property name="session" ref="jcrSession"/>
+	</bean>
+
 	<!-- configuring a 'transient' repository (automatically starts when a 
 		session is opened and shutdowns when all sessions are closed) -->
 	<!--bean id="jcrRepository"

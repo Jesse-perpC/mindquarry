@@ -63,13 +63,10 @@ public class JCRUniqueIDGenerator extends JCRClient {
         
         Session session;
         try {
-            session = login();
+            session = getSession();
 
             Node node = getLockableIDNode(session, jcrPath);
             long resultID = atomicLockNodeAndGetNextID(session, node, jcrPath);
-            
-            session.logout();
-            
             return resultID;
         } catch (LoginException e) {
             throw new IDException("Login to repository failed.", e);
@@ -88,7 +85,7 @@ public class JCRUniqueIDGenerator extends JCRClient {
 
         Session session;
         try {
-            session = login();
+            session = getSession();
 
             Item item = session.getItem(jcrPath);
             if (!item.isNode()) {
@@ -103,7 +100,7 @@ public class JCRUniqueIDGenerator extends JCRClient {
                     session.save();
                 }
             }
-            session.logout();
+            //session.logout();
         } catch (LoginException e) {
             throw new IDException("Login to repository failed.", e);
         } catch (PathNotFoundException e) {

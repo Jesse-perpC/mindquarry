@@ -49,37 +49,37 @@ public class JCRSourceTest extends JCRSourceTestBase {
     public void testExists() throws ServiceException, IOException {
         // test with no existing file
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/lars.trieloff");
+                + "users/lars.trieloff"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
 
         // test with existing file
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
 
         // test with not existing directory
-        source = (JCRNodeSource) resolveSource(BASE_URL + "users/newDir");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "users/newDir"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
 
         // test with existing directory
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
     }
 
     public void testUri() throws ServiceException, IOException {
         // test if an absolute uri is the same as the requested one (file)
-        String requestedAbsoluteUri = BASE_URL + "users/lars.trieloff";
+        String requestedAbsoluteUri = BASE_URL + "users/lars.trieloff"; //$NON-NLS-1$
         source = (JCRNodeSource) resolveSource(requestedAbsoluteUri);
         assertNotNull(source);
         assertEquals(requestedAbsoluteUri, source.getURI());
 
         // test if an absolute uri is the same as the requested one (directory)
-        requestedAbsoluteUri = BASE_URL + "users";
+        requestedAbsoluteUri = BASE_URL + "users"; //$NON-NLS-1$
         source = (JCRNodeSource) resolveSource(requestedAbsoluteUri);
         assertNotNull(source);
         assertEquals(requestedAbsoluteUri, source.getURI());
@@ -88,7 +88,7 @@ public class JCRSourceTest extends JCRSourceTestBase {
     public void testMakeCollection() throws Exception {
         // test folder creation
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "newDirectory/subDirectory");
+                + "newDirectory/subDirectory"); //$NON-NLS-1$
         assertNotNull(source);
         
         ((ModifiableTraversableSource) source).makeCollection();
@@ -96,37 +96,37 @@ public class JCRSourceTest extends JCRSourceTestBase {
         assertEquals(true, source.exists());
         
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "newDirectory/subDirectory");
+                + "newDirectory/subDirectory"); //$NON-NLS-1$
         assertEquals(true, source.exists());
     }
 
     public void testDelete() throws ServiceException, IOException {
         // test file deletion
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
         source.delete();
 
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
 
         // test folder deletion
-        source = (JCRNodeSource) resolveSource(BASE_URL + "users");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "users"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
         source.delete();
 
-        source = (JCRNodeSource) resolveSource(BASE_URL + "users");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "users"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
     }
 
     public void testReadXMLFile() throws ServiceException, IOException {
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
 
         InputStream is = source.getInputStream();
@@ -144,19 +144,19 @@ public class JCRSourceTest extends JCRSourceTestBase {
             TransformerConfigurationException, SAXException, LoginException,
             RepositoryException {
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
 
         OutputStream os = ((ModifiableSource) source).getOutputStream();
         assertNotNull(os);
 
-        String newContent = "<user><name>Alexander Saar der Zweite</name></user>";
+        String newContent = "<user><name>Alexander Saar der Zweite</name></user>"; //$NON-NLS-1$
         os.write(newContent.getBytes());
         os.flush();
         os.close();
 
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
 
         SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
@@ -172,20 +172,20 @@ public class JCRSourceTest extends JCRSourceTestBase {
     public void testCreateNewXMLFile() throws InvalidNodeTypeDefException,
             ParseException, Exception {
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/lars.trieloff");
+                + "users/lars.trieloff"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
 
         OutputStream os = source.getOutputStream();
         assertNotNull(os);
 
-        String newContent = "<user><name>Lars Trieloff</name><mail type=\"business\">lars.trieloff@mindquarry.com</mail></user>";
+        String newContent = "<user><name>Lars Trieloff</name><mail type=\"business\">lars.trieloff@mindquarry.com</mail></user>"; //$NON-NLS-1$
         os.write(newContent.getBytes());
         os.flush();
         os.close();
 
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/lars.trieloff");
+                + "users/lars.trieloff"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
 
@@ -201,19 +201,19 @@ public class JCRSourceTest extends JCRSourceTestBase {
 
     public void testCreateNewXMLFileInNewDirectory()
             throws InvalidNodeTypeDefException, ParseException, Exception {
-        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
 
         OutputStream os = source.getOutputStream();
         assertNotNull(os);
 
-        String newContent = "<foo>bar</foo>";
+        String newContent = "<foo>bar</foo>"; //$NON-NLS-1$
         os.write(newContent.getBytes());
         os.flush();
         os.close();
 
-        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
 
@@ -229,19 +229,19 @@ public class JCRSourceTest extends JCRSourceTestBase {
 
     public void testCreateNewBinaryFileInNewDirectory()
             throws InvalidNodeTypeDefException, ParseException, Exception {
-        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(false, source.exists());
 
         OutputStream os = source.getOutputStream();
         assertNotNull(os);
 
-        String newContent = "foo is a bar";
+        String newContent = "foo is a bar"; //$NON-NLS-1$
         os.write(newContent.getBytes());
         os.flush();
         os.close();
 
-        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "foo/bar"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
 
@@ -264,7 +264,7 @@ public class JCRSourceTest extends JCRSourceTestBase {
             SAXException, TransformerFactoryConfigurationError,
             TransformerException {
         source = (JCRNodeSource) resolveSource(BASE_URL
-                + "users/alexander.saar");
+                + "users/alexander.saar"); //$NON-NLS-1$
         assertNotNull(source);
 
         SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
@@ -280,11 +280,11 @@ public class JCRSourceTest extends JCRSourceTestBase {
     public void testGetFileInFolder() throws ServiceException, IOException,
             TransformerConfigurationException, SAXException {
         // test with no existing file
-        source = (JCRNodeSource) resolveSource(BASE_URL + "users");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "users"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
 
-        source = (JCRNodeSource) source.getChild("alexander.saar");
+        source = (JCRNodeSource) source.getChild("alexander.saar"); //$NON-NLS-1$
         assertEquals(true, source.exists());
 
         SAXTransformerFactory stfactory = (SAXTransformerFactory) SAXTransformerFactory
@@ -300,7 +300,7 @@ public class JCRSourceTest extends JCRSourceTestBase {
     public void testGetFilesFromFolder() throws ServiceException, IOException,
             TransformerConfigurationException, SAXException {
         // test with no existing file
-        source = (JCRNodeSource) resolveSource(BASE_URL + "users");
+        source = (JCRNodeSource) resolveSource(BASE_URL + "users"); //$NON-NLS-1$
         assertNotNull(source);
         assertEquals(true, source.exists());
 

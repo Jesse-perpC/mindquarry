@@ -17,8 +17,15 @@ import java.io.FileInputStream;
 import java.net.URL;
 import java.util.GregorianCalendar;
 
+import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.jcr.lock.LockException;
+import javax.jcr.nodetype.ConstraintViolationException;
+import javax.jcr.nodetype.NoSuchNodeTypeException;
+import javax.jcr.version.VersionException;
 
 import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 
@@ -60,8 +67,9 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
     }
 
     protected void setupRepositoryContent(Session session) throws Exception {
-        // add a user entry
         Node root = session.getRootNode();
+        
+        // add a user entry
         Node usersNode = root.getNode("users");
 
         Node userFileNode = usersNode.addNode("alexander.saar", "nt:file");

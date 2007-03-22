@@ -91,12 +91,12 @@ public class XMLFileSourceHelper {
         // want to ensure which one is used)
         
         DefaultConfiguration transformerConfig = 
-            new DefaultConfiguration("transformer-factory");
+            new DefaultConfiguration("transformer-factory", null);
         transformerConfig.setValue(
                 "org.apache.xalan.xsltc.trax.TransformerFactoryImpl");
         
         DefaultConfiguration serializerConfig = 
-            new DefaultConfiguration("serializer");
+            new DefaultConfiguration("serializer", null);
         serializerConfig.setAttribute("class", "org.apache.cocoon.serialization.XMLSerializer");
         serializerConfig.addChild(transformerConfig);
         
