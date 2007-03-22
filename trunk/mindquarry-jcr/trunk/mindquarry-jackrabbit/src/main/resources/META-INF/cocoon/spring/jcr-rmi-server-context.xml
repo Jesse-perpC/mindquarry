@@ -25,7 +25,7 @@
 	<!-- JCR RMI server -->
 	<bean id="jcrRmiServer"
 		class="org.springmodules.jcr.jackrabbit.RmiServerRepositoryFactoryBean">
-		<property name="repository" ref="repository"/>
+		<property name="repository" ref="jcrRepository"/>
 		<property name="remoteAdapterFactory">
 			<bean class="org.apache.jackrabbit.rmi.server.ServerAdapterFactory"
 			/>
@@ -33,14 +33,5 @@
 
 		<property name="registry" ref="rmiRegistry"/>
 		<property name="rmiName" value="jackrabbit"/>
-	</bean>
-
-	<!-- JCR RMI client -->
-	<bean id="jcrRmiClientFactory"
-		class="org.apache.jackrabbit.rmi.client.ClientRepositoryFactory"/>
-
-	<bean id="jcrRmiClient" factory-bean="jcrRmiClientFactory"
-		factory-method="getRepository" depends-on="jcrRmiServer">
-		<constructor-arg value="rmi://localhost:1099/jackrabbit"/>
 	</bean>
 </beans>

@@ -27,11 +27,9 @@ import com.mindquarry.jcr.xml.source.JCRSourceTestBase;
 /**
  * @author <a href="mailto:alexander(dot)klimetschek(at)mindquarry(dot)com">
  *         Alexander Klimetschek</a>
- * 
  */
 public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
-
-    private final static String jcrPath = "/idfolder";
+    private final static String jcrPath = "/idfolder"; //$NON-NLS-1$
 
     private List<Long> results;
 
@@ -44,7 +42,7 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
         super.setUp();
         results = new ArrayList<Long>();
 
-        JCRNodeSource source = (JCRNodeSource) resolveSource("jcr://"
+        JCRNodeSource source = (JCRNodeSource) resolveSource("jcr://"//$NON-NLS-1$ 
                 + jcrPath);
         // ensure the path exists
         if (!source.exists()) {
@@ -71,14 +69,14 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
 
     public void testParallelIDAccess() throws ServiceException, IDException {
         final int nThread = 5;
-        
+
         List<Thread> workers = new ArrayList<Thread>();
         for (int i = 0; i < nThread; i++) {
             Thread thread = new Thread(new Worker());
             thread.start();
             workers.add(thread);
         }
-        
+
         for (Iterator<Thread> iter = workers.iterator(); iter.hasNext();) {
             Thread thread = iter.next();
             try {
@@ -87,16 +85,14 @@ public class JCRUniqueIDGeneratorTest extends JCRSourceTestBase {
                 fail(e.getMessage());
             }
         }
-            
         assertEquals(nThread, results.size());
-        
         Collections.sort(results);
-        
+
         // we must have all values from 1 to 10
         long value = 0;
         for (Iterator<Long> iter = results.iterator(); iter.hasNext();) {
             long current = iter.next();
-            assertEquals(value+1, current);
+            assertEquals(value + 1, current);
             value = current;
         }
     }
