@@ -323,6 +323,11 @@
 						<generate src="xml/empty.xml" />
 					</otherwise>
 				</select>
+				<transform src="xslt/xml/collection2conversationlist.xsl">   
+					<parameter name="basePath"   
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
+					<parameter name="teamspace" value="{1}" />   
+				</transform>   
 				<serialize type="xml" />
 			</match>
 			
@@ -350,7 +355,6 @@
 						<transform type="write-source" />
 					</when>
 					<when test="POST">
-						
 						<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
 						<transform src="xslt/xml/meta2subscribeteam.xsl" >
 							<parameter name="path" value="jcr:///teamspaces/{1}/talk/meta.xml" />
@@ -361,8 +365,6 @@
 							<parameter name="unsubscribe-all" value="{request-param:unsubscribe-all}" />
 						</transform>
 						<transform type="write-source" />
-						
-						<transform type="clear" src="jcr:///teamspaces/{1}/talk/meta.xml" />
 					</when>
 				</select>
 				<serialize type="xml" />
@@ -436,6 +438,11 @@
 						<generate src="xml/empty.xml" />
 					</otherwise>
 				</select>
+				<transform src="xslt/xml/collection2messagelist.xsl">   
+					<parameter name="basePath"   
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
+					<parameter name="teamspace" value="{1}" />   
+				</transform>  
 				<serialize type="xml" />
 			</match>
 			
