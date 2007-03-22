@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>mindquarry-jcr</artifactId>
+		<groupId>com.mindquarry.jcr</groupId>
+		<version>1.0-M2-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>mindquarry-jackrabbit</artifactId>
+	<name>Mindquarry Jackrabbit Components</name>
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-surefire-plugin</artifactId>
+				<configuration>
+					<excludes>
+						<exclude>**/*Test.java</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-jar-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>test-jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jackrabbit</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+	</scm>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.springmodules</groupId>
+			<artifactId>spring-modules-jcr</artifactId>
+			<version>0.8</version>
+			<exclusions>
+				<exclusion>
+					<groupId>jeceira</groupId>
+					<artifactId>jeceira</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>jsr170</groupId>
+					<artifactId>jsr170</artifactId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene</artifactId>
+					<groupId>lucene</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.jcr</groupId>
+			<artifactId>jcr</artifactId>
+			<version>1.0.1</version>
+		</dependency>
+		
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M1</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>xmlunit</groupId>
+			<artifactId>xmlunit</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-io</groupId>
+			<artifactId>commons-io</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId> org.apache.excalibur.components.sourceresolve </groupId>
+			<artifactId>excalibur-sourceresolve</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.excalibur.components.xmlutil</groupId>
+			<artifactId>excalibur-xmlutil</artifactId>
+			<version>2.1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>excalibur-testcase</artifactId>
+					<groupId>org.apache.excalibur.testcase</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>excalibur-pool-instrumented</artifactId>
+					<groupId> org.apache.excalibur.components.pool </groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>excalibur-pool-impl</artifactId>
+					<groupId> org.apache.excalibur.components.pool </groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>avalon-framework-api</artifactId>
+					<groupId>org.apache.avalon.framework</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M3_Mindquarry_2</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>excalibur-component</groupId>
+			<artifactId>excalibur-component</artifactId>
+			<version>1.2</version>
+		</dependency>
+		<dependency>
+			<groupId>excalibur</groupId>
+			<artifactId>excalibur-collections</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>avalon-logkit</groupId>
+			<artifactId>avalon-logkit</artifactId>
+			<version>2.1</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-cli</groupId>
+			<artifactId>commons-cli</artifactId>
+			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1-beta-9</version>
+		</dependency>
+
+		<!-- remove the following after switching to spring modules -->
+		<dependency>
+			<groupId>org.apache.jackrabbit</groupId>
+			<artifactId>jackrabbit-core</artifactId>
+			<version>1.2.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>jcr</artifactId>
+					<groupId>jsr170</groupId>
+				</exclusion>
+				<exclusion>
+					<artifactId>lucene</artifactId>
+					<groupId>lucene</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-jcr-impl</artifactId>
+			<version>1.0.0_Mindquarry_1</version>
+		</dependency>
+	</dependencies>
+</project>
