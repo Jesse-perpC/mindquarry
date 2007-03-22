@@ -35,12 +35,6 @@ import org.springframework.core.io.Resource;
  * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public abstract class AvalonSpringContainerTestBase extends ContainerTestCase {
-    
-    @Override
-    protected void setUp() throws Exception {
-        super.setUp();
-    }
-
     // add spring bean definitions to component configuration settings
     protected void addSettings(BeanDefinitionRegistry registry) {
         
