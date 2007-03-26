@@ -21,7 +21,7 @@
 	<!-- JCR repository configuration -->
 
 	<!-- configuring the default repository -->
-	<bean id="jcrRepository"
+	<bean id="jcrRepository" 
 		class="org.springmodules.jcr.jackrabbit.RepositoryFactoryBean">
 		<property name="configuration"
 			value="classpath:/com/mindquarry/jcr/jackrabbit/repository.xml"/>
