@@ -10,12 +10,9 @@
 	<bean id="com.mindquarry.persistence.jcr.Persistence" 
 		class="com.mindquarry.persistence.jcr.Persistence"
 		scope="singleton">				  
-		<property name="repository" ref="javax.jcr.Repository" />
+		<property name="jcrSessionFactory" ref="jcrSessionFactory" />
 	</bean>
-	
-	<alias name="com.mindquarry.persistence.jcr.Persistence" 
-	       alias="com.mindquarry.persistence.jcr.Configuration"/>
 	       
 	<alias name="com.mindquarry.persistence.jcr.Persistence" 
-	       alias="com.mindquarry.common.persistence.SessionFactory"/>
+	       alias="com.mindquarry.persistence.api.SessionFactory"/>
 </beans>

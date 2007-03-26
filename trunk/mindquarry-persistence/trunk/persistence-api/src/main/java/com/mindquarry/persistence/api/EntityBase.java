@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
- *
+ * 
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -11,21 +11,35 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.annotations;
-
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+package com.mindquarry.persistence.api;
 
 /**
  * Add summary documentation here.
  *
- * @author
- * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
+ * @author 
+ * <a href="mailto:bastian.steinert(at)mindquarry.com">your full name</a>
  */
-@Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
-public @interface NamedQueries {
-    NamedQuery[] value();
+public abstract class EntityBase {
+
+    protected String id;
+
+    public EntityBase() {}
+    
+    /**
+     * Getter for id.
+     *
+     * @return the id
+     */
+    public String getId() {
+        return id;
+    }
+
+    /**
+     * Setter for id.
+     *
+     * @param id the id to set
+     */
+    public void setId(String id) {
+        this.id = id;
+    }
 }

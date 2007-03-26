@@ -19,6 +19,7 @@ import static com.mindquarry.common.lang.ReflectionUtil.hasPublicDefaultConstruc
 import static com.mindquarry.common.lang.StringUtil.concat;
 
 import java.lang.reflect.Field;
+import java.lang.reflect.Modifier;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -26,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.mindquarry.common.fp.UnaryPredicate;
+import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
-import com.mindquarry.persistence.jcr.annotations.Entity;
-import com.mindquarry.persistence.jcr.annotations.Id;
 
 /**
  * Add summary documentation here.
@@ -59,8 +60,10 @@ public class EntityType {
         
         properties_ = new HashMap<String, Property>();
         for (Field field : allNonIdFields) {            
-            Property property = new Property(field);            
-            properties_.put(property.getName(), property);
+            Property property = createProperty(field);   
+            if (property.isAccessible()) {
+                properties_.put(property.getName(), property);
+            }
         }
     }
 
@@ -107,12 +110,24 @@ public class EntityType {
                     "of a primitive type or of type String");
         }
         
-        Property idProperty = new Property(idField);
-        if (! idProperty.isReadable()) {
+        Property idProperty = createProperty(idField);
+        if (! idProperty.isAccessible()) {
             throw new ModelException("the id field must be readable.");
         }
         
         return new EntityId(idProperty);
+    }
+    
+    private Property createProperty(Field field) {
+        if (Modifier.isTransient(field.getModifiers())) {
+            return new TransientProperty(field);
+        }
+        else if (Modifier.isPublic(field.getModifiers())) {
+            return new FieldAccessProperty(field);
+        }
+        else {
+            return new DefaultProperty(field);
+        }
     }
     
     private List<Field> allFields() {

@@ -15,12 +15,11 @@ package com.mindquarry.persistence.jcr;
 
 import java.util.List;
 
-import javax.jcr.Credentials;
-import javax.jcr.LoginException;
-import javax.jcr.Repository;
 import javax.jcr.RepositoryException;
-import javax.jcr.SimpleCredentials;
 
+import org.springmodules.jcr.JcrSessionFactory;
+
+import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.persistence.api.Configuration;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.jcr.api.JcrSession;
@@ -39,7 +38,7 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 public class Persistence implements SessionFactory {
 
     private List<Class<?>> entityClazzes_;
-    private Repository repository_;
+    private JcrSessionFactory jcrSessionFactory_;
     
     private Model model_;
     private QueryResolver queryResolver_;
@@ -52,8 +51,8 @@ public class Persistence implements SessionFactory {
         currentSession_ = new ThreadLocal<Session>();
     }
     
-    public void setRepository(Repository repository) {
-        repository_ = repository;
+    public void setJcrSessionFactory(JcrSessionFactory jcrSessionFactory) {
+        jcrSessionFactory_ = jcrSessionFactory;
     }
     
     public void addClass(Class<?> clazz) {
@@ -73,14 +72,27 @@ public class Persistence implements SessionFactory {
     }
     
     public QueryResolver getQueryResolver() {
+        if (queryResolver_ == null) 
+            throw new InitializationException("query resolver is requested " +
+                    "though persistence component is not yet configured");
+        
         return queryResolver_;
     }
     
     public CommandProcessor getCommandProcessor() {
+        if (commandProcessor_ == null) 
+            throw new InitializationException("CommandProcessor is requested " +
+                    "though persistence component is not yet configured");
+        
         return commandProcessor_;
     }
     
     public TransformationManager getTransformationManager() {
+        if (transformationManager_ == null) 
+            throw new InitializationException("TransformationManager is " +
+                    "requested though persistence component " +
+                    "is not yet configured");
+        
         return transformationManager_;
     }
     
@@ -98,13 +110,9 @@ public class Persistence implements SessionFactory {
         return new Session(this, createJcrSession());
     }
     
-    private JcrSession createJcrSession() {        
-        Credentials credentials = 
-            new SimpleCredentials("foo", "bar".toCharArray());
+    private JcrSession createJcrSession() {
         try {
-            return new JcrSession(repository_.login(credentials));
-        } catch (LoginException e) {
-            throw new JcrPersistenceInternalException(e);
+            return new JcrSession(jcrSessionFactory_.getSession());
         } catch (RepositoryException e) {
             throw new JcrPersistenceInternalException(e);
         }

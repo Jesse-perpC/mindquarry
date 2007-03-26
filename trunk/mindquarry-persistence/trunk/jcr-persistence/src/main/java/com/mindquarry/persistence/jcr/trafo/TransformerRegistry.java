@@ -20,10 +20,13 @@ import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
+import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.model.ModelException;
 
 /**
@@ -35,9 +38,11 @@ import com.mindquarry.persistence.jcr.model.ModelException;
 class TransformerRegistry {
 
     private TransformationManager transformationManager_;
+    private Map<Class<?>, Transformer> referenceTransformers_;
     
     public TransformerRegistry(TransformationManager transformationManager) {
         transformationManager_ = transformationManager;
+        referenceTransformers_ = new HashMap<Class<?>, Transformer>();
     }
     
     public Transformer findContentTransformer(Type type) {
@@ -51,9 +56,16 @@ class TransformerRegistry {
         else if (isParameterizedCollectionType(type)) {
             Class<?> collectionImpl = findCollectionImplementation(type);
             if (collectionImpl != null) {
-                result = new CollectionTransformer(
+                result = new ParametrizedCollectionTransformer(
                         collectionComponentType(type), collectionImpl);
             }
+        }
+        else if (isCollectionType(type)) {
+            result = new CollectionTransformer((Class<?>) type);
+        }
+        else if (isParameterizedMapType(type)) {
+            result = new ParametrizedMapTransformer(
+                    mapKeyType(type), mapValueType(type), HashMap.class);
         }
         else if (type instanceof Class){
             Class<?> clazz = (Class<?>) type;
@@ -64,7 +76,7 @@ class TransformerRegistry {
                 result = new StringTransformer();
             }
             else if (isPartOfModel(clazz)) {
-                result = createReferenceTransformer(clazz);
+                result = findOrCreateReferenceTransformer(clazz);
             }
         }
         
@@ -77,21 +89,95 @@ class TransformerRegistry {
         return result;
     }
     
-    private Transformer createReferenceTransformer(Class<?> referenceesClazz) {
-        return transformationManager_.createReferenceTransformer(referenceesClazz);
+    public Transformer findContentTransformerDynamically(JcrNode jcrNode) {
+        
+        Transformer result = null;
+        
+        if (jcrNode.hasProperty("reference")) {
+            JcrNode entityNode = jcrNode.getProperty("reference").getNode();
+            String parentName = entityNode.getParent().getName();
+            if (isFolderForEntities(parentName)) {
+                Class entityClass = entityClassByFolder(parentName);
+                result = findOrCreateReferenceTransformer(entityClass);
+            }
+        }
+        
+        if (result == null) {
+            String parentName = jcrNode.getParent().getName();
+            result = transformationManager_
+                .entityTransformerByFolder(parentName);
+        }       
+        
+        if (result == null) {
+            throw new ModelException("could not dynamically determine " +
+                    "a proper transformer for the JCR node: " + jcrNode);
+        }
+        
+        result.initialize(this);
+        return result;
     }
     
+    private boolean isFolderForEntities(String folder) {
+        return null != transformationManager_.entityTypeByFolder(folder);
+    }
+    
+    private Class entityClassByFolder(String folder) {
+        return transformationManager_.entityTypeByFolder(folder).entityClazz();
+    }
+    
+    private Transformer findOrCreateReferenceTransformer(Class<?> clazz) {
+        
+        Transformer result;
+        if (referenceTransformers_.containsKey(clazz)) {
+            result = referenceTransformers_.get(clazz);
+        }
+        else {
+            result = createReferenceTransformer(clazz);
+            referenceTransformers_.put(clazz, result);
+        }
+        return result;
+    }
+    
+    private Transformer createReferenceTransformer(Class<?> clazz) {
+        return transformationManager_.createReferenceTransformer(clazz);
+    }
+
     private boolean isPartOfModel(Class<?> clazz) {
         return transformationManager_.isPartOfModel(clazz);
     }
     
-    private boolean isParameterizedCollectionType(Type type) {
+    private boolean isParameterizedMapType(Type type) {
         if (type instanceof ParameterizedType) {
-            ParameterizedType parameterizedType = (ParameterizedType) type;
-            Class<?> clazz = (Class<?>) parameterizedType.getRawType();
-            return Collection.class.isAssignableFrom(clazz);
+            return isMapType(((ParameterizedType) type).getRawType());
         }
         return false;
+    }
+    
+    private boolean isMapType(Type type) {
+        return type instanceof Class &&
+            Map.class.isAssignableFrom((Class<?>) type);
+    }
+    
+    private boolean isParameterizedCollectionType(Type type) {
+        if (type instanceof ParameterizedType) {
+            return isCollectionType(((ParameterizedType) type).getRawType());
+        }
+        return false;
+    }
+    
+    private boolean isCollectionType(Type type) {
+        return type instanceof Class &&
+            Collection.class.isAssignableFrom((Class<?>) type);
+    }
+    
+    private Type mapKeyType(Type type) {
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        return parameterizedType.getActualTypeArguments()[0];
+    }  
+    
+    private Type mapValueType(Type type) {
+        ParameterizedType parameterizedType = (ParameterizedType) type;
+        return parameterizedType.getActualTypeArguments()[1];
     }
     
     private Type collectionComponentType(Type type) {
@@ -127,6 +213,7 @@ class TransformerRegistry {
             collectionImplementations_ = new HashMap<Class, Class>();
             collectionImplementations_.put(Collection.class, LinkedList.class);
             collectionImplementations_.put(List.class, LinkedList.class);
+            collectionImplementations_.put(Set.class, HashSet.class);
         }
         return collectionImplementations_;
     }

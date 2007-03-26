@@ -13,17 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.model;
 
-import java.beans.IndexedPropertyDescriptor;
-import java.beans.PropertyDescriptor;
-import java.lang.reflect.Field;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
 import java.lang.reflect.Type;
-import java.util.Arrays;
-
-import org.apache.commons.beanutils.PropertyUtils;
-
-import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 
 /**
  * Add summary documentation here.
@@ -31,101 +21,15 @@ import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public final class Property {
-
-    private Field field_;
+public interface Property {
     
-    public Property(Field field) {
-        field_ = field;
-    }
+    String getName();
     
-    public String getName() {
-        return field_.getName();
-    }
+    Type getContentType();
     
-    public Type getContentType() {
-        return field_.getGenericType();
-    }
+    Object getContent(Object bean);
     
-    private Class<?> getContentClass() {
-        return field_.getClass();
-    }
+    void setContent(Object bean, Object value);
     
-    private Class<?> getDeclaringClass() {
-        return field_.getDeclaringClass();
-    }
-    
-    public Object getContent(Object bean) {
-        try {
-            return PropertyUtils.getProperty(bean, getName());
-        } catch (IllegalAccessException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (InvocationTargetException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (NoSuchMethodException e) {
-            throw new JcrPersistenceInternalException(e);
-        }
-    }
-    
-    public Iterable getIterableContent(Object bean) {
-        Object content = getContent(bean);
-        
-        field_.getGenericType();
-        if (getContentClass().isArray()) {
-            return Arrays.asList((Object[]) content);
-        }
-        else {
-            return (Iterable) content;
-        }
-    }
-    
-    public void setContent(Object bean, Object value) {
-        try {
-            PropertyUtils.setProperty(bean, getName(), value);
-        } catch (IllegalAccessException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (InvocationTargetException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (NoSuchMethodException e) {
-            throw new JcrPersistenceInternalException(e);
-        }
-    }
-    
-    public boolean isReadable() {
-        PropertyDescriptor descriptor = getPropertyDescriptor();
-        if (descriptor != null) {
-            Method readMethod = descriptor.getReadMethod();
-            if ((readMethod == null) &&
-                (descriptor instanceof IndexedPropertyDescriptor)) {
-                readMethod = getIndexedReadMethod(descriptor);
-            }
-            return readMethod != null;
-        } else {
-            return false;
-        }
-    }
-    
-    private Method getIndexedReadMethod(PropertyDescriptor descriptor) {
-        return ((IndexedPropertyDescriptor) descriptor).getIndexedReadMethod();
-    }
-    
-    private PropertyDescriptor getPropertyDescriptor() {
-        
-        PropertyDescriptor result = null;
-        
-        for (PropertyDescriptor descriptor : 
-            PropertyUtils.getPropertyDescriptors(getDeclaringClass())) {
-            
-            if (getName().equals(descriptor.getName())) {
-                result = descriptor;
-                break;
-            }
-        }
-        return result;
-    }
-    
-    public String toString() {
-        return "property '" + getName() + 
-               "' of class: " + getDeclaringClass().getSimpleName();
-    }
+    boolean isAccessible();
 }

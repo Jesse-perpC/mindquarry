@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
- * 
+ *
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -13,18 +13,19 @@
  */
 package com.mindquarry.persistence.api;
 
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+
 /**
- * Defines the implementation independent retrieval of Session objects 
- * that are proper for for your current context (e.g. a particular transaction).
+ * Add summary documentation here.
  *
- * @author 
+ * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface SessionFactory {
-
-    public static final String ROLE = SessionFactory.class.getName();
-    
-    void configure(Configuration configuration);
-    
-    Session currentSession();
+@Retention(RetentionPolicy.RUNTIME)
+@Target(ElementType.TYPE)
+public @interface Entity {
+    String folder();
 }
