@@ -13,6 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.trafo;
 
+import java.lang.reflect.Type;
 import java.util.Collection;
 
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
@@ -26,17 +27,21 @@ import com.mindquarry.persistence.jcr.model.ModelException;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class CollectionTransformer implements Transformer {
+class ParametrizedCollectionTransformer implements Transformer {
 
-    private TransformerRegistry transformerRegistry_;
+    private Type componentType_;
     private Class<?> collectionImplementation_;
+    private Transformer componentTransformer_;
 
-    CollectionTransformer(Class<?> collectionImplementation) {
+    ParametrizedCollectionTransformer(Type componentType, 
+            Class<?> collectionImplementation) {
+        
+        componentType_ = componentType;
         collectionImplementation_ = collectionImplementation;
     }
     
-    public void initialize(TransformerRegistry transformerRegistry) {
-        transformerRegistry_ = transformerRegistry;
+    public void initialize(TransformerRegistry registry) {
+        componentTransformer_ = registry.findContentTransformer(componentType_);
     }
     
     public Object readFromJcr(JcrNode jcrNode) {
@@ -44,7 +49,7 @@ class CollectionTransformer implements Transformer {
         for (JcrNode itemNode : jcrNode.getNodes()) {
             // we need a wrapping item element because the content
             // of the item can also be a collection
-            Object child = componentTransformer(itemNode).readFromJcr(itemNode);
+            Object child = componentTransformer_.readFromJcr(itemNode);
             children.add(child);
         }
         return children;
@@ -76,7 +81,7 @@ class CollectionTransformer implements Transformer {
             else
                 itemNode = jcrNode.addNode("item", "xt:element");
             
-            componentTransformer(item).writeToJcr(item, itemNode);
+            componentTransformer_.writeToJcr(item, itemNode);
         }
         
         // if there are currently more collection items 
@@ -87,13 +92,5 @@ class CollectionTransformer implements Transformer {
         }
         
         return jcrNode;
-    }
-    
-    private Transformer componentTransformer(Object item) {
-        return transformerRegistry_.findContentTransformer(item.getClass());
-    }
-    
-    private Transformer componentTransformer(JcrNode jcrNode) {
-        return transformerRegistry_.findContentTransformerDynamically(jcrNode);
     }
 }

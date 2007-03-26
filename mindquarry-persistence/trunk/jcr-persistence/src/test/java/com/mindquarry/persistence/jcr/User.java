@@ -15,10 +15,10 @@ package com.mindquarry.persistence.jcr;
 
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.annotations.Entity;
-import com.mindquarry.persistence.jcr.annotations.Id;
-import com.mindquarry.persistence.jcr.annotations.NamedQueries;
-import com.mindquarry.persistence.jcr.annotations.NamedQuery;
+import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
+import com.mindquarry.persistence.api.NamedQueries;
+import com.mindquarry.persistence.api.NamedQuery;
 
 @Entity(folder="users")
 @NamedQueries({ 
@@ -30,28 +30,14 @@ public class User  {
     @Id
     private String login;
     private String pwd;
-    private String firstname;
-    private String lastname;
+    
+    public String firstname;
+    public String lastname;
+    
     private List<String> skills;
     private String[] skillsArray;
     
     private List<Team> teams;
-    
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
 
     public String getLogin() {
         return login;

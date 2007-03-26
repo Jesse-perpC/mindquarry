@@ -13,13 +13,13 @@
  */
 package com.mindquarry.persistence.jcr.query;
 
-import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 
 import org.junit.Before;
 import org.junit.Test;
 
-import com.mindquarry.persistence.jcr.JavaConfiguration;
-import com.mindquarry.persistence.jcr.annotations.NamedQuery;
+import com.mindquarry.persistence.api.JavaConfiguration;
+import com.mindquarry.persistence.api.NamedQuery;
 
 /**
  * Add summary documentation here.
@@ -27,7 +27,7 @@ import com.mindquarry.persistence.jcr.annotations.NamedQuery;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class QueryResolverInitializeTest {
+public class QueryResolverInitializeTest extends TestCase {
 
     private QueryResolver queryResolver_;
     

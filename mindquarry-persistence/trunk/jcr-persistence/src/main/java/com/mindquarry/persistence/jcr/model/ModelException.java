@@ -13,7 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.model;
 
-import com.mindquarry.common.persistence.PersistenceException;
+import com.mindquarry.persistence.api.PersistenceException;
 
 /**
  * Add summary documentation here.

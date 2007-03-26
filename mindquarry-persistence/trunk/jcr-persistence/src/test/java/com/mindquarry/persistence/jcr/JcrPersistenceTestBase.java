@@ -13,8 +13,8 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import java.io.File;
 import java.io.IOException;
-import java.net.URL;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
@@ -28,7 +28,17 @@ import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 public class JcrPersistenceTestBase extends AvalonSpringContainerTestBase {
     
     protected List<String> springConfigClasspathResources() {
+        System.setProperty("mindquarry.jcr.path",
+                    new File("target/repository").toURI().toString());
+        
+        System.setProperty("mindquarry.jcr.login", "admin");
+        System.setProperty("mindquarry.jcr.pwd", "admin");
+
         List<String> result = super.springConfigClasspathResources();
+        result.add("META-INF/cocoon/spring/jcr-repository-context.xml");
+        result.add("META-INF/cocoon/spring/jcr-session-context.xml");
+        result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml");
+
         result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
         return result;
     }
@@ -36,23 +46,5 @@ public class JcrPersistenceTestBase extends AvalonSpringContainerTestBase {
     protected Source resolveSource(String uri) throws ServiceException, IOException {
         SourceResolver resolver = (SourceResolver) lookup(SourceResolver.ROLE);
         return resolver.resolveURI(uri);
-    }
-
-    /**
-     * Initializes the ComponentLocator
-     * 
-     * The configuration file is determined by the class name plus .xtest
-     * appended, all '.' replaced by '/' and loaded as a resource via classpath
-     */
-    protected void prepare() throws Exception {
-        String className = JcrPersistenceTestBase.class.getName();
-        String xtestResourceName = className.replace('.', '/') + ".xtest";
-
-        URL xtestResource = classLoader().getResource(xtestResourceName);
-        this.prepare(xtestResource.openStream());
-    }
-    
-    private ClassLoader classLoader() {
-        return getClass().getClassLoader();
     }
 }

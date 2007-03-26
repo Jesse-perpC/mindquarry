@@ -44,7 +44,7 @@ public class Model  {
     }
     
     public String entityFolderName(Object entity) {
-        return entityType(entity.getClass()).folder();
+        return findEntityType(entity.getClass()).folder();
     }
     
     public String jcrPathForEntity(Object entity) {
@@ -66,12 +66,23 @@ public class Model  {
     }
     
     public EntityType entityType(Class<?> entityClazz) {
+        EntityType result = null;
         for (EntityType entityType : allEntityTypes()) {
             if (entityType.describes(entityClazz)) {
-                return entityType;
+                result = entityType;
+                break;
             }
         }
-        return null;
+        return result;
+    }
+    
+    private EntityType findEntityType(Class<?> entityClazz) {
+        EntityType result = entityType(entityClazz);
+        if (result == null) {
+            throw new ModelException("could not find the class " + entityClazz +
+                    " within the configured list of persistence entity classes");
+        }
+        return result;
     }
     
     public EntityType entityTypeForFolder(String folder) {

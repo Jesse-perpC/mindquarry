@@ -18,6 +18,7 @@ import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 
+import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.jcr.query.QueryException;
@@ -32,6 +33,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         JavaConfiguration configuration = new JavaConfiguration();
         configuration.addClass(User.class);
+        configuration.addClass(Group.class);
         configuration.addClass(Team.class);
         
         Persistence persistence = 
@@ -47,8 +49,8 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         User user = new User();
         user.setLogin("testUser");
         user.setPwd("pwd");
-        user.setFirstname("test");
-        user.setLastname("test");
+        user.firstname = "test";
+        user.lastname = "test";
         
         List<String> skills = new LinkedList<String>(); 
         skills.add("foo");
@@ -58,15 +60,33 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         user.setSkillsArray(skills.toArray(new String[skills.size()]));
         
         Team team = new Team();
-        team.setName("jcr-persistence");
-        team.setTitle("Jcr Persistence");
-        team.setDescription("bla blub");
+        team.name = "jcr-persistence";
+        team.title = "Jcr Persistence";
+        team.description = "bla blub";
+        
+        List<String> bars = new LinkedList<String>();
+        bars.add("bla");
+        bars.add("blub");        
+        team.fooMap.put("foo", bars);
         
         List<Team> teams = new LinkedList<Team>();
         teams.add(team);
         user.setTeams(teams);
         
         session.persist(user);
+        session.commit();
+    }
+    
+    public void testMapProperties() throws ServiceException {
+        
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query("allTeams", new Object[0]);
+        
+        assertEquals(1, queryResult.size());
+        
+        Team team = (Team) queryResult.get(0);
+        assertEquals("blub", team.fooMap.get("foo").get(1));
+        
         session.commit();
     }
     
@@ -100,15 +120,44 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         User user = (User) queryResult.get(0);
         assertEquals("testUser", user.getLogin());
-        assertEquals("test", user.getLastname());
+        assertEquals("test", user.lastname);
         assertEquals(2, user.getSkills().size());
         assertEquals(2, user.getSkillsArray().length);
-        assertEquals("jcr-persistence", user.getTeams().get(0).getName());
+        assertEquals("jcr-persistence", user.getTeams().get(0).name);
         
-        user.setLastname("lastName");
+        user.lastname = "lastName";
         user.getSkills().remove(0);
         user.setSkillsArray(new String[] {user.getSkillsArray()[0]});
         session.update(user);
+        
+        session.commit();
+    }
+    
+    public void testDynamicTypedCollection() throws ServiceException {
+        
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query(
+                "userByLogin", new Object[] {"testUser"});
+        
+        User user = (User) queryResult.get(0);
+        Group group = new Group();
+        group.id = "foogroup";
+        group.members.add(user);
+        
+        session.persist(group);        
+        session.commit();
+    }
+    
+    public void testQueryDeleteGroup() throws ServiceException {
+        
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query(
+                "groupById", new Object[] {"foogroup"});
+        
+        Group group = (Group) queryResult.get(0);
+        assertEquals(1, group.members.size());
+        
+        session.delete(group);
         
         session.commit();
     }
@@ -120,7 +169,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
                 "userByLogin", new Object[] {"testUser"});
         
         User user = (User) queryResult.get(0);
-        assertEquals("lastName", user.getLastname());
+        assertEquals("lastName", user.lastname);
         assertEquals(1, user.getSkills().size());
         assertEquals(1, user.getSkillsArray().length);
         session.delete(user);

@@ -39,13 +39,21 @@ class WriteCommand implements Command {
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        JcrNode folderNode = findEntityFolder(session);
+        JcrNode folderNode = findOrCreateEntityFolder(session);
         return entityTransformer().writeToJcr(entity_, folderNode);
     }
     
-    private JcrNode findEntityFolder(JcrSession session) {
+    private JcrNode findOrCreateEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();
-        return rootNode.getNode(entityFolderName());
+        String name = entityFolderName();
+        
+        JcrNode result;
+        if (rootNode.hasNode(name))
+            result = rootNode.getNode(name);
+        else
+            result = rootNode.addNode(name, "nt:folder");
+        
+        return result;
     }
     
     private String entityFolderName() {

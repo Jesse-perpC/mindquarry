@@ -13,67 +13,28 @@
  */
 package com.mindquarry.persistence.jcr;
 
-import com.mindquarry.persistence.jcr.annotations.Entity;
-import com.mindquarry.persistence.jcr.annotations.Id;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
+import com.mindquarry.persistence.api.NamedQueries;
+import com.mindquarry.persistence.api.NamedQuery;
 
 @Entity(folder="teamspaces")
+@NamedQueries({ 
+    @NamedQuery(name="teamById", query="/teamspaces/{$teamId}"),
+    @NamedQuery(name="allTeams", query="/teamspaces/*")
+})
 public class Team  {
     
     @Id
-    private String name;
+    public String name = "";
     
-    private String title;
+    public String title = "";
     
-    private String description;
+    public String description = "";
     
-    /**
-     * Getter for description.
-     *
-     * @return the description
-     */
-    public String getDescription() {
-        return description;
-    }
-    /**
-     * Setter for description.
-     *
-     * @param description the description to set
-     */
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    /**
-     * Getter for name.
-     *
-     * @return the name
-     */
-    public String getName() {
-        return name;
-    }
-    /**
-     * Setter for name.
-     *
-     * @param name the name to set
-     */
-    public void setName(String name) {
-        this.name = name;
-    }
-    /**
-     * Getter for title.
-     *
-     * @return the title
-     */
-    public String getTitle() {
-        return title;
-    }
-    /**
-     * Setter for title.
-     *
-     * @param title the title to set
-     */
-    public void setTitle(String title) {
-        this.title = title;
-    }
-    
-    
+    public Map<String, List<String>> fooMap = new HashMap<String, List<String>>();    
 }

@@ -62,12 +62,16 @@ public class TransformationManager {
     }
     
     public Transformer entityTransformerByFolder(String folder) {
-        EntityType entityType = getModel().entityTypeForFolder(folder);
+        EntityType entityType = entityTypeByFolder(folder);
         return entityTransformers_.get(entityType);
     }
     
     public EntityType entityType(Object entity) {
         return getModel().entityType(entity.getClass());
+    }
+    
+    public EntityType entityTypeByFolder(String folder) {
+        return getModel().entityTypeForFolder(folder);
     }
     
     public Transformer createReferenceTransformer(Class<?> referenceesClazz) {
