@@ -15,19 +15,16 @@ package com.mindquarry.jcr.jackrabbit;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.util.List;
 
-import javax.jcr.Repository;
 import javax.jcr.Session;
-import javax.jcr.SimpleCredentials;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
 import com.mindquarry.common.test.AvalonSpringContainerTestBase;
-
 
 /**
  * Abstract base classes for all JCR XML source test cases.
@@ -36,42 +33,44 @@ import com.mindquarry.common.test.AvalonSpringContainerTestBase;
  *         Saar</a>
  */
 public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
-    public static final String SCHEME = "jcr";
+    public static final String SCHEME = "jcr"; //$NON-NLS-1$
 
-    public static final String BASE_URL = SCHEME + ":///";
-    
-    public static final String MQ_JCR_XML_NODETYPES_FILE = "/com/mindquarry/jcr/jackrabbit/node-types.txt";
+    public static final String BASE_URL = SCHEME + ":///"; //$NON-NLS-1$
 
     protected Session session;
 
     @Override
+    protected List<String> springConfigClasspathResources() {
+        try {
+            System.setProperty("mindquarry.jcr.path", //$NON-NLS-1$
+                    new File("./target/repository").toURL().toString());//$NON-NLS-1$
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+        System.setProperty("mindquarry.jcr.login", //$NON-NLS-1$
+                "admin");//$NON-NLS-1$
+        System.setProperty("mindquarry.jcr.pwd", //$NON-NLS-1$
+                "admin");//$NON-NLS-1$
+
+        List<String> result = super.springConfigClasspathResources();
+        result.add("META-INF/cocoon/spring/jcr-repository-context.xml"); //$NON-NLS-1$
+        result.add("META-INF/cocoon/spring/jcr-session-context.xml"); //$NON-NLS-1$
+        result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml"); //$NON-NLS-1$
+        return result;
+    }
+
+    @Override
     protected void setUp() throws Exception {
         // remove old repository
-        File repoFolder = new File("target/repository");
+        File repoFolder = new File("target/repository"); //$NON-NLS-1$
         removeRepository(repoFolder);
+        repoFolder.mkdirs();
 
-        // setup new repository
         super.setUp();
-
-        Repository repo = (Repository) lookup(Repository.class.getName());
-        session = repo.login(new SimpleCredentials("alexander.saar",
-                "mypwd".toCharArray()));
-        
-        InputStream nodeTypeDefIn = getClass().getResourceAsStream(
-                MQ_JCR_XML_NODETYPES_FILE);
-
-        JackrabbitInitializerHelper.setupRepository(session,
-                new InputStreamReader(nodeTypeDefIn), ""); //$NON-NLS-1$        
+        session = (Session) lookup("jcrSession"); //$NON-NLS-1$
     }
 
-    /**
-     * @see org.apache.cocoon.core.container.ContainerTestCase#tearDown()
-     */
     @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-
     protected Source resolveSource(String uri) throws ServiceException,
             IOException {
         SourceResolver resolver = (SourceResolver) lookup(SourceResolver.ROLE);
