@@ -23,6 +23,8 @@ import javax.jcr.NodeIterator;
 import javax.jcr.Property;
 import javax.jcr.Session;
 
+import com.mindquarry.common.persistence.PersistenceException;
+
 /**
  * Add summary documentation here.
  *
@@ -92,6 +94,14 @@ public class JcrNode {
 
     public JcrNode getNode(String relPath) {
         return new JcrNode((Node) invoke("getNode", node_, relPath));
+    }
+
+    public JcrNode findNode(String relPath) {
+        JcrNode result = getNode(relPath);
+        if (result == null) {
+            throw new PersistenceException("could not find child: " + relPath);
+        }
+        return result;
     }
 
     public JcrNodeIterator getNodes() {

@@ -24,6 +24,6 @@ import com.mindquarry.persistence.jcr.api.JcrNode;
 public interface Transformer {
 
     void initialize(TransformerRegistry transformerRegistry);
-    JcrNode writeToJcr(Object object, JcrNode node);
+    void writeToJcr(Object object, JcrNode node);
     Object readFromJcr(JcrNode node);
 }

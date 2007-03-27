@@ -50,7 +50,7 @@ class DeleteCommand implements Command {
     }
 
     private String id() {
-        return entityType().getEntityId().getValue(entity_);
+        return entityType().idForEntity(entity_);
     }
     
     private EntityType entityType() {

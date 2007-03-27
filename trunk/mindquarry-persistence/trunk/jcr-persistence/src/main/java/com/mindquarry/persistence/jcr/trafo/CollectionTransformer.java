@@ -62,7 +62,7 @@ class CollectionTransformer implements Transformer {
         }
     }
 
-    public JcrNode writeToJcr(Object object, JcrNode jcrNode) {
+    public void writeToJcr(Object object, JcrNode jcrNode) {
         Collection collection = (Collection) object;
         JcrNodeIterator collectionNodeIt = jcrNode.getNodes();
         
@@ -85,8 +85,6 @@ class CollectionTransformer implements Transformer {
         while (collectionNodeIt.hasNext()) {
             collectionNodeIt.next().remove();
         }
-        
-        return jcrNode;
     }
     
     private Transformer componentTransformer(Object item) {
