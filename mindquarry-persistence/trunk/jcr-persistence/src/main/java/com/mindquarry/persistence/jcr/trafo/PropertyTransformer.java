@@ -44,7 +44,7 @@ class PropertyTransformer implements Transformer {
         return contentTransformer_.readFromJcr(propertyNode);
     }
 
-    public JcrNode writeToJcr(Object propertyValue, JcrNode entityNode) {
+    public void writeToJcr(Object propertyValue, JcrNode entityNode) {
         String propertyName = property_.getName();
         
         JcrNode propertyNode;
@@ -54,7 +54,5 @@ class PropertyTransformer implements Transformer {
             propertyNode = entityNode.addNode(propertyName, "xt:element");
         
         contentTransformer_.writeToJcr(propertyValue, propertyNode);
-        
-        return propertyNode;
     }
 }

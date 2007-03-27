@@ -47,7 +47,7 @@ class MappedReferenceTransformer implements Transformer {
         return processCommand(session, Operations.READ, entityNode);
     }
 
-    public JcrNode writeToJcr(Object entity, JcrNode propertyNode) {
+    public void writeToJcr(Object entity, JcrNode propertyNode) {
         Operations operation;
         if (propertyNode.hasProperty("reference"))
             operation = Operations.UPDATE;
@@ -57,9 +57,7 @@ class MappedReferenceTransformer implements Transformer {
         JcrSession session = propertyNode.getSession();        
         
         Object entityNode = processCommand(session, operation, entity);
-        propertyNode.setProperty("reference", (JcrNode) entityNode);        
-        
-        return propertyNode;
+        propertyNode.setProperty("reference", (JcrNode) entityNode);
     }
     
     private Object processCommand(JcrSession session,

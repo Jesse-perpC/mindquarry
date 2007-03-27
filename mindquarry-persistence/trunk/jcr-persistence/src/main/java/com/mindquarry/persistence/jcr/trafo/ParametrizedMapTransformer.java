@@ -77,7 +77,7 @@ class ParametrizedMapTransformer implements Transformer {
         }
     }
 
-    public JcrNode writeToJcr(Object object, JcrNode jcrNode) {
+    public void writeToJcr(Object object, JcrNode jcrNode) {
         Map<Object, Object> map = (Map<Object, Object>) object;
         JcrNodeIterator collectionNodeIt = jcrNode.getNodes();
         
@@ -102,7 +102,5 @@ class ParametrizedMapTransformer implements Transformer {
         while (collectionNodeIt.hasNext()) {
             collectionNodeIt.next().remove();
         }
-        
-        return jcrNode;
     }
 }

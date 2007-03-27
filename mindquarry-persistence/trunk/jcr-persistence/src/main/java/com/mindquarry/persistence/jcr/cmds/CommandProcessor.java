@@ -36,7 +36,7 @@ public class CommandProcessor {
         
         Command command = null;
         switch (operation) {
-            case PERSIST : command = new WriteCommand(); break;
+            case PERSIST : command = new PersistCommand(); break;
             case UPDATE : command = new WriteCommand(); break;
             case READ : command = new ReadCommand(); break;
             case DELETE : command = new DeleteCommand(); break;

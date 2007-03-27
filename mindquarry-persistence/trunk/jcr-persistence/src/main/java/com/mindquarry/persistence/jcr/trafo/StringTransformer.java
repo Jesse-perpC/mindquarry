@@ -30,7 +30,7 @@ class StringTransformer implements Transformer {
         return textNode.getProperty("xt:characters").getString();
     }
 
-    public JcrNode writeToJcr(Object object, JcrNode propertyNode) {
+    public void writeToJcr(Object object, JcrNode propertyNode) {
         JcrNode textNode;
         if (propertyNode.hasNode("text"))
             textNode = propertyNode.getNode("text");
@@ -38,7 +38,5 @@ class StringTransformer implements Transformer {
             textNode = propertyNode.addNode("text", "xt:text");
         
         textNode.setProperty("xt:characters", object.toString());
-        
-        return textNode;
     }    
 }

@@ -16,6 +16,7 @@ package com.mindquarry.persistence.jcr.cmds;
 import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
@@ -27,8 +28,8 @@ import com.mindquarry.persistence.jcr.trafo.Transformer;
  */
 class WriteCommand implements Command {
 
-    private Object entity_;
-    private Persistence persistence_;
+    protected Object entity_;
+    protected Persistence persistence_;
     
     public void initialize(Persistence persistence, Object... objects) {
         entity_ = objects[0];
@@ -39,24 +40,22 @@ class WriteCommand implements Command {
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        JcrNode folderNode = findOrCreateEntityFolder(session);
-        return entityTransformer().writeToJcr(entity_, folderNode);
+        
+        JcrNode rootNode = session.getRootNode();        
+        JcrNode folderNode = rootNode.findNode(entityFolderName());
+        
+        JcrNode entityNode = folderNode.findNode(entityId());        
+        entityTransformer().writeToJcr(entity_, entityNode);
+        
+        return entityNode;
     }
     
-    private JcrNode findOrCreateEntityFolder(JcrSession session) {
-        JcrNode rootNode = session.getRootNode();
-        String name = entityFolderName();
-        
-        JcrNode result;
-        if (rootNode.hasNode(name))
-            result = rootNode.getNode(name);
-        else
-            result = rootNode.addNode(name, "nt:folder");
-        
-        return result;
+    protected String entityId() {
+        EntityType entityType = getTransformationManager().entityType(entity_);
+        return entityType.idForEntity(entity_);
     }
     
-    private String entityFolderName() {
+    protected String entityFolderName() {
         return getTransformationManager().entityFolderName(entity_);
     }
     
