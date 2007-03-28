@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+<testcase>
+	<roles>
+		<role name="org.apache.excalibur.source.SourceFactorySelector"
+			shorthand="source-factories"
+			default-class="org.apache.cocoon.core.container.DefaultServiceSelector" />
+
+		<role name="org.apache.excalibur.source.SourceResolver"
+			shorthand="source-resolver"
+			default-class="org.apache.excalibur.source.impl.SourceResolverImpl" />
+
+		<role name="com.mindquarry.events.EventBroker"
+			shorthand="event-broker"
+			default-class="com.mindquarry.events.EventBroker" />
+
+		<role name="javax.jcr.Repository" shorthand="jcr-repository"
+			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository" >
+			
+			<credentials login="expression" password="expression" />
+			<home src="target/repository" />
+			<credentials login="alexander.saar" password="mypwd" />
+			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
+		</role>
+			
+
+		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
+			shorthand="jcr-initializer"
+			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer" >
+			
+			<credentials login="alexander.saar" password="mypwd" />
+		</role>
+
+		<role name="com.mindquarry.common.persistence.SessionFactory"
+			default-class="com.mindquarry.persistence.castor.CastorSessionFactoryCocoon" />
+
+		<!-- configure a serializer for XML output -->
+		<role name="org.apache.cocoon.serialization.Serializer" shorthand="serializer"/>
+	</roles>
+
+	<components>
+		<source-factories>
+			<component-instance name="resource"
+				class="org.apache.excalibur.source.impl.ResourceSourceFactory" />
+
+			<component-instance name="file"
+				class="org.apache.excalibur.source.impl.FileSourceFactory" />
+
+			<component-instance name="jcr"
+				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+				login="alexander.saar" password="mypwd" />
+ 		<!-- rmi="rmi://localhost:1099/jackrabbit" /-->
+
+			<!-- use the following for working with an RMI repository -->
+			<!-- component-instance name="jcr"
+				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
+				login="alexander.saar" password="mypwd"
+				rmi="rmi://localhost:1099/jackrabbit" /-->
+		</source-factories>
+		
+		<!-- define the exact XMLSerializer we want to use (taken from
+			 standard cocoon configuration) -->
+		<serializer class="org.apache.cocoon.serialization.XMLSerializer">
+			<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
+		</serializer>
+	</components>
+</testcase>
