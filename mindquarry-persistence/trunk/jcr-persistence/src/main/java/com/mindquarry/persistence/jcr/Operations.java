@@ -20,10 +20,9 @@ package com.mindquarry.persistence.jcr;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public enum Operations {
-    READ,
     PERSIST,
+    READ,
     UPDATE,
-    PERSIST_OR_UPDATE,
     DELETE,
     QUERY;
 }

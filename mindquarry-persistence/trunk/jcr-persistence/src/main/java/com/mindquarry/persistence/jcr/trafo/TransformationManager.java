@@ -49,6 +49,14 @@ public class TransformationManager {
         }
     }
     
+    public boolean isPartOfModel(Class<?> clazz) {
+        return getModel().entityType(clazz) != null;
+    }
+    
+    public String entityFolderName(Object entity) {
+        return getModel().entityFolderName(entity);
+    }
+    
     public Transformer entityTransformer(Object entity) {
         return entityTransformers_.get(entityType(entity));
     }
@@ -58,19 +66,15 @@ public class TransformationManager {
         return entityTransformers_.get(entityType);
     }
     
-    private EntityType entityType(Object entity) {
+    public EntityType entityType(Object entity) {
         return getModel().entityType(entity.getClass());
     }
     
-    boolean isPartOfModel(Class<?> clazz) {
-        return getModel().entityType(clazz) != null;
-    }
-    
-    EntityType entityTypeByFolder(String folder) {
+    public EntityType entityTypeByFolder(String folder) {
         return getModel().entityTypeForFolder(folder);
     }
     
-    Transformer createReferenceTransformer(Class<?> referenceesClazz) {
+    public Transformer createReferenceTransformer(Class<?> referenceesClazz) {
         Transformer result =
             new ReferenceTransformer(referenceesClazz, persistence_);
         result.initialize(transformerRegistry_);

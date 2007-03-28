@@ -18,8 +18,8 @@ import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.JcrNode;
-import com.mindquarry.persistence.jcr.JcrNodeIterator;
+import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrNodeIterator;
 
 /**
  * Add summary documentation here.
@@ -56,7 +56,7 @@ class ArrayTransformer implements Transformer {
         return (Object[]) Array.newInstance(componentType_, size);
     }
 
-    public void writeToJcr(Object object, JcrNode jcrNode) {
+    public JcrNode writeToJcr(Object object, JcrNode jcrNode) {
         Object[] arrayContent = (Object[]) object;
         JcrNodeIterator collectionNodeIt = jcrNode.getNodes();
         
@@ -78,5 +78,7 @@ class ArrayTransformer implements Transformer {
         while (collectionNodeIt.hasNext()) {
             collectionNodeIt.next().remove();
         }
+        
+        return jcrNode;
     }
 }

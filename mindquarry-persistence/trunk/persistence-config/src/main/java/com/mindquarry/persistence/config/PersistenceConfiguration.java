@@ -24,7 +24,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import com.mindquarry.common.init.InitializationException;
-import com.mindquarry.persistence.api.EntityBase;
+import com.mindquarry.common.persistence.EntityBase;
 
 /**
  * Add summary documentation here.

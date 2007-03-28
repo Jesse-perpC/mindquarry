@@ -14,7 +14,7 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 
 
 /**
@@ -26,5 +26,5 @@ import com.mindquarry.persistence.jcr.Session;
 interface Command {
 
     void initialize(Persistence persistence, Object... objects);
-    Object execute(Session session);
+    Object execute(JcrSession session);
 }

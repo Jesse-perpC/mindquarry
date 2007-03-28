@@ -16,8 +16,8 @@ import com.mindquarry.persistence.api.Configuration;
 import com.mindquarry.persistence.api.NamedQueries;
 import com.mindquarry.persistence.api.NamedQuery;
 import com.mindquarry.persistence.api.PersistenceException;
-import com.mindquarry.persistence.jcr.JcrNodeIterator;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.api.JcrNodeIterator;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 
 public class DefaultQueryResolver implements QueryResolver {
 
@@ -60,7 +60,7 @@ public class DefaultQueryResolver implements QueryResolver {
         queryMap_.put(queryName, query);
     }
     
-    public JcrNodeIterator resolve(Session session,
+    public JcrNodeIterator resolve(JcrSession jcrSession,
             String queryName, Object[] queryParameters) {
         
         if (! queryMap_.containsKey(queryName)) {
@@ -70,17 +70,17 @@ public class DefaultQueryResolver implements QueryResolver {
         
         String query = queryMap_.get(queryName);
         String preparedQuery = prepareQuery(query, queryParameters);
-        return resolveXpath(session, preparedQuery);
+        return resolveXpath(jcrSession, preparedQuery);
     }
     
     private JcrNodeIterator resolveXpath(
-            Session session, String expression) {
+            JcrSession jcrSession, String expression) {
         
         try {
-            QueryManager queryManager = session.getQueryManager();
+            QueryManager queryManager = jcrSession.getQueryManager();
             Query query = queryManager.createQuery(expression, FULL_XPATH);
             QueryResult queryResult = query.execute();
-            return new JcrNodeIterator(queryResult.getNodes(), session);
+            return new JcrNodeIterator(queryResult.getNodes());
         }
         catch (InvalidQueryException e) {
             throw new QueryException("The jcr layer threw an " +

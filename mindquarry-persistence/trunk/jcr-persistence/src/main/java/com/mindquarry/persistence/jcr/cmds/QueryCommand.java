@@ -13,14 +13,13 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
-import static com.mindquarry.persistence.jcr.Operations.READ;
-
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.query.QueryResolver;
 
 /**
@@ -45,7 +44,7 @@ class QueryCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
+    public Object execute(JcrSession session) {
         List<Object> result = new LinkedList<Object>();
         for (JcrNode jcrNode : resolveQuery(session)) {
             result.add(processReadCommand(session, jcrNode));
@@ -53,16 +52,16 @@ class QueryCommand implements Command {
         return result;
     }
     
-    private Object processReadCommand(Session session, JcrNode jcrNode) {
-        return getCommandManager().process(READ, session, jcrNode);
+    private Object processReadCommand(JcrSession session, JcrNode jcrNode) {
+        return getCommandManager().process(session, Operations.READ, jcrNode);
     }
     
     private CommandProcessor getCommandManager() {
         return persistence_.getCommandProcessor();
     }
     
-    private Iterable<JcrNode> resolveQuery(Session session) {
+    private Iterable<JcrNode> resolveQuery(JcrSession jcrSession) {
         QueryResolver queryResolver = persistence_.getQueryResolver();
-        return queryResolver.resolve(session, queryKey_, queryParameters_);
+        return queryResolver.resolve(jcrSession, queryKey_, queryParameters_);
     }
 }
