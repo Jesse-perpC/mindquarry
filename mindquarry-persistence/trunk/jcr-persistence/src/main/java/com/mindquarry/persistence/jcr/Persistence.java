@@ -22,7 +22,6 @@ import org.springmodules.jcr.JcrSessionFactory;
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.persistence.api.Configuration;
 import com.mindquarry.persistence.api.SessionFactory;
-import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.query.DefaultQueryResolver;
@@ -96,6 +95,15 @@ public class Persistence implements SessionFactory {
         return transformationManager_;
     }
     
+    public Model getModel() {
+        if (model_ == null) 
+            throw new InitializationException("Model is " +
+                    "requested though persistence component " +
+                    "is not yet configured");
+        
+        return model_;
+    }
+    
     /**
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
@@ -110,9 +118,9 @@ public class Persistence implements SessionFactory {
         return new Session(this, createJcrSession());
     }
     
-    private JcrSession createJcrSession() {
+    private javax.jcr.Session createJcrSession() {
         try {
-            return new JcrSession(jcrSessionFactory_.getSession());
+            return jcrSessionFactory_.getSession();
         } catch (RepositoryException e) {
             throw new JcrPersistenceInternalException(e);
         }

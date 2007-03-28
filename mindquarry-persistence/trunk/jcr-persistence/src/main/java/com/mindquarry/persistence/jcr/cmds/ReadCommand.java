@@ -13,9 +13,9 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.Session;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
@@ -38,7 +38,7 @@ class ReadCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(JcrSession session) {
+    public Object execute(Session session) {
         String folder = entityNode_.getParent().getName();
         return entityTransformer(folder).readFromJcr(entityNode_);
     }

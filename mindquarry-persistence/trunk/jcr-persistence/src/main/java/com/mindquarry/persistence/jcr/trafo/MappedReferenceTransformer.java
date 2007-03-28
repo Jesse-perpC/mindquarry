@@ -13,10 +13,12 @@
  */
 package com.mindquarry.persistence.jcr.trafo;
 
+import static com.mindquarry.persistence.jcr.Operations.READ;
+
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.Session;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
@@ -41,10 +43,10 @@ class MappedReferenceTransformer implements Transformer {
             return null;
         }
         
-        JcrSession session = propertyNode.getSession();
+        Session session = propertyNode.getSession();
         JcrNode entityNode = propertyNode.getProperty("reference").getNode();
         
-        return processCommand(session, Operations.READ, entityNode);
+        return processCommand(READ, session, entityNode);
     }
 
     public void writeToJcr(Object entity, JcrNode propertyNode) {
@@ -54,16 +56,16 @@ class MappedReferenceTransformer implements Transformer {
         else
             operation = Operations.PERSIST;
         
-        JcrSession session = propertyNode.getSession();        
+        Session session = propertyNode.getSession();        
         
-        Object entityNode = processCommand(session, operation, entity);
+        Object entityNode = processCommand(operation, session, entity);
         propertyNode.setProperty("reference", (JcrNode) entityNode);
     }
     
-    private Object processCommand(JcrSession session,
-                    Operations operation, Object... objects) {
+    private Object processCommand(Operations operation, 
+                Session session, Object... objects) {
         
-        return getCommandManager().process(session, operation, objects);
+        return getCommandManager().process(operation, session, objects);
     }
     
     private CommandProcessor getCommandManager() {

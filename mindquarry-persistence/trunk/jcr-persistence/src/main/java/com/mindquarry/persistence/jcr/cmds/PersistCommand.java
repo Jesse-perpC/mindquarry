@@ -13,9 +13,11 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
-import com.mindquarry.common.persistence.PersistenceException;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.api.PersistenceException;
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.Persistence;
+import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.model.Model;
 
 /**
  * Add summary documentation here.
@@ -23,28 +25,45 @@ import com.mindquarry.persistence.jcr.api.JcrSession;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class PersistCommand extends WriteCommand {
+class PersistCommand implements Command {
+
+    private Object entity_;
+    private Persistence persistence_;
+    private Command writeCommand_;
+    
+    PersistCommand() {
+        writeCommand_ = new WriteCommand(); 
+    }
+    
+    public void initialize(Persistence persistence, Object... objects) {
+        entity_ = objects[0];
+        persistence_ = persistence;
+        writeCommand_.initialize(persistence, objects);
+    }
     
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(JcrSession session) {
+    public Object execute(Session session) {
         
-        String entityId = entityId();
         JcrNode folderNode = findOrCreateEntityFolder(session);
         
-        if (folderNode.hasNode(entityId)) {
+        if (folderNode.hasNode(entityId())) {
             throw new PersistenceException("the entity: " + entity_ + 
-                    " already exists.");
+                    " with id: " + entityId() + "already exists.");
         }
         
-        // here we only create the file jcr node 
-        createEntityNode(folderNode, entityId); 
-        // and WriteCommand.execute writes the object into this file node
-        return super.execute(session);
+        // here we only create the jcr file node
+        createEntityNode(folderNode);
+        
+        return writeEntityIntoFileNode(session);        
     }
     
-    private JcrNode findOrCreateEntityFolder(JcrSession session) {
+    protected Object writeEntityIntoFileNode(Session session) { 
+        return writeCommand_.execute(session);
+    }
+    
+    protected JcrNode findOrCreateEntityFolder(Session session) {
         JcrNode rootNode = session.getRootNode();
         String name = entityFolderName();
         
@@ -57,9 +76,21 @@ class PersistCommand extends WriteCommand {
         return result;
     }
     
-    private JcrNode createEntityNode(JcrNode folderNode, String entityId) {
-        JcrNode entityNode = folderNode.addNode(entityId, "nt:file");
+    protected JcrNode createEntityNode(JcrNode folderNode) {
+        JcrNode entityNode = folderNode.addNode(entityId(), "nt:file");
         entityNode.addMixin("mix:referenceable");
         return entityNode;
+    }
+    
+    private String entityFolderName() {
+        return getModel().entityFolderName(entity_);
+    }
+    
+    protected String entityId() {
+        return getModel().entityId(entity_);
+    }
+    
+    private Model getModel() {
+        return persistence_.getModel();
     }
 }

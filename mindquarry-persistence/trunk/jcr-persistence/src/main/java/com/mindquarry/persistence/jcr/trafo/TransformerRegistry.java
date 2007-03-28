@@ -26,7 +26,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.model.ModelException;
 
 /**

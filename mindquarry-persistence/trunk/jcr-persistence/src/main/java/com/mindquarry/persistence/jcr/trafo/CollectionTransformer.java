@@ -15,9 +15,9 @@ package com.mindquarry.persistence.jcr.trafo;
 
 import java.util.Collection;
 
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNodeIterator;
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrNodeIterator;
 import com.mindquarry.persistence.jcr.model.ModelException;
 
 /**

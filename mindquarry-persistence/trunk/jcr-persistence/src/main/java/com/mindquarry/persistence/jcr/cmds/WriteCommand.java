@@ -13,10 +13,10 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrSession;
-import com.mindquarry.persistence.jcr.model.EntityType;
+import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
@@ -28,8 +28,8 @@ import com.mindquarry.persistence.jcr.trafo.Transformer;
  */
 class WriteCommand implements Command {
 
-    protected Object entity_;
-    protected Persistence persistence_;
+    private Object entity_;
+    private Persistence persistence_;
     
     public void initialize(Persistence persistence, Object... objects) {
         entity_ = objects[0];
@@ -39,24 +39,27 @@ class WriteCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(JcrSession session) {
+    public Object execute(Session session) {
         
-        JcrNode rootNode = session.getRootNode();        
+        JcrNode rootNode = session.getRootNode();
         JcrNode folderNode = rootNode.findNode(entityFolderName());
         
-        JcrNode entityNode = folderNode.findNode(entityId());        
+        JcrNode entityNode = folderNode.findNode(entityId());
         entityTransformer().writeToJcr(entity_, entityNode);
         
         return entityNode;
     }
     
-    protected String entityId() {
-        EntityType entityType = getTransformationManager().entityType(entity_);
-        return entityType.idForEntity(entity_);
+    private String entityId() {
+        return getModel().entityId(entity_);
     }
     
-    protected String entityFolderName() {
-        return getTransformationManager().entityFolderName(entity_);
+    private String entityFolderName() {
+        return getModel().entityFolderName(entity_);
+    }
+    
+    private Model getModel() {
+        return persistence_.getModel();
     }
     
     private Transformer entityTransformer() {
