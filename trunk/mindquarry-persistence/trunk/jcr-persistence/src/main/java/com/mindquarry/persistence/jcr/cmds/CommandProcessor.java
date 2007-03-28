@@ -13,20 +13,9 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
-import static com.mindquarry.persistence.jcr.Operations.DELETE;
-import static com.mindquarry.persistence.jcr.Operations.PERSIST;
-import static com.mindquarry.persistence.jcr.Operations.PERSIST_OR_UPDATE;
-import static com.mindquarry.persistence.jcr.Operations.QUERY;
-import static com.mindquarry.persistence.jcr.Operations.READ;
-import static com.mindquarry.persistence.jcr.Operations.UPDATE;
-
-import java.util.HashMap;
-import java.util.Map;
-
-import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 
 /**
  * Add summary documentation here.
@@ -37,34 +26,23 @@ import com.mindquarry.persistence.jcr.Session;
 public class CommandProcessor {
 
     private Persistence persistence_;
-    private Map<Operations, Class<? extends Command>> commandMap_;
     
     public CommandProcessor(Persistence persistence) {
         persistence_ = persistence;
-        commandMap_ = new HashMap<Operations, Class<? extends Command>>();
-        commandMap_.put(READ, ReadCommand.class);
-        commandMap_.put(DELETE, DeleteCommand.class);
-        commandMap_.put(QUERY, QueryCommand.class);
-        commandMap_.put(UPDATE, WriteCommand.class);        
-        commandMap_.put(PERSIST, PersistCommand.class);
-        commandMap_.put(PERSIST_OR_UPDATE, PersistOrUpdateCommand.class);
     }
     
-    public Object process(Operations operation, 
-                Session session, Object... objects) {
+    public Object process(JcrSession jcrSession, 
+            Operations operation, Object... objects) {
         
-        Command command = createCommand(operation);
-        command.initialize(persistence_, objects);
-        return command.execute(session);   
-    }
-    
-    private Command createCommand(Operations operation) {
-        try {
-            return commandMap_.get(operation).newInstance();
-        } catch (InstantiationException e) {
-            throw new JcrPersistenceInternalException(e);
-        } catch (IllegalAccessException e) {
-            throw new JcrPersistenceInternalException(e);
+        Command command = null;
+        switch (operation) {
+            case PERSIST : command = new WriteCommand(); break;
+            case UPDATE : command = new WriteCommand(); break;
+            case READ : command = new ReadCommand(); break;
+            case DELETE : command = new DeleteCommand(); break;
+            case QUERY : command = new QueryCommand(); break;
         }
+        command.initialize(persistence_, objects);
+        return command.execute(jcrSession);
     }
 }

@@ -26,9 +26,9 @@ import org.apache.commons.collections.Predicate;
 import org.apache.commons.collections.functors.EqualPredicate;
 import org.apache.commons.collections.functors.NotPredicate;
 
-import com.mindquarry.persistence.api.EntityBase;
-import com.mindquarry.persistence.api.PersistenceException;
-import com.mindquarry.persistence.api.Session;
+import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.common.persistence.PersistenceException;
+import com.mindquarry.common.persistence.Session;
 import com.mindquarry.persistence.config.PersistenceConfiguration;
 
 /**

@@ -13,10 +13,11 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
-import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
-import com.mindquarry.persistence.jcr.model.Model;
+import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.model.EntityType;
+import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 
 /**
  * Add summary documentation here.
@@ -37,26 +38,30 @@ class DeleteCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
+    public Object execute(JcrSession session) {
         JcrNode folderNode = findEntityFolder(session);
-        folderNode.getNode(entityId()).remove();
+        folderNode.getNode(id()).remove();
         return null;
     }
     
-    private JcrNode findEntityFolder(Session session) {
+    private JcrNode findEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();
         return rootNode.getNode(entityFolderName());
     }
 
-    private String entityId() {
-        return getModel().entityId(entity_);
+    private String id() {
+        return entityType().getEntityId().getValue(entity_);
+    }
+    
+    private EntityType entityType() {
+        return getTransformationManager().entityType(entity_);
     }
     
     private String entityFolderName() {
-        return getModel().entityFolderName(entity_);
+        return getTransformationManager().entityFolderName(entity_);
     }
     
-    private Model getModel() {
-        return persistence_.getModel();
+    private TransformationManager getTransformationManager() {
+        return persistence_.getTransformationManager();
     }
 }

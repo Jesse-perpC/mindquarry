@@ -11,13 +11,12 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr;
+package com.mindquarry.persistence.jcr.api;
 
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
 
 import javax.jcr.Node;
 import javax.jcr.Property;
-
 
 /**
  * Add summary documentation here.
@@ -28,11 +27,9 @@ import javax.jcr.Property;
 public class JcrProperty {
 
     private Property property_;
-    private Session session_;
     
-    public JcrProperty(Property property, Session session) {
+    public JcrProperty(Property property) {
         property_ = property;
-        session_ = session;
     }
 
     /*
@@ -74,7 +71,7 @@ public class JcrProperty {
     
     public JcrNode getNode() {
         Object result = invoke("getNode", property_);
-        return new JcrNode((Node) result, session_);
+        return new JcrNode((Node) result);
     }
     
     /*

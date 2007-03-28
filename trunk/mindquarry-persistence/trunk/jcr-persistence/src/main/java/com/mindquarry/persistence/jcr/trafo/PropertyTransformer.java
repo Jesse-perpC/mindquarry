@@ -15,7 +15,7 @@ package com.mindquarry.persistence.jcr.trafo;
 
 import java.lang.reflect.Type;
 
-import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.model.Property;
 
 /**
@@ -44,7 +44,7 @@ class PropertyTransformer implements Transformer {
         return contentTransformer_.readFromJcr(propertyNode);
     }
 
-    public void writeToJcr(Object propertyValue, JcrNode entityNode) {
+    public JcrNode writeToJcr(Object propertyValue, JcrNode entityNode) {
         String propertyName = property_.getName();
         
         JcrNode propertyNode;
@@ -54,5 +54,7 @@ class PropertyTransformer implements Transformer {
             propertyNode = entityNode.addNode(propertyName, "xt:element");
         
         contentTransformer_.writeToJcr(propertyValue, propertyNode);
+        
+        return propertyNode;
     }
 }

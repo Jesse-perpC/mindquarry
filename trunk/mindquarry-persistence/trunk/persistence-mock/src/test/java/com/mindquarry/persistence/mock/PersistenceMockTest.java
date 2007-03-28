@@ -20,9 +20,9 @@ import javax.transaction.SystemException;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.persistence.api.PersistenceException;
-import com.mindquarry.persistence.api.Session;
-import com.mindquarry.persistence.api.SessionFactory;
+import com.mindquarry.common.persistence.PersistenceException;
+import com.mindquarry.common.persistence.Session;
+import com.mindquarry.common.persistence.SessionFactory;
 
 public class PersistenceMockTest extends PersistenceMockTestBase {
 

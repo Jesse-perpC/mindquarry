@@ -13,7 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.trafo;
 
-import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrNode;
 
 /**
  * Add summary documentation here.
@@ -30,7 +30,7 @@ class StringTransformer implements Transformer {
         return textNode.getProperty("xt:characters").getString();
     }
 
-    public void writeToJcr(Object object, JcrNode propertyNode) {
+    public JcrNode writeToJcr(Object object, JcrNode propertyNode) {
         JcrNode textNode;
         if (propertyNode.hasNode("text"))
             textNode = propertyNode.getNode("text");
@@ -38,5 +38,7 @@ class StringTransformer implements Transformer {
             textNode = propertyNode.addNode("text", "xt:text");
         
         textNode.setProperty("xt:characters", object.toString());
+        
+        return textNode;
     }    
 }

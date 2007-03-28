@@ -13,13 +13,10 @@
  */
 package com.mindquarry.persistence.jcr.trafo;
 
-import static com.mindquarry.persistence.jcr.Operations.PERSIST_OR_UPDATE;
-import static com.mindquarry.persistence.jcr.Operations.READ;
-
-import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrSession;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
@@ -44,27 +41,34 @@ class ReferenceTransformer implements Transformer {
             return null;
         }
         
-        Session session = propertyNode.getSession();
+        JcrSession session = propertyNode.getSession();
         JcrNode entityNode = propertyNode.getProperty("reference").getNode();
         
-        return processCommand(READ, session, entityNode);
+        return processCommand(session, Operations.READ, entityNode);
     }
 
-    public void writeToJcr(Object entity, JcrNode propertyNode) {        
+    public JcrNode writeToJcr(Object entity, JcrNode propertyNode) {
+        Operations operation;
+        if (propertyNode.hasProperty("reference"))
+            operation = Operations.UPDATE;
+        else
+            operation = Operations.PERSIST;
         
-        Session session = propertyNode.getSession();
+        JcrSession session = propertyNode.getSession();        
         
-        Object entityNode = processCommand(PERSIST_OR_UPDATE, session, entity);
-        propertyNode.setProperty("reference", (JcrNode) entityNode);
+        Object entityNode = processCommand(session, operation, entity);
+        propertyNode.setProperty("reference", (JcrNode) entityNode);        
+        
+        return propertyNode;
     }
     
-    private Object processCommand(Operations operation, 
-            Session session, Object... objects) {
+    private Object processCommand(JcrSession session,
+                    Operations operation, Object... objects) {
         
-        return getCommandProcessor().process(operation, session, objects);
+        return getCommandManager().process(session, operation, objects);
     }
     
-    private CommandProcessor getCommandProcessor() {
+    private CommandProcessor getCommandManager() {
         return persistence_.getCommandProcessor();
     }
 }

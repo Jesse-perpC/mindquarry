@@ -16,7 +16,7 @@ package com.mindquarry.persistence.jcr.trafo;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.api.JcrNode;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Property;
 
@@ -45,8 +45,8 @@ public class EntityTransformer implements Transformer {
     }
     
     public Object readFromJcr(JcrNode entityNode) {
-        String entityId = entityNode.getName();
-        Object entity = entityType_.createNewEntity(entityId);
+        Object entity = entityType_.createNewEntity();        
+        entityType_.getEntityId().setValue(entity, entityNode.getName());
         
         JcrNode contentNode = entityNode.getNode("jcr:content");        
         for (Property property : entityType_.properties()) {
@@ -60,19 +60,34 @@ public class EntityTransformer implements Transformer {
         return propertyTransformers_.get(property);
     }
 
-    public void writeToJcr(Object entity, JcrNode entityNode) {
+    public JcrNode writeToJcr(Object entity, JcrNode folderNode) {
+        
+        String entityId = id(entity);
         
         JcrNode contentNode;
-        if (entityNode.hasNode("jcr:content"))
-            contentNode = entityNode.getNode("jcr:content");
+        if (folderNode.hasNode(entityId))
+            contentNode = folderNode.getNode(entityId + "/jcr:content");
         else
-            contentNode = entityNode.addNode("jcr:content", "xt:document");
-        
-        contentNode.setProperty("jcr:lastModified", System.currentTimeMillis());
+            contentNode = createNewEntityNode(entityId, folderNode);     
         
         for (Property property : entityType_.properties()) {
             Object propertyValue = property.getContent(entity);
             transformer(property).writeToJcr(propertyValue, contentNode);
         }
+        
+        return folderNode.getNode(entityId);
+    }
+    
+    private JcrNode createNewEntityNode(String entityId, JcrNode folderNode) {
+        JcrNode entityNode = folderNode.addNode(entityId, "nt:file");
+        entityNode.addMixin("mix:referenceable");
+        
+        JcrNode result = entityNode.addNode("jcr:content", "xt:document");
+        result.setProperty("jcr:lastModified", System.currentTimeMillis());
+        return result;
+    }
+    
+    private String id(Object entity) {
+        return entityType_.getEntityId().getValue(entity);
     }
 }

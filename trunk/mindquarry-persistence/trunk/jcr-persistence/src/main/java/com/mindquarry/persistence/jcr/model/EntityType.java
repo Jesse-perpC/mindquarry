@@ -67,11 +67,9 @@ public class EntityType {
         }
     }
 
-    public Object createNewEntity(String entityId) {
+    public Object createNewEntity() {
         try {
-            Object result = entityClazz_.newInstance();
-            entityId_.setValue(result, entityId);
-            return result;
+            return entityClazz_.newInstance();
         } catch (InstantiationException e) {
             throw new ModelException("could not create an instance of " +
                     "entity type: " + entityClazz_, e);
@@ -80,8 +78,8 @@ public class EntityType {
         }
     }
     
-    public String idForEntity(Object entity) {
-        return entityId_.getValue(entity);
+    public EntityId getEntityId() {
+        return entityId_;
     }
     
     public Property property(String propertyName) {
