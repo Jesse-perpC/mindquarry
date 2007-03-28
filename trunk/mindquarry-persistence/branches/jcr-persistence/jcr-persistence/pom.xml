@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<parent>
+		<artifactId>mindquarry-persistence</artifactId>
+		<groupId>com.mindquarry.persistence</groupId>
+		<version>1.0-M2-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>jcr-persistence</artifactId>
+	<name>JCR Persistence</name>
+
+	<dependencies>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jackrabbit</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.jcr</groupId>
+			<artifactId>mindquarry-jackrabbit</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>commons-beanutils</groupId>
+			<artifactId>commons-beanutils</artifactId>
+			<version>1.7.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>2.2.0-M3_Mindquarry_1</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+	</dependencies>
+
+	<repositories>
+		<repository>
+			<id>ibiblio-maven2-repo</id>
+			<url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
+		</repository>
+	</repositories>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-release-plugin</artifactId>
+				<configuration>
+					<tagBase>
+						https://www.mindquarry.org/repos/mindquarry-persistence/tags/hibernate-persistence/
+					</tagBase>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<scm>
+		<connection>
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
+		</connection>
+		<url>
+			https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
+		</url>
+		<developerConnection>
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
+		</developerConnection>
+	</scm>
+</project>
