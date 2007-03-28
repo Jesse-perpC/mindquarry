@@ -11,38 +11,22 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.api;
+package com.mindquarry.persistence.jcr;
 
-import static com.mindquarry.common.lang.ReflectionUtil.invoke;
-
-import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 import javax.jcr.query.QueryManager;
 
 /**
- * Add summary documentation here.
+ * acts also as wrapper for javax.jcr.Session
+ * and provides the following "jcr api" convenience methods
+ * without the useless checked exceptions 
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class JcrSession {
-
-    private Session session_;
+public interface JcrSession {
     
-    public JcrSession(Session session) {
-        session_ = session;
-    }
+    public JcrNode getRootNode();
     
-    public JcrNode getRootNode() {
-        return new JcrNode((Node) invoke("getRootNode", session_));
-    }
-    
-    public void save() {
-        invoke("save", session_);
-    }
-    
-    public QueryManager getQueryManager() throws RepositoryException {
-        return session_.getWorkspace().getQueryManager();
-    }
+    public QueryManager getQueryManager() throws RepositoryException;
 }

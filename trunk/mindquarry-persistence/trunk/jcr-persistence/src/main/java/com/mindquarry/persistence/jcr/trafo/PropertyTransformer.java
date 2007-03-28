@@ -15,7 +15,7 @@ package com.mindquarry.persistence.jcr.trafo;
 
 import java.lang.reflect.Type;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.model.Property;
 
 /**

@@ -47,6 +47,10 @@ public class Model  {
         return findEntityType(entity.getClass()).folder();
     }
     
+    public String entityId(Object entity) {
+        return findEntityType(entity.getClass()).id(entity);
+    }
+    
     public String jcrPathForEntity(Object entity) {
         EntityType entityType = entityType(entity.getClass());
         String clazzPath = entityType.pathForEntity(entity);

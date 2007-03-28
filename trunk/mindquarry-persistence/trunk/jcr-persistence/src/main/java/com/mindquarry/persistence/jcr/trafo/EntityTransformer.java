@@ -16,7 +16,7 @@ package com.mindquarry.persistence.jcr.trafo;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Property;
 

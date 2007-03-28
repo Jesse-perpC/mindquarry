@@ -18,8 +18,8 @@ import java.lang.reflect.Type;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrNodeIterator;
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNodeIterator;
 
 /**
  * Add summary documentation here.

@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.api;
+package com.mindquarry.persistence.jcr;
 
 import static com.mindquarry.common.lang.ReflectionUtil.findMethod;
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
@@ -21,9 +21,8 @@ import java.lang.reflect.Method;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Property;
-import javax.jcr.Session;
 
-import com.mindquarry.common.persistence.PersistenceException;
+import com.mindquarry.persistence.api.PersistenceException;
 
 /**
  * Add summary documentation here.
@@ -34,9 +33,11 @@ import com.mindquarry.common.persistence.PersistenceException;
 public class JcrNode {
 
     Node node_;
+    Session session_;
     
-    public JcrNode(Node node) {
+    JcrNode(Node node, Session session) {
         node_ = node;
+        session_ = session;
     }
     
     public void addMixin(String mixinName) {
@@ -44,12 +45,12 @@ public class JcrNode {
     }
 
     public JcrNode addNode(String relPath) {
-        return new JcrNode((Node) invoke("addNode", node_, relPath));
+        return new JcrNode((Node) invoke("addNode", node_, relPath), session_);
     }
 
     public JcrNode addNode(String relPath, String primaryNodeTypeName) {
         Object result = invoke("addNode", node_, relPath, primaryNodeTypeName);
-        return new JcrNode((Node) result);
+        return new JcrNode((Node) result, session_);
     }
 
     public void checkout() {
@@ -93,7 +94,7 @@ public class JcrNode {
     }*/
 
     public JcrNode getNode(String relPath) {
-        return new JcrNode((Node) invoke("getNode", node_, relPath));
+        return new JcrNode((Node) invoke("getNode", node_, relPath), session_);
     }
 
     public JcrNode findNode(String relPath) {
@@ -106,12 +107,12 @@ public class JcrNode {
 
     public JcrNodeIterator getNodes() {
         Object result = invoke("getNodes", node_);
-        return new JcrNodeIterator((NodeIterator) result);
+        return new JcrNodeIterator((NodeIterator) result, session_);
     }
 
     public JcrNodeIterator getNodes(String namePattern) {
         Object result = invoke("getNodes", node_, namePattern);
-        return new JcrNodeIterator((NodeIterator) result);
+        return new JcrNodeIterator((NodeIterator) result, session_);
     }
 
     /*
@@ -137,7 +138,7 @@ public class JcrNode {
 
     public JcrProperty getProperty(String relPath) {
         Object result = invoke("getProperty", node_, relPath);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
     }
 
     /*
@@ -253,7 +254,7 @@ public class JcrNode {
 
     public JcrProperty setProperty(String name, String value) {
         Object result = invoke("setProperty", node_, name, value);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
     }
 
     /*
@@ -276,7 +277,7 @@ public class JcrNode {
         Class<?>[] paramTypes = new Class<?>[] {String.class, long.class};
         Method method = findMethod(Node.class, "setProperty", paramTypes); 
         Object result = invoke(method, node_, name, value);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
     }
 
     /*
@@ -290,7 +291,7 @@ public class JcrNode {
         Class<?>[] paramTypes = new Class<?>[] {String.class, Node.class};
         Method method = findMethod(Node.class, "setProperty", paramTypes);        
         Object result = invoke(method, node_, name, value.node_);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
     }
     
 /*
@@ -345,7 +346,7 @@ public class JcrNode {
 
     public JcrNode getParent() {
         Object result = invoke("getParent", node_);
-        return new JcrNode((Node) result);
+        return new JcrNode((Node) result, session_);
     }
 /*
     public String getPath() throws RepositoryException {
@@ -354,9 +355,8 @@ public class JcrNode {
     }
     */
 
-    public JcrSession getSession() {
-        Object result = invoke("getSession", node_);
-        return new JcrSession((Session) result);
+    public Session getSession() {
+        return session_;
     }
 
     /*

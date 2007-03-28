@@ -13,8 +13,9 @@
  */
 package com.mindquarry.persistence.mock;
 
-import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.persistence.api.Configuration;
+import com.mindquarry.persistence.api.Session;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.config.PersistenceConfiguration;
 
 public class SessionFactoryMock implements SessionFactory {
@@ -37,4 +38,6 @@ public class SessionFactoryMock implements SessionFactory {
 	public Session currentSession() {
     	return session_;
     }
+
+    public void configure(Configuration configuration) {}
 }

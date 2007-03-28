@@ -1,6 +1,6 @@
 /*
  * Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
- * 
+ *
  * The contents of this file are subject to the Mozilla Public License
  * Version 1.1 (the "License"); you may not use this file except in
  * compliance with the License. You may obtain a copy of the License at
@@ -11,32 +11,37 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.trafo;
+package com.mindquarry.persistence.jcr.pool;
+
+import java.util.Map;
+
+import static com.mindquarry.persistence.jcr.Operations.READ;
 
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.Operations;
+import com.mindquarry.persistence.jcr.Persistence;
 
 /**
  * Add summary documentation here.
  *
- * @author 
+ * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class StringTransformer implements Transformer {
-    
-    public void initialize(TransformerRegistry transformerRegistry) {}
-    
-    public Object readFromJcr(JcrNode propertyNode) {
-        JcrNode textNode = propertyNode.getNode("text");
-        return textNode.getProperty("xt:characters").getString();
-    }
+public class Pool {
 
-    public void writeToJcr(Object object, JcrNode propertyNode) {
-        JcrNode textNode;
-        if (propertyNode.hasNode("text"))
-            textNode = propertyNode.getNode("text");
-        else
-            textNode = propertyNode.addNode("text", "xt:text");
-        
-        textNode.setProperty("xt:characters", object.toString());
-    }    
+    private Persistence persistence_;
+    private Map<Object, Object> store_;
+    
+    public Pool(Persistence persistence) {
+        persistence_ = persistence;
+    }
+    
+    public Object serve(Operations operation, Object...objects) {
+        if (operation == READ) {
+            JcrNode entityNode = (JcrNode) objects[0];
+            String entityId = entityNode.getName();
+            String entityFolder = entityNode.getParent().getName();
+        }
+        return null;
+    }
 }
