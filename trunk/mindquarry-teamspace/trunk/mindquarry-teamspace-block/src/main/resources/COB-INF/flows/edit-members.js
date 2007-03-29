@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */ 
-cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
+cocoon.load("resource://com/mindquarry/cocoon/forms/Form.js");
 cocoon.load("flows/upload-photo.js");
 
 var teamspaceQuery_;
@@ -38,7 +38,7 @@ function processEditMembersForm(form) {
 	setCreateUserEmbeddedMode();
 	form.showForm("edit-members.instance");
 	
-	cocoon.redirectTo(redirectURL);
+	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }
 
 function loadModelWithMembership() {
@@ -71,16 +71,15 @@ function processCreateUser(form) {
 	
 	model_ = form.getModel();
 	form_ = form;
-			
+	
 	activateUserForm();
 	setCreateUserStandaloneMode();
-		
-	form.showForm("edit-members.instance");
 	
-	if (form.submitId != "cancelSubmit")
+	form.showForm("edit-members.instance");
+	if (form.submitId != "cancelSubmit") {
 		createUser();
-		
-	cocoon.redirectTo(redirectURL);
+	}
+	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }
 
 function createUser() {

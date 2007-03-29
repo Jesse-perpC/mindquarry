@@ -1,4 +1,4 @@
-a.edit_members_button:link, a.edit_members_button:visited {
+div.teams a.edit_members_button:link, a.edit_members_button:visited {
 	background-image: url(../buttons/edit_member.png);
 	display: block;
 	width: 140px;
@@ -12,7 +12,7 @@ a.edit_members_button:link, a.edit_members_button:visited {
 	padding-left: 13px;
 }
 
-a.edit_settings_button:link, a.edit_settings_button:visited {
+div.teams a.edit_settings_button:link, a.edit_settings_button:visited {
 	background-image: url(../buttons/edit_settings.png);
 	display: block;
 	width: 140px;
@@ -26,7 +26,7 @@ a.edit_settings_button:link, a.edit_settings_button:visited {
 	padding-left: 13px;
 }
 
-a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
+div.teams a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 	background-image: url(../buttons/edit_subprojects.png);
 	display: block;
 	width: 140px;
@@ -40,7 +40,7 @@ a.edit_subprojects_button:link, a.edit_subprojects_button:visited {
 	padding-left: 13px;
 }
 
-div.edit-buttons {
+div.teams div.edit-buttons {
 	float: right;
 	clear:both;
 	margin-top: -60px;	
@@ -50,7 +50,7 @@ div.edit-buttons {
 	padding: 0;
 }
 
-img.icon {
+div.teams img.icon {
 	height:48px;
 	width:48px;
 	border:1px solid black;
@@ -58,24 +58,24 @@ img.icon {
 	margin-right:5px;
 }
 
-div.name h2 {
+div.teams div.name h2 {
 	display:inline;
 	font-weight:bold;
 	color:black;
 	font-size:12pt;
 	margin-right:5px;
 }
-div.name img {
+div.teams div.name img {
 	float:left;
 }
 
-div.name span {
+div.teams div.name span {
 	font-weight:normal;
 	color:#666666;
 	font-size:10pt;
 }
 
-div.name {
+div.teams div.name {
 	height:60px;
 	margin-right:320px;
 	overflow:hidden;
@@ -83,7 +83,7 @@ div.name {
 	width:auto;
 }
 
-div.details h3 {
+div.teams div.details h3 {
 	color: #666666;
 	font-size: 12px;
 	border-bottom: 1px solid #cccccc;
@@ -91,7 +91,7 @@ div.details h3 {
 	margin-bottom:5px;	
 }
 
-div.details {
+div.teams div.details {
 	clear:both;
 	font-size:9pt;
 	color:#999999;
