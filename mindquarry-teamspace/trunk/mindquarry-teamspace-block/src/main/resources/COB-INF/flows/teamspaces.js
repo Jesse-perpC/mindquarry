@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */ 
-cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
+cocoon.load("resource://com/mindquarry/cocoon/forms/Form.js");
 
 importClass(Packages.com.mindquarry.teamspace.TeamspaceAdmin);
 importClass(Packages.com.mindquarry.user.UserAdmin);
@@ -36,7 +36,7 @@ function processCreateTeamspaceForm(form) {
       
       cocoon.releaseComponent(teamspaceAdmin);
     }	
-	cocoon.redirectTo(redirectURL);
+	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }
 
 function existsTeamspaceWithId(teamspaceIdWidget) {
@@ -84,5 +84,5 @@ function processEditTeamspaceForm(form) {
     	cocoon.releaseComponent(teamspaceAdmin);
     }
 	
-	cocoon.redirectTo(redirectURL);
+	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }

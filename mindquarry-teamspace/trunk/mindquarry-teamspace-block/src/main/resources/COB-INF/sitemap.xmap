@@ -206,6 +206,8 @@
 							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
 							value="{request-attr:username}" />
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
 					</transform>
 					<serialize type="xml" />
 				</when>
@@ -222,10 +224,8 @@
 
 						<parameter name="parameter-name" value="dojo.transport"/>
 						<when test="iframe">
-
 							<transform src="resource://org/apache/cocoon/forms/resources/IframeTransport-bu-styling.xsl"/>
 							<serialize type="xhtml"/><!-- this is REALLY important -->
-
 						</when>
 						<otherwise>
 							<serialize type="xml"/>
@@ -320,13 +320,41 @@
 				<transform src="xslt/includeMembersForTeamspace.xsl" />
 				<transform type="include" />
 				
-				<serialize type="xml" />
-				
+				<serialize type="xml" />				
 			</match>
 			
-			<match pattern="team/">
-				<redirect-to uri=".." />
+			
+			
+			<match pattern="team/">			
+				<generate type="jx" src="jx/redirect-browserupdate.jx">
+					<parameter name="uri" value=".." />
+				</generate>
+				
+				<!-- generate JX bu:redirect no matter what we're going to serve.
+					then serialize directly to xml or do transformation to hard http redirect 
+					depending on wheter we requested via ajax or not -->
+					
+				<select type="lightbox-request">
+					<when test="true">					
+						<serialize type="xml" />
+					</when>
+					<otherwise>
+						<transform type="bu-redirect" />
+						<serialize type="xml" />
+					</otherwise>
+				</select>
 			</match>
+			
+			
+			<!-- internal, will provide a browser-update xml snippet with
+				 a redirect action -->
+			<match pattern="redirectTo/**">
+				<generate type="jx" src="jx/redirect-browserupdate.jx">
+					<parameter name="uri" value="{1}" />
+				</generate>
+				<serialize type="xml" />
+			</match>
+			
 			
 			<!-- single teamspace details -->
 			<match pattern="team/*/">
@@ -588,16 +616,18 @@
 		</pipeline>
 		
 		<!-- resources pipeline -->
+		<!-- changed to **css/ because of absolute links in lightboxes -->
+		<!-- http://server/teams/team/teamspacename/css/teamspace.css -->
 		<pipeline type="expires-caching">
-			<match pattern="css/*.css">
+			<match pattern="**css/*.css">
 				<select type="resource-exists">
-					<when test="css/{1}.css">
+					<when test="css/{2}.css">
 						<!-- if it exists, load it from this sitemap's resources -->
-						<read src="css/{1}.css" />
+						<read src="css/{2}.css" />
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/css/{1}.css" />
+						<read src="block:super:/css/{2}.css" />
 					</otherwise>
 				</select>
 			</match>
