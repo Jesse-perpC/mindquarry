@@ -147,6 +147,9 @@ function save(event) {
 		    // redirect from within the browser or (if Javascript is disabled
 		    // == this is no ajax request) the RedirectTransformer will do a
 		    // HTTP redirect based on the xml content) 
+		    
+		    
+		    //redirect with 
 		    cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);
 		    
 		} else {
@@ -173,8 +176,14 @@ function cancel(event) {
     	    // stop any further form processing to be able to do the redirect
     		form_.getWidget().endProcessing(false);
     		
-    	    // reload the form in view mode (new continuation)
-    	    cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);
+    		
+    		if (cocoon.request.formbaselink) {
+				// add current formbaselink before redirect (true for "absoluteLink")
+				cocoon.redirectTo("cocoon:/redirectTo/" + cocoon.request.formbaselink);
+    		} else {
+				// reload the form in view mode (new continuation)
+				cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);   			
+    		}
     	}
 	}
 }

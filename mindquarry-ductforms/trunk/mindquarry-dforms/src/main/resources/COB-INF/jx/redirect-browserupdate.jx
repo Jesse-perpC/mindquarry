@@ -18,4 +18,3 @@
         <bu:redirect uri="${cocoon.parameters.uri}" />
     </bu:document>
 </jx:template>
-    
