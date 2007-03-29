@@ -332,8 +332,7 @@
 				
 				<!-- generate JX bu:redirect no matter what we're going to serve.
 					then serialize directly to xml or do transformation to hard http redirect 
-					depending on wheter we requested via ajax or not -->
-					
+					depending on wheter we requested via ajax or not -->					
 				<select type="lightbox-request">
 					<when test="true">					
 						<serialize type="xml" />
@@ -352,7 +351,19 @@
 				<generate type="jx" src="jx/redirect-browserupdate.jx">
 					<parameter name="uri" value="{1}" />
 				</generate>
-				<serialize type="xml" />
+				
+				<!-- generate JX bu:redirect no matter what we're going to serve.
+					then serialize directly to xml or do transformation to hard http redirect 
+					depending on wheter we requested via ajax or not -->					
+				<select type="lightbox-request">
+					<when test="true">					
+						<serialize type="xml" />
+					</when>
+					<otherwise>
+						<transform type="bu-redirect" />
+						<serialize type="xml" />
+					</otherwise>
+				</select>
 			</match>
 			
 			
