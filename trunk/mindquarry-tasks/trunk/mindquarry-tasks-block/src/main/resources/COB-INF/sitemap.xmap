@@ -136,6 +136,8 @@
 							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
 							value="{request-attr:username}" />
+						<parameter name="fullPath"
+							value="{block-path:}{request:pathInfo}" />
 					</transform>
 					<serialize type="xml" />
 				</when>
@@ -203,6 +205,13 @@
 			<transform src="block:super:/xslt/forms/form2html.xsl">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
+					
+				<parameter name="blockPath"
+					value="{block-path:}" />
+				<parameter name="serverBasePath" 
+					value="{system-property:mindquarry.server.url}{request:contextPath}" />
+					
+					
 				<parameter name="sitemapPath"
 					value="{request:pathInfo}" />
 			</transform>
@@ -624,6 +633,15 @@
 						<serialize type="xml" mime-type="text/x-opml"/>
 					</when>
 				</select>
+			</match>
+
+			<!-- internal, will provide a browser-update xml snippet with
+				 a redirect action -->
+			<match pattern="redirectTo/**">
+				<generate type="jx" src="jx/redirect-browserupdate.jx">
+					<parameter name="uri" value="{1}" />
+				</generate>
+				<serialize type="xml" />
 			</match>
 
 			<!-- filter continuation -->
