@@ -119,46 +119,20 @@
     <repository>
       <id>mindquarry.releases</id>
       <name>Mindquarry Repository</name>
-      <url>scp://www.mindquarry.org/var/lib/maven/releases</url>
+      <url>scp://www.mindquarry.org/home/maven/releases</url>
     </repository>
     <snapshotRepository>
       <id>mindquarry.snapshots</id>
       <name>Mindquarry Snapshots Repository</name>
-      <url>scp://www.mindquarry.org/var/lib/maven/snapshots</url>
+      <url>scp://www.mindquarry.org/home/maven/snapshots</url>
     </snapshotRepository>
     <site>
       <id>website</id>
-      <url>scp://www.mindquarry.org/var/lib/maven/site/</url>
+      <url>scp://www.mindquarry.org/home/maven/site/</url>
    </site>
   </distributionManagement>
 	
   <profiles>
-    <profile>
-      <id>at-mindquarry.org</id>
-
-      <distributionManagement>
-        <repository>
-          <id>mindquarry.releases</id>
-          <name>Mindquarry Repository</name>
-          <!--
-            must be changed after continuous integration was moved to mindquarry.org
-          -->
-          <!--url>file:///var/lib/maven/releases</url-->
-          <url>scp://www.mindquarry.org/var/lib/maven/releases</url>
-        </repository>
-
-        <snapshotRepository>
-          <id>mindquarry.snapshots</id>
-          <name>Mindquarry Snapshots Repository</name>
-          <!--
-            must be changed after continuous integration was moved to mindquarry.org
-          -->
-          <!--url>file:///var/lib/maven/snapshots</url-->
-          <url>scp://www.mindquarry.org/var/lib/maven/snapshots</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
-
     <profile>
       <id>deploybuild</id>
       <activation>
