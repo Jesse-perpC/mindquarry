@@ -233,7 +233,7 @@ function saveFilter() {
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
-	cocoon.redirectTo(filterID_);
+	cocoon.redirectTo("cocoon:/redirectTo/" + filterID_);
 }
 
 function deleteFilter(fID) {
@@ -254,5 +254,5 @@ function deleteFilter(fID) {
 		}
 		cocoon.releaseComponent(srcResolver);
 	}
-    cocoon.redirectTo("..");
+    cocoon.redirectTo("cocoon:/redirectTo/" + "..");
 }

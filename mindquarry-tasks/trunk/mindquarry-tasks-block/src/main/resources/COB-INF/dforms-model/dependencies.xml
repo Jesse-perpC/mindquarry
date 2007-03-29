@@ -76,7 +76,9 @@
 							<ft:repeater-rows>
 								<tr class="forms-row-${repeaterLoop.index % 2}">
 									<td class="task">
-										<ft:widget id="task" />
+										<ft:widget id="task">
+											<fi:styling styling="task"/>
+										</ft:widget>
 									</td>
 									<td class="role">
 										<ft:widget id="role"/>
