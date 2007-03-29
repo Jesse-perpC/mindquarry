@@ -26,23 +26,6 @@
 			shorthand="event-broker"
 			default-class="com.mindquarry.events.EventBroker" />
 
-		<!--role name="javax.jcr.Repository" shorthand="jcr-repository"
-			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
-
-			<credentials login="expression" password="expression" />
-			<home src="target/repository" />
-			<credentials login="alexander.saar" password="mypwd" />
-			<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml" />
-		</role-->
-
-
-		<!--role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
-			shorthand="jcr-initializer"
-			default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer" >
-
-			<credentials login="alexander.saar" password="mypwd" />
-		</role-->
-
 		<role name="com.mindquarry.common.persistence.SessionFactory"
 			default-class="com.mindquarry.persistence.castor.CastorSessionFactoryCocoon" />
 
@@ -61,13 +44,6 @@
 			<component-instance name="jcr"
 				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
 				login="alexander.saar" password="mypwd" />
- 		<!-- rmi="rmi://localhost:1099/jackrabbit" /-->
-
-			<!-- use the following for working with an RMI repository -->
-			<!-- component-instance name="jcr"
-				class="com.mindquarry.jcr.xml.source.JCRSourceFactory"
-				login="alexander.saar" password="mypwd"
-				rmi="rmi://localhost:1099/jackrabbit" /-->
 		</source-factories>
 		
 		<!-- define the exact XMLSerializer we want to use (taken from
