@@ -48,12 +48,12 @@
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>castor-persistence</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
@@ -66,7 +66,7 @@
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jackrabbit</artifactId>
-			<version>1.0-M1-SNAPSHOT</version>
+			<version>1.0-M1</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
