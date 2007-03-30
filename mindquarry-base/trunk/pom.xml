@@ -194,6 +194,10 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  
+  <properties>
+    <cocoon-core.version>2.2.0-M3_Mindquarry_2</cocoon-core.version>
+  </properties>
 	
   <build>
     <plugins>
