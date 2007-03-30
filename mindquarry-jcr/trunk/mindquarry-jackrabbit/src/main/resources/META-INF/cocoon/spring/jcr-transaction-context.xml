@@ -37,11 +37,4 @@
 		</property>
 	</bean>
 
-	<bean id="jcrService" parent="txProxyTemplate">
-		<property name="target">
-			<bean class="org.springmodules.examples.jcr.JcrService">
-				<property name="template" ref="jcrTemplate"/>
-			</bean>
-		</property>
-	</bean>
 </beans>
