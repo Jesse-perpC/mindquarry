@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */ 
-cocoon.load("resource://com/mindquarry/cocoon/forms/Form.js");
+cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 cocoon.load("flows/upload-photo.js");
 
 var teamspaceQuery_;
