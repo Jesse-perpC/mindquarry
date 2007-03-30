@@ -31,7 +31,7 @@
 		<dependency>
 			<groupId>com.mindquarry.dforms</groupId>
 			<artifactId>mindquarry-dforms</artifactId>
-			<version>1.0-M1</version>
+			<version>1.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
