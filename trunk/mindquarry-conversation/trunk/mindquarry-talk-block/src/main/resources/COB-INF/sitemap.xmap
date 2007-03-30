@@ -188,6 +188,20 @@
 			</select>
 		</resource>
 		
+		<resource name="create-new-message">
+			<act type="log" src="new message {timestamp}" /> 
+			
+			<generate type="stream">
+				<parameter name="defaultContentType" value="text/xml" />
+			</generate>
+			<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
+			</transform>
+			<transform type="write-source" />
+			<transform type="redirect" src="message{timestamp}" />
+			<serialize type="xml" />
+		</resource>
+		
 	</resources>
 
 	<views>
@@ -449,15 +463,11 @@
 			<!-- Append new message -->
 			<match pattern="*/*/new">
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
-				<generate type="stream">
-					<parameter name="defaultContentType" value="text/xml" />
-				</generate>
-				<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
-					<parameter name="path" value="jcr:///teamspaces/{1}/talk/conversations/{2}/message{date:yyyyMMdd-HHmmss}.xml"/>
-				</transform>
-				<transform type="write-source" />
-				<transform type="redirect" src="message{date:yyyyMMdd-HHmmss}" />
-				<serialize type="xml" />
+				<call resource="create-new-message">
+					<parameter name="teamspace" value="{1}" />
+					<parameter name="conversation" value="{2}" />
+					<parameter name="timestamp" value="{date:yyyyMMdd-HHmmss-S}" />
+				</call>
 			</match>
 			
 			<handle-errors>
@@ -481,6 +491,8 @@
 				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
 				<serialize type="xml" />
 			</match>
+			
+
 		</pipeline>
 		
 	</pipelines>
