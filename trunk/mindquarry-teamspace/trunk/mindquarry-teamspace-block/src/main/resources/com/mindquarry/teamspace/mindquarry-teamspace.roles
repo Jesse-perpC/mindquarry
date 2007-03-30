@@ -1,10 +1,11 @@
 <role-list>
 
+	<!-- remove this when switching to new spring jcr components -->
 	<role name="javax.jcr.Repository" shorthand="jcr-repository"
 		default-class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
 	</role>
 
-
+	<!-- remove this when switching to new spring jcr components -->
 	<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
 		shorthand="jcr-initializer"
 		default-class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
