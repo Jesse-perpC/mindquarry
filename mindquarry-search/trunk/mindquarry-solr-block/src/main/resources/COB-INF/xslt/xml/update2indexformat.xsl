@@ -40,6 +40,11 @@
             <field name="location">
                 <xsl:value-of select="collection:resource/@uri"/>
             </field>
+            <field name="team">
+                <xsl:value-of
+                    select="substring-before(substring-after(collection:resource/@uri,'/teamspaces/'),'/')"
+                />
+            </field>
             <field name="type">
                 <xsl:value-of
                     select="substring-before(substring-after(substring-after(collection:resource/@uri,'/teamspaces/'),'/'),'/')"
