@@ -84,7 +84,6 @@ public class JCROutputStream extends ByteArrayOutputStream {
         } catch (RepositoryException e) {
             isVersionableNode = false;
         }
-        
         this.isVersioned = isVersionableNode;
     }
 
@@ -96,7 +95,6 @@ public class JCROutputStream extends ByteArrayOutputStream {
         if (isClosed) {
             return;
         }
-        
         super.close();
         isClosed = true;
         
@@ -135,9 +133,7 @@ public class JCROutputStream extends ByteArrayOutputStream {
             if (isVersioned) {
         		node.checkin();
         	}
-            
             index(uri);
-            
         } catch (RepositoryException e) {
             throw new CascadingIOException("Unable to write to repository "
                     + e.getLocalizedMessage(), e);
