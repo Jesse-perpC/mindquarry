@@ -17,7 +17,7 @@
 		<actions>
 			<action name="log" src="com.mindquarry.webapp.acting.DebugLogAction"/>
 			<action name="log-params" src="com.mindquarry.webapp.acting.LogParametersAction"/>
-			<action name="authorise" src="com.mindquarry.webapp.acting.AuthorisationAction"/>
+			<action name="authorise" src="com.mindquarry.auth.cocoon.AuthorizationAction"/>
 		</actions>
 
 		<selectors>
