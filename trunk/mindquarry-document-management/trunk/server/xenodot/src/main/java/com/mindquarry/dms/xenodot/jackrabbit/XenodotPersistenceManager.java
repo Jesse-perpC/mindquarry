@@ -82,8 +82,6 @@ public class XenodotPersistenceManager implements PersistenceManager {
             try {
                 statement = database.prepareCall(sql);
                 initStatement(statement);
-                System.err.println("CALLDB: " + statement);
-                System.err.flush();
                 return statement.execute();
             } catch (SQLException sqle) {
                 sqle.printStackTrace();
@@ -110,8 +108,6 @@ public class XenodotPersistenceManager implements PersistenceManager {
             try {
                 statement = database.prepareCall(sql);
                 initStatement(statement);
-                System.err.println("QUERYDB: " + statement);
-                System.err.flush();
                 execValue = statement.execute();
                 rs = statement.getResultSet();
                 read(rs);
@@ -381,7 +377,6 @@ public class XenodotPersistenceManager implements PersistenceManager {
             Iterator<Node> nodes = helper.getNodes();
             while (nodes.hasNext()) {
                 final Node node = nodes.next();
-                System.err.println("Storing node: " + node.getId() + ", " + node.getName());
                 new CallDB() {
                     public void initStatement(CallableStatement statement)
                             throws SQLException {
@@ -395,8 +390,8 @@ public class XenodotPersistenceManager implements PersistenceManager {
                         statement.setLong(  3, node.getId().getMostSignificantBits());
                         statement.setLong(  4, node.getId().getLeastSignificantBits());
                         if (node.getName() == null) {
-                            statement.setString(5, "xen");
-                            statement.setString(6, "root");
+                            statement.setNull(5, Types.VARCHAR);
+                            statement.setNull(6, Types.VARCHAR);
                         } else {
                             statement.setString(5, node.getName().getNamespaceURI());
                             statement.setString(6, node.getName().getLocalName());
@@ -411,13 +406,12 @@ public class XenodotPersistenceManager implements PersistenceManager {
                 final Node node = nodes.next();
                 new CallDB() {
                     public void initStatement(CallableStatement statement) throws SQLException {
-                        System.err.println("Node Type: " + node.getType() + ", id:" + node.getId());
                         statement.setLong(  1, node.getId().getMostSignificantBits());
                         statement.setLong(  2, node.getId().getLeastSignificantBits());
                         statement.setInt(   3, node.getPosition());
                         if (node.getType() == null) {
                             statement.setString(4, "nt");
-                            statement.setString(5, "base");
+                            statement.setString(5, "unrestricted");
                         } else {
                             statement.setString(4, node.getType().getNamespaceURI());
                             statement.setString(5, node.getType().getLocalName());
@@ -639,19 +633,6 @@ public class XenodotPersistenceManager implements PersistenceManager {
                 }
             }
         }
-        
-        private void fixJackRabbit(NodeId fixId) {
-            PropertyId debugJackId =
-                new PropertyId(fixId, new QName("http://www.jcp.org/jcr/1.0", "primaryType"));
-            PropertyState fixit = createNew(debugJackId);
-            fixit.setType(PropertyType.NAME);
-            fixit.setDefinitionId(PropDefId.valueOf("1266667140"));
-            fixit.setMultiValued(false);
-            InternalValue[] values = new InternalValue[1];
-            values[0] = InternalValue.create(new QName("http://www.jcp.org/nt/1.0", "base"));
-            fixit.setValues(values);
-            properties.add(fixit);
-        }
 
         private void prepareNode(NodeState nodeState) {
             Node node = get(nodeState.getNodeId());
@@ -667,12 +648,6 @@ public class XenodotPersistenceManager implements PersistenceManager {
                 childNode.setName(child.getName());
                 childNode.setPosition(pos);
                 childNode.setParentId(nodeState.getNodeId());
-                String childId = childNode.getId().toString();
-                System.err.println(childId + " -> " + child.getName());
-                if (   childId.equals("deadbeef-face-babe-cafe-babecafebabe")
-                    || childId.equals("deadbeef-cafe-cafe-cafe-babecafebabe")) {
-                    fixJackRabbit(new NodeId(childNode.getId()));
-                }
             }
         }
 
@@ -722,7 +697,9 @@ public class XenodotPersistenceManager implements PersistenceManager {
         }
 
         public void setPosition(int aPos) {
-            position = aPos;
+            if (aPos != 0) {
+                position = aPos;
+            }
         }
 
         public int getPosition() {
@@ -730,7 +707,9 @@ public class XenodotPersistenceManager implements PersistenceManager {
         }
 
         public void setName(QName aName) {
-            name = aName;
+            if (aName != null) {
+                name = aName;
+            }
         }
 
         public QName getName() {
@@ -738,7 +717,9 @@ public class XenodotPersistenceManager implements PersistenceManager {
         }
 
         public void setDefinition(int aDef) {
-            definition = aDef;
+            if (aDef != 0) {
+                definition = aDef;
+            }
         }
 
         public int getDefinition() {
@@ -758,7 +739,9 @@ public class XenodotPersistenceManager implements PersistenceManager {
         }
 
         public void setType(QName type) {
-            this.type = type;
+            if (type != null) {
+                this.type = type;
+            }
         }
 
         public Set getMixinNames() {
