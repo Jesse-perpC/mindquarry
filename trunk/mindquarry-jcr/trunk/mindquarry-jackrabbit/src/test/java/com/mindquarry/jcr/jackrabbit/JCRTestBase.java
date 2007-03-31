@@ -25,6 +25,7 @@ import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
 import com.mindquarry.common.test.AvalonSpringContainerTestBase;
+import com.mindquarry.dms.xenodot.jackrabbit.XenodotPersistenceManager;
 
 /**
  * Abstract base classes for all JCR XML source test cases.
@@ -36,6 +37,7 @@ public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
     public static final String SCHEME = "jcr"; //$NON-NLS-1$
 
     public static final String BASE_URL = SCHEME + ":///"; //$NON-NLS-1$
+    public static final boolean USE_XENODOT = Boolean.parseBoolean(System.getProperty("xenodot", "false")); //$NON-NLS-1$
 
     protected Session session;
 
@@ -53,7 +55,13 @@ public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
                 "admin");//$NON-NLS-1$
 
         List<String> result = super.springConfigClasspathResources();
-        result.add("META-INF/cocoon/spring/jcr-repository-context.xml"); //$NON-NLS-1$
+        
+        System.err.println("Using xenodot => " + USE_XENODOT);
+        if (USE_XENODOT) {
+            result.add("META-INF/cocoon/spring/xenodot-repository-context.xml"); //$NON-NLS-1$            
+        } else {
+            result.add("META-INF/cocoon/spring/jcr-repository-context.xml"); //$NON-NLS-1$
+        }
         result.add("META-INF/cocoon/spring/jcr-session-context.xml"); //$NON-NLS-1$
         result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml"); //$NON-NLS-1$
         return result;
@@ -65,6 +73,20 @@ public abstract class JCRTestBase extends AvalonSpringContainerTestBase {
         File repoFolder = new File("target/repository"); //$NON-NLS-1$
         removeRepository(repoFolder);
         repoFolder.mkdirs();
+
+        if (USE_XENODOT) {
+            // TODO: Right now XenodotPersistenceManger is hardcoded, so this will work
+            System.err.println("Start cleaning Xenodot in setUp()");
+            XenodotPersistenceManager manager = new XenodotPersistenceManager();
+            manager.init(null);
+            manager.getConnection().prepareCall("delete from xenodot.property;").execute();            
+            manager.getConnection().prepareCall("delete from xenodot.value where reference_id is not null;").execute();        
+            manager.getConnection().prepareCall("delete from xenodot.node;").execute();
+            manager.getConnection().prepareCall("select jackrabbit.init_root();").execute();
+            
+            manager.close();
+            System.err.println("Done cleaning Xenodot in setUp()");
+        }
 
         super.setUp();
         session = (Session) lookup("jcrSession"); //$NON-NLS-1$
