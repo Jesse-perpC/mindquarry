@@ -55,8 +55,13 @@
 		<dependency>
 		    <groupId>postgresql</groupId>
 		    <artifactId>postgresql</artifactId>
-		    <version>8.1-407.jdbc3</version>
-		</dependency>	
+		    <version>8.2-504.jdbc3</version>
+		</dependency>
+		<dependency>
+			<groupId>jaxen</groupId>
+			<artifactId>jaxen</artifactId>
+			<version>1.1-beta-9</version>
+		</dependency>
 	</dependencies>
 
 	<build>
