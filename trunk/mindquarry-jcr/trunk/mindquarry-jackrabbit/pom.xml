@@ -75,6 +75,10 @@
 					<artifactId>jsr170</artifactId>
 				</exclusion>
 				<exclusion>
+					<groupId>jsr170</groupId>
+					<artifactId>jcr</artifactId>
+				</exclusion>
+				<exclusion>
 					<artifactId>lucene</artifactId>
 					<groupId>lucene</groupId>
 				</exclusion>
