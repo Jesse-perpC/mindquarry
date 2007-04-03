@@ -29,12 +29,6 @@
 			</source:fragment>
 		</source:write>
 	</xsl:template>
-
-  <xsl:template match="from[contains(text(),'@')]">
-    <from sender="{normalize-space(.)}">
-      <ci:include src="{$queryroot}" />
-    </from>
-  </xsl:template>
   
 	<xsl:template match="@*|node()">
 		<xsl:copy>
