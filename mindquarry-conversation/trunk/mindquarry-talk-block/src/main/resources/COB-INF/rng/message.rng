@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<element name="message" xmlns="http://relaxng.org/ns/structure/1.0"  datatypeLibrary="http://www.w3.org/2001/XMLSchema-datatypes">
+	<interleave>
+		<attribute name="via">
+		</attribute>
+		<element name="from">
+			<text/>
+		</element>
+		<zeroOrMore>
+			<element name="link">
+				<optional>
+					<attribute name="rel" />
+					<attribute name="type" />
+				</optional>
+				<text/>
+			</element>
+		</zeroOrMore>
+		<element name="body">
+			<text/>
+		</element>
+		<optional>
+			<element name="date">
+				<data type="positiveInteger"/>
+			</element>
+		</optional>
+		<optional>
+			<element name="group">
+				<attribute name="id"><text/></attribute>
+				<interleave>
+					<element name="location"><text/></element>
+					<element name="attendees">
+						<oneOrMore>
+							<element name="attendee">
+								<text/>
+							</element>
+						</oneOrMore>
+					</element>
+				</interleave>
+			</element>
+		</optional>
+	</interleave>
+</element>

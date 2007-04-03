@@ -196,11 +196,12 @@
 			<transform src="xslt/xml/wrap-message-for-sourcewriting.xsl">
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
 				<parameter name="queryroot" value="model://TeamQuery#teamspaceById({teamspace}).getUsers()" />
+				<parameter name="timestamp" value="{timestamp:timestamp}" /> 
 			</transform>
 			<transform type="include" />
 			<transform src="xslt/xml/extract-username.xsl" />
+			<transform type="validate" src="rng/message.rng" />
 			<!--
-			
 			<transform type="write-source" />
 			<transform type="redirect" src="message{timestamp}" />
 			
