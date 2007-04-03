@@ -40,6 +40,12 @@
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jackrabbit</artifactId>
 			<version>1.0-M1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>geronimo-spec</groupId>
+					<artifactId>geronimo-spec-javamail</artifactId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.jcr</groupId>
