@@ -193,7 +193,7 @@
 			<generate type="stream">
 				<parameter name="defaultContentType" value="text/xml" />
 			</generate>
-			<transform src="xslt/xml/wrap-message-for-sourcewriting.xsl">
+			<transform src="xslt/xml/prepare-message.xsl">
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
 				<parameter name="queryroot" value="model://TeamQuery#teamspaceById({teamspace}).getUsers()" />
 				<parameter name="timestamp" value="{timestamp:timestamp}" /> 
