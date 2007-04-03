@@ -23,6 +23,9 @@
 			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
 		</generators>
+		<transformers>
+			<transformer name="sendmail" src="org.apache.cocoon.mail.transformation.SendMailTransformer"/>
+		</transformers>
 	</components>
 	
 	<flow language="javascript">
@@ -205,14 +208,14 @@
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
 				<parameter name="metapath" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/meta.xml" />
 				<parameter name="queryroot" value="model://TeamQuery#teamspaceById({teamspace}).getUsers()" />
+				<parameter name="smtphost" value="{system-property:mindquarry.mail.server}" />
 				<parameter name="fromemail" value="{conversation}.{teamspace}@{system-property:mindquarry.mail.server}" />
 			</transform>
 			<transform type="include" />
 			<transform src="xslt/xml/extract-emails-and-subject.xsl" />
-			<!--
-			<transform type="write-source" />
-			<transform type="redirect" src="message{timestamp}" />
-			-->
+			<!--<transform type="write-source" />-->
+			<transform type="sendmail" />
+			<!--transform type="redirect" src="message{timestamp}" /-->
 			<serialize type="xml" />
 		</resource>
 		

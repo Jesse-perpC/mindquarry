@@ -22,6 +22,7 @@
   <xsl:param name="metapath" />
   <xsl:param name="queryroot" />
   <xsl:param name="fromemail" />
+  <xsl:param name="smtphost" />
 
 	<!-- the root element should be wrapped into a source:write directive -->
 	<xsl:template match="/">
@@ -36,6 +37,8 @@
         <ci:include src="{$metapath}" />
         <ci:include src="{$queryroot}" />
         <email:from><xsl:value-of select="$fromemail" /></email:from>
+        <email:smtphost><xsl:value-of select="$smtphost" /></email:smtphost>
+        <email:smtpport>25</email:smtpport>
         <email:body>
           <xsl:apply-templates select="message/body/text()" />
         </email:body>
