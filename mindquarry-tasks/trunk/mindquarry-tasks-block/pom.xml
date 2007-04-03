@@ -47,6 +47,12 @@
 			<groupId>com.mindquarry.jcr</groupId>
 			<artifactId>mindquarry-jcr-source</artifactId>
 			<version>1.0-M1</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>geronimo-spec-javamail</artifactId>
+					<groupId>geronimo-spec</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
