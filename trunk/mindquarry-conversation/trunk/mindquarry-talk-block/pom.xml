@@ -86,6 +86,11 @@
 			<version>${cocoon-core.version}</version>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-validation-impl</artifactId>
+			<version>1.0.0_Mindquarry_1</version>
+		</dependency>
+		<dependency>
 			<groupId>org.tango-project</groupId>
 			<artifactId>tango-icon-theme</artifactId>
 			<version>0.7.1</version>

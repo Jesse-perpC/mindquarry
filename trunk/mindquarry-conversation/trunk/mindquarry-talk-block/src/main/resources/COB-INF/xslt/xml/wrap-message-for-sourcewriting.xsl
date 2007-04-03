@@ -19,21 +19,19 @@
 
 	<xsl:param name="path" />
   <xsl:param name="queryroot" />
-
-	<!-- the root element should be wrapped into a source:write directive -->
-	<xsl:template match="/">
-		<source:write create="true">
-			<source:source><xsl:value-of select="$path" /></source:source>
-			<source:fragment>
-				<xsl:apply-templates />
-			</source:fragment>
-		</source:write>
-	</xsl:template>
+  <xsl:param name="timestamp" />
 
   <xsl:template match="from[contains(text(),'@')]">
     <from sender="{normalize-space(.)}">
       <ci:include src="{$queryroot}" />
     </from>
+  </xsl:template>
+  
+  <xsl:template match="message[not(date)]">
+    <message>
+      <xsl:apply-templates select="@*|node()" />
+      <date><xsl:value-of select="$timestamp" /></date>
+    </message>
   </xsl:template>
   
 	<xsl:template match="@*|node()">
