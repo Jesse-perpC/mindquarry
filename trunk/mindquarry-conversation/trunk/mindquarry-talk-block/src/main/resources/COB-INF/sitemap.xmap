@@ -190,15 +190,20 @@
 		
 		<resource name="create-new-message">
 			<act type="log" src="new message {timestamp}" /> 
-			
 			<generate type="stream">
 				<parameter name="defaultContentType" value="text/xml" />
 			</generate>
-			<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+			<transform src="xslt/xml/wrap-message-for-sourcewriting.xsl">
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
+				<parameter name="queryroot" value="model://TeamQuery#teamspaceById({teamspace}).getUsers()" />
 			</transform>
+			<transform type="include" />
+			<!--
+			
 			<transform type="write-source" />
 			<transform type="redirect" src="message{timestamp}" />
+			
+			-->
 			<serialize type="xml" />
 		</resource>
 		
