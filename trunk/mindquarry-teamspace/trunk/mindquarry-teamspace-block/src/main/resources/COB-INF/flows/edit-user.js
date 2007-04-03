@@ -17,9 +17,7 @@ cocoon.load("flows/upload-photo.js");
 var model_;
 var form_;
 
-/**
- * Same as showForm
- */
+// BUGFIX: overwrite sendFormAndWait with ajax-iframe-fix
 Form.prototype.sendFormAndWait = function(uri, viewdata, ttl) {
 	
     var finished = false;
@@ -29,7 +27,7 @@ Form.prototype.sendFormAndWait = function(uri, viewdata, ttl) {
 
     // Attach the form to the continuation so that we can access by just knowing the continuation id
     bookmark.setAttribute("form", this.form);
-
+	
     if (comingBack) {
         // We come back to the bookmark: process the form
 
@@ -52,9 +50,8 @@ Form.prototype.sendFormAndWait = function(uri, viewdata, ttl) {
         // FIXME : hack needed because FOM doesn't provide access to the object model
         var objectModel = org.apache.cocoon.components.ContextHelper.getObjectModel(this.avalonContext);
         org.apache.cocoon.components.flow.FlowHelper.setContextObject(objectModel, viewdata);
-
+		
         finished = this.form.process(formContext);
-
         if (finished) {
             this.isValid = this.form.isValid();
             var widget = this.form.getSubmitWidget();
@@ -72,10 +69,12 @@ Form.prototype.sendFormAndWait = function(uri, viewdata, ttl) {
                 // in the sitemap for just sending constant response, which isn't nice.
                 cocoon.sendStatus(200);
                 var httpResponse = objectModel.get(org.apache.cocoon.environment.http.HttpEnvironment.HTTP_RESPONSE_OBJECT);
-
+				
                 if (httpResponse) {
                     var text ="";
-                    if (cocoon.request.getParameter("dojo.transport")=="iframe") {
+                    if (cocoon.request.getParameter("dojo.transport")=="iframe" || 
+                    	cocoon.request.getParameter("response_type")=="text/html") {
+                    	
                     	httpResponse.setContentType("text/html");
                     	text = "<html><head><title>Browser Update Data-Island</title></head><body>"
                     		+ "<form id='browser-update'>"
@@ -98,7 +97,6 @@ Form.prototype.sendFormAndWait = function(uri, viewdata, ttl) {
 
                 FOM_Cocoon.suicide();
             }
-
             return bookmark;
         }
     }
@@ -114,6 +112,8 @@ Form.prototype.sendFormAndWait = function(uri, viewdata, ttl) {
 
     FOM_Cocoon.suicide();
 }
+
+
 
 function processEditUser(form) {
 	model_ = form.getModel();

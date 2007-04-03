@@ -73,7 +73,6 @@ function processEditTeamspaceForm(form) {
 	
 	form.showForm("edit-teamspace.instance");
 	
-	//print(form.submitId);
 	if (form.submitId != "cancel") {
 		var teamspaceAdmin = cocoon.getComponent(TeamspaceAdmin.ROLE);
 		
