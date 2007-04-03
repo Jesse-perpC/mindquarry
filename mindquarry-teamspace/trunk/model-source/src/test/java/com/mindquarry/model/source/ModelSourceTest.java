@@ -29,62 +29,67 @@ import com.mindquarry.user.UserAdmin;
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
 public class ModelSourceTest extends ModelSourceTestBase {
-	
-	SourceResolver resolver_;
 
-	protected void setUp() throws Exception {
-		super.setUp();
-		resolver_ = (SourceResolver) lookup(SourceResolver.ROLE);
-	}
+    SourceResolver resolver_;
 
-	public void testQueryTeamById() throws Exception {
-		
-		TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
-		UserAdmin userAdmin = lookupUserAdmin();
-		
-        User mqUser = userAdmin.createUser("mindquarry-user", "aSecretPassword",
-                "Mindquarry User", "surname", "an email", "the skills");
-        
-        TeamspaceRO team = teamsAdmin.createTeamspace("mindquarry-teamspace",
-                "Mindquarry Teamspace", "a greate description", mqUser);
-        
-        String resourceUrl = "model://TeamQuery#teamspaceById(" + team.getId() + ")";
-        Source source = resolveSource(resourceUrl, ModelSource.class);
-        InputStream inputStream = source.getInputStream();
-        assertNotNull(inputStream);
-        assertTrue(inputStream.available() > 0);
-	}
+    protected void setUp() throws Exception {
+	super.setUp();
+	resolver_ = (SourceResolver) lookup(SourceResolver.ROLE);
+    }
 
-	public void testQueryMembersForTeam() throws Exception {
-		
-		TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
-		UserAdmin userAdmin = lookupUserAdmin();
-		
-        User user = userAdmin.createUser("user", "aSecretPassword",
-                "User", "surname", "an email", "the skills");
-        
-        TeamspaceRO team = teamsAdmin.createTeamspace("teamspace",
-                "Teamspace", "a greate description", user);
-        
-        String membersTeamUrl = "model://UserQuery#membersForTeamspace(" + team.getId() + ")";
-        Source source = resolveSource(membersTeamUrl, ModelSource.class);
-        assertNotNull(source.getInputStream());
-        assertTrue(source.getInputStream().available() > 0);
-        
-        TeamspaceRO team2 = teamsAdmin.createTeamspace("teamspace2", 
-                "Teamspace2", "a greate description", 
-                userAdmin.userById("admin"));
-        
-        String membersTeam2Url = "model://UserQuery#membersForTeamspace(" + team2.getId() + ")";
-        Source source2 = resolveSource(membersTeam2Url, ModelSource.class);
-        assertNotNull(source2.getInputStream());
-	}
+    public void testQueryTeamById() throws Exception {
 
-	private Source resolveSource(String url, Class expectedSourceClass) throws MalformedURLException, IOException {
-		Source source = resolver_.resolveURI(url);
-		assertNotNull(source);
-		assertEquals(expectedSourceClass, source.getClass());
-		return source;
-	}
+	TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
+	UserAdmin userAdmin = lookupUserAdmin();
+
+	User mqUser = userAdmin.createUser("mindquarry-user",
+		"aSecretPassword", "Mindquarry User", "surname", "an email",
+		"the skills");
+
+	TeamspaceRO team = teamsAdmin.createTeamspace("mindquarry-teamspace",
+		"Mindquarry Teamspace", "a greate description", mqUser);
+
+	String resourceUrl = "model://TeamQuery#teamspaceById(" + team.getId()
+		+ ").getUsers()";
+	Source source = resolveSource(resourceUrl, ModelSource.class);
+	InputStream inputStream = source.getInputStream();
+	assertNotNull(inputStream);
+	assertTrue(inputStream.available() > 0);
+    }
+
+    public void testQueryMembersForTeam() throws Exception {
+
+	TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
+	UserAdmin userAdmin = lookupUserAdmin();
+
+	User user = userAdmin.createUser("user", "aSecretPassword", "User",
+		"surname", "an email", "the skills");
+
+	TeamspaceRO team = teamsAdmin.createTeamspace("teamspace", "Teamspace",
+		"a greate description", user);
+
+	String membersTeamUrl = "model://UserQuery#membersForTeamspace("
+		+ team.getId() + ")";
+	Source source = resolveSource(membersTeamUrl, ModelSource.class);
+	assertNotNull(source.getInputStream());
+	assertTrue(source.getInputStream().available() > 0);
+
+	TeamspaceRO team2 = teamsAdmin.createTeamspace("teamspace2",
+		"Teamspace2", "a greate description", userAdmin
+			.userById("admin"));
+
+	String membersTeam2Url = "model://UserQuery#membersForTeamspace("
+		+ team2.getId() + ")";
+	Source source2 = resolveSource(membersTeam2Url, ModelSource.class);
+	assertNotNull(source2.getInputStream());
+    }
+
+    private Source resolveSource(String url, Class expectedSourceClass)
+	    throws MalformedURLException, IOException {
+	Source source = resolver_.resolveURI(url);
+	assertNotNull(source);
+	assertEquals(expectedSourceClass, source.getClass());
+	return source;
+    }
 
 }
