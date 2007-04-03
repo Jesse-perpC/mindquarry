@@ -198,6 +198,7 @@
 				<parameter name="queryroot" value="model://TeamQuery#teamspaceById({teamspace}).getUsers()" />
 			</transform>
 			<transform type="include" />
+			<transform src="xslt/xml/extract-username.xsl" />
 			<!--
 			
 			<transform type="write-source" />
