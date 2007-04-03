@@ -201,11 +201,11 @@
 			<transform type="include" />
 			<transform src="xslt/xml/extract-username.xsl" />
 			<transform type="validate" src="rng/message.rng" />
-			<!--
+			<transform src="xslt/xml/wrap-for-sourcewriting.xsl">
+				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
+			</transform>
 			<transform type="write-source" />
 			<transform type="redirect" src="message{timestamp}" />
-			
-			-->
 			<serialize type="xml" />
 		</resource>
 		
