@@ -112,6 +112,7 @@
 			<groupId>com.mindquarry.document-management.server.xenodot</groupId>
 			<artifactId>mindquarry-document-management-server-xenodot</artifactId>
 			<version>1.0-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
