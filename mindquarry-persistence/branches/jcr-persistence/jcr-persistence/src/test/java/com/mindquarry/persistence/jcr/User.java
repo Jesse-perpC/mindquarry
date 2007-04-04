@@ -13,6 +13,7 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import com.mindquarry.persistence.api.Entity;
@@ -23,16 +24,17 @@ import com.mindquarry.persistence.api.NamedQuery;
 @Entity(folder="users")
 @NamedQueries({ 
     @NamedQuery(name="userByLogin", query="/users/{$userId}"),
-    @NamedQuery(name="allUsers", query="/users/*[local-name() != 'photos']")
+    @NamedQuery(name="allUsers", query="/users/*[local-name() != 'photos']"),
+    @NamedQuery(name="getUsersForTeam", query="/users/*[jcr:content/teams/item/@reference = /teamspaces/{$teamId}/@jcr:uuid]")
 })
 public class User  {
     
     @Id
-    private String login;
-    private String pwd;
+    private String login = "";
+    private String pwd = "";
     
-    public String firstname;
-    public String lastname;
+    public String firstname = "";;
+    public String lastname = "";;
     
     private List<String> skills;
     private String[] skillsArray;

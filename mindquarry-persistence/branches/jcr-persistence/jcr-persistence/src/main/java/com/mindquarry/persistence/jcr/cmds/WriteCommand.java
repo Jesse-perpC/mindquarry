@@ -14,8 +14,9 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
@@ -39,14 +40,20 @@ class WriteCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
+    public Object execute(JcrSession session) {
         
-        JcrNode rootNode = session.getRootNode();
-        JcrNode folderNode = rootNode.findNode(entityFolderName());
+        JcrNode entityNode;
+        Pool pool = session.getPool();
         
-        JcrNode entityNode = folderNode.findNode(entityId());
-        entityTransformer().writeToJcr(entity_, entityNode);
-        
+        if (pool.containsEntryForEntity(entity_)) {
+            entityNode = pool.nodeByEntity(entity_);
+        }
+        else {
+            JcrNode rootNode = session.getRootNode();
+            JcrNode folderNode = rootNode.findNode(entityFolderName());            
+            entityNode = folderNode.findNode(entityId());            
+        }        
+        entityTransformer().writeToJcr(entity_, entityNode);        
         return entityNode;
     }
     

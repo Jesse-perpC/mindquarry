@@ -15,8 +15,9 @@ package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.api.PersistenceException;
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.model.Model;
 
 /**
@@ -44,26 +45,28 @@ class PersistCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
+    public Object execute(JcrSession session) {
         
-        JcrNode folderNode = findOrCreateEntityFolder(session);
-        
-        if (folderNode.hasNode(entityId())) {
-            throw new PersistenceException("the entity: " + entity_ + 
-                    " with id: " + entityId() + "already exists.");
+        Pool pool = session.getPool();
+        if (! pool.containsEntryForEntity(entity_)) {
+            JcrNode folderNode = findOrCreateEntityFolder(session);            
+            
+            if (folderNode.hasNode(entityId())) {
+                throw new PersistenceException("the entity: " + entity_ + 
+                        " with id: " + entityId() + "already exists.");
+            }            
+            // here we only create the jcr file node
+            createEntityNode(folderNode);            
         }
-        
-        // here we only create the jcr file node
-        createEntityNode(folderNode);
         
         return writeEntityIntoFileNode(session);        
     }
     
-    protected Object writeEntityIntoFileNode(Session session) { 
+    protected Object writeEntityIntoFileNode(JcrSession session) { 
         return writeCommand_.execute(session);
     }
     
-    protected JcrNode findOrCreateEntityFolder(Session session) {
+    protected JcrNode findOrCreateEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();
         String name = entityFolderName();
         

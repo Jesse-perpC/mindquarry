@@ -14,8 +14,9 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrProperty;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
 import com.mindquarry.persistence.jcr.model.Model;
 
 /**
@@ -37,13 +38,17 @@ class DeleteCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
+    public Object execute(JcrSession session) {
         JcrNode folderNode = findEntityFolder(session);
-        folderNode.getNode(entityId()).remove();
+        JcrNode entityNode = folderNode.getNode(entityId());
+        for (JcrProperty property : entityNode.getReferences()) {
+            property.getParent().remove();
+        }
+        entityNode.remove();
         return null;
     }
     
-    private JcrNode findEntityFolder(Session session) {
+    private JcrNode findEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();
         return rootNode.getNode(entityFolderName());
     }

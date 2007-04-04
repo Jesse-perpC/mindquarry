@@ -21,6 +21,7 @@ import java.lang.reflect.Method;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Property;
+import javax.jcr.PropertyIterator;
 
 import com.mindquarry.persistence.api.PersistenceException;
 
@@ -33,9 +34,9 @@ import com.mindquarry.persistence.api.PersistenceException;
 public class JcrNode {
 
     Node node_;
-    Session session_;
+    JcrSession session_;
     
-    JcrNode(Node node, Session session) {
+    JcrNode(Node node, JcrSession session) {
         node_ = node;
         session_ = session;
     }
@@ -126,12 +127,12 @@ public class JcrNode {
         return null;
     }
 
-    public PropertyIterator getProperties() throws RepositoryException {
+    public JcrPropertyIterator getProperties() throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public PropertyIterator getProperties(String namePattern) throws RepositoryException {
+    public JcrPropertyIterator getProperties(String namePattern) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }*/
@@ -141,17 +142,16 @@ public class JcrNode {
         return new JcrProperty((Property) result, session_);
     }
 
+    public JcrPropertyIterator getReferences() {
+        Object o = invoke("getReferences", node_);
+        return new JcrPropertyIterator((PropertyIterator) o, session_);
+    }
+
+    public String getUUID() {
+        return (String) invoke("getUUID", node_);
+    }
+
     /*
-    public PropertyIterator getReferences() throws RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getUUID() throws UnsupportedRepositoryOperationException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public VersionHistory getVersionHistory() throws UnsupportedRepositoryOperationException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
@@ -355,7 +355,7 @@ public class JcrNode {
     }
     */
 
-    public Session getSession() {
+    public JcrSession getSession() {
         return session_;
     }
 

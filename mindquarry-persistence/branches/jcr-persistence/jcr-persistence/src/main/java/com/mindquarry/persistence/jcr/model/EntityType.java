@@ -20,6 +20,7 @@ import static com.mindquarry.common.lang.StringUtil.concat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 public class EntityType {
 
     private Class<?> entityClazz_;
+    private Collection<Class<?>> interfaces_;
     private EntityId entityId_;
     private Map<String, Property> properties_;
     
@@ -65,6 +67,17 @@ public class EntityType {
                 properties_.put(property.getName(), property);
             }
         }
+        
+        interfaces_ = allInterfaces(entityClazz_);
+    }
+    
+    private Collection<Class<?>> allInterfaces(Class<?> clazz) {
+        Collection<Class<?>> result = new ArrayList<Class<?>>();
+        for (Class<?> interfaceClazz : clazz.getInterfaces()) {
+            result.add(interfaceClazz);
+            result.addAll(allInterfaces(interfaceClazz));
+        }
+        return result;
     }
 
     public Object createNewEntity(String entityId) {
@@ -158,6 +171,15 @@ public class EntityType {
     
     public boolean describes(Class<?> clazz) {
         return entityClazz_.equals(clazz);
+    }
+    
+    public boolean describesInterface(Class<?> interfaceClazz) {
+        boolean result = false;
+        for (Class clazz : interfaces_) {
+            if (clazz.equals(interfaceClazz))
+                result = true;
+        }
+        return result;
     }
     
     public boolean usesJcrFolder(String folder) {

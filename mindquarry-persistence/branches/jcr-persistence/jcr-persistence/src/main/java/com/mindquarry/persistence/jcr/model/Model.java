@@ -69,10 +69,40 @@ public class Model  {
         return result;
     }
     
+    public boolean containsClass(Class<?> entityClazz) {
+        return allEntityClasses().contains(entityClazz);
+    }
+    
+    public Class<?> classForInterface(Class<?> interfaceClass) {
+        Class<?> result = null;
+        for (EntityType entityType : allEntityTypes()) {
+            if (entityType.describesInterface(interfaceClass)) {
+                result = entityType.entityClazz();
+                break;
+            }
+        }
+        return result;
+    }
+    
+    public boolean containsInterface(Class<?> interfaceClass) {
+        return classForInterface(interfaceClass) != null;
+    }
+    
     public EntityType entityType(Class<?> entityClazz) {
         EntityType result = null;
         for (EntityType entityType : allEntityTypes()) {
             if (entityType.describes(entityClazz)) {
+                result = entityType;
+                break;
+            }
+        }
+        return result;
+    }
+    
+    public EntityType entityTypeForInterface(Class<?> interfaceClass) {
+        EntityType result = null;
+        for (EntityType entityType : allEntityTypes()) {
+            if (entityType.describesInterface(interfaceClass)) {
                 result = entityType;
                 break;
             }

@@ -33,14 +33,16 @@ import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class Session implements JcrSession,
+class Session implements JcrSession,
     com.mindquarry.persistence.api.Session {
 
+    private Pool pool_;
     private javax.jcr.Session jcrSession_;
     private CommandProcessor commandProcessor_;
     
     Session(Persistence persistence, javax.jcr.Session jcrSession) {
         jcrSession_ = jcrSession;
+        pool_ = new Pool(persistence);
         commandProcessor_ = persistence.getCommandProcessor();
     }
     
@@ -93,5 +95,9 @@ public class Session implements JcrSession,
     
     public QueryManager getQueryManager() throws RepositoryException {
         return jcrSession_.getWorkspace().getQueryManager();
+    }
+
+    public Pool getPool() {
+        return pool_;
     }
 }

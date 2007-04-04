@@ -41,7 +41,7 @@ public class TransformationManager {
     }
     
     public void initialize() {
-        transformerRegistry_ = new TransformerRegistry(this);
+        transformerRegistry_ = new TransformerRegistry(persistence_);
         for (EntityType entityType : getModel().allEntityTypes()) {
             Transformer transformer = new EntityTransformer(entityType);
             transformer.initialize(transformerRegistry_);            
@@ -60,10 +60,6 @@ public class TransformationManager {
     
     private EntityType entityType(Object entity) {
         return getModel().entityType(entity.getClass());
-    }
-    
-    boolean isPartOfModel(Class<?> clazz) {
-        return getModel().entityType(clazz) != null;
     }
     
     EntityType entityTypeByFolder(String folder) {
