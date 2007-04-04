@@ -2,10 +2,10 @@ require 'server.rb'
 require 'rmail'
 
 message = RMail::Parser.read($stdin.read)
-maildomain = "localhost"
-mqserver = "http://localhost:8888"
-mquser = "admin"
-mqpasswd = "admin"
+maildomain = ARGV[0]
+mqserver = ARGV[1]
+mquser = ARGV[2]
+mqpasswd = ARGV[3]
 
 recipients = message.header.recipients.addresses
 recipients.push(message.header["X-Original-To"])
