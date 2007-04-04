@@ -183,8 +183,10 @@ class ModelSource implements Source {
 		
 		for (Entry<String, Object> property : properties(entity).entrySet()) {
 			
-			writeElementWithText(contentHandler, 
+            if (property.getValue() != null) {
+                writeElementWithText(contentHandler, 
 					property.getKey(), property.getValue().toString());
+            }
 		}
 		
 		endElement(contentHandler, entityName);

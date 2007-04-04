@@ -28,21 +28,11 @@
 	<alias name="com.mindquarry.auth.manager.Authorization" 
 		   alias="com.mindquarry.auth.AuthorizationCheck" />
 	
-	<bean id="com.mindquarry.cache.JcrCache" 
-		class="com.mindquarry.cache.JcrCache">
-		
-		<property name="transientStore"
-				  ref="org.apache.excalibur.store.Store/TransientStore" />			  
-	</bean>
-	
 	<bean id="com.mindquarry.user.manager.UserManager" 
-		class="com.mindquarry.user.manager.UserManager"
-		init-method="initialize">
+		class="com.mindquarry.user.manager.UserManager">
 		
 		<property name="sessionFactory" 
-				  ref="com.mindquarry.common.persistence.SessionFactory" />	
-				  
-		<property name="jcrCache" ref="com.mindquarry.cache.JcrCache" />
+				  ref="com.mindquarry.persistence.api.SessionFactory" />
 	</bean>
 	
 	<alias name="com.mindquarry.user.manager.UserManager" 
@@ -56,11 +46,10 @@
 	
 	
 	<bean id="com.mindquarry.teamspace.manager.TeamspaceManager" 
-		class="com.mindquarry.teamspace.manager.TeamspaceManager"
-		init-method="initialize">
+		class="com.mindquarry.teamspace.manager.TeamspaceManager">
 		
 		<property name="sessionFactory" 
-				  ref="com.mindquarry.common.persistence.SessionFactory" />
+				  ref="com.mindquarry.persistence.api.SessionFactory" />
 				  
 		<property name="listenerRegistry" 
 				  ref="com.mindquarry.teamspace.manager.DefaultListenerRegistry" />
@@ -70,10 +59,6 @@
 		
 		<property name="authAdmin" 
 				  ref="com.mindquarry.auth.AuthorizationAdmin" />
-		
-		<property name="jcrCache">
-			<ref local="com.mindquarry.cache.JcrCache" />
-		</property>
 	</bean>	
 	
 	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 

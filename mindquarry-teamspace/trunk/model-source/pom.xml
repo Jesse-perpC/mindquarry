@@ -43,18 +43,6 @@
 	</build>
 	<dependencies>
 		<dependency>
-			<groupId>com.mindquarry.common</groupId>
-			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1</version>
-		</dependency>
-		<dependency>
-			<groupId>com.mindquarry.common</groupId>
-			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1</version>
-			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-core</artifactId>
 			<version>${cocoon-core.version}</version>
@@ -68,6 +56,24 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.mindquarry.common</groupId>
+			<artifactId>mindquarry-common</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>persistence-api</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>jcr-persistence</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>
@@ -77,12 +83,6 @@
 			<artifactId>mindquarry-teamspace</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>
 			<type>test-jar</type>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.mindquarry.persistence</groupId>
-			<artifactId>persistence-mock</artifactId>
-			<version>1.0-M2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 	</dependencies>

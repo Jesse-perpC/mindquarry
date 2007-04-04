@@ -14,7 +14,6 @@
 package com.mindquarry.auth.manager;
 
 import com.mindquarry.auth.ProfileRO;
-import com.mindquarry.auth.manager.RightSet;
 
 
 

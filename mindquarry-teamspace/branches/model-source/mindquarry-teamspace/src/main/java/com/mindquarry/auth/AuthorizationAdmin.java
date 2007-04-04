@@ -29,15 +29,12 @@ import com.mindquarry.user.AbstractUserRO;
 public interface AuthorizationAdmin {
     
     // creates right with name "{operation}: {resource}";
-    RightRO createRight(String resource, String operation);
-    
+    RightRO createRight(String resource, String operation);    
     RightRO createRight(String name, String resource, String operation);
-    
     
     ProfileRO createProfile(String profileId);
     
-    void addRight(RightRO right, ProfileRO profile);
-    
+    void addRight(RightRO right, ProfileRO profile);    
     void removeRight(RightRO right, ProfileRO profile);
     
     

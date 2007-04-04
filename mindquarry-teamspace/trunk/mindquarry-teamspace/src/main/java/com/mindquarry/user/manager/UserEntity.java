@@ -15,21 +15,27 @@ package com.mindquarry.user.manager;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 import org.apache.commons.codec.binary.Base64;
 
-import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.common.source.SerializationIgnore;
 import com.mindquarry.common.source.SerializationName;
-import com.mindquarry.teamspace.TeamspaceRO;
+import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
+import com.mindquarry.persistence.api.NamedQueries;
+import com.mindquarry.persistence.api.NamedQuery;
 import com.mindquarry.user.User;
 
 @SerializationName("user")
-public final class UserEntity extends EntityBase implements User {
+@Entity(parentFolder="users")
+@NamedQueries({
+    @NamedQuery(name="getUserById", query="/users/{$userId}"),
+    @NamedQuery(name="getAllUsers", query="/users/*[local-name() != 'photos']")
+})
+public final class UserEntity implements User {
 
+    @Id private String id;
+    
     private String password;
     
     private String name;
@@ -39,8 +45,6 @@ public final class UserEntity extends EntityBase implements User {
     private String email;
     
     private String skills;
-
-    Set<String> teamspaceReferences;
 
 
     /**
@@ -53,7 +57,14 @@ public final class UserEntity extends EntityBase implements User {
         surname = "";
         email = "";
         skills = "";
-        teamspaceReferences = new HashSet<String>();
+    }
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
     }
     
     /**
@@ -155,46 +166,6 @@ public final class UserEntity extends EntityBase implements User {
 
     public void setSkills(String skills) {
         this.skills = skills;
-    }
-
-    /**
-     * getter for teamspaceReferences, only required for persistence layer.
-     * This method is not part of the contract and 
-     * thus must not be used by any clients except the persistence layer.
-     */
-    @SerializationIgnore
-    public Set<String> getTeamspaceReferences() {
-        return teamspaceReferences;
-    }
-    
-    /**
-     * setter for teamspaceReferences, only required for persistence layer.
-     * This method is not part of the contract and 
-     * thus must not be used by any clients except the persistence layer.
-     */
-    public void setTeamspaceReferences(Set<String> teamspaces) {
-        this.teamspaceReferences = teamspaces;
-    }
-    
-    /**
-     * @see com.mindquarry.user.UserRO#teamspaces()
-     */
-    public Set<String> teamspaces() {
-        return Collections.unmodifiableSet(this.teamspaceReferences);
-    }
-
-    /**
-     * @see com.mindquarry.user.UserRO#isMemberOf(com.mindquarry.teamspace.TeamspaceRO)
-     */
-    public boolean isMemberOf(TeamspaceRO teamspace) {
-        return isMemberOf(teamspace.getId());
-    }
-
-    /**
-     * @see com.mindquarry.user.UserRO#isMemberOf(java.lang.String)
-     */
-    public boolean isMemberOf(String teamspaceId) {
-        return teamspaceReferences.contains(teamspaceId);
     }
     
     public boolean equals(Object other) {

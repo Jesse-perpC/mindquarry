@@ -40,6 +40,8 @@ public class UserManagerTest extends TeamspaceTestBase {
         
         Authentication auth = (Authentication) lookup(Authentication.ROLE);
         assertTrue(auth.authenticate(userId, "newPwd"));
+        
+        userAdmin.deleteUser(mqUser);
     }
     
     public void testCreateAndRemoveUser() throws ServiceException {

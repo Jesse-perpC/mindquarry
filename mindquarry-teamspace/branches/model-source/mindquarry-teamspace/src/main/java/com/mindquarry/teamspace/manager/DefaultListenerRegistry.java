@@ -50,13 +50,13 @@ public class DefaultListenerRegistry implements TeamspaceListenerRegistry {
     
     void signalBeforeTeamspaceCreated(Teamspace teamspace) throws Exception {
         for (TeamspaceListener listener : listeners_) {
-            listener.beforeTeamspaceCreated(teamspace);
+            listener.afterTeamspaceCreated(teamspace);
         }
     }
     
     void signalAfterTeamspaceRemoved(Teamspace teamspace) throws Exception {
         for (TeamspaceListener listener : listeners_) {
-            listener.afterTeamspaceRemoved(teamspace);
+            listener.beforeTeamspaceRemoved(teamspace);
         }
     }
 }
