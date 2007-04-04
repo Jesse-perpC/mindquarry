@@ -1,4 +1,6 @@
 require 'net/http'
+require 'net/https'
+require 'uri'
 require 'rexml/document'
 
 require 'team.rb'
@@ -9,6 +11,11 @@ module MindquarryTalk
 
     attr_reader :http
 
+    def initialize(url, username, password)
+      uri = URI.parse(url)
+      initialize(uri.host, uri.port, username, password)
+    end
+    
     def initialize(server, port, username, password)
       @server = server
       @port = port

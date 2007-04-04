@@ -13,7 +13,7 @@ module MindquarryTalk
       @team = conversation.team
       @server = @team.server
     end
-  
+    
     def readMessage
       @server.http.start do |http|
         request = @server.getRequestForPath "/talk/#{@team.id}/#{@conversation.id}/#{@id}"
