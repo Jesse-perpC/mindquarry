@@ -18,6 +18,7 @@
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
 
 	<xsl:param name="basePath" />
+  <xsl:param name="metaPath" />
 
 	<!-- the root element should be wrapped into a source:write directive -->
 	<xsl:template match="/">
@@ -43,6 +44,26 @@
 			</source:fragment>
 		</source:write>
 	</xsl:template>
+  
+  <xsl:template match="conversation[not(subscribers)]">
+    <xsl:copy>
+      <xsl:apply-templates />
+      <subscribers>
+        <xsl:call-template name="add-subscribers"/>
+      </subscribers>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="subscribers">
+    <xsl:copy>
+      <xsl:apply-templates />
+      <xsl:call-template name="add-subscribers"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template name="add-subscribers">
+    <include xmlns="http://apache.org/cocoon/include/1.0" src="{$metaPath}"/>
+  </xsl:template>
 
 	<xsl:template match="@*|node()">
 		<xsl:copy>
