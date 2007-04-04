@@ -31,10 +31,9 @@
 	<version>1.0-M2-SNAPSHOT</version>
 
 	<modules>
-		<module>castor-persistence</module>
+		<module>persistence-api</module>
+		<module>jcr-persistence</module>
 		<module>persistence-client</module>
-		<module>persistence-config</module>
-		<module>persistence-mock</module>
 	</modules>
 	
 	<dependencies>

@@ -14,7 +14,7 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.JcrNode;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.JcrSession;
 
 /**
  * Add summary documentation here.
@@ -27,7 +27,7 @@ class PersistOrUpdateCommand extends PersistCommand {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
+    public Object execute(JcrSession session) {
         
         JcrNode folderNode = findOrCreateEntityFolder(session);
         

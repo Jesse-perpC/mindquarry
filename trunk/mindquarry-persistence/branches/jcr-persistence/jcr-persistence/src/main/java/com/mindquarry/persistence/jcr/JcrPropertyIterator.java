@@ -15,9 +15,7 @@ package com.mindquarry.persistence.jcr;
 
 import java.util.Iterator;
 
-import javax.jcr.Node;
-import javax.jcr.NodeIterator;
-
+import javax.jcr.PropertyIterator;
 
 /**
  * Add summary documentation here.
@@ -25,45 +23,47 @@ import javax.jcr.NodeIterator;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class JcrNodeIterator implements Iterator<JcrNode>, Iterable<JcrNode> {
-
-    private NodeIterator nodeIterator_;
+public class JcrPropertyIterator implements 
+        Iterator<JcrProperty>, Iterable<JcrProperty> {
+    
+    private PropertyIterator propertyIterator_;
     private JcrSession session_;
     
-    public JcrNodeIterator(NodeIterator nodeIterator, JcrSession session) {
+    JcrPropertyIterator(PropertyIterator propertyIterator, JcrSession session) {
         session_ = session;
-        nodeIterator_ = nodeIterator;
+        propertyIterator_ = propertyIterator;
     }
 
-    public JcrNode nextNode() {
-        return new JcrNode(nodeIterator_.nextNode(), session_);
+    public JcrProperty nextProperty() {
+        return new JcrProperty(propertyIterator_.nextProperty(), session_);
     }
 
     public long getPosition() {
-        return nodeIterator_.getPosition();
+        return propertyIterator_.getPosition();
     }
 
     public long getSize() {
-        return nodeIterator_.getSize();
+        return propertyIterator_.getSize();
     }
 
     public void skip(long skipNum) {
-        nodeIterator_.skip(skipNum);
+        propertyIterator_.skip(skipNum);
     }
 
     public boolean hasNext() {
-        return nodeIterator_.hasNext();
+        return propertyIterator_.hasNext();
     }
 
-    public JcrNode next() {
-        return new JcrNode((Node) nodeIterator_.next(), session_);
+    public JcrProperty next() {
+        return nextProperty();
     }
 
     public void remove() {
-        nodeIterator_.remove();
+        propertyIterator_.remove();
     }
 
-    public Iterator<JcrNode> iterator() {
+    public Iterator<JcrProperty> iterator() {
         return this;
     }
+
 }

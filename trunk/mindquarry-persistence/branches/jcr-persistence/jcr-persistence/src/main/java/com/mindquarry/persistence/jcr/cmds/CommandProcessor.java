@@ -24,9 +24,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
 
 /**
  * Add summary documentation here.
@@ -51,7 +51,7 @@ public class CommandProcessor {
     }
     
     public Object process(Operations operation, 
-                Session session, Object... objects) {
+                JcrSession session, Object... objects) {
         
         Command command = createCommand(operation);
         command.initialize(persistence_, objects);

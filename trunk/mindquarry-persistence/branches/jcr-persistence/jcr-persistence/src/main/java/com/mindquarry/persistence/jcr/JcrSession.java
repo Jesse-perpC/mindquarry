@@ -29,4 +29,6 @@ public interface JcrSession {
     public JcrNode getRootNode();
     
     public QueryManager getQueryManager() throws RepositoryException;
+    
+    public Pool getPool();
 }

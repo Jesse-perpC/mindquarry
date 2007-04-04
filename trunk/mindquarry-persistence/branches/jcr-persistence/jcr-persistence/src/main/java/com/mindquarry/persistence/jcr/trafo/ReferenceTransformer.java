@@ -17,9 +17,9 @@ import static com.mindquarry.persistence.jcr.Operations.PERSIST_OR_UPDATE;
 import static com.mindquarry.persistence.jcr.Operations.READ;
 
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Operations;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
@@ -44,7 +44,7 @@ class ReferenceTransformer implements Transformer {
             return null;
         }
         
-        Session session = propertyNode.getSession();
+        JcrSession session = propertyNode.getSession();
         JcrNode entityNode = propertyNode.getProperty("reference").getNode();
         
         return processCommand(READ, session, entityNode);
@@ -52,14 +52,14 @@ class ReferenceTransformer implements Transformer {
 
     public void writeToJcr(Object entity, JcrNode propertyNode) {        
         
-        Session session = propertyNode.getSession();
+        JcrSession session = propertyNode.getSession();
         
         Object entityNode = processCommand(PERSIST_OR_UPDATE, session, entity);
         propertyNode.setProperty("reference", (JcrNode) entityNode);
     }
     
     private Object processCommand(Operations operation, 
-            Session session, Object... objects) {
+            JcrSession session, Object... objects) {
         
         return getCommandProcessor().process(operation, session, objects);
     }

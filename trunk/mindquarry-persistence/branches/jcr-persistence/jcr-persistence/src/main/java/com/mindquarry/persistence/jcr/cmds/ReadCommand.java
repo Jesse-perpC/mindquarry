@@ -14,8 +14,9 @@
 package com.mindquarry.persistence.jcr.cmds;
 
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
@@ -28,7 +29,7 @@ import com.mindquarry.persistence.jcr.trafo.Transformer;
 class ReadCommand implements Command {
 
     private JcrNode entityNode_;
-    private Persistence persistence_;
+    private Persistence persistence_;    
         
     public void initialize(Persistence persistence, Object... objects) {
         entityNode_ = (JcrNode) objects[0];
@@ -38,9 +39,18 @@ class ReadCommand implements Command {
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
-    public Object execute(Session session) {
-        String folder = entityNode_.getParent().getName();
-        return entityTransformer(folder).readFromJcr(entityNode_);
+    public Object execute(JcrSession session) {
+        Object entity;
+        Pool pool = session.getPool();
+        if (pool.containsEntryForNode(entityNode_)) {
+            entity = pool.entityByNode(entityNode_);
+        }
+        else {
+            String folder = entityNode_.getParent().getName();
+            entity = entityTransformer(folder).readFromJcr(entityNode_);            
+            pool.put(entity, entityNode_);
+        }        
+        return entity; 
     }
     
     private Transformer entityTransformer(String folder) {

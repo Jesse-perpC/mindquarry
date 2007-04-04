@@ -17,7 +17,7 @@ import com.mindquarry.persistence.api.NamedQueries;
 import com.mindquarry.persistence.api.NamedQuery;
 import com.mindquarry.persistence.api.PersistenceException;
 import com.mindquarry.persistence.jcr.JcrNodeIterator;
-import com.mindquarry.persistence.jcr.Session;
+import com.mindquarry.persistence.jcr.JcrSession;
 
 public class DefaultQueryResolver implements QueryResolver {
 
@@ -60,7 +60,7 @@ public class DefaultQueryResolver implements QueryResolver {
         queryMap_.put(queryName, query);
     }
     
-    public JcrNodeIterator resolve(Session session,
+    public JcrNodeIterator resolve(JcrSession session,
             String queryName, Object[] queryParameters) {
         
         if (! queryMap_.containsKey(queryName)) {
@@ -74,7 +74,7 @@ public class DefaultQueryResolver implements QueryResolver {
     }
     
     private JcrNodeIterator resolveXpath(
-            Session session, String expression) {
+            JcrSession session, String expression) {
         
         try {
             QueryManager queryManager = session.getQueryManager();

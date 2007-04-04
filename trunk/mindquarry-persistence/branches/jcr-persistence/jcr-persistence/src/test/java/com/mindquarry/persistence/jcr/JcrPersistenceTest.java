@@ -77,6 +77,16 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         session.commit();
     }
     
+    public void testQueryUsersForTeam() throws ServiceException {
+        
+        Session session = sessionFactory_.currentSession();
+        List<Object> queryResult = session.query("getUsersForTeam", new Object[] {"jcr-persistence"});
+        
+        assertEquals(1, queryResult.size());
+        
+        session.commit();
+    }
+    
     public void testMapProperties() throws ServiceException {
         
         Session session = sessionFactory_.currentSession();
