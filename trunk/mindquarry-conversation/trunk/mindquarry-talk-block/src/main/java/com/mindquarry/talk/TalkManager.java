@@ -95,12 +95,12 @@ public class TalkManager implements TeamspaceListener {
         return result.toString();
     }
     
-	public void afterTeamspaceRemoved(Teamspace arg0) throws Exception {
+	public void beforeTeamspaceRemoved(Teamspace arg0) throws Exception {
 		// TODO Auto-generated method stub
 
 	}
 
-	public void beforeTeamspaceCreated(Teamspace teamspace) throws Exception {
+	public void afterTeamspaceCreated(Teamspace teamspace) throws Exception {
 		// TODO Auto-generated method stub
 
 		initializeTalk(teamspace.getId(), teamspace.getName());
