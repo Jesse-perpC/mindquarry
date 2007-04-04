@@ -108,11 +108,14 @@
 			<artifactId>cocoon-repository-impl</artifactId>
 			<version>1.0.0_Mindquarry_1</version>
 		</dependency>
+		<!-- 
 		<dependency>
 			<groupId>com.mindquarry.document-management.server.xenodot</groupId>
 			<artifactId>mindquarry-document-management-server-xenodot</artifactId>
 			<version>1.0-SNAPSHOT</version>
+			<scope>test</scope>
 		</dependency>
+		-->
 	</dependencies>
 
         <scm>
