@@ -42,6 +42,12 @@ module MindquarryTalk
       return conversations
     end
     
+    def getConversation(id)
+      conversation = Conversation.new(self, id)
+      conversation.getMeta
+      return conversation
+    end
+    
     def newConversation(title)
       @server.http.start do |http|
         request = @server.putRequestForPath "/talk/#{@id}/new"

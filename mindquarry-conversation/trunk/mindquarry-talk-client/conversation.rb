@@ -9,7 +9,7 @@ module MindquarryTalk
   
     attr_reader :team, :id, :title
   
-    def initialize(team, id, title = "")
+    def initialize(team, id, title = nil)
       @team = team
       @id = id
       @server = team.server
@@ -49,8 +49,18 @@ module MindquarryTalk
       @server.http.start do |http|
         request = @server.putRequestForPath "/talk/#{@team.id}/#{@id}/new"
         request["content-type"] = "application/xml"
-        request.body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><message><from>#{from}</from><body>#{body}</body></message>"
+        message = REXML::Element.new "message"
+        message.add_attribute("via","mail")
+        message.add_element("from").add_text(from)
+        message.add_element("body").add_text(body)
+        body = "";
+        message.write(body)
+        request.body = body;
+        puts request.path
+        puts request.body
+        
         response = http.request(request)
+        
         
         puts "response #{response.class}:"
         puts response.body

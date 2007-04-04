@@ -1,7 +1,7 @@
 
 require 'server.rb'
 
-server = MindquarryTalk::Server.new("localhost", 8888, "admin", "admin")
+server = MindquarryTalk::Server.new("http://localhost:8888", "admin", "admin")
 
 teams = server.getTeams
 
