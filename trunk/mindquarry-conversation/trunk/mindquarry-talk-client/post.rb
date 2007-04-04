@@ -7,7 +7,6 @@ mqserver = "http://localhost:8888"
 mquser = "admin"
 mqpasswd = "admin"
 
-#puts "From " + message.header.from.first.address
 recipients = message.header.recipients.addresses
 recipients.push(message.header["X-Original-To"])
 
@@ -20,19 +19,22 @@ for recipient in recipients
     if recipient[/\..*@/]
       #the team is everything behind the dot
       team = server.getTeam(recipient[/\..*@/][1..-2])
+      # no user
+      return 67 unless team.name
       conversation = team.getConversation(recipient[/.*\./][0..-2])
-      puts "Team: " + team.name
-      puts "Conversation: " + conversation.title if conversation.title
-      if conversation.title
-        #we are ready to post a message
-        conversation.postMessage(message.header.from.first.address, message.body)
-      end
-      
-      
-      
+      return 67 unless conversation.title
+      message = conversation.postMessage(message.header.from.first.address, message.body)
+      return 69 unless message
     else
-      team = recipient[/.*@/][0..-2]
-      puts "Team:" + team
+      team = server.getTeam(recipient[/.*@/][0..-2])
+      return 67 unless team.name
+      subject = message.header.subject
+      #permission denied
+      return 77 unless subject
+      conversation = team.newConversation(message.header.subject)
+      return 67 unless conversation
+      message = conversation.postMessage(message.header.from.first.address, message.body)
+      return 69 unless message
     end
   end
 end

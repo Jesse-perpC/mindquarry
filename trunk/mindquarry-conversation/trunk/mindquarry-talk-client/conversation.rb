@@ -56,14 +56,14 @@ module MindquarryTalk
         body = "";
         message.write(body)
         request.body = body;
-        puts request.path
-        puts request.body
+        #puts request.path
+        #puts request.body
         
         response = http.request(request)
         
         
-        puts "response #{response.class}:"
-        puts response.body
+        #puts "response #{response.class}:"
+        #puts response.body
         
         url = response["Location"]
         Message.new(self, url[url.rindex('/')+1..-1])
