@@ -95,18 +95,38 @@
 							value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
 					</transform>
 					<select type="parameter">
-						<parameter name="parameter-selector-test" value="{httpStatus}"/>
-						
+						<parameter name="parameter-selector-test" value="{httpStatus}"/>						
 						<when test="404"> <!-- not found -->
-							<serialize type="html" status-code="404"/>							
+							<select type="lightbox-request">
+								<when test="true">
+									<serialize type="xml" status-code="404"/>
+								</when>
+								<otherwise>
+									<serialize type="html" status-code="404"/>
+								</otherwise>
+							</select>
 						</when>
 						<when test="500"> <!-- internal server error -->
-							<serialize type="html" status-code="500"/>							
+							<select type="lightbox-request">
+								<when test="true">
+									<serialize type="xml" status-code="500"/>
+								</when>
+								<otherwise>
+									<serialize type="html" status-code="500"/>
+								</otherwise>
+							</select>
 						</when>
 						<otherwise>
-							<serialize type="html" />						
+							<select type="lightbox-request">
+								<when test="true">
+									<serialize type="xml"/>
+								</when>
+								<otherwise>
+									<serialize type="html"/>
+								</otherwise>
+							</select>
 						</otherwise>
-					</select>					
+					</select>
 				</when>
 				<when test="xml">
 					<!-- directly output cocoon's error xml for xml clients -->
