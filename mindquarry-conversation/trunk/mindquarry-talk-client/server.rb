@@ -19,6 +19,9 @@ module MindquarryTalk
       @password = password
   
       @http = Net::HTTP.new(@server, @port)
+      
+      @http.open_timeout = 10
+      @http.read_timeout = 10
     end
 
     def getRequestForPath(path = '/')

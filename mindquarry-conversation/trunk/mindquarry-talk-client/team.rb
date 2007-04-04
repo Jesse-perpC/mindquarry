@@ -52,7 +52,13 @@ module MindquarryTalk
       @server.http.start do |http|
         request = @server.putRequestForPath "/talk/#{@id}/new"
         request["content-type"] = "application/xml"
-        request.body = "<?xml version=\"1.0\" encoding=\"UTF-8\"?><conversation><title>#{title}</title></conversation>"
+        
+        conversation = REXML::Element.new "conversation"
+        conversation.add_element("title").add_text(title)
+        body = ""
+        conversation.write(body)
+        
+        request.body = body
         response = http.request(request)
         url = response["Location"]
         id = url[0..url.rindex('/')-1]
