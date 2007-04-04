@@ -17,8 +17,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mindquarry.auth.ResourceRO;
-import com.mindquarry.auth.manager.RightSet;
-import com.mindquarry.common.persistence.EntityBase;
 
 /**
  * Add summary documentation here.
@@ -26,8 +24,9 @@ import com.mindquarry.common.persistence.EntityBase;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public final class ResourceEntity extends EntityBase implements ResourceRO {
+public final class ResourceEntity implements ResourceRO {
 
+    private String id;
     private String name;
     private RightSet rights;
     private Map<String, ResourceEntity> children; 

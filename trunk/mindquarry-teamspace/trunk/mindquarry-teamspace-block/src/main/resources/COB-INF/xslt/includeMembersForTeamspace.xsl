@@ -25,7 +25,7 @@
 	<xsl:template match="teamspace">
 		<xsl:copy>
 			<xsl:apply-templates select="node()" />
-			<i:include src="model://UserQuery#membersForTeamspace({id})" xmlns:i="http://apache.org/cocoon/include/1.0" >
+			<i:include src="model://TeamQuery#teamspaceById({id}).getUsers()" xmlns:i="http://apache.org/cocoon/include/1.0" >
 				
 				<!-- XML content of the fallback element will be included instead 
 				of source content if source inclusion caused an exception. -->

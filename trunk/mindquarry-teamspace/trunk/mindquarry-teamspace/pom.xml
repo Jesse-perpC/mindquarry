@@ -55,32 +55,24 @@
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1</version>
+			<version>1.0-M2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.common</groupId>
 			<artifactId>mindquarry-common</artifactId>
-			<version>1.0-M1</version>
+			<version>1.0-M2-SNAPSHOT</version>
 			<type>test-jar</type>
 			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
-			<artifactId>persistence-mock</artifactId>
+			<artifactId>persistence-api</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>
-			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<version>1.7.0</version>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.cocoon</groupId>
-			<artifactId>cocoon-core</artifactId>
-			<version>${cocoon-core.version}</version>
-			<type>test-jar</type>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>jcr-persistence</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
 			<scope>test</scope>
 		</dependency>
 		<dependency>

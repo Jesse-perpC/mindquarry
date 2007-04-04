@@ -13,7 +13,7 @@
  */
 package com.mindquarry.teamspace;
 
-import java.util.List;
+import java.util.Set;
 
 import com.mindquarry.user.UserRO;
 
@@ -52,5 +52,5 @@ public interface TeamspaceRO {
      *
      * @return an umodifiable view of the users participating this project
      */
-    public List<UserRO> getUsers();
+    public Set<? extends UserRO> getUsers();
 }

@@ -70,18 +70,6 @@
 		<transformer-factory>org.apache.xalan.xsltc.trax.TransformerFactoryImpl</transformer-factory>
 	</serializer>
 	
-	<!-- remove this when switching to new spring jcr components -->
-	<jcr-repository class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository">
-		<home src="${mindquarry.jcr.path}"/>
-		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
-		<configuration src="resource://com/mindquarry/jcr/jackrabbit/repository.xml"/>
-	</jcr-repository>
-
-	<!-- remove this when switching to new spring jcr components -->
-	<jcr-initializer>
-		<credentials login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
-	</jcr-initializer>
-
 	<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
 		login="${mindquarry.jcr.login}" password="${mindquarry.jcr.pwd}"/>
 

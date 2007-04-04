@@ -288,7 +288,7 @@
 					label="content" />
 				
 				<transform src="xslt/includeMembersForTeamspace.xsl" />
-				<transform type="include" />
+				<transform type="include"/>
 				
 				<!-- check request type: REST / HTML or other -->
 				<select type="REST">
@@ -424,7 +424,7 @@
 			</match>
 			
 			<match pattern="*/members/asFormsSelectionlist">
-				<generate src="model://UserQuery#membersForTeamspace({1})" />
+				<generate src="model://model://TeamQuery#teamspaceById({1}).getUsers()" />
 				<transform src="xslt/teamMembers2formsSelectionlist.xsl" />
 				<serialize type="xml" />
 			</match>

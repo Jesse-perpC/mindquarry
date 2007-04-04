@@ -13,13 +13,16 @@
  */
 package com.mindquarry.teamspace.manager;
 
-import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
-import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.common.source.SerializationName;
+import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
+import com.mindquarry.persistence.api.NamedQueries;
+import com.mindquarry.persistence.api.NamedQuery;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.user.UserRO;
 
@@ -31,12 +34,21 @@ import com.mindquarry.user.UserRO;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 @SerializationName("teamspace")
-public class TeamspaceEntity extends EntityBase implements Teamspace {
-
+@Entity(parentFolder="teamspaces", asComposite=true)
+@NamedQueries({
+    @NamedQuery(name="getTeamById", query="/teamspaces/{$teamId}"),
+    @NamedQuery(name="getAllTeams", query="/teamspaces/*"),
+    @NamedQuery(name="getTeamsForUser", query="/teamspaces/*[jcr:content/users/item/@reference = /users/{$userId}/@jcr:uuid]")
+})
+public class TeamspaceEntity implements Teamspace {
+    
+    @Id private String id;
     private String name;
     private String description;
-    private List<UserRO> users;
-    private Map<String, String> properties;
+    
+    public Set<UserRO> users;
+    
+    public Map<String, String> properties;
 
     
     /**
@@ -47,7 +59,21 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
         this.name = "".intern();
         this.description = "".intern();
         this.properties = new HashMap<String, String>();
-        this.users = Collections.emptyList();
+        this.users = new HashSet<UserRO>();
+    }
+    
+    /**
+     * @see com.mindquarry.teamspace.TeamspaceRO#getId()
+     */
+    public String getId() {
+        return id;
+    }
+    
+    /**
+     * @see com.mindquarry.teamspace.Teamspace#setId(java.lang.String)
+     */
+    public void setId(String id) {
+        this.id = id;
     }
     
     /**
@@ -80,30 +106,8 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
     }
     
     
-    public List<UserRO> getUsers() { 
-        return Collections.unmodifiableList(users);
-    }
-    
-    void setUsers(List<UserRO> value) {
-        this.users = value;
-    }
-
-    /**
-     * Getter for properties.
-     *
-     * @return the properties
-     */
-    public Map<String, String> getProperties() {
-        return properties;
-    }
-
-    /**
-     * Setter for properties.
-     *
-     * @param properties the properties to set
-     */
-    public void setProperties(Map<String, String> properties) {
-        this.properties = properties;
+    public Set<? extends UserRO> getUsers() {
+        return users;
     }
 
     /**
@@ -132,5 +136,13 @@ public class TeamspaceEntity extends EntityBase implements Teamspace {
     
     public String toString() {
         return this.id;
+    }
+    
+    public void addUser(UserRO user) {
+        users.add(user);
+    }
+    
+    public void removeUser(UserRO user) {
+        users.remove(user);
     }
 }

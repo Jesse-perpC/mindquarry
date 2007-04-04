@@ -13,20 +13,14 @@
  */
 package com.mindquarry.user.manager;
 
-import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
-import static com.mindquarry.user.manager.DefaultUsers.login;
-import static com.mindquarry.user.manager.DefaultUsers.password;
-import static com.mindquarry.user.manager.DefaultUsers.username;
 import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
 import static com.mindquarry.user.manager.DefaultUsers.isIndexUser;
 
 import java.util.LinkedList;
 import java.util.List;
 
-import com.mindquarry.cache.JcrCache;
-import com.mindquarry.common.persistence.EntityBase;
-import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
+import com.mindquarry.persistence.api.Session;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.Authentication;
 import com.mindquarry.user.GroupRO;
@@ -42,56 +36,27 @@ import com.mindquarry.user.UserRO;
 public final class UserManager implements UserAdmin, Authentication {
     
     private SessionFactory sessionFactory_;
-    
-    private JcrCache jcrCache_;
 
     /**
      * Setter for sessionFactory bean, set by spring at object creation
      */
     public void setSessionFactory(SessionFactory sessionFactory) {
         sessionFactory_ = sessionFactory;
-    } 
-
-    /**
-     * Setter for jcrCache bean, set by spring at object creation
-     */
-    public void setJcrCache(JcrCache jcrCache) {
-        jcrCache_ = jcrCache;
-    }   
-
-    public JcrCache getJcrCache() {
-        return jcrCache_;
-    }  
-
-    public void initialize() {
-        for (String[] userProfile : defaultUsers()) {
-            if (!existsUser(userProfile))
-                createUser(userProfile);
-        }
     }
 
-    private boolean existsUser(String[] userProfile) {
-        return null != internalUserById(login(userProfile));
-    }
-
-    private void createUser(String[] userProfile) {
-        createUser(login(userProfile), password(userProfile), 
-                   username(userProfile), "", null, null);
-    }
-
-    private void persistEntity(EntityBase entity) {
+    private void persistEntity(Object entity) {
         Session session = currentSession();
         session.persist(entity);
         session.commit();
     }
 
-    private void deleteEntity(EntityBase entity) {
+    private void deleteEntity(Object entity) {
         Session session = currentSession();
         session.delete(entity);
         session.commit();
     }
 
-    private void updateEntity(EntityBase entity) {
+    private void updateEntity(Object entity) {
         Session session = currentSession();
         session.update(entity);
         session.commit();
@@ -100,11 +65,11 @@ public final class UserManager implements UserAdmin, Authentication {
     /**
      * @returns an entity object if it can be found otherwise null
      */
-    private EntityBase queryEntityById(String query, String id) {
+    private Object queryEntityById(String query, String id) {
         Session session = currentSession();
         List queryResult = session.query(query, new Object[] { id });
         if (queryResult.size() == 1)
-            return (EntityBase) queryResult.get(0);
+            return queryResult.get(0);
         else
             return null;
     }
@@ -135,19 +100,15 @@ public final class UserManager implements UserAdmin, Authentication {
     public void updateUser(User user) {
         UserEntity userEntity = (UserEntity) user;
         updateEntity(userEntity);
-        
-        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
     }
 
     public void deleteUser(User user) {
         UserEntity userEntity = (UserEntity) user;
         deleteEntity(userEntity);
-        
-        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
     }
 
     public User userById(String userId) {
-        return internalUserById(userId);
+        return queryUserById(userId);
     }
 
     public List<UserRO> allUsers() {
@@ -170,93 +131,12 @@ public final class UserManager implements UserAdmin, Authentication {
      *      java.lang.String)
      */
     public boolean authenticate(String userId, String password) {
-        UserEntity user = internalUserById(userId);
+        UserEntity user = queryUserById(userId);
         return (user != null) && user.authenticate(password);
-    }
-    
-    private String userByIdCacheKey(String userId) {
-        return "Mindquarry.UserManager.USER_ID-" + userId;
-    }
-
-    private UserEntity internalUserById(String id) {        
-        String cacheKey = userByIdCacheKey(id);
-        UserEntity result = (UserEntity) jcrCache_.resultFromCache(cacheKey);
-        
-        if (result == null) {
-            result = (UserEntity) queryUserById(id);
-            if (result != null)
-                jcrCache_.putResultInCache(cacheKey, result);
-        }
-        
-        return result;
     }
     
     private UserEntity queryUserById(String id) {
         return (UserEntity) queryEntityById("getUserById", id);
-    }
-
-    
-    
-    public List<UserRO> membersForTeamspace(String teamspaceId) {
-        return internalMembersForTeamspace(teamspaceId);
-    }
-    
-    private String membersCacheKey(String teamspaceId) {
-        return "Mindquarry.UserManager.MEMBERs-" + teamspaceId;
-    }
-
-    private List<UserRO> internalMembersForTeamspace(String teamspaceId) {
-        String cacheKey = membersCacheKey(teamspaceId);
-        List<UserRO> result = (List<UserRO>) jcrCache_.resultFromCache(cacheKey);
-        
-        if (result == null) {
-            result = (List<UserRO>) queryUsersForTeamspace("getMembersForTeamspace", teamspaceId);
-            if (result != null)
-                jcrCache_.putResultInCache(cacheKey, result);
-        }
-        
-        return result;
-    }
-
-    private List<UserRO> queryUsersForTeamspace(String queryKey,
-            String teamspaceId) {
-        Session session = currentSession();
-
-        List<Object> queryResult = session.query(queryKey,
-                new String[] { teamspaceId });
-
-        List<UserRO> result = new LinkedList<UserRO>();
-
-        for (Object userObj : queryResult) {
-            UserRO user = (UserRO) userObj;
-            result.add(user);
-        }
-        session.commit();
-        return result;
-    }
-
-    public UserRO removeUserFromTeamspace(UserRO user, String teamspaceId) {
-        UserEntity userEntity = (UserEntity) user;
-        userEntity.teamspaceReferences.remove(teamspaceId);
-        
-        updateEntity(userEntity);
-        
-        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
-        jcrCache_.removeFromCache(membersCacheKey(teamspaceId));
-        
-        return userEntity;
-    }
-
-    public UserRO addUserToTeamspace(UserRO user, String teamspaceId) {
-        UserEntity userEntity = (UserEntity) user;
-        userEntity.teamspaceReferences.add(teamspaceId);
-
-        updateEntity(userEntity);
-
-        jcrCache_.removeFromCache(userByIdCacheKey(user.getId()));
-        jcrCache_.removeFromCache(membersCacheKey(teamspaceId));
-        
-        return userEntity;
     }
 
     public GroupRO createGroup(String groupId) {

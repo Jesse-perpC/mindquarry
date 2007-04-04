@@ -25,7 +25,7 @@
 				  
 	</bean>
 	
-	<bean id="com.mindquarry.common.persistence.SessionFactory" 
+	<bean id="com.mindquarry.persistence.api.SessionFactory" 
 		class="com.mindquarry.persistence.mock.SessionFactoryMock"
 		init-method="initialize" scope="singleton">
 		
