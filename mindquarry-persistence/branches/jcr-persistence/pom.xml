@@ -33,7 +33,6 @@
 	<modules>
 		<module>persistence-api</module>
 		<module>jcr-persistence</module>
-		<module>persistence-client</module>
 	</modules>
 	
 	<dependencies>
