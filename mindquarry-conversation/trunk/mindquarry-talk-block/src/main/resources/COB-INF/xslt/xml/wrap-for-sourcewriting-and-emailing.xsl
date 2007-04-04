@@ -39,9 +39,7 @@
         <email:from><xsl:value-of select="$fromemail" /></email:from>
         <email:smtphost><xsl:value-of select="$smtphost" /></email:smtphost>
         <email:smtpport>25</email:smtpport>
-        <email:body>
-          <xsl:apply-templates select="message/body/text()" />
-        </email:body>
+        <email:body><xsl:apply-templates select="message/body/text()" /></email:body>
       </email:sendmail>
     </data>
 	</xsl:template>

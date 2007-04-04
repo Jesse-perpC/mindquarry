@@ -326,6 +326,43 @@
 			
 		</pipeline>
 
+		
+				
+		<pipeline type="caching-point" internal-only="true">
+			<match pattern="internal/pipe/*/meta">
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/meta.xml">
+						<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
+				</select>
+				<serialize type="xml" />
+			</match>
+		
+			<match pattern="internal/pipe/*/create-new-talk">
+				<generate type="stream">
+					<parameter name="defaultContentType" value="text/xml" />
+				</generate>
+				<transform src="xslt/xml/extract-title-and-prepare-sourcewriting.xsl">
+					<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
+					<parameter name="basePath" value="jcr:///teamspaces/{1}/talk/conversations/" />
+				</transform>
+				<transform type="include" />
+				<transform src="xslt/xml/add-subscribers.xsl" />
+				<!-- jx can access the TalkManager component passed by the flowscript -->
+				<!--
+				<transform type="jx" />
+				<transform type="write-source" />
+				<transform src="xslt/xml/create-bu-redirect.xsl" />
+				<transform type="bu-redirect" />
+				-->
+				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
+				<serialize type="xml" />
+			</match>
+		</pipeline>
+		
 		<!-- =========================================================== -->
 
 		<!-- External browser pipeline with REST -->
@@ -367,14 +404,7 @@
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
 				<select type="request-method">
 					<when test="GET">
-						<select type="resource-exists">
-							<when test="jcr:///teamspaces/{1}/talk/meta.xml">
-								<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
-							</when>
-							<otherwise>
-								<generate src="xml/empty.xml" />
-							</otherwise>
-						</select>
+						<generate src="cocoon:/internal/pipe/{1}/meta" />
 					</when>
 					<when test="PUT">
 						<generate type="stream">
@@ -386,7 +416,7 @@
 						<transform type="write-source" />
 					</when>
 					<when test="POST">
-						<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
+						<generate src="cocoon:/internal/pipe/{1}/meta" />
 						<transform src="xslt/xml/meta2subscribeteam.xsl" >
 							<parameter name="path" value="jcr:///teamspaces/{1}/talk/meta.xml" />
 							<parameter name="subscribe-email" value="{request-param:subscribe-email}" />
@@ -491,26 +521,7 @@
 				<call resource="error-handling" />
 			</handle-errors>
 		</pipeline>
-		
-		<pipeline type="caching-point" internal-only="true">
-			<match pattern="internal/pipe/*/create-new-talk">
-				<generate type="stream">
-					<parameter name="defaultContentType" value="text/xml" />
-				</generate>
-				<transform src="xslt/xml/extract-title-and-prepare-sourcewriting.xsl">
-					<parameter name="basePath" value="jcr:///teamspaces/{1}/talk/conversations/" />
-				</transform>
-				<!-- jx can access the TalkManager component passed by the flowscript -->
-				<transform type="jx" />
-				<transform type="write-source" />
-				<transform src="xslt/xml/create-bu-redirect.xsl" />
-				<transform type="bu-redirect" />
-				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
-				<serialize type="xml" />
-			</match>
-			
 
-		</pipeline>
 		
 	</pipelines>
 
