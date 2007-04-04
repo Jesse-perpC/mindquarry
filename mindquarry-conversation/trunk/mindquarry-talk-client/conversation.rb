@@ -57,7 +57,7 @@ module MindquarryTalk
         message.write(body)
         request.body = body;
         #puts request.path
-        #puts request.body
+        # puts request.body
         
         response = http.request(request)
         

@@ -13,29 +13,64 @@ recipients.push(message.header["X-Original-To"])
 
 server = MindquarryTalk::Server.new(mqserver, mquser, mqpasswd)
 
-for recipient in recipients
-  # if the domain is our maildomain
-  if recipient["@#{maildomain}"]
-    #if there is a dot in (e.g. Foobar.demo@...)
-    if recipient[/\..*@/]
-      #the team is everything behind the dot
-      team = server.getTeam(recipient[/\..*@/][1..-2])
-      # no user
-      return 67 unless team.name
-      conversation = team.getConversation(recipient[/.*\./][0..-2])
-      return 67 unless conversation.title
-      postmsg = conversation.postMessage(message.header.from.first.address, message.body)
-      return 69 unless postmsg
-    else
-      team = server.getTeam(recipient[/.*@/][0..-2])
-      return 67 unless team.name
-      subject = message.header.subject
-      #permission denied
-      return 77 unless subject
-      conversation = team.newConversation(message.header.subject)
-      return 67 unless conversation
-      postmsg = conversation.postMessage(message.header.from.first.address, message.body)
-      return 69 unless postmsg
-    end
-  end
+# we need at least one recipient
+if not recipients.length or not recipients.length
+  exit 67
 end
+
+recipient = recipients[0]
+if not recipient["@#{maildomain}"]
+  # the recipient is not in our domain
+  exit 67
+end
+
+puts "recipient: #{recipient}"
+
+addressContainsConversation = recipient[/\..*@/]
+
+# extract the team name
+if addressContainsConversation
+  teamID = recipient[/\..*@/][1..-2]
+else
+  teamID = recipient[/.*@/][0..-2]
+end 
+
+# get the team
+team = server.getTeam(teamID)
+
+# team not found?
+if not team.name
+  puts "no such team: #{teamname}"
+  exit 67
+end
+
+if addressContainsConversation
+  # get existing conversation
+  conversationID = recipient[/.*?\./][0..-2]
+  puts "conversation ID: #{conversationID}"
+  conversation = team.getConversation(conversationID)
+else
+  # create new conversation
+  subject = message.header.subject
+  exit 77 unless subject
+  conversation = team.newConversation(subject)
+end
+
+# conversation not found / could not be created?
+if not conversation.title
+  puts "Error: failed to get or create conversation"
+  exit 67
+end
+
+# post the message 
+from = message.header.from.first.address
+postmsg = conversation.postMessage(from, message.body)
+
+# message post failed?
+if not postmsg
+  puts "Error: permission denied"
+  exit 69
+end
+
+puts "posted message from #{from}"
+
