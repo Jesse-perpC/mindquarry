@@ -13,9 +13,18 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import static com.mindquarry.common.lang.ReflectionUtil.invoke;
+import static com.mindquarry.persistence.jcr.Operations.DELETE;
+import static com.mindquarry.persistence.jcr.Operations.PERSIST;
+import static com.mindquarry.persistence.jcr.Operations.QUERY;
+import static com.mindquarry.persistence.jcr.Operations.UPDATE;
+
 import java.util.List;
 
-import com.mindquarry.persistence.jcr.api.JcrSession;
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.query.QueryManager;
+
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
@@ -24,36 +33,31 @@ import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class Session implements com.mindquarry.persistence.api.Session {
+class Session implements JcrSession,
+    com.mindquarry.persistence.api.Session {
 
-    private JcrSession jcrSession_;
+    private Pool pool_;
+    private javax.jcr.Session jcrSession_;
     private CommandProcessor commandProcessor_;
     
-    Session(Persistence persistence, JcrSession jcrSession) {        
+    Session(Persistence persistence, javax.jcr.Session jcrSession) {
         jcrSession_ = jcrSession;
+        pool_ = new Pool(persistence);
         commandProcessor_ = persistence.getCommandProcessor();
-    }
-    
-    JcrSession jcrSession() {
-        return jcrSession_;
-    }
-    
-    private Object processCommand(Operations operation, Object... objects) {
-        return commandProcessor_.process(jcrSession(), operation, objects);
     }
     
     /**
      * @see com.mindquarry.common.persistence.Session#commit()
      */
     public void commit() {
-        jcrSession_.save();
+        invoke("save", jcrSession_);
     }
 
     /**
      * @see com.mindquarry.common.persistence.Session#delete(java.lang.Object)
      */
     public boolean delete(Object entity) {
-        processCommand(Operations.DELETE, entity);
+        processCommand(DELETE, entity);
         return true;
     }
 
@@ -61,21 +65,39 @@ class Session implements com.mindquarry.persistence.api.Session {
      * @see com.mindquarry.common.persistence.Session#persist(java.lang.Object)
      */
     public void persist(Object entity) {
-        processCommand(Operations.PERSIST, entity);
+        processCommand(PERSIST, entity);
     }
 
     /**
      * @see com.mindquarry.common.persistence.Session#query(java.lang.String, java.lang.Object[])
      */
     public List<Object> query(String queryName, Object[] queryParameters) {
-        return (List<Object>) processCommand(
-                Operations.QUERY, queryName, queryParameters); 
+        Object result = processCommand(QUERY, queryName, queryParameters);
+        return (List<Object>) result;
     }
 
     /**
      * @see com.mindquarry.common.persistence.Session#update(java.lang.Object)
      */
     public void update(Object entity) {
-        processCommand(Operations.UPDATE, entity);
+        processCommand(UPDATE, entity);
+    }
+    
+    private Object processCommand(Operations operation, Object... objects) {
+        return commandProcessor_.process(operation, this, objects);
+    }
+    
+    // implementation of JcrSession interface methods
+    
+    public JcrNode getRootNode() {
+        return new JcrNode((Node) invoke("getRootNode", jcrSession_), this);
+    }
+    
+    public QueryManager getQueryManager() throws RepositoryException {
+        return jcrSession_.getWorkspace().getQueryManager();
+    }
+
+    public Pool getPool() {
+        return pool_;
     }
 }

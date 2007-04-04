@@ -20,6 +20,7 @@ import static com.mindquarry.common.lang.StringUtil.concat;
 
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
@@ -40,6 +41,7 @@ import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 public class EntityType {
 
     private Class<?> entityClazz_;
+    private Collection<Class<?>> interfaces_;
     private EntityId entityId_;
     private Map<String, Property> properties_;
     
@@ -65,11 +67,24 @@ public class EntityType {
                 properties_.put(property.getName(), property);
             }
         }
+        
+        interfaces_ = allInterfaces(entityClazz_);
+    }
+    
+    private Collection<Class<?>> allInterfaces(Class<?> clazz) {
+        Collection<Class<?>> result = new ArrayList<Class<?>>();
+        for (Class<?> interfaceClazz : clazz.getInterfaces()) {
+            result.add(interfaceClazz);
+            result.addAll(allInterfaces(interfaceClazz));
+        }
+        return result;
     }
 
-    public Object createNewEntity() {
+    public Object createNewEntity(String entityId) {
         try {
-            return entityClazz_.newInstance();
+            Object result = entityClazz_.newInstance();
+            setId(result, entityId);
+            return result;
         } catch (InstantiationException e) {
             throw new ModelException("could not create an instance of " +
                     "entity type: " + entityClazz_, e);
@@ -78,8 +93,16 @@ public class EntityType {
         }
     }
     
-    public EntityId getEntityId() {
-        return entityId_;
+    public String getId(Object entity) {
+        return entityId_.getValue(entity);
+    }
+    
+    public String getIdName() {
+        return entityId_.getName();
+    }
+    
+    private void setId(Object entity, String id) {
+        entityId_.setValue(entity, id);
     }
     
     public Property property(String propertyName) {
@@ -143,11 +166,15 @@ public class EntityType {
     }
     
     String pathForEntity(Object entity) {
-        return concat(folder(), "/", id(entity));
+        return concat(parentFolder(), "/", id(entity));
     }
     
-    public String folder() {
-        return entityClazz_.getAnnotation(Entity.class).folder();
+    public String parentFolder() {
+        return entityClazz_.getAnnotation(Entity.class).parentFolder();
+    }
+    
+    public boolean asComposite() {
+        return entityClazz_.getAnnotation(Entity.class).asComposite();
     }
     
     public Class<?> entityClazz() {
@@ -158,8 +185,17 @@ public class EntityType {
         return entityClazz_.equals(clazz);
     }
     
+    public boolean describesInterface(Class<?> interfaceClazz) {
+        boolean result = false;
+        for (Class clazz : interfaces_) {
+            if (clazz.equals(interfaceClazz))
+                result = true;
+        }
+        return result;
+    }
+    
     public boolean usesJcrFolder(String folder) {
-        return folder().equals(folder);
+        return parentFolder().equals(folder);
     }
     
     String id(Object entity) {

@@ -11,12 +11,13 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.api;
+package com.mindquarry.persistence.jcr;
 
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
 
 import javax.jcr.Node;
 import javax.jcr.Property;
+
 
 /**
  * Add summary documentation here.
@@ -27,9 +28,11 @@ import javax.jcr.Property;
 public class JcrProperty {
 
     private Property property_;
+    private JcrSession session_;
     
-    public JcrProperty(Property property) {
+    public JcrProperty(Property property, JcrSession session) {
         property_ = property;
+        session_ = session;
     }
 
     /*
@@ -71,7 +74,7 @@ public class JcrProperty {
     
     public JcrNode getNode() {
         Object result = invoke("getNode", property_);
-        return new JcrNode((Node) result);
+        return new JcrNode((Node) result, session_);
     }
     
     /*
@@ -170,13 +173,14 @@ public class JcrProperty {
     public String getName() throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
+    }*/
+
+    public JcrNode getParent() {
+        Object result = invoke("getParent", property_);
+        return new JcrNode((Node) result, session_);
     }
 
-    public Node getParent() throws ItemNotFoundException, AccessDeniedException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
+    /*
     public String getPath() throws RepositoryException {
         // TODO Auto-generated method stub
         return null;

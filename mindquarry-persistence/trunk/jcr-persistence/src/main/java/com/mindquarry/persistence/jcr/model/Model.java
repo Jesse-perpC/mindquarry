@@ -43,12 +43,8 @@ public class Model  {
         return result;
     }
     
-    public String entityFolderName(Object entity) {
-        return findEntityType(entity.getClass()).folder();
-    }
-    
     public String jcrPathForEntity(Object entity) {
-        EntityType entityType = entityType(entity.getClass());
+        EntityType entityType = entityType(entity);
         String clazzPath = entityType.pathForEntity(entity);
         return clazzPath;
     }
@@ -65,10 +61,29 @@ public class Model  {
         return result;
     }
     
-    public EntityType entityType(Class<?> entityClazz) {
+    public boolean containsClass(Class<?> entityClazz) {
+        return allEntityClasses().contains(entityClazz);
+    }
+    
+    public Class<?> classForInterface(Class<?> interfaceClass) {
+        Class<?> result = null;
+        for (EntityType entityType : allEntityTypes()) {
+            if (entityType.describesInterface(interfaceClass)) {
+                result = entityType.entityClazz();
+                break;
+            }
+        }
+        return result;
+    }
+    
+    public boolean containsInterface(Class<?> interfaceClass) {
+        return classForInterface(interfaceClass) != null;
+    }
+    
+    private EntityType entityType(Object entity) {
         EntityType result = null;
         for (EntityType entityType : allEntityTypes()) {
-            if (entityType.describes(entityClazz)) {
+            if (entityType.describes(entity.getClass())) {
                 result = entityType;
                 break;
             }
@@ -76,22 +91,24 @@ public class Model  {
         return result;
     }
     
-    private EntityType findEntityType(Class<?> entityClazz) {
-        EntityType result = entityType(entityClazz);
-        if (result == null) {
-            throw new ModelException("could not find the class " + entityClazz +
-                    " within the configured list of persistence entity classes");
+    public EntityType entityTypeForInterface(Class<?> interfaceClass) {
+        EntityType result = null;
+        for (EntityType entityType : allEntityTypes()) {
+            if (entityType.describesInterface(interfaceClass)) {
+                result = entityType;
+                break;
+            }
         }
         return result;
     }
     
-    public EntityType entityTypeForFolder(String folder) {
-        for (EntityType entityType : allEntityTypes()) {
-            if (entityType.usesJcrFolder(folder)) {
-                return entityType;
-            }
+    public EntityType findEntityType(Object entity) {
+        EntityType result = entityType(entity);
+        if (result == null) {
+            throw new ModelException("could not find the class " + entity.getClass() +
+                    " within the configured list of persistence entity classes");
         }
-        return null;
+        return result;
     }
     
     public boolean isEntityClazz(Class<?> clazz) {

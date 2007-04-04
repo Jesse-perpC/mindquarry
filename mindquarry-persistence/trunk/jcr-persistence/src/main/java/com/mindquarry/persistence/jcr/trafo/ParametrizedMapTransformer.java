@@ -17,9 +17,9 @@ import java.lang.reflect.Type;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNodeIterator;
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrNodeIterator;
 import com.mindquarry.persistence.jcr.model.ModelException;
 
 /**
@@ -77,7 +77,7 @@ class ParametrizedMapTransformer implements Transformer {
         }
     }
 
-    public JcrNode writeToJcr(Object object, JcrNode jcrNode) {
+    public void writeToJcr(Object object, JcrNode jcrNode) {
         Map<Object, Object> map = (Map<Object, Object>) object;
         JcrNodeIterator collectionNodeIt = jcrNode.getNodes();
         
@@ -102,7 +102,5 @@ class ParametrizedMapTransformer implements Transformer {
         while (collectionNodeIt.hasNext()) {
             collectionNodeIt.next().remove();
         }
-        
-        return jcrNode;
     }
 }

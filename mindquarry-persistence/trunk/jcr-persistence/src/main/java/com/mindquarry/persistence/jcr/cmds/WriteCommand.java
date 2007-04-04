@@ -13,9 +13,12 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.Pool;
+import com.mindquarry.persistence.jcr.model.EntityType;
+import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
@@ -39,25 +42,42 @@ class WriteCommand implements Command {
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        JcrNode folderNode = findOrCreateEntityFolder(session);
-        return entityTransformer().writeToJcr(entity_, folderNode);
+        
+        JcrNode entityNode;
+        Pool pool = session.getPool();
+        
+        if (pool.containsEntryForEntity(entity_)) {
+            entityNode = pool.nodeByEntity(entity_);
+        }
+        else {
+            JcrEntityFolderNode folderNode = findEntityFolder(session);            
+            entityNode = folderNode.getEntityNode(entityId());
+            pool.put(entity_, entityNode);
+        }        
+        entityTransformer().writeToJcr(entity_, entityNode);        
+        return entityNode;
     }
     
-    private JcrNode findOrCreateEntityFolder(JcrSession session) {
-        JcrNode rootNode = session.getRootNode();
-        String name = entityFolderName();
-        
-        JcrNode result;
-        if (rootNode.hasNode(name))
-            result = rootNode.getNode(name);
-        else
-            result = rootNode.addNode(name, "nt:folder");
-        
-        return result;
+    private JcrEntityFolderNode findEntityFolder(JcrSession session) {
+        JcrNode rootNode = session.getRootNode();        
+        JcrNode folderNode = rootNode.getNode(parentFolderName());
+        return new JcrEntityFolderNode(folderNode, entityType());
     }
     
-    private String entityFolderName() {
-        return getTransformationManager().entityFolderName(entity_);
+    private EntityType entityType() {
+        return getModel().findEntityType(entity_);
+    }
+    
+    private String entityId() {
+        return getModel().findEntityType(entity_).getId(entity_);
+    }
+    
+    private String parentFolderName() {
+        return getModel().findEntityType(entity_).parentFolder();
+    }
+    
+    private Model getModel() {
+        return persistence_.getModel();
     }
     
     private Transformer entityTransformer() {

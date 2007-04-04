@@ -41,20 +41,18 @@ public class TransformationManager {
     }
     
     public void initialize() {
-        transformerRegistry_ = new TransformerRegistry(this);
+        transformerRegistry_ = new TransformerRegistry(persistence_);
         for (EntityType entityType : getModel().allEntityTypes()) {
-            Transformer transformer = new EntityTransformer(entityType);
+            
+            Transformer transformer;
+            if (entityType.asComposite())
+                transformer = new CompositeEntityTransformer(entityType);
+            else
+                transformer = new EntityTransformer(entityType);
+            
             transformer.initialize(transformerRegistry_);            
             entityTransformers_.put(entityType, transformer);
         }
-    }
-    
-    public boolean isPartOfModel(Class<?> clazz) {
-        return getModel().entityType(clazz) != null;
-    }
-    
-    public String entityFolderName(Object entity) {
-        return getModel().entityFolderName(entity);
     }
     
     public Transformer entityTransformer(Object entity) {
@@ -66,15 +64,22 @@ public class TransformationManager {
         return entityTransformers_.get(entityType);
     }
     
-    public EntityType entityType(Object entity) {
-        return getModel().entityType(entity.getClass());
+    private EntityType entityType(Object entity) {
+        return getModel().findEntityType(entity);
     }
     
-    public EntityType entityTypeByFolder(String folder) {
-        return getModel().entityTypeForFolder(folder);
+    EntityType entityTypeByFolder(String folder) {
+        EntityType result = null;
+        for (EntityType entityType : getModel().allEntityTypes()) {
+            if (entityType.usesJcrFolder(folder)) {
+                result = entityType;
+                break;
+            }
+        }
+        return result;
     }
     
-    public Transformer createReferenceTransformer(Class<?> referenceesClazz) {
+    Transformer createReferenceTransformer(Class<?> referenceesClazz) {
         Transformer result =
             new ReferenceTransformer(referenceesClazz, persistence_);
         result.initialize(transformerRegistry_);

@@ -22,7 +22,7 @@ import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQueries;
 import com.mindquarry.persistence.api.NamedQuery;
 
-@Entity(folder="teamspaces")
+@Entity(parentFolder="teamspaces", asComposite=true)
 @NamedQueries({ 
     @NamedQuery(name="teamById", query="/teamspaces/{$teamId}"),
     @NamedQuery(name="allTeams", query="/teamspaces/*")

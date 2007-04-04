@@ -15,7 +15,7 @@ package com.mindquarry.persistence.jcr.trafo;
 
 import java.lang.reflect.Type;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.model.Property;
 
 /**
@@ -40,21 +40,25 @@ class PropertyTransformer implements Transformer {
     }
     
     public Object readFromJcr(JcrNode entityNode) {
-        JcrNode propertyNode = entityNode.getNode(property_.getName());
-        return contentTransformer_.readFromJcr(propertyNode);
+        Object result = null;
+        if (entityNode.hasNode(property_.getName())) {
+            JcrNode propertyNode = entityNode.getNode(property_.getName());
+            result = contentTransformer_.readFromJcr(propertyNode);
+        }
+        return result;
     }
 
-    public JcrNode writeToJcr(Object propertyValue, JcrNode entityNode) {
-        String propertyName = property_.getName();
-        
-        JcrNode propertyNode;
-        if (entityNode.hasNode(propertyName))
-            propertyNode = entityNode.getNode(propertyName);
-        else
-            propertyNode = entityNode.addNode(propertyName, "xt:element");
-        
-        contentTransformer_.writeToJcr(propertyValue, propertyNode);
-        
-        return propertyNode;
+    public void writeToJcr(Object propertyValue, JcrNode entityNode) {
+        if (propertyValue != null) {
+            String propertyName = property_.getName();
+            
+            JcrNode propertyNode;
+            if (entityNode.hasNode(propertyName))
+                propertyNode = entityNode.getNode(propertyName);
+            else
+                propertyNode = entityNode.addNode(propertyName, "xt:element");
+            
+            contentTransformer_.writeToJcr(propertyValue, propertyNode);
+        }
     }
 }

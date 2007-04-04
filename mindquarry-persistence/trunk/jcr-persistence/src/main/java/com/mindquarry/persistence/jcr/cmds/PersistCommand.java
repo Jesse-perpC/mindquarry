@@ -13,10 +13,11 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.api.PersistenceException;
 import com.mindquarry.persistence.jcr.JcrNode;
-import com.mindquarry.persistence.jcr.JcrProperty;
 import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
+import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 
@@ -26,41 +27,65 @@ import com.mindquarry.persistence.jcr.model.Model;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class DeleteCommand implements Command {
+class PersistCommand implements Command {
 
     private Object entity_;
     private Persistence persistence_;
+    private Command writeCommand_;
+    
+    PersistCommand() {
+        writeCommand_ = new WriteCommand(); 
+    }
     
     public void initialize(Persistence persistence, Object... objects) {
         entity_ = objects[0];
         persistence_ = persistence;
+        writeCommand_.initialize(persistence, objects);
     }
     
     /**
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        JcrEntityFolderNode folderNode = findEntityFolder(session);
-        JcrNode entityNode = folderNode.getEntityNode(entityId());        
-        for (JcrProperty property : entityNode.getReferences()) {
-            property.getParent().remove();
+        
+        Pool pool = session.getPool();
+        if (! pool.containsEntryForEntity(entity_)) {
+            JcrEntityFolderNode folderNode = findOrCreateEntityFolder(session);            
+            
+            if (folderNode.hasEntityNode(entityId())) {
+                throw new PersistenceException("the entity: " + entity_ + 
+                        " with id: " + entityId() + "already exists.");
+            }            
+            // here we only create the jcr file node
+            folderNode.addEntityNode(entityId());         
         }
-        entityNode.remove();
-        return null;
+        
+        return writeEntityIntoFileNode(session);        
     }
     
-    private JcrEntityFolderNode findEntityFolder(JcrSession session) {
-        JcrNode rootNode = session.getRootNode();        
-        JcrNode folderNode = rootNode.getNode(parentFolderName());
-        return new JcrEntityFolderNode(folderNode, entityType());
+    protected Object writeEntityIntoFileNode(JcrSession session) { 
+        return writeCommand_.execute(session);
     }
+    
+    protected JcrEntityFolderNode findOrCreateEntityFolder(JcrSession session) {
+        JcrNode rootNode = session.getRootNode();
+        String name = parentFolderName();
+        
+        JcrNode folderNode;
+        if (rootNode.hasNode(name))
+            folderNode = rootNode.getNode(name);
+        else
+            folderNode = rootNode.addNode(name, "nt:folder");
 
-    private String entityId() {
-        return entityType().getId(entity_);
+        return new JcrEntityFolderNode(folderNode, entityType());
     }
     
     private String parentFolderName() {
         return entityType().parentFolder();
+    }
+    
+    protected String entityId() {
+        return entityType().getId(entity_);
     }
     
     private EntityType entityType() {

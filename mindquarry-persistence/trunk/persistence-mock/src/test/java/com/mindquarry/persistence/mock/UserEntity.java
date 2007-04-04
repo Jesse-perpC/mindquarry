@@ -16,7 +16,8 @@ package com.mindquarry.persistence.mock;
 import java.util.Collection;
 import java.util.LinkedList;
 
-import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.persistence.api.EntityBase;
+
 
 public class UserEntity extends EntityBase {
     
