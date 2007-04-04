@@ -15,7 +15,7 @@ package com.mindquarry.persistence.mock;
 
 import java.util.Set;
 
-import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.persistence.api.EntityBase;
 
 /**
  * Add summary documentation here.

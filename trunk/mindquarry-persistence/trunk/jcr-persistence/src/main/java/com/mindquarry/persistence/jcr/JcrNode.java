@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.persistence.jcr.api;
+package com.mindquarry.persistence.jcr;
 
 import static com.mindquarry.common.lang.ReflectionUtil.findMethod;
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
@@ -21,7 +21,9 @@ import java.lang.reflect.Method;
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
 import javax.jcr.Property;
-import javax.jcr.Session;
+import javax.jcr.PropertyIterator;
+
+import com.mindquarry.persistence.api.PersistenceException;
 
 /**
  * Add summary documentation here.
@@ -31,10 +33,16 @@ import javax.jcr.Session;
  */
 public class JcrNode {
 
-    Node node_;
+    private Node node_;
+    private JcrSession session_;
     
-    public JcrNode(Node node) {
+    protected JcrNode(Node node, JcrSession session) {
         node_ = node;
+        session_ = session;
+    }    
+    
+    public Node getWrappedNode() {
+        return node_;
     }
     
     public void addMixin(String mixinName) {
@@ -42,12 +50,12 @@ public class JcrNode {
     }
 
     public JcrNode addNode(String relPath) {
-        return new JcrNode((Node) invoke("addNode", node_, relPath));
+        return new JcrNode((Node) invoke("addNode", node_, relPath), session_);
     }
 
     public JcrNode addNode(String relPath, String primaryNodeTypeName) {
         Object result = invoke("addNode", node_, relPath, primaryNodeTypeName);
-        return new JcrNode((Node) result);
+        return new JcrNode((Node) result, session_);
     }
 
     public void checkout() {
@@ -91,17 +99,29 @@ public class JcrNode {
     }*/
 
     public JcrNode getNode(String relPath) {
-        return new JcrNode((Node) invoke("getNode", node_, relPath));
+        return new JcrNode(getNodeInternal(relPath), session_);
+    }
+    
+    protected Node getNodeInternal(String relPath) {
+        return (Node) invoke("getNode", node_, relPath);
+    }
+
+    public JcrNode findNode(String relPath) {
+        JcrNode result = getNode(relPath);
+        if (result == null) {
+            throw new PersistenceException("could not find child: " + relPath);
+        }
+        return result;
     }
 
     public JcrNodeIterator getNodes() {
         Object result = invoke("getNodes", node_);
-        return new JcrNodeIterator((NodeIterator) result);
+        return new JcrNodeIterator((NodeIterator) result, session_);
     }
 
     public JcrNodeIterator getNodes(String namePattern) {
         Object result = invoke("getNodes", node_, namePattern);
-        return new JcrNodeIterator((NodeIterator) result);
+        return new JcrNodeIterator((NodeIterator) result, session_);
     }
 
     /*
@@ -115,32 +135,31 @@ public class JcrNode {
         return null;
     }
 
-    public PropertyIterator getProperties() throws RepositoryException {
+    public JcrPropertyIterator getProperties() throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }
 
-    public PropertyIterator getProperties(String namePattern) throws RepositoryException {
+    public JcrPropertyIterator getProperties(String namePattern) throws RepositoryException {
         // TODO Auto-generated method stub
         return null;
     }*/
 
     public JcrProperty getProperty(String relPath) {
         Object result = invoke("getProperty", node_, relPath);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
+    }
+
+    public JcrPropertyIterator getReferences() {
+        Object o = invoke("getReferences", node_);
+        return new JcrPropertyIterator((PropertyIterator) o, session_);
+    }
+
+    public String getUUID() {
+        return (String) invoke("getUUID", node_);
     }
 
     /*
-    public PropertyIterator getReferences() throws RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
-    public String getUUID() throws UnsupportedRepositoryOperationException, RepositoryException {
-        // TODO Auto-generated method stub
-        return null;
-    }
-
     public VersionHistory getVersionHistory() throws UnsupportedRepositoryOperationException, RepositoryException {
         // TODO Auto-generated method stub
         return null;
@@ -243,7 +262,7 @@ public class JcrNode {
 
     public JcrProperty setProperty(String name, String value) {
         Object result = invoke("setProperty", node_, name, value);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
     }
 
     /*
@@ -266,7 +285,7 @@ public class JcrNode {
         Class<?>[] paramTypes = new Class<?>[] {String.class, long.class};
         Method method = findMethod(Node.class, "setProperty", paramTypes); 
         Object result = invoke(method, node_, name, value);
-        return new JcrProperty((Property) result);
+        return new JcrProperty((Property) result, session_);
     }
 
     /*
@@ -279,8 +298,8 @@ public class JcrNode {
     public JcrProperty setProperty(String name, JcrNode value) {
         Class<?>[] paramTypes = new Class<?>[] {String.class, Node.class};
         Method method = findMethod(Node.class, "setProperty", paramTypes);        
-        Object result = invoke(method, node_, name, value.node_);
-        return new JcrProperty((Property) result);
+        Object result = invoke(method, node_, name, value.getWrappedNode());
+        return new JcrProperty((Property) result, session_);
     }
     
 /*
@@ -335,7 +354,7 @@ public class JcrNode {
 
     public JcrNode getParent() {
         Object result = invoke("getParent", node_);
-        return new JcrNode((Node) result);
+        return new JcrNode((Node) result, session_);
     }
 /*
     public String getPath() throws RepositoryException {
@@ -345,8 +364,7 @@ public class JcrNode {
     */
 
     public JcrSession getSession() {
-        Object result = invoke("getSession", node_);
-        return new JcrSession((Session) result);
+        return session_;
     }
 
     /*

@@ -13,9 +13,12 @@
  */
 package com.mindquarry.persistence.jcr.cmds;
 
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.api.JcrNode;
-import com.mindquarry.persistence.jcr.api.JcrSession;
+import com.mindquarry.persistence.jcr.Pool;
+import com.mindquarry.persistence.jcr.model.EntityType;
+import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
@@ -28,7 +31,7 @@ import com.mindquarry.persistence.jcr.trafo.Transformer;
 class ReadCommand implements Command {
 
     private JcrNode entityNode_;
-    private Persistence persistence_;
+    private Persistence persistence_;    
         
     public void initialize(Persistence persistence, Object... objects) {
         entityNode_ = (JcrNode) objects[0];
@@ -39,12 +42,60 @@ class ReadCommand implements Command {
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        String folder = entityNode_.getParent().getName();
-        return entityTransformer(folder).readFromJcr(entityNode_);
+        Object entity;
+        Pool pool = session.getPool();
+        if (pool.containsEntryForNode(entityNode_)) {
+            entity = pool.entityByNode(entityNode_);
+        }
+        else {
+            JcrEntityFolderNode folderNode = makeEntityFolder();
+            JcrNode node = folderNode.getEntityNode(entityNode_.getName());
+            entity = entityTransformer().readFromJcr(node);            
+            pool.put(entity, node);
+        }        
+        return entity; 
     }
     
-    private Transformer entityTransformer(String folder) {
+    private JcrEntityFolderNode makeEntityFolder() {
+        JcrNode folderNode = entityNode_.getParent();
+        return new JcrEntityFolderNode(folderNode, entityType());
+    }
+    
+    private Transformer entityTransformer() {
+        String folder = parentFolderName();
         return getTransformationManager().entityTransformerByFolder(folder);
+    }
+    
+    private EntityType entityType() {
+        String folder = parentFolderName();
+        
+        EntityType result = null;
+        for (EntityType entityType : getModel().allEntityTypes()) {
+            if (entityType.usesJcrFolder(folder)) {
+                result = entityType;
+                break;
+            }
+        }
+        return result;
+    }
+    
+    private String parentFolderName() {
+        return entityNode_.getParent().getName();
+    }
+    
+    EntityType entityTypeByFolder(String folder) {
+        EntityType result = null;
+        for (EntityType entityType : getModel().allEntityTypes()) {
+            if (entityType.usesJcrFolder(folder)) {
+                result = entityType;
+                break;
+            }
+        }
+        return result;
+    }
+    
+    private Model getModel() {
+        return persistence_.getModel();
     }
     
     private TransformationManager getTransformationManager() {

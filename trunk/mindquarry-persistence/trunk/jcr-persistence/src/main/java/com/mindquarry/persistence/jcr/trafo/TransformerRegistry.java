@@ -26,7 +26,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.Persistence;
+import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.model.ModelException;
 
 /**
@@ -37,11 +39,13 @@ import com.mindquarry.persistence.jcr.model.ModelException;
  */
 class TransformerRegistry {
 
+    private Model model_;
     private TransformationManager transformationManager_;
     private Map<Class<?>, Transformer> referenceTransformers_;
     
-    public TransformerRegistry(TransformationManager transformationManager) {
-        transformationManager_ = transformationManager;
+    public TransformerRegistry(Persistence persistence) {
+        model_= persistence.getModel();
+        transformationManager_ = persistence.getTransformationManager();
         referenceTransformers_ = new HashMap<Class<?>, Transformer>();
     }
     
@@ -75,8 +79,14 @@ class TransformerRegistry {
             else if (clazz.equals(String.class)) {
                 result = new StringTransformer();
             }
-            else if (isPartOfModel(clazz)) {
+            else if (getModel().containsClass(clazz)) {                
                 result = findOrCreateReferenceTransformer(clazz);
+            }
+            else if (clazz.isInterface() &&
+                    getModel().containsInterface(clazz)) {                
+                
+                Class<?> entityClazz = getModel().classForInterface(clazz);                
+                result = findOrCreateReferenceTransformer(entityClazz);
             }
         }
         
@@ -125,6 +135,10 @@ class TransformerRegistry {
         return transformationManager_.entityTypeByFolder(folder).entityClazz();
     }
     
+    private Model getModel() {
+        return model_;
+    }
+    
     private Transformer findOrCreateReferenceTransformer(Class<?> clazz) {
         
         Transformer result;
@@ -140,10 +154,6 @@ class TransformerRegistry {
     
     private Transformer createReferenceTransformer(Class<?> clazz) {
         return transformationManager_.createReferenceTransformer(clazz);
-    }
-
-    private boolean isPartOfModel(Class<?> clazz) {
-        return transformationManager_.isPartOfModel(clazz);
     }
     
     private boolean isParameterizedMapType(Type type) {

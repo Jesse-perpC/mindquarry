@@ -17,7 +17,7 @@ import com.mindquarry.persistence.api.Entity;
 import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQuery;
 
-@Entity(folder="groups")
+@Entity(parentFolder="groups")
 @NamedQuery(name="groupById", query="/groups/{$groupId}")
 public class Group  {
     

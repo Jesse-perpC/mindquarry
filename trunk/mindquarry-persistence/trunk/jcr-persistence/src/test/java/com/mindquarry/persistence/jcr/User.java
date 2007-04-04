@@ -20,19 +20,20 @@ import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQueries;
 import com.mindquarry.persistence.api.NamedQuery;
 
-@Entity(folder="users")
+@Entity(parentFolder="users")
 @NamedQueries({ 
     @NamedQuery(name="userByLogin", query="/users/{$userId}"),
-    @NamedQuery(name="allUsers", query="/users/*[local-name() != 'photos']")
+    @NamedQuery(name="allUsers", query="/users/*[local-name() != 'photos']"),
+    @NamedQuery(name="getUsersForTeam", query="/users/*[jcr:content/teams/item/@reference = /teamspaces/{$teamId}/@jcr:uuid]")
 })
 public class User  {
     
     @Id
-    private String login;
-    private String pwd;
+    private String login = "";
+    private String pwd = "";
     
-    public String firstname;
-    public String lastname;
+    public String firstname = "";;
+    public String lastname = "";;
     
     private List<String> skills;
     private String[] skillsArray;

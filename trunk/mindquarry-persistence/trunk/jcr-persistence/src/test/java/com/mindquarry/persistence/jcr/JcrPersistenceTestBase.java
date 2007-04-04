@@ -25,7 +25,7 @@ import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 
 
 
-public class JcrPersistenceTestBase extends AvalonSpringContainerTestBase {
+public abstract class JcrPersistenceTestBase extends AvalonSpringContainerTestBase {
     
     protected List<String> springConfigClasspathResources() {
         System.setProperty("mindquarry.jcr.path",

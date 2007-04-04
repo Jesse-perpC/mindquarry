@@ -13,7 +13,7 @@
  */
 package com.mindquarry.persistence.jcr.query;
 
-import static org.junit.Assert.fail;
+import junit.framework.TestCase;
 
 import org.junit.Test;
 
@@ -23,7 +23,7 @@ import org.junit.Test;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class QueryPrepareTest {
+public class QueryPrepareTest extends TestCase {
 
     @Test
     public void testTooFewParameters() {

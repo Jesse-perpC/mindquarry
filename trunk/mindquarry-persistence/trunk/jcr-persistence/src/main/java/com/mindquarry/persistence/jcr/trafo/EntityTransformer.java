@@ -16,7 +16,7 @@ package com.mindquarry.persistence.jcr.trafo;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.mindquarry.persistence.jcr.api.JcrNode;
+import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Property;
 
@@ -28,7 +28,7 @@ import com.mindquarry.persistence.jcr.model.Property;
  */
 public class EntityTransformer implements Transformer {
     
-    private EntityType entityType_;
+    protected EntityType entityType_;
     private Map<Property, Transformer> propertyTransformers_;
     
     public EntityTransformer(EntityType entityType) {
@@ -45,49 +45,37 @@ public class EntityTransformer implements Transformer {
     }
     
     public Object readFromJcr(JcrNode entityNode) {
-        Object entity = entityType_.createNewEntity();        
-        entityType_.getEntityId().setValue(entity, entityNode.getName());
-        
+        String entityId = entityNode.getName();
+        Object entity = entityType_.createNewEntity(entityId);
+        readContentFromJcr(entityNode, entity);
+        return entity;
+    }
+    
+    protected void readContentFromJcr(JcrNode entityNode, Object entity) {
         JcrNode contentNode = entityNode.getNode("jcr:content");        
         for (Property property : entityType_.properties()) {
             Object content = transformer(property).readFromJcr(contentNode);
             property.setContent(entity, content);
         }
-        return entity;
     }
     
     private Transformer transformer(Property property) {
         return propertyTransformers_.get(property);
     }
 
-    public JcrNode writeToJcr(Object entity, JcrNode folderNode) {
-        
-        String entityId = id(entity);
+    public void writeToJcr(Object entity, JcrNode entityNode) {
         
         JcrNode contentNode;
-        if (folderNode.hasNode(entityId))
-            contentNode = folderNode.getNode(entityId + "/jcr:content");
+        if (entityNode.hasNode("jcr:content"))
+            contentNode = entityNode.getNode("jcr:content");
         else
-            contentNode = createNewEntityNode(entityId, folderNode);     
+            contentNode = entityNode.addNode("jcr:content", "xt:document");
+        
+        contentNode.setProperty("jcr:lastModified", System.currentTimeMillis());
         
         for (Property property : entityType_.properties()) {
             Object propertyValue = property.getContent(entity);
             transformer(property).writeToJcr(propertyValue, contentNode);
         }
-        
-        return folderNode.getNode(entityId);
-    }
-    
-    private JcrNode createNewEntityNode(String entityId, JcrNode folderNode) {
-        JcrNode entityNode = folderNode.addNode(entityId, "nt:file");
-        entityNode.addMixin("mix:referenceable");
-        
-        JcrNode result = entityNode.addNode("jcr:content", "xt:document");
-        result.setProperty("jcr:lastModified", System.currentTimeMillis());
-        return result;
-    }
-    
-    private String id(Object entity) {
-        return entityType_.getEntityId().getValue(entity);
     }
 }
