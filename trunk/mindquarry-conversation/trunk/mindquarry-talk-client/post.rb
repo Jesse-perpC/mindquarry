@@ -2,6 +2,7 @@ require 'server.rb'
 require 'rmail'
 
 message = RMail::Parser.read($stdin.read)
+
 maildomain = ARGV[0]
 mqserver = ARGV[1]
 mquser = ARGV[2]
@@ -23,8 +24,8 @@ for recipient in recipients
       return 67 unless team.name
       conversation = team.getConversation(recipient[/.*\./][0..-2])
       return 67 unless conversation.title
-      message = conversation.postMessage(message.header.from.first.address, message.body)
-      return 69 unless message
+      postmsg = conversation.postMessage(message.header.from.first.address, message.body)
+      return 69 unless postmsg
     else
       team = server.getTeam(recipient[/.*@/][0..-2])
       return 67 unless team.name
@@ -33,8 +34,8 @@ for recipient in recipients
       return 77 unless subject
       conversation = team.newConversation(message.header.subject)
       return 67 unless conversation
-      message = conversation.postMessage(message.header.from.first.address, message.body)
-      return 69 unless message
+      postmsg = conversation.postMessage(message.header.from.first.address, message.body)
+      return 69 unless postmsg
     end
   end
 end
