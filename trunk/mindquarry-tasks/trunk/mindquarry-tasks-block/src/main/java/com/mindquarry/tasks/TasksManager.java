@@ -50,7 +50,7 @@ public class TasksManager implements TeamspaceListener {
     /**
      * Called on creation of a teamspace.
      */
-    public void beforeTeamspaceCreated(Teamspace teamspace)
+    public void afterTeamspaceCreated(Teamspace teamspace)
             throws Exception {
         initializeTasks(teamspace.getId());
         initializeTasksFilter(teamspace.getId());
@@ -59,7 +59,7 @@ public class TasksManager implements TeamspaceListener {
     /**
      * Called on deletion of a teamspace.
      */
-    public void afterTeamspaceRemoved(Teamspace teamspace)
+    public void beforeTeamspaceRemoved(Teamspace teamspace)
             throws Exception {
     }
     
