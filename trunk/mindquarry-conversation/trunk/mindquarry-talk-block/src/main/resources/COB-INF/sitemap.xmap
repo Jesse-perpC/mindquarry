@@ -213,9 +213,9 @@
 			</transform>
 			<transform type="include" />
 			<transform src="xslt/xml/extract-emails-and-subject.xsl" />
-			<!--<transform type="write-source" />-->
+			<transform type="write-source" />
 			<transform type="sendmail" />
-			<!--transform type="redirect" src="message{timestamp}" /-->
+			<transform type="redirect" src="message{timestamp}" />
 			<serialize type="xml" />
 		</resource>
 		

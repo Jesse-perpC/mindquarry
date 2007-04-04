@@ -13,12 +13,8 @@ module MindquarryTalk
 
     def initialize(url, username, password)
       uri = URI.parse(url)
-      initialize(uri.host, uri.port, username, password)
-    end
-    
-    def initialize(server, port, username, password)
-      @server = server
-      @port = port
+      @server = uri.host
+      @port = uri.port
       @username = username
       @password = password
   
@@ -56,6 +52,13 @@ module MindquarryTalk
       end
       return teams
     end
+    
+    def getTeam(name)
+      team = Team.new(self, name)
+      team.getMeta
+      return team
+    end
+    
   end
 
 end

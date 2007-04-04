@@ -7,13 +7,11 @@ mqserver = "http://localhost:8888"
 mquser = "admin"
 mqpasswd = "admin"
 
-puts "From " + message.header.from.first.address
+#puts "From " + message.header.from.first.address
 recipients = message.header.recipients.addresses
 recipients.push(message.header["X-Original-To"])
 
 server = MindquarryTalk::Server.new(mqserver, mquser, mqpasswd)
-
-puts server
 
 for recipient in recipients
   # if the domain is our maildomain
@@ -21,10 +19,15 @@ for recipient in recipients
     #if there is a dot in (e.g. Foobar.demo@...)
     if recipient[/\..*@/]
       #the team is everything behind the dot
-      team = recipient[/\..*@/][1..-2]
-      conversation = recipient[/.*\./][0..-2]
-      puts "Team: " + team
-      puts "Conversation: " + conversation
+      team = server.getTeam(recipient[/\..*@/][1..-2])
+      conversation = team.getConversation(recipient[/.*\./][0..-2])
+      puts "Team: " + team.name
+      puts "Conversation: " + conversation.title if conversation.title
+      if conversation.title
+        #we are ready to post a message
+        conversation.postMessage(message.header.from.first.address, message.body)
+      end
+      
       
       
     else
