@@ -204,6 +204,7 @@
 			<transform type="include" />
 			<transform src="xslt/xml/extract-username.xsl" />
 			<transform type="validate" src="rng/message.rng" />
+			<act type="log" src="new message is valid" /> 
 			<transform src="xslt/xml/wrap-for-sourcewriting-and-emailing.xsl">
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
 				<parameter name="metapath" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/meta.xml" />
@@ -215,6 +216,7 @@
 			<transform src="xslt/xml/extract-emails-and-subject.xsl" />
 			<transform type="write-source" />
 			<transform type="sendmail" />
+			<act type="log" src="new message is distributed" /> 
 			<transform type="redirect" src="message{timestamp}" />
 			<serialize type="xml" />
 		</resource>
