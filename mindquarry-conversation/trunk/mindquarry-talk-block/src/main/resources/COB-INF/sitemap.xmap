@@ -352,12 +352,11 @@
 				<transform type="include" />
 				<transform src="xslt/xml/add-subscribers.xsl" />
 				<!-- jx can access the TalkManager component passed by the flowscript -->
-				<!--
+				
 				<transform type="jx" />
 				<transform type="write-source" />
 				<transform src="xslt/xml/create-bu-redirect.xsl" />
 				<transform type="bu-redirect" />
-				-->
 				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
 				<serialize type="xml" />
 			</match>
