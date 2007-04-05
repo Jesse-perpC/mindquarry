@@ -18,6 +18,14 @@
   xmlns:xlink="http://www.w3.org/1999/xlink"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   <xsl:param name="basePath" />
+  <xsl:param name="teamPath" />
+  
+  <xsl:template match="conversations">
+    <xsl:copy>
+      <ci:include src="{$teamPath}" />
+      <xsl:apply-templates />
+    </xsl:copy>
+  </xsl:template>
   
   <xsl:template match="conversation">
     <xsl:copy>
