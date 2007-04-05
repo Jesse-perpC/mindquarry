@@ -18,7 +18,6 @@
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:collection="http://apache.org/cocoon/collection/1.0"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
-  <xsl:param name="basePath" />
   
   <xsl:template match="conversation[title]|messages">
     <xsl:apply-templates />

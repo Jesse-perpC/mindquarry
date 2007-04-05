@@ -474,14 +474,17 @@
 						</transform>
 						<transform src="xslt/xml/conversations2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
+							<parameter name="teamPath" value="model://TeamQuery#teamspaceById({1})" />
 						</transform>
+						
 						<transform type="include" />
 						<transform src="xslt/xml/messages2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 						</transform>
 						<transform type="include" />
 						<transform src="xslt/html/prepareconversationlist.xsl" />
-						<serialize type="xml" />
+						<transform src="xslt/html/conversationlist2html.xsl" />
+						<serialize type="html" />
 					</when>
 					<when test="xml">
 						<serialize type="xml" />
