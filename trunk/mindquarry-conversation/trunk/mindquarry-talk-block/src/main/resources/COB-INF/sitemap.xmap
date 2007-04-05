@@ -365,6 +365,47 @@
 				<serialize type="xml" />
 			</match>
 			
+			<match pattern="internal/pipe/*/talk/*/">
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/">
+						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/{2}/" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
+				</select>
+				<transform src="xslt/xml/collection2messagelist.xsl">   
+					<parameter name="basePath"   
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
+					<parameter name="teamspace" value="{1}" />   
+				</transform>
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="internal/pipe/*/meta/*/">
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml">
+						<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
+				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="internal/pipe/*/message/*/message*">
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/message{3}.xml">
+						<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/message{3}.xml" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
+				</select>
+				<serialize type="xml" />
+			</match>
+			
 			<match pattern="internal/pipe/overview.xml">
 				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform src="xslt/xml/teamspaces2conversations.xsl">
@@ -423,8 +464,29 @@
 					<parameter name="basePath"   
 						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
 					<parameter name="teamspace" value="{1}" />   
-				</transform>   
-				<serialize type="xml" />
+				</transform>
+				<select type="REST">
+					<when test="html">
+						<transform type="filter" label="xml">
+							<parameter name="element-name" value="conversation"/>
+							<parameter name="count" value="10"/>
+							<parameter name="blocknr" value="1"/>
+						</transform>
+						<transform src="xslt/xml/conversations2include.xsl">
+							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
+						</transform>
+						<transform type="include" />
+						<transform src="xslt/xml/messages2include.xsl">
+							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
+						</transform>
+						<transform type="include" />
+						<transform src="xslt/html/prepareconversationlist.xsl" />
+						<serialize type="xml" />
+					</when>
+					<when test="xml">
+						<serialize type="xml" />
+					</when>
+				</select>
 			</match>
 			
 			<!-- Team metadata -->
@@ -475,14 +537,7 @@
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
 				<select type="request-method">
 					<when test="GET">
-						<select type="resource-exists">
-							<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml">
-								<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/meta.xml" />
-							</when>
-							<otherwise>
-								<generate src="xml/empty.xml" />
-							</otherwise>
-						</select>
+						<generate src="cocoon:/internal/pipe/{1}/meta/{2}/" />
 					</when>
 					<when test="PUT">
 						<generate type="stream">
@@ -512,26 +567,14 @@
 			<!-- Get one message -->
 			<match pattern="*/*/message*">
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
-				<generate src="jcr:///teamspaces/{1}/talk/conversations/{2}/message{3}.xml" />
+				<generate src="cocoon:/internal/pipe/{1}/message/{2}/message{3}" />
 				<serialize type="xml" />
 			</match>
 			
 			<!-- Get all messages from a conversation -->
 			<match pattern="*/*/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
-				<select type="resource-exists">
-					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/">
-						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/{2}/" />
-					</when>
-					<otherwise>
-						<generate src="xml/empty.xml" />
-					</otherwise>
-				</select>
-				<transform src="xslt/xml/collection2messagelist.xsl">   
-					<parameter name="basePath"   
-						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
-					<parameter name="teamspace" value="{1}" />   
-				</transform>  
+				<generate src="cocoon:/internal/pipe/{1}/talk/{2}/" />
 				<serialize type="xml" />
 			</match>
 			
