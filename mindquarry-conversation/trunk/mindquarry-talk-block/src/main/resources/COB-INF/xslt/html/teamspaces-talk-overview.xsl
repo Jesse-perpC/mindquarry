@@ -26,7 +26,7 @@
 					href="{$pathToBlock}css/wiki.css" type="text/css" />
 			</head>
 			<body>
-				<h1>Talk with your teams</h1>
+				<h1>Talk to your teams</h1>
 				
 				<ul class="wiki-list">
 					<xsl:apply-templates select="*/teamspace">

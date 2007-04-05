@@ -14,20 +14,21 @@
 -->
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-	xmlns:xlink="http://www.w3.org/1999/xlink">
-
-	<xsl:template match="teamspace/conversations">
-		<xsl:apply-templates />
-	</xsl:template>
-
-	<xsl:template match="wikipage">
-		<conversation xlink:href="{../../@xlink:href}/{@xlink:href}" />
-	</xsl:template>
-
+  xmlns:ci="http://apache.org/cocoon/include/1.0"
+  xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:collection="http://apache.org/cocoon/collection/1.0"
+	xmlns:source="http://apache.org/cocoon/source/1.0">
+  <xsl:param name="basePath" />
+  
+  <xsl:template match="conversation[title]|messages">
+    <xsl:apply-templates />
+  </xsl:template>
+  
+  <xsl:template match="group|link|message[collection:collection]" />
+  
 	<xsl:template match="@*|node()">
 		<xsl:copy>
 			<xsl:apply-templates select="@*|node()" />
 		</xsl:copy>
 	</xsl:template>
-
 </xsl:stylesheet>
