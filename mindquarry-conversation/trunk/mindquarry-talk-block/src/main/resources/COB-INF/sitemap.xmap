@@ -146,6 +146,7 @@
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
+				<!--
 					<transform src="block:/xslt/html2html.xsl"
 						type="xalan">
 						<parameter name="fullPath"
@@ -166,6 +167,7 @@
 							value="{pom-property:com.mindquarry.conversation/mindquarry-talk-block/timeStamp}"/>
 					</transform>
 					<transform type="cinclude"/>
+					-->
 				</otherwise>
 			</select>
 			
@@ -362,6 +364,31 @@
 				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
 				<serialize type="xml" />
 			</match>
+			
+			<match pattern="internal/pipe/overview.xml">
+				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+				<transform src="xslt/xml/teamspaces2conversations.xsl">
+					<parameter name="base"
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+				</transform>
+				<transform type="xinclude" />
+				<transform src="xslt/xml/flatten-conversations-element.xsl" />
+				<serialize type="xml" />
+			</match>
+
+			<!-- HTML (which is different from the xml content) -->
+			<match pattern="internal/pipe/overview.html">
+				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+				<transform
+					src="xslt/html/teamspaces-talk-overview.xsl">
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+				</transform>
+				<call resource="layouting" />
+			</match>
+			
 		</pipeline>
 		
 		<!-- =========================================================== -->
