@@ -1039,7 +1039,9 @@
         within a sitemap<footnote>
             <para>This component is the <code>BlockSourceFactory</code>. A
             typical usage inside a sitemap is a URL like this:
-            <code>block:teamspace://teamspace/foobar/users.xml</code>. More
+            <code>block:teamspace://teamspace/foobar/users.xml</code> (Note that
+			this will change to <code>servlet:</code> in current development,
+			ie. for version 1.1 and on). More
             information about the generic Sourceresolver concept, which is
             part of the <ulink url="http://excalibur.apache.org">Apache
             Excalibur</ulink> project and heavily used by Cocoon, can be found

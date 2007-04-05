@@ -31,6 +31,7 @@
       <item name="Development Process" href="http://www.mindquarry.org/mindquarry/docbook/dev-process.html"/>
       <item name="Architecture Guide" href="http://www.mindquarry.org/mindquarry/docbook/architecture.html"/>
       <item name="Documentation Styleguide" href="http://www.mindquarry.org/mindquarry/docbook/documentation-styleguide.html"/>
+      <item name="Design for 1.1/2.0 Release" href="http://www.mindquarry.org/mindquarry/ucd-results-release-eagle.pdf"/>
     </menu>
 		${reports}
   </body>
