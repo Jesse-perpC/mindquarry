@@ -13,7 +13,10 @@
  */
 package com.mindquarry.user.manager;
 
-import com.mindquarry.common.persistence.EntityBase;
+import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
+import com.mindquarry.persistence.api.NamedQueries;
+import com.mindquarry.persistence.api.NamedQuery;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.GroupRO;
 
@@ -24,14 +27,28 @@ import com.mindquarry.user.GroupRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public final class GroupEntity extends EntityBase implements GroupRO {
+@Entity(parentFolder="groups")
+@NamedQueries({
+    @NamedQuery(name="getGroupById", query="/groups/{$groupId}"),
+    @NamedQuery(name="getAllGroups", query="/groups/*[local-name() != 'photos']")
+})
+public final class GroupEntity implements GroupRO {
 
-    private AbstractUserSet members;
+    @Id private String id;
+    public AbstractUserSet members;
     
     public GroupEntity() {
         this.id = "";
         this.members = new AbstractUserSet();
     }    
+    
+    public String getId() {
+        return id;
+    }
+    
+    public void setId(String id) {
+        this.id = id;
+    }
     
     public AbstractUserSet getMembers() {
         return members;
