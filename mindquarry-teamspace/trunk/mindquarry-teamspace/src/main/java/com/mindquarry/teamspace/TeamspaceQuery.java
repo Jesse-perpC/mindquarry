@@ -13,7 +13,7 @@
  */
 package com.mindquarry.teamspace;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Provides methods to query teamspace related data.
@@ -30,7 +30,7 @@ public interface TeamspaceQuery {
      * each teamspace in the result list contains also
      * a list of all participating users. 
      */
-    List<TeamspaceRO> teamspacesForUser(String userId);
+    Collection<? extends TeamspaceRO> teamspacesForUser(String userId);
     
     TeamspaceRO teamspaceById(String teamspaceId);
     

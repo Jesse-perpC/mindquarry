@@ -13,6 +13,10 @@
  */
 package com.mindquarry.teamspace.manager;
 
+import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
+import static com.mindquarry.user.manager.DefaultUsers.isAnonymousUser;
+
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
@@ -23,10 +27,9 @@ import java.util.regex.Pattern;
 import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.ProfileRO;
 import com.mindquarry.auth.RightRO;
-import com.mindquarry.cache.JcrCache;
-import com.mindquarry.common.persistence.Session;
-import com.mindquarry.common.persistence.SessionFactory;
 import com.mindquarry.common.resources.ResourceDoesNotExistException;
+import com.mindquarry.persistence.api.Session;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.teamspace.Authorisation;
 import com.mindquarry.teamspace.CouldNotCreateTeamspaceException;
 import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
@@ -35,6 +38,7 @@ import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.User;
 import com.mindquarry.user.UserRO;
 import com.mindquarry.user.manager.UserManager;
 
@@ -58,8 +62,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private UserManager userManager_;
 
     private AuthorizationAdmin authAdmin_;
-    
-    private JcrCache jcrCache_;
 
     /**
      * Setter for listenerRegistry bean, set by spring at object creation
@@ -87,64 +89,48 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      */
     public void setAuthAdmin(AuthorizationAdmin authAdmin) {
         authAdmin_ = authAdmin;
-    }    
-
-    /**
-     * Setter for jcrCache bean, set by spring at object creation
-     */
-    public void setJcrCache(JcrCache jcrCache) {
-        jcrCache_ = jcrCache;
-    }
-
-    public void initialize() {
-        for (TeamspaceRO teamspace : queryAllTeamspaces()) {
-            GroupRO teamGroup = userManager_.groupById(teamspace.getId());
-            if (teamGroup == null) {
-                createGroupForTeam(teamspace);
-            }
-        }
     }
 
     public Teamspace createTeamspace(String teamspaceId, String name,
             String description, UserRO teamspaceCreator)
             throws CouldNotCreateTeamspaceException {
-
+        
         TeamspaceEntity teamspace = new TeamspaceEntity();
         teamspace.setId(teamspaceId);
         teamspace.setName(name);
         teamspace.setDescription(description);
-
-        try {
-            listenerRegistry_.signalBeforeTeamspaceCreated(teamspace);
-        } catch (Exception e) {
-            throw new CouldNotCreateTeamspaceException(
-                    "Teamspace creation failed in listener: " + e.getMessage(),
-                    e);
-        }
         
         // there is no need to make the admin a member of the teamspace,
         // at most its somewhat confusing if the admin user appears as member
         // within the teamspace views
         // Nevertheless she/he is not only allowed to create and teamspaces
         // but also to edit existing ones.
-        if (! userManager_.isAdminUser(teamspaceCreator))
-            userManager_.addUserToTeamspace(teamspaceCreator, teamspace.getId());
+        if (! isAdminUser(teamspaceCreator)) {
+            teamspace.addUser(teamspaceCreator);
+        }
 
-        // create the teams default group
-        createGroupForTeam(teamspace);
-        jcrCache_.removeFromCache(allTeamsCacheKey());
-        
         Session session = currentSession();
         session.persist(teamspace);
         session.commit();
+        
+        // create the teams default group
+        createGroupForTeam(teamspace);
+
+        try {
+            listenerRegistry_.signalAfterTeamspaceCreated(teamspace);
+        } catch (Exception e) {
+            throw new CouldNotCreateTeamspaceException(
+                    "Teamspace creation failed in listener: " + e.getMessage(),
+                    e);
+        }
+        
         return teamspace;
     }
     
     private void createGroupForTeam(TeamspaceRO teamspace) {
         GroupRO teamGroup = userManager_.createGroup(teamspace.getId());
-        List<UserRO> teamMembers = membersForTeamspace(teamspace);
 
-        for (UserRO teamMember : teamMembers)
+        for (UserRO teamMember : teamspace.getUsers())
             userManager_.addUser(teamMember, teamGroup);
 
         String teamspaceUri = "/teamspaces/" + teamspace.getId();
@@ -159,68 +145,50 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         authAdmin_.addAllowance(profile, teamGroup);
     }
     
-    private String teamByIdCacheKey(String teamId) {
-        return "Mindquarry.TeamspaceManager.TEAM_ID-" + teamId;
+    private void deleteGroupForTeam(TeamspaceRO teamspace) {
+        GroupRO group = userManager_.groupById(teamspace.getId());
+        userManager_.deleteGroup(group);
     }
 
     public void updateTeamspace(Teamspace teamspace) {
         Session session = currentSession();
         session.update(teamspace);
         session.commit();
-        
-        jcrCache_.removeFromCache(teamByIdCacheKey(teamspace.getId()));
-        jcrCache_.removeFromCache(allTeamsCacheKey());
     }
 
     public void deleteTeamspace(Teamspace teamspace)
             throws CouldNotRemoveTeamspaceException {
 
-        Session session = currentSession();
-        session.delete(teamspace);
-        session.commit();
-               
-        jcrCache_.removeFromCache(teamByIdCacheKey(teamspace.getId()));
-        jcrCache_.removeFromCache(allTeamsCacheKey());
-
-        List<UserRO> users = membersForTeamspace(teamspace);
-        for (UserRO user : users)
-            userManager_.removeUserFromTeamspace(user, teamspace.getId());
-
         try {
-            listenerRegistry_.signalAfterTeamspaceRemoved(teamspace);
+            listenerRegistry_.signalBeforeTeamspaceRemoved(teamspace);
         } catch (Exception e) {
             throw new CouldNotRemoveTeamspaceException(
                     "Teamspace removal failed in listener " + e.getMessage(), e);
         }
+        
+        deleteGroupForTeam(teamspace);
+        
+        for (UserRO user : teamspace.getUsers()) {
+            removeMember((User) user, teamspace);            
+        }
+        
+        Session session = currentSession();
+        session.delete(teamspace);
+        session.commit();
     }
 
-    public List<TeamspaceRO> teamspacesForUser(String userId) {
+    public Collection<? extends TeamspaceRO> teamspacesForUser(String userId) {
         assert userManager_.isValidUserId(userId) : "the userId: " + userId
                 + " is not valid";
 
-        List<TeamspaceRO> result;
+        Collection<? extends TeamspaceRO> result;
         
+        Session session = currentSession();
         if (ADMIN_USER_ID.equals(userId))
-            result = allTeamspaces();
+            result = queryAllTeamspaces();
         else
             result = queryTeamspacesForUser(userId);
-        
-        return result;
-    }
-    
-    private String allTeamsCacheKey() {
-        return "Mindquarry.TeamspaceManager.ALL_TEAMS";
-    }
-
-    private List<TeamspaceRO> allTeamspaces() {
-        String cacheKey = allTeamsCacheKey();
-        List<TeamspaceRO> result = (List<TeamspaceRO>) jcrCache_.resultFromCache(cacheKey);
-        
-        if (result == null) {
-            result = queryAllTeamspaces();
-            if (result != null)
-                jcrCache_.putResultInCache(cacheKey, result);
-        }
+        session.commit();
         
         return result;
     }
@@ -228,13 +196,12 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private List<TeamspaceRO> queryAllTeamspaces() {
         Session session = currentSession();
 
-        List<Object> queriedTeamspaces = session.query("getAllTeamspaces",
+        List<Object> queriedTeamspaces = session.query("getAllTeams",
                 new Object[0]);
 
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
         for (Object teamspaceObj : queriedTeamspaces) {
             TeamspaceEntity teamspace = (TeamspaceEntity) teamspaceObj;
-            teamspace.setUsers(membersForTeamspace(teamspace));
             result.add(teamspace);
         }
 
@@ -242,43 +209,24 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         return result;
     }
 
-    private List<TeamspaceRO> queryTeamspacesForUser(String userId) {
-        
-        List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
+    private List<? extends TeamspaceRO> queryTeamspacesForUser(String userId) {
+        Session session = currentSession();
 
-        UserRO user = userManager_.userById(userId);
-        if (user != null) {
-            for (String teamRef : user.teamspaces()) {
-                TeamspaceEntity teamspace = queryTeamspaceById(teamRef);
-                result.add(teamspace);
-            }
+        List<Object> queriedTeams = session.query(
+                "getTeamsForUser", new Object[] {userId});
+        
+        List<TeamspaceEntity> teams = new LinkedList<TeamspaceEntity>();
+        for (Object object : queriedTeams) {
+            teams.add((TeamspaceEntity) object);
         }
-        
-        return result;
-    }
-
-    List<UserRO> membersForTeamspace(TeamspaceRO teamspace) {
-        return userManager_.membersForTeamspace(teamspace.getId());
+        return teams;
     }
 
     /**
      * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceById(java.lang.String)
      */
     public Teamspace teamspaceById(String teamspaceId) {        
-        return internalTeamspaceById(teamspaceId);
-    }
-
-    private Teamspace internalTeamspaceById(String teamspaceId) {        
-        String cacheKey = teamByIdCacheKey(teamspaceId);
-        Teamspace result = (Teamspace) jcrCache_.resultFromCache(cacheKey);
-        
-        if (result == null) {
-            result = queryTeamspaceById(teamspaceId);
-            if (result != null)
-                jcrCache_.putResultInCache(cacheKey, result);
-        }
-        
-        return result;
+        return queryTeamspaceById(teamspaceId);
     }
 
     /**
@@ -287,11 +235,10 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private TeamspaceEntity queryTeamspaceById(String id) {
         Session session = currentSession();
         TeamspaceEntity result = null;
-        List queryResult = session.query("getTeamspaceById",
+        List queryResult = session.query("getTeamById",
                 new Object[] { id });
         if (queryResult.size() == 1) {
             result = (TeamspaceEntity) queryResult.get(0);
-            result.setUsers(membersForTeamspace(result));
         }
         return result;
     }
@@ -299,14 +246,31 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private Session currentSession() {
         return sessionFactory_.currentSession();
     }
+    
+    public void addMember(User user, Teamspace team) {
+        ((TeamspaceEntity) team).addUser(user);
+        
+        Session session = currentSession();
+        session.update(team);
+        session.commit();
+    }
+    
+    public void removeMember(User user, Teamspace team) {
+        ((TeamspaceEntity) team).removeUser(user);
+        
+        Session session = currentSession();
+        session.update(team);
+        session.commit();
+    }
 
+    
     public Membership membership(TeamspaceRO teamspace) {
         List<UserRO> users = userManager_.allUsers();
         Set<UserRO> members = new HashSet<UserRO>();
         Set<UserRO> nonMembers = new HashSet<UserRO>();
 
         for (UserRO user : users) {
-            if (user.isMemberOf(teamspace))
+            if (teamspace.getUsers().contains(user))
                 members.add(user);
             else
                 nonMembers.add(user);
@@ -316,6 +280,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     public Membership refreshMembership(Membership oldMembership) {
+        
         Membership result = membership(oldMembership.teamspace);
         for (UserRO user : oldMembership.getAddedMembers()) {
             result.addMember(user);
@@ -330,21 +295,15 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     // to new session, because most of the times the object was queried
     // in transactions and sessions before the current one
     public Membership updateMembership(Membership membership) {
-
-        String teamspaceId = membership.teamspace.getId();
-
+        
         // check old members for removal from teamspace
         for (UserRO user : membership.getRemovedMembers()) {
-            userManager_.removeUserFromTeamspace(user, teamspaceId);
-            jcrCache_.removeFromCache(allTeamsCacheKey());
-            jcrCache_.removeFromCache(teamByIdCacheKey(teamspaceId));
+            removeMember((User) user, (Teamspace) membership.teamspace);
         }
 
         // check new members for adding to teamspace
         for (UserRO user : membership.getAddedMembers()) {
-            userManager_.addUserToTeamspace(user, teamspaceId);
-            jcrCache_.removeFromCache(allTeamsCacheKey());
-            jcrCache_.removeFromCache(teamByIdCacheKey(teamspaceId));
+            addMember((User) user, (Teamspace) membership.teamspace);
         }
 
         // return a new calculated membership
@@ -371,31 +330,54 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     public boolean authorise(String userId, String uri, String method) {
         
         UserRO user = userManager_.userById(userId);
+        if (isRequestForTeamsContent(uri))
+            return authorizeTeamsContent(uri, user);
+        else if (isRequestForUserManagement(uri))
+            return authorizeUserManagement(uri, user);
+        else
+            return false;
+    }
+    
+    private boolean isRequestForTeamsContent(String uri) {
+        return uri.startsWith("jcr:///teamspaces");
+    }
+    
+    // simple regular expression that looks for the teamspace name...
+    private static final Pattern teamContentPattern = 
+                Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
+    
+    private boolean authorizeTeamsContent(String uri, UserRO user) {
+        if (isAdminUser(user)) {
+            return true;
+        }
         
-        // always check if the teamspace does exist (even for admin)
-        
-        // simple regular expression that looks for the teamspace name...
-        Pattern p = Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
-        Matcher m = p.matcher(uri);
+        Matcher m = teamContentPattern.matcher(uri);
         if (m.matches()) {
             String requestedTeamspaceID = m.group(1); // "mindquarry";
+            
+            TeamspaceRO team = teamspaceById(requestedTeamspaceID);
             // ...check if that teamspace exists
-            if (this.teamspaceById(requestedTeamspaceID) == null) {
+            if (team == null) {
                 throw new ResourceDoesNotExistException(uri, "Teamspace '"
                         + requestedTeamspaceID + "' does not exist.");
             }
 
-            // admin can do everything
-            if (userManager_.isAdminUser(user) || user.isMemberOf(requestedTeamspaceID)) {
-                return true;
-            }
-        } else {
-            // shorter or different URL (eg. jcr:///users) is only for admin
-            if (userManager_.isAdminUser(user)) {
+            if (team.getUsers().contains(user)) {
                 return true;
             }
         }
-        
-        return false;
+        return false;            
+    }
+    
+    private boolean isRequestForUserManagement(String uri) {
+        return uri.startsWith("jcr:///users");
+    }
+    
+    private boolean authorizeUserManagement(String uri, UserRO user) {
+        if (uri.contains("editUser")) {
+            return  ! isAnonymousUser(user);
+        }
+        else
+            return isAdminUser(user);
     }
 }

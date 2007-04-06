@@ -65,6 +65,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>org.apache.cocoon</groupId>
+			<artifactId>cocoon-core</artifactId>
+			<version>${cocoon-core.version}</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.persistence</groupId>
 			<artifactId>persistence-api</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>

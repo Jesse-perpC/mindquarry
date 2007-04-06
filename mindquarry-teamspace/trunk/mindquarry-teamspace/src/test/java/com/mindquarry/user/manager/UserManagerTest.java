@@ -40,6 +40,8 @@ public class UserManagerTest extends TeamspaceTestBase {
         
         Authentication auth = (Authentication) lookup(Authentication.ROLE);
         assertTrue(auth.authenticate(userId, "newPwd"));
+        
+        userAdmin.deleteUser(mqUser);
     }
     
     public void testCreateAndRemoveUser() throws ServiceException {
@@ -47,17 +49,15 @@ public class UserManagerTest extends TeamspaceTestBase {
 
         UserAdmin userAdmin = lookupUserAdmin();
         
-        final int defaultUsers = userAdmin.allUsers().size();
-        
         String userId = "mindquarry-user";
         UserRO mqUser = userAdmin.createUser(userId, "aSecretPassword",
                 "Mindquarry User", "surname", "an email", "the skills");
         
         List<UserRO> users = userAdmin.allUsers();
-        assertEquals(defaultUsers + 1, users.size());
+        assertEquals(1, users.size());
         
         userAdmin.deleteUser((User) mqUser);
-        assertEquals(defaultUsers, userAdmin.allUsers().size());
+        assertEquals(0, userAdmin.allUsers().size());
     }
     
     public void testGroupPersistence() throws ServiceException {

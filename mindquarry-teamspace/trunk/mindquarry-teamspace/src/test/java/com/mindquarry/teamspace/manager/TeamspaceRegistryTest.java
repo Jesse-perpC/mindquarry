@@ -20,56 +20,55 @@ import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
+import com.mindquarry.teamspace.TeamspaceListener;
+import com.mindquarry.teamspace.TeamspaceListenerRegistry;
 import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
-import com.mindquarry.user.UserRO;
 
-public class TeamspaceManagerTest extends TeamspaceTestBase {
-    
-    private User queryUserById(String userId) throws ServiceException {
-        UserAdmin userAdmin = lookupUserAdmin();
-        return userAdmin.userById(userId);
-    }
-    
-    public void testCreateAndRemoveTeamspace() throws ServiceException,
+public class TeamspaceRegistryTest extends TeamspaceTestBase {
+
+    public void testTeamspaceRegistry() throws ServiceException,
             TeamspaceAlreadyExistsException, CouldNotCreateTeamspaceException,
             CouldNotRemoveTeamspaceException {
 
+        TestTeamspaceListener testListener = new TestTeamspaceListener();
+        lookupTeamspaceListenerRegistry().addListener(testListener);
+
         TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
         UserAdmin userAdmin = lookupUserAdmin();
-
-        String userId = "mindquarry-user";
-        userAdmin.createUser(userId, "aSecretPassword",
-                "Mindquarry User", "surname", "an email", "the skills");
+        User admin = userAdmin.userById("admin");
 
         String teamspaceId = "mindquarry-teamspace";
         Teamspace teamspace = teamsAdmin.createTeamspace(
                 teamspaceId, "Mindquarry Teamspace",
-                "a greate description", queryUserById(userId));
+                "a greate description", admin);
 
-        assertEquals(1, teamspace.getUsers().size());
+        assertTrue(testListener.wasCalled);
 
         teamsAdmin.deleteTeamspace(teamspace);
-        userAdmin.deleteUser(queryUserById(userId));
     }
 
-    public void testCreateAndRemoveTeamspaceAsAdmin() throws ServiceException,
-            TeamspaceAlreadyExistsException, CouldNotCreateTeamspaceException,
-            CouldNotRemoveTeamspaceException {
+    private TeamspaceListenerRegistry lookupTeamspaceListenerRegistry()
+            throws ServiceException {
 
-        TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
-        UserAdmin userAdmin = lookupUserAdmin();
+        String name = DefaultListenerRegistry.class.getName();
 
-        String userId = "admin";
-        UserRO creator = userAdmin.userById(userId);
+        return (TeamspaceListenerRegistry) lookup(name);
+    }
 
-        String teamspaceId = "mindquarry-teamspace";
-        Teamspace team = teamsAdmin.createTeamspace(
-                teamspaceId, "Mindquarry Teamspace",
-                "a greate description", creator);
+    static class TestTeamspaceListener implements TeamspaceListener {
 
-        assertEquals(0, team.getUsers().size());
-        teamsAdmin.deleteTeamspace(team);
+        boolean wasCalled = false;
+
+        public void beforeTeamspaceRemoved(Teamspace teamspace) {
+            // TODO Auto-generated method stub
+
+        }
+
+        public void afterTeamspaceCreated(Teamspace teamspace) {
+            wasCalled = true;
+        }
+
     }
 }
