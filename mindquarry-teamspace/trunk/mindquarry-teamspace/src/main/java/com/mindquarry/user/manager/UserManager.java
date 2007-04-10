@@ -67,7 +67,7 @@ public final class UserManager implements UserAdmin, Authentication {
      */
     private Object queryEntityById(String query, String id) {
         Session session = currentSession();
-        List queryResult = session.query(query, new Object[] { id });
+        List queryResult = session.query(query, id);
         if (queryResult.size() == 1)
             return queryResult.get(0);
         else
@@ -114,7 +114,7 @@ public final class UserManager implements UserAdmin, Authentication {
     public List<UserRO> allUsers() {
         Session session = currentSession();
 
-        List<Object> queriedUsers = session.query("getAllUsers", new Object[0]);
+        List<Object> queriedUsers = session.query("getAllUsers");
         List<UserRO> result = new LinkedList<UserRO>();
 
         for (Object userObj : queriedUsers) {
