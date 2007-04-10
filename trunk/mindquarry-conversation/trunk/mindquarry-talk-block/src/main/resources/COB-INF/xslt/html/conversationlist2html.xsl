@@ -19,6 +19,8 @@
   xmlns:collection="http://apache.org/cocoon/collection/1.0"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   
+  <xsl:param name="now" />
+  
   <xsl:template match="/conversations">
     <html>
       <head>
@@ -43,14 +45,62 @@
   <xsl:template match="conversation">
     <li>
       <h2><a href="{@id}/"><xsl:apply-templates select="title" /></a></h2>
-      <xsl:apply-templates select="message[position()=1]" />
+      <xsl:apply-templates select="message[position()=1]/message" mode="first"/>
+      <xsl:apply-templates select="message[position()=last()]/message" mode="last"/>
     </li>
+  </xsl:template>
+  
+  <xsl:template match="message[position()=1]" mode="first">
+    <div class="firstmessage message">
+      Started by <xsl:apply-templates select="from"/>
+      <xsl:apply-templates select="date" />
+    </div>
+  </xsl:template>
+  
+  <xsl:template match="message[position()=last()]" mode="last">
+    <div class="firstmessage message">
+      Last comment by <xsl:apply-templates select="from"/>
+      <xsl:apply-templates select="date" />
+      <div class="content">
+        <xsl:value-of select="substring(body,1,60)" />
+      </div>
+    </div>
+  </xsl:template>
+  
+  <xsl:template match="message/message/from">
+    <span class="from"><xsl:value-of select="." /></span>
+  </xsl:template>
+  
+  <xsl:template match="message/message/from[not(node())]">
+    <span class="from">unknown user</span>
+  </xsl:template>
+  
+  
+  <xsl:template match="message/message/date">
+    <xsl:text> </xsl:text>
+    <xsl:variable name="diff" select="floor(($now - normalize-space(.)) div 1000)" />
+    <span class="date" title="{.}">
+    <xsl:choose>
+      <xsl:when test="$now &gt; 86400">
+        <xsl:value-of select="floor($diff div 86400)" /> days
+      </xsl:when>
+      <xsl:when test="$now &gt; 3600">
+        <xsl:value-of select="floor($diff div 3600)" /> hours
+      </xsl:when>
+      <xsl:when test="$now &gt; 60">
+        <xsl:value-of select="floor($diff div 60)" /> minutes
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$diff" /> seconds
+      </xsl:otherwise>
+    </xsl:choose>
+    ago </span>
   </xsl:template>
   
   
   
   <xsl:template match="block" mode="pagination">
-    <li><a href="{@id}"><xsl:value-of select="@id" /></a></li>
+    <li><a href="?page={@id}"><xsl:value-of select="@id" /></a></li>
   </xsl:template>
   
   <xsl:template match="block[node()]" mode="pagination">
@@ -58,7 +108,7 @@
   </xsl:template>
   
   <xsl:template match="block[position()=last()]" mode="headlinks">
-    <link rel="last" href="{@id}">
+    <link rel="last" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>
@@ -66,7 +116,7 @@
   </xsl:template>
   
   <xsl:template match="block" mode="headlinks">
-    <link rel="following" href="{@id}">
+    <link rel="following" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>
@@ -74,7 +124,7 @@
   </xsl:template>
   
   <xsl:template match="block[position()=1]" mode="headlinks">
-    <link rel="start" href="{@id}">
+    <link rel="start" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>
@@ -82,7 +132,7 @@
   </xsl:template>
   
   <xsl:template match="block[preceding-sibling::block[1][node()]]" mode="headlinks">
-    <link rel="next" href="{@id}">
+    <link rel="next" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>
@@ -90,7 +140,7 @@
   </xsl:template>
   
   <xsl:template match="block[following-sibling::block[1][node()]]" mode="headlinks">
-    <link rel="prev" href="{@id}">
+    <link rel="prev" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>

@@ -22,7 +22,7 @@
   <xsl:template match="message[position()=1]|message[position()=last()]">
     <xsl:copy>
       <xsl:apply-templates select="@id" />
-      <ci:include src="{$basePath}/message/{../../../conversation/@id}/{@id}" />
+      <ci:include src="{$basePath}/message/{ancestor::conversation[1]/@id}/{@id}" />
     </xsl:copy>
   </xsl:template>
   
