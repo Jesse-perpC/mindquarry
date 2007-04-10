@@ -369,19 +369,7 @@
 			</match>
 			
 			<match pattern="internal/pipe/*/talk/*/">
-				<select type="resource-exists">
-					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/">
-						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/{2}/" />
-					</when>
-					<otherwise>
-						<generate src="xml/empty.xml" />
-					</otherwise>
-				</select>
-				<transform src="xslt/xml/collection2messagelist.xsl">   
-					<parameter name="basePath"   
-						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
-					<parameter name="teamspace" value="{1}" />   
-				</transform>
+				<generate src="cocoon:/internal/pipe/{1}/plaintalk/{2}/" />
 				<select type="REST">
 					<when test="html">
 						<transform type="filter">
@@ -395,8 +383,26 @@
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}/message/{2}/" />
 						</transform>
 						<transform type="include" />
+						<transform src="xslt/html/prepareconversation.xsl" />
 					</when>
 				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="internal/pipe/*/plaintalk/*/">
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/talk/conversations/{2}/">
+						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/{2}/" />
+					</when>
+					<otherwise>
+						<generate src="xml/empty.xml" />
+					</otherwise>
+				</select>
+				<transform src="xslt/xml/collection2messagelist.xsl">   
+					<parameter name="basePath"   
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
+					<parameter name="teamspace" value="{1}" />   
+				</transform>
 				<serialize type="xml" />
 			</match>
 			
@@ -495,7 +501,6 @@
 							<parameter name="teamPath" value="model://TeamQuery#teamspaceById({1})" />
 							<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
 						</transform>
-						
 						<transform type="include" />
 						
 						<transform src="xslt/xml/messages2include.xsl">

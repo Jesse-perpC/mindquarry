@@ -16,26 +16,33 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
   xmlns:ci="http://apache.org/cocoon/include/1.0"
   xmlns:xlink="http://www.w3.org/1999/xlink"
+  xmlns:collection="http://apache.org/cocoon/collection/1.0"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
-  <xsl:param name="basePath" />
-  <xsl:param name="teamPath" />
-  <xsl:param name="metaPath" />
   
-  <xsl:template match="conversations">
+  <xsl:template match="conversation[not(subscribers)]">
     <xsl:copy>
-      <ci:include src="{$teamPath}" />
-      <ci:include src="{$metaPath}" />
       <xsl:apply-templates />
+      <subscribers>
+        <xsl:apply-templates select="../team/subscriber[@type='email']"/>
+      </subscribers>
     </xsl:copy>
   </xsl:template>
   
-  <xsl:template match="conversation">
+  <xsl:template match="subscribers">
     <xsl:copy>
-      <xsl:copy-of select="@id" />
-      <ci:include src="{$basePath}/meta/{@xlink:href}" />
-      <ci:include src="{$basePath}/plaintalk/{@xlink:href}" />
+      <xsl:apply-templates select="subscriber[@type='email']" />
+      <xsl:apply-templates select="../../team/subscriber[@type='email']"/>
     </xsl:copy>
   </xsl:template>
+  
+  <xsl:template match="team/subscriber">
+    <xsl:variable name="subscriber" select="normalize-space(.)" />
+    <xsl:if test="0=count(../../conversation/subscribers/subscriber[@type='email'][normalize-space(.)=$subscriber])+count(../../conversation/subscribers/unsubscriber[@type='email'][normalize-space(.)=$subscriber])">
+      <xsl:copy-of select="."/>
+    </xsl:if>
+  </xsl:template>
+  
+  <xsl:template match="team" />
   
 	<xsl:template match="@*|node()">
 		<xsl:copy>
