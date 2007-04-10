@@ -31,4 +31,8 @@ public interface JcrSession {
     public QueryManager getQueryManager() throws RepositoryException;
     
     public Pool getPool();
+    
+    public Object getAttribute(String key);
+    
+    public void setAttribute(String key, Object value);
 }

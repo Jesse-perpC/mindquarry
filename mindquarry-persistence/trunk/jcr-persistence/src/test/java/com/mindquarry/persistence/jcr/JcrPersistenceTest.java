@@ -138,9 +138,18 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         user.lastname = "lastName";
         user.getSkills().remove(0);
         user.setSkillsArray(new String[] {user.getSkillsArray()[0]});
-        session.update(user);
-        
+        session.update(user);        
         session.commit();
+        
+        
+        session = sessionFactory_.currentSession();
+        queryResult = session.query(
+                "userByLogin", "testUser");
+        
+        user = (User) queryResult.get(0);
+        assertEquals("lastName", user.lastname);
+        assertEquals(1, user.getSkills().size());
+        assertEquals(1, user.getSkillsArray().length);
     }
     
     public void testDynamicTypedCollection() throws ServiceException {
@@ -158,7 +167,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         session.commit();
     }
     
-    public void testQueryDeleteGroup() throws ServiceException {
+    public void testDeleteGroup() throws ServiceException {
         
         Session session = sessionFactory_.currentSession();
         List<Object> queryResult = session.query(
@@ -172,18 +181,15 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         session.commit();
     }
     
-    public void testQueryDeleteUser() throws ServiceException {
+    public void testDeleteUser() throws ServiceException {
         
         Session session = sessionFactory_.currentSession();
         List<Object> queryResult = session.query(
                 "userByLogin", "testUser");
         
         User user = (User) queryResult.get(0);
-        assertEquals("lastName", user.lastname);
-        assertEquals(1, user.getSkills().size());
-        assertEquals(1, user.getSkillsArray().length);
-        session.delete(user);
         session.delete(user.getTeams().get(0));
+        session.delete(user);
         
         session.commit();
     }

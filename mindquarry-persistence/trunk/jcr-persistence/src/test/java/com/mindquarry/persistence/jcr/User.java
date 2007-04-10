@@ -39,6 +39,8 @@ public class User  {
     private String[] skillsArray;
     
     private List<Team> teams;
+    
+    public Group group;
 
     public String getLogin() {
         return login;
