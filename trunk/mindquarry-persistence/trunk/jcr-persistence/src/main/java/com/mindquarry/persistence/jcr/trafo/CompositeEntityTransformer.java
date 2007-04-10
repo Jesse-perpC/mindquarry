@@ -28,15 +28,13 @@ public class CompositeEntityTransformer extends EntityTransformer {
         super(entityType);
     }
     
-    public Object readFromJcr(JcrNode compositeNode) {
+    protected void readFromJcrInternal(JcrNode compositeNode, Object entity) {
         
         String entityId = compositeNode.getName();
         String entityNodeName = entityId + ".xml";        
-        
-        Object entity = entityType_.createNewEntity(entityId);        
+                
         JcrNode entityNode = compositeNode.getNode(entityNodeName);
-        readContentFromJcr(entityNode, entity);
-        return entity;
+        super.readFromJcrInternal(entityNode, entity);
     }
 
     public void writeToJcr(Object entity, JcrNode compositeNode) {

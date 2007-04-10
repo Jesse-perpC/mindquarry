@@ -55,12 +55,14 @@ public class EntityType {
         assert hasPublicDefaultConstructor(entityClazz_) : 
             "each entity class must provide a public default constructor";
         
-        entityId_ = findIdProperty();
+        List<Field> fields = allFields();
+        Field idField = select(idAnnotated(), allFields()).get(0);
+        List<Field> nonIdFields = select(not(idAnnotated()), fields);
         
-        List<Field> allNonIdFields = select(not(idAnnotated()), allFields());
+        entityId_ = makeEntityId(idField);        
         
         properties_ = new HashMap<String, Property>();
-        for (Field field : allNonIdFields) {            
+        for (Field field : nonIdFields) {            
             Property property = createProperty(field);   
             if (property.isAccessible()) {
                 properties_.put(property.getName(), property);
@@ -116,14 +118,7 @@ public class EntityType {
         return select(idAnnotated(), allFields()).size() == 1;
     }
     
-    private EntityId findIdProperty() {
-        List<Field> allIdFields = select(idAnnotated(), allFields());
-        if (allIdFields.size() != 1) {
-            throw new ModelException("each entity class must " +
-                    "contain exactly one id annotated property");
-        }
-        
-        Field idField = allIdFields.get(0);
+    private EntityId makeEntityId(Field idField) {
         boolean isStringField = idField.getType().equals(String.class);
         boolean isPrimitveField = idField.getType().isPrimitive(); 
         

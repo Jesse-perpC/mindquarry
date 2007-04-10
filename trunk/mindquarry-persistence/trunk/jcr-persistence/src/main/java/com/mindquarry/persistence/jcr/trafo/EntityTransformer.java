@@ -17,6 +17,8 @@ import java.util.HashMap;
 import java.util.Map;
 
 import com.mindquarry.persistence.jcr.JcrNode;
+import com.mindquarry.persistence.jcr.JcrSession;
+import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Property;
 
@@ -45,13 +47,32 @@ public class EntityTransformer implements Transformer {
     }
     
     public Object readFromJcr(JcrNode entityNode) {
-        String entityId = entityNode.getName();
-        Object entity = entityType_.createNewEntity(entityId);
-        readContentFromJcr(entityNode, entity);
+        Object entity;
+        JcrSession session = entityNode.getSession();
+        
+        Pool pool = session.getPool();
+        if (pool.containsEntryForNode(entityNode)) {
+            entity = pool.entityByNode(entityNode);
+        }
+        else {
+            // we fill the cache before we start to transform, so that we 
+            // can use the cache if we have to re-write entity within the 
+            // same "user write", i.e. within cyclic dependencies
+            entity = createNewEntityObject(entityNode);            
+            pool.put(entity, entityNode);
+            readFromJcrInternal(entityNode, entity);
+        }
+        
         return entity;
     }
     
-    protected void readContentFromJcr(JcrNode entityNode, Object entity) {
+    private Object createNewEntityObject(JcrNode entityNode) {
+        String entityId = entityNode.getName();
+        return entityType_.createNewEntity(entityId);
+    }
+    
+    // pay attention, this method is overwritten in CompositeEntityTransformer
+    protected void readFromJcrInternal(JcrNode entityNode, Object entity) {
         JcrNode contentNode = entityNode.getNode("jcr:content");        
         for (Property property : entityType_.properties()) {
             Object content = transformer(property).readFromJcr(contentNode);
@@ -65,6 +86,31 @@ public class EntityTransformer implements Transformer {
 
     public void writeToJcr(Object entity, JcrNode entityNode) {
         
+        JcrSession session = entityNode.getSession();
+        Pool pool = session.getPool();
+        
+        boolean isInitiator = session.getAttribute("WriteStarted") == null;
+        if (isInitiator)
+            session.setAttribute("WriteStarted", "true");
+        
+        if (pool.containsEntryForEntity(entity)) {
+            entityNode = pool.nodeByEntity(entity);
+            if (isInitiator)
+                writeToJcrInternal(entity, entityNode);
+        }
+        else {            
+            // we fill the cache before we start to transform, so that we 
+            // can use the cache if we have to re-write entity within the
+            // same "user write", i.e. within cyclic dependencies
+            pool.put(entity, entityNode);            
+            writeToJcrInternal(entity, entityNode);            
+        }
+        
+        if (isInitiator)
+            session.setAttribute("WriteStarted", null);
+    }
+    
+    private void writeToJcrInternal(Object entity, JcrNode entityNode) {
         JcrNode contentNode;
         if (entityNode.hasNode("jcr:content"))
             contentNode = entityNode.getNode("jcr:content");

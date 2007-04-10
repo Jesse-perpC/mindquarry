@@ -16,8 +16,6 @@ package com.mindquarry.persistence.jcr.cmds;
 import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Pool;
-import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
@@ -43,29 +41,16 @@ class WriteCommand implements Command {
      */
     public Object execute(JcrSession session) {
         
-        JcrNode entityNode;
-        Pool pool = session.getPool();
+        JcrNode folderNode = findEntityFolder(session);            
+        JcrNode entityNode = folderNode.getNode(entityId());            
+        entityTransformer().writeToJcr(entity_, entityNode);
         
-        if (pool.containsEntryForEntity(entity_)) {
-            entityNode = pool.nodeByEntity(entity_);
-        }
-        else {
-            JcrEntityFolderNode folderNode = findEntityFolder(session);            
-            entityNode = folderNode.getEntityNode(entityId());
-            pool.put(entity_, entityNode);
-        }        
-        entityTransformer().writeToJcr(entity_, entityNode);        
         return entityNode;
     }
     
-    private JcrEntityFolderNode findEntityFolder(JcrSession session) {
+    private JcrNode findEntityFolder(JcrSession session) {
         JcrNode rootNode = session.getRootNode();        
-        JcrNode folderNode = rootNode.getNode(parentFolderName());
-        return new JcrEntityFolderNode(folderNode, entityType());
-    }
-    
-    private EntityType entityType() {
-        return getModel().findEntityType(entity_);
+        return rootNode.getNode(parentFolderName());
     }
     
     private String entityId() {

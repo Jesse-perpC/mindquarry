@@ -19,7 +19,9 @@ import static com.mindquarry.persistence.jcr.Operations.PERSIST;
 import static com.mindquarry.persistence.jcr.Operations.QUERY;
 import static com.mindquarry.persistence.jcr.Operations.UPDATE;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.jcr.Node;
 import javax.jcr.RepositoryException;
@@ -39,11 +41,13 @@ class Session implements JcrSession,
     private Pool pool_;
     private javax.jcr.Session jcrSession_;
     private CommandProcessor commandProcessor_;
+    private Map<String, Object> attributeMap_;
     
     Session(Persistence persistence, javax.jcr.Session jcrSession) {
         jcrSession_ = jcrSession;
         pool_ = new Pool(persistence);
         commandProcessor_ = persistence.getCommandProcessor();
+        attributeMap_ = new HashMap<String, Object>();
     }
     
     /**
@@ -99,5 +103,13 @@ class Session implements JcrSession,
 
     public Pool getPool() {
         return pool_;
+    }
+
+    public Object getAttribute(String key) {
+        return attributeMap_.get(key);
+    }
+
+    public void setAttribute(String key, Object value) {
+        attributeMap_.put(key, value);
     }
 }

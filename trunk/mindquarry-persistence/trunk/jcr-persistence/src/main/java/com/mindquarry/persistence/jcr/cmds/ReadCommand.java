@@ -47,36 +47,16 @@ class ReadCommand implements Command {
         if (pool.containsEntryForNode(entityNode_)) {
             entity = pool.entityByNode(entityNode_);
         }
-        else {
-            JcrEntityFolderNode folderNode = makeEntityFolder();
-            JcrNode node = folderNode.getEntityNode(entityNode_.getName());
-            entity = entityTransformer().readFromJcr(node);            
-            pool.put(entity, node);
+        else {            
+            entity = entityTransformer().readFromJcr(entityNode_);            
+            pool.put(entity, entityNode_);
         }        
-        return entity; 
-    }
-    
-    private JcrEntityFolderNode makeEntityFolder() {
-        JcrNode folderNode = entityNode_.getParent();
-        return new JcrEntityFolderNode(folderNode, entityType());
+        return entity;
     }
     
     private Transformer entityTransformer() {
         String folder = parentFolderName();
         return getTransformationManager().entityTransformerByFolder(folder);
-    }
-    
-    private EntityType entityType() {
-        String folder = parentFolderName();
-        
-        EntityType result = null;
-        for (EntityType entityType : getModel().allEntityTypes()) {
-            if (entityType.usesJcrFolder(folder)) {
-                result = entityType;
-                break;
-            }
-        }
-        return result;
     }
     
     private String parentFolderName() {
