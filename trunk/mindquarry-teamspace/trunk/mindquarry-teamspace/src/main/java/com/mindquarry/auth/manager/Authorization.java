@@ -23,9 +23,10 @@ import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.AuthorizationCheck;
 import com.mindquarry.auth.ProfileRO;
 import com.mindquarry.auth.RightRO;
+import com.mindquarry.persistence.api.Session;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.UserQuery;
-import com.mindquarry.user.manager.UserManager;
 
 
 /**
@@ -34,20 +35,54 @@ import com.mindquarry.user.manager.UserManager;
  */
 public class Authorization implements AuthorizationCheck, 
     AuthorizationAdmin {
+    
+    private UserQuery userQuery;
+    
+    private SessionFactory sessionFactory_;
+    
+    /**
+     * Setter for userQuery bean, set by spring at object creation
+     */
+    public void setUserQuery(UserQuery userQuery) {
+        this.userQuery = userQuery;
+    }
 
-    private ResourceEntity resourcesRoot;
-    
-    private UserQuery userManager;
-    
-    public Authorization() {
-        this.resourcesRoot = new ResourceEntity("/", "root");
-        this.userManager = new UserManager();
+    /**
+     * Setter for sessionFactory bean, set by spring at object creation
+     */
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        sessionFactory_ = sessionFactory;
     }
     
+    private Session currentSession() {
+        return sessionFactory_.currentSession();
+    }
+    
+    public void initialize() {
+        
+        Session session = currentSession();
+                
+        if (getRoot() == null)
+            session.persist(new ResourceEntity("root", "root"));
+        
+        session.commit();
+    }
+    
+    private ResourceEntity getRoot() {
+        Session session = sessionFactory_.currentSession();        
+        List<Object> queryResult = session.query("getResourceById", "root");
+        session.commit();
+        
+        if (queryResult.isEmpty())
+            return null;
+        else
+            return (ResourceEntity) queryResult.get(0);
+    }
+
     public boolean mayPerform(
             String resourceUri, String operation, String userId) {
         
-        AbstractUserRO user = this.userManager.userById(userId);
+        AbstractUserRO user = this.userQuery.userById(userId);
         return mayPerform(resourceUri, operation, user);
     }
 
@@ -56,7 +91,7 @@ public class Authorization implements AuthorizationCheck,
         
         Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();
         
-        ResourceEntity resource = resourcesRoot;
+        ResourceEntity resource = getRoot();;
         boolean result = true;
         boolean isEmptyRightList = true;
         
@@ -87,15 +122,15 @@ public class Authorization implements AuthorizationCheck,
     }
 
     public RightEntity createRight(String resourceUri, String operation) {
-        String rightName = concat(operation, ":", resourceUri);
-        return this.createRight(rightName, resourceUri, operation);
+        String rightId = concat(resourceUri, ":", operation);
+        return this.createRight(rightId, resourceUri, operation);
     }
 
     public RightEntity createRight(
-            String name, String resourceUri, String operation) {        
+            String id, String resourceUri, String operation) {        
         
         ResourceEntity resource = navigateToResource(resourceUri);
-        RightEntity result = new RightEntity(name, resource, operation);
+        RightEntity result = new RightEntity(id, resource, operation);
         resource.addRight(result);
         return result;
     }
@@ -107,7 +142,7 @@ public class Authorization implements AuthorizationCheck,
     
     private ResourceEntity navigateToResource(String resourceUri) {
         Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();        
-        return navigateToResource(resourcesRoot, resourceUri, pathItemsIt);
+        return navigateToResource(getRoot(), resourceUri, pathItemsIt);
     }
     
     private ResourceEntity navigateToResource(ResourceEntity parent, 
@@ -119,11 +154,13 @@ public class Authorization implements AuthorizationCheck,
         }
         else {
             String pathItem = pathItemsIt.next();
-            ResourceEntity child = parent.getChild(pathItem);
-            if (child == null) {
-                child = new ResourceEntity(resourceUri, pathItem);
-                parent.addChild(child);
-            }
+            
+            ResourceEntity child;
+            if (parent.hasChild(pathItem))
+                child = parent.getChild(pathItem);
+            else
+                child = parent.addChild(pathItem);
+            
             result = navigateToResource(child, resourceUri, pathItemsIt);
         }
         return result;
