@@ -4,7 +4,9 @@
 		<attribute name="via">
 		</attribute>
 		<element name="from">
-			<text/>
+			<data type="string">
+				<param name="minLength">1</param>
+			 </data>
 		</element>
 		<zeroOrMore>
 			<element name="link">

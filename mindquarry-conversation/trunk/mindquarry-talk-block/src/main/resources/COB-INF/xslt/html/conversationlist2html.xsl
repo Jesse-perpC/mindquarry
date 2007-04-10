@@ -97,13 +97,13 @@
     <xsl:variable name="diff" select="floor(($now - normalize-space(.)) div 1000)" />
     <span class="date" title="{.}">
     <xsl:choose>
-      <xsl:when test="$now &gt; 86400">
+      <xsl:when test="$diff &gt; 86400*2">
         <xsl:value-of select="floor($diff div 86400)" /> days
       </xsl:when>
-      <xsl:when test="$now &gt; 3600">
+      <xsl:when test="$diff &gt; 3600*2">
         <xsl:value-of select="floor($diff div 3600)" /> hours
       </xsl:when>
-      <xsl:when test="$now &gt; 60">
+      <xsl:when test="$diff &gt; 60*2">
         <xsl:value-of select="floor($diff div 60)" /> minutes
       </xsl:when>
       <xsl:otherwise>
