@@ -205,8 +205,11 @@
 			</transform>
 			<transform type="include" />
 			<transform src="xslt/xml/extract-username.xsl" />
-			<transform type="validate" src="rng/message.rng" />
-			<act type="log" src="new message is valid" /> 
+			
+			<transform type="validate" src="rng/message.rng">
+				<parameter name="stop-for-warnings" value="true"/>
+			</transform>
+			<act type="log" src="new message is valid" />
 			<transform src="xslt/xml/wrap-for-sourcewriting-and-emailing.xsl">
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
 				<parameter name="metapath" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/meta.xml" />
@@ -379,6 +382,21 @@
 						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />   
 					<parameter name="teamspace" value="{1}" />   
 				</transform>
+				<select type="REST">
+					<when test="html">
+						<transform type="filter">
+							<parameter name="element-name" value="message"/>
+							<parameter name="count" value="10"/>
+							<parameter name="blocknr" value="{request-param:page}"/>
+						</transform>
+						<transform src="xslt/xml/messagelist2include.xsl">
+							<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta/{2}/"/>
+							<parameter name="teamPath" value="cocoon:/internal/pipe/{1}/meta"/>
+							<parameter name="basePath" value="cocoon:/internal/pipe/{1}/message/{2}/" />
+						</transform>
+						<transform type="include" />
+					</when>
+				</select>
 				<serialize type="xml" />
 			</match>
 			
