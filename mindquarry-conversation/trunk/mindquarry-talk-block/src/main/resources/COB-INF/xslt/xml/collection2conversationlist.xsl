@@ -28,7 +28,7 @@
     </xsl:template>
 
     <xsl:template match="collection:collection">
-		<conversation xlink:href="{@name}/" id="{@name}"/>
+		  <conversation xlink:href="{@name}/" id="{@name}"/>
     </xsl:template>
 
 </xsl:stylesheet>

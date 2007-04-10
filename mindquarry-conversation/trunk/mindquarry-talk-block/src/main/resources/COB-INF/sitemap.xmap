@@ -475,17 +475,20 @@
 						<transform src="xslt/xml/conversations2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 							<parameter name="teamPath" value="model://TeamQuery#teamspaceById({1})" />
+							<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
 						</transform>
+						
 						<transform type="include" />
+						
 						<transform src="xslt/xml/messages2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 						</transform>
 						
 						<transform type="include" />
-						
 						<transform src="xslt/html/prepareconversationlist.xsl" />
 						<transform src="xslt/html/conversationlist2html.xsl">
 							<parameter name="now" value="{timestamp:}"/>
+							<parameter name="user" value="{request-attr:username}" />
 						</transform>
 						<serialize type="html" />
 					</when>
@@ -522,6 +525,14 @@
 							<parameter name="unsubscribe-all" value="{request-param:unsubscribe-all}" />
 						</transform>
 						<transform type="write-source" />
+						<select type="REST">
+							<when test="html">
+								<transform src="xslt/xml/create-bu-redirect.xsl">
+									<parameter name="to" value="" />
+								</transform>
+								<transform type="bu-redirect" />
+							</when>
+						</select>
 					</when>
 				</select>
 				<serialize type="xml" />
