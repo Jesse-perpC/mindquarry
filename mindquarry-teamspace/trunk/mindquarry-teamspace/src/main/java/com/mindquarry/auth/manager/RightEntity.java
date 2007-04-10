@@ -16,7 +16,9 @@ package com.mindquarry.auth.manager;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.auth.RightRO;
+import com.mindquarry.persistence.api.Entity;
 import com.mindquarry.user.AbstractUserRO;
 
 
@@ -27,18 +29,17 @@ import com.mindquarry.user.AbstractUserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
+@Entity(parentFolder="rights")
 public final class RightEntity extends AbstractRight implements RightRO {
     
-    private String operation;
+    public String operation;
     
-    private ResourceEntity resource;
+    public ResourceEntity resource;
     
     // profiles that reference this right
-    private Set<ProfileEntity> profiles;
+    public Set<ProfileEntity> profiles;
     
-    public RightEntity() {
-        this("", null, null);
-    }
+    public RightEntity() { }
     
     public RightEntity(String id, ResourceEntity resource, String operation) {    
         super(id);
@@ -46,21 +47,13 @@ public final class RightEntity extends AbstractRight implements RightRO {
         this.operation = operation;
         this.profiles = new HashSet<ProfileEntity>();
     }
-
+    
     public String getOperation() {
         return operation;
-    }  
-    
-    public void setOperation(String operation) {
-        this.operation = operation;
-    }    
-    
-    public ResourceEntity getResource() {
-        return resource;
     }
-
-    public void setResource(ResourceEntity resource) {
-        this.resource = resource;
+    
+    public ResourceRO getResource() {
+        return resource;
     }
 
     boolean isAccessAllowed(AbstractUserRO user) {

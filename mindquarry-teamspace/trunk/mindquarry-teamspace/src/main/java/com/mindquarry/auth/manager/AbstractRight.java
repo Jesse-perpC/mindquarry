@@ -13,7 +13,6 @@
  */
 package com.mindquarry.auth.manager;
 
-import com.mindquarry.common.persistence.EntityBase;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.manager.AbstractUserSet;
 
@@ -23,23 +22,44 @@ import com.mindquarry.user.manager.AbstractUserSet;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-abstract class AbstractRight extends EntityBase {
+abstract class AbstractRight {
 
-    private final AbstractUserSet allowed;
-    private final AbstractUserSet denied;
+    private String id;
+    private AbstractUserSet allowed;
+    private AbstractUserSet denied;
 
-    public AbstractRight() {
-        this("");
-    }
+    public AbstractRight() { }
     
-    public AbstractRight(String id) {
+    AbstractRight(String id) {
         this.id = id;
         this.allowed = new AbstractUserSet();
         this.denied = new AbstractUserSet();
     }
     
-    
-    
+    public AbstractUserSet getAllowed() {
+        return allowed;
+    }
+
+    public void setAllowed(AbstractUserSet allowed) {
+        this.allowed = allowed;
+    }
+
+    public AbstractUserSet getDenied() {
+        return denied;
+    }
+
+    public void setDenied(AbstractUserSet denied) {
+        this.denied = denied;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
     final void allowAccessTo(AbstractUserRO user) {
         allowed.add(user);
     }

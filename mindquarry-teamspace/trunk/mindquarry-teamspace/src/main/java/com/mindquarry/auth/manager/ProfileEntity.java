@@ -15,18 +15,20 @@ package com.mindquarry.auth.manager;
 
 import com.mindquarry.auth.ProfileRO;
 import com.mindquarry.auth.manager.RightSet;
+import com.mindquarry.persistence.api.Entity;
 
 
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
+@Entity(parentFolder="profiles")
 public final class ProfileEntity extends AbstractRight implements ProfileRO {
 
-    private final RightSet rights;
+    public RightSet rights;
+    
+    public ProfileEntity() { }
     
     public ProfileEntity(String id) {
         super(id);
