@@ -71,7 +71,7 @@ class Session implements JcrSession,
     /**
      * @see com.mindquarry.common.persistence.Session#query(java.lang.String, java.lang.Object[])
      */
-    public List<Object> query(String queryName, Object[] queryParameters) {
+    public List<Object> query(String queryName, Object...queryParameters) {
         Object result = processCommand(QUERY, queryName, queryParameters);
         return (List<Object>) result;
     }
