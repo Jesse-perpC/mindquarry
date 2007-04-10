@@ -46,7 +46,7 @@
             </dd>
             
             <dt><label>Message</label></dt>
-            <dd><input type="submit" value="Insert link"/><textarea cols="60" rows="20"></textarea></dd>
+            <dd><input type="submit" value="Insert link"/><textarea cols="60" rows="20" name="body"></textarea></dd>
           </dl>
           <input type="submit" value="Start Conversation" />
           <span>Alternatively you can start a conversation through your mail client: <a href="mailto:{$email}"><xsl:value-of select="$email" /></a></span>

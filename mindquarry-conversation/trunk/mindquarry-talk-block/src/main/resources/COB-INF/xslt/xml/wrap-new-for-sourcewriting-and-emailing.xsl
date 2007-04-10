@@ -18,25 +18,26 @@
   xmlns:email="http://apache.org/cocoon/transformation/sendmail"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
 
-	<xsl:param name="path"/>
+	<xsl:param name="timestamp"/>
   <xsl:param name="metapath" />
   <xsl:param name="queryroot" />
   <xsl:param name="fromemail" />
   <xsl:param name="smtphost" />
+  <xsl:param name="rootpath"/>
 
 	<!-- the root element should be wrapped into a source:write directive -->
-	<xsl:template match="/">
+	<xsl:template match="/data">
     <data>
       <source:write create="true">
-        <source:source><xsl:value-of select="$path" /></source:source>
+        <source:source><xsl:value-of select="@base" />/<xsl:value-of select="$timestamp" /></source:source>
         <source:fragment>
           <xsl:apply-templates />
         </source:fragment>
       </source:write>
       <email:sendmail>
-        <ci:include src="{$metapath}" />
+        <ci:include src="{@base}{$metapath}" />
         <ci:include src="{$queryroot}" />
-        <email:from><xsl:value-of select="$fromemail" /></email:from>
+        <email:from><xsl:value-of select="substring-after(@base,$rootpath)" /><xsl:value-of select="$fromemail" /></email:from>
         <email:smtphost><xsl:value-of select="$smtphost" /></email:smtphost>
         <email:smtpport>25</email:smtpport>
         <email:body mime-type="text/plain"><xsl:apply-templates select="message/body/text()" /></email:body>
