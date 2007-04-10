@@ -13,6 +13,7 @@
  */
 package com.mindquarry.auth.manager;
 
+import com.mindquarry.persistence.api.Id;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.manager.AbstractUserSet;
 
@@ -22,9 +23,9 @@ import com.mindquarry.user.manager.AbstractUserSet;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-abstract class AbstractRight {
+public abstract class AbstractRight {
 
-    private String id;
+    @Id private String id;
     private AbstractUserSet allowed;
     private AbstractUserSet denied;
 

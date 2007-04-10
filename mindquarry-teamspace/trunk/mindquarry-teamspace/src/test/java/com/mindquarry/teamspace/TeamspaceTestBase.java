@@ -27,6 +27,9 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
+import com.mindquarry.auth.manager.ProfileEntity;
+import com.mindquarry.auth.manager.ResourceEntity;
+import com.mindquarry.auth.manager.RightEntity;
 import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.SessionFactory;
@@ -67,6 +70,10 @@ public abstract class TeamspaceTestBase extends AvalonSpringContainerTestBase {
         configuration.addClass(UserEntity.class);
         configuration.addClass(GroupEntity.class);
         configuration.addClass(TeamspaceEntity.class);
+
+        configuration.addClass(RightEntity.class);
+        configuration.addClass(ProfileEntity.class);
+        configuration.addClass(ResourceEntity.class);
         
         SessionFactory sessionFactory = 
             (SessionFactory) lookup(SessionFactory.ROLE);        
