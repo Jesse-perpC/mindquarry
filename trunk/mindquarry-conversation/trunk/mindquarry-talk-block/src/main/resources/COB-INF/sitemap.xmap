@@ -194,10 +194,20 @@
 		</resource>
 		
 		<resource name="create-new-message">
-			<act type="log" src="new message {timestamp}" /> 
-			<generate type="stream">
-				<parameter name="defaultContentType" value="text/xml" />
-			</generate>
+			<act type="log" src="new message {timestamp}" />
+			<select type="request-method">
+				<when test="PUT">
+					<generate type="stream">
+						<parameter name="defaultContentType" value="text/xml" />
+					</generate>
+				</when>
+				<when test="POST">
+					<generate type="jx" src="xml/jx/message.xml">
+						<parameter name="user" value="{request-attr:username}" />
+						<parameter name="body" value="{request-param:body}" />
+					</generate>
+				</when>
+			</select>
 			<transform src="xslt/xml/prepare-message.xsl">
 				<parameter name="path" value="jcr:///teamspaces/{teamspace}/talk/conversations/{conversation}/message{timestamp}.xml"/>
 				<parameter name="queryroot" value="model://TeamQuery#teamspaceById({teamspace}).getUsers()" />
@@ -205,7 +215,6 @@
 			</transform>
 			<transform type="include" />
 			<transform src="xslt/xml/extract-username.xsl" />
-			
 			<transform type="validate" src="rng/message.rng">
 				<parameter name="stop-for-warnings" value="true"/>
 			</transform>
@@ -221,8 +230,20 @@
 			<transform src="xslt/xml/extract-emails-and-subject.xsl" />
 			<transform type="write-source" />
 			<transform type="sendmail" />
-			<act type="log" src="new message is distributed" /> 
-			<transform type="redirect" src="message{timestamp}" />
+			<act type="log" src="new message is distributed" />
+			<select type="REST">
+				<when test="html">
+					<transform src="xslt/xml/create-bu-redirect.xsl">
+						<parameter name="to" value="" />
+					</transform>
+				</when>
+				<otherwise>
+					<transform src="xslt/xml/create-bu-redirect.xsl">
+						<parameter name="to" value="message{timestamp}" />
+					</transform>
+				</otherwise>
+			</select>
+			<transform type="bu-redirect" />
 			<serialize type="xml" />
 		</resource>
 		
