@@ -41,14 +41,14 @@
   <xsl:template match="team[subscriber[@type='email'][normalize-space(.)=$user]]">
     <form action="meta" method="POST">
       <input type="hidden" name="unsubscribe-email" value="{$user}"/>
-      <input type="submit" value="Unsubscribe {$user}"/>
+      <input type="submit" value="Unsubscribe fron new"/>
     </form>
   </xsl:template>
   
   <xsl:template match="team">
     <form action="meta" method="POST">
       <input type="hidden" name="subscribe-email" value="{$user}"/>
-      <input type="submit" value="Subscribe {$user}"/>
+      <input type="submit" value="Subscribe to new"/>
     </form>
   </xsl:template>
   
