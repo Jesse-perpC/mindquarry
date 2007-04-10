@@ -470,20 +470,23 @@
 						<transform type="filter" label="xml">
 							<parameter name="element-name" value="conversation"/>
 							<parameter name="count" value="10"/>
-							<parameter name="blocknr" value="1"/>
+							<parameter name="blocknr" value="{request-param:page}"/>
 						</transform>
 						<transform src="xslt/xml/conversations2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 							<parameter name="teamPath" value="model://TeamQuery#teamspaceById({1})" />
 						</transform>
-						
 						<transform type="include" />
 						<transform src="xslt/xml/messages2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 						</transform>
+						
 						<transform type="include" />
+						
 						<transform src="xslt/html/prepareconversationlist.xsl" />
-						<transform src="xslt/html/conversationlist2html.xsl" />
+						<transform src="xslt/html/conversationlist2html.xsl">
+							<parameter name="now" value="{timestamp:}"/>
+						</transform>
 						<serialize type="html" />
 					</when>
 					<when test="xml">
