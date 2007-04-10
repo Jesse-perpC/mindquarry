@@ -30,6 +30,7 @@
       </head>
       <body>
         <xsl:apply-templates select="team" />
+        <a href="new">new conversation</a>
         <ul class="pagination">
           <xsl:apply-templates select="block" mode="pagination"/>
         </ul>

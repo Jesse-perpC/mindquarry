@@ -21,7 +21,8 @@
 	<components>
 		<generators default="file">
 			<generator name="collection"
-				src="org.apache.cocoon.generation.TraversableGenerator" />
+				src="org.apache.cocoon.generation.TraversableGenerator">
+				</generator>
 		</generators>
 		<transformers>
 			<transformer name="sendmail" src="org.apache.cocoon.mail.transformation.SendMailTransformer"/>
@@ -559,7 +560,9 @@
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
 				<select type="resource-exists">
 					<when test="jcr:///teamspaces/{1}/talk/conversations/">
-						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/" />
+						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/">
+						</generate>
+						<transform src="xslt/xml/reverse.xsl" />
 					</when>
 					<otherwise>
 						<generate src="xml/empty.xml" />
