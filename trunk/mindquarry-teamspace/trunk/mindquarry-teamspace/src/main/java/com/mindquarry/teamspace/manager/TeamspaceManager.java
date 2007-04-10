@@ -134,15 +134,15 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             userManager_.addUser(teamMember, teamGroup);
 
         String teamspaceUri = "/teamspaces/" + teamspace.getId();
-        RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
-        RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
+        //RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
+        //RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
 
         String profileName = teamspace.getId() + "-user";
-        ProfileRO profile = authAdmin_.createProfile(profileName);
-        authAdmin_.addRight(rRight, profile);
-        authAdmin_.addRight(wRight, profile);
+        //ProfileRO profile = authAdmin_.createProfile(profileName);
+        //authAdmin_.addRight(rRight, profile);
+        //authAdmin_.addRight(wRight, profile);
 
-        authAdmin_.addAllowance(profile, teamGroup);
+        //authAdmin_.addAllowance(profile, teamGroup);
     }
     
     private void deleteGroupForTeam(TeamspaceRO teamspace) {
@@ -196,8 +196,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private List<TeamspaceRO> queryAllTeamspaces() {
         Session session = currentSession();
 
-        List<Object> queriedTeamspaces = session.query("getAllTeams",
-                new Object[0]);
+        List<Object> queriedTeamspaces = session.query("getAllTeams");
 
         List<TeamspaceRO> result = new LinkedList<TeamspaceRO>();
         for (Object teamspaceObj : queriedTeamspaces) {
@@ -213,7 +212,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         Session session = currentSession();
 
         List<Object> queriedTeams = session.query(
-                "getTeamsForUser", new Object[] {userId});
+                "getTeamsForUser", userId);
         
         List<TeamspaceEntity> teams = new LinkedList<TeamspaceEntity>();
         for (Object object : queriedTeams) {
@@ -235,8 +234,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private TeamspaceEntity queryTeamspaceById(String id) {
         Session session = currentSession();
         TeamspaceEntity result = null;
-        List queryResult = session.query("getTeamById",
-                new Object[] { id });
+        List queryResult = session.query("getTeamById", id);
         if (queryResult.size() == 1) {
             result = (TeamspaceEntity) queryResult.get(0);
         }
