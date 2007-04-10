@@ -20,20 +20,36 @@
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   
   <xsl:param name="now" />
+  <xsl:param name="user" />
   
   <xsl:template match="/conversations">
     <html>
       <head>
-        <title>Talk for <xsl:value-of select="/conversations[1]/teamspace[1]/name[1]"/></title>
+        <title>Talk for <xsl:value-of select="teamspace[1]/name[1]"/></title>
         <xsl:apply-templates select="block" mode="headlinks"/>
       </head>
       <body>
+        <xsl:apply-templates select="team" />
         <ul class="pagination">
           <xsl:apply-templates select="block" mode="pagination"/>
         </ul>
         <xsl:apply-templates select="block[node()]"/>
       </body>
     </html>
+  </xsl:template>
+  
+  <xsl:template match="team[subscriber[@type='email'][normalize-space(.)=$user]]">
+    <form action="meta" method="POST">
+      <input type="hidden" name="unsubscribe-email" value="{$user}"/>
+      <input type="submit" value="Unsubscribe {$user}"/>
+    </form>
+  </xsl:template>
+  
+  <xsl:template match="team">
+    <form action="meta" method="POST">
+      <input type="hidden" name="subscribe-email" value="{$user}"/>
+      <input type="submit" value="Subscribe {$user}"/>
+    </form>
   </xsl:template>
   
   <xsl:template match="block">

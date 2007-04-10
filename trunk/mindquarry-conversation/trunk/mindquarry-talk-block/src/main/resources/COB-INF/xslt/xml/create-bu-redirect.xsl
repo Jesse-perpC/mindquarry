@@ -16,13 +16,15 @@
     xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
     xmlns:source="http://apache.org/cocoon/source/1.0"
     xmlns:bu="http://apache.org/cocoon/browser-update/1.0">
+    
+    <xsl:param name="to" select="substring-before(substring-after(//source, '/talk/'), '.xml')"/>
 
     <!-- replace the entire document with a redirect action using
          the result of the sourcewriting to get the name of the new source -->
     <xsl:template match="/">
         <bu:document>
             <!-- NOTE: this repeats the jcr path structure (DRY-mistake) -->
-            <bu:redirect uri="{substring-before(substring-after(//source, '/talk/'), '.xml')}" />
+            <bu:redirect uri="{$to}" />
         </bu:document>    
     </xsl:template>
     

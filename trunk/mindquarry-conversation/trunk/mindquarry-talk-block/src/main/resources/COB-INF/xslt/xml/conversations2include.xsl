@@ -19,10 +19,12 @@
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   <xsl:param name="basePath" />
   <xsl:param name="teamPath" />
+  <xsl:param name="metaPath" />
   
   <xsl:template match="conversations">
     <xsl:copy>
       <ci:include src="{$teamPath}" />
+      <ci:include src="{$metaPath}" />
       <xsl:apply-templates />
     </xsl:copy>
   </xsl:template>
