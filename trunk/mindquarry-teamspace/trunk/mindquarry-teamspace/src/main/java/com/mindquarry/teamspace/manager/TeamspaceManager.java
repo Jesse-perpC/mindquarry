@@ -25,8 +25,6 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.mindquarry.auth.AuthorizationAdmin;
-import com.mindquarry.auth.ProfileRO;
-import com.mindquarry.auth.RightRO;
 import com.mindquarry.common.resources.ResourceDoesNotExistException;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;

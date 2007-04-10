@@ -23,6 +23,8 @@ import com.mindquarry.user.AbstractUserRO;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public interface AuthorizationCheck {
+    
+    public static final String ROLE = AuthorizationCheck.class.getName();
 
     boolean mayPerform(String resource, String operation, String userId);
     

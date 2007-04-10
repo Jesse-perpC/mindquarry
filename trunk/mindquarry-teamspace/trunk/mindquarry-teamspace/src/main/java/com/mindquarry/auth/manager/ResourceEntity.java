@@ -18,6 +18,7 @@ import java.util.Map;
 
 import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.persistence.api.Entity;
+import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQuery;
 
 /**
@@ -30,7 +31,7 @@ import com.mindquarry.persistence.api.NamedQuery;
 @NamedQuery(name="getResourceById", query="/resources/{$id}")
 public final class ResourceEntity implements ResourceRO {
 
-    public String id;
+    @Id public String id;
     public String name;
     public RightSet rights;
     public Map<String, ResourceEntity> children;
@@ -66,7 +67,8 @@ public final class ResourceEntity implements ResourceRO {
     
     ResourceEntity addChild(String name) {
         ResourceEntity child = new ResourceEntity(id + name, name);
-        return children.put(name, child);
+        children.put(name, child);
+        return child;
     }
     
     void removeChild(ResourceEntity child) {

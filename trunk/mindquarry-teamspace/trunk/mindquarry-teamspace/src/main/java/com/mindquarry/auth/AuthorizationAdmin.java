@@ -26,12 +26,16 @@ import com.mindquarry.user.AbstractUserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface AuthorizationAdmin {
+public interface AuthorizationAdmin extends AuthorizationCheck {
+    
+    public static final String ROLE = AuthorizationAdmin.class.getName();
     
     // creates right with name "{operation}: {resource}";
     RightRO createRight(String resource, String operation);
     
     RightRO createRight(String name, String resource, String operation);
+    
+    void deleteRight(RightRO right);
     
     
     ProfileRO createProfile(String profileId);

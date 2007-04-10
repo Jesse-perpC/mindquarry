@@ -18,8 +18,13 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 	
 	<bean id="com.mindquarry.auth.manager.Authorization" 
-		class="com.mindquarry.auth.manager.Authorization"
-		scope="singleton">
+		class="com.mindquarry.auth.manager.Authorization">
+		
+		<property name="sessionFactory" 
+				  ref="com.mindquarry.persistence.api.SessionFactory" />
+	
+		<property name="userQuery" 
+				  ref="com.mindquarry.user.UserQuery" />
 	</bean>
 	
 	<alias name="com.mindquarry.auth.manager.Authorization" 

@@ -13,12 +13,12 @@
  */
 package com.mindquarry.auth.manager;
 
-import com.mindquarry.auth.manager.Authorization;
-import com.mindquarry.auth.manager.ProfileEntity;
-import com.mindquarry.auth.manager.RightEntity;
+import com.mindquarry.auth.AuthorizationAdmin;
+import com.mindquarry.auth.AuthorizationCheck;
+import com.mindquarry.auth.RightRO;
 import com.mindquarry.teamspace.TeamspaceTestBase;
-import com.mindquarry.user.GroupRO;
 import com.mindquarry.user.UserAdmin;
+import com.mindquarry.user.UserQuery;
 import com.mindquarry.user.UserRO;
 
 /**
@@ -28,35 +28,50 @@ import com.mindquarry.user.UserRO;
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class AuthorizationTest extends TeamspaceTestBase {
-    public void testFoo() {};
-/*
-    private Authorization auth;
-    private UserAdmin userAdmin;
+    
+    private static final String teamspaceId = "foo-teamspace";
+    private static final String userId = "foo-user";
+
+    private AuthorizationAdmin authAdmin;
+    private AuthorizationCheck authCheck;
+    private UserQuery userQuery;
     
     protected void setUp() throws Exception {
         super.setUp();
-        this.auth = new Authorization();
-        this.userAdmin = lookupUserAdmin();
-    }
-    
-    private UserRO createUser(String userId) {
-        return this.userAdmin.createUser(userId, "password", 
+        
+        authAdmin = (AuthorizationAdmin) lookup(AuthorizationAdmin.ROLE);
+        authCheck = (AuthorizationCheck) lookup(AuthorizationCheck.ROLE);
+        userQuery = (UserQuery) lookup(UserQuery.ROLE);
+        
+        UserAdmin userAdmin = lookupUserAdmin();                
+        userAdmin.createUser(userId, "password", 
                 "name", "surname", "email", "skills");
     }
     
+    protected void tearDown() throws Exception {
+        UserAdmin userAdmin = lookupUserAdmin();                
+        userAdmin.deleteUser(userAdmin.userById(userId));
+        super.tearDown();
+    }
+    
     public void testResource() {
-        final UserRO user = this.createUser("testUser");
+        
         final String resource = "/teamspaces/foo-team";
         
         final String readOperation = "READ";
         final String writeOperation = "WRITE";
         
-        RightEntity right = this.auth.createRight(resource, readOperation);
-        this.auth.addAllowance(right, user);
-        assertTrue(this.auth.mayPerform(resource, readOperation, user));
-        assertFalse(this.auth.mayPerform(resource, writeOperation, user));
+        UserRO user = userQuery.userById(userId);
+        RightRO right = authAdmin.createRight(resource, readOperation);
+        authAdmin.addAllowance(right, user);
+        
+        assertTrue(authCheck.mayPerform(resource, readOperation, user));
+        assertFalse(authCheck.mayPerform(resource, writeOperation, user));
+        
+        authAdmin.deleteRight(right);
     }
     
+    /*
     public void testResourceTree() {
         final String readOperation = "READ";
         final String writeOperation = "WRITE";

@@ -386,7 +386,7 @@ public class AuthenticationFilter implements Filter {
      * component.
      */
     private String authenticateUser(HttpServletRequest request) {
-
+        
 	String authHeader = request.getHeader("Authorization");
 
 	String authenticatedUser = null;
