@@ -13,6 +13,8 @@
  */
 package com.mindquarry.auth.manager;
 
+import static com.mindquarry.common.lang.StringUtil.concat;
+
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
@@ -27,8 +29,6 @@ import com.mindquarry.user.manager.UserManager;
 
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -48,13 +48,13 @@ public class Authorization implements AuthorizationCheck,
             String resourceUri, String operation, String userId) {
         
         AbstractUserRO user = this.userManager.userById(userId);
-        return this.mayPerform(resourceUri, operation, user);
+        return mayPerform(resourceUri, operation, user);
     }
 
     public boolean mayPerform(
             String resourceUri, String operation, AbstractUserRO user) {
         
-        Iterator<String> pathItemsIt = pathItemsFromUri(resourceUri).iterator();
+        Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();
         
         ResourceEntity resource = resourcesRoot;
         boolean result = true;
@@ -87,9 +87,8 @@ public class Authorization implements AuthorizationCheck,
     }
 
     public RightEntity createRight(String resourceUri, String operation) {
-        StringBuilder nameSB = new StringBuilder();
-        nameSB.append(operation).append(": ").append(resourceUri);
-        return this.createRight(nameSB.toString(), resourceUri, operation);
+        String rightName = concat(operation, ":", resourceUri);
+        return this.createRight(rightName, resourceUri, operation);
     }
 
     public RightEntity createRight(
@@ -101,13 +100,13 @@ public class Authorization implements AuthorizationCheck,
         return result;
     }
     
-    private List<String> pathItemsFromUri(String resourceUri) {
-        String[] pathItems = resourceUri.replaceFirst("/", "").split("/");
-        return Arrays.asList(pathItems);
+    private List<String> pathItems(String resourceUri) {
+        String preparedUri = resourceUri.replaceFirst("/", "");
+        return Arrays.asList(preparedUri.split("/"));
     }
     
     private ResourceEntity navigateToResource(String resourceUri) {
-        Iterator<String> pathItemsIt = pathItemsFromUri(resourceUri).iterator();        
+        Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();        
         return navigateToResource(resourcesRoot, resourceUri, pathItemsIt);
     }
     
