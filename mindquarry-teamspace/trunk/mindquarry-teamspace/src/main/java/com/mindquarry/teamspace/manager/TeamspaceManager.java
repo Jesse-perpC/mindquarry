@@ -124,6 +124,11 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                     e);
         }
         
+        // there might be listeners that add properties 
+        // to the teamspace or modify existing properties
+        currentSession().update(teamspace);
+        currentSession().commit();
+        
         return teamspace;
     }
     
