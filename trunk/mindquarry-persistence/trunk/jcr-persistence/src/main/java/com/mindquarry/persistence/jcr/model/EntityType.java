@@ -21,7 +21,6 @@ import static com.mindquarry.common.lang.StringUtil.concat;
 import java.lang.reflect.Field;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
@@ -154,7 +153,17 @@ public class EntityType {
     }
     
     private List<Field> allFields() {
-        return Arrays.asList(entityClazz_.getDeclaredFields());
+        List<Field> result = new ArrayList<Field>();
+        
+        Class clazz = entityClazz_;
+        while (! Object.class.equals(clazz)) {
+            for (Field field : clazz.getDeclaredFields()) {
+                result.add(field);
+            }
+            clazz = clazz.getSuperclass();
+        }
+        
+        return result;
     }
     
     private UnaryPredicate<Field> idAnnotated() {
