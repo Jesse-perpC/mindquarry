@@ -370,9 +370,32 @@
 			</match>
 		
 			<match pattern="internal/pipe/*/create-new-talk">
-				<generate type="stream">
-					<parameter name="defaultContentType" value="text/xml" />
-				</generate>
+				<select type="request-method">
+					<when test="GET">
+						<generate src="cocoon:/internal/pipe/{1}/meta" />
+						<transform src="xslt/html/subscribers2new.xsl">
+							<parameter name="userlist" value="model://TeamQuery#teamspaceById({1}).getUsers()" />
+							<parameter name="email" value="{1}@{system-property:mindquarry.mail.server}" />
+						</transform>
+						<transform type="include" />
+						<transform src="xslt/html/users2options.xsl" />
+						<select type="REST">
+							<when test="html">
+								<serialize type="html" />
+							</when>
+						</select>
+					</when>
+					<when test="PUT">
+						<generate type="stream">
+							<parameter name="defaultContentType" value="text/xml" />
+						</generate>
+					</when>
+					<when test="POST">
+						<generate type="jx" src="xml/jx/conversation.xml">
+							<parameter name="title" value="{request-param:title}" /> 
+						</generate>
+					</when>
+				</select>
 				<transform src="xslt/xml/extract-title-and-prepare-sourcewriting.xsl">
 					<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
 					<parameter name="basePath" value="jcr:///teamspaces/{1}/talk/conversations/" />
@@ -380,11 +403,16 @@
 				<transform type="include" />
 				<transform src="xslt/xml/add-subscribers.xsl" />
 				<!-- jx can access the TalkManager component passed by the flowscript -->
-				
 				<transform type="jx" />
 				<transform type="write-source" />
 				<transform src="xslt/xml/create-bu-redirect.xsl" />
+				<select type="REST">
+					<when test="html">
+						<transform src="xslt/xml/fix-bu-redirect.xsl" />
+					</when>
+				</select>
 				<transform type="bu-redirect" />
+				
 				<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
 				<serialize type="xml" />
 			</match>
@@ -589,13 +617,10 @@
 			
 			<!-- Create new conversation -->
 			<match pattern="*/new">
-				<select type="request-method">
-					<when test="PUT">
-						<call function="withTalkManager">
-							<parameter name="target" value="internal/pipe/{1}/create-new-talk"/>
-						</call>
-					</when>
-				</select>
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				<call function="withTalkManager">
+					<parameter name="target" value="internal/pipe/{1}/create-new-talk"/>
+				</call>
 			</match>
 			
 			<!-- Conversation metadata -->
