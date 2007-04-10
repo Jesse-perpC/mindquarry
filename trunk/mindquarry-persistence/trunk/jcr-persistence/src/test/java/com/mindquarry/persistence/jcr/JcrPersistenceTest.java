@@ -80,7 +80,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     public void testQueryUsersForTeam() throws ServiceException {
         
         Session session = sessionFactory_.currentSession();
-        List<Object> queryResult = session.query("getUsersForTeam", new Object[] {"jcr-persistence"});
+        List<Object> queryResult = session.query("getUsersForTeam", "jcr-persistence");
         
         assertEquals(1, queryResult.size());
         
@@ -90,7 +90,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     public void testMapProperties() throws ServiceException {
         
         Session session = sessionFactory_.currentSession();
-        List<Object> queryResult = session.query("allTeams", new Object[0]);
+        List<Object> queryResult = session.query("allTeams");
         
         assertEquals(1, queryResult.size());
         
@@ -104,7 +104,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Session session = sessionFactory_.currentSession();
         try {
-            session.query("userByLogin", new Object[0]);
+            session.query("userByLogin");
         }
         catch (QueryException e) {
             return;
@@ -115,7 +115,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     public void testQueryAllUsers() throws ServiceException {
         
         Session session = sessionFactory_.currentSession();
-        List<Object> queryResult = session.query("allUsers", new Object[0]);
+        List<Object> queryResult = session.query("allUsers");
         
         assertEquals(1, queryResult.size());
         
@@ -126,7 +126,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Session session = sessionFactory_.currentSession();
         List<Object> queryResult = session.query(
-                "userByLogin", new Object[] {"testUser"});
+                "userByLogin", "testUser");
         
         User user = (User) queryResult.get(0);
         assertEquals("testUser", user.getLogin());
@@ -147,7 +147,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Session session = sessionFactory_.currentSession();
         List<Object> queryResult = session.query(
-                "userByLogin", new Object[] {"testUser"});
+                "userByLogin", "testUser");
         
         User user = (User) queryResult.get(0);
         Group group = new Group();
@@ -162,7 +162,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Session session = sessionFactory_.currentSession();
         List<Object> queryResult = session.query(
-                "groupById", new Object[] {"foogroup"});
+                "groupById", "foogroup");
         
         Group group = (Group) queryResult.get(0);
         assertEquals(1, group.members.size());
@@ -176,7 +176,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Session session = sessionFactory_.currentSession();
         List<Object> queryResult = session.query(
-                "userByLogin", new Object[] {"testUser"});
+                "userByLogin", "testUser");
         
         User user = (User) queryResult.get(0);
         assertEquals("lastName", user.lastname);
