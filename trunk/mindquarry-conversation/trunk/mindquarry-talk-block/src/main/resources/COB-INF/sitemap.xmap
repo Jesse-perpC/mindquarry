@@ -132,6 +132,26 @@
 			</select>
 		</resource>
 		
+		<resource name="storeandsendmail">
+			<transform type="include" />
+			<transform src="xslt/xml/extract-emails-and-subject.xsl" />
+			<transform type="write-source" />
+			<transform type="sendmail" />
+			<act type="log" src="new message is distributed" />
+			<select type="REST">
+				<when test="html">
+					<transform src="xslt/xml/create-bu-redirect.xsl">
+						<parameter name="to" value="" />
+					</transform>
+				</when>
+				<otherwise>
+					<transform src="xslt/xml/create-bu-redirect.xsl">
+						<parameter name="to" value="message{timestamp}" />
+					</transform>
+				</otherwise>
+			</select>
+		</resource>
+		
 		<!-- standard final page layouting -->
 		<resource name="layouting">
 			<select type="lightbox-request">
@@ -226,23 +246,7 @@
 				<parameter name="smtphost" value="{system-property:mindquarry.mail.server}" />
 				<parameter name="fromemail" value="{conversation}.{teamspace}@{system-property:mindquarry.mail.server}" />
 			</transform>
-			<transform type="include" />
-			<transform src="xslt/xml/extract-emails-and-subject.xsl" />
-			<transform type="write-source" />
-			<transform type="sendmail" />
-			<act type="log" src="new message is distributed" />
-			<select type="REST">
-				<when test="html">
-					<transform src="xslt/xml/create-bu-redirect.xsl">
-						<parameter name="to" value="" />
-					</transform>
-				</when>
-				<otherwise>
-					<transform src="xslt/xml/create-bu-redirect.xsl">
-						<parameter name="to" value="message{timestamp}" />
-					</transform>
-				</otherwise>
-			</select>
+			<call resource="storeandsendmail" />
 			<transform type="bu-redirect" />
 			<serialize type="xml" />
 		</resource>
@@ -405,6 +409,29 @@
 				<!-- jx can access the TalkManager component passed by the flowscript -->
 				<transform type="jx" />
 				<transform type="write-source" />
+				<!-- source is written, now post the message -->
+				<select type="request-method">
+					<when test="POST">
+						<transform src="xslt/xml/source2preparedmessage.xsl" />
+						<transform type="include" />
+						<transform type="jx">
+							<parameter name="user" value="{request-attr:username}" />
+							<parameter name="body" value="{request-param:body}" />
+							<parameter name="timestamp" value="{timestamp:}" />
+						</transform>
+						<transform src="xslt/xml/wrap-new-for-sourcewriting-and-emailing.xsl">
+							<parameter name="timestamp" value="message{date:yyyyMMdd-HHmmss-S}.xml" />
+							<parameter name="metapath" value="/meta.xml" />
+							<parameter name="queryroot" value="model://TeamQuery#teamspaceById({1}).getUsers()" />
+							<parameter name="smtphost" value="{system-property:mindquarry.mail.server}" />
+							<parameter name="fromemail" value=".{1}@{system-property:mindquarry.mail.server}" />
+							<parameter name="rootpath" value="jcr:///teamspaces/{1}/talk/conversations/" />
+						</transform>
+						<call resource="storeandsendmail" />
+						<transform type="bu-redirect" />
+						<serialize type="xml"/>
+					</when>
+				</select>
 				<transform src="xslt/xml/create-bu-redirect.xsl" />
 				<select type="REST">
 					<when test="html">

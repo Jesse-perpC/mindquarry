@@ -4,4 +4,8 @@
 	<jx:forEach var="link" items="${cocoon.request.getParameterValues('link')}">
 		<link><jx:out value="${link}" /></link>
 	</jx:forEach>
+	<jx:if test="${cocoon.parameters['timestamp']}">
+		<date><jx:out value="${cocoon.parameters['timestamp']}" /></date>
+	</jx:if>
+	
 </message>
