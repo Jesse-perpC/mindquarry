@@ -633,6 +633,20 @@
 				<serialize type="text"/>
 			</match>
 			
+			<!-- JSON -->
+			<match pattern="internal/pipe/tasks/*/list.json/*">
+				<!-- todo: generate this using Solr -->
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				<transform src="xslt/json/tasks2json.xsl">
+					<parameter name="query" value="{2}" />
+				</transform>
+				<serialize type="text" />
+			</match>
+			
 		</pipeline>
 
 		<!-- External browser pipeline with REST -->
@@ -717,6 +731,10 @@
 					<when test="pdf">
 						<read
 							src="cocoon:/internal/pipe/tasks/{1}/list.pdf" mime-type="application/pdf"/>
+					</when>
+					<when test="json">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.json/{request-param:q}" mime-type="text/plain"/>
 					</when>
 				</select>
 			</match>
