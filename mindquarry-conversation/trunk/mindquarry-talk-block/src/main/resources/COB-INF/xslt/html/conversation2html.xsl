@@ -22,6 +22,7 @@
   
   <xsl:param name="now" />
   <xsl:param name="user" />
+  <xsl:param name="email" />
   
   <xsl:template match="/messages">
     <html>
@@ -39,6 +40,7 @@
         
         <form action="new" method="POST">
           <textarea id="body" name="body"/>
+          For longer messages you can use your e-mail program: <a href="mailto:{$email}"><xsl:value-of select="$email" /></a>
           <input type="submit" value="Send Message" />
           <!-- if you would like to add more link fields, add more
           <input type="text" name="link" value="/foo"/>

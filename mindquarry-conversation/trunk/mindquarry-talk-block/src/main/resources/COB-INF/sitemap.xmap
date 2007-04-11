@@ -464,6 +464,7 @@
 						<transform src="xslt/html/conversation2html.xsl">
 							<parameter name="now" value="{timestamp:}"/>
 							<parameter name="user" value="{request-attr:username}" />
+							<parameter name="email" value="{2}.{1}@{system-property:mindquarry.mail.server}" />
 						</transform>
 						<serialize type="html"/>
 					</when>
