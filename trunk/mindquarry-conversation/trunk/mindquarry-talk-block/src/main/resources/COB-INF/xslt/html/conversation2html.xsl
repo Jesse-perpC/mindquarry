@@ -29,6 +29,7 @@
       <head>
         <title><xsl:value-of select="conversation[1]/title"/></title>
         <xsl:apply-templates select="block" mode="headlinks"/>
+        <link rel="up" href=".." title="All Talks"/>
       </head>
       <xsl:apply-templates select="conversation/subscribers" />
       <body>

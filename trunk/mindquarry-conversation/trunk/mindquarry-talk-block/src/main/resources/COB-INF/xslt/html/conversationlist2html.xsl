@@ -27,6 +27,7 @@
       <head>
         <title>Talk for <xsl:value-of select="teamspace[1]/name[1]"/></title>
         <xsl:apply-templates select="block" mode="headlinks"/>
+        <link rel="up" href=".." title="All Teams"/>
       </head>
       <body>
         <xsl:apply-templates select="team" />
