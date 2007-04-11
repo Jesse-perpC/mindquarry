@@ -368,7 +368,7 @@
 						<generate src="jcr:///teamspaces/{1}/talk/meta.xml" />
 					</when>
 					<otherwise>
-						<generate src="xml/empty.xml" />
+						<generate src="xml/team.xml" />
 					</otherwise>
 				</select>
 				<serialize type="xml" />
@@ -581,16 +581,22 @@
 							<parameter name="count" value="10"/>
 							<parameter name="blocknr" value="{request-param:page}"/>
 						</transform>
+						
+						
 						<transform src="xslt/xml/conversations2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 							<parameter name="teamPath" value="model://TeamQuery#teamspaceById({1})" />
 							<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
 						</transform>
+						
 						<transform type="include" />
+						
+						
 						
 						<transform src="xslt/xml/messages2include.xsl">
 							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
 						</transform>
+						
 						
 						<transform type="include" />
 						<transform src="xslt/html/prepareconversationlist.xsl" />
