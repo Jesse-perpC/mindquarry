@@ -1,27 +1,9 @@
 package com.mindquarry.jcr.xml.source;
 
-import java.net.URL;
-
 import com.mindquarry.dms.xenodot.jackrabbit.XenodotPersistenceManager;
 
 public class XenodotTestBase extends JCRSourceTestBase {
     
-    protected void prepare() throws Exception {
-        Class klass = getClass();
-        while (klass != Object.class) {
-            try {
-                String className = klass.getName();
-                String xtestResourceName = className.replace('.', '/') + ".xtest";
-                URL xtestResource = getClass().getClassLoader().getResource(xtestResourceName);
-                this.prepare(xtestResource.openStream());
-                return;
-            } catch (Exception exp) {
-                klass = klass.getSuperclass();
-            }
-        }
-        throw new IllegalStateException("Should not get here!");
-    }
-
     protected void setUp() throws Exception {
         // TODO: Right now XenodotPersistenceManger is hardcoded, so this will work
         System.err.println("Start cleaning Xenodot in setUp()");
