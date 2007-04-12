@@ -13,7 +13,6 @@
  */
 package com.mindquarry.persistence.jcr;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
@@ -21,24 +20,14 @@ import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
 
-import com.mindquarry.common.test.AvalonSpringContainerTestBase;
+import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
 
 
 
-public abstract class JcrPersistenceTestBase extends AvalonSpringContainerTestBase {
+public abstract class JcrPersistenceTestBase extends JcrSimpleTestBase {
     
-    protected List<String> springConfigClasspathResources() {
-        System.setProperty("mindquarry.jcr.path",
-                    new File("target/repository").toURI().toString());
-        
-        System.setProperty("mindquarry.jcr.login", "admin");
-        System.setProperty("mindquarry.jcr.pwd", "admin");
-
+    protected List<String> springConfigClasspathResources() {        
         List<String> result = super.springConfigClasspathResources();
-        result.add("META-INF/cocoon/spring/jcr-repository-context.xml");
-        result.add("META-INF/cocoon/spring/jcr-session-context.xml");
-        result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml");
-
         result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
         return result;
     }
