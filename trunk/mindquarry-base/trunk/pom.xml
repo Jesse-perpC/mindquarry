@@ -289,6 +289,15 @@
           </dependency>
         </dependencies>
       </plugin>
+
+      <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-surefire-plugin</artifactId>
+          <inherited>true</inherited>
+          <configuration>
+              <useFile>false</useFile>
+          </configuration>
+      </plugin>
     </plugins>
   </build>
 	
