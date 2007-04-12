@@ -11,18 +11,29 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.auth;
+package com.mindquarry.auth.manager;
 
+import java.util.HashSet;
 
 /**
  * Add summary documentation here.
  *
- * @author 
+ * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface RightRO {
+public final class ActionSet 
+        extends HashSet<ActionEntity> {
 
-    String getOperation();
+    private static final long serialVersionUID = -870194348397015787L;
     
-    ResourceRO getResource();
+    ActionEntity actionForOperation(String operation) {
+        ActionEntity result = null;
+        for (ActionEntity right : this) {
+            if (right.getOperation().equals(operation)) {
+                result = right;
+                break;
+            }
+        }
+        return result;
+    }
 }

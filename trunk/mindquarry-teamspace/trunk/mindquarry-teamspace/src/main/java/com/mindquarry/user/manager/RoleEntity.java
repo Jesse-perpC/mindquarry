@@ -18,7 +18,7 @@ import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQueries;
 import com.mindquarry.persistence.api.NamedQuery;
 import com.mindquarry.user.AbstractUserRO;
-import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.RoleRO;
 
 
 /**
@@ -27,17 +27,20 @@ import com.mindquarry.user.GroupRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-@Entity(parentFolder="groups")
+@Entity(parentFolder="roles")
 @NamedQueries({
-    @NamedQuery(name="getGroupById", query="/groups/{$groupId}"),
-    @NamedQuery(name="getAllGroups", query="/groups/*[local-name() != 'photos']")
+    @NamedQuery(name=RoleEntity.BY_ID, query="/roles/{$id}"),
+    @NamedQuery(name=RoleEntity.ALL, query="/roles/*[local-name() != 'photos']")
 })
-public final class GroupEntity implements GroupRO {
+public final class RoleEntity implements RoleRO {
+    
+    static final String BY_ID = "getRoleById";
+    static final String ALL = "getAllRoles";
 
     @Id private String id;
     public AbstractUserSet members;
     
-    public GroupEntity() {
+    public RoleEntity() {
         this.id = "";
         this.members = new AbstractUserSet();
     }    
@@ -73,10 +76,10 @@ public final class GroupEntity implements GroupRO {
     public boolean equals(Object other) {
         if (this == other)
             return true;
-        if (!(other instanceof GroupEntity))
+        if (!(other instanceof RoleEntity))
             return false;
         
-        GroupEntity otherGroup = (GroupEntity) other;
+        RoleEntity otherGroup = (RoleEntity) other;
         return this.id.equals(otherGroup.id);
     }
     

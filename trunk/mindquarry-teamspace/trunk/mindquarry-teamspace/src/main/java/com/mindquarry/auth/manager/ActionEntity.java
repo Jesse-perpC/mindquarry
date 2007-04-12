@@ -13,9 +13,14 @@
  */
 package com.mindquarry.auth.manager;
 
+import com.mindquarry.auth.ActionRO;
+import com.mindquarry.auth.ResourceRO;
+import com.mindquarry.persistence.api.Entity;
 import com.mindquarry.persistence.api.Id;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.manager.AbstractUserSet;
+
+
 
 /**
  * Add summary documentation here.
@@ -23,42 +28,33 @@ import com.mindquarry.user.manager.AbstractUserSet;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public abstract class AbstractRight {
-
-    @Id private String id;
-    private AbstractUserSet allowed;
-    private AbstractUserSet denied;
-
-    public AbstractRight() { }
+@Entity(parentFolder="rights")
+public final class ActionEntity implements ActionRO {
     
-    AbstractRight(String id) {
+    @Id public String id;
+    
+    public String operation;    
+    public ResourceEntity resource;
+    
+    public  AbstractUserSet allowed;
+    public  AbstractUserSet denied;
+    
+    public ActionEntity() { }
+    
+    public ActionEntity(String id, ResourceEntity resource, String operation) {    
         this.id = id;
+        this.resource = resource;
+        this.operation = operation;        
         this.allowed = new AbstractUserSet();
         this.denied = new AbstractUserSet();
     }
-    
-    public AbstractUserSet getAllowed() {
-        return allowed;
+
+    public String getOperation() {
+        return operation;
     }
 
-    public void setAllowed(AbstractUserSet allowed) {
-        this.allowed = allowed;
-    }
-
-    public AbstractUserSet getDenied() {
-        return denied;
-    }
-
-    public void setDenied(AbstractUserSet denied) {
-        this.denied = denied;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
+    public ResourceRO getResource() {
+        return resource;
     }
 
     final void allowAccessTo(AbstractUserRO user) {
@@ -88,11 +84,11 @@ public abstract class AbstractRight {
     public final boolean equals(Object other) {
         if (this == other)
             return true;
-        if (! (other instanceof AbstractRight))
+        if (! (other instanceof ActionEntity))
             return false;
         
-        AbstractRight otherRight = (AbstractRight) other;
-        return this.id.equals(otherRight.id);
+        ActionEntity otherAction = (ActionEntity) other;
+        return id.equals(otherAction.id);
     }
     
     public final int hashCode() {

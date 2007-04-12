@@ -14,7 +14,9 @@
 package com.mindquarry.auth.manager;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
+import java.util.Set;
 
 import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.persistence.api.Entity;
@@ -33,7 +35,7 @@ public final class ResourceEntity implements ResourceRO {
 
     @Id public String id;
     public String name;
-    public RightSet rights;
+    public Set<ActionEntity> actions;
     public Map<String, ResourceEntity> children;
     
     public ResourceEntity() { }
@@ -41,7 +43,7 @@ public final class ResourceEntity implements ResourceRO {
     public ResourceEntity(String id, String name) {
         this.id = id;
         this.name = name;
-        this.rights = new RightSet();
+        this.actions = new HashSet<ActionEntity>();
         this.children = new HashMap<String, ResourceEntity>();
     }
 
@@ -49,20 +51,27 @@ public final class ResourceEntity implements ResourceRO {
         return ! this.children.isEmpty();
     }
     
-    void addRight(RightEntity right) {
-        rights.add(right);
+    void addAction(ActionEntity action) {
+        actions.add(action);
     }
     
-    void removeRight(AbstractRight right) {
-        rights.remove(right);
+    void removeRight(ActionEntity action) {
+        actions.remove(action);
     }
     
-    boolean hasRights() {
-        return ! this.rights.isEmpty();
+    boolean hasActions() {
+        return ! this.actions.isEmpty();
     }
     
-    RightEntity rightForOperation(String operation) {
-        return rights.rightForOperation(operation);
+    ActionEntity actionForOperation(String operation) {
+        ActionEntity result = null;
+        for (ActionEntity right : actions) {
+            if (right.getOperation().equals(operation)) {
+                result = right;
+                break;
+            }
+        }
+        return result;
     }
     
     ResourceEntity addChild(String name) {

@@ -16,7 +16,7 @@ package com.mindquarry.user.manager;
 import java.util.HashSet;
 
 import com.mindquarry.user.AbstractUserRO;
-import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.RoleRO;
 
 /**
  * Add summary documentation here.
@@ -35,9 +35,9 @@ public class AbstractUserSet
             if (member instanceof UserEntity && member.equals(user)) {
                 contains = true;
             }
-            else if (member instanceof GroupRO) {
-                GroupRO groupMember = (GroupRO) member; 
-                contains = groupMember.contains(user);
+            else if (member instanceof RoleRO) {
+                RoleRO roleMember = (RoleRO) member; 
+                contains = roleMember.contains(user);
             }
             
             if (contains) break;

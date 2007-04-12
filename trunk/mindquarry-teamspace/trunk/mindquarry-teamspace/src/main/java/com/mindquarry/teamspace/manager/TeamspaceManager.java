@@ -35,10 +35,10 @@ import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
+import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
-import com.mindquarry.user.manager.UserManager;
 
 /**
  * Add summary documentation here.
@@ -57,7 +57,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
     private DefaultListenerRegistry listenerRegistry_;
 
-    private UserManager userManager_;
+    private UserAdmin userAdmin_;
 
     private AuthorizationAdmin authAdmin_;
 
@@ -78,8 +78,8 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     /**
      * Setter for userManager bean, set by spring at object creation
      */
-    public void setUserManager(UserManager userManager) {
-        userManager_ = userManager;
+    public void setUserAdmin(UserAdmin userAdmin) {
+        userAdmin_ = userAdmin;
     }
 
     /**
@@ -93,10 +93,10 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             String description, UserRO teamspaceCreator)
             throws CouldNotCreateTeamspaceException {
         
-        TeamspaceEntity teamspace = new TeamspaceEntity();
-        teamspace.setId(teamspaceId);
-        teamspace.setName(name);
-        teamspace.setDescription(description);
+        TeamspaceEntity team = new TeamspaceEntity();
+        team.setId(teamspaceId);
+        team.setName(name);
+        team.setDescription(description);
         
         // there is no need to make the admin a member of the teamspace,
         // at most its somewhat confusing if the admin user appears as member
@@ -104,18 +104,18 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         // Nevertheless she/he is not only allowed to create and teamspaces
         // but also to edit existing ones.
         if (! isAdminUser(teamspaceCreator)) {
-            teamspace.addUser(teamspaceCreator);
+            team.addUser(teamspaceCreator);
         }
 
         Session session = currentSession();
-        session.persist(teamspace);
+        session.persist(team);
         session.commit();
         
         // create the teams default group
-        createGroupForTeam(teamspace);
+        createRoleForTeam(team);
 
         try {
-            listenerRegistry_.signalAfterTeamspaceCreated(teamspace);
+            listenerRegistry_.signalAfterTeamspaceCreated(team);
         } catch (Exception e) {
             throw new CouldNotCreateTeamspaceException(
                     "Teamspace creation failed in listener: " + e.getMessage(),
@@ -124,23 +124,23 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         
         // there might be listeners that add properties 
         // to the teamspace or modify existing properties
-        currentSession().update(teamspace);
+        currentSession().update(team);
         currentSession().commit();
         
-        return teamspace;
+        return team;
     }
     
-    private void createGroupForTeam(TeamspaceRO teamspace) {
-        GroupRO teamGroup = userManager_.createGroup(teamspace.getId());
+    private void createRoleForTeam(TeamspaceRO team) {
+        RoleRO teamRole = userAdmin_.createRole(team.getId());
 
-        for (UserRO teamMember : teamspace.getUsers())
-            userManager_.addUser(teamMember, teamGroup);
+        for (UserRO teamMember : team.getUsers())
+            userAdmin_.addUser(teamMember, teamRole);
 
-        String teamspaceUri = "/teamspaces/" + teamspace.getId();
+        String teamspaceUri = "/teamspaces/" + team.getId();
         //RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
         //RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
 
-        String profileName = teamspace.getId() + "-user";
+        String profileName = team.getId() + "-user";
         //ProfileRO profile = authAdmin_.createProfile(profileName);
         //authAdmin_.addRight(rRight, profile);
         //authAdmin_.addRight(wRight, profile);
@@ -148,9 +148,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         //authAdmin_.addAllowance(profile, teamGroup);
     }
     
-    private void deleteGroupForTeam(TeamspaceRO teamspace) {
-        GroupRO group = userManager_.groupById(teamspace.getId());
-        userManager_.deleteGroup(group);
+    private void deleteRoleForTeam(TeamspaceRO teamspace) {
+        RoleRO role = userAdmin_.roleById(teamspace.getId());
+        userAdmin_.deleteRole(role);
     }
 
     public void updateTeamspace(Teamspace teamspace) {
@@ -169,7 +169,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                     "Teamspace removal failed in listener " + e.getMessage(), e);
         }
         
-        deleteGroupForTeam(teamspace);
+        deleteRoleForTeam(teamspace);
         
         for (UserRO user : teamspace.getUsers()) {
             removeMember((User) user, teamspace);            
@@ -181,9 +181,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     public Collection<? extends TeamspaceRO> teamspacesForUser(String userId) {
-        assert userManager_.isValidUserId(userId) : "the userId: " + userId
-                + " is not valid";
-
+        
         Collection<? extends TeamspaceRO> result;
         
         Session session = currentSession();
@@ -266,7 +264,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
     
     public Membership membership(TeamspaceRO teamspace) {
-        List<UserRO> users = userManager_.allUsers();
+        Collection<? extends UserRO> users = userAdmin_.allUsers();
         Set<UserRO> members = new HashSet<UserRO>();
         Set<UserRO> nonMembers = new HashSet<UserRO>();
 
@@ -330,7 +328,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      */
     public boolean authorise(String userId, String uri, String method) {
         
-        UserRO user = userManager_.userById(userId);
+        UserRO user = userAdmin_.userById(userId);
         if (isRequestForTeamsContent(uri))
             return authorizeTeamsContent(uri, user);
         else if (isRequestForUserManagement(uri))

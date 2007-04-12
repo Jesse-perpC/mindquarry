@@ -24,6 +24,10 @@ import com.mindquarry.user.AbstractUserRO;
  */
 public interface AuthorizationCheck {
     
+    public static final String READ = "read";
+    public static final String WRITE = "write";
+    public static final String CHANGE_RIGHTS = "changeRights";
+    
     public static final String ROLE = AuthorizationCheck.class.getName();
 
     boolean mayPerform(String resource, String operation, String userId);

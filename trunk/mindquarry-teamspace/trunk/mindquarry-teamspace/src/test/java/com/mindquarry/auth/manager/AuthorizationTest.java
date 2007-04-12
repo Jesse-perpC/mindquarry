@@ -13,10 +13,12 @@
  */
 package com.mindquarry.auth.manager;
 
+import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.AuthorizationCheck;
-import com.mindquarry.auth.RightRO;
 import com.mindquarry.teamspace.TeamspaceTestBase;
+import com.mindquarry.user.RoleRO;
+import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserQuery;
 import com.mindquarry.user.UserRO;
@@ -29,8 +31,13 @@ import com.mindquarry.user.UserRO;
  */
 public class AuthorizationTest extends TeamspaceTestBase {
     
-    private static final String teamspaceId = "foo-teamspace";
-    private static final String userId = "foo-user";
+    private static final String fooUserId = "foo-user";
+    private static final String fooRoleId = "foo-role";
+    
+    private static final String user1Id = "user1";
+    private static final String user2Id = "user2";
+
+    
 
     private AuthorizationAdmin authAdmin;
     private AuthorizationCheck authCheck;
@@ -43,14 +50,31 @@ public class AuthorizationTest extends TeamspaceTestBase {
         authCheck = (AuthorizationCheck) lookup(AuthorizationCheck.ROLE);
         userQuery = (UserQuery) lookup(UserQuery.ROLE);
         
+        UserRO fooUser = createUser(fooUserId);
+        createUser(user1Id);
+        createUser(user2Id);
+        
         UserAdmin userAdmin = lookupUserAdmin();                
-        userAdmin.createUser(userId, "password", 
+        RoleRO fooRole = userAdmin.createRole(fooRoleId);
+        
+        userAdmin.addUser(fooUser, fooRole);
+    }
+    
+    private User createUser(String userId) throws Exception {
+        UserAdmin userAdmin = lookupUserAdmin();                
+        return userAdmin.createUser(userId, "password", 
                 "name", "surname", "email", "skills");
     }
     
     protected void tearDown() throws Exception {
+        
         UserAdmin userAdmin = lookupUserAdmin();                
-        userAdmin.deleteUser(userAdmin.userById(userId));
+        userAdmin.deleteRole(userAdmin.roleById(fooRoleId));
+        
+        userAdmin.deleteUser(userAdmin.userById(fooUserId));
+        userAdmin.deleteUser(userAdmin.userById(user1Id));
+        userAdmin.deleteUser(userAdmin.userById(user2Id));
+        
         super.tearDown();
     }
     
@@ -61,106 +85,88 @@ public class AuthorizationTest extends TeamspaceTestBase {
         final String readOperation = "READ";
         final String writeOperation = "WRITE";
         
-        UserRO user = userQuery.userById(userId);
-        RightRO right = authAdmin.createRight(resource, readOperation);
-        authAdmin.addAllowance(right, user);
+        UserRO user = userQuery.userById(fooUserId);
+        ActionRO action = authAdmin.createAction(resource, readOperation);
+        authAdmin.addAllowance(action, user);
         
         assertTrue(authCheck.mayPerform(resource, readOperation, user));
         assertFalse(authCheck.mayPerform(resource, writeOperation, user));
         
-        authAdmin.deleteRight(right);
+        authAdmin.deleteAction(action);
     }
     
-    /*
     public void testResourceTree() {
         final String readOperation = "READ";
         final String writeOperation = "WRITE";
-        UserRO grantedUser = this.createUser("grantedUser");
-        UserRO otherUser = this.createUser("otherUser");
         
         String higherLevelResource = "/teamspaces";
         String explicitGrantedResource = "/teamspaces/foo-team";
         String implicitGrantedResource = "/teamspaces/foo-team/wiki";
         
-        RightEntity right = this.auth.createRight(explicitGrantedResource, readOperation);
-        this.auth.addAllowance(right, grantedUser);
+        UserRO user1 = userQuery.userById(user1Id);
+        UserRO user2 = userQuery.userById(user2Id);
+        ActionRO action = authAdmin.createAction(explicitGrantedResource, readOperation);
+        authAdmin.addAllowance(action, user1);
         
-        assertTrue(this.auth.mayPerform(higherLevelResource, readOperation, grantedUser));
-        assertTrue(this.auth.mayPerform(higherLevelResource, writeOperation, grantedUser));
-        assertTrue(this.auth.mayPerform(higherLevelResource, readOperation, otherUser));
-        assertTrue(this.auth.mayPerform(higherLevelResource, writeOperation, otherUser));
+        assertTrue(authAdmin.mayPerform(higherLevelResource, readOperation, user1));
+        assertTrue(authAdmin.mayPerform(higherLevelResource, writeOperation, user1));
+        assertTrue(authAdmin.mayPerform(higherLevelResource, readOperation, user2));
+        assertTrue(authAdmin.mayPerform(higherLevelResource, writeOperation, user2));
         
-        assertTrue(this.auth.mayPerform(explicitGrantedResource, readOperation, grantedUser));
-        assertFalse(this.auth.mayPerform(explicitGrantedResource, writeOperation, grantedUser));
-        assertFalse(this.auth.mayPerform(explicitGrantedResource, readOperation, otherUser));
-        assertFalse(this.auth.mayPerform(explicitGrantedResource, writeOperation, otherUser));
+        assertTrue(authAdmin.mayPerform(explicitGrantedResource, readOperation, user1));
+        assertFalse(authAdmin.mayPerform(explicitGrantedResource, writeOperation, user1));
+        assertFalse(authAdmin.mayPerform(explicitGrantedResource, readOperation, user2));
+        assertFalse(authAdmin.mayPerform(explicitGrantedResource, writeOperation, user2));
         
-        assertTrue(this.auth.mayPerform(implicitGrantedResource, readOperation, grantedUser));
-        assertFalse(this.auth.mayPerform(implicitGrantedResource, writeOperation, grantedUser));
-        assertFalse(this.auth.mayPerform(implicitGrantedResource, readOperation, otherUser));
-        assertFalse(this.auth.mayPerform(implicitGrantedResource, writeOperation, otherUser));
+        assertTrue(authAdmin.mayPerform(implicitGrantedResource, readOperation, user1));
+        assertFalse(authAdmin.mayPerform(implicitGrantedResource, writeOperation, user1));
+        assertFalse(authAdmin.mayPerform(implicitGrantedResource, readOperation, user2));
+        assertFalse(authAdmin.mayPerform(implicitGrantedResource, writeOperation, user2));
+        
+        authAdmin.deleteAction(action);
     }
     
     public void testDeniedRights() {
         String operation = "READ";
-        UserRO fooUser = this.createUser("fooUser");
-        UserRO fooTasksOnlyUser = this.createUser("fooTasksUser");
+        UserRO user1 = userQuery.userById(user1Id);
+        UserRO user2 = userQuery.userById(user2Id);
         
         String fooTeamspace = "/teamspaces/foo-team";
         String fooTeamspaceWiki = "/teamspaces/foo-team/wiki";
         String fooTeamspaceTasks = "/teamspaces/foo-team/tasks";
         
-        RightEntity fooReadRight = this.auth.createRight(fooTeamspace, operation);
-        this.auth.addAllowance(fooReadRight, fooUser);
-        this.auth.addAllowance(fooReadRight, fooTasksOnlyUser);
+        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, operation);
+        authAdmin.addAllowance(fooReadAction, user1);
+        authAdmin.addAllowance(fooReadAction, user2);
                 
-        RightEntity fooWikiRight = this.auth.createRight(fooTeamspaceWiki, operation);
-        this.auth.addDenial(fooWikiRight, fooTasksOnlyUser);
+        ActionRO fooWikiAction = authAdmin.createAction(fooTeamspaceWiki, operation);
+        authAdmin.addDenial(fooWikiAction, user2);
         
-        assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));
-        assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooTasksOnlyUser));
+        assertTrue(authAdmin.mayPerform(fooTeamspace, operation, user1));
+        assertTrue(authAdmin.mayPerform(fooTeamspace, operation, user2));
         
-        assertTrue(this.auth.mayPerform(fooTeamspaceTasks, operation, fooUser));
-        assertTrue(this.auth.mayPerform(fooTeamspaceTasks, operation, fooTasksOnlyUser));
+        assertTrue(authAdmin.mayPerform(fooTeamspaceTasks, operation, user1));
+        assertTrue(authAdmin.mayPerform(fooTeamspaceTasks, operation, user2));
         
-        assertTrue(this.auth.mayPerform(fooTeamspaceWiki, operation, fooUser));
-        assertFalse(this.auth.mayPerform(fooTeamspaceWiki, operation, fooTasksOnlyUser));
-    }
+        assertTrue(authAdmin.mayPerform(fooTeamspaceWiki, operation, user1));
+        assertFalse(authAdmin.mayPerform(fooTeamspaceWiki, operation, user2));
+        
+        authAdmin.deleteAction(fooReadAction);
+        authAdmin.deleteAction(fooWikiAction);
+    }    
     
     public void testGroupAllowances() {
         final String operation = "READ";
-        final UserRO fooUser = this.createUser("fooUser");
-        final GroupRO fooGroup = this.userAdmin.createGroup("fooGroup");
-        this.userAdmin.addUser(fooUser, fooGroup);
+        final UserRO fooUser = userQuery.userById(fooUserId);
+        final RoleRO fooRole = userQuery.roleById(fooRoleId);
         
         String fooTeamspace = "/teamspaces/foo-team";
         
-        RightEntity fooReadRight = this.auth.createRight(fooTeamspace, operation);        
-        this.auth.addAllowance(fooReadRight, fooGroup);
+        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, operation);        
+        authAdmin.addAllowance(fooReadAction, fooRole);
                 
-        assertTrue(this.auth.mayPerform(fooTeamspace, operation, fooUser));        
+        assertTrue(authAdmin.mayPerform(fooTeamspace, operation, fooUser));
+        
+        authAdmin.deleteAction(fooReadAction);
     }
-    
-    public void testProfileAllowances() {
-        final String readOperation = "READ";
-        final String writeOperation = "WRITE";
-        
-        final UserRO fooUser = this.createUser("fooUser");
-        
-        final String fooTeamspace = "/teamspaces/foo-team";
-        
-        final RightEntity fooReadRight = this.auth.createRight(
-                fooTeamspace, readOperation);
-        final RightEntity fooWriteRight = this.auth.createRight(
-                fooTeamspace, writeOperation);
-        
-        final ProfileEntity fooRights = this.auth.createProfile("fooRights");
-        this.auth.addRight(fooReadRight, fooRights);
-        this.auth.addRight(fooWriteRight, fooRights);
-        
-        this.auth.addAllowance(fooRights, fooUser);                
-        assertTrue(this.auth.mayPerform(fooTeamspace, readOperation, fooUser));
-        assertTrue(this.auth.mayPerform(fooTeamspace, writeOperation, fooUser));
-    }
-    */
 }

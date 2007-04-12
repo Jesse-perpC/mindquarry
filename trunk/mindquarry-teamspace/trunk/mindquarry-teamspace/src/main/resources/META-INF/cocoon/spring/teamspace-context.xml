@@ -59,8 +59,8 @@
 		<property name="listenerRegistry" 
 				  ref="com.mindquarry.teamspace.manager.DefaultListenerRegistry" />
 				 
-		<property name="userManager" 
-				  ref="com.mindquarry.user.manager.UserManager" />
+		<property name="userAdmin" 
+				  ref="com.mindquarry.user.UserAdmin" />
 		
 		<property name="authAdmin" 
 				  ref="com.mindquarry.auth.AuthorizationAdmin" />

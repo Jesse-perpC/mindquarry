@@ -31,30 +31,14 @@ public interface AuthorizationAdmin extends AuthorizationCheck {
     public static final String ROLE = AuthorizationAdmin.class.getName();
     
     // creates right with name "{operation}: {resource}";
-    RightRO createRight(String resource, String operation);
+    ActionRO createAction(String resource, String operation);
+    ActionRO createAction(String name, String resource, String operation);    
+    void deleteAction(ActionRO action);  
     
-    RightRO createRight(String name, String resource, String operation);
+    void addAllowance(ActionRO action, AbstractUserRO user);
+    void removeAllowance(ActionRO action, AbstractUserRO user);
     
-    void deleteRight(RightRO right);
-    
-    
-    ProfileRO createProfile(String profileId);
-    
-    void addRight(RightRO right, ProfileRO profile);
-    
-    void removeRight(RightRO right, ProfileRO profile);
-    
-    
-    void addAllowance(RightRO right, AbstractUserRO user);
-    void removeAllowance(RightRO right, AbstractUserRO user);
-
-    void addAllowance(ProfileRO profile, AbstractUserRO user);
-    void removeAllowance(ProfileRO profile, AbstractUserRO user);
-    
-    void addDenial(RightRO right, AbstractUserRO user);
-    void removeDenial(RightRO right, AbstractUserRO user);
-    
-    void addDenial(ProfileRO profile, AbstractUserRO user);
-    void removeDenial(ProfileRO profile, AbstractUserRO user);
+    void addDenial(ActionRO action, AbstractUserRO user);
+    void removeDenial(ActionRO action, AbstractUserRO user);
 }
 

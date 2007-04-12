@@ -16,6 +16,8 @@ package com.mindquarry.user.manager;
 import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
 import static com.mindquarry.user.manager.DefaultUsers.isIndexUser;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,15 +25,14 @@ import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.Authentication;
-import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
 
 /**
- * Add summary documentation here.
- * 
- * @author <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
+ * @author 
+ * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public final class UserManager implements UserAdmin, Authentication {
     
@@ -107,14 +108,14 @@ public final class UserManager implements UserAdmin, Authentication {
         deleteEntity(userEntity);
     }
 
-    public User userById(String userId) {
-        return queryUserById(userId);
+    public UserEntity userById(String userId) {
+        return (UserEntity) queryEntityById(UserEntity.BY_ID, userId);
     }
 
-    public List<UserRO> allUsers() {
+    public Collection<? extends UserRO> allUsers() {
         Session session = currentSession();
 
-        List<Object> queriedUsers = session.query("getAllUsers");
+        List<Object> queriedUsers = session.query(UserEntity.ALL);
         List<UserRO> result = new LinkedList<UserRO>();
 
         for (Object userObj : queriedUsers) {
@@ -131,46 +132,47 @@ public final class UserManager implements UserAdmin, Authentication {
      *      java.lang.String)
      */
     public boolean authenticate(String userId, String password) {
-        UserEntity user = queryUserById(userId);
+        UserEntity user = userById(userId);
         return (user != null) && user.authenticate(password);
     }
-    
-    private UserEntity queryUserById(String id) {
-        return (UserEntity) queryEntityById("getUserById", id);
-    }
 
-    public GroupRO createGroup(String groupId) {
-        GroupEntity result = new GroupEntity();
-        result.setId(groupId);
+    public RoleRO createRole(String roleId) {
+        RoleEntity result = new RoleEntity();
+        result.setId(roleId);
         persistEntity(result);
         return result;
     }
 
-    public GroupRO groupById(String groupId) {
-        return queryGroupById(groupId);
+    public void deleteRole(RoleRO role) {
+        RoleEntity roleEntity = (RoleEntity) role;
+        deleteEntity(roleEntity);
     }
 
-    public void deleteGroup(GroupRO group) {
-        GroupEntity groupEntity = (GroupEntity) group;
-        deleteEntity(groupEntity);
+    public RoleEntity roleById(String roleId) {
+        return (RoleEntity) queryEntityById(RoleEntity.BY_ID, roleId);
     }
 
-    /**
-     * @returns a group object if it can be found otherwise null
-     */
-    private GroupEntity queryGroupById(String id) {
-        return (GroupEntity) queryEntityById("getGroupById", id);
+    public Collection<RoleEntity> allRoles() {
+        
+        Session session = currentSession();
+        List<Object> queriedUsers = session.query(RoleEntity.ALL);
+        Collection<RoleEntity> result = new ArrayList<RoleEntity>();
+
+        for (Object obj : queriedUsers) {
+            result.add((RoleEntity) obj);
+        }
+        return result;
     }
 
-    public void addUser(AbstractUserRO user, GroupRO group) {
-        GroupEntity groupEntity = (GroupEntity) group;
-        groupEntity.add(user);
-        updateEntity(groupEntity);
+    public void addUser(AbstractUserRO user, RoleRO role) {
+        RoleEntity roleEntity = (RoleEntity) role;
+        roleEntity.add(user);
+        updateEntity(roleEntity);
     }
 
-    public void removeUser(AbstractUserRO user, GroupRO group) {
-        GroupEntity groupEntity = (GroupEntity) group;
-        groupEntity.remove(user);
-        updateEntity(groupEntity);
+    public void removeUser(AbstractUserRO user, RoleRO role) {
+        RoleEntity roleEntity = (RoleEntity) role;
+        roleEntity.remove(user);
+        updateEntity(roleEntity);
     }
 }

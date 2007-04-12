@@ -19,9 +19,8 @@ import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
+import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
-import com.mindquarry.auth.ProfileRO;
-import com.mindquarry.auth.RightRO;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
@@ -93,12 +92,12 @@ public class Authorization implements AuthorizationAdmin {
             }
             
             ResourceEntity child = resource.getChild(pathItem);
-            if (isEmptyRightList && child.hasRights()) {
+            if (isEmptyRightList && child.hasActions()) {
                 isEmptyRightList = false;
                 result = false;
             }
             
-            RightEntity right = child.rightForOperation(operation);
+            ActionEntity right = child.actionForOperation(operation);
             if (right != null) {
                 if (right.isAccessAllowed(user)) {
                     result = true;
@@ -114,11 +113,11 @@ public class Authorization implements AuthorizationAdmin {
         return result;
     }
 
-    public RightEntity createRight(String resourceUri, String operation) {
-        return createRight(null, resourceUri, operation);
+    public ActionEntity createAction(String resourceUri, String operation) {
+        return createAction(null, resourceUri, operation);
     }
 
-    public RightEntity createRight(
+    public ActionEntity createAction(
             String id, String resourceUri, String operation) {        
                 
         ResourceEntity resource = navigateToResource(resourceUri);
@@ -126,16 +125,16 @@ public class Authorization implements AuthorizationAdmin {
         if (id == null)
             id = concat(resource.id, "_", operation);
                 
-        RightEntity result = new RightEntity(id, resource, operation);
-        resource.addRight(result);
+        ActionEntity result = new ActionEntity(id, resource, operation);
+        resource.addAction(result);
         
         currentSession().update(resource);
         currentSession().commit();
         return result;
     }
     
-    public void deleteRight(RightRO right) {
-        currentSession().delete(right);
+    public void deleteAction(ActionRO action) {
+        currentSession().delete(action);
         currentSession().commit();
     }
     
@@ -173,88 +172,27 @@ public class Authorization implements AuthorizationAdmin {
         return result;
     }
 
-
-    public ProfileEntity createProfile(String profileId) {
-        return new ProfileEntity(profileId);
-    }
-    
-    public void addRight(RightRO right, ProfileRO profile) {
-        RightEntity rightEntity = (RightEntity) right;
-        ProfileEntity profileEntity = (ProfileEntity) profile;        
-        rightEntity.addTo(profileEntity);
-        profileEntity.add(rightEntity);
-        
-        currentSession().update(rightEntity);
+    public void addAllowance(ActionRO action, AbstractUserRO user) {
+        ((ActionEntity) action).allowAccessTo(user);
+        currentSession().update(action);
         currentSession().commit();
     }
 
-    public void removeRight(RightRO right, ProfileRO profile) {
-        RightEntity rightEntity = (RightEntity) right;
-        ProfileEntity profileEntity = (ProfileEntity) profile;
-        rightEntity.removeFrom(profileEntity);
-        profileEntity.remove(rightEntity);
-
-        currentSession().update(rightEntity);
+    public void removeAllowance(ActionRO action, AbstractUserRO user) {
+        ((ActionEntity) action).removeAllowanceFor(user);
+        currentSession().update(action);
         currentSession().commit();
     }
 
-    public void addAllowance(RightRO right, AbstractUserRO user) {
-        addAllowance((AbstractRight) right, user);
+    public void addDenial(ActionRO action, AbstractUserRO user) {
+        ((ActionEntity) action).denyAccessTo(user);
+        currentSession().update(action);
         currentSession().commit();
     }
 
-    public void addAllowance(ProfileRO profile, AbstractUserRO user) {
-        addAllowance((AbstractRight) profile, user);
+    public void removeDenial(ActionRO action, AbstractUserRO user) {
+        ((ActionEntity) action).removeDenialFor(user);
+        currentSession().update(action);
         currentSession().commit();
-    }
-
-    private void addAllowance(AbstractRight right, AbstractUserRO user) {
-        right.allowAccessTo(user);
-        currentSession().update(right);
-    }
-
-    public void removeAllowance(RightRO right, AbstractUserRO user) {
-        removeAllowance((AbstractRight) right, user);
-        currentSession().commit();
-    }
-
-    public void removeAllowance(ProfileRO profile, AbstractUserRO user) {
-        removeAllowance((AbstractRight) profile, user);
-        currentSession().commit();
-    }
-
-    private void removeAllowance(AbstractRight right, AbstractUserRO user) {
-        right.removeAllowanceFor(user);
-        currentSession().update(right);
-    }
-
-    public void addDenial(RightRO right, AbstractUserRO user) {
-        addDenial((AbstractRight) right, user);
-        currentSession().commit();
-    }
-
-    public void addDenial(ProfileRO profile, AbstractUserRO user) {
-        addDenial((AbstractRight) profile, user);
-        currentSession().commit();
-    }
-
-    private void addDenial(AbstractRight right, AbstractUserRO user) {
-        right.denyAccessTo(user);
-        currentSession().update(right);
-    }
-
-    public void removeDenial(RightRO right, AbstractUserRO user) {
-        removeDenial((AbstractRight) right, user);
-        currentSession().commit();
-    }
-
-    public void removeDenial(ProfileRO profile, AbstractUserRO user) {
-        removeDenial((AbstractRight) profile, user);
-        currentSession().commit();
-    }
-
-    private void removeDenial(AbstractRight right, AbstractUserRO user) {
-        right.removeDenialFor(user);
-        currentSession().update(right);
     }
 }
