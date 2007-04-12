@@ -14,18 +14,10 @@
 package com.mindquarry.jcr.xml.source;
 
 import java.io.FileInputStream;
-import java.net.URL;
 import java.util.GregorianCalendar;
 
-import javax.jcr.ItemExistsException;
 import javax.jcr.Node;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
 import javax.jcr.Session;
-import javax.jcr.lock.LockException;
-import javax.jcr.nodetype.ConstraintViolationException;
-import javax.jcr.nodetype.NoSuchNodeTypeException;
-import javax.jcr.version.VersionException;
 
 import com.mindquarry.jcr.jackrabbit.JCRTestBase;
 
@@ -39,35 +31,12 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
     @Override
     protected void setUp() throws Exception {
         super.setUp();
-
-        setupRepositoryContent(session);
-        session.save();
+        setupRepositoryContent();
     }
 
-    /**
-     * @see org.apache.cocoon.core.container.ContainerTestCase#tearDown()
-     */
-    @Override
-    protected void tearDown() throws Exception {
-        super.tearDown();
-    }
-    
-    /**
-     * Initializes the ComponentLocator
-     * 
-     * The configuration file is determined by the class name plus .xtest
-     * appended, all '.' replaced by '/' and loaded as a resource via classpath
-     */
-    @Override
-    protected void prepare() throws Exception {
-        String className = JCRSourceTestBase.class.getName();
-        String xtestResourceName = className.replace('.', '/') + ".xtest";
-        URL xtestResource = getClass().getClassLoader().getResource(xtestResourceName);
-        this.prepare(xtestResource.openStream());
-    }
-
-    protected void setupRepositoryContent(Session session) throws Exception {
-        Node root = session.getRootNode();
+    protected void setupRepositoryContent() throws Exception {
+        Session jcrSession = getJcrSession();
+        Node root = jcrSession.getRootNode();
         
         // add a user entry
         Node usersNode = root.getNode("users");
@@ -101,5 +70,7 @@ public abstract class JCRSourceTestBase extends JCRTestBase {
         imgDocContentNode.setProperty("jcr:mimeType", "jpg");
         imgDocContentNode.setProperty("jcr:data", new FileInputStream(
                 "src/test/resources/lamp.jpg"));
+        
+        jcrSession.save();
     }
 }
