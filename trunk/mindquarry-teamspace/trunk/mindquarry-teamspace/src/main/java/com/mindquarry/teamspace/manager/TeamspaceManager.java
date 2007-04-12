@@ -24,7 +24,6 @@ import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.common.resources.ResourceDoesNotExistException;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
@@ -35,7 +34,6 @@ import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
@@ -59,8 +57,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
     private UserAdmin userAdmin_;
 
-    private AuthorizationAdmin authAdmin_;
-
     /**
      * Setter for listenerRegistry bean, set by spring at object creation
      */
@@ -80,13 +76,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      */
     public void setUserAdmin(UserAdmin userAdmin) {
         userAdmin_ = userAdmin;
-    }
-
-    /**
-     * Setter for authAdmin bean, set by spring at object creation
-     */
-    public void setAuthAdmin(AuthorizationAdmin authAdmin) {
-        authAdmin_ = authAdmin;
     }
 
     public Teamspace createTeamspace(String teamspaceId, String name,
@@ -110,9 +99,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         Session session = currentSession();
         session.persist(team);
         session.commit();
-        
-        // create the teams default group
-        createRoleForTeam(team);
 
         try {
             listenerRegistry_.signalAfterTeamspaceCreated(team);
@@ -128,29 +114,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         currentSession().commit();
         
         return team;
-    }
-    
-    private void createRoleForTeam(TeamspaceRO team) {
-        RoleRO teamRole = userAdmin_.createRole(team.getId());
-
-        for (UserRO teamMember : team.getUsers())
-            userAdmin_.addUser(teamMember, teamRole);
-
-        String teamspaceUri = "/teamspaces/" + team.getId();
-        //RightRO rRight = authAdmin_.createRight(teamspaceUri, "READ");
-        //RightRO wRight = authAdmin_.createRight(teamspaceUri, "WRITE");
-
-        String profileName = team.getId() + "-user";
-        //ProfileRO profile = authAdmin_.createProfile(profileName);
-        //authAdmin_.addRight(rRight, profile);
-        //authAdmin_.addRight(wRight, profile);
-
-        //authAdmin_.addAllowance(profile, teamGroup);
-    }
-    
-    private void deleteRoleForTeam(TeamspaceRO teamspace) {
-        RoleRO role = userAdmin_.roleById(teamspace.getId());
-        userAdmin_.deleteRole(role);
     }
 
     public void updateTeamspace(Teamspace teamspace) {
@@ -168,8 +131,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             throw new CouldNotRemoveTeamspaceException(
                     "Teamspace removal failed in listener " + e.getMessage(), e);
         }
-        
-        deleteRoleForTeam(teamspace);
         
         for (UserRO user : teamspace.getUsers()) {
             removeMember((User) user, teamspace);            

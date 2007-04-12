@@ -13,9 +13,6 @@
  */
 package com.mindquarry.auth.cocoon;
 
-import static com.mindquarry.user.manager.DefaultUsers.isAnonymousUser;
-import static com.mindquarry.user.manager.DefaultUsers.isAnonymousDisabled;
-
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;

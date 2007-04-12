@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.teamspace;
+package com.mindquarry.auth.manager;
 
 import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
 import static com.mindquarry.user.manager.DefaultUsers.login;
@@ -25,6 +25,7 @@ import org.apache.avalon.framework.service.ServiceException;
 import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.SessionFactory;
+import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.manager.TeamspaceEntity;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
@@ -34,12 +35,14 @@ import com.mindquarry.user.manager.UserEntity;
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public abstract class TeamspaceTestBase extends JcrSimpleTestBase {
+public abstract class AuthorizationTestBase extends JcrSimpleTestBase {
     
+    @Override
     protected List<String> springConfigClasspathResources() {
         List<String> result = super.springConfigClasspathResources();    
         result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
         result.add("META-INF/cocoon/spring/teamspace-context.xml");
+        result.add("META-INF/cocoon/spring/authorization-context.xml");
         return result;
     }
 
@@ -50,6 +53,9 @@ public abstract class TeamspaceTestBase extends JcrSimpleTestBase {
         configuration.addClass(UserEntity.class);
         configuration.addClass(RoleEntity.class);
         configuration.addClass(TeamspaceEntity.class);
+
+        configuration.addClass(ActionEntity.class);
+        configuration.addClass(ResourceEntity.class);
         
         SessionFactory sessionFactory = 
             (SessionFactory) lookup(SessionFactory.ROLE);        
