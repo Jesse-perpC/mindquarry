@@ -54,17 +54,16 @@
 <xsl:template name="strip-quotes">
   <xsl:param name="text" />
   <xsl:if test="contains($text, '&#x22;')">
-    <xsl:value-of select="substring-before($text, '&#x22;')" />
+    <xsl:value-of select="substring-before(translate($text,'&#10;',''), '&#x22;')" />
     <xsl:text>\"</xsl:text>
     <xsl:call-template name="strip-quotes">
       <xsl:with-param name="text">
-        <xsl:value-of select="substring-after($text, '&#x22;')" />
+        <xsl:value-of select="substring-after(translate($text,'&#10;',''), '&#x22;')" />
       </xsl:with-param>
     </xsl:call-template>
   </xsl:if>
   <xsl:if test="not(contains($text, '&#x22;'))">
-    <xsl:value-of select="translate($text, '
-', ' ')" />
+    <xsl:value-of select="translate($text,'&#10;','')" />
   </xsl:if>
 </xsl:template>
 
