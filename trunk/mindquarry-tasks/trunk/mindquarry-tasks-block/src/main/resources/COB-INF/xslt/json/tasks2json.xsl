@@ -63,7 +63,8 @@
     </xsl:call-template>
   </xsl:if>
   <xsl:if test="not(contains($text, '&#x22;'))">
-    <xsl:value-of select="$text" />
+    <xsl:value-of select="translate($text, '
+', ' ')" />
   </xsl:if>
 </xsl:template>
 
