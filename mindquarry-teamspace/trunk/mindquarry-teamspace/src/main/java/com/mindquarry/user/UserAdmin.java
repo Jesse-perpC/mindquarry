@@ -37,20 +37,14 @@ public interface UserAdmin extends UserQuery {
      */
     User createUser(String id, String password, 
             String name, String surName, String email, String skills);
+    void updateUser(User user);
+    void deleteUser(User user);
     
     User userById(String userId);
     
-    void updateUser(User user);
+    RoleRO createRole(String roleId);    
+    void deleteRole(RoleRO role);    
     
-    void deleteUser(User user);
-    
-    
-    GroupRO createGroup(String groupId);
-    
-    void deleteGroup(GroupRO group);
-    
-    
-    void addUser(AbstractUserRO user, GroupRO group);
-    
-    void removeUser(AbstractUserRO user, GroupRO group);
+    void addUser(AbstractUserRO user, RoleRO role);    
+    void removeUser(AbstractUserRO user, RoleRO role);
 }

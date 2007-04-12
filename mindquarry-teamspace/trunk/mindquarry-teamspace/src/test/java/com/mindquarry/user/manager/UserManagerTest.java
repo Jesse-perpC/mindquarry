@@ -13,13 +13,13 @@
  */
 package com.mindquarry.user.manager;
 
-import java.util.List;
+import java.util.Collection;
 
 import org.apache.avalon.framework.service.ServiceException;
 
 import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.Authentication;
-import com.mindquarry.user.GroupRO;
+import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
@@ -53,14 +53,14 @@ public class UserManagerTest extends TeamspaceTestBase {
         UserRO mqUser = userAdmin.createUser(userId, "aSecretPassword",
                 "Mindquarry User", "surname", "an email", "the skills");
         
-        List<UserRO> users = userAdmin.allUsers();
+        Collection<? extends UserRO> users = userAdmin.allUsers();
         assertEquals(1, users.size());
         
         userAdmin.deleteUser((User) mqUser);
         assertEquals(0, userAdmin.allUsers().size());
     }
     
-    public void testGroupPersistence() throws ServiceException {
+    public void testRolePersistence() throws ServiceException {
         // please note, an admin users is created within the initialize method
 
         UserAdmin userAdmin = lookupUserAdmin();
@@ -69,14 +69,14 @@ public class UserManagerTest extends TeamspaceTestBase {
         UserRO mqUser = userAdmin.createUser(userId, "aSecretPassword",
             "Mindquarry User", "surname", "an email", "the skills");
     
-        GroupRO group = userAdmin.createGroup("mindquarry");    
-        userAdmin.addUser(mqUser, group);
+        RoleRO role = userAdmin.createRole("mindquarry");    
+        userAdmin.addUser(mqUser, role);
         
-        GroupRO persistentGroup = userAdmin.groupById("mindquarry");
+        RoleRO persistentGroup = userAdmin.roleById("mindquarry");
         assertTrue(persistentGroup.contains(mqUser));
         userAdmin.removeUser(mqUser, persistentGroup);
         
-        userAdmin.deleteGroup(group);        
+        userAdmin.deleteRole(role);        
         userAdmin.deleteUser((User) mqUser);
     }
 }

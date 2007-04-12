@@ -13,7 +13,7 @@
  */
 package com.mindquarry.user;
 
-import java.util.List;
+import java.util.Collection;
 
 /**
  * Provides methods to query user related data.
@@ -25,9 +25,9 @@ public interface UserQuery {
 
     public static final String ROLE = UserQuery.class.getName();
     
-    UserRO userById(String userId);
+    UserRO userById(String userId);    
+    Collection<? extends UserRO> allUsers();
     
-    List<UserRO> allUsers();
-    
-    GroupRO groupById(String groupId);
+    RoleRO roleById(String roleId);
+    Collection<? extends RoleRO> allRoles();
 }

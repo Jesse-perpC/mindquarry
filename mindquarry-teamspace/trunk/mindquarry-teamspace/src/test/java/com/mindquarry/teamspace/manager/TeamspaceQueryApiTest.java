@@ -26,19 +26,8 @@ public class TeamspaceQueryApiTest extends TeamspaceTestBase {
         // test with user that does not exists
         assertEquals(0, admin.teamspacesForUser("foo").size());
         
-        // test with ivnalid userIds
-        String[] invalidUserIds = new String[] {"", null};
-        for (String invalidUserId : invalidUserIds) {
-            try {
-                admin.teamspacesForUser(invalidUserId);
-            } catch (AssertionError e) {
-                return;
-            } catch (Exception e) {
-                fail("expected AssertionError for user with id null, " +
-                        "instead got: " + e.getMessage());
-            }            
-        }
-        fail("expected AssertionError for user with id null.");
+        // test with ivnalid userId
+        admin.teamspacesForUser("");
     }
 
 }

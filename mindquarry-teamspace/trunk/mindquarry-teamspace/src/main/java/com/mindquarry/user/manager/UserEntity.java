@@ -29,11 +29,14 @@ import com.mindquarry.user.User;
 @SerializationName("user")
 @Entity(parentFolder="users")
 @NamedQueries({
-    @NamedQuery(name="getUserById", query="/users/{$userId}"),
-    @NamedQuery(name="getAllUsers", query="/users/*[local-name() != 'photos']")
+    @NamedQuery(name=UserEntity.BY_ID, query="/users/{$userId}"),
+    @NamedQuery(name=UserEntity.ALL, query="/users/*[local-name() != 'photos']")
 })
 public final class UserEntity implements User {
-
+    
+    static final String BY_ID = "getUserById";
+    static final String ALL = "getAllUsers";
+    
     @Id private String id;
     
     private String password;

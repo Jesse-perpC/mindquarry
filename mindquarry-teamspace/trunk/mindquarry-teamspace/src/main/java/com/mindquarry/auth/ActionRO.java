@@ -11,7 +11,7 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.user;
+package com.mindquarry.auth;
 
 
 /**
@@ -20,7 +20,9 @@ package com.mindquarry.user;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface GroupRO extends AbstractUserRO {
+public interface ActionRO {
 
-    boolean contains(AbstractUserRO user);
+    String getOperation();
+    
+    ResourceRO getResource();
 }
