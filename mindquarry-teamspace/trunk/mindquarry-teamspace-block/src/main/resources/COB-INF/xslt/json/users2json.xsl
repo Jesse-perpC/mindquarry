@@ -33,7 +33,7 @@
     "start":0,
     "maxScore":0,
     "docs":{
-      "teams":[
+      "users":[
         <xsl:apply-templates select="users/user[contains(.,$query)]"/>
       ]
     }
