@@ -28,7 +28,7 @@
 			<map:match pattern="internal/pipe/propfindresource">
 				<!-- PROPFIND to any resource, this is always the first request -->
 				<map:generate type="stream" />
-				<map:transform src="xslt/propfind-version-controlled-configuration.xsl">
+				<map:transform src="xslt/propfindresource.xsl">
 					<map:parameter name="resource" value="{request:contextPath}{request:servletPath}{request:pathInfo}" />
 					<map:parameter name="repobase" value="{request:contextPath}{request:servletPath}/{flow-attribute:repository}" />
 					<map:parameter name="relpath" value="{flow-attribute:resource}" />
