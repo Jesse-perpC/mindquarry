@@ -24,15 +24,14 @@
 <xsl:template match="/tasks">
 {
   "responseHeader": {
-    "status":0,
-    "QTime:0"
+    "status":0
   },
   "response":{
     "numFound":<xsl:value-of select="count(*)" />,
     "start":0,
     "maxScore":0,
     "docs":{
-      "Tasks":[
+      "tasks":[
         <xsl:apply-templates select="task[contains(.,$query)]"/>
       ]
     }
@@ -48,7 +47,7 @@
   <xsl:with-param name="text">
     <xsl:value-of select="summary" />
   </xsl:with-param>
-</xsl:call-template>", "picture":"<xsl:value-of select="//@xml:base[1]" />resource/icons/ductform.status/<xsl:value-of select="status" />.png  "}
+</xsl:call-template>", "picture":"<xsl:value-of select="//@xml:base[1]" />../resource/icons/ductform.status/<xsl:value-of select="status" />.png  "}
   <xsl:if test="position()!=last()">,</xsl:if>
 </xsl:template>
 
