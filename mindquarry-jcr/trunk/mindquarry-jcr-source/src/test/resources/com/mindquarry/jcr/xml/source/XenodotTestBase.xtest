@@ -12,11 +12,6 @@
 		<role name="com.mindquarry.events.EventBroker"
 			shorthand="event-broker"
 			default-class="com.mindquarry.events.EventBroker" />
-
-		<role name="javax.jcr.Repository" shorthand="jcr-repository" />
-
-		<role name="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer"
-			shorthand="jcr-initializer" />
 			
 		<role name="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
 			shorthand="jcr-id-generator" />
@@ -67,25 +62,6 @@
 				login="alexander.saar" password="mypwd"
 				rmi="rmi://localhost:1099/jackrabbit" /-->
 		</source-factories>
-
-		<!-- doesn't work for test cases, use this in production environments -->
-		<!--jcr-repository
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitRMIRepository"-->
-
-		<jcr-repository
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitRepository">
-
-			<home src="target/repository" />
-			<credentials login="alexander.saar" password="mypwd" />
-			<configuration
-				src="resource://com/mindquarry/jcr/xml/source/XenodotRepository.xml" />
-		</jcr-repository>
-
-		<jcr-initializer
-			class="com.mindquarry.jcr.jackrabbit.JackrabbitInitializer">
-
-			<credentials login="alexander.saar" password="mypwd" />
-		</jcr-initializer>
 
 		<jcr-id-generator class="com.mindquarry.jcr.id.JCRUniqueIDGenerator"
 			login="alexander.saar" password="mypwd" />
