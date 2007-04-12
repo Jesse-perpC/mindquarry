@@ -36,7 +36,18 @@
 				</map:transform>
 				<map:serialize type="xml" status-code="207"/>
 			</map:match>
-		
+			
+			<!-- the version controlled configuration -->
+			<map:match pattern="*/!svn/vcc/default">
+				<map:select type="request-method">
+					<map:when test="PROPFIND">
+					</map:when>
+				</map:select>
+				<map:generate type="stream" />
+				<map:serialize type="xml" />
+			</map:match>
+			
+			<!-- a basic resource -->
       <map:match pattern="*/**">
 				<map:select type="request-method">
 					<map:when test="PROPFIND">
