@@ -18,25 +18,29 @@
   xmlns:D="DAV:" 
   xmlns:ci="http://apache.org/cocoon/include/1.0"
   xmlns:svndav="http://subversion.tigris.org/xmlns/dav/">
+  <xsl:param name="resource" />
   
-  <xsl:import href="propfind.xsl" />
-  
-  <xsl:param name="repobase" />
-  <xsl:param name="relpath" />
-  <xsl:param name="uuid" />
-  
-  <xsl:template match="D:version-controlled-configuration">
-    <D:version-controlled-configuration>
-      <D:href><xsl:value-of select="$repobase"/>/!svn/vcc/default</D:href>
-   </D:version-controlled-configuration>
+  <xsl:template match="/D:propfind">
+    <D:multistatus>
+      <D:response>
+        <D:href><xsl:value-of select="$resource"/></D:href>
+        <xsl:apply-templates />
+      </D:response>
+    </D:multistatus>
   </xsl:template>
   
-  <xsl:template match="svndav:baseline-relative-path">
-    <svndav:baseline-relative-path><xsl:value-of select="$relpath"/></svndav:baseline-relative-path>
+  <xsl:template match="D:prop">
+    <D:propstat>
+      <D:prop>
+        <xsl:apply-templates />
+      </D:prop>
+      <D:status>HTTP/1.1 200 OK</D:status>
+    </D:propstat>
   </xsl:template>
   
-  <xsl:template match="svndav:repository-uuid">
-    <svndav:repository-uuid><xsl:value-of select="$uuid" /></svndav:repository-uuid>
-  </xsl:template>
-  
+	<xsl:template match="@*|node()">
+		<xsl:copy>
+			<xsl:apply-templates select="@*|node()" />
+		</xsl:copy>
+	</xsl:template>
 </xsl:stylesheet>
