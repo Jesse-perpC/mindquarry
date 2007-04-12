@@ -322,6 +322,13 @@
 						</transform>
 						<serialize type="xml" />
 					</when>
+					<otherwise>
+						<transform src="xslt/json/teamspaces2json.xsl">
+							<parameter name="query" value="{request-param:q}"></parameter>
+							<parameter name="basePath" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+						</transform>
+						<serialize type="text" />
+					</otherwise>
 				</select>
 			</match>
 			
