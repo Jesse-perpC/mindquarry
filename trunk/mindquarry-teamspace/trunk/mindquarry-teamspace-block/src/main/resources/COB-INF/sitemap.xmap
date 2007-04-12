@@ -427,6 +427,13 @@
 						
 						<serialize type="xml" />
 					</when>
+					<otherwise>
+						<transform src="xslt/json/users2json.xsl">
+							<parameter name="basePath" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}"/>
+							<parameter name="query" value="{request-param:q}" />
+						</transform>
+						<serialize type="text" />
+					</otherwise>
 				</select>
 			</match>
 			
