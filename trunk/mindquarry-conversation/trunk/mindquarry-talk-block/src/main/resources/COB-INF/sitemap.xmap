@@ -609,6 +609,16 @@
 					<when test="xml">
 						<serialize type="xml" />
 					</when>
+					<when test="json">
+						<transform src="xslt/xml/conversations2include.xsl">
+							<parameter name="basePath" value="cocoon:/internal/pipe/{1}" />
+							<parameter name="teamPath" value="model://TeamQuery#teamspaceById({1})" />
+							<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
+						</transform>
+						<transform type="include" />
+						<transform src="xslt/json/conversations2json.xsl" />
+						<serialize type="text"/>
+					</when>
 				</select>
 			</match>
 			
