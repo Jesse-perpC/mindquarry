@@ -16,7 +16,6 @@ package com.mindquarry.auth.manager;
 import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.AuthorizationCheck;
-import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
@@ -29,7 +28,7 @@ import com.mindquarry.user.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class AuthorizationTest extends TeamspaceTestBase {
+public class AuthorizationTest extends AuthorizationTestBase {
     
     private static final String fooUserId = "foo-user";
     private static final String fooRoleId = "foo-role";
@@ -44,7 +43,7 @@ public class AuthorizationTest extends TeamspaceTestBase {
     private UserQuery userQuery;
     
     protected void setUp() throws Exception {
-        super.setUp();
+        super.setUp();        
         
         authAdmin = (AuthorizationAdmin) lookup(AuthorizationAdmin.ROLE);
         authCheck = (AuthorizationCheck) lookup(AuthorizationCheck.ROLE);
