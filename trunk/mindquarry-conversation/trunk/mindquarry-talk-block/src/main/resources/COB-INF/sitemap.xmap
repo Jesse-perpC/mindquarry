@@ -83,6 +83,8 @@
 					</transform>
 					<transform src="block:/xslt/html2html.xsl"
 						type="xalan">
+						<parameter name="servlet"
+							value="talk" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
@@ -170,6 +172,8 @@
 				<!--
 					<transform src="block:/xslt/html2html.xsl"
 						type="xalan">
+						<parameter name="servlet"
+							value="talk" />
 						<parameter name="fullPath"
 							value="{block-path:}{request:pathInfo}" />
 						<parameter name="sitemapPath"
