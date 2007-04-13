@@ -17,8 +17,8 @@ import com.mindquarry.user.UserRO;
 public class DefaultUsers {
     
     private static final int LOGIN = 0;
-    private static final int PWD = 0;
-    private static final int NAME = 0;
+    private static final int PWD = 1;
+    private static final int NAME = 2;
     
     // loginname, password, UserName
     static final String[] ADMIN_USER = {"admin", "admin", "Administrator"};
@@ -26,6 +26,10 @@ public class DefaultUsers {
     
     static final String[] ANONYMOUS_USER = 
                         {"anonymous", "anonymous", "Anonymous User"};
+    
+    public static String adminLogin() {
+        return login(ADMIN_USER);
+    }
     
     // the ANONYMOUS_USER is not always part of the default users
     // the mindquarry server admin can configure 
