@@ -96,6 +96,8 @@
 		<resource name="html2html">
 			<transform src="block:/xslt/html2html.xsl"
 				type="xalan">
+				<parameter name="servlet"
+					value="teams" />
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
