@@ -54,13 +54,22 @@ class ParametrizedMapTransformer implements Transformer {
     public Object readFromJcr(JcrNode jcrNode) {
         Map result = newMap();
         for (JcrNode entryNode : jcrNode.getNodes()) {
-            JcrNode keyNode = entryNode.getNode("key");
-            Object key = keyTransformer_.readFromJcr(keyNode);
+            // deletion of possibly referenced nodes can cause invalid
+            // key or value nodes. if we detect such an invalid entry,
+            // we will remove it
+            if (entryNode.hasNode("key") && entryNode.hasNode("value")) {
+                JcrNode keyNode = entryNode.getNode("key");
+                Object key = keyTransformer_.readFromJcr(keyNode);
+                    
+                JcrNode valueNode = entryNode.getNode("value");
+                Object value = valueTransformer_.readFromJcr(valueNode);
                 
-            JcrNode valueNode = entryNode.getNode("value");
-            Object value = valueTransformer_.readFromJcr(valueNode);
+                result.put(key, value);
+            }
+            else {
+                entryNode.remove();
+            }
             
-            result.put(key, value);
         }
         return result;
     }

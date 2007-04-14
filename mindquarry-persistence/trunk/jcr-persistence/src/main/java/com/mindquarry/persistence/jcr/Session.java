@@ -55,6 +55,7 @@ class Session implements JcrSession,
      */
     public void commit() {
         invoke("save", jcrSession_);
+        pool_.clear();
     }
 
     /**
