@@ -37,6 +37,10 @@ public class Pool {
         store_ = new HashMap<String, Entry>();
     }
     
+    void clear() {
+        store_.clear();
+    }
+    
     public JcrNode nodeByEntity(Object entity) {
         String key = keyFromEntity(entity);
         return store_.get(key).entityNode;

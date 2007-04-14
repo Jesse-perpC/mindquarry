@@ -16,7 +16,6 @@ package com.mindquarry.persistence.jcr.cmds;
 import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
@@ -42,16 +41,7 @@ class ReadCommand implements Command {
      * @see com.mindquarry.persistence.jcr.mapping.Command#execute(javax.jcr.Session)
      */
     public Object execute(JcrSession session) {
-        Object entity;
-        Pool pool = session.getPool();
-        if (pool.containsEntryForNode(entityNode_)) {
-            entity = pool.entityByNode(entityNode_);
-        }
-        else {            
-            entity = entityTransformer().readFromJcr(entityNode_);            
-            pool.put(entity, entityNode_);
-        }        
-        return entity;
+        return entityTransformer().readFromJcr(entityNode_);
     }
     
     private Transformer entityTransformer() {
