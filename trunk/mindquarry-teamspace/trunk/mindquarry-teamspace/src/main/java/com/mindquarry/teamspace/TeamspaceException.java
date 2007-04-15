@@ -14,12 +14,10 @@
 package com.mindquarry.teamspace;
 
 /**
- * 
- *
  * @author 
  * <a href="bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class TeamspaceException extends RuntimeException {
+public class TeamspaceException extends Exception {
 
 	private static final long serialVersionUID = -83840116191701053L;
 

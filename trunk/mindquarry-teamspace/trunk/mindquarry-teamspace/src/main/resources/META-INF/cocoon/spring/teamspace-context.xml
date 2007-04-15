@@ -16,23 +16,6 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
-		
-	<bean id="com.mindquarry.user.manager.UserManager" 
-		class="com.mindquarry.user.manager.UserManager">
-		
-		<property name="sessionFactory" 
-				  ref="com.mindquarry.persistence.api.SessionFactory" />
-	</bean>
-	
-	<alias name="com.mindquarry.user.manager.UserManager" 
-		   alias="com.mindquarry.user.UserAdmin" />
-	
-	<alias name="com.mindquarry.user.manager.UserManager" 
-		   alias="com.mindquarry.user.UserQuery" />
-		   	   
-	<alias name="com.mindquarry.user.manager.UserManager" 
-		   alias="com.mindquarry.user.Authentication" />
-	
 	
 	<bean id="com.mindquarry.teamspace.manager.TeamspaceManager" 
 		class="com.mindquarry.teamspace.manager.TeamspaceManager">
@@ -45,12 +28,25 @@
 				 
 		<property name="userAdmin" 
 				  ref="com.mindquarry.user.UserAdmin" />
-	</bean>	
+	</bean>
 	
-	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+	<bean id="com.mindquarry.teamspace.auth.TeamspaceAuthorization" 
+		class="com.mindquarry.teamspace.auth.TeamspaceAuthorization">
+		
+		<property name="authAdmin" 
+				  ref="com.mindquarry.auth.AuthorizationAdmin" />
+				  
+		<property name="userAdmin" 
+				  ref="com.mindquarry.user.UserAdmin" />
+				 
+		<property name="teamspaceManager" 
+				  ref="com.mindquarry.teamspace.manager.TeamspaceManager" />
+	</bean>
+	
+	<alias name="com.mindquarry.teamspace.auth.TeamspaceAuthorization" 
 		   alias="com.mindquarry.teamspace.TeamspaceAdmin" />
 		   	
-	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
+	<alias name="com.mindquarry.teamspace.auth.TeamspaceAuthorization" 
 		   alias="com.mindquarry.teamspace.TeamspaceQuery" />
 	
 	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 

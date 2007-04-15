@@ -22,11 +22,10 @@ import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 
+import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.SessionFactory;
-import com.mindquarry.teamspace.TeamspaceAdmin;
-import com.mindquarry.teamspace.manager.TeamspaceEntity;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.manager.RoleEntity;
@@ -41,7 +40,7 @@ public abstract class AuthorizationTestBase extends JcrSimpleTestBase {
     protected List<String> springConfigClasspathResources() {
         List<String> result = super.springConfigClasspathResources();    
         result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
-        result.add("META-INF/cocoon/spring/teamspace-context.xml");
+        result.add("META-INF/cocoon/spring/user-context.xml");
         result.add("META-INF/cocoon/spring/authorization-context.xml");
         return result;
     }
@@ -52,7 +51,6 @@ public abstract class AuthorizationTestBase extends JcrSimpleTestBase {
         JavaConfiguration configuration = new JavaConfiguration();
         configuration.addClass(UserEntity.class);
         configuration.addClass(RoleEntity.class);
-        configuration.addClass(TeamspaceEntity.class);
 
         configuration.addClass(ActionEntity.class);
         configuration.addClass(ResourceEntity.class);
@@ -69,6 +67,10 @@ public abstract class AuthorizationTestBase extends JcrSimpleTestBase {
     }
     
     protected void tearDown() throws Exception {
+        AuthorizationAdmin authAdmin = 
+            (AuthorizationAdmin) lookup(AuthorizationAdmin.ROLE);
+        authAdmin.deleteResource("");        
+        
         UserAdmin userAdmin = lookupUserAdmin();
         for (String[] userProfile : defaultUsers()) {
             User user = userAdmin.userById(login(userProfile));
@@ -79,9 +81,5 @@ public abstract class AuthorizationTestBase extends JcrSimpleTestBase {
     
     protected UserAdmin lookupUserAdmin() throws ServiceException {
         return (UserAdmin) lookup(UserAdmin.class.getName());
-    }
-    
-    protected TeamspaceAdmin lookupTeamspaceAdmin() throws ServiceException {
-        return (TeamspaceAdmin) lookup(TeamspaceAdmin.class.getName());
     }
 }

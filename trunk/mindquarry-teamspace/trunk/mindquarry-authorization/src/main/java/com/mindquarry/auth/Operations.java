@@ -13,20 +13,19 @@
  */
 package com.mindquarry.auth;
 
-import com.mindquarry.user.AbstractUserRO;
-
 /**
- * Check if a particular user is privileged to fulfil 
- * an operation at a resource.
+ * Add summary documentation here.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface AuthorizationCheck {
+public final class Operations {
     
-    public static final String ROLE = AuthorizationCheck.class.getName();
-
-    boolean mayPerform(String resource, String operation, String userId);
+    public static final String READ = "read";
+    public static final String WRITE = "write";
+    public static final String CHANGE_RIGHTS = "changeRights";
     
-    boolean mayPerform(String resource, String operation, AbstractUserRO user);
+    public static String[] defaultOperations() {
+        return new String[] {READ, WRITE, CHANGE_RIGHTS};
+    }
 }

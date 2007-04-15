@@ -30,9 +30,9 @@ public interface AuthorizationAdmin extends AuthorizationCheck {
     
     public static final String ROLE = AuthorizationAdmin.class.getName();
     
-    // creates right with name "{operation}: {resource}";
-    ActionRO createAction(String resource, String operation);
-    ActionRO createAction(String name, String resource, String operation);    
+    void deleteResource(String resourceUri);
+    
+    ActionRO createAction(String resourceUri, String operation);    
     void deleteAction(ActionRO action);  
     
     void addAllowance(ActionRO action, AbstractUserRO user);

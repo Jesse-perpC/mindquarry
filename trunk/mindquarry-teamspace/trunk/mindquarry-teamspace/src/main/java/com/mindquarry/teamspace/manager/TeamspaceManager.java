@@ -17,10 +17,8 @@ import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
 import static com.mindquarry.user.manager.DefaultUsers.isAnonymousUser;
 
 import java.util.Collection;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -28,11 +26,9 @@ import com.mindquarry.common.resources.ResourceDoesNotExistException;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.teamspace.Authorisation;
-import com.mindquarry.teamspace.CouldNotCreateTeamspaceException;
-import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
-import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
+import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
@@ -80,7 +76,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
     public Teamspace createTeamspace(String teamspaceId, String name,
             String description, UserRO teamspaceCreator)
-            throws CouldNotCreateTeamspaceException {
+            throws TeamspaceException {
         
         TeamspaceEntity team = new TeamspaceEntity();
         team.setId(teamspaceId);
@@ -103,9 +99,8 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         try {
             listenerRegistry_.signalAfterTeamspaceCreated(team);
         } catch (Exception e) {
-            throw new CouldNotCreateTeamspaceException(
-                    "Teamspace creation failed in listener: " + e.getMessage(),
-                    e);
+            throw new TeamspaceException("Teamspace creation failed in " +
+                    "listener: " + e.getMessage(), e);
         }
         
         // there might be listeners that add properties 
@@ -123,13 +118,13 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     }
 
     public void deleteTeamspace(Teamspace teamspace)
-            throws CouldNotRemoveTeamspaceException {
+            throws TeamspaceException {
 
         try {
             listenerRegistry_.signalBeforeTeamspaceRemoved(teamspace);
         } catch (Exception e) {
-            throw new CouldNotRemoveTeamspaceException(
-                    "Teamspace removal failed in listener " + e.getMessage(), e);
+            throw new TeamspaceException("Teamspace removal failed in " +
+                    "listener " + e.getMessage(), e);
         }
         
         for (UserRO user : teamspace.getUsers()) {
@@ -150,8 +145,8 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             result = queryAllTeamspaces();
         else
             result = queryTeamspacesForUser(userId);
-        session.commit();
         
+        session.commit();        
         return result;
     }
 
@@ -166,7 +161,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             result.add(teamspace);
         }
 
-        session.commit();
         return result;
     }
 
@@ -187,7 +181,9 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      * @see com.mindquarry.teamspace.TeamspaceQuery#teamspaceById(java.lang.String)
      */
     public Teamspace teamspaceById(String teamspaceId) {        
-        return queryTeamspaceById(teamspaceId);
+        Teamspace result = queryTeamspaceById(teamspaceId);
+        currentSession().commit();
+        return result;
     }
 
     /**
@@ -207,7 +203,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         return sessionFactory_.currentSession();
     }
     
-    public void addMember(User user, Teamspace team) {
+    public void addMember(UserRO user, TeamspaceRO team) {
         ((TeamspaceEntity) team).addUser(user);
         
         Session session = currentSession();
@@ -215,7 +211,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         session.commit();
     }
     
-    public void removeMember(User user, Teamspace team) {
+    public void removeMember(UserRO user, TeamspaceRO team) {
         ((TeamspaceEntity) team).removeUser(user);
         
         Session session = currentSession();
@@ -223,6 +219,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         session.commit();
     }
 
+    /*
     
     public Membership membership(TeamspaceRO teamspace) {
         Collection<? extends UserRO> users = userAdmin_.allUsers();
@@ -269,6 +266,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         // return a new calculated membership
         return membership(membership.teamspace);
     }
+    */
 
     /**
      * Simple authorisation implementation. Considers 'userId' and 'uri',
@@ -289,13 +287,17 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      */
     public boolean authorise(String userId, String uri, String method) {
         
+        boolean isAllowed;
         UserRO user = userAdmin_.userById(userId);
         if (isRequestForTeamsContent(uri))
-            return authorizeTeamsContent(uri, user);
+            isAllowed = authorizeTeamsContent(uri, user);
         else if (isRequestForUserManagement(uri))
-            return authorizeUserManagement(uri, user);
+            isAllowed = authorizeUserManagement(uri, user);
         else
-            return false;
+            isAllowed = false;
+        
+        currentSession().commit();        
+        return isAllowed;
     }
     
     private boolean isRequestForTeamsContent(String uri) {

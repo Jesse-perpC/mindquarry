@@ -13,8 +13,15 @@
  */
 package com.mindquarry.auth.manager;
 
+import static com.mindquarry.common.lang.StringUtil.concat;
+import static com.mindquarry.auth.manager.ResourceUtil.pathItems;
+
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -36,19 +43,65 @@ public final class ResourceEntity implements ResourceRO {
     @Id public String id;
     public String name;
     public Set<ActionEntity> actions;
+    public ResourceEntity parent;
     public Map<String, ResourceEntity> children;
     
     public ResourceEntity() { }
     
-    public ResourceEntity(String id, String name) {
+    ResourceEntity(String id, String name, ResourceEntity parent) {
         this.id = id;
         this.name = name;
         this.actions = new HashSet<ActionEntity>();
+        this.parent = parent;
         this.children = new HashMap<String, ResourceEntity>();
+    }
+
+    Collection<ActionEntity> getActions() {
+        return actions;
+    }
+
+    ResourceRO getParent() {
+        return parent;
     }
 
     boolean hasChildren() {
         return ! this.children.isEmpty();
+    }
+
+    Collection<ResourceEntity> getChildren() {
+        return children.values();
+    }
+
+    Collection<ResourceEntity> getChildrenDeep() {
+        Collection<ResourceEntity> result = new ArrayList<ResourceEntity>();
+        addChildrenDeep(result);
+        return result;
+    }
+
+    private void addChildrenDeep(Collection<ResourceEntity> allChildren) {
+        allChildren.addAll(getChildren());
+        for (ResourceEntity child : getChildren()) {
+            child.addChildrenDeep(allChildren);
+        }
+    }
+    
+    boolean hasChild(String name) {
+        return this.children.containsKey(name);
+    }
+    
+    ResourceEntity getChild(String name) {
+        return this.children.get(name);
+    }
+    
+    ResourceEntity addChild(String name) {
+        String childId = concat(id + "_" + name);
+        ResourceEntity child = new ResourceEntity(childId, name, this);
+        children.put(name, child);
+        return child;
+    }
+    
+    void removeChild(ResourceEntity child) {
+        children.remove(child.name);
     }
     
     void addAction(ActionEntity action) {
@@ -74,21 +127,26 @@ public final class ResourceEntity implements ResourceRO {
         return result;
     }
     
-    ResourceEntity addChild(String name) {
-        ResourceEntity child = new ResourceEntity(id + name, name);
-        children.put(name, child);
-        return child;
+    boolean isObsolete() {
+        return ! hasChildren() && ! hasActions();
     }
     
-    void removeChild(ResourceEntity child) {
-        children.remove(child.name);
-    }
-    
-    boolean hasChild(String name) {
-        return this.children.containsKey(name);
-    }
-    
-    ResourceEntity getChild(String name) {
-        return this.children.get(name);
+    Iterator<ResourceEntity> iteratePath(String path) {
+        List<ResourceEntity> resources = new ArrayList<ResourceEntity>(5);
+        resources.add(this);
+        
+        ResourceEntity parent = this;        
+        Iterator<String> pathItemsIt = pathItems(path).iterator();
+        while (pathItemsIt.hasNext()) {            
+            String pathItem = pathItemsIt.next();            
+            if (parent.hasChild(pathItem)) {
+                parent = parent.getChild(pathItem);
+                resources.add(parent);
+            }
+            else {
+                break;
+            }
+        }
+        return resources.iterator();
     }
 }
