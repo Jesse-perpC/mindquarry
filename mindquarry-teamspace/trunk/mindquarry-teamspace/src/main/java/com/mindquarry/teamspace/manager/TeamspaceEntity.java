@@ -38,7 +38,7 @@ import com.mindquarry.user.UserRO;
 @NamedQueries({
     @NamedQuery(name="getTeamById", query="/teamspaces/{$teamId}"),
     @NamedQuery(name="getAllTeams", query="/teamspaces/*"),
-    @NamedQuery(name="getTeamsForUser", query="/teamspaces/*[jcr:content/users/item/@reference = /users/{$userId}/@jcr:uuid]")
+    @NamedQuery(name="getTeamsForUser", query="/teamspaces/*[*/jcr:content/users/item/@reference = /users/{$userId}/@jcr:uuid]")
 })
 public class TeamspaceEntity implements Teamspace {
     

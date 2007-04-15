@@ -131,25 +131,25 @@ public class AuthenticationFilter implements Filter {
      * @see javax.servlet.Filter#init(javax.servlet.FilterConfig)
      */
     public void init(FilterConfig config) throws ServletException {
-	ServletContext servletContext = config.getServletContext();
-	beanFactory_ = WebApplicationContextUtils
-		.getRequiredWebApplicationContext(servletContext);
-
-	log_ = (Logger) beanFactory_.getBean(AvalonUtils.LOGGER_ROLE);
-	realm_ = config.getInitParameter("realm");
-
-	String authenticationBeanName = Authentication.class.getName();
-	if (!beanFactory_.containsBean(authenticationBeanName)) {
-	    throw new ServletException("there is no spring bean with name: "
-		    + authenticationBeanName + " available.");
-	}
+    	ServletContext servletContext = config.getServletContext();
+    	beanFactory_ = WebApplicationContextUtils
+    		.getRequiredWebApplicationContext(servletContext);
+    
+    	log_ = (Logger) beanFactory_.getBean(AvalonUtils.LOGGER_ROLE);
+    	realm_ = config.getInitParameter("realm");
+    
+    	String authenticationBeanName = Authentication.class.getName();
+    	if (!beanFactory_.containsBean(authenticationBeanName)) {
+    	    throw new ServletException("there is no spring bean with name: "
+    		    + authenticationBeanName + " available.");
+    	}
     }
 
     /**
      * @see javax.servlet.Filter#destroy()
      */
     public void destroy() {
-	// nothing to do
+        // nothing to do
     }
 
     /**
@@ -165,93 +165,101 @@ public class AuthenticationFilter implements Filter {
 	    ServletResponse servletResponse, FilterChain chain)
 	    throws IOException, ServletException {
 
-	// cast to http request and response due to read and set http headers
-	HttpServletRequest request = (HttpServletRequest) servletRequest;
-	HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-	// always send an authentication request in order to avoid one round
-	// trip
-	response
-		.setHeader("WWW-Authenticate", "BASIC realm=\"" + realm_ + "\"");
-
-	// only do authentication for protected URIs, eg. excluded login page
-	if (isProtected(request)) {
-	    String authenticatedUser = authenticateUser(request);
-
-	    // the special login request is done to actually perform the
-	    // authentication, this is typically the second step initiated by
-	    // the login page
-	    if (isLoginRequest(request)) {
-		if (authenticatedUser == null) {
-		    // not authenticated. trigger auth. with username / password
-		    // either by the HTTP auth dialog in the browser or
-		    // automatically by Javascript XMLHttpRequest
-		    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-		} else {
-		    // authenticated. redirect to original target
-		    String originalUrl = request.getParameter(TARGET_URI_PARAM);
-		    String redirectUrl = response
-			    .encodeRedirectURL((originalUrl != null ? originalUrl
-				    : "."));
-
-		    if (isAJAXRequest(request)) {
-			Writer writer = response.getWriter();
-			writer.write("<?xml version=\"1.0\"?>");
-			writer
-				.write("<bu:document "
-					+ "xmlns:bu='http://apache.org/cocoon/browser-update/1.0'>"
-					+ "<bu:continue/></bu:document>");
-			writer.close();
-			response.setStatus(HttpServletResponse.SC_OK);
-
-		    } else {
-			response.sendRedirect(redirectUrl);
-		    }
-		}
-
-		// no further servlet processing.
-		return;
-
-	    } else {
-		// 99 percent of all pages, not the special login request.
-
-		// here we either have the first request to the server, ie.
-		// not yet authenticated, or some client that does not send the
-		// authorization data preemptively (although he already did
-		// authenticate) -> see isGuiBrowserRequest()
-		if (authenticatedUser == null) {
-		    // not authenticated.
-
-		    // standard browser with preemptive sending auth data, thus
-		    // it must be the first request -> go to login page
-		    if (isGuiBrowserRequest(request)) {
-			String loginUrl = buildLoginUrlForRequest(request);
-			String redirectUrl = response
-				.encodeRedirectURL(loginUrl);
-			response.sendRedirect(redirectUrl);
-		    } else {
-			// trigger simple client auth. or re-authentication
-			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-		    }
-
-		    // no further servlet processing.
-		    return;
-
-		} else {
-		    // authenticated. make username available as request
-		    // attribute
-		    request.setAttribute(USERNAME_ATTR, authenticatedUser);
-		}
-	    }
-	}
-
-	// access granted, proceed with the servlet
-	chain.doFilter(servletRequest, servletResponse);
+    	// cast to http request and response due to read and set http headers
+    	HttpServletRequest request = (HttpServletRequest) servletRequest;
+    	HttpServletResponse response = (HttpServletResponse) servletResponse;
+    
+    	// always send an authentication request in order to avoid one round
+    	// trip
+    	response
+    		.setHeader("WWW-Authenticate", "BASIC realm=\"" + realm_ + "\"");
+    
+    	// only do authentication for protected URIs, eg. excluded login page
+    	if (isProtected(request)) {
+    	    String authenticatedUser = authenticateUser(request);
+    
+    	    // the special login request is done to actually perform the
+    	    // authentication, this is typically the second step initiated by
+    	    // the login page
+    	    if (isLoginRequest(request)) {
+                
+        		if (authenticatedUser == null) {
+        		    // not authenticated. trigger auth. with username / password
+        		    // either by the HTTP auth dialog in the browser or
+        		    // automatically by Javascript XMLHttpRequest
+        		    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        		} else {
+        		    // authenticated. redirect to original target
+        		    String originalUrl = request.getParameter(TARGET_URI_PARAM);
+        		    String redirectUrl = response
+        			    .encodeRedirectURL((originalUrl != null ? originalUrl
+        				    : "."));
+        
+        		    if (isAJAXRequest(request)) {
+        			Writer writer = response.getWriter();
+        			writer.write("<?xml version=\"1.0\"?>");
+        			writer
+        				.write("<bu:document "
+        					+ "xmlns:bu='http://apache.org/cocoon/browser-update/1.0'>"
+        					+ "<bu:continue/></bu:document>");
+        			writer.close();
+        			response.setStatus(HttpServletResponse.SC_OK);
+        
+        		    } else {
+        			response.sendRedirect(redirectUrl);
+        		    }
+        		}
+        
+        		// no further servlet processing.
+        		return;
+    
+    	    } 
+            else {
+        		// 99 percent of all pages, not the special login request.
+        
+        		// here we either have the first request to the server, ie.
+        		// not yet authenticated, or some client that does not send the
+        		// authorization data preemptively (although he already did
+        		// authenticate) -> see isGuiBrowserRequest()
+        		if (authenticatedUser == null) {
+        		    // not authenticated.
+        
+        		    // standard browser with preemptive sending auth data, thus
+        		    // it must be the first request -> go to login page
+        		    if (isGuiBrowserRequest(request)) {
+        			String loginUrl = buildLoginUrlForRequest(request);
+        			String redirectUrl = response
+        				.encodeRedirectURL(loginUrl);
+        			response.sendRedirect(redirectUrl);
+        		    } else {
+        			// trigger simple client auth. or re-authentication
+        			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        		    }
+        
+        		    // no further servlet processing.
+        		    return;
+        
+        		} 
+                else {
+        		    // authenticated. make username available as request
+        		    // attribute
+        		    request.setAttribute(USERNAME_ATTR, authenticatedUser);
+                    CurrentUser currentUser = lookupCurrentUserRequestBean();
+                    currentUser.setId(authenticatedUser);
+        		}
+    	    }
+    	}
+    	// access granted, proceed with the servlet
+    	chain.doFilter(servletRequest, servletResponse);
+    }
+    
+    private CurrentUser lookupCurrentUserRequestBean() {
+        return (CurrentUser) beanFactory_.getBean(CurrentUser.ROLE);
     }
 
     private static boolean isAJAXRequest(HttpServletRequest request) {
-	return request.getParameter("cocoon-ajax") != null
-		&& request.getParameter("cocoon-ajax").equalsIgnoreCase("true");
+        return request.getParameter("cocoon-ajax") != null
+		    && request.getParameter("cocoon-ajax").equalsIgnoreCase("true");
     }
 
     /**
@@ -260,15 +268,15 @@ public class AuthenticationFilter implements Filter {
      * orginial request uri after successful login
      */
     private String buildLoginUrlForRequest(HttpServletRequest request) {
-	StringBuilder loginUrlSB = new StringBuilder();
-	loginUrlSB.append(request.getContextPath());
-	loginUrlSB.append('/');
-	loginUrlSB.append(LOGIN_PAGE);
-	loginUrlSB.append('?');
-	loginUrlSB.append(TARGET_URI_PARAM);
-	loginUrlSB.append('=');
-	loginUrlSB.append(requestAsRedirectUri(request));
-	return loginUrlSB.toString();
+    	StringBuilder loginUrlSB = new StringBuilder();
+    	loginUrlSB.append(request.getContextPath());
+    	loginUrlSB.append('/');
+    	loginUrlSB.append(LOGIN_PAGE);
+    	loginUrlSB.append('?');
+    	loginUrlSB.append(TARGET_URI_PARAM);
+    	loginUrlSB.append('=');
+    	loginUrlSB.append(requestAsRedirectUri(request));
+    	return loginUrlSB.toString();
     }
 
     /**
@@ -276,10 +284,10 @@ public class AuthenticationFilter implements Filter {
      * XMLHttpRequest of the Java-based login form.
      */
     private boolean isLoginRequest(HttpServletRequest request) {
-	String targetUri = servletRelativeUri(request);
-	return targetUri.equals(LOGIN_REQUEST_URI)
-		&& LOGIN_REQUEST_VALUE.equals(request
-			.getParameter(LOGIN_REQUEST_PARAM));
+    	String targetUri = servletRelativeUri(request);
+    	return targetUri.equals(LOGIN_REQUEST_URI)
+    		&& LOGIN_REQUEST_VALUE.equals(request
+    			.getParameter(LOGIN_REQUEST_PARAM));
     }
 
     /**
@@ -304,34 +312,34 @@ public class AuthenticationFilter implements Filter {
      * </p>
      */
     private boolean isGuiBrowserRequest(HttpServletRequest request) {
-	boolean result = true;
-
-	String accept = request.getHeader("Accept");
-	String userAgent = request.getHeader("User-Agent");
-
-	if (userAgent != null
-		&& (userAgent.contains("Opera") || (userAgent
-			.contains("Konqueror")))) {
-	    // opera cannot handle ajax authentication properly
-	    // same for konqueror
-	    return false;
-	}
-
-	if (accept != null) {
-	    // first check for human-based browser content requests
-	    result = accept.contains("text/html")
-		    || accept.contains("application/xhtml+xml")
-		    || accept.contains("*/*"); // e.g. for IE 6
-
-	    if (result && userAgent != null) {
-		// second check for popular browsers
-		result = userAgent.contains("MSIE")
-			|| userAgent.contains("Gecko")
-			|| userAgent.contains("Opera")
-			|| userAgent.contains("Safari");
-	    }
-	}
-	return result;
+    	boolean result = true;
+    
+    	String accept = request.getHeader("Accept");
+    	String userAgent = request.getHeader("User-Agent");
+    
+    	if (userAgent != null
+    		&& (userAgent.contains("Opera") || (userAgent
+    			.contains("Konqueror")))) {
+    	    // opera cannot handle ajax authentication properly
+    	    // same for konqueror
+    	    return false;
+    	}
+    
+    	if (accept != null) {
+    	    // first check for human-based browser content requests
+    	    result = accept.contains("text/html")
+    		    || accept.contains("application/xhtml+xml")
+    		    || accept.contains("*/*"); // e.g. for IE 6
+    
+    	    if (result && userAgent != null) {
+    		// second check for popular browsers
+    		result = userAgent.contains("MSIE")
+    			|| userAgent.contains("Gecko")
+    			|| userAgent.contains("Opera")
+    			|| userAgent.contains("Safari");
+    	    }
+    	}
+    	return result;
     }
 
     private static final String ANY_CHAR = "(.)*";
@@ -348,37 +356,36 @@ public class AuthenticationFilter implements Filter {
      * those pages.
      */
     private boolean isProtected(HttpServletRequest request) {
-	String targetUri = servletRelativeUri(request);
-	// (1) The login page is allowed.
-
-	// (2) The logout page is allowed.
-
-	// (3) All css stylesheets and scripts are allowed.
-
-	// (4) Images with the pattern "/header.png" are allowed, since they
-	// belong to the login/logout page.
-
-	// (5) Images under the folders "images", "icons" and "buttons" are
-	// considered non-protected image resources.
-
-	// Other images might contain protected content (photos or diagrams)
-
-	return !(targetUri.matches(LOGIN_PAGE + ANY_CHAR + EOL + "|"
-		+ LOGOUT_PAGE + ANY_CHAR + EOL + "|" + ANY_CHAR + DOT
-		+ "(css|js|ico)" + EOL + "|" + NO_SLASH + DOT
-		+ "(png|jpg|gif|bmp|jpeg)" + EOL + "|" + ANY_CHAR
-		+ "(images|icons|buttons)/" + ANY_CHAR + DOT
-		+ "(png|jpg|gif|bmp|jpeg)" + EOL));
+    	String targetUri = servletRelativeUri(request);
+    	// (1) The login page is allowed.
+    
+    	// (2) The logout page is allowed.
+    
+    	// (3) All css stylesheets and scripts are allowed.
+    
+    	// (4) Images with the pattern "/header.png" are allowed, since they
+    	// belong to the login/logout page.
+    
+    	// (5) Images under the folders "images", "icons" and "buttons" are
+    	// considered non-protected image resources.
+    
+    	// Other images might contain protected content (photos or diagrams)
+    
+    	return !(targetUri.matches(LOGIN_PAGE + ANY_CHAR + EOL + "|"
+    		+ LOGOUT_PAGE + ANY_CHAR + EOL + "|" + ANY_CHAR + DOT
+    		+ "(css|js|ico)" + EOL + "|" + NO_SLASH + DOT
+    		+ "(png|jpg|gif|bmp|jpeg)" + EOL + "|" + ANY_CHAR
+    		+ "(images|icons|buttons)/" + ANY_CHAR + DOT
+    		+ "(png|jpg|gif|bmp|jpeg)" + EOL));
     }
 
     /**
      * Returns the decoded authorization data from the HTTP header.
      */
     private String[] authTupleFromAuthHeader(String authHeader) {
-
-	String encodedAuthRequest = authHeader.substring(6);
-	byte[] authRequest = Base64.decodeBase64(encodedAuthRequest.getBytes());
-	return new String(authRequest).split(":");
+    	String encodedAuthRequest = authHeader.substring(6);
+    	byte[] authRequest = Base64.decodeBase64(encodedAuthRequest.getBytes());
+    	return new String(authRequest).split(":");
     }
 
     /**
@@ -387,66 +394,66 @@ public class AuthenticationFilter implements Filter {
      */
     private String authenticateUser(HttpServletRequest request) {
         
-	String authHeader = request.getHeader("Authorization");
-
-	String authenticatedUser = null;
-	if ((authHeader != null)
-		&& authHeader.toUpperCase().startsWith("BASIC")) {
-
-	    String[] authTuple = authTupleFromAuthHeader(authHeader);
-	    if (authTuple.length == 2) {
-		String username = authTuple[0];
-		String password = authTuple[1];
-
-		if (authenticate(username, password) && isUserAllowed(username)) {
-		    authenticatedUser = username;
-		} else {
-		    log_.info("failed authentication" + " from host: "
-			    + request.getRemoteAddr() + " with username: "
-			    + username);
-		}
-	    }
-	}
-	return authenticatedUser;
+    	String authHeader = request.getHeader("Authorization");
+    
+    	String authenticatedUser = null;
+    	if ((authHeader != null)
+    		&& authHeader.toUpperCase().startsWith("BASIC")) {
+    
+    	    String[] authTuple = authTupleFromAuthHeader(authHeader);
+    	    if (authTuple.length == 2) {
+    		String username = authTuple[0];
+    		String password = authTuple[1];
+    
+    		if (authenticate(username, password) && isUserAllowed(username)) {
+    		    authenticatedUser = username;
+    		} else {
+    		    log_.info("failed authentication" + " from host: "
+    			    + request.getRemoteAddr() + " with username: "
+    			    + username);
+    		}
+    	    }
+    	}
+    	return authenticatedUser;
     }
 
     private boolean isUserAllowed(String username) {
-	if (isAnonymousUser(username) && isAnonymousDisabled()) {
-	    return false;
-	} else if (isIndexUser(username)) {
-	    return false;
-	} else {
-	    return true;
-	}
+    	if (isAnonymousUser(username) && isAnonymousDisabled()) {
+    	    return false;
+    	} else if (isIndexUser(username)) {
+    	    return false;
+    	} else {
+    	    return true;
+    	}
     }
 
     private boolean authenticate(String username, String password) {
-	String lookupName = Authentication.class.getName();
-	Authentication authentication = (Authentication) beanFactory_
-		.getBean(lookupName);
-	return authentication.authenticate(username, password);
+    	String lookupName = Authentication.class.getName();
+    	Authentication authentication = (Authentication) beanFactory_
+    		.getBean(lookupName);
+    	return authentication.authenticate(username, password);
     }
 
     private String servletRelativeUri(HttpServletRequest request) {
-
-	String servletRequestUri = request.getPathInfo();
-
-	if (servletRequestUri.startsWith("/"))
-	    return servletRequestUri.substring(1);
-	else
-	    return servletRequestUri;
+    
+    	String servletRequestUri = request.getPathInfo();
+    
+    	if (servletRequestUri.startsWith("/"))
+    	    return servletRequestUri.substring(1);
+    	else
+    	    return servletRequestUri;
     }
 
     private String requestAsRedirectUri(HttpServletRequest request) {
-	// get the part after http://host:port
-	// without query string / parameter
-
-	// TODO: make this relative, use one of the servlet methods, AFAIK:
-	// /mindquarry-webapplication/servlet/dosomething?param=value
-	// getContextPath() + getServletPath() + getPathInfo() +
-	// getQueryString()
-	// (path info is empty)
-
-	return request.getRequestURI();
+    	// get the part after http://host:port
+    	// without query string / parameter
+    
+    	// TODO: make this relative, use one of the servlet methods, AFAIK:
+    	// /mindquarry-webapplication/servlet/dosomething?param=value
+    	// getContextPath() + getServletPath() + getPathInfo() +
+    	// getQueryString()
+    	// (path info is empty)
+    
+    	return request.getRequestURI();
     }
 }

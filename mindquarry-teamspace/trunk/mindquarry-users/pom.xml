@@ -27,15 +27,15 @@
 	</developers>
 	
 	<build>
-	       <plugins>
-	                <plugin>
+		<plugins>
+			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-users/</tagBase>
 				</configuration>
 			</plugin>
-	       </plugins>
+		</plugins>
 	</build>
 
 	<scm>
@@ -81,6 +81,12 @@
 			<version>${cocoon-core.version}</version>
 			<type>test-jar</type>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>servlet-api</artifactId>
+			<version>2.4</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>

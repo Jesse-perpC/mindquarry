@@ -15,11 +15,10 @@ package com.mindquarry.teamspace.manager;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.teamspace.CouldNotCreateTeamspaceException;
-import com.mindquarry.teamspace.Membership;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
+import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
@@ -56,30 +55,23 @@ public class TeamspaceAddMemberTest extends TeamspaceTestBase {
     }
 
     public void testAddUserToTeamspace() throws ServiceException,
-            TeamspaceAlreadyExistsException, CouldNotCreateTeamspaceException {
+            TeamspaceAlreadyExistsException, TeamspaceException {
         // please note, an admin users is created during setup
         TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
+        UserAdmin userAdmin = lookupUserAdmin();
         
         Teamspace team = teamsAdmin.teamspaceById(teamspaceId);
+        assertEquals(0, team.getUsers().size());
 
-        Membership membership = teamsAdmin.membership(team);
-        assertEquals(0, membership.getMembers().size());
-        assertEquals(1, membership.getNonMembers().size());
+        teamsAdmin.addMember(userAdmin.allUsers().iterator().next(), team);
 
-        membership.addMember(membership.getNonMembers().get(0));
-        teamsAdmin.updateMembership(membership);
-
-        Membership updatedMembership = teamsAdmin.membership(team);
-        assertEquals(1, updatedMembership.getMembers().size());
-        assertEquals(0, updatedMembership.getNonMembers().size());
-
+        Teamspace oneMemberTeam = teamsAdmin.teamspaceById(teamspaceId);
+        assertEquals(1, oneMemberTeam.getUsers().size());
+       
+        UserRO memberToRemove = oneMemberTeam.getUsers().iterator().next();
+        teamsAdmin.removeMember(memberToRemove, oneMemberTeam);
         
-        UserRO memberToRemove = updatedMembership.getMembers().get(0);
-        updatedMembership.removeMember(memberToRemove);
-        teamsAdmin.updateMembership(updatedMembership);
-
-        Membership originalMembership = teamsAdmin.membership(team);
-        assertEquals(0, originalMembership.getMembers().size());
-        assertEquals(1, updatedMembership.getNonMembers().size());
+        Teamspace emptyTeam = teamsAdmin.teamspaceById(teamspaceId);
+        assertEquals(0, emptyTeam.getUsers().size());
     }
 }

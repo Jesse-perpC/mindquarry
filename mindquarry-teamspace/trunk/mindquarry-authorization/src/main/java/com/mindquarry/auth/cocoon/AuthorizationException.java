@@ -18,7 +18,7 @@ package com.mindquarry.auth.cocoon;
  *         Alexander Klimetschek</a>
  *
  */
-public class AuthorizationException extends Exception {
+public class AuthorizationException extends RuntimeException {
 
     private static final long serialVersionUID = -6887647765941173457L;
 

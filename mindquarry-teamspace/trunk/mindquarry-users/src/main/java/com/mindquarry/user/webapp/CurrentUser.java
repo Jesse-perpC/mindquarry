@@ -11,22 +11,25 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.auth;
-
-import com.mindquarry.user.AbstractUserRO;
+package com.mindquarry.user.webapp;
 
 /**
- * Check if a particular user is privileged to fulfil 
- * an operation at a resource.
+ * Add summary documentation here.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface AuthorizationCheck {
+public class CurrentUser {
     
-    public static final String ROLE = AuthorizationCheck.class.getName();
+    public static final String ROLE = CurrentUser.class.getName();
+    
+    private String id = null;
 
-    boolean mayPerform(String resource, String operation, String userId);
-    
-    boolean mayPerform(String resource, String operation, AbstractUserRO user);
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 }

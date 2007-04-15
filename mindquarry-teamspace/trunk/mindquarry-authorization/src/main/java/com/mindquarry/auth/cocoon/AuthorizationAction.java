@@ -24,7 +24,7 @@ import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
-import com.mindquarry.teamspace.Authorisation;
+import com.mindquarry.auth.AuthorizationCheck;
 
 /**
  * An action that handles REST-style authorisation.
@@ -93,7 +93,7 @@ public class AuthorizationAction extends ServiceableAction implements ThreadSafe
             throw new AuthorizationException("Authorisation failed because no authenticated user avaiable.");
         }
         
-        if (lookupAuthorisation().authorise(username, uri, method)) {
+        if (lookupAuthorisation().mayPerform(uri, method, username)) {
             // authorised. just return without entering a sub-pipeline
             return null;
         }
@@ -103,7 +103,7 @@ public class AuthorizationAction extends ServiceableAction implements ThreadSafe
                 + "' with method '" + method + "' on '" + uri + "'");
     }
 
-    private Authorisation lookupAuthorisation() throws ServiceException {
-        return (Authorisation) manager.lookup(Authorisation.class.getName());
+    private AuthorizationCheck lookupAuthorisation() throws ServiceException {
+        return (AuthorizationCheck) manager.lookup(AuthorizationCheck.ROLE);
     }
 }

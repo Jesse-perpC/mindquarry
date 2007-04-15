@@ -11,22 +11,25 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.auth;
+package com.mindquarry.auth.manager;
 
-import com.mindquarry.user.AbstractUserRO;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 /**
- * Check if a particular user is privileged to fulfil 
- * an operation at a resource.
+ * Add summary documentation here.
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface AuthorizationCheck {
-    
-    public static final String ROLE = AuthorizationCheck.class.getName();
+class ResourceUtil {
 
-    boolean mayPerform(String resource, String operation, String userId);
-    
-    boolean mayPerform(String resource, String operation, AbstractUserRO user);
+    static List<String> pathItems(String resourceUri) {
+        if (resourceUri == null || resourceUri.length() == 0)
+            return Collections.emptyList();
+        
+        String preparedUri = resourceUri.replaceFirst("/", "");
+        return Arrays.asList(preparedUri.split("/"));
+    }
 }

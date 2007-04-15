@@ -14,25 +14,41 @@
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 cocoon.load("flows/upload-photo.js");
 
-var teamspaceQuery_;
-var membership_;
+importClass(Packages.java.util.ArrayList);
+
+importClass(Packages.com.mindquarry.teamspace.TeamspaceAdmin);
+importClass(Packages.com.mindquarry.teamspace.TeamspaceQuery);
+importClass(Packages.com.mindquarry.user.UserQuery);
+
+var teamsQuery_;
+var userQuery_;
+
+var editedTeamId_;
+var removedUsers_;
+var addedUsers_;
+
 var model_;
 var form_;
 
 function processEditMembersForm(form) {
-	var teamspaceId = cocoon.parameters["teamId"];
+	editedTeamId_ = cocoon.parameters["teamId"];
 	var redirectURL = cocoon.parameters["redirectURL"];
 
-	teamspaceQuery_ = cocoon.getComponent(Packages.com.mindquarry.teamspace.TeamspaceQuery.ROLE);
+	teamsQuery_ = cocoon.getComponent(TeamspaceQuery.ROLE);
+	userQuery_ = cocoon.getComponent(UserQuery.ROLE);
 	
-	var editedTeamspace = teamspaceQuery_.teamspaceById(teamspaceId);	
-	membership_ = teamspaceQuery_.membership(editedTeamspace);
+	var editedTeam = teamsQuery_.teamspaceById(editedTeamId_);
+	var members = editedTeam.getUsers();
+	var nonMembers = findNonMembers(members, userQuery_.allUsers());
+	
+	removedUsers_ = new ArrayList();
+	addedUsers_ = new ArrayList();
 	
 	model_ = form.getModel();
 	form_ = form;
-	model_.teamspaceName = editedTeamspace.name;
+	model_.teamspaceName = editedTeam.name;
 	
-	loadModelWithMembership();
+	loadModelWithMembership(members, nonMembers);
 	
 	activateEditMembersForm();
 	setCreateUserEmbeddedMode();
@@ -41,26 +57,41 @@ function processEditMembersForm(form) {
 	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }
 
-function loadModelWithMembership() {
+function findNonMembers(members, allUsers) {
+	var nonMembers = new ArrayList();
+	for (var it = allUsers.iterator(); it.hasNext(); ) {	
+		var user = it.next();
+		if (! members.contains(user)) {
+			nonMembers.add(user);
+		}
+	}
+	return nonMembers;
+}
+
+function loadModelWithMembership(members, nonMembers) {
 
 	var editModel = model_.editMembersModel;
-	
-	var members = membership_.getMembers();
-		
-	for (var i = 0; i < members.size(); i++) {
-		editModel.members[i].userId = members.get(i).id;
-		editModel.members[i].name = members.get(i).name;
-		editModel.members[i].surname = members.get(i).surname;
-		editModel.members[i].skills = members.get(i).skills;
+
+	var i = 0;
+	var it = members.iterator()
+	while (it.hasNext()) {	
+		var member = it.next();
+		editModel.members[i].userId = member.id;
+		editModel.members[i].name = member.name;
+		editModel.members[i].surname = member.surname;
+		editModel.members[i].skills = member.skills;
+		i++;
 	}
 	
-	var nonMembers = membership_.getNonMembers();
-		
-	for (var i = 0; i < nonMembers.size(); i++) {
-		editModel.nonMembers[i].userId = nonMembers.get(i).id;
-		editModel.nonMembers[i].name = nonMembers.get(i).name;
-		editModel.nonMembers[i].surname = nonMembers.get(i).surname;
-		editModel.nonMembers[i].skills = nonMembers.get(i).skills;
+	i = 0;
+	var it = nonMembers.iterator();	
+	while (it.hasNext()) {	
+		var nonMember = it.next();
+		editModel.nonMembers[i].userId = nonMember.id;
+		editModel.nonMembers[i].name = nonMember.name;
+		editModel.nonMembers[i].surname = nonMember.surname;
+		editModel.nonMembers[i].skills = nonMember.skills;
+		i++;
 	}
 }
 
@@ -127,7 +158,44 @@ function setCreateUserEmbeddedMode() {
 }
 
 function saveMembershipChanges(event) {
-	teamspaceQuery_.updateMembership(membership_);
+	
+	print("save");
+	var userQuery = cocoon.getComponent(UserQuery.ROLE);
+	var teamAdmin = cocoon.getComponent(TeamspaceAdmin.ROLE);
+	
+	var editedTeam = teamAdmin.teamspaceById(editedTeamId_);	
+	var members = editedTeam.getUsers();
+	
+	print("amount: " + addedUsers_.size());
+	
+	for (var i = 0; i < addedUsers_.size(); i++) {
+		var userId = addedUsers_.get(i);
+		var user = userQuery.userById(userId);
+		print("added " + userId);
+		if (! members.contains(user)) {
+			print("new member: " + userId);
+			teamAdmin.addMember(user, editedTeam);
+			print("2 new member: " + userId);
+		}
+	}
+	
+	for (var i = 0; i < removedUsers_.size(); i++) {
+		var userId = removedUsers_.get(i);
+		var user = userQuery.userById(userId);
+		print("removed userId");
+		if (members.contains(user)) {			
+			teamAdmin.removeMember(user, editedTeam);
+			print("old member userId");
+		}
+	}
+}
+
+function memberIds(members) {
+	var memberIds = new ArrayList();
+	for (var i = 0; i < members.size(); i++) {
+		memberIds.add(members.get(i).getId());
+	}
+	return memberIds;
 }
 
 function removeMember(event) {
@@ -148,16 +216,28 @@ function addMember(event) {
 	addUserToMembers(modelUser);
 }
 
-function removeUserFromMembers(user) {
+function removeUserFromMembers(modelUser) {
 	var editModel = model_.editMembersModel;
 	
-	membership_.removeMember(user.userId);
-	addUserToEndOfList(user, editModel.nonMembers);
+	var userId = modelUser.userId;
+		
+	if (addedUsers_.contains(userId))
+		addedUsers_.remove(userId);
+	else
+		removedUsers_.add(modelUser.userId);
+		
+	addUserToEndOfList(modelUser, editModel.nonMembers);
 }
 
-function addUserToMembers(user) {
-	membership_.addMember(user.userId);
-	addUserToEndOfList(user, model_.editMembersModel.members);
+function addUserToMembers(modelUser) {
+	var userId = modelUser.userId;
+
+	if (removedUsers_.contains(userId))
+		removedUsers_.remove(userId);
+	else
+		addedUsers_.add(modelUser.userId);
+	
+	addUserToEndOfList(modelUser, model_.editMembersModel.members);
 }
 
 function addUserToEndOfList(user, list) {

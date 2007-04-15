@@ -15,11 +15,10 @@ package com.mindquarry.teamspace.manager;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.teamspace.CouldNotCreateTeamspaceException;
-import com.mindquarry.teamspace.CouldNotRemoveTeamspaceException;
 import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceAlreadyExistsException;
+import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
@@ -27,8 +26,7 @@ import com.mindquarry.user.UserAdmin;
 public class TeamspacePropertiesTest extends TeamspaceTestBase {
 
     public void testProperties() throws ServiceException,
-            TeamspaceAlreadyExistsException, CouldNotCreateTeamspaceException,
-            CouldNotRemoveTeamspaceException {
+            TeamspaceAlreadyExistsException, TeamspaceException {
 
         TeamspaceAdmin teamsAdmin = lookupTeamspaceAdmin();
         UserAdmin userAdmin = lookupUserAdmin();

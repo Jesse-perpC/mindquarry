@@ -397,9 +397,7 @@
 			
 			
 			<!-- single teamspace details -->
-			<match pattern="team/*/">
-				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
-				
+			<match pattern="team/*/">				
 				<generate src="model://TeamQuery#teamspaceById({1})" label="content" />
 								
 				<transform src="xslt/includeMembersForTeamspace.xsl" />
@@ -446,7 +444,6 @@
 			</match>
 			
 			<match pattern="*/editMembers/">
-				<act type="authorise" src="jcr:///teamspaces/{1}/editMember/"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
@@ -460,7 +457,6 @@
 			
 			<!-- used in teamspace detail view -->
 			<match pattern="*/editMembersFromDetailsView/">
-				<act type="authorise" src="jcr:///teamspaces/{1}/editMember/"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
@@ -474,7 +470,6 @@
 
 			<!-- creating users and teamspace / use noncaching pipeline -->
 			<match pattern="createUser/">
-				<act type="authorise" src="jcr:///users"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processCreateUser" />
@@ -488,7 +483,6 @@
 			</match>
 			
 			<match pattern="*/createUserFromDetailsView/">
-				<act type="authorise" src="jcr:///users"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processCreateUser" />
@@ -502,7 +496,6 @@
 			</match>
 			
 			<match pattern="editUser/">
-				<act type="authorise" src="jcr:///users/editUser"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditUser" />
@@ -514,7 +507,6 @@
 			</match>
 
 			<match pattern="createTeamspace/">
-				<act type="authorise" src="jcr:///teamspaces"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processCreateTeamspaceForm" />
@@ -528,7 +520,6 @@
 			</match>
 
 			<match pattern="*/edit/">
-				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditTeamspaceForm" />
@@ -544,7 +535,6 @@
 			
 			<!-- used in teamspace detail view -->
 			<match pattern="*/editFromDetailsView/">
-				<act type="authorise" src="jcr:///teamspaces/{1}/metadata"/>
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditTeamspaceForm" />

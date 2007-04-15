@@ -33,14 +33,4 @@ public interface TeamspaceQuery {
     Collection<? extends TeamspaceRO> teamspacesForUser(String userId);
     
     TeamspaceRO teamspaceById(String teamspaceId);
-    
-    Membership membership(TeamspaceRO teamspace);
-    
-    /**
-     * update the current members of a teamspace
-     * @param membership, contains lists of up to date members 
-     * and users that should be members after update
-     * @returns 
-     */
-    Membership updateMembership(Membership membership);
 }

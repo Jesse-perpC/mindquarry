@@ -14,7 +14,6 @@
 package com.mindquarry.auth.manager;
 
 import com.mindquarry.auth.ActionRO;
-import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.persistence.api.Entity;
 import com.mindquarry.persistence.api.Id;
 import com.mindquarry.user.AbstractUserRO;
@@ -23,12 +22,10 @@ import com.mindquarry.user.manager.AbstractUserSet;
 
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-@Entity(parentFolder="rights")
+@Entity(parentFolder="actions")
 public final class ActionEntity implements ActionRO {
     
     @Id public String id;
@@ -53,7 +50,7 @@ public final class ActionEntity implements ActionRO {
         return operation;
     }
 
-    public ResourceRO getResource() {
+    public ResourceEntity getResource() {
         return resource;
     }
 

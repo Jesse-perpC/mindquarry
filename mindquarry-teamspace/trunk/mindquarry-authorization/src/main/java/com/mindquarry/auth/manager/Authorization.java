@@ -13,18 +13,22 @@
  */
 package com.mindquarry.auth.manager;
 
+import static com.mindquarry.auth.Operations.defaultOperations;
+import static com.mindquarry.auth.manager.ResourceUtil.pathItems;
 import static com.mindquarry.common.lang.StringUtil.concat;
 
-import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 
 import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
+import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.UserQuery;
+import com.mindquarry.user.UserRO;
+import com.mindquarry.user.manager.DefaultUsers;
 
 
 /**
@@ -55,18 +59,31 @@ public class Authorization implements AuthorizationAdmin {
         return sessionFactory_.currentSession();
     }
     
-    private ResourceEntity getRoot() {
-        Session session = currentSession();        
+    public ResourceEntity getResourceRoot() {
+        Session session = currentSession();
         List<Object> queryResult = session.query("getResourceById", "root");
+        session.commit();
         
-        if (queryResult.isEmpty()) {
-            ResourceEntity root = new ResourceEntity("root", "root");
-            session.persist(root);
-            return root;
-        }
-        else {
+        if (queryResult.isEmpty())
+            return createAndInitializeResourceRoot();
+        else
             return (ResourceEntity) queryResult.get(0);
+    }
+    
+    private ResourceEntity createAndInitializeResourceRoot() {
+        ResourceEntity root = new ResourceEntity("root", "", null);
+        currentSession().persist(root);
+        currentSession().commit();
+        
+        // allow admin to execute default operations on all resources
+        // the right list will become non-empty. hence, other users
+        // will be unauthorized by default
+        UserRO admin = userQuery.userById(DefaultUsers.adminLogin());
+        for (String operation : defaultOperations()) {
+            ActionRO action = createAction(root, operation);
+            addAllowance(action, admin);
         }
+        return root;
     }
 
     public boolean mayPerform(
@@ -79,25 +96,22 @@ public class Authorization implements AuthorizationAdmin {
     public boolean mayPerform(
             String resourceUri, String operation, AbstractUserRO user) {
         
-        Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();
+        Iterator<ResourceEntity> resourceIt = 
+            getResourceRoot().iteratePath(resourceUri);
         
-        ResourceEntity resource = getRoot();;
         boolean result = true;
         boolean isEmptyRightList = true;
         
-        while (pathItemsIt.hasNext()) {
-            String pathItem = pathItemsIt.next();            
-            if (! resource.hasChild(pathItem)) {
-                break;
-            }
+        while (resourceIt.hasNext()) {
             
-            ResourceEntity child = resource.getChild(pathItem);
-            if (isEmptyRightList && child.hasActions()) {
+            ResourceEntity resource = resourceIt.next();
+            
+            if (isEmptyRightList && resource.hasActions()) {
                 isEmptyRightList = false;
                 result = false;
             }
             
-            ActionEntity right = child.actionForOperation(operation);
+            ActionEntity right = resource.actionForOperation(operation);
             if (right != null) {
                 if (right.isAccessAllowed(user)) {
                     result = true;
@@ -106,68 +120,117 @@ public class Authorization implements AuthorizationAdmin {
                     result = false;
                 }
             }
-            resource = child;
         }
         
         currentSession().commit();
         return result;
+    }
+    
+    public void deleteResource(String resourceUri) {
+        ResourceEntity resource = findResource(resourceUri);
+        if (resource != null) {
+            Session session = currentSession();            
+            for (ResourceEntity child : resource.getChildrenDeep()) {
+                for (ActionRO action : child.getActions())
+                    session.delete(action);
+                session.delete(child);
+            }
+
+            for (ActionRO action : resource.getActions())
+                session.delete(action);
+            
+            ResourceEntity parent = resource.parent;
+            session.delete(resource);
+            
+            if (parent != null)
+                findAndDeleteObsoleteResources(parent);
+        }
+        currentSession().commit();
+    }
+    
+    private void findAndDeleteObsoleteResources(ResourceEntity resource) {
+        while (resource.isObsolete()) {
+            // remove child entry from parent 
+            // ensuring integrity
+            ResourceEntity parent = resource.parent;
+            currentSession().delete(resource);
+            
+            if (parent == null) {
+                break;
+            }
+            else {
+                currentSession().update(parent);            
+                resource = parent;
+            }
+        }
     }
 
     public ActionEntity createAction(String resourceUri, String operation) {
-        return createAction(null, resourceUri, operation);
+        ResourceEntity resource = findOrCreateResource(resourceUri);
+        return createAction(resource, operation);
     }
 
-    public ActionEntity createAction(
-            String id, String resourceUri, String operation) {        
-                
-        ResourceEntity resource = navigateToResource(resourceUri);
+    public ActionEntity createAction(ResourceRO resource, String operation) {
         
-        if (id == null)
-            id = concat(resource.id, "_", operation);
-                
-        ActionEntity result = new ActionEntity(id, resource, operation);
-        resource.addAction(result);
+        ResourceEntity resourceEntity = (ResourceEntity) resource;
         
+        String id = concat(resourceEntity.id, "_", operation);                
+        ActionEntity action = new ActionEntity(id, resourceEntity, operation);        
+        resourceEntity.addAction(action);
+        
+        Session session = currentSession();
+        session.persist(action);
         currentSession().update(resource);
         currentSession().commit();
+        
+        return action;
+    }
+    
+    public void deleteAction(ActionRO action) {        
+        ActionEntity actionEntity = (ActionEntity) action;        
+        ResourceEntity resource = actionEntity.getResource();
+        resource.removeRight(actionEntity);
+        
+        currentSession().delete(action);        
+        //findAndDeleteObsoleteResources(resource);
+        
+        currentSession().commit();
+    }
+    
+    private ResourceEntity findResource(String resourceUri) {
+        Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();        
+        
+        ResourceEntity result = getResourceRoot();
+        while (pathItemsIt.hasNext()) {
+            String pathItem = pathItemsIt.next();
+            
+            if (result.hasChild(pathItem)) {
+                result = result.getChild(pathItem);
+            }
+            else {
+                result = null;
+                break;
+            }
+        }
         return result;
     }
     
-    public void deleteAction(ActionRO action) {
-        currentSession().delete(action);
-        currentSession().commit();
-    }
-    
-    private List<String> pathItems(String resourceUri) {
-        String preparedUri = resourceUri.replaceFirst("/", "");
-        return Arrays.asList(preparedUri.split("/"));
-    }
-    
-    private ResourceEntity navigateToResource(String resourceUri) {
-        Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();        
-        return navigateToResource(getRoot(), resourceUri, pathItemsIt);
-    }
-    
-    private ResourceEntity navigateToResource(ResourceEntity parent, 
-            String resourceUri, Iterator<String> pathItemsIt) {
+    private ResourceEntity findOrCreateResource(String resourceUri) {
+        Iterator<String> pathItemsIt = pathItems(resourceUri).iterator();
         
-        ResourceEntity result;
-        if (! pathItemsIt.hasNext()) { 
-            result = parent;
-        }
-        else {
+        ResourceEntity result = getResourceRoot();
+        while (pathItemsIt.hasNext()) {
             String pathItem = pathItemsIt.next();
             
-            ResourceEntity child;
-            if (parent.hasChild(pathItem)) {
-                child = parent.getChild(pathItem);
+            if (result.hasChild(pathItem)) {
+                result = result.getChild(pathItem);
             }
             else {
-                child = parent.addChild(pathItem);
-                currentSession().update(parent);
+                ResourceEntity child = result.addChild(pathItem);
+                currentSession().persist(child);
+                currentSession().update(result);
+                result = child;
             }
-            
-            result = navigateToResource(child, resourceUri, pathItemsIt);
         }
         return result;
     }

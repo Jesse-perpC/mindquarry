@@ -13,6 +13,10 @@
  */
 package com.mindquarry.auth.manager;
 
+import static com.mindquarry.auth.Operations.READ;
+import static com.mindquarry.auth.Operations.WRITE;
+import static com.mindquarry.user.manager.DefaultUsers.adminLogin;
+
 import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
 import com.mindquarry.auth.AuthorizationCheck;
@@ -81,52 +85,41 @@ public class AuthorizationTest extends AuthorizationTestBase {
         
         final String resource = "/teamspaces/foo-team";
         
-        final String readOperation = "READ";
-        final String writeOperation = "WRITE";
-        
         UserRO user = userQuery.userById(fooUserId);
-        ActionRO action = authAdmin.createAction(resource, readOperation);
+        ActionRO action = authAdmin.createAction(resource, READ);
         authAdmin.addAllowance(action, user);
         
-        assertTrue(authCheck.mayPerform(resource, readOperation, user));
-        assertFalse(authCheck.mayPerform(resource, writeOperation, user));
+        assertTrue(authCheck.mayPerform(resource, READ, user));
+        assertFalse(authCheck.mayPerform(resource, WRITE, user));
         
         authAdmin.deleteAction(action);
     }
     
-    public void testResourceTree() {
-        final String readOperation = "READ";
-        final String writeOperation = "WRITE";
-        
+    public void testResourceTree() {        
         String higherLevelResource = "/teamspaces";
         String explicitGrantedResource = "/teamspaces/foo-team";
         String implicitGrantedResource = "/teamspaces/foo-team/wiki";
         
+        UserRO admin = userQuery.userById(adminLogin());
         UserRO user1 = userQuery.userById(user1Id);
-        UserRO user2 = userQuery.userById(user2Id);
-        ActionRO action = authAdmin.createAction(explicitGrantedResource, readOperation);
+        ActionRO action = authAdmin.createAction(explicitGrantedResource, READ);
         authAdmin.addAllowance(action, user1);
         
-        assertTrue(authAdmin.mayPerform(higherLevelResource, readOperation, user1));
-        assertTrue(authAdmin.mayPerform(higherLevelResource, writeOperation, user1));
-        assertTrue(authAdmin.mayPerform(higherLevelResource, readOperation, user2));
-        assertTrue(authAdmin.mayPerform(higherLevelResource, writeOperation, user2));
+        assertTrue(authAdmin.mayPerform(higherLevelResource, READ, admin));
+        assertTrue(authAdmin.mayPerform(higherLevelResource, WRITE, admin));
+        assertFalse(authAdmin.mayPerform(higherLevelResource, READ, user1));
+        assertFalse(authAdmin.mayPerform(higherLevelResource, WRITE, user1));
         
-        assertTrue(authAdmin.mayPerform(explicitGrantedResource, readOperation, user1));
-        assertFalse(authAdmin.mayPerform(explicitGrantedResource, writeOperation, user1));
-        assertFalse(authAdmin.mayPerform(explicitGrantedResource, readOperation, user2));
-        assertFalse(authAdmin.mayPerform(explicitGrantedResource, writeOperation, user2));
+        assertTrue(authAdmin.mayPerform(explicitGrantedResource, READ, user1));
+        assertFalse(authAdmin.mayPerform(explicitGrantedResource, WRITE, user1));
         
-        assertTrue(authAdmin.mayPerform(implicitGrantedResource, readOperation, user1));
-        assertFalse(authAdmin.mayPerform(implicitGrantedResource, writeOperation, user1));
-        assertFalse(authAdmin.mayPerform(implicitGrantedResource, readOperation, user2));
-        assertFalse(authAdmin.mayPerform(implicitGrantedResource, writeOperation, user2));
+        assertTrue(authAdmin.mayPerform(implicitGrantedResource, READ, user1));
+        assertFalse(authAdmin.mayPerform(implicitGrantedResource, WRITE, user1));
         
         authAdmin.deleteAction(action);
     }
     
     public void testDeniedRights() {
-        String operation = "READ";
         UserRO user1 = userQuery.userById(user1Id);
         UserRO user2 = userQuery.userById(user2Id);
         
@@ -134,37 +127,36 @@ public class AuthorizationTest extends AuthorizationTestBase {
         String fooTeamspaceWiki = "/teamspaces/foo-team/wiki";
         String fooTeamspaceTasks = "/teamspaces/foo-team/tasks";
         
-        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, operation);
+        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, READ);
         authAdmin.addAllowance(fooReadAction, user1);
         authAdmin.addAllowance(fooReadAction, user2);
                 
-        ActionRO fooWikiAction = authAdmin.createAction(fooTeamspaceWiki, operation);
-        authAdmin.addDenial(fooWikiAction, user2);
+        ActionRO fooReadWikiAction = authAdmin.createAction(fooTeamspaceWiki, READ);
+        authAdmin.addDenial(fooReadWikiAction, user2);
         
-        assertTrue(authAdmin.mayPerform(fooTeamspace, operation, user1));
-        assertTrue(authAdmin.mayPerform(fooTeamspace, operation, user2));
+        assertTrue(authAdmin.mayPerform(fooTeamspace, READ, user1));
+        assertTrue(authAdmin.mayPerform(fooTeamspace, READ, user2));
         
-        assertTrue(authAdmin.mayPerform(fooTeamspaceTasks, operation, user1));
-        assertTrue(authAdmin.mayPerform(fooTeamspaceTasks, operation, user2));
+        assertTrue(authAdmin.mayPerform(fooTeamspaceTasks, READ, user1));
+        assertTrue(authAdmin.mayPerform(fooTeamspaceTasks, READ, user2));
         
-        assertTrue(authAdmin.mayPerform(fooTeamspaceWiki, operation, user1));
-        assertFalse(authAdmin.mayPerform(fooTeamspaceWiki, operation, user2));
+        assertTrue(authAdmin.mayPerform(fooTeamspaceWiki, READ, user1));
+        assertFalse(authAdmin.mayPerform(fooTeamspaceWiki, READ, user2));
         
         authAdmin.deleteAction(fooReadAction);
-        authAdmin.deleteAction(fooWikiAction);
+        authAdmin.deleteAction(fooReadWikiAction);
     }    
     
     public void testGroupAllowances() {
-        final String operation = "READ";
         final UserRO fooUser = userQuery.userById(fooUserId);
         final RoleRO fooRole = userQuery.roleById(fooRoleId);
         
         String fooTeamspace = "/teamspaces/foo-team";
         
-        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, operation);        
+        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, READ);        
         authAdmin.addAllowance(fooReadAction, fooRole);
                 
-        assertTrue(authAdmin.mayPerform(fooTeamspace, operation, fooUser));
+        assertTrue(authAdmin.mayPerform(fooTeamspace, READ, fooUser));
         
         authAdmin.deleteAction(fooReadAction);
     }

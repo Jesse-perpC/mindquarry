@@ -17,14 +17,14 @@ import java.util.Collection;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.teamspace.TeamspaceTestBase;
 import com.mindquarry.user.Authentication;
 import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
+import com.mindquarry.user.UserTestBase;
 
-public class UserManagerTest extends TeamspaceTestBase {
+public class UserManagerTest extends UserTestBase {
     
     public void testMd5Password() throws ServiceException {
         // please note, an admin users is created within the initialize method
