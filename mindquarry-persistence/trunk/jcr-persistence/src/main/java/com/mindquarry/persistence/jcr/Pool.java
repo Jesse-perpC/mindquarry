@@ -41,14 +41,28 @@ public class Pool {
         store_.clear();
     }
     
-    public JcrNode nodeByEntity(Object entity) {
-        String key = keyFromEntity(entity);
-        return store_.get(key).entityNode;
+    public void allocate(Object entity) {
+        entryByEntity(entity).inUse = true;
     }
     
-    public Object entityByNode(JcrNode entityNode) {
-        String key = keyFromNode(entityNode);
-        return store_.get(key).entity;
+    public boolean isAllocated(Object entity) {
+        return entryByEntity(entity).inUse;
+    }
+    
+    public void release(Object entity) {
+        entryByEntity(entity).inUse = false;
+    }
+    
+    public boolean isReleased(Object entity) {
+        return ! entryByEntity(entity).inUse;
+    }
+    
+    public JcrNode nodeByEntity(Object entity) {
+        return entryByEntity(entity).entityNode;
+    }
+    
+    public Object entityByNode(JcrNode node) {
+        return entryByNode(node).entity;
     }
     
     public Object put(Object entity, JcrNode jcrNode) {
@@ -58,11 +72,23 @@ public class Pool {
     }
     
     public boolean containsEntryForEntity(Object entity) {
-        return store_.containsKey(keyFromEntity(entity));
+        return entryByEntity(entity) != null;
     }
     
     public boolean containsEntryForNode(JcrNode node) {
-        return store_.containsKey(keyFromNode(node));
+        return entryByNode(node) != null;
+    }
+    
+    private Entry entryByNode(JcrNode node) {
+        return entryByKey(keyFromNode(node));
+    }
+    
+    private Entry entryByEntity(Object entity) {
+        return entryByKey(keyFromEntity(entity));
+    }
+    
+    private Entry entryByKey(String key) {
+        return store_.get(key);
     }
     
     private String keyFromEntity(Object entity) {
@@ -87,8 +113,10 @@ public class Pool {
 
         Object entity;        
         JcrNode entityNode;
+        boolean inUse;
         
         Entry(Object entity, JcrNode entityNode) {
+            this.inUse = false;
             this.entity = entity;
             this.entityNode = entityNode;
         }

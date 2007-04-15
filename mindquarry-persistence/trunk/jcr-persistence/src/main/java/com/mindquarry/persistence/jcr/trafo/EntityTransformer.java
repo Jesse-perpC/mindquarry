@@ -89,25 +89,20 @@ public class EntityTransformer implements Transformer {
         JcrSession session = entityNode.getSession();
         Pool pool = session.getPool();
         
-        boolean isInitiator = session.getAttribute("WriteStarted") == null;
-        if (isInitiator)
-            session.setAttribute("WriteStarted", "true");
-        
-        if (pool.containsEntryForEntity(entity)) {
-            entityNode = pool.nodeByEntity(entity);
-            if (isInitiator)
-                writeToJcrInternal(entity, entityNode);
-        }
-        else {            
+        boolean isPooled = pool.containsEntryForEntity(entity);
+        boolean hasToBeWritten = ! isPooled || 
+                    (isPooled && pool.isReleased(entity));
+
+        if (hasToBeWritten) {
             // we fill the cache before we start to transform, so that we 
             // can use the cache if we have to re-write entity within the
-            // same "user write", i.e. within cyclic dependencies
-            pool.put(entity, entityNode);            
-            writeToJcrInternal(entity, entityNode);            
+            // same "user write", i.e. within cyclic dependencies.        
+            // For ease, we just overwrite existing entries.
+            pool.put(entity, entityNode);
+            pool.allocate(entity);
+            writeToJcrInternal(entity, entityNode);      
+            pool.release(entity);  
         }
-        
-        if (isInitiator)
-            session.setAttribute("WriteStarted", null);
     }
     
     private void writeToJcrInternal(Object entity, JcrNode entityNode) {
