@@ -94,6 +94,15 @@ public class EntityType {
         }
     }
     
+    /**
+     * creates an id for an entity instance that is unique
+     * for the persistence model in the persistence environment, 
+     * i.e. for all configured entity types in the jcr backend working on
+     */
+    public String peristenceUniqueId(Object entity) {
+        return concat(parentFolder(), "_", getId(entity));
+    }
+    
     public String getId(Object entity) {
         return entityId_.getValue(entity);
     }
