@@ -86,22 +86,27 @@ class ParametrizedMapTransformer implements Transformer {
         }
     }
 
-    public void writeToJcr(Object object, JcrNode jcrNode) {
+    public void writeToJcr(Object object, JcrNode mapNode) {
         Map<Object, Object> map = (Map<Object, Object>) object;
-        JcrNodeIterator collectionNodeIt = jcrNode.getNodes();
+        JcrNodeIterator collectionNodeIt = mapNode.getNodes();
         
         for (Entry<Object, Object> entry : map.entrySet()) {
             
-            JcrNode entryNode;
-            if (collectionNodeIt.hasNext())
-                entryNode = collectionNodeIt.next();
-            else
-                entryNode = jcrNode.addNode("entry", "xt:element");
+            JcrNode keyNode;
+            JcrNode valueNode;
             
-            JcrNode keyNode = entryNode.addNode("key", "xt:element");
+            if (collectionNodeIt.hasNext()) {
+                JcrNode entryNode = collectionNodeIt.next();
+                keyNode = entryNode.getNode("key");
+                valueNode = entryNode.getNode("value");
+            }
+            else {
+                JcrNode entryNode = mapNode.addNode("entry", "xt:element");
+                keyNode = entryNode.addNode("key", "xt:element");
+                valueNode = entryNode.addNode("value", "xt:element");
+            }
+            
             keyTransformer_.writeToJcr(entry.getKey(), keyNode);
-            
-            JcrNode valueNode = entryNode.addNode("value", "xt:element");
             valueTransformer_.writeToJcr(entry.getValue(), valueNode);
         }
         
