@@ -3,6 +3,7 @@
  */
 package com.mindquarry.user.manager;
 
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -27,6 +28,9 @@ public class DefaultUsers {
     static final String[] ANONYMOUS_USER = 
                         {"anonymous", "anonymous", "Anonymous User"};
     
+    public static final String USERS_ROLE = "users";
+    public static final String EVERYONE_ROLE = "everyone";
+    
     public static String adminLogin() {
         return login(ADMIN_USER);
     }
@@ -34,7 +38,7 @@ public class DefaultUsers {
     // the ANONYMOUS_USER is not always part of the default users
     // the mindquarry server admin can configure 
     // whether or not anonymous should be enabled    
-    public static List<String[]> defaultUsers() {
+    public static Collection<String[]> defaultUsers() {
         List<String[]> result = new LinkedList<String[]>();
         
         result.add(ADMIN_USER);
@@ -43,6 +47,27 @@ public class DefaultUsers {
         if (isAnonymousEnabled())
             result.add(ANONYMOUS_USER);
         
+        return result;
+    }
+        
+    public static Collection<String> defaultRoles() {
+        Collection<String> result = new LinkedList<String>();        
+        result.add(USERS_ROLE);
+        result.add(EVERYONE_ROLE);       
+        return result;
+    }
+        
+    public static Collection<String[]> defaultRoleUsers(String role) {
+        Collection<String[]> result = new LinkedList<String[]>();
+        if (USERS_ROLE.equals(role)) {
+            result.add(INDEX_USER);
+        }
+        else if (EVERYONE_ROLE.equals(role)) {
+            result.add(ADMIN_USER);
+            result.add(INDEX_USER);
+            if (isAnonymousEnabled())
+                result.add(ANONYMOUS_USER);
+        }     
         return result;
     }
 
