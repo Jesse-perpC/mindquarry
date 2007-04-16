@@ -28,7 +28,7 @@ import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.UserQuery;
 import com.mindquarry.user.UserRO;
-import com.mindquarry.user.manager.DefaultUsers;
+import com.mindquarry.user.util.DefaultUsers;
 
 
 /**
@@ -65,12 +65,12 @@ public class Authorization implements AuthorizationAdmin {
         session.commit();
         
         if (queryResult.isEmpty())
-            return createAndInitializeResourceRoot();
+            return initializeAuthorization();
         else
             return (ResourceEntity) queryResult.get(0);
     }
     
-    private ResourceEntity createAndInitializeResourceRoot() {
+    private ResourceEntity initializeAuthorization() {
         ResourceEntity root = new ResourceEntity("root", "", null);
         currentSession().persist(root);
         currentSession().commit();
@@ -82,7 +82,7 @@ public class Authorization implements AuthorizationAdmin {
         for (String operation : defaultOperations()) {
             ActionRO action = createAction(root, operation);
             addAllowance(action, admin);
-        }
+        }        
         return root;
     }
 
@@ -174,7 +174,7 @@ public class Authorization implements AuthorizationAdmin {
         
         ResourceEntity resourceEntity = (ResourceEntity) resource;
         
-        String id = concat(resourceEntity.id, "_", operation);                
+        String id = actionId(resourceEntity, operation);
         ActionEntity action = new ActionEntity(id, resourceEntity, operation);        
         resourceEntity.addAction(action);
         
@@ -186,15 +186,36 @@ public class Authorization implements AuthorizationAdmin {
         return action;
     }
     
+    public ActionEntity actionBy(String resourceUri, String operation) {
+        ResourceEntity resource = findOrCreateResource(resourceUri);
+        ActionEntity action = resource.actionForOperation(operation);
+        
+        if (action == null) {
+            String id = actionId(resource, operation);
+            action = new ActionEntity(id, resource, operation);        
+            resource.addAction(action);
+            
+            currentSession().persist(action);
+            currentSession().update(resource);
+        }
+        
+        currentSession().commit();
+        return action;
+    }
+    
     public void deleteAction(ActionRO action) {        
         ActionEntity actionEntity = (ActionEntity) action;        
         ResourceEntity resource = actionEntity.getResource();
         resource.removeRight(actionEntity);
         
         currentSession().delete(action);        
-        //findAndDeleteObsoleteResources(resource);
+        findAndDeleteObsoleteResources(resource);
         
         currentSession().commit();
+    }
+
+    private String actionId(ResourceEntity resource, String operation) {
+        return concat(resource.id, "_", operation);
     }
     
     private ResourceEntity findResource(String resourceUri) {
@@ -242,9 +263,14 @@ public class Authorization implements AuthorizationAdmin {
     }
 
     public void removeAllowance(ActionRO action, AbstractUserRO user) {
-        ((ActionEntity) action).removeAllowanceFor(user);
+        ActionEntity actionEntity = (ActionEntity) action;
+        actionEntity.removeAllowanceFor(user);
         currentSession().update(action);
         currentSession().commit();
+        
+        if (actionEntity.isObsolete()) {
+            deleteAction(actionEntity);
+        }        
     }
 
     public void addDenial(ActionRO action, AbstractUserRO user) {
@@ -254,8 +280,13 @@ public class Authorization implements AuthorizationAdmin {
     }
 
     public void removeDenial(ActionRO action, AbstractUserRO user) {
-        ((ActionEntity) action).removeDenialFor(user);
+        ActionEntity actionEntity = (ActionEntity) action;
+        actionEntity.removeDenialFor(user);
         currentSession().update(action);
         currentSession().commit();
+        
+        if (actionEntity.isObsolete()) {
+            deleteAction(actionEntity);
+        } 
     }
 }

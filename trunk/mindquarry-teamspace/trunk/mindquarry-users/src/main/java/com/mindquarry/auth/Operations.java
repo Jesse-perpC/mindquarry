@@ -28,4 +28,8 @@ public final class Operations {
     public static String[] defaultOperations() {
         return new String[] {READ, WRITE, CHANGE_RIGHTS};
     }
+    
+    public static String[] readWrite() {
+        return new String[] {READ, WRITE};
+    }
 }

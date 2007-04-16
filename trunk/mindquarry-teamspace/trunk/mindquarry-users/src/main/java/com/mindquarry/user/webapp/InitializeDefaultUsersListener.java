@@ -13,11 +13,6 @@
  */
 package com.mindquarry.user.webapp;
 
-import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
-import static com.mindquarry.user.manager.DefaultUsers.login;
-import static com.mindquarry.user.manager.DefaultUsers.password;
-import static com.mindquarry.user.manager.DefaultUsers.username;
-
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
@@ -28,7 +23,7 @@ import org.springframework.beans.factory.BeanFactory;
 import org.springframework.web.context.support.WebApplicationContextUtils;
 
 import com.mindquarry.common.init.InitializationException;
-import com.mindquarry.user.UserAdmin;
+import com.mindquarry.user.util.Initializer;
 
 /**
  * Ensures that all defaults users exist.
@@ -54,19 +49,13 @@ public class InitializeDefaultUsersListener implements ServletContextListener {
      * @see javax.servlet.ServletContextListener#contextInitialized(javax.servlet.ServletContextEvent)
      */
     public void contextInitialized(ServletContextEvent initializedEvent) {
-        log_.info("started initializing default users");
+        log_.info("started initializing default users and roles");
         ServletContext servletContext = initializedEvent.getServletContext();
         BeanFactory beanFactory = lookupBeanFactory(servletContext);
 
-        UserAdmin userAdmin = lookupUserAdmin(beanFactory);
+        lookupUserInitializer(beanFactory).initialize();
         
-        for (String[] userProfile : defaultUsers()) {
-            if (!existsUser(userAdmin, userProfile)) {
-                createUser(userAdmin, userProfile);
-                log_.info("created default users: " + login(userProfile));
-            }
-        }
-        log_.info("finished initializing default users");
+        log_.info("finished initializing default users and roles");
     }
     
     private BeanFactory lookupBeanFactory(ServletContext servletContext) {
@@ -74,25 +63,14 @@ public class InitializeDefaultUsersListener implements ServletContextListener {
                 .getRequiredWebApplicationContext(servletContext);
     }
     
-    private UserAdmin lookupUserAdmin(BeanFactory beanFactory) {
-        
-        String userAdminBeanName = UserAdmin.class.getName();
-        
-        if (! beanFactory.containsBean(userAdminBeanName)) {
+    private Initializer lookupUserInitializer(BeanFactory beanFactory) {
+                
+        if (! beanFactory.containsBean(Initializer.ROLE)) {
             throw new InitializationException(
                     "there is no spring bean with name: " + 
-                    userAdminBeanName + " available.");
+                    Initializer.ROLE + " available.");
         }
         
-        return (UserAdmin) beanFactory.getBean(userAdminBeanName);
-    }
-
-    private boolean existsUser(UserAdmin userAdmin, String[] userProfile) {
-        return null != userAdmin.userById(login(userProfile));
-    }
-
-    private void createUser(UserAdmin userAdmin, String[] userProfile) {
-        userAdmin.createUser(login(userProfile), password(userProfile), 
-                   username(userProfile), "", null, null);
+        return (Initializer) beanFactory.getBean(Initializer.ROLE);
     }
 }

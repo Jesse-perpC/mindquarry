@@ -13,89 +13,37 @@
  */
 package com.mindquarry.teamspace;
 
-import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
-import static com.mindquarry.user.manager.DefaultUsers.login;
-import static com.mindquarry.user.manager.DefaultUsers.password;
-import static com.mindquarry.user.manager.DefaultUsers.username;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.springframework.beans.factory.config.BeanDefinition;
-import org.springframework.beans.factory.support.BeanDefinitionRegistry;
-import org.springframework.beans.factory.support.RootBeanDefinition;
 
-import com.mindquarry.auth.AuthorizationAdmin;
-import com.mindquarry.auth.manager.ActionEntity;
-import com.mindquarry.auth.manager.ResourceEntity;
-import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
-import com.mindquarry.persistence.api.JavaConfiguration;
-import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.teamspace.manager.TeamspaceEntity;
-import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
-import com.mindquarry.user.manager.RoleEntity;
-import com.mindquarry.user.manager.UserEntity;
+import com.mindquarry.user.UserTestBase;
 import com.mindquarry.user.webapp.CurrentUser;
 
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public abstract class TeamspaceTestBase extends JcrSimpleTestBase {
+public abstract class TeamspaceTestBase extends UserTestBase {
     
     protected List<String> springConfigClasspathResources() {        
         List<String> result = super.springConfigClasspathResources();
-        result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
-        result.add("META-INF/cocoon/spring/user-context.xml");
-        result.add("META-INF/cocoon/spring/authorization-context.xml");
         result.add("META-INF/cocoon/spring/teamspace-context.xml");
         return result;
     }
     
-    private void registerCurrentUserBeanAsSingleton() {
-        BeanDefinition beanDefiniton = 
-            new RootBeanDefinition(CurrentUser.class);
-        beanDefiniton.setScope(BeanDefinition.SCOPE_SINGLETON);
-        
-        BeanDefinitionRegistry beanRegistry = 
-            (BeanDefinitionRegistry) getBeanFactory(); 
-        beanRegistry.registerBeanDefinition(CurrentUser.ROLE, beanDefiniton);
-    }
-
-    protected void setUp() throws Exception {
-        super.setUp();
-        registerCurrentUserBeanAsSingleton();        
-        ((CurrentUser) lookup(CurrentUser.ROLE)).setId("admin");
-        
-        JavaConfiguration configuration = new JavaConfiguration();
-        configuration.addClass(UserEntity.class);
-        configuration.addClass(RoleEntity.class);
-        configuration.addClass(ResourceEntity.class);
-        configuration.addClass(ActionEntity.class);
-        configuration.addClass(TeamspaceEntity.class);
-        
-        SessionFactory sessionFactory = 
-            (SessionFactory) lookup(SessionFactory.ROLE);        
-        sessionFactory.configure(configuration);
-        
-        UserAdmin userAdmin = lookupUserAdmin();
-        for (String[] userProfile : defaultUsers()) {
-            userAdmin.createUser(login(userProfile), password(userProfile), 
-                    username(userProfile), "", null, null);
-        }
+    protected Collection<Class> entityClasses() {
+        Collection<Class> result = super.entityClasses();
+        result.add(TeamspaceEntity.class);        
+        return result;
     }
     
-    protected void tearDown() throws Exception {
-        AuthorizationAdmin authAdmin = 
-            (AuthorizationAdmin) lookup(AuthorizationAdmin.ROLE);
-        authAdmin.deleteResource("");    
-        
-        UserAdmin userAdmin = lookupUserAdmin();
-        for (String[] userProfile : defaultUsers()) {
-            User user = userAdmin.userById(login(userProfile));
-            userAdmin.deleteUser(user);
-        }
-        super.tearDown();
+    protected void setUp() throws Exception {
+        super.setUp();      
+        ((CurrentUser) lookup(CurrentUser.ROLE)).setId("admin");
     }
     
     protected UserAdmin lookupUserAdmin() throws ServiceException {

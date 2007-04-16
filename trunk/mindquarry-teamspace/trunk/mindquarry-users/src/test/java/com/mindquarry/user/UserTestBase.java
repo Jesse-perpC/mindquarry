@@ -13,20 +13,24 @@
  */
 package com.mindquarry.user;
 
-import static com.mindquarry.user.manager.DefaultUsers.defaultUsers;
-import static com.mindquarry.user.manager.DefaultUsers.login;
-import static com.mindquarry.user.manager.DefaultUsers.password;
-import static com.mindquarry.user.manager.DefaultUsers.username;
-
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
+import org.springframework.beans.factory.config.BeanDefinition;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 
+import com.mindquarry.auth.manager.ActionEntity;
+import com.mindquarry.auth.manager.ResourceEntity;
 import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.manager.RoleEntity;
 import com.mindquarry.user.manager.UserEntity;
+import com.mindquarry.user.util.Initializer;
+import com.mindquarry.user.webapp.CurrentUser;
 
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
@@ -36,38 +40,54 @@ public abstract class UserTestBase extends JcrSimpleTestBase {
     protected List<String> springConfigClasspathResources() {
         List<String> result = super.springConfigClasspathResources();    
         result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
+        result.add("META-INF/cocoon/spring/authorization-context.xml");
         result.add("META-INF/cocoon/spring/user-context.xml");
         return result;
+    }
+    
+    private void registerCurrentUserBeanAsSingleton() {
+        BeanDefinition beanDefiniton = 
+            new RootBeanDefinition(CurrentUser.class);
+        beanDefiniton.setScope(BeanDefinition.SCOPE_SINGLETON);
+        
+        BeanDefinitionRegistry beanRegistry = 
+            (BeanDefinitionRegistry) getBeanFactory(); 
+        beanRegistry.registerBeanDefinition(CurrentUser.ROLE, beanDefiniton);
     }
 
     protected void setUp() throws Exception {
         super.setUp();
+        registerCurrentUserBeanAsSingleton(); 
         
         JavaConfiguration configuration = new JavaConfiguration();
-        configuration.addClass(UserEntity.class);
-        configuration.addClass(RoleEntity.class);
+        for (Class clazz : entityClasses()) {
+            configuration.addClass(clazz);
+        }
         
         SessionFactory sessionFactory = 
             (SessionFactory) lookup(SessionFactory.ROLE);        
         sessionFactory.configure(configuration);
         
-        UserAdmin userAdmin = lookupUserAdmin();
-        for (String[] userProfile : defaultUsers()) {
-            userAdmin.createUser(login(userProfile), password(userProfile), 
-                    username(userProfile), "", null, null);
-        }
+        lookupUserInitializer().initialize();
     }
     
-    protected void tearDown() throws Exception {
-        UserAdmin userAdmin = lookupUserAdmin();
-        for (String[] userProfile : defaultUsers()) {
-            User user = userAdmin.userById(login(userProfile));
-            userAdmin.deleteUser(user);
-        }
-        super.tearDown();
+    protected Collection<Class> entityClasses() {
+        Collection<Class> result = new ArrayList<Class>();
+        
+        result.add(UserEntity.class);
+        result.add(RoleEntity.class);
+
+        result.add(ActionEntity.class);
+        result.add(ResourceEntity.class);
+        
+        return result;
     }
     
     protected UserAdmin lookupUserAdmin() throws ServiceException {
         return (UserAdmin) lookup(UserAdmin.class.getName());
+    }
+    
+    protected Initializer lookupUserInitializer() throws ServiceException {
+        return (Initializer) lookup(Initializer.ROLE);
     }
 }

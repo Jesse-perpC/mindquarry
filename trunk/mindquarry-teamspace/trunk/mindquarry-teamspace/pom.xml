@@ -89,8 +89,10 @@
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
-			<artifactId>mindquarry-authorization</artifactId>
+			<artifactId>mindquarry-users</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>

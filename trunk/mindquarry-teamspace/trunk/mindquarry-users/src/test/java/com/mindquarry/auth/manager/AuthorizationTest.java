@@ -15,7 +15,7 @@ package com.mindquarry.auth.manager;
 
 import static com.mindquarry.auth.Operations.READ;
 import static com.mindquarry.auth.Operations.WRITE;
-import static com.mindquarry.user.manager.DefaultUsers.adminLogin;
+import static com.mindquarry.user.util.DefaultUsers.adminLogin;
 
 import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
@@ -25,6 +25,7 @@ import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserQuery;
 import com.mindquarry.user.UserRO;
+import com.mindquarry.user.UserTestBase;
 
 /**
  * Add summary documentation here.
@@ -32,7 +33,7 @@ import com.mindquarry.user.UserRO;
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class AuthorizationTest extends AuthorizationTestBase {
+public class AuthorizationTest extends UserTestBase {
     
     private static final String fooUserId = "foo-user";
     private static final String fooRoleId = "foo-role";
@@ -92,7 +93,7 @@ public class AuthorizationTest extends AuthorizationTestBase {
         assertTrue(authCheck.mayPerform(resource, READ, user));
         assertFalse(authCheck.mayPerform(resource, WRITE, user));
         
-        authAdmin.deleteAction(action);
+        authAdmin.deleteResource(resource);
     }
     
     public void testResourceTree() {        
@@ -116,7 +117,7 @@ public class AuthorizationTest extends AuthorizationTestBase {
         assertTrue(authAdmin.mayPerform(implicitGrantedResource, READ, user1));
         assertFalse(authAdmin.mayPerform(implicitGrantedResource, WRITE, user1));
         
-        authAdmin.deleteAction(action);
+        authAdmin.deleteResource(explicitGrantedResource);
     }
     
     public void testDeniedRights() {
@@ -143,8 +144,7 @@ public class AuthorizationTest extends AuthorizationTestBase {
         assertTrue(authAdmin.mayPerform(fooTeamspaceWiki, READ, user1));
         assertFalse(authAdmin.mayPerform(fooTeamspaceWiki, READ, user2));
         
-        authAdmin.deleteAction(fooReadAction);
-        authAdmin.deleteAction(fooReadWikiAction);
+        authAdmin.deleteResource(fooTeamspace);
     }    
     
     public void testGroupAllowances() {
@@ -158,6 +158,6 @@ public class AuthorizationTest extends AuthorizationTestBase {
                 
         assertTrue(authAdmin.mayPerform(fooTeamspace, READ, fooUser));
         
-        authAdmin.deleteAction(fooReadAction);
+        authAdmin.deleteResource(fooTeamspace);
     }
 }

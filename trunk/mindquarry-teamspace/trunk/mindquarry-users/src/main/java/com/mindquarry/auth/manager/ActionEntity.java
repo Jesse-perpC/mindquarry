@@ -78,6 +78,10 @@ public final class ActionEntity implements ActionRO {
         return this.denied.contains(user);
     }
     
+    boolean isObsolete() {
+        return allowed.isEmpty() && denied.isEmpty();
+    }
+    
     public final boolean equals(Object other) {
         if (this == other)
             return true;

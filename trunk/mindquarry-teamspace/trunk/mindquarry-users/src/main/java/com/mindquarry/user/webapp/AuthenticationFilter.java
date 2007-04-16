@@ -13,9 +13,9 @@
  */
 package com.mindquarry.user.webapp;
 
-import static com.mindquarry.user.manager.DefaultUsers.isAnonymousDisabled;
-import static com.mindquarry.user.manager.DefaultUsers.isAnonymousUser;
-import static com.mindquarry.user.manager.DefaultUsers.isIndexUser;
+import static com.mindquarry.user.util.DefaultUsers.isAnonymousDisabled;
+import static com.mindquarry.user.util.DefaultUsers.isAnonymousUser;
+import static com.mindquarry.user.util.DefaultUsers.isIndexUser;
 
 import java.io.IOException;
 import java.io.Writer;

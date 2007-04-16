@@ -32,8 +32,8 @@ public interface AuthorizationAdmin extends AuthorizationCheck {
     
     void deleteResource(String resourceUri);
     
-    ActionRO createAction(String resourceUri, String operation);    
-    void deleteAction(ActionRO action);  
+    ActionRO createAction(String resourceUri, String operation);
+    ActionRO actionBy(String resourceUri, String operation);
     
     void addAllowance(ActionRO action, AbstractUserRO user);
     void removeAllowance(ActionRO action, AbstractUserRO user);
