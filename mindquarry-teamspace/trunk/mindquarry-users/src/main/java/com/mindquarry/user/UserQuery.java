@@ -25,7 +25,11 @@ public interface UserQuery {
 
     public static final String ROLE = UserQuery.class.getName();
     
-    UserRO userById(String userId);    
+    UserRO userById(String userId);
+    /**
+     * returns a list of all users excluding 
+     * the default users admin and solr/index
+     */
     Collection<? extends UserRO> allUsers();
     
     RoleRO roleById(String roleId);

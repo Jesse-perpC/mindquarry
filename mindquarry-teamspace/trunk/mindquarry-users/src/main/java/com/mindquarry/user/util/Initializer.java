@@ -11,22 +11,23 @@
  * License for the specific language governing rights and limitations
  * under the License.
  */
-package com.mindquarry.user.init;
+package com.mindquarry.user.util;
 
 import static com.mindquarry.auth.Operations.readWrite;
-import static com.mindquarry.user.init.DefaultUsers.EVERYONE_ROLE;
-import static com.mindquarry.user.init.DefaultUsers.USERS_ROLE;
-import static com.mindquarry.user.init.DefaultUsers.adminLogin;
-import static com.mindquarry.user.init.DefaultUsers.defaultRoleUsers;
-import static com.mindquarry.user.init.DefaultUsers.defaultUsers;
-import static com.mindquarry.user.init.DefaultUsers.login;
-import static com.mindquarry.user.init.DefaultUsers.password;
-import static com.mindquarry.user.init.DefaultUsers.username;
+import static com.mindquarry.user.util.DefaultUsers.EVERYONE_ROLE;
+import static com.mindquarry.user.util.DefaultUsers.USERS_ROLE;
+import static com.mindquarry.user.util.DefaultUsers.adminLogin;
+import static com.mindquarry.user.util.DefaultUsers.defaultRoleUsers;
+import static com.mindquarry.user.util.DefaultUsers.defaultUsers;
+import static com.mindquarry.user.util.DefaultUsers.login;
+import static com.mindquarry.user.util.DefaultUsers.password;
+import static com.mindquarry.user.util.DefaultUsers.username;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.BeanFactory;
+import org.springframework.beans.factory.BeanFactoryAware;
 
 import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.UserRO;
@@ -38,7 +39,7 @@ import com.mindquarry.user.webapp.CurrentUser;
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public class Initializer {
+public class Initializer implements BeanFactoryAware {
     
     public static final String ROLE = Initializer.class.getName();
         
@@ -108,7 +109,7 @@ public class Initializer {
             setCurrentUserTo(adminLogin());
             for (String operation : readWrite()) {
                 userAuthorization_.allowAccessToUserResources(operation, role);
-                userAuthorization_.allowAccessToUserResources(operation, role);
+                userAuthorization_.allowAccessToRoleResources(operation, role);
                 
             }
             setCurrentUserTo(null);

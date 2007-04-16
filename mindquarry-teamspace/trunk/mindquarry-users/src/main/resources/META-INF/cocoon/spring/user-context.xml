@@ -34,6 +34,29 @@
 	<alias name="com.mindquarry.user.manager.UserManager" 
 		   alias="com.mindquarry.user.Authentication" />
 	
+	
+	<bean id="com.mindquarry.user.auth.UserAuthorization" 
+		class="com.mindquarry.user.auth.UserAuthorization"
+		scope="singleton">
+		
+		<property name="userManager" 
+				  ref="com.mindquarry.user.manager.UserManager" />
+		
+		<property name="authAdmin" 
+				  ref="com.mindquarry.auth.AuthorizationAdmin" />				  
+	</bean>
+	
+	
+	<bean id="com.mindquarry.user.util.Initializer" 
+		class="com.mindquarry.user.util.Initializer"
+		scope="singleton">
+		
+		<property name="userManager" 
+				  ref="com.mindquarry.user.manager.UserManager" />
+		
+		<property name="userAuthorization" 
+				  ref="com.mindquarry.user.auth.UserAuthorization" />				  
+	</bean>
 		   
 	<bean id="com.mindquarry.user.webapp.CurrentUser" 
 		class="com.mindquarry.user.webapp.CurrentUser"

@@ -13,8 +13,8 @@
  */
 package com.mindquarry.teamspace.manager;
 
-import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
-import static com.mindquarry.user.manager.DefaultUsers.isAnonymousUser;
+import static com.mindquarry.user.util.DefaultUsers.isAdminUser;
+import static com.mindquarry.user.util.DefaultUsers.isAnonymousUser;
 
 import java.util.Collection;
 import java.util.LinkedList;

@@ -17,7 +17,7 @@ import static com.mindquarry.common.lang.StringUtil.concat;
 
 import static com.mindquarry.auth.Operations.WRITE;
 import static com.mindquarry.auth.Operations.READ;
-import static com.mindquarry.auth.Operations.defaultOperations;
+import static com.mindquarry.auth.Operations.readWrite;
 
 import java.util.Collection;
 
@@ -95,6 +95,10 @@ public class TeamspaceAuthorization implements
         return userId;
     }
     
+    private User currentUserFromRequest() {        
+        return userAdmin_.userById(currentUserIdFromRequest());
+    }
+    
     private String teamContainerResourcePath() {
         return "/teamspaces";
     }
@@ -103,17 +107,18 @@ public class TeamspaceAuthorization implements
         return concat(teamContainerResourcePath(), "/", teamId);
     }
     
-    private void authorizeTeamContainerWriteAccess(String user) {
+    private void authorizeTeamContainerWriteAccess() {
+        String userId = currentUserIdFromRequest();
         String resourceUri = teamContainerResourcePath();
-        if (! authAdmin_.mayPerform(resourceUri, WRITE, user)) {
+        if (! authAdmin_.mayPerform(resourceUri, WRITE, userId)) {
             // not authorised. throw exception
-            throw new AuthorizationException("user '" + user + "' is" +
+            throw new AuthorizationException("user '" + userId + "' is" +
                     " not allowed to create or delete teams.");
         }
     }
     
     private void authorizeTeamAccess(String teamId, 
-            String user, String operation) {
+            String operation, String user) {
         
         String resourceUri = teamResourcePath(teamId);
         if (! authAdmin_.mayPerform(resourceUri, operation, user)) {
@@ -131,15 +136,18 @@ public class TeamspaceAuthorization implements
             String description, UserRO teamspaceCreator) 
             throws TeamspaceException {
         
-        String userId = currentUserIdFromRequest();        
-        authorizeTeamContainerWriteAccess(userId);
+        authorizeTeamContainerWriteAccess();
         
         Teamspace team = teamsManager_.createTeamspace(
                 id, name, description, teamspaceCreator);
         
         try {
-            RoleRO teamRole = createMemberRole(team, userId);
+            RoleRO teamRole = userAdmin_.createRole(roleId(team));
             grantTeamMembersFullAccess(team, teamRole);
+            
+            userAdmin_.addUser(currentUserFromRequest(), teamRole);
+            userAdmin_.addUser(teamspaceCreator, teamRole);            
+            
         } catch (AuthorizationException e) {
             // revert the creation of the team, because the creation
             // could not be completed
@@ -151,36 +159,34 @@ public class TeamspaceAuthorization implements
     
     private void grantTeamMembersFullAccess(Teamspace team, RoleRO teamRole) {
         String teamUri = teamResourcePath(team.getId());
-        for (String operation : defaultOperations()) {
+        for (String operation : readWrite()) {
             ActionRO action = authAdmin_.createAction(teamUri, operation);
             authAdmin_.addAllowance(action, teamRole);
         }
     }
     
-    private RoleRO createMemberRole(Teamspace team, String userId) {
-        User user = userAdmin_.userById(userId);
-        RoleRO teamRole = userAdmin_.createRole(roleId(team));
-        userAdmin_.addUser(user, teamRole);
-        return teamRole;
+    private void deleteAuthorizationResource(Teamspace team) {
+        String teamUri = teamResourcePath(team.getId());
+        authAdmin_.deleteResource(teamUri);
     }
 
     public void deleteTeamspace(Teamspace team) throws TeamspaceException {
-        String userId = currentUserIdFromRequest();        
-        authorizeTeamContainerWriteAccess(userId);
+        authorizeTeamContainerWriteAccess();
         
-        teamsManager_.deleteTeamspace(team);
+        teamsManager_.deleteTeamspace(team);        
+        deleteAuthorizationResource(team);
         
         RoleRO role = userAdmin_.roleById(roleId(team));
         userAdmin_.deleteRole(role);
     }
 
     public Teamspace teamspaceById(String teamId) {
-        authorizeTeamAccess(teamId, currentUserIdFromRequest(), READ);
+        authorizeTeamAccess(teamId, READ, currentUserIdFromRequest());
         return teamsManager_.teamspaceById(teamId);
     }
 
     public void updateTeamspace(Teamspace team) {
-        authorizeTeamAccess(team.getId(), currentUserIdFromRequest(), WRITE);
+        authorizeTeamAccess(team.getId(), WRITE, currentUserIdFromRequest());
         teamsManager_.updateTeamspace(team);
     }
 
@@ -189,14 +195,14 @@ public class TeamspaceAuthorization implements
     }
     
     public void addMember(UserRO user, TeamspaceRO team) {
-        authorizeTeamAccess(team.getId(), currentUserIdFromRequest(), WRITE);        
+        authorizeTeamAccess(team.getId(), WRITE, currentUserIdFromRequest());        
         RoleRO teamMemberRole = userAdmin_.roleById(roleId(team));
         userAdmin_.addUser(user, teamMemberRole);        
         teamsManager_.addMember(user, team);
     }
 
     public void removeMember(UserRO user, TeamspaceRO team) {
-        authorizeTeamAccess(team.getId(), currentUserIdFromRequest(), WRITE);
+        authorizeTeamAccess(team.getId(), WRITE, currentUserIdFromRequest());
         RoleRO teamMemberRole = userAdmin_.roleById(roleId(team));
         userAdmin_.removeUser(user, teamMemberRole);
         teamsManager_.removeMember(user, team);

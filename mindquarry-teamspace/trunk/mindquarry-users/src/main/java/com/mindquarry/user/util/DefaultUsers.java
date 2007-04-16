@@ -1,7 +1,7 @@
 /**
  * Copyright (C) 2006 Mindquarry GmbH, All Rights Reserved
  */
-package com.mindquarry.user.init;
+package com.mindquarry.user.util;
 
 import java.util.Collection;
 import java.util.LinkedList;

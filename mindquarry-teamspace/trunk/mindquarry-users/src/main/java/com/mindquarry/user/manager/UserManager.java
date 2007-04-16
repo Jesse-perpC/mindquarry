@@ -13,8 +13,8 @@
  */
 package com.mindquarry.user.manager;
 
-import static com.mindquarry.user.manager.DefaultUsers.isAdminUser;
-import static com.mindquarry.user.manager.DefaultUsers.isIndexUser;
+import static com.mindquarry.user.util.DefaultUsers.isAdminUser;
+import static com.mindquarry.user.util.DefaultUsers.isIndexUser;
 
 import java.util.ArrayList;
 import java.util.Collection;

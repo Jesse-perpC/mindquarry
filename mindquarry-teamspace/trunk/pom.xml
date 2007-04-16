@@ -19,7 +19,6 @@
 
 	<modules>
 		<module>mindquarry-users</module>
-		<module>mindquarry-authorization</module>
 		<module>mindquarry-teamspace</module>
 		<module>model-source</module>
 		<module>mindquarry-teamspace-block</module>
