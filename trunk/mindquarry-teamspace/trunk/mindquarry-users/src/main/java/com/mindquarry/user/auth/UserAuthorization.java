@@ -26,7 +26,7 @@ import org.springframework.beans.factory.BeanFactoryAware;
 
 import com.mindquarry.auth.ActionRO;
 import com.mindquarry.auth.AuthorizationAdmin;
-import com.mindquarry.auth.cocoon.AuthorizationException;
+import com.mindquarry.auth.AuthorizationException;
 import com.mindquarry.user.AbstractUserRO;
 import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.User;
