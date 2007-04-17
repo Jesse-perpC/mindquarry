@@ -157,6 +157,7 @@
 		
 		<!-- standard final page layouting -->
 		<resource name="layouting">
+			<transform type="teamspace" />
 			<select type="lightbox-request">
 				<when test="true">
 					<transform
@@ -169,7 +170,6 @@
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
-				<!--
 					<transform src="block:/xslt/html2html.xsl"
 						type="xalan">
 						<parameter name="servlet"
@@ -192,7 +192,6 @@
 							value="{pom-property:com.mindquarry.conversation/mindquarry-talk-block/timeStamp}"/>
 					</transform>
 					<transform type="cinclude"/>
-					-->
 				</otherwise>
 			</select>
 			
@@ -390,7 +389,7 @@
 						<transform src="xslt/html/users2options.xsl" />
 						<select type="REST">
 							<when test="html">
-								<serialize type="html" />
+								<call resource="layouting" />
 							</when>
 						</select>
 					</when>
@@ -470,7 +469,7 @@
 							<parameter name="user" value="{request-attr:username}" />
 							<parameter name="email" value="{2}.{1}@{system-property:mindquarry.mail.server}" />
 						</transform>
-						<serialize type="html"/>
+						<call resource="layouting" />
 					</when>
 				</select>
 				<serialize type="xml" />
@@ -608,7 +607,7 @@
 							<parameter name="now" value="{timestamp:}"/>
 							<parameter name="user" value="{request-attr:username}" />
 						</transform>
-						<serialize type="html" />
+						<call resource="layouting" />
 					</when>
 					<when test="xml">
 						<serialize type="xml" />
