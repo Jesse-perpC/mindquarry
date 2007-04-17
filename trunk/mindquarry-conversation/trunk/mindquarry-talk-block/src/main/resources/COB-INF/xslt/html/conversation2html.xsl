@@ -18,6 +18,7 @@
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:collection="http://apache.org/cocoon/collection/1.0"
   xmlns:dateFormat="java:java.text.SimpleDateFormat"
+  xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   
   <xsl:param name="now" />
@@ -115,7 +116,7 @@
       <img src="/teams/users/{normalize-space(from)}.png" alt="{from}" height="48" width="48"/>
       <span class="sender">
         <xsl:choose>
-          <xsl:when test="from[text()]"><xsl:value-of select="from" /></xsl:when>
+          <xsl:when test="from[text()]"><team:user><xsl:value-of select="from" /></team:user></xsl:when>
           <xsl:otherwise>unknown user</xsl:otherwise>
         </xsl:choose>
       </span>

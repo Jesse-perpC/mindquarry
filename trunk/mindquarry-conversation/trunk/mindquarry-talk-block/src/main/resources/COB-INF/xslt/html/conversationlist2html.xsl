@@ -17,6 +17,7 @@
   xmlns:ci="http://apache.org/cocoon/include/1.0"
   xmlns:xlink="http://www.w3.org/1999/xlink"
   xmlns:collection="http://apache.org/cocoon/collection/1.0"
+  xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   
   <xsl:param name="now" />
@@ -25,7 +26,7 @@
   <xsl:template match="/conversations">
     <html>
       <head>
-        <title>Talk for <xsl:value-of select="teamspace[1]/name[1]"/></title>
+        <title>Talk for <team:team><xsl:value-of select="teamspace[1]/name[1]"/></team:team></title>
         <xsl:apply-templates select="block" mode="headlinks"/>
         <link rel="up" href=".." title="All Teams"/>
       </head>
@@ -86,7 +87,7 @@
   </xsl:template>
   
   <xsl:template match="message/message/from">
-    <span class="from"><xsl:value-of select="." /></span>
+    <span class="from"><team:user><xsl:value-of select="." /></team:user></span>
   </xsl:template>
   
   <xsl:template match="message/message/from[not(node())]">
