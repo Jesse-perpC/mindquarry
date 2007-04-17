@@ -43,6 +43,11 @@
 				  ref="com.mindquarry.teamspace.manager.TeamspaceManager" />
 	</bean>
 	
+	<bean name="org.apache.cocoon.transformation.Transformer/teamspace" class="com.mindquarry.teamspace.transformation.TeamspaceTransformer">
+		<property name="userquery" ref="com.mindquarry.user.UserQuery" />
+		<property name="teamquery" ref="com.mindquarry.teamspace.TeamspaceQuery" />
+	</bean>
+	
 	<alias name="com.mindquarry.teamspace.auth.TeamspaceAuthorization" 
 		   alias="com.mindquarry.teamspace.TeamspaceAdmin" />
 		   	
