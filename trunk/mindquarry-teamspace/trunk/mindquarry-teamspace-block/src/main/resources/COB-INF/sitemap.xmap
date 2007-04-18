@@ -547,6 +547,18 @@
 						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 				</call>
 			</match>
+			
+			
+			<match pattern="portlets/*/*/meta">
+				<generate src="portlets/{1}.xml" />
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="portlets/teamswitcher/*/view">
+				<generate src="model://TeamQuery#teamspacesForUser({1})" />
+				<transform src="xslt/portlet/teams2portlet.xsl" />
+				<serialize type="xml"></serialize>
+			</match>
 
 			<!-- Continue a scenario. The continuation id is passed in the URL
 				(typically used for GET requests) -->
