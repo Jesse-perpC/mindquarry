@@ -16,6 +16,7 @@ package com.mindquarry.jcr.jackrabbit;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Connection;
 import java.util.List;
 
 import javax.jcr.Session;
@@ -37,23 +38,43 @@ public abstract class JcrSimpleTestBase extends AvalonSpringContainerTestBase {
     public static final String SCHEME = "jcr"; //$NON-NLS-1$
 
     public static final String BASE_URL = SCHEME + ":///"; //$NON-NLS-1$
-    public static final boolean USE_XENODOT = Boolean.parseBoolean(System.getProperty("xenodot", "false")); //$NON-NLS-1$
+    
+    private static boolean useXenodot() {
+        return Boolean.parseBoolean(System.getProperty("xenodot", "false"));
+    }
 
     private Session jcrSession;
-
+    
+    protected void initializeXenodot() throws Exception {        
+        XenodotPersistenceManager persistenceManager = new XenodotPersistenceManager();
+        try {
+            persistenceManager.init(null);
+            cleanXenodotDatabase(persistenceManager);
+            Connection connection = persistenceManager.getConnection();
+            connection.prepareCall("select jackrabbit.init_root();").execute();
+        } finally {
+            persistenceManager.close();
+        }
+    }
+    
+    protected  void cleanXenodotDatabase(
+            XenodotPersistenceManager persistenceManager) throws Exception {
+    }
+    
     @Override
     protected List<String> springConfigClasspathResources() {
         
         List<String> result = super.springConfigClasspathResources();
         
-        System.out.println("Using xenodot => " + USE_XENODOT);        
-        if (USE_XENODOT)
+        System.out.println("Using xenodot => " + useXenodot());        
+        if (useXenodot())
             result.add("META-INF/cocoon/spring/xenodot-repository-context.xml");
         else
             result.add("META-INF/cocoon/spring/jcr-repository-context.xml");
         
         result.add("META-INF/cocoon/spring/jcr-session-context.xml");
-        result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml");
+        //result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml");
+        result.add("META-INF/cocoon/spring/jcr-transaction-context.xml");
         return result;
     }
     
@@ -91,21 +112,11 @@ public abstract class JcrSimpleTestBase extends AvalonSpringContainerTestBase {
         
         System.setProperty("mindquarry.jcr.login", "admin");
         System.setProperty("mindquarry.jcr.pwd", "admin");
-
-        if (USE_XENODOT) {
-            // TODO: Right now XenodotPersistenceManger is hardcoded, so this will work
-            System.err.println("Start cleaning Xenodot in setUp()");
-            XenodotPersistenceManager manager = new XenodotPersistenceManager();
-            manager.init(null);
-            manager.getConnection().prepareCall("delete from xenodot.property;").execute();            
-            manager.getConnection().prepareCall("delete from xenodot.value where reference_id is not null;").execute();        
-            manager.getConnection().prepareCall("delete from xenodot.node;").execute();
-            manager.getConnection().prepareCall("select jackrabbit.init_root();").execute();
-            
-            manager.close();
-            System.out.println("Done cleaning Xenodot in setUp()");
+        
+        if (useXenodot()) {
+            initializeXenodot();
         }
-
+        
         super.setUp();
         jcrSession = (Session) lookup("jcrSession");
     }

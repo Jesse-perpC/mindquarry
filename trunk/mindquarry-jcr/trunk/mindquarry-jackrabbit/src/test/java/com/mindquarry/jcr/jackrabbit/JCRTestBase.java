@@ -14,6 +14,9 @@
 package com.mindquarry.jcr.jackrabbit;
 
 import java.io.File;
+import java.sql.Connection;
+
+import com.mindquarry.dms.xenodot.jackrabbit.XenodotPersistenceManager;
 
 /**
  * This base test class additionally deletes the entire jcr-folder.
@@ -35,6 +38,23 @@ public abstract class JCRTestBase extends JcrSimpleTestBase {
         repoFolder.mkdirs();
         
         super.setUp();
+    }
+    
+    private static final String[] xenodotCleanStatements = new String[] {
+        "delete from xenodot.property;",
+        "delete from xenodot.value where reference_id is not null;",
+        "delete from xenodot.node;"
+    };
+    
+    protected  void cleanXenodotDatabase(
+            XenodotPersistenceManager persistenceManager) throws Exception {
+        
+        System.err.println("Start cleaning Xenodot in setUp()");
+        Connection connection = persistenceManager.getConnection();
+        for (String statement : xenodotCleanStatements) {
+            connection.prepareCall(statement).execute();
+        }
+        System.out.println("Done cleaning Xenodot in setUp()");
     }
 
     private void removeRepository(File file) {
