@@ -317,7 +317,7 @@ public class XenodotPersistenceManager implements PersistenceManager {
                         case PropertyType.REFERENCE:
                             values.add(InternalValue.create(
                                     new UUID(result.getLong("reference_uuid_msb"),
-                                             result.getLong("reference_uuid_ksb"))));
+                                             result.getLong("reference_uuid_lsb"))));
                             break;
                         case PropertyType.BINARY:
                             try {
@@ -411,7 +411,7 @@ public class XenodotPersistenceManager implements PersistenceManager {
                         statement.setInt(   3, node.getPosition());
                         if (node.getType() == null) {
                             statement.setString(4, "nt");
-                            statement.setString(5, "unrestricted");
+                            statement.setString(5, "unstructured");
                         } else {
                             statement.setString(4, node.getType().getNamespaceURI());
                             statement.setString(5, node.getType().getLocalName());
