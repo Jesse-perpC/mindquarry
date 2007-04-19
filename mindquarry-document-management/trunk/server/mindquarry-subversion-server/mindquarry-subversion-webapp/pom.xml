@@ -1,4 +1,5 @@
-<?xml version="1.0" encoding="UTF-8"?><project>
+<?xml version="1.0" encoding="UTF-8"?>
+<project>
   <parent>
     <artifactId>mindquarry-subversion-server</artifactId>
     <groupId>com.mindquarry.document-management.server</groupId>
@@ -23,20 +24,30 @@
               <maxIdleTime>30000</maxIdleTime>
             </connector>
           </connectors>
-          <webAppSourceDirectory>${project.build.directory}/${pom.artifactId}-${pom.version}</webAppSourceDirectory>
+          <scanIntervalSeconds>10</scanIntervalSeconds>
           <contextPath>/</contextPath>
         </configuration>
       </plugin>
     </plugins>
   </build>
 
-<dependencies>
-      <dependency>
-        <groupId>com.mindquarry.document-management.server</groupId>
-        <artifactId>mindquarry-subversion-block</artifactId>
-        <version>1.0-SNAPSHOT</version>
-      </dependency>
-    </dependencies>
+  <dependencies>
+    <dependency>
+      <groupId>dax</groupId>
+      <artifactId>dax</artifactId>
+      <version>0.3-SNAPSHOT</version>
+    </dependency>   
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency> 
+    <dependency>
+      <groupId>com.svnkit</groupId>
+      <artifactId>svnkit</artifactId>
+      <version>1.1.0</version>
+    </dependency>
+  </dependencies>
 
   <repositories>
     <repository>
