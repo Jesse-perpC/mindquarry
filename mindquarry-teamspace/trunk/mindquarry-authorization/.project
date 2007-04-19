@@ -1,0 +1,16 @@
+<projectDescription>
+  <name>mindquarry-authorization</name>
+  <comment>This is the root POM for all Mindquarry projects.</comment>
+  <projects>
+    <project>castor-persistence</project>
+    <project>persistence-config</project>
+  </projects>
+  <buildSpec>
+    <buildCommand>
+      <name>org.eclipse.jdt.core.javabuilder</name>
+    </buildCommand>
+  </buildSpec>
+  <natures>
+    <nature>org.eclipse.jdt.core.javanature</nature>
+  </natures>
+</projectDescription>
