@@ -96,8 +96,6 @@ public class TeamspaceTransformer extends AbstractTransformer {
 					//else write the team's name
 					this.contentHandler.characters(team.getName().toCharArray(),0 , team.getName().length());
 				}
-				//start recording only at next team element
-				this.teamid = null;
 			//if it is a user element
 			} else if (loc.equals(USER_ELEMENT)) {
 				//get the user object
@@ -120,14 +118,14 @@ public class TeamspaceTransformer extends AbstractTransformer {
 						this.contentHandler.characters(user.getSurname().toCharArray(),0 , user.getSurname().length());
 					}
 				}
-				//restart recording only when a new team element occurs
-				this.userid=null;
 			} else {
 				super.endElement(uri, loc, raw);
 			}
 		} else {
 			super.endElement(uri, loc, raw);
 		}
+		this.userid = null;
+		this.teamid = null;
 	}
 
 
