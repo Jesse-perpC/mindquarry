@@ -69,10 +69,4 @@
 	<bean id="jcrPassword" class="java.lang.String">
 		<constructor-arg index="0" value="${mindquarry.jcr.pwd}"/>
 	</bean>
-	
-	<bean id="attributableSessionFactory" 
-		class="com.mindquarry.jcr.jackrabbit.AttributableSessionFactory">
-		
-	     <property name="targetFactory" ref="jcrSessionFactory"/>
-	</bean>
 </beans>

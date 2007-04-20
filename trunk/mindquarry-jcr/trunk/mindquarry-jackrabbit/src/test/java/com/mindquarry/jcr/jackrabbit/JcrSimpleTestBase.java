@@ -19,12 +19,15 @@ import java.net.URL;
 import java.sql.Connection;
 import java.util.List;
 
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
+import org.springmodules.jcr.JcrSessionFactory;
 
+import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 import com.mindquarry.dms.xenodot.jackrabbit.XenodotPersistenceManager;
 
@@ -42,8 +45,6 @@ public abstract class JcrSimpleTestBase extends AvalonSpringContainerTestBase {
     private static boolean useXenodot() {
         return Boolean.parseBoolean(System.getProperty("xenodot", "false"));
     }
-
-    private Session jcrSession;
     
     protected void initializeXenodot() throws Exception {        
         XenodotPersistenceManager persistenceManager = new XenodotPersistenceManager();
@@ -73,7 +74,7 @@ public abstract class JcrSimpleTestBase extends AvalonSpringContainerTestBase {
             result.add("META-INF/cocoon/spring/jcr-repository-context.xml");
         
         result.add("META-INF/cocoon/spring/jcr-session-context.xml");
-        //result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml");
+        result.add("META-INF/cocoon/spring/jcr-rmi-server-context.xml");
         result.add("META-INF/cocoon/spring/jcr-transaction-context.xml");
         return result;
     }
@@ -118,11 +119,16 @@ public abstract class JcrSimpleTestBase extends AvalonSpringContainerTestBase {
         }
         
         super.setUp();
-        jcrSession = (Session) lookup("jcrSession");
     }
     
     protected Session getJcrSession() {
-        return jcrSession;
+        try {
+            return ((JcrSessionFactory) lookup("jcrSessionFactory")).getSession();
+        } catch (ServiceException e) {
+            throw new InitializationException("getting jcr session failed", e);
+        } catch (RepositoryException e) {
+            throw new InitializationException("getting jcr session failed", e);
+        }
     }
     
     protected Source resolveSource(String uri) throws ServiceException, IOException {
