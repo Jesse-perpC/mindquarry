@@ -49,16 +49,32 @@ class PropertyTransformer implements Transformer {
     }
 
     public void writeToJcr(Object propertyValue, JcrNode entityNode) {
-        if (propertyValue != null) {
-            String propertyName = property_.getName();
-            
-            JcrNode propertyNode;
-            if (entityNode.hasNode(propertyName))
-                propertyNode = entityNode.getNode(propertyName);
-            else
-                propertyNode = entityNode.addNode(propertyName, "xt:element");
-            
-            contentTransformer_.writeToJcr(propertyValue, propertyNode);
+        
+        if (propertyValue == null)
+            removePropertyNode(entityNode);
+        else
+            addOrUpdatePropertyNode(entityNode, propertyValue);
+    }
+    
+    private void removePropertyNode(JcrNode entityNode) {        
+        
+        String propertyName = property_.getName();
+        
+        if (entityNode.hasNode(propertyName)) {
+            entityNode.getNode(propertyName).remove();
         }
+    }
+    
+    private void addOrUpdatePropertyNode(JcrNode entityNode, Object value) {
+        
+        JcrNode propertyNode;
+        String propertyName = property_.getName();
+        
+        if (entityNode.hasNode(propertyName))
+            propertyNode = entityNode.getNode(propertyName);
+        else
+            propertyNode = entityNode.addNode(propertyName, "xt:element");
+        
+        contentTransformer_.writeToJcr(value, propertyNode);
     }
 }

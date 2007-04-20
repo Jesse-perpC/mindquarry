@@ -13,10 +13,18 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import static com.mindquarry.common.lang.StringUtil.concat;
+
 import java.util.LinkedList;
 import java.util.List;
 
+import javax.jcr.Node;
+import javax.jcr.PathNotFoundException;
+import javax.jcr.RepositoryException;
+import javax.jcr.ValueFormatException;
+
 import org.apache.avalon.framework.service.ServiceException;
+import org.springmodules.jcr.JcrSessionFactory;
 
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.Session;
@@ -25,6 +33,8 @@ import com.mindquarry.persistence.jcr.query.QueryException;
 
 
 public class JcrPersistenceTest extends JcrPersistenceTestBase {
+    
+    private static final String TEST_USER_ID = "testUser";
     
     private SessionFactory sessionFactory_;
     
@@ -36,25 +46,72 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         configuration.addClass(Group.class);
         configuration.addClass(Team.class);
         
-        Persistence persistence = 
-            (Persistence) lookup(Persistence.class.getName());        
+        Persistence persistence = (Persistence) lookup(Persistence.ROLE);
         persistence.configure(configuration);
         
         sessionFactory_ = persistence;    
     }
     
-    public void testPersistUser() throws ServiceException {
-        
-        Session session = sessionFactory_.currentSession();
+    private Session currentSession() {
+        return sessionFactory_.currentSession();
+    }
+    
+    private User makeTestUser() {
         User user = new User();
-        user.setLogin("testUser");
+        user.setLogin(TEST_USER_ID);
         user.setPwd("pwd");
         user.firstname = "test";
         user.lastname = "test";
         
+        return user;
+    }
+    
+    public void testPersistUser() throws Exception {
+        currentSession().persist(makeTestUser());
+        
+        String contentNodePath = concat(User.PARENT_FOLDER, "/", 
+                TEST_USER_ID, "/", "jcr:content");
+        
+        javax.jcr.Session jcrSession = getJcrSession(); 
+        Node rootNode = jcrSession.getRootNode();
+        assertTrue(rootNode.hasNode(contentNodePath));
+        
+        Node contentNode = rootNode.getNode(contentNodePath);
+        assertEquals("pwd", textValueOfChild(contentNode, "pwd"));
+        assertEquals("test", textValueOfChild(contentNode, "firstname"));
+        assertEquals("test", textValueOfChild(contentNode, "lastname"));
+        
+        rootNode.getNode(User.PARENT_FOLDER).remove();
+        jcrSession.save();
+    }
+    
+    private String textValueOfChild(Node contentNode, String childName) 
+        throws Exception {
+        
+        Node textNode = contentNode.getNode(childName + "/text");
+        return textNode.getProperty("xt:characters").getString();
+    }
+    
+    public void testPersistCollectionProperties() throws Exception {        
+        User user = new User();
+        user.setLogin("testUser");
+        user.setPwd("pwd");
+        user.firstname = "test";
+        user.lastname = "test";        
+        currentSession().persist(user);
+    }
+    
+    public void testUpdateUser() {
+        User user = new User();
+        user.setLogin("testUser");
+        user.setPwd("pwd");
+        user.firstname = "test";
+        user.lastname = "test";        
+        currentSession().persist(user);
+        
         List<String> skills = new LinkedList<String>(); 
         skills.add("foo");
-        skills.add("bar");
+        skills.add("bar");        
         
         user.setSkills(skills);        
         user.setSkillsArray(skills.toArray(new String[skills.size()]));
@@ -68,13 +125,17 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         bars.add("bla");
         bars.add("blub");        
         team.fooMap.put("foo", bars);
+        currentSession().persist(team);
         
         List<Team> teams = new LinkedList<Team>();
         teams.add(team);
         user.setTeams(teams);
         
-        session.persist(user);
-        session.commit();
+        currentSession().update(user);
+    }
+    
+    public void testPersistUserReferencingTeams() {
+        
     }
     
     public void testQueryUsersForTeam() throws ServiceException {
@@ -83,8 +144,6 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         List<Object> queryResult = session.query("getUsersForTeam", "jcr-persistence");
         
         assertEquals(1, queryResult.size());
-        
-        session.commit();
     }
     
     public void testMapProperties() throws ServiceException {
@@ -96,8 +155,6 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         
         Team team = (Team) queryResult.get(0);
         assertEquals("blub", team.fooMap.get("foo").get(1));
-        
-        session.commit();
     }
     
     public void testInvalidQuery() throws ServiceException {
@@ -118,8 +175,6 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         List<Object> queryResult = session.query("allUsers");
         
         assertEquals(1, queryResult.size());
-        
-        session.commit();
     }
     
     public void testQueryAndUpdateUser() throws ServiceException {
@@ -138,8 +193,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         user.lastname = "lastName";
         user.getSkills().remove(0);
         user.setSkillsArray(new String[] {user.getSkillsArray()[0]});
-        session.update(user);        
-        session.commit();
+        session.update(user);
         
         
         session = sessionFactory_.currentSession();
@@ -163,8 +217,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         group.id = "foogroup";
         group.members.add(user);
         
-        session.persist(group);        
-        session.commit();
+        session.persist(group);
     }
     
     public void testDeleteGroup() throws ServiceException {
@@ -177,8 +230,6 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         assertEquals(1, group.members.size());
         
         session.delete(group);
-        
-        session.commit();
     }
     
     public void testDeleteUser() throws ServiceException {
@@ -190,7 +241,5 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         User user = (User) queryResult.get(0);
         session.delete(user.getTeams().get(0));
         session.delete(user);
-        
-        session.commit();
     }
 }

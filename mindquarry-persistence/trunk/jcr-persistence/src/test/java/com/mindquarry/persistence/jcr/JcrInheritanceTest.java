@@ -61,7 +61,6 @@ public class JcrInheritanceTest extends JcrPersistenceTestBase {
         user.setSkillsArray(skills.toArray(new String[skills.size()]));
         
         session.persist(user);
-        session.commit();
     }
     
     public void testQueryDeleteExtendedUser() throws ServiceException {
@@ -76,7 +75,6 @@ public class JcrInheritanceTest extends JcrPersistenceTestBase {
         assertEquals(2, user.getSkills().size());
         assertEquals(2, user.getSkillsArray().length);
         
-        session.delete(user);        
-        session.commit();
+        session.delete(user);
     }
 }
