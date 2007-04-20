@@ -14,10 +14,6 @@
 package com.mindquarry.persistence.jcr;
 
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
-import static com.mindquarry.common.lang.ReflectionUtil.amount;
-import static com.mindquarry.common.lang.ReflectionUtil.duration;
-import static com.mindquarry.persistence.jcr.cmds.QueryCommand.queryDuration;
-
 import static com.mindquarry.persistence.jcr.Operations.DELETE;
 import static com.mindquarry.persistence.jcr.Operations.PERSIST;
 import static com.mindquarry.persistence.jcr.Operations.QUERY;
