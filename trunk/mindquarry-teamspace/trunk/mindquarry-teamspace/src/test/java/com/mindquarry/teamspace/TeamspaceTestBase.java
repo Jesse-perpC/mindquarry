@@ -13,7 +13,6 @@
  */
 package com.mindquarry.teamspace;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
@@ -42,7 +41,7 @@ public abstract class TeamspaceTestBase extends UserTestBase {
     }
     
     protected void setUp() throws Exception {
-        super.setUp();      
+        super.setUp();
         ((CurrentUser) lookup(CurrentUser.ROLE)).setId("admin");
     }
     

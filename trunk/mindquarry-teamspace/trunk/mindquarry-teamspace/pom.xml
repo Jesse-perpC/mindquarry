@@ -83,6 +83,13 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
+			<groupId>com.mindquarry.persistence</groupId>
+			<artifactId>jcr-persistence</artifactId>
+			<version>1.0-M2-SNAPSHOT</version>
+			<type>test-jar</type>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-users</artifactId>
 			<version>1.0-M2-SNAPSHOT</version>

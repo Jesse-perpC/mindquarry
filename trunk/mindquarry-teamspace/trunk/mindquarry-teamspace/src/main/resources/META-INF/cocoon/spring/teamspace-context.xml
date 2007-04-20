@@ -48,10 +48,10 @@
 		<property name="teamquery" ref="com.mindquarry.teamspace.TeamspaceQuery" />
 	</bean>
 	
-	<alias name="com.mindquarry.teamspace.auth.TeamspaceAuthorization" 
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
 		   alias="com.mindquarry.teamspace.TeamspaceAdmin" />
 		   	
-	<alias name="com.mindquarry.teamspace.auth.TeamspaceAuthorization" 
+	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 
 		   alias="com.mindquarry.teamspace.TeamspaceQuery" />
 	
 	<alias name="com.mindquarry.teamspace.manager.TeamspaceManager" 

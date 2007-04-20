@@ -94,7 +94,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
         Session session = currentSession();
         session.persist(team);
-        session.commit();
 
         try {
             listenerRegistry_.signalAfterTeamspaceCreated(team);
@@ -106,7 +105,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         // there might be listeners that add properties 
         // to the teamspace or modify existing properties
         currentSession().update(team);
-        currentSession().commit();
         
         return team;
     }
@@ -114,7 +112,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     public void updateTeamspace(Teamspace teamspace) {
         Session session = currentSession();
         session.update(teamspace);
-        session.commit();
     }
 
     public void deleteTeamspace(Teamspace teamspace)
@@ -133,7 +130,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         
         Session session = currentSession();
         session.delete(teamspace);
-        session.commit();
     }
 
     public Collection<? extends TeamspaceRO> teamspacesForUser(String userId) {
@@ -145,8 +141,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             result = queryAllTeamspaces();
         else
             result = queryTeamspacesForUser(userId);
-        
-        session.commit();        
+           
         return result;
     }
 
@@ -182,7 +177,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
      */
     public Teamspace teamspaceById(String teamspaceId) {        
         Teamspace result = queryTeamspaceById(teamspaceId);
-        currentSession().commit();
         return result;
     }
 
@@ -208,7 +202,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         
         Session session = currentSession();
         session.update(team);
-        session.commit();
     }
     
     public void removeMember(UserRO user, TeamspaceRO team) {
@@ -216,7 +209,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         
         Session session = currentSession();
         session.update(team);
-        session.commit();
     }
 
     /*
@@ -295,8 +287,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
             isAllowed = authorizeUserManagement(uri, user);
         else
             isAllowed = false;
-        
-        currentSession().commit();        
+              
         return isAllowed;
     }
     
