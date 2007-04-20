@@ -162,7 +162,8 @@ public class EntityType {
         Class clazz = entityClazz_;
         while (! Object.class.equals(clazz)) {
             for (Field field : clazz.getDeclaredFields()) {
-                result.add(field);
+                if (! Modifier.isStatic(field.getModifiers()))
+                    result.add(field);
             }
             clazz = clazz.getSuperclass();
         }
