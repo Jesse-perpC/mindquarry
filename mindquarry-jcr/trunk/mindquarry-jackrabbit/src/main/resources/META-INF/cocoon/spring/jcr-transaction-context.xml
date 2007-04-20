@@ -25,16 +25,20 @@
 	</bean>
 
 	<!-- transaction proxy for JCR services/facades -->
-	<bean id="jcrTxTemplate" abstract="true"
+	<bean id="txProxyTemplate" abstract="true"
 		class="org.springframework.transaction.interceptor.TransactionProxyFactoryBean">
 		<property name="proxyTargetClass" value="true"/>
 		<property name="transactionManager" ref="jcrTransactionManager"/>
 		<property name="transactionAttributes">
 			<props>
-				<prop key="save*">PROPAGATION_REQUIRED</prop>
 				<prop key="*">PROPAGATION_REQUIRED</prop>
 			</props>
 		</property>
 	</bean>
 
+	
+	<bean id="jcrTemplate" class="org.springmodules.jcr.JcrTemplate">
+		<property name="sessionFactory" ref="jcrSessionFactory"/>
+		<property name="allowCreate" value="true"/>
+	</bean>
 </beans>
