@@ -4,6 +4,7 @@
 package com.mindquarry.user.util;
 
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -28,8 +29,10 @@ public class DefaultUsers {
     static final String[] ANONYMOUS_USER = 
                         {"anonymous", "anonymous", "Anonymous User"};
     
-    public static final String USERS_ROLE = "users";
-    public static final String EVERYONE_ROLE = "everyone";
+    public static final String ROLE_USER = "users";
+    public static final String ROLE_EVERYONE = "everyone";
+    
+    public static final String ROLE_USER_ADMIN = "user_admin";
     
     public static String adminLogin() {
         return login(ADMIN_USER);
@@ -51,23 +54,37 @@ public class DefaultUsers {
     }
         
     public static Collection<String> defaultRoles() {
-        Collection<String> result = new LinkedList<String>();        
-        result.add(USERS_ROLE);
-        result.add(EVERYONE_ROLE);       
+        Collection<String> result = new HashSet<String>();        
+        result.add(ROLE_USER);
+        result.add(ROLE_EVERYONE);
+        result.add(ROLE_USER_ADMIN);
         return result;
     }
-        
-    public static Collection<String[]> defaultRoleUsers(String role) {
-        Collection<String[]> result = new LinkedList<String[]>();
-        if (USERS_ROLE.equals(role)) {
+    
+    /**
+     * returns the users that should be part of the specified role
+     */
+    public static Collection<String[]> defaultRoleUsers(String roleId) {
+        Collection<String[]> result = new HashSet<String[]>();
+        if (ROLE_USER.equals(roleId)) {
             result.add(INDEX_USER);
         }
-        else if (EVERYONE_ROLE.equals(role)) {
+        else if (ROLE_EVERYONE.equals(roleId)) {
             result.add(ADMIN_USER);
             result.add(INDEX_USER);
             if (isAnonymousEnabled())
                 result.add(ANONYMOUS_USER);
         }     
+        return result;
+    }
+    
+    /**
+     * returns the roles that each user should play by default
+     */
+    public static Collection<String> defaultUserRoles() {
+        Collection<String> result = new HashSet<String>();
+        result.add(ROLE_USER);
+        result.add(ROLE_EVERYONE);
         return result;
     }
 

@@ -45,6 +45,14 @@ public interface UserAdmin extends UserQuery {
     RoleRO createRole(String roleId);    
     void deleteRole(RoleRO role);    
     
+    /**
+     * if the user does not already plays the role
+     * she is added to the role 
+     */
     void addUser(AbstractUserRO user, RoleRO role);    
+    
+    /**
+     * removes a user from a role if she is 'member' 
+     */
     void removeUser(AbstractUserRO user, RoleRO role);
 }
