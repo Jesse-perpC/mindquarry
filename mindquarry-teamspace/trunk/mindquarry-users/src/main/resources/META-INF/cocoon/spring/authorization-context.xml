@@ -24,8 +24,8 @@
 		<property name="sessionFactory" 
 				  ref="com.mindquarry.persistence.api.SessionFactory" />
 	
-		<property name="userQuery" 
-				  ref="com.mindquarry.user.UserQuery" />
+		<property name="userManager" 
+				  ref="com.mindquarry.user.manager.UserManager" />
 	</bean>
 	
 	<alias name="com.mindquarry.auth.manager.Authorization" 

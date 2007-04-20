@@ -48,19 +48,16 @@ public final class UserManager implements UserAdmin, Authentication {
     private void persistEntity(Object entity) {
         Session session = currentSession();
         session.persist(entity);
-        session.commit();
     }
 
     private void deleteEntity(Object entity) {
         Session session = currentSession();
         session.delete(entity);
-        session.commit();
     }
 
     private void updateEntity(Object entity) {
         Session session = currentSession();
         session.update(entity);
-        session.commit();
     }
 
     /**

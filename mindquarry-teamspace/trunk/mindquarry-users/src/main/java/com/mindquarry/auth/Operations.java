@@ -13,6 +13,9 @@
  */
 package com.mindquarry.auth;
 
+import java.util.Arrays;
+import java.util.Collection;
+
 /**
  * Add summary documentation here.
  *
@@ -25,11 +28,22 @@ public final class Operations {
     public static final String WRITE = "write";
     public static final String CHANGE_RIGHTS = "changeRights";
     
-    public static String[] defaultOperations() {
-        return new String[] {READ, WRITE, CHANGE_RIGHTS};
+    private static final Collection<String> DEFAULT_OPERATIONS;
+    
+    private static final Collection<String> READ_WRITE;
+    
+    static {
+        DEFAULT_OPERATIONS = Arrays.asList( 
+            new String[] {READ, WRITE, CHANGE_RIGHTS});
+        
+        READ_WRITE = Arrays.asList(new String[] {READ, WRITE});
     }
     
-    public static String[] readWrite() {
-        return new String[] {READ, WRITE};
+    public static Collection<String> defaultOperations() {
+        return DEFAULT_OPERATIONS;
+    }
+    
+    public static Collection<String> readWrite() {
+        return READ_WRITE;
     }
 }

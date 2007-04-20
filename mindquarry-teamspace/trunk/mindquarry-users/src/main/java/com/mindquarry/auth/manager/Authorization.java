@@ -26,8 +26,8 @@ import com.mindquarry.auth.ResourceRO;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.AbstractUserRO;
-import com.mindquarry.user.UserQuery;
 import com.mindquarry.user.UserRO;
+import com.mindquarry.user.manager.UserManager;
 import com.mindquarry.user.util.DefaultUsers;
 
 
@@ -37,19 +37,19 @@ import com.mindquarry.user.util.DefaultUsers;
  */
 public class Authorization implements AuthorizationAdmin {
     
-    private UserQuery userQuery;
+    private UserManager userManager_;
     
     private SessionFactory sessionFactory_;
     
     /**
-     * Setter for userQuery bean, set by spring at object creation
+     * set by spring at object creation
      */
-    public void setUserQuery(UserQuery userQuery) {
-        this.userQuery = userQuery;
+    public void setUserManager(UserManager userManager) {
+        userManager_ = userManager;
     }
 
     /**
-     * Setter for sessionFactory bean, set by spring at object creation
+     * set by spring at object creation
      */
     public void setSessionFactory(SessionFactory sessionFactory) {
         sessionFactory_ = sessionFactory;
@@ -62,7 +62,6 @@ public class Authorization implements AuthorizationAdmin {
     public ResourceEntity getResourceRoot() {
         Session session = currentSession();
         List<Object> queryResult = session.query("getResourceById", "root");
-        session.commit();
         
         if (queryResult.isEmpty())
             return initializeAuthorization();
@@ -73,12 +72,11 @@ public class Authorization implements AuthorizationAdmin {
     private ResourceEntity initializeAuthorization() {
         ResourceEntity root = new ResourceEntity("root", "", null);
         currentSession().persist(root);
-        currentSession().commit();
         
         // allow admin to execute default operations on all resources
         // the right list will become non-empty. hence, other users
         // will be unauthorized by default
-        UserRO admin = userQuery.userById(DefaultUsers.adminLogin());
+        UserRO admin = userManager_.userById(DefaultUsers.adminLogin());
         for (String operation : defaultOperations()) {
             ActionRO action = createAction(root, operation);
             addAllowance(action, admin);
@@ -89,7 +87,7 @@ public class Authorization implements AuthorizationAdmin {
     public boolean mayPerform(
             String resourceUri, String operation, String userId) {
         
-        AbstractUserRO user = this.userQuery.userById(userId);
+        AbstractUserRO user = userManager_.userById(userId);
         return mayPerform(resourceUri, operation, user);
     }
 
@@ -122,7 +120,6 @@ public class Authorization implements AuthorizationAdmin {
             }
         }
         
-        currentSession().commit();
         return result;
     }
     
@@ -145,7 +142,6 @@ public class Authorization implements AuthorizationAdmin {
             if (parent != null)
                 findAndDeleteObsoleteResources(parent);
         }
-        currentSession().commit();
     }
     
     private void findAndDeleteObsoleteResources(ResourceEntity resource) {
@@ -181,7 +177,6 @@ public class Authorization implements AuthorizationAdmin {
         Session session = currentSession();
         session.persist(action);
         currentSession().update(resource);
-        currentSession().commit();
         
         return action;
     }
@@ -199,7 +194,6 @@ public class Authorization implements AuthorizationAdmin {
             currentSession().update(resource);
         }
         
-        currentSession().commit();
         return action;
     }
     
@@ -210,8 +204,6 @@ public class Authorization implements AuthorizationAdmin {
         
         currentSession().delete(action);        
         findAndDeleteObsoleteResources(resource);
-        
-        currentSession().commit();
     }
 
     private String actionId(ResourceEntity resource, String operation) {
@@ -259,14 +251,12 @@ public class Authorization implements AuthorizationAdmin {
     public void addAllowance(ActionRO action, AbstractUserRO user) {
         ((ActionEntity) action).allowAccessTo(user);
         currentSession().update(action);
-        currentSession().commit();
     }
 
     public void removeAllowance(ActionRO action, AbstractUserRO user) {
         ActionEntity actionEntity = (ActionEntity) action;
         actionEntity.removeAllowanceFor(user);
         currentSession().update(action);
-        currentSession().commit();
         
         if (actionEntity.isObsolete()) {
             deleteAction(actionEntity);
@@ -276,14 +266,12 @@ public class Authorization implements AuthorizationAdmin {
     public void addDenial(ActionRO action, AbstractUserRO user) {
         ((ActionEntity) action).denyAccessTo(user);
         currentSession().update(action);
-        currentSession().commit();
     }
 
     public void removeDenial(ActionRO action, AbstractUserRO user) {
         ActionEntity actionEntity = (ActionEntity) action;
         actionEntity.removeDenialFor(user);
         currentSession().update(action);
-        currentSession().commit();
         
         if (actionEntity.isObsolete()) {
             deleteAction(actionEntity);

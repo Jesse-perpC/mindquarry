@@ -24,9 +24,9 @@ import org.springframework.beans.factory.support.RootBeanDefinition;
 
 import com.mindquarry.auth.manager.ActionEntity;
 import com.mindquarry.auth.manager.ResourceEntity;
-import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.SessionFactory;
+import com.mindquarry.persistence.jcr.JcrPersistenceTestBase;
 import com.mindquarry.user.manager.RoleEntity;
 import com.mindquarry.user.manager.UserEntity;
 import com.mindquarry.user.util.Initializer;
@@ -35,11 +35,10 @@ import com.mindquarry.user.webapp.CurrentUser;
 /**
  * @author <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>
  */
-public abstract class UserTestBase extends JcrSimpleTestBase {
+public abstract class UserTestBase extends JcrPersistenceTestBase {
     
     protected List<String> springConfigClasspathResources() {
-        List<String> result = super.springConfigClasspathResources();    
-        result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
+        List<String> result = super.springConfigClasspathResources();
         result.add("META-INF/cocoon/spring/authorization-context.xml");
         result.add("META-INF/cocoon/spring/user-context.xml");
         return result;
@@ -57,7 +56,8 @@ public abstract class UserTestBase extends JcrSimpleTestBase {
 
     protected void setUp() throws Exception {
         super.setUp();
-        registerCurrentUserBeanAsSingleton(); 
+        registerCurrentUserBeanAsSingleton();
+        ((CurrentUser) lookup(CurrentUser.ROLE)).setId("admin");
         
         JavaConfiguration configuration = new JavaConfiguration();
         for (Class clazz : entityClasses()) {
