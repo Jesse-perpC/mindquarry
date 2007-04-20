@@ -66,6 +66,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         return user;
     }
     
+    /*
     public void testPersistUser() throws Exception {
         currentSession().persist(makeTestUser());
         
@@ -92,6 +93,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         return textNode.getProperty("xt:characters").getString();
     }
     
+    /*
     public void testPersistCollectionProperties() throws Exception {        
         User user = new User();
         user.setLogin("testUser");
@@ -100,7 +102,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         user.lastname = "test";        
         currentSession().persist(user);
     }
-    
+    */
     public void testUpdateUser() {
         User user = new User();
         user.setLogin("testUser");
