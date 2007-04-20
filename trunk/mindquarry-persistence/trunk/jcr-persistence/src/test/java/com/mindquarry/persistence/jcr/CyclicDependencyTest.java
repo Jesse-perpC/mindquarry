@@ -69,8 +69,6 @@ public class CyclicDependencyTest extends JcrPersistenceTestBase {
         
         user.group = group;
         session.update(user);
-        
-        session.commit();
     }
     
     public void testQueryDeleteUser() throws ServiceException {
@@ -84,7 +82,5 @@ public class CyclicDependencyTest extends JcrPersistenceTestBase {
         
         session.delete(user.group);
         session.delete(user);
-        
-        session.commit();
     }
 }

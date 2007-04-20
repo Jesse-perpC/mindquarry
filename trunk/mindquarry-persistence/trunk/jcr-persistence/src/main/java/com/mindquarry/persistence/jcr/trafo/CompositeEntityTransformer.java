@@ -41,7 +41,7 @@ public class CompositeEntityTransformer extends EntityTransformer {
         
         String entityNodeName = idForEntity(entity) + ".xml";
         
-        JcrNode entityNode;        
+        JcrNode entityNode;
         if (compositeNode.hasNode(entityNodeName))
             entityNode = compositeNode.getNode(entityNodeName);
         else

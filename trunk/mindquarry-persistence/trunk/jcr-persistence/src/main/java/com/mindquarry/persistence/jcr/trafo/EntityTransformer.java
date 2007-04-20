@@ -30,6 +30,8 @@ import com.mindquarry.persistence.jcr.model.Property;
  */
 public class EntityTransformer implements Transformer {
     
+    private static final String IS_IN_ENTITY_TRANSFORMATION = "isInEntityTransformation";
+    
     protected EntityType entityType_;
     private Map<Property, Transformer> propertyTransformers_;
     
@@ -90,8 +92,14 @@ public class EntityTransformer implements Transformer {
         Pool pool = session.getPool();
         
         boolean isPooled = pool.containsEntryForEntity(entity);
+        boolean isInTransformation = 
+            session.getAttribute(IS_IN_ENTITY_TRANSFORMATION) != null;
+        
+        //boolean hasToBeWritten = ! isPooled || 
+        //            (isPooled && pool.isReleased(entity));
+        
         boolean hasToBeWritten = ! isPooled || 
-                    (isPooled && pool.isReleased(entity));
+                    (isPooled && ! isInTransformation);
 
         if (hasToBeWritten) {
             // we fill the cache before we start to transform, so that we 
@@ -99,9 +107,11 @@ public class EntityTransformer implements Transformer {
             // same "user write", i.e. within cyclic dependencies.        
             // For ease, we just overwrite existing entries.
             pool.put(entity, entityNode);
-            pool.allocate(entity);
-            writeToJcrInternal(entity, entityNode);      
-            pool.release(entity);  
+            //pool.allocate(entity);
+            session.setAttribute(IS_IN_ENTITY_TRANSFORMATION, "true");
+            writeToJcrInternal(entity, entityNode);
+            session.setAttribute(IS_IN_ENTITY_TRANSFORMATION, null);
+            //pool.release(entity);  
         }
     }
     

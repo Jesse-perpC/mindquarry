@@ -14,6 +14,10 @@
 package com.mindquarry.persistence.jcr;
 
 import static com.mindquarry.common.lang.ReflectionUtil.invoke;
+import static com.mindquarry.common.lang.ReflectionUtil.amount;
+import static com.mindquarry.common.lang.ReflectionUtil.duration;
+import static com.mindquarry.persistence.jcr.cmds.QueryCommand.queryDuration;
+
 import static com.mindquarry.persistence.jcr.Operations.DELETE;
 import static com.mindquarry.persistence.jcr.Operations.PERSIST;
 import static com.mindquarry.persistence.jcr.Operations.QUERY;
@@ -38,6 +42,8 @@ import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 class Session implements JcrSession,
     com.mindquarry.persistence.api.Session {
 
+    public static long persistenceDuration = 0l;
+    
     private Pool pool_;
     private javax.jcr.Session jcrSession_;
     private CommandProcessor commandProcessor_;
@@ -53,10 +59,11 @@ class Session implements JcrSession,
     /**
      * @see com.mindquarry.common.persistence.Session#commit()
      */
+    /*
     public void commit() {
         invoke("save", jcrSession_);
         pool_.clear();
-    }
+    }*/
 
     /**
      * @see com.mindquarry.common.persistence.Session#delete(java.lang.Object)
@@ -89,7 +96,11 @@ class Session implements JcrSession,
     }
     
     private Object processCommand(Operations operation, Object... objects) {
-        return commandProcessor_.process(operation, this, objects);
+
+        Object result = commandProcessor_.process(operation, this, objects);
+        save();
+        
+        return result;
     }
     
     // implementation of JcrSession interface methods
@@ -112,5 +123,9 @@ class Session implements JcrSession,
 
     public void setAttribute(String key, Object value) {
         attributeMap_.put(key, value);
+    }
+    
+    private void save() {
+        invoke("save", jcrSession_);
     }
 }

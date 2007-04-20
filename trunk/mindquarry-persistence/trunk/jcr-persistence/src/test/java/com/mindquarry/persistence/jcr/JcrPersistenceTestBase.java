@@ -13,27 +13,22 @@
  */
 package com.mindquarry.persistence.jcr;
 
-import java.io.IOException;
 import java.util.List;
-
-import org.apache.avalon.framework.service.ServiceException;
-import org.apache.excalibur.source.Source;
-import org.apache.excalibur.source.SourceResolver;
 
 import com.mindquarry.jcr.jackrabbit.JcrSimpleTestBase;
 
 
 
 public abstract class JcrPersistenceTestBase extends JcrSimpleTestBase {
-    
+        
     protected List<String> springConfigClasspathResources() {        
         List<String> result = super.springConfigClasspathResources();
         result.add("META-INF/cocoon/spring/jcr-persistence-context.xml");
         return result;
     }
     
-    protected Source resolveSource(String uri) throws ServiceException, IOException {
-        SourceResolver resolver = (SourceResolver) lookup(SourceResolver.ROLE);
-        return resolver.resolveURI(uri);
+    protected void tearDown() throws Exception {
+        ((Persistence) lookup(Persistence.ROLE)).clear();        
+        super.tearDown();
     }
 }

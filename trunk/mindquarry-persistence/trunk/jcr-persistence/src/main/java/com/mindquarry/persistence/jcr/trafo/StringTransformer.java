@@ -31,12 +31,15 @@ class StringTransformer implements Transformer {
     }
 
     public void writeToJcr(Object object, JcrNode propertyNode) {
+        
+        String value = (String) object;
+        
         JcrNode textNode;
         if (propertyNode.hasNode("text"))
             textNode = propertyNode.getNode("text");
         else
             textNode = propertyNode.addNode("text", "xt:text");
         
-        textNode.setProperty("xt:characters", object.toString());
-    }    
+        textNode.setProperty("xt:characters", value);
+    }
 }

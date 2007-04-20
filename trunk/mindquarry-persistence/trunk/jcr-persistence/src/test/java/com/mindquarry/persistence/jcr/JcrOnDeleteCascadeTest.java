@@ -15,8 +15,6 @@ package com.mindquarry.persistence.jcr;
 
 import java.util.List;
 
-import org.apache.avalon.framework.service.ServiceException;
-
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.Session;
 import com.mindquarry.persistence.api.SessionFactory;
@@ -41,7 +39,7 @@ public class JcrOnDeleteCascadeTest extends JcrPersistenceTestBase {
         sessionFactory_ = persistence;    
     }
     
-    public void testOnDeleteCascadeUser() throws ServiceException {
+    public void testOnDeleteCascadeUser() throws Exception {
         
         Session session;
         try {
@@ -52,25 +50,20 @@ public class JcrOnDeleteCascadeTest extends JcrPersistenceTestBase {
             user.firstname = "test";
             user.lastname = "test";        
             session.persist(user);
-            session.commit();
-            
-            
+                        
             session = sessionFactory_.currentSession();        
             Group group = new Group();
             group.id = "testGroup";
             group.members.add(user);        
             session.persist(group);
-            session.commit();
             
             session = sessionFactory_.currentSession();
-            deleteTestUserIfExists();
-            session.commit();
+            deleteTestUserIfExists();;
         }
         finally {
             session = sessionFactory_.currentSession();
             deleteTestGroupIfExists();
-            deleteTestUserIfExists();
-            session.commit();            
+            deleteTestUserIfExists();   
         }
     }
     

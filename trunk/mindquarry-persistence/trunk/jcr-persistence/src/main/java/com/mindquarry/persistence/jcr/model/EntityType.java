@@ -55,8 +55,8 @@ public class EntityType {
         assert hasPublicDefaultConstructor(entityClazz_) : 
             "each entity class must provide a public default constructor";
         
-        List<Field> fields = allFields();
-        Field idField = select(idAnnotated(), allFields()).get(0);
+        List<Field> fields = allNonStaticFields();
+        Field idField = select(idAnnotated(), fields).get(0);
         List<Field> nonIdFields = select(not(idAnnotated()), fields);
         
         entityId_ = makeEntityId(idField);        
@@ -124,7 +124,7 @@ public class EntityType {
     }
     
     private boolean containsExactlyOneIdProperty() {
-        return select(idAnnotated(), allFields()).size() == 1;
+        return select(idAnnotated(), allNonStaticFields()).size() == 1;
     }
     
     private EntityId makeEntityId(Field idField) {
@@ -156,7 +156,7 @@ public class EntityType {
         }
     }
     
-    private List<Field> allFields() {
+    private List<Field> allNonStaticFields() {
         List<Field> result = new ArrayList<Field>();
         
         Class clazz = entityClazz_;

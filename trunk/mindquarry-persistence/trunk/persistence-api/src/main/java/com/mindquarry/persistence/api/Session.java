@@ -34,6 +34,4 @@ public interface Session {
     boolean delete(Object entity);
     
     List<Object> query(String queryName, Object...params);
-    
-    void commit();
 }

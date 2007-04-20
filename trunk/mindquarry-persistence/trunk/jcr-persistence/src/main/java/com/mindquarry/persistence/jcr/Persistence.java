@@ -37,7 +37,7 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 public class Persistence implements SessionFactory {
 
     private List<Class<?>> entityClazzes_;
-    private JcrSessionFactory jcrSessionFactory_;
+    private JcrSessionFactory targetSessionFactory_;
     
     private Model model_;
     private QueryResolver queryResolver_;
@@ -50,8 +50,9 @@ public class Persistence implements SessionFactory {
         currentSession_ = new ThreadLocal<Session>();
     }
     
-    public void setJcrSessionFactory(JcrSessionFactory jcrSessionFactory) {
-        jcrSessionFactory_ = jcrSessionFactory;
+    public void setTargetSessionFactory(
+            JcrSessionFactory targetSessionFactory) {        
+        targetSessionFactory_ = targetSessionFactory;
     }
     
     public void addClass(Class<?> clazz) {
@@ -108,19 +109,20 @@ public class Persistence implements SessionFactory {
      * @see com.mindquarry.common.persistence.SessionFactory#currentSession()
      */
     public Session currentSession() {
+        
         if (currentSession_.get() == null) {
             currentSession_.set(buildJcrSession());
         }
         return currentSession_.get();
     }
     
-    private Session buildJcrSession() {
-        return new Session(this, createJcrSession());
+    public void clear() {
+        currentSession_.set(null);
     }
     
-    private javax.jcr.Session createJcrSession() {
+    private Session buildJcrSession() {
         try {
-            return jcrSessionFactory_.getSession();
+            return new Session(this, targetSessionFactory_.getSession());
         } catch (RepositoryException e) {
             throw new JcrPersistenceInternalException(e);
         }
