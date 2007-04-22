@@ -39,7 +39,7 @@ public class PropfindHandler extends SubversionHandler implements RequestHandler
 	public void versionControlledConfiguration(Node input) {
 		copy(input);
 		Element href = current().addElement("dav:href",DAV_NS);
-		href.setText(getRepoPath()+"!svn/vcc/default");
+		href.setText(getVcc());
 		pop();
 	}
 

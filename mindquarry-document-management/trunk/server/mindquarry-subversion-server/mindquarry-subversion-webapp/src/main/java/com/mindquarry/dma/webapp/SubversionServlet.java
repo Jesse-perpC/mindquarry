@@ -29,6 +29,7 @@ public class SubversionServlet extends HttpServlet {
 	@Override
 	public void init() throws ServletException {
 		this.handlers = new Vector<RequestHandler>();
+		this.handlers.add(new PropfindVccHandler());
 		this.handlers.add(new PropfindHandler());
 		this.handlers.add(new FallbackHandler());
 	}
