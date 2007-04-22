@@ -148,7 +148,7 @@ public class PropfindHandler extends Transformer implements RequestHandler{
 	}
 
 	private String getBaseLineRelativePath() {
-		return request.getPathInfo().substring(request.getPathInfo().indexOf("/"));
+		return request.getPathInfo().substring(request.getPathInfo().substring(1).indexOf("/")+1);
 	}
 	@Path("svn:repository-uuid")
 	public void repositoryUuid(Node input) {
