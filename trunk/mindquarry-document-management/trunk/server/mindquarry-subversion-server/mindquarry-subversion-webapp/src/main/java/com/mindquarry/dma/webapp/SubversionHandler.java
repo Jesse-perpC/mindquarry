@@ -54,6 +54,8 @@ public abstract class SubversionHandler extends Transformer {
 
 	public boolean handle(HttpServletRequest request, HttpServletResponse response) throws DocumentException,
 			IOException {
+			this.response = response;
+			this.request = request;
 				if (!canHandle(request)) {
 					return false;
 				}
@@ -61,8 +63,6 @@ public abstract class SubversionHandler extends Transformer {
 				Document input = reader.read(request.getInputStream());
 				this.output = DocumentFactory.getInstance().createDocument();
 				this.current = this.output;
-				this.response = response;
-				this.request = request;
 				this.execute(input);
 				this.setNamespace("dav", DAV_NS);
 				this.setNamespace("svn", SVN_NS);
@@ -77,7 +77,14 @@ public abstract class SubversionHandler extends Transformer {
 	}
 
 	protected String getRepoPath() {
-		return getReposBasePath()+getRepoName();
+		StringBuffer buf = new StringBuffer();
+		if (getReposBasePath().equals("")) {
+			buf.append("/");
+		}
+		buf.append(getReposBasePath());
+		buf.append(getRepoName());
+		buf.append("/");
+		return buf.toString();
 	}
 
 	protected String getRepoName() {
@@ -122,6 +129,10 @@ public abstract class SubversionHandler extends Transformer {
 		FSRepositoryFactory.setup();
 		SVNURL repourl = SVNURL.parseURIEncoded("file:///Users/lars/Documents/Software/Mindquarry%20Workspace/mindquarry-dma-javasvn/src/test/resources/com/mindquarry/dma/javasvn/"+name);
 		return FSRepositoryFactory.create(repourl);
+	}
+
+	protected String getVcc() {
+		return getRepoPath()+"!svn/vcc/default";
 	}
 
 }
