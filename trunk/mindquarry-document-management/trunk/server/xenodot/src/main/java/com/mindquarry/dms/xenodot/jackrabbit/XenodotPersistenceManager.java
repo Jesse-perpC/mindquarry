@@ -514,35 +514,46 @@ public class XenodotPersistenceManager implements PersistenceManager {
                     }
                 }.execute(sql);
                 
-                Iterator delIterator = changeLog.deletedStates();
-                while (delIterator.hasNext()) {
-                    ItemState state = (ItemState) delIterator.next();
-                    if (!state.isNode()) {
-                        final PropertyState propState = (PropertyState) state;
-                        new CallDB() {
-                            public void initStatement(CallableStatement statement) throws SQLException {
-                                statement.setLong(  1, propState.getParentId().getUUID().getMostSignificantBits());
-                                statement.setLong(  2, propState.getParentId().getUUID().getLeastSignificantBits());
-                                statement.setString(3, propState.getName().getNamespaceURI());
-                                statement.setString(4, propState.getName().getLocalName());
-                            }
-                        }.execute("select xenodot.delete(jackrabbit.node(?, ?), xenodot.name(?, ?));");
-                    }
-                }
-                delIterator = changeLog.deletedStates();
-                while (delIterator.hasNext()) {
-                    ItemState state = (ItemState) delIterator.next();
-                    if (state.isNode()) {
-                        final NodeState nodeState = (NodeState) state;
-                        new CallDB() {
-                            public void initStatement(CallableStatement statement) throws SQLException {
-                                statement.setLong(1, nodeState.getNodeId().getUUID().getMostSignificantBits());
-                                statement.setLong(2, nodeState.getNodeId().getUUID().getLeastSignificantBits());
-                            }
-                        }.execute("select xenodot.delete(jackrabbit.node(?, ?));");
-                    }
+            }
+            
+            // everything stored, now delete
+            ArrayList<NodeState> delNodes = new ArrayList<NodeState>();
+            ArrayList<PropertyState> delProps = new ArrayList<PropertyState>();
+            
+            Iterator delIterator = changeLog.deletedStates();
+            while (delIterator.hasNext()) {
+                ItemState state = (ItemState) delIterator.next();
+                if (state.isNode()) {
+                    delNodes.add((NodeState) state);
+                } else {
+                    delProps.add((PropertyState) state);
                 }
             }
+            
+            Iterator<PropertyState> delProp = delProps.iterator();
+            while (delProp.hasNext()) {
+                final PropertyState propState = delProp.next();
+                new CallDB() {
+                    public void initStatement(CallableStatement statement) throws SQLException {
+                        statement.setLong(  1, propState.getParentId().getUUID().getMostSignificantBits());
+                        statement.setLong(  2, propState.getParentId().getUUID().getLeastSignificantBits());
+                        statement.setString(3, propState.getName().getNamespaceURI());
+                        statement.setString(4, propState.getName().getLocalName());
+                    }
+                }.execute("select xenodot.delete(jackrabbit.node(?, ?), xenodot.name(?, ?));");
+            }
+            
+            Iterator<NodeState> delNode = delNodes.iterator();
+            while (delNode.hasNext()) {
+                final NodeState nodeState = delNode.next();
+                new CallDB() {
+                    public void initStatement(CallableStatement statement) throws SQLException {
+                        statement.setLong(1, nodeState.getNodeId().getUUID().getMostSignificantBits());
+                        statement.setLong(2, nodeState.getNodeId().getUUID().getLeastSignificantBits());
+                    }
+                }.execute("select xenodot.delete(jackrabbit.node(?, ?));");
+            }
+
             database.commit();
         } catch (ItemStateException iteme) {
             try {
