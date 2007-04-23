@@ -22,12 +22,14 @@ import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQueries;
 import com.mindquarry.persistence.api.NamedQuery;
 
-@Entity(parentFolder="teamspaces", asComposite=true)
+@Entity(parentFolder=Team.PARENT_FOLDER, asComposite=true)
 @NamedQueries({ 
     @NamedQuery(name="teamById", query="/teamspaces/{$teamId}"),
     @NamedQuery(name="allTeams", query="/teamspaces/*")
 })
 public class Team  {
+    
+    public static final String PARENT_FOLDER = "teamspaces";
     
     @Id
     public String name = "";

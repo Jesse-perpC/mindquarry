@@ -17,9 +17,11 @@ import com.mindquarry.persistence.api.Entity;
 import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.api.NamedQuery;
 
-@Entity(parentFolder="groups")
+@Entity(parentFolder=Group.PARENT_FOLDER)
 @NamedQuery(name="groupById", query="/groups/{$groupId}")
 public class Group  {
+    
+    public static final String PARENT_FOLDER = "groups";
     
     @Id
     public String id;
