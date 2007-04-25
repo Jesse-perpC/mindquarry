@@ -37,7 +37,6 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     private SessionFactory sessionFactory_;
     
     protected void setUp() throws Exception {
-        System.setProperty("xenodot", "true");
         super.setUp();
         
         JavaConfiguration configuration = new JavaConfiguration();
