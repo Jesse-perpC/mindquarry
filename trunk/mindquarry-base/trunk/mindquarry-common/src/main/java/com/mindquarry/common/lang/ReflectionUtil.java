@@ -44,7 +44,7 @@ public class ReflectionUtil {
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getTargetException());
         }
     }
     
@@ -53,14 +53,16 @@ public class ReflectionUtil {
             Class<?>[] parameterTypes = new Class<?>[args.length];
             for (int i = 0; i < args.length; i++)
                 parameterTypes[i] = args[i].getClass();
-            Method method = findMethod(object.getClass(), name, parameterTypes);
+            
+            Method method = findMethod(object.getClass(), name, parameterTypes);                        
             return method.invoke(object, args);
+            
         } catch (IllegalArgumentException e) {
             throw new RuntimeException(e);
         } catch (IllegalAccessException e) {
             throw new RuntimeException(e);
         } catch (InvocationTargetException e) {
-            throw new RuntimeException(e);
+            throw new RuntimeException(e.getTargetException());
         }
     }
     
