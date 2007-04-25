@@ -753,7 +753,20 @@
 				<transform src="xslt/xml/tasks2selectionlist.xsl"/>
 				<serialize type="xml"/>
 			</match>
-
+			
+			<!-- provides a json list for the filter widget: tasks -->
+			<match pattern="*/lists/tasks.json">
+				<read src="json-dummy/tasks.json" mime-type="text/javascript" />
+			</match>
+			
+			<!-- provides a json list for the filter widget: task filters -->
+			<match pattern="*/lists/task-filters.json">
+				<read src="json-dummy/filters.json" mime-type="text/javascript" />
+			</match>
+			
+			
+			
+			
 			<!--+
 				| URL for a task in a certain teamspace:
 				| .../tasks/<teamspace-id>/<task-id>
