@@ -16,8 +16,6 @@ package com.mindquarry.persistence.jcr.model;
 import com.mindquarry.persistence.api.PersistenceException;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

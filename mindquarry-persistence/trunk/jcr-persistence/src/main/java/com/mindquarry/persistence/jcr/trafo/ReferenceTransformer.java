@@ -23,8 +23,6 @@ import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -45,9 +43,10 @@ class ReferenceTransformer implements Transformer {
         }
         
         JcrSession session = propertyNode.getSession();
-        JcrNode entityNode = propertyNode.getProperty("reference").getNode();
+        JcrNode referencedEntityNode = 
+            propertyNode.getProperty("reference").getNode();
         
-        return processCommand(READ, session, entityNode);
+        return processCommand(READ, session, referencedEntityNode);
     }
 
     public void writeToJcr(Object entity, JcrNode propertyNode) {        

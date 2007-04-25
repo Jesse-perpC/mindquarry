@@ -32,8 +32,6 @@ import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.model.ModelException;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -42,6 +40,7 @@ class TransformerRegistry {
     private Model model_;
     private TransformationManager transformationManager_;
     private Map<Class<?>, Transformer> referenceTransformers_;
+    
     
     public TransformerRegistry(Persistence persistence) {
         model_= persistence.getModel();

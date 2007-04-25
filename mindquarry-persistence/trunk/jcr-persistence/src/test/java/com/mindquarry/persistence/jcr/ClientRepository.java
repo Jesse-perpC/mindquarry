@@ -29,8 +29,6 @@ import org.apache.jackrabbit.rmi.client.ClientRepositoryFactory;
 import com.mindquarry.common.init.InitializationException;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

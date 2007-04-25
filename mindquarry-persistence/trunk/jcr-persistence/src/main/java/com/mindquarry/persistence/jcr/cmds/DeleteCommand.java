@@ -21,8 +21,6 @@ import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -42,9 +40,14 @@ class DeleteCommand implements Command {
     public Object execute(JcrSession session) {
         JcrEntityFolderNode folderNode = findEntityFolder(session);
         JcrNode entityNode = folderNode.getEntityNode(entityId());        
+        
+        // properties of other entities may reference the currently processed
+        // entity. To ensure referential integrity, we have to navigate back
+        // to all referencing entities and remove the reference.
         for (JcrProperty property : entityNode.getReferences()) {
             property.getParent().remove();
         }
+        
         entityNode.remove();
         return null;
     }

@@ -14,8 +14,6 @@
 package com.mindquarry.persistence.jcr.query;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert@mindquarry.com">Bastian Steinert</a>
  */

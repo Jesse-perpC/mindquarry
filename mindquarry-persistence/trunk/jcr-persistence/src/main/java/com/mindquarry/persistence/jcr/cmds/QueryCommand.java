@@ -24,14 +24,10 @@ import com.mindquarry.persistence.jcr.Persistence;
 import com.mindquarry.persistence.jcr.query.QueryResolver;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class QueryCommand implements Command {
-
-    public static long queryDuration = 0l;
     
     private String queryKey_;
     private Object[] queryParameters_;
@@ -65,14 +61,7 @@ public class QueryCommand implements Command {
     
     private Iterable<JcrNode> resolveQuery(JcrSession session) {
         
-        long start = System.currentTimeMillis();
-        
         QueryResolver queryResolver = persistence_.getQueryResolver();        
-        Iterable<JcrNode> result = queryResolver.resolve(session, queryKey_, queryParameters_);
-        
-        long end = System.currentTimeMillis();
-        queryDuration += (end - start);
-        
-        return result;
+        return queryResolver.resolve(session, queryKey_, queryParameters_);
     }
 }

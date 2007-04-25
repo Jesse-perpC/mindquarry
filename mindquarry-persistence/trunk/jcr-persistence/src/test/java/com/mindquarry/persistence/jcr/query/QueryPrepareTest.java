@@ -18,8 +18,6 @@ import junit.framework.TestCase;
 import org.junit.Test;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

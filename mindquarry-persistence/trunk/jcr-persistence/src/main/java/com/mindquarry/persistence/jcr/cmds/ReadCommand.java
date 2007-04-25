@@ -16,14 +16,10 @@ package com.mindquarry.persistence.jcr.cmds;
 import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.model.EntityType;
-import com.mindquarry.persistence.jcr.model.Model;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -51,21 +47,6 @@ class ReadCommand implements Command {
     
     private String parentFolderName() {
         return entityNode_.getParent().getName();
-    }
-    
-    EntityType entityTypeByFolder(String folder) {
-        EntityType result = null;
-        for (EntityType entityType : getModel().allEntityTypes()) {
-            if (entityType.usesJcrFolder(folder)) {
-                result = entityType;
-                break;
-            }
-        }
-        return result;
-    }
-    
-    private Model getModel() {
-        return persistence_.getModel();
     }
     
     private TransformationManager getTransformationManager() {

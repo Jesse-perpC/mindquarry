@@ -17,13 +17,10 @@ import com.mindquarry.persistence.api.PersistenceException;
 import com.mindquarry.persistence.jcr.JcrNode;
 import com.mindquarry.persistence.jcr.JcrSession;
 import com.mindquarry.persistence.jcr.Persistence;
-import com.mindquarry.persistence.jcr.Pool;
 import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -48,17 +45,14 @@ class PersistCommand implements Command {
      */
     public Object execute(JcrSession session) {
         
-        Pool pool = session.getPool();
-        if (! pool.containsEntryForEntity(entity_)) {
-            JcrEntityFolderNode folderNode = findOrCreateEntityFolder(session);            
+        JcrEntityFolderNode folderNode = findOrCreateEntityFolder(session);            
             
-            if (folderNode.hasEntityNode(entityId())) {
-                throw new PersistenceException("the entity: " + entity_ + 
-                        " with id: " + entityId() + "already exists.");
-            }            
-            // here we only create the jcr file node
-            folderNode.addEntityNode(entityId());         
-        }
+        if (folderNode.hasEntityNode(entityId())) {
+            throw new PersistenceException("the entity: " + entity_ + 
+                    " with id: " + entityId() + "already exists.");
+        }            
+        // here we only create the jcr file node
+        folderNode.addEntityNode(entityId());
         
         return writeEntityIntoFileNode(session);        
     }

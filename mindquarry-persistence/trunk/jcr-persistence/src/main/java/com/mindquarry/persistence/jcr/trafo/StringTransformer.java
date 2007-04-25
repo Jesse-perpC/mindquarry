@@ -16,8 +16,6 @@ package com.mindquarry.persistence.jcr.trafo;
 import com.mindquarry.persistence.jcr.JcrNode;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
