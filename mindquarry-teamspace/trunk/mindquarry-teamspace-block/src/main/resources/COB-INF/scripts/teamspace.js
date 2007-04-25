@@ -5,11 +5,13 @@ dojo.require("dojo.dom");
 dojo.require("dojo.lfx.html");
 
 /* doing some init stuff */
+var initTeamspaceEvents;
 initTeamspaceEvents = function() {
 	detailsButtons = dojo.html.getElementsByClassName("details-collapsed");
 
 	// add prev & next buttons to all member lists
 	for (i=0; i<detailsButtons.length; i++) {
+		detailsButtons[i].setAttribute('onclick',null);
 		dojo.event.connect(detailsButtons[i], "onclick", "doExpandOrCollapse");
 	}
 }
