@@ -13,8 +13,6 @@
  */
 package com.mindquarry.user;
 
-import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
@@ -22,14 +20,7 @@ import org.springframework.beans.factory.config.BeanDefinition;
 import org.springframework.beans.factory.support.BeanDefinitionRegistry;
 import org.springframework.beans.factory.support.RootBeanDefinition;
 
-import com.mindquarry.auth.manager.ActionEntity;
-import com.mindquarry.auth.manager.ResourceEntity;
-import com.mindquarry.persistence.api.JavaConfiguration;
-import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.jcr.JcrPersistenceTestBase;
-import com.mindquarry.user.manager.RoleEntity;
-import com.mindquarry.user.manager.UserEntity;
-import com.mindquarry.user.util.Initializer;
 import com.mindquarry.user.webapp.CurrentUser;
 
 /**
@@ -57,37 +48,10 @@ public abstract class UserTestBase extends JcrPersistenceTestBase {
     protected void setUp() throws Exception {
         super.setUp();
         registerCurrentUserBeanAsSingleton();
-        ((CurrentUser) lookup(CurrentUser.ROLE)).setId("admin");
-        
-        JavaConfiguration configuration = new JavaConfiguration();
-        for (Class clazz : entityClasses()) {
-            configuration.addClass(clazz);
-        }
-        
-        SessionFactory sessionFactory = 
-            (SessionFactory) lookup(SessionFactory.ROLE);        
-        sessionFactory.configure(configuration);
-        
-        lookupUserInitializer().initialize();
-    }
-    
-    protected Collection<Class> entityClasses() {
-        Collection<Class> result = new ArrayList<Class>();
-        
-        result.add(UserEntity.class);
-        result.add(RoleEntity.class);
-
-        result.add(ActionEntity.class);
-        result.add(ResourceEntity.class);
-        
-        return result;
+        ((CurrentUser) lookup(CurrentUser.ROLE)).setId("admin");        
     }
     
     protected UserAdmin lookupUserAdmin() throws ServiceException {
         return (UserAdmin) lookup(UserAdmin.class.getName());
-    }
-    
-    protected Initializer lookupUserInitializer() throws ServiceException {
-        return (Initializer) lookup(Initializer.ROLE);
     }
 }

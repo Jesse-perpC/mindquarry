@@ -25,9 +25,15 @@ import static com.mindquarry.user.util.DefaultUsers.username;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
+import com.mindquarry.auth.manager.ActionEntity;
+import com.mindquarry.auth.manager.ResourceEntity;
+import com.mindquarry.persistence.api.JavaConfiguration;
+import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.user.RoleRO;
 import com.mindquarry.user.UserRO;
 import com.mindquarry.user.auth.UserAuthorization;
+import com.mindquarry.user.manager.RoleEntity;
+import com.mindquarry.user.manager.UserEntity;
 import com.mindquarry.user.manager.UserManager;
 
 /**
@@ -44,6 +50,15 @@ public class Initializer {
     
     private UserManager userManager_;
     
+    private SessionFactory sessionFactory_;
+
+    /**
+     * Setter for sessionFactory bean, set by spring at object creation
+     */
+    public void setSessionFactory(SessionFactory sessionFactory) {
+        sessionFactory_ = sessionFactory;
+    }
+    
     /**
      * set by spring at object creation
      */
@@ -59,10 +74,21 @@ public class Initializer {
     }
     
     public void initialize() {
+        configureEntityClasses();
         initializeUsers();
         initializeRoles();
     }
     
+    private void configureEntityClasses() {
+        JavaConfiguration configuration = new JavaConfiguration();
+        configuration.addClass(UserEntity.class);
+        configuration.addClass(RoleEntity.class);
+
+        configuration.addClass(ActionEntity.class);
+        configuration.addClass(ResourceEntity.class);
+        sessionFactory_.addConfiguration(configuration);
+    }
+
     private void initializeUsers() {
         for (String[] userProfile : defaultUsers()) {
             if (!existsUser(userProfile)) {

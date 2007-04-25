@@ -13,12 +13,10 @@
  */
 package com.mindquarry.teamspace;
 
-import java.util.Collection;
 import java.util.List;
 
 import org.apache.avalon.framework.service.ServiceException;
 
-import com.mindquarry.teamspace.manager.TeamspaceEntity;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserTestBase;
 import com.mindquarry.user.webapp.CurrentUser;
@@ -31,12 +29,6 @@ public abstract class TeamspaceTestBase extends UserTestBase {
     protected List<String> springConfigClasspathResources() {        
         List<String> result = super.springConfigClasspathResources();
         result.add("META-INF/cocoon/spring/teamspace-context.xml");
-        return result;
-    }
-    
-    protected Collection<Class> entityClasses() {
-        Collection<Class> result = super.entityClasses();
-        result.add(TeamspaceEntity.class);        
         return result;
     }
     
