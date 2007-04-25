@@ -134,15 +134,10 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
 
     public Collection<? extends TeamspaceRO> teamspacesForUser(String userId) {
         
-        Collection<? extends TeamspaceRO> result;
-        
-        Session session = currentSession();
         if (ADMIN_USER_ID.equals(userId))
-            result = queryAllTeamspaces();
+            return queryAllTeamspaces();
         else
-            result = queryTeamspacesForUser(userId);
-           
-        return result;
+            return queryTeamspacesForUser(userId);
     }
 
     private List<TeamspaceRO> queryAllTeamspaces() {

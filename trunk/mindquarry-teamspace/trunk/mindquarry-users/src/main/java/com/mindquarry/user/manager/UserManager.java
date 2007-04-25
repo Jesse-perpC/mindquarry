@@ -45,6 +45,10 @@ public final class UserManager implements UserAdmin, Authentication {
         sessionFactory_ = sessionFactory;
     }
 
+    private Session currentSession() {
+        return sessionFactory_.currentSession();
+    }
+
     private void persistEntity(Object entity) {
         Session session = currentSession();
         session.persist(entity);
@@ -70,10 +74,6 @@ public final class UserManager implements UserAdmin, Authentication {
             return queryResult.get(0);
         else
             return null;
-    }
-
-    private Session currentSession() {
-        return sessionFactory_.currentSession();
     }
 
     public final boolean isValidUserId(String userId) {

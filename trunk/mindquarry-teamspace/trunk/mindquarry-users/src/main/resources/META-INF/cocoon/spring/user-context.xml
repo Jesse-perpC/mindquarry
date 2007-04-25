@@ -46,16 +46,19 @@
 	<alias name="com.mindquarry.user.manager.UserManager" 
 		   alias="com.mindquarry.user.UserQuery" />
 	
-	
+		
 	<bean id="com.mindquarry.user.util.Initializer" 
 		class="com.mindquarry.user.util.Initializer"
-		scope="singleton">
+		scope="singleton" init-method="initialize"> 
 		
 		<property name="userManager" 
 				  ref="com.mindquarry.user.manager.UserManager" />
 		
 		<property name="userAuthorization" 
 				  ref="com.mindquarry.user.auth.UserAuthorization" />				  
+				  
+		<property name="sessionFactory" 
+				  ref="com.mindquarry.persistence.api.SessionFactory" />
 	</bean>
 		   
 	<bean id="com.mindquarry.user.webapp.CurrentUser" 

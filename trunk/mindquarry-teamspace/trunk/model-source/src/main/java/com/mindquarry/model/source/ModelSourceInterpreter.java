@@ -44,45 +44,61 @@ class ModelSourceInterpreter {
     
     	for (String statement : statements_) {
     
-    	    String methodName = statement.substring(0, statement.indexOf('('));
+    	    String methodName = methodName(statement);
+    	    String[] parameters = parameters(statement);
     
-    	    int argsBegin = statement.indexOf('(') + 1;
-    	    int argsEnd = statement.indexOf(')');
-    	    String[] args;
+    	    Method method = findMethod(context.getClass(), 
+                    methodName, parameters.length);
     
-    	    if (argsBegin == argsEnd) {
-    	        args = new String[0];
-    	    } 
-            else {
-        		String argsString = statement.substring(argsBegin, argsEnd);
-        		args = argsString.split(",");
-    	    }
+    	    Object[] parsedParameters = parseParameters(method, parameters);
     
-    	    Method method = findMethod(methodName, args.length, context.getClass());
-    
-    	    Object[] typedArgs = new Object[args.length];
-    	    for (int i = 0; i < args.length; i++) {
-        		Class<?> parameterType = method.getParameterTypes()[i];
-        
-        		if (parameterType.equals(int.class)) {
-        		    typedArgs[i] = Integer.parseInt(args[i]);
-        		} else if (parameterType.equals(boolean.class)) {
-        		    typedArgs[i] = Boolean.parseBoolean(args[i]);
-        		} else if (parameterType.equals(String.class)) {
-        		    typedArgs[i] = args[i].trim();
-        		} else {
-        		    throw new ModelSourceException(
-        			    "non primitve parameter types are not supported.");
-        		}
-    	    }
-    
-    	    context = invokeMethod(method, context, typedArgs);
+    	    context = invokeMethod(method, context, parsedParameters);
     	}
     
     	return context;
     }
+    
+    private String methodName(String statement) {
+        return statement.substring(0, statement.indexOf('('));
+    }
+    
+    private String[] parameters(String statement) {
+        int argsBegin = statement.indexOf('(') + 1;
+        int argsEnd = statement.indexOf(')');
 
-    private Method findMethod(String name, int nParams, Class clazz) {
+        if (argsBegin == argsEnd)
+            return new String[0];
+        else {
+            String argsString = statement.substring(argsBegin, argsEnd);
+            return argsString.split(",");
+        }
+    }
+    
+    private Object[] parseParameters(Method method, String[] parameters) {
+        Object[] result = new Object[parameters.length];
+        Class<?>[] parameterTypes = method.getParameterTypes();
+        for (int i = 0; i < parameters.length; i++) {
+            result[i] = parseParameter(parameterTypes[i], parameters[i]);
+        }
+        return result;
+    }
+    
+    private Object parseParameter(Class<?> clazz, String parameter) {
+        Object result;
+        if (clazz.equals(int.class)) {
+            result = Integer.parseInt(parameter);
+        } else if (clazz.equals(boolean.class)) {
+            result = Boolean.parseBoolean(parameter);
+        } else if (clazz.equals(String.class)) {
+            result = parameter.trim();
+        } else {
+            throw new ModelSourceException(
+                "non primitve parameter types are not supported.");
+        }
+        return result;
+    }
+
+    private Method findMethod(Class clazz, String name, int nParams) {
     	Method result = lookForMethod(name, nParams, clazz);
     	if (result == null) {
     	    throw new ModelSourceException("no method " + "with name: " + name

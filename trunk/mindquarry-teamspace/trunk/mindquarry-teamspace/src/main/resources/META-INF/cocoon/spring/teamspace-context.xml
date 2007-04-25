@@ -67,4 +67,14 @@
 		
 	<alias name="com.mindquarry.teamspace.manager.DefaultListenerRegistry"
 		   alias="com.mindquarry.teamspace.TeamspaceListenerRegistry" />
+		   
+	
+	<bean id="com.mindquarry.teamspace.util.Initializer" 
+		class="com.mindquarry.teamspace.util.Initializer"
+		scope="singleton" init-method="initialize"
+		depends-on="com.mindquarry.user.util.Initializer"> 
+				  
+		<property name="sessionFactory" 
+				  ref="com.mindquarry.persistence.api.SessionFactory" />
+	</bean>
 </beans>
