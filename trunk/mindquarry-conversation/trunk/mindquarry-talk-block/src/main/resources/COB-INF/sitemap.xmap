@@ -171,7 +171,7 @@
 				</when>
 				<otherwise>
 					<transform src="block:/xslt/html2html.xsl"
-						type="xalan">
+						type="xalan" label="htmlhtml">
 						<parameter name="servlet"
 							value="talk" />
 						<parameter name="fullPath"
@@ -259,6 +259,14 @@
 
 	<views>
 		<view name="xml" from-label="xml">
+			<serialize type="xml" />
+		</view>
+		
+		<view name="html" from-label="html">
+			<serialize type="xml" />
+		</view>
+		
+		<view name="htmlhtml" from-label="htmlhtml">
 			<serialize type="xml" />
 		</view>
 	</views>
@@ -386,8 +394,9 @@
 							<parameter name="email" value="{1}@{system-property:mindquarry.mail.server}" />
 						</transform>
 						<transform type="include" />
-						<transform src="xslt/html/users2options.xsl" />
+						<transform src="xslt/html/users2options.xsl" label="html"/>
 						<select type="REST">
+							
 							<when test="html">
 								<call resource="layouting" />
 							</when>
