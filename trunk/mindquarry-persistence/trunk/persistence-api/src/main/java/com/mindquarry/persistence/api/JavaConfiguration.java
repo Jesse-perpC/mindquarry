@@ -23,7 +23,16 @@ import com.mindquarry.persistence.api.Configuration;
 
 
 /**
- * Add summary documentation here.
+ * This implementation of the configuration interface enables you
+ * to define the entity classes and queries in Java code.
+ * Compared to a possible xml configuration the Java way ensures
+ * that the specified entity classes exists at compile time.
+ * 
+ * Within the context of a web application the build of the configuration
+ * and the initialization of the SessionFactory can be achieved 
+ * with servlet listener technologies (see the webapp-servlet project).
+ * In the scope of unit tests setUp methods seems to be a good place for
+ * setting up the above mentioned components. 
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>

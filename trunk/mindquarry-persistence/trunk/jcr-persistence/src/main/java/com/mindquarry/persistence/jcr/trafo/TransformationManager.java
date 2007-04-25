@@ -21,8 +21,6 @@ import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Model;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

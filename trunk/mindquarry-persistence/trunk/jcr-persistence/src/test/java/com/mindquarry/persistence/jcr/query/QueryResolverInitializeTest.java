@@ -22,8 +22,6 @@ import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.NamedQuery;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -33,7 +31,7 @@ public class QueryResolverInitializeTest extends TestCase {
     
     @Before
     public void setUp() {
-        queryResolver_ = new DefaultQueryResolver();
+        queryResolver_ = new QueryResolver();
     }
     
     @Test

@@ -17,7 +17,11 @@ import java.util.Collection;
 import java.util.Map;
 
 /**
- * Add summary documentation here.
+ * This interface should be implemented by a configuration provider.
+ * A configuration instance is required by the SessionFactory implementation
+ * during the initialization. A configuration instance must provide 
+ * all entity classes and queries that should be managed by the persistence
+ * layer.   
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>

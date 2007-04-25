@@ -21,8 +21,6 @@ import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 import com.mindquarry.persistence.jcr.trafo.Transformer;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

@@ -23,8 +23,6 @@ import com.mindquarry.persistence.jcr.model.EntityType;
 import com.mindquarry.persistence.jcr.model.Property;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -77,8 +75,8 @@ public class EntityTransformer implements Transformer {
     protected void readFromJcrInternal(JcrNode entityNode, Object entity) {
         JcrNode contentNode = entityNode.getNode("jcr:content");        
         for (Property property : entityType_.properties()) {
-            Object content = transformer(property).readFromJcr(contentNode);
-            property.setContent(entity, content);
+            Object value = transformer(property).readFromJcr(contentNode);
+            property.setContent(entity, value);
         }
     }
     
@@ -95,9 +93,6 @@ public class EntityTransformer implements Transformer {
         boolean isInTransformation = 
             session.getAttribute(IS_IN_ENTITY_TRANSFORMATION) != null;
         
-        //boolean hasToBeWritten = ! isPooled || 
-        //            (isPooled && pool.isReleased(entity));
-        
         boolean hasToBeWritten = ! isPooled || 
                     (isPooled && ! isInTransformation);
 
@@ -107,11 +102,9 @@ public class EntityTransformer implements Transformer {
             // same "user write", i.e. within cyclic dependencies.        
             // For ease, we just overwrite existing entries.
             pool.put(entity, entityNode);
-            //pool.allocate(entity);
             session.setAttribute(IS_IN_ENTITY_TRANSFORMATION, "true");
             writeToJcrInternal(entity, entityNode);
-            session.setAttribute(IS_IN_ENTITY_TRANSFORMATION, null);
-            //pool.release(entity);  
+            session.setAttribute(IS_IN_ENTITY_TRANSFORMATION, null);  
         }
     }
     

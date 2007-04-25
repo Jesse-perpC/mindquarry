@@ -38,7 +38,7 @@ public class JcrInheritanceTest extends JcrPersistenceTestBase {
         
         Persistence persistence = 
             (Persistence) lookup(Persistence.class.getName());        
-        persistence.configure(configuration);
+        persistence.addConfiguration(configuration);
         
         sessionFactory_ = persistence;    
     }

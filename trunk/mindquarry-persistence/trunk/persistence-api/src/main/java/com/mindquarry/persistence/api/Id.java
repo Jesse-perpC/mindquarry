@@ -19,7 +19,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Add summary documentation here.
+ * 
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>

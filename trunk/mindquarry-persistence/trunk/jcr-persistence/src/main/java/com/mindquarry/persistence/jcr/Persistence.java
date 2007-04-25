@@ -13,8 +13,6 @@
  */
 package com.mindquarry.persistence.jcr;
 
-import java.util.List;
-
 import javax.jcr.RepositoryException;
 
 import org.springmodules.jcr.JcrSessionFactory;
@@ -24,19 +22,23 @@ import com.mindquarry.persistence.api.Configuration;
 import com.mindquarry.persistence.api.SessionFactory;
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 import com.mindquarry.persistence.jcr.model.Model;
-import com.mindquarry.persistence.jcr.query.DefaultQueryResolver;
 import com.mindquarry.persistence.jcr.query.QueryResolver;
 import com.mindquarry.persistence.jcr.trafo.TransformationManager;
 
 /**
- * Add summary documentation here.
- *
+ * This class is the entry point for the entire jcr persistence component.
+ * Threads define the context for Sessions instances. Therefore each session 
+ * is hold within a ThreadLocal field.
+ * Furthermore this class creates and all subcomponents and 
+ * manages access to them.
+ *    
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
 public class Persistence implements SessionFactory {
 
-    private List<Class<?>> entityClazzes_;
+    public static final String ROLE = Persistence.class.getName();
+    
     private JcrSessionFactory targetSessionFactory_;
     
     private Model model_;
@@ -55,20 +57,32 @@ public class Persistence implements SessionFactory {
         targetSessionFactory_ = targetSessionFactory;
     }
     
-    public void addClass(Class<?> clazz) {
-        entityClazzes_.add(clazz);
-    }
-    
-    public void configure(Configuration configuration) {        
-        model_ = Model.buildFromClazzes(configuration.getClasses());
+    private Configuration configuration_;
+
+    private void configure() {        
+        clear();
+        
+        model_ = Model.buildFromClazzes(configuration_.getClasses());        
         
         transformationManager_ = new TransformationManager(model_, this);        
         transformationManager_.initialize();
         
-        queryResolver_ = new DefaultQueryResolver();
-        queryResolver_.initialize(configuration);
+        queryResolver_ = new QueryResolver();
+        queryResolver_.initialize(configuration_);
         
-        commandProcessor_ = new CommandProcessor(this);    
+        commandProcessor_ = new CommandProcessor(this);
+    }
+    
+    public void addConfiguration(Configuration configuration) {
+        
+        if (configuration_ == null) {
+            configuration_ = configuration;
+        }
+        else {
+            configuration_.getClasses().addAll(configuration.getClasses());
+            configuration_.getNamedQueries().putAll(configuration.getNamedQueries());
+        }
+        configure();
     }
     
     public QueryResolver getQueryResolver() {

@@ -16,8 +16,9 @@ package com.mindquarry.persistence.jcr;
 import com.mindquarry.persistence.api.PersistenceException;
 
 /**
- * Add summary documentation here.
- *
+ * This exception indicates that something went horribly wrong
+ * within the jcr persistence component.
+ *  
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

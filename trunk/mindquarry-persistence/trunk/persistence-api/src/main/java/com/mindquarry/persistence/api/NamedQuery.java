@@ -19,8 +19,9 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Add summary documentation here.
- *
+ * The annotation can be used to declare queries at entity classes.
+ * It allows to bring entity types and queries related to them together.
+ *  
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

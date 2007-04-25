@@ -14,8 +14,13 @@
 package com.mindquarry.persistence.api;
 
 /**
- * Defines the implementation independent retrieval of Session objects 
- * that are proper for for your current context (e.g. a particular transaction).
+ * Defines the implementation-independent retrieval of Session objects 
+ * that are proper for your current context (e.g. a particular transaction).
+ * 
+ * The SessionFactory must act as a singleton. 
+ * 
+ * the method configure has to be called during initialization of 
+ * a SessionFactory component instance. (see Configuration for more details)
  *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
@@ -24,7 +29,7 @@ public interface SessionFactory {
 
     public static final String ROLE = SessionFactory.class.getName();
     
-    void configure(Configuration configuration);
+    void addConfiguration(Configuration configuration);
     
     Session currentSession();
 }

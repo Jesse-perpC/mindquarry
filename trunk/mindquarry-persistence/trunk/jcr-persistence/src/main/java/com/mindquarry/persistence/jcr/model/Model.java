@@ -53,8 +53,8 @@ public class Model  {
         return entityTypes_;
     }
     
-    public Collection<Class> allEntityClasses() {
-        List<Class> result = new LinkedList<Class>();
+    public Collection<Class<?>> allEntityClasses() {
+        List<Class<?>> result = new LinkedList<Class<?>>();
         for (EntityType entityType : allEntityTypes()) {
             result.add(entityType.entityClazz());
         }

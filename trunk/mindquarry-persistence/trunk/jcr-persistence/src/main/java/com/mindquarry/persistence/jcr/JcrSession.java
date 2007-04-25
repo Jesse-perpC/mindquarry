@@ -13,19 +13,36 @@
  */
 package com.mindquarry.persistence.jcr;
 
+import static com.mindquarry.common.lang.ReflectionUtil.invoke;
+
+import java.util.HashMap;
+import java.util.Map;
+
+import javax.jcr.Node;
 import javax.jcr.RepositoryException;
 import javax.jcr.query.QueryManager;
 
 /**
- * acts also as wrapper for javax.jcr.Session
+ * acts as wrapper for javax.jcr.Session
  * and provides the following "jcr api" convenience methods
- * without the useless checked exceptions 
+ * without checked exceptions 
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-public interface JcrSession {
+public class JcrSession {
     
+    private Pool pool_;
+    private javax.jcr.Session session_;
+    private Map<String, Object> attributeMap_;
+    
+    JcrSession(javax.jcr.Session session, Pool pool) {
+        pool_ = pool;
+        session_ = session;        
+        attributeMap_ = new HashMap<String, Object>();
+    }
+    
+    /*
     public JcrNode getRootNode();
     
     public QueryManager getQueryManager() throws RepositoryException;
@@ -35,4 +52,29 @@ public interface JcrSession {
     public Object getAttribute(String key);
     
     public void setAttribute(String key, Object value);
+    */
+    
+    public JcrNode getRootNode() {
+        return new JcrNode((Node) invoke("getRootNode", session_), this);
+    }
+    
+    public QueryManager getQueryManager() throws RepositoryException {
+        return session_.getWorkspace().getQueryManager();
+    }
+
+    public Pool getPool() {
+        return pool_;
+    }
+
+    public Object getAttribute(String key) {
+        return attributeMap_.get(key);
+    }
+
+    public void setAttribute(String key, Object value) {
+        attributeMap_.put(key, value);
+    }
+    
+    void save() {
+        invoke("save", session_);
+    }
 }

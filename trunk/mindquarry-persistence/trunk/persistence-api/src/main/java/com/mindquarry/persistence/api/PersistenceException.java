@@ -14,8 +14,8 @@
 package com.mindquarry.persistence.api;
 
 /**
- * This exception is used to indicate something went horribly wrong during 
- * initialization of a mindquarry component.
+ * This exception is used to indicate something went wrong within 
+ * the persistence component.
  * 
  * @author 
  * <a href="bastian(dot)steinert(at)mindquarry(dot)com">Bastian Steinert</a>

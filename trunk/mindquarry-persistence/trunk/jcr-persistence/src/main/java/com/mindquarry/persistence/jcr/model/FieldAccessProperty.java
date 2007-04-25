@@ -20,8 +20,8 @@ import java.util.Arrays;
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 
 /**
- * Add summary documentation here.
- *
+ * Provide access to a public field.
+ * 
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

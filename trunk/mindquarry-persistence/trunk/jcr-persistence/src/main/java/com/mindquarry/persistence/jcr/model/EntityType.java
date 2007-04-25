@@ -32,8 +32,6 @@ import com.mindquarry.persistence.api.Id;
 import com.mindquarry.persistence.jcr.JcrPersistenceInternalException;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
@@ -128,17 +126,14 @@ public class EntityType {
     }
     
     private EntityId makeEntityId(Field idField) {
-        boolean isStringField = idField.getType().equals(String.class);
-        boolean isPrimitveField = idField.getType().isPrimitive(); 
-        
-        if (!isStringField && !isPrimitveField) {
-            throw new ModelException("the id field must be " +
-                    "of a primitive type or of type String");
+        boolean isStringField = idField.getType().equals(String.class);        
+        if (!isStringField) {
+            throw new ModelException("the id field must be of type String");
         }
         
         Property idProperty = createProperty(idField);
         if (! idProperty.isAccessible()) {
-            throw new ModelException("the id field must be readable.");
+            throw new ModelException("the id field must be accessible.");
         }
         
         return new EntityId(idProperty);

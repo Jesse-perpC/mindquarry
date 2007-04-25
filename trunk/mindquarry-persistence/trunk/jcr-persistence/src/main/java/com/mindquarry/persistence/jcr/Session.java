@@ -13,53 +13,29 @@
  */
 package com.mindquarry.persistence.jcr;
 
-import static com.mindquarry.common.lang.ReflectionUtil.invoke;
 import static com.mindquarry.persistence.jcr.Operations.DELETE;
 import static com.mindquarry.persistence.jcr.Operations.PERSIST;
 import static com.mindquarry.persistence.jcr.Operations.QUERY;
 import static com.mindquarry.persistence.jcr.Operations.UPDATE;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javax.jcr.Node;
-import javax.jcr.RepositoryException;
-import javax.jcr.query.QueryManager;
 
 import com.mindquarry.persistence.jcr.cmds.CommandProcessor;
 
 /**
- * Add summary documentation here.
- *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */
-class Session implements JcrSession,
-    com.mindquarry.persistence.api.Session {
+class Session implements com.mindquarry.persistence.api.Session {
 
-    public static long persistenceDuration = 0l;
-    
-    private Pool pool_;
-    private javax.jcr.Session jcrSession_;
+    private JcrSession jcrSession_;
     private CommandProcessor commandProcessor_;
-    private Map<String, Object> attributeMap_;
     
-    Session(Persistence persistence, javax.jcr.Session jcrSession) {
-        jcrSession_ = jcrSession;
-        pool_ = new Pool(persistence);
+    Session(Persistence persistence, javax.jcr.Session session) {
+        Pool pool = new Pool(persistence);
+        jcrSession_ = new JcrSession(session, pool);
         commandProcessor_ = persistence.getCommandProcessor();
-        attributeMap_ = new HashMap<String, Object>();
     }
-    
-    /**
-     * @see com.mindquarry.common.persistence.Session#commit()
-     */
-    /*
-    public void commit() {
-        invoke("save", jcrSession_);
-        pool_.clear();
-    }*/
 
     /**
      * @see com.mindquarry.common.persistence.Session#delete(java.lang.Object)
@@ -92,36 +68,9 @@ class Session implements JcrSession,
     }
     
     private Object processCommand(Operations operation, Object... objects) {
-
-        Object result = commandProcessor_.process(operation, this, objects);
-        save();
-        
+        Object result = commandProcessor_.process(
+                operation, jcrSession_, objects);
+        jcrSession_.save();        
         return result;
-    }
-    
-    // implementation of JcrSession interface methods
-    
-    public JcrNode getRootNode() {
-        return new JcrNode((Node) invoke("getRootNode", jcrSession_), this);
-    }
-    
-    public QueryManager getQueryManager() throws RepositoryException {
-        return jcrSession_.getWorkspace().getQueryManager();
-    }
-
-    public Pool getPool() {
-        return pool_;
-    }
-
-    public Object getAttribute(String key) {
-        return attributeMap_.get(key);
-    }
-
-    public void setAttribute(String key, Object value) {
-        attributeMap_.put(key, value);
-    }
-    
-    private void save() {
-        invoke("save", jcrSession_);
     }
 }

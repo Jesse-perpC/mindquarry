@@ -16,8 +16,6 @@ package com.mindquarry.persistence.jcr.cmds;
 import com.mindquarry.persistence.jcr.JcrSession;
 
 /**
- * Add summary documentation here.
- *
  * @author 
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
  */

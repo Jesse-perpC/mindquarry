@@ -20,12 +20,8 @@ import java.util.List;
 
 import javax.jcr.Node;
 import javax.jcr.NodeIterator;
-import javax.jcr.PathNotFoundException;
-import javax.jcr.RepositoryException;
-import javax.jcr.ValueFormatException;
 
 import org.apache.avalon.framework.service.ServiceException;
-import org.springmodules.jcr.JcrSessionFactory;
 
 import com.mindquarry.persistence.api.JavaConfiguration;
 import com.mindquarry.persistence.api.Session;
@@ -41,7 +37,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
     private SessionFactory sessionFactory_;
     
     protected void setUp() throws Exception {
-        //System.setProperty("xenodot", "true");
+        System.setProperty("xenodot", "true");
         super.setUp();
         
         JavaConfiguration configuration = new JavaConfiguration();
@@ -50,7 +46,7 @@ public class JcrPersistenceTest extends JcrPersistenceTestBase {
         configuration.addClass(Team.class);
         
         Persistence persistence = (Persistence) lookup(Persistence.ROLE);
-        persistence.configure(configuration);
+        persistence.addConfiguration(configuration);
         
         sessionFactory_ = persistence;    
     }

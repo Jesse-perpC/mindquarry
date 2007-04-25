@@ -19,7 +19,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * Add summary documentation here.
+ * To declare more than one query at an entity class, you have to use
+ * this annotation.
  *
  * @author
  * <a href="mailto:bastian.steinert(at)mindquarry.com">Bastian Steinert</a>
