@@ -16,7 +16,7 @@
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
-	<xsl:import href="block:/xslt/contextpath.xsl" />
+	<xsl:import href="servlet:/xslt/contextpath.xsl" />
 		
 	<xsl:template match="/tasks">
 		<html>

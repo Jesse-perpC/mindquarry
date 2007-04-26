@@ -18,12 +18,12 @@
 	xmlns:xhtml="http://www.w3.org/1999/xhtml"
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 	
-	<xsl:import href="block:/xslt/contextpath.xsl" />
+	<xsl:import href="servlet:/xslt/contextpath.xsl" />
 	
 	<xsl:param name="teamspaceID"/>
 	
 	<xsl:variable name="teamspaceUsers"
-		select="document(concat('block:teams:/', $teamspaceID, '/members/asFormsSelectionlist'))"/>
+		select="document(concat('servlet:teams:/', $teamspaceID, '/members/asFormsSelectionlist'))"/>
 	
 	<xsl:template match="@*|node()">
 		<xsl:copy>

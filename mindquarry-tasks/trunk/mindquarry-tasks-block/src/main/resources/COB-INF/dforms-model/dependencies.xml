@@ -26,7 +26,7 @@
 		<fd:widgets>
 			<fd:field id="task">
 				<fd:datatype base="string"/>
-				<fd:selection-list src="block:tasks:/{teamspace}/lists/form.xml" cache="request"> </fd:selection-list>
+				<fd:selection-list src="servlet:/{teamspace}/lists/form.xml" cache="request"> </fd:selection-list>
 				<fd:label>Task</fd:label>
 			</fd:field>
 			<fd:field id="role">
@@ -54,7 +54,7 @@
 				styling because we don't know the state of the repeater there
 				- it is lost due to our custom structure here (div) -->
 			<jx:if test="${repeater.getState().equals(Packages.org.apache.cocoon.forms.formmodel.WidgetState.OUTPUT)}">
-				<div class="use-parent-for-autoactive use-parent-id" dojoType="autoactivefield"/>
+				<div class="use-parent-for-autoactive use-parent-id" dojoType="mindquarry:autoactivefield"/>
 			</jx:if>
 			
 			<fi:label class="hidden">Dependencies</fi:label>

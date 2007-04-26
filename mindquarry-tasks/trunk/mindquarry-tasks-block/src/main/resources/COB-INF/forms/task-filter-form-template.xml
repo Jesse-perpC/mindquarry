@@ -23,9 +23,9 @@
 		
 		<link rel="stylesheet" type="text/css" href="../../css/tasks.css" />
 		
-		<script type="text/javascript">
+		<!--<script type="text/javascript">
 			dojo.require("mindquarry.widget.SortableHTMLTable");
-		</script>
+		</script>-->
 	</head>
 	<body>
 		<ft:form-template
@@ -87,7 +87,8 @@
 				<div class="results">
 					<ft:repeater id="results"
 						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
-						<table class="task-list" dojoType="SortableHTMLTable">
+						<!--<table class="task-list" dojoType="SortableHTMLTable">-->
+						<table class="task-list">
 							<thead>
 								<tr>
 									<th contentType="html" dataType="Number"                       valign="top"></th>

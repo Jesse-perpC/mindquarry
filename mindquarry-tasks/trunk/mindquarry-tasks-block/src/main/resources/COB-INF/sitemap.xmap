@@ -64,7 +64,7 @@
 		<resource name="error-layouting">
 			<select type="REST">
 				<when test="html">
-					<transform src="block:super:/xslt/error/error2html.xsl">
+					<transform src="servlet:super:/xslt/error/error2html.xsl">
 						<parameter name="pageTitle" value="{pageTitle}"/>			
 						<parameter name="httpStatus" value="{httpStatus}"/>
 						<parameter name="showSupportContact" value="{showSupportContact}"/>
@@ -75,7 +75,7 @@
 						<parameter name="timeStamp"
 							value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
 					</transform>
-					<transform src="block:/xslt/html2html.xsl"
+					<transform src="servlet:/xslt/html2html.xsl"
 						type="xalan">
 						<parameter name="servlet"
 							value="tasks" />
@@ -153,7 +153,7 @@
 		<resource name="layouting">
 			<select type="lightbox-request">
 				<when test="true">
-					<transform src="block:/xslt/html2lightbox.xsl">
+					<transform src="servlet:/xslt/html2lightbox.xsl">
 						<parameter name="serverBasePath" 
 							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
@@ -164,7 +164,7 @@
 					<serialize type="xml" />
 				</when>
 				<otherwise>
-					<transform src="block:/xslt/html2html.xsl"
+					<transform src="servlet:/xslt/html2html.xsl"
 						type="xalan">
 						<parameter name="servlet"
 							value="tasks" />
@@ -226,7 +226,7 @@
 
 		<!-- load form2html stylesheet from DForms block -->
 		<resource name="form2html">
-			<transform src="block:super:/xslt/forms/form2html.xsl">
+			<transform src="servlet:super:/xslt/forms/form2html.xsl">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 					
@@ -282,7 +282,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:resources:/css/{1}.css" />
+						<read src="servlet:resources:/css/{1}.css" />
 					</otherwise>
 				</select>
 			</match>
@@ -295,7 +295,7 @@
 					</when>
 					<!-- if not, look in the resources block -->
 					<otherwise>
-						<read src="block:resources:/xslt/{1}.xsl" />
+						<read src="servlet:resources:/xslt/{1}.xsl" />
 					</otherwise>
 				</select>
 			</match>
@@ -306,7 +306,7 @@
 						<read src="scripts/{1}.js" />
 					</when>
 					<otherwise>
-						<read src="block:super:/scripts/{1}.js" />
+						<read src="servlet:super:/scripts/{1}.js" />
 					</otherwise>
 				</select>
 			</match>
@@ -328,7 +328,7 @@
 						<read src="images/{1}.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/images/{1}.{2}" />
+						<read src="servlet:resources:/images/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -339,7 +339,7 @@
 						<read src="buttons/{1}_button.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/buttons/{1}.{2}" />
+						<read src="servlet:resources:/buttons/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -351,20 +351,20 @@
 					</when>
 					<otherwise>
 						<read
-							src="block:resources:/icons/{1}x{2}/{3}/{4}.png" />
+							src="servlet:resources:/icons/{1}x{2}/{3}/{4}.png" />
 					</otherwise>
 				</select>
 			</match>
 			
 			<match pattern="tango-icons/**">
 				<read
-					src="block:resources:/tango-icons/{1}" />
+					src="servlet:resources:/tango-icons/{1}" />
 			</match>
 
 			<!-- icons for people -->
 			<match pattern="resource/icons/*/ductform.people.*.person/*.*">
 				<!--<act type="authorise" src="jcr:///teamspaces/{1}/user"/>-->
-				<read src="block:teams:/users/{1}/{3}.{4}" />
+				<read src="servlet:teams:/users/{1}/{3}.{4}" />
 			</match>
 			
 			<!-- icons for status -->
@@ -386,7 +386,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/resource/icons/ductform.ductforms/{1}.png" />
+						<read src="servlet:super:/resource/icons/ductform.ductforms/{1}.png" />
 					</otherwise>
 				</select>
 			</match>
@@ -400,7 +400,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/resource/{1}" />
+						<read src="servlet:super:/resource/{1}" />
 					</otherwise>
 				</select>
 			</match>
@@ -418,7 +418,7 @@
 			<match pattern="tasks-dforms-model-directory.xml">
 				<generate src="dforms-model-index.xml" />
 				<transform
-					src="block:super:/collection2resourceincludes.xsl" />
+					src="servlet:super:/collection2resourceincludes.xsl" />
 				<serialize type="xml" />
 			</match>
 
@@ -426,8 +426,8 @@
 			<match pattern="dforms-model-directory.xml">
 				<!-- we want our models and the inherited models -->
 				<aggregate element="resources">
-					<part src="block:super:/dforms-model-directory.xml" />
-					<part src="block:/tasks-dforms-model-directory.xml" />
+					<part src="servlet:super:/dforms-model-directory.xml" />
+					<part src="servlet:/tasks-dforms-model-directory.xml" />
 				</aggregate>
 				<serialize type="xml" />
 			</match>
@@ -493,7 +493,7 @@
 
 			<!-- raw XML -->
 			<match pattern="internal/pipe/overview.xml">
-				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+				<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
 					<parameter name="base"
 						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
@@ -666,7 +666,7 @@
 						<read src="cocoon:/internal/pipe/overview.xml" />
 					</when>
 					<when test="opml">
-						<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+						<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
 						<transform src="xslt/opml/teamspaces2opml.xsl" />
 						<serialize type="xml" mime-type="text/x-opml"/>
 					</when>
@@ -779,7 +779,7 @@
 			<match pattern="*/*.debug">
 				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
 				<generate
-					src="block:super:/dform-debug?cocoon-view=raw&amp;rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
+					src="servlet:super:/dform-debug?cocoon-view=raw&amp;rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
 				<serialize tpye="xml" />
 			</match>
 
@@ -798,7 +798,7 @@
 									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
 										<!-- ...then show the dform -->
 										<generate
-											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
+											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
 										<call resource="task-layouting">
 											<parameter name="document" value="{2}"/>
 										</call>
@@ -810,7 +810,7 @@
 											<when test="new">
 												<!-- ...then show the dform -->
 												<generate
-													src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
+													src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
 												<call resource="task-layouting">
 													<parameter name="document" value="{2}"/>
 												</call>
@@ -834,7 +834,7 @@
 							</when>
 							<when test="pdf">
 								<generate
-											src="block:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
+											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
 								<transform src="xslt/fo/task2fo.xsl" label="xml"/>
 								<serialize type="fo2pdf" mime-type="application/pdf"/>
 							</when>
@@ -847,7 +847,7 @@
 							<parameter name="parameter-name" value="continuation-id" />
 							<when test="hexadecimal">
 								<!-- it's a continuation (editing) -->
-								<generate src="block:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml"/>
+								<generate src="servlet:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml"/>
 								<select type="ajax-request">
 									<when test="false">
 										<transform type="bu-redirect" />
@@ -857,7 +857,7 @@
 							<otherwise>
 								<!-- seldom fallback: normal viewing -->
 								<generate
-									src="block:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="xml" />
+									src="servlet:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="xml" />
 							</otherwise>
 						</select>
 						<call resource="task-layouting">
@@ -910,13 +910,13 @@
 		</pipeline>
 
 		<!-- resources pipeline -->
-		<pipeline type="expires-caching">
+		<pipeline type="caching">
 			<!--+
 				| forward any unknown stuff to the super block 
 				| NOTE: This must be the last matcher in the last pipeline!
 				+-->
 			<match pattern="**">
-				<read src="block:super:/{1}" />
+				<read src="servlet:super:/{1}" />
 			</match>
 			
 			<handle-errors>
