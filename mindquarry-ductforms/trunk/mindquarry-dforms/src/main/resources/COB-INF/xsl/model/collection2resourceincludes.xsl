@@ -25,8 +25,8 @@
 
 	<!-- convert all file entries into an include statement for the content of that file -->
 	<xsl:template match="collection:resource">
-		<!-- <xi:include href="block:/{$path}/{@name}.model" /> -->
-		<i:include src="block:/resource/{../@name}/{@name}" />
+		<!-- <xi:include href="servlet:/{$path}/{@name}.model" /> -->
+		<i:include src="servlet:/resource/{../@name}/{@name}" />
 	</xsl:template>
 
 </xsl:stylesheet>

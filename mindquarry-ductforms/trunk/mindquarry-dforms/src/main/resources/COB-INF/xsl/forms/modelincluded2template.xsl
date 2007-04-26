@@ -33,7 +33,7 @@
 				<xhtml:title></xhtml:title>
 				
 				<jx:import
-					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />	
+					uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 			</xhtml:head>
 			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
@@ -42,15 +42,15 @@
 				<ft:form method="POST" action="" ajax="true" >
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 
-					<!-- hide the activate action (only used for communication) -->					
+					<!-- hide the activate action (only used for communication) -->
 					<ft:widget id="ductforms_activate">
 						<fi:styling type="hidden" />
 					</ft:widget>
 					
-					<!-- hide the keepAlive action (only used for communication) -->				
+					<!-- hide the keepAlive action (only used for communication) -->
 					<ft:widget id="ductforms_keepalive">
 						<!-- dummy widget call every x minutes to keep continuation alive -->
-						<fi:styling type="hidden" dojoType="TimerCFormAction" delay="{$keepAliveDelay}"/>
+						<fi:styling type="hidden" dojoType="mindquarry:TimerCFormAction" delay="{$keepAliveDelay}"/>
 					</ft:widget>
 					
 					<!-- the buttons -->
@@ -58,13 +58,13 @@
 						<fi:styling class="ductform_button editall_button"/>
 					</ft:widget>
 					<ft:widget id="ductforms_save">
-						<fi:styling class="ductform_button save_button"/>				
+						<fi:styling class="ductform_button save_button"/>
 					</ft:widget>
 					<ft:widget id="ductforms_cancel">
-						<fi:styling class="ductform_button cancel_button"/>						
+						<fi:styling class="ductform_button cancel_button"/>
 					</ft:widget>
 					<ft:widget id="ductforms_delete">
-						<fi:styling class="ductform_button delete_button" onclick="return confirm('Are you sure you want to delete it?');"/>						
+						<fi:styling class="ductform_button delete_button" onclick="return confirm('Are you sure you want to delete it?');"/>
 					</ft:widget>
 					
 					<!-- all fields/widgets grouped for nice layouting -->

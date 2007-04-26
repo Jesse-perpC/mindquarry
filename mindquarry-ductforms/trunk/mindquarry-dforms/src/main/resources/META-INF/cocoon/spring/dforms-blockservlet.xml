@@ -14,30 +14,19 @@
 	under the License.
 --> 
 
-<!--
-	Configuration for dforms-block that concrete implementations can inherit from.
--->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:servlet="http://cocoon.apache.org/schema/servlet"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://cocoon.apache.org/schema/servlet http://cocoon.apache.org/schema/servlet/cocoon-servlet-1.0.xsd">
        
-	<bean id="com.mindquarry.dforms.dforms-block" class="org.apache.cocoon.blocks.BlockServlet">
-		<property name="mountPath" value="/dforms"/>
-		
-		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
-		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
-		
-		<property name="blockContextURL" value="blockcontext:/mindquarry-dforms/"/>
-
-		<property name="connections">
-			<map>
-				<entry key="resources"
-					value-ref="com.mindquarry.webapp.resources-block" />
-				<entry key="teams"
-					value-ref="com.mindquarry.teamspace.teamspace-block" />
-				<entry key="tasks"
-					value-ref="com.mindquarry.tasks.tasks-block" />
-			</map>
-		</property>
+	<bean id="com.mindquarry.dforms.dforms-block" class="org.apache.cocoon.sitemap.SitemapServlet">
+		<servlet:context mount-path="/dforms" context-path="blockcontext:/mindquarry-dforms/">
+      <servlet:connections>
+        <entry key="resources" value-ref="com.mindquarry.webapp.resources-block" />
+        <entry key="teams" value-ref="com.mindquarry.teamspace.teamspace-block" />
+        <!--<entry key="tasks" value-ref="com.mindquarry.tasks.tasks-block" />-->
+      </servlet:connections>
+    </servlet:context>
 	</bean>
 </beans>

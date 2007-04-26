@@ -13,7 +13,7 @@
  */
 
 cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
-cocoon.load("block:resources:/flows/util.js"); // only reloaded on restart!
+cocoon.load("servlet:resources:/flows/util.js"); // only reloaded on restart!
 
 /////////////////////////////////////////////////////////
 // global variables (TODO: make an object OR write Java code)
@@ -125,10 +125,10 @@ function save(event) {
 	    var newDocument = false;
 	    if (documentID_ == "new") {
 	        // this does the trick: it will load the uniqueName.js from the
-	        // block that calls us via block:super: and provides its own version
+	        // block that calls us via servlet:super: and provides its own version
 	        // of uniqueName.js. the implementation of uniqueName.js must return
 	        // a new document id.
-	        documentID_ = evalJavaScriptSource("block:/uniqueName.js");
+	        documentID_ = evalJavaScriptSource("servlet:/uniqueName.js");
 	        newDocument = true;
 	    }
 	    
