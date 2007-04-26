@@ -19,7 +19,7 @@
         extension-element-prefixes="date"
         xmlns:xlink="http://www.w3.org/1999/xlink">
 
-	<xsl:import href="block:/xslt/contextpath.xsl" />
+	<xsl:import href="servlet:/xslt/contextpath.xsl" />
 		
 	<xsl:param name="teamspaceID" />   
   <xsl:param name="hostname" />

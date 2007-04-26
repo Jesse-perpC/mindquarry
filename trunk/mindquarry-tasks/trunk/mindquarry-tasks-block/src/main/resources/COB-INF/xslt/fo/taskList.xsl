@@ -5,7 +5,7 @@
 	xmlns:fo="http://www.w3.org/1999/XSL/Format"
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
-    <xsl:import href="block:/xslt/fo/xhtml2fo.xsl" />
+    <xsl:import href="servlet:/xslt/fo/xhtml2fo.xsl" />
   
     <xsl:param name="teamspaceID" />
 

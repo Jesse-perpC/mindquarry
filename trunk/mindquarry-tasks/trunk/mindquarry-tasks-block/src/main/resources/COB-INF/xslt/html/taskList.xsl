@@ -17,13 +17,13 @@
         xmlns:xlink="http://www.w3.org/1999/xlink"
 		xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 
-	<xsl:import href="block:/xslt/contextpath.xsl" />
+	<xsl:import href="servlet:/xslt/contextpath.xsl" />
 		
 	<xsl:param name="teamspaceID" />    
 	<xsl:param name="username" />
 	
 	<xsl:variable name="teamspaceUsers"
-		select="document(concat('block:teams:/', $teamspaceID, '/members/asFormsSelectionlist'))"/>
+		select="document(concat('servlet:teams:/', $teamspaceID, '/members/asFormsSelectionlist'))"/>
 	
 	<xsl:template match="/tasks">
 		<html>
@@ -31,9 +31,9 @@
 				<title>Tasks for <xsl:value-of select="$teamspaceID" /></title>
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/tasks.css" type="text/css" />
-				<script type="text/javascript">
+				<!--<script type="text/javascript">
 					dojo.require("mindquarry.widget.SortableHTMLTable");
-				</script>
+				</script>-->
 				<link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
 				<link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
 				<link rel="alternate" href="" type="application/pdf" title="PDF for print" />
@@ -50,9 +50,10 @@
 							<li><a class="create_task_button" href="new">Create task</a></li>
 							<li><a class="create_filter_button" href="filters/new">Create filter</a></li>
 						</ul>
-					</div>				
+					</div>
 					<div class="task-area">
-						<table class="task-list" dojoType="SortableHTMLTable" id="taskList">
+						<!--<table class="task-list" dojoType="SortableHTMLTable" id="taskList">-->
+						<table class="task-list" id="taskList">
 							<thead>
 								<tr>
 									<th contentType="html" dataType="Number"                       valign="top"></th>
