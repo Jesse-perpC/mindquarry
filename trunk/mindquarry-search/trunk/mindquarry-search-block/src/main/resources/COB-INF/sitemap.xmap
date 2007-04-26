@@ -40,7 +40,7 @@
 		<resource name="layouting" xmlns:map="http://apache.org/cocoon/sitemap/1.0">
 			<select type="lightbox-request">
 				<when test="true">
-					<transform src="block:super:/xslt/html2lightbox.xsl">
+					<transform src="servlet:super:/xslt/html2lightbox.xsl">
 						<parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 						<parameter name="sitemapPath" value="{request:pathInfo}"/>
 						<parameter name="user.agent" value="{request-header:User-Agent}"/>
@@ -48,7 +48,7 @@
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
-					<transform src="block:super:/xslt/html2html.xsl" type="xalan">
+					<transform src="servlet:super:/xslt/html2html.xsl" type="xalan">
 						<parameter name="fullPath" value="{block-path:}{request:pathInfo}"/>
 						<parameter name="sitemapPath" value="{request:pathInfo}"/>
 						<parameter name="user.agent" value="{request-header:User-Agent}"/>
@@ -85,7 +85,7 @@
 		</resource>
 
 		<resource name="form2html">
-			<transform src="block:super:/xslt/forms/form2html.xsl">
+			<transform src="servlet:super:/xslt/forms/form2html.xsl">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
@@ -109,7 +109,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/css/{1}.css"/>
+						<read src="servlet:super:/css/{1}.css"/>
 					</otherwise>
 				</select>
 			</match>
@@ -122,7 +122,7 @@
 					</when>
 					<!-- if not, look in the resources block -->
 					<otherwise>
-						<read src="block:super:/xslt/{1}.xsl"/>
+						<read src="servlet:super:/xslt/{1}.xsl"/>
 					</otherwise>
 				</select>
 			</match>
@@ -133,7 +133,7 @@
 						<read src="scripts/{1}.js"/>
 					</when>
 					<otherwise>
-						<read src="block:super:/scripts/{1}.js"/>
+						<read src="servlet:super:/scripts/{1}.js"/>
 					</otherwise>
 				</select>
 			</match>
@@ -155,7 +155,7 @@
 						<read src="images/{1}.{2}"/>
 					</when>
 					<otherwise>
-						<read src="block:welcome:/{1}.{2}"/>
+						<read src="servlet:welcome:/{1}.{2}"/>
 					</otherwise>
 				</select>
 			</match>
@@ -166,7 +166,7 @@
 						<read src="buttons/{1}_button.{2}"/>
 					</when>
 					<otherwise>
-						<read src="block:super:/buttons/{1}.{2}"/>
+						<read src="servlet:super:/buttons/{1}.{2}"/>
 					</otherwise>
 				</select>
 			</match>
@@ -177,7 +177,7 @@
 						<read src="icons/{1}x{2}/{3}/{4}.png"/>
 					</when>
 					<otherwise>
-						<read src="block:super:/icons/{1}x{2}/{3}/{4}.png"/>
+						<read src="servlet:super:/icons/{1}x{2}/{3}/{4}.png"/>
 					</otherwise>
 				</select>
 			</match>
@@ -221,7 +221,7 @@
 			| NOTE: This must be the last matcher!
 			+-->
 			<match pattern="**">
-				<read src="block:super:/{1}"/>
+				<read src="servlet:super:/{1}"/>
 			</match>
 		</pipeline>
 	</pipelines>

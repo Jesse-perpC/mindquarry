@@ -90,7 +90,7 @@
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-jsp-impl</artifactId>
-			<version>1.0.0_Mindquarry_1</version>
+			<version>${cocoon-jsp-impl.version}</version>
 		</dependency>
 	</dependencies>
 </project>

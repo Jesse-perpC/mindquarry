@@ -18,8 +18,8 @@
 	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
 
-	<bean id="com.mindquarry.search.solr.solr-admin-block"
-		class="org.apache.cocoon.blocks.shielding.ShieldingBlockServlet">
+	<bean id="com.mindquarry.search.solr.solr-admin-servlet"
+		class="org.apache.cocoon.servletservice.shielding.ShieldingServletService">
 		<property name="mountPath" value="/solr"/>
 
 		<property name="blockContextURL"
@@ -31,8 +31,8 @@
 		<property name="shieldedGroup" value="solr-servlets"/>
 	</bean>
 
-	<bean id="com.mindquarry.search.solr.solr-select-block"
-		class="org.apache.cocoon.blocks.shielding.ShieldingBlockServlet">
+	<bean id="com.mindquarry.search.solr.solr-select-servlet"
+		class="org.apache.cocoon.servletservice.shielding.ShieldingServletService">
 		<property name="mountPath" value="/solr-select"/>
 
 		<property name="blockContextURL"
@@ -44,8 +44,8 @@
 		<property name="shieldedGroup" value="solr-servlets"/>
 	</bean>
 
-	<bean id="com.mindquarry.search.solr.solr-update-block"
-		class="org.apache.cocoon.blocks.shielding.ShieldingBlockServlet">
+	<bean id="com.mindquarry.search.solr.solr-update-servlet"
+		class="org.apache.cocoon.servletservice.shielding.ShieldingServletService">
 		<property name="mountPath" value="/solr-update"/>
 
 		<property name="blockContextURL"
