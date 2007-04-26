@@ -32,6 +32,15 @@
 				    href="{$pathToBlock}css/teamspace.css" type="text/css" />
 				<link rel="stylesheet"
 				    href="{$pathToBlock}css/edit-members.css" type="text/css" />
+				    
+				<xsl:call-template name="content-actions" />
+				    
+			        <xsl:if test="$username = 'admin'" >
+					<link rel="section-global-action" type="newuser" linkrel="lightbox"
+					    href="{$pathToBlock}createUser/" text="New User"/>
+					<link rel="section-global-action" type="newteam" linkrel="lightbox"
+					    href="{$pathToBlock}createTeamspace/" text="New Team"/>
+				</xsl:if>
 				
 				<script type="text/javascript"
 				    src="{$pathToBlock}scripts/slider.js">//</script>
@@ -67,7 +76,7 @@
 			<img class="icon" src="{$pathToBlock}{normalize-space(id)}.png"/>
 			<xsl:apply-templates select="name" />
 			<xsl:apply-templates select="description" />
-        </div>
+		</div>
 
         <xsl:if test="parent::teamspaces">
           <ul class="members">
@@ -77,10 +86,6 @@
           </ul>
         </xsl:if>
 				
-					
-        <div class="edit-buttons">
-          <xsl:call-template name="create_edit_buttons"/>
-        </div>
 					
         <div class="details">
           <xsl:if test="parent::teamspaces">

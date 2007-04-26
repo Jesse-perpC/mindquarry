@@ -16,6 +16,8 @@
 	 
 	<xsl:import href="teamspace2htmlutils.xsl"/>
 	
+	<xsl:template name="content-actions" />
+  
 	<xsl:template match="/" mode="title">
 		<title>Teams</title>
 	</xsl:template>
@@ -24,11 +26,10 @@
 		<h1>Manage Your Teams</h1>
     
 		<xsl:if test="$username = 'admin'" >
-			<a class="create_teamspace_button" href="createTeamspace/" 
-				rel="lightbox">New Team</a>
-      	
-      		<xsl:call-template name="create_user_button" />
-    	</xsl:if>
+		     <a class="button22 button create_teamspace_button" href="createTeamspace/" rel="lightbox">New Team</a>
+		     <xsl:call-template name="create_user_button" />
+		</xsl:if>
+		
   	</xsl:template>
   
 	<xsl:template match="teamspaces">
@@ -39,11 +40,11 @@
 		</ul>
 	</xsl:template>
     
-  <xsl:template match="teamspace">
-    <li>
-      <xsl:apply-imports />
-    </li>
-  </xsl:template>
+	<xsl:template match="teamspace">
+	<li>
+		<xsl:apply-imports />
+	</li>
+	</xsl:template>
   
 	<xsl:template match="teamspace/name">
 		<h2 class="name">
@@ -53,20 +54,19 @@
 		</h2>
 	</xsl:template>
   
-  <xsl:template name="create_user_button">
-    <a class="create_user_button" href="createUser/" rel="lightbox">
-      New User</a>
-  </xsl:template>
+	<xsl:template name="create_user_button">
+	  <a class="create_user_button" href="createUser/" rel="lightbox">New User</a>
+	</xsl:template>
   
-  <xsl:template name="create_edit_buttons">
-    <a href="{normalize-space(id)}/editMembers/" class="edit_members_button" 
-      rel="lightbox" title="Add or remove team members">
-      Team Members
-    </a>
-    
-    <a href="{normalize-space(id)}/edit/" class="edit_settings_button" 
-      rel="lightbox">
-      Edit Settings
-    </a>
-  </xsl:template>
+	<xsl:template name="create_edit_buttons">
+		<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" 
+			rel="lightbox" title="Add or remove team members">
+			Team Members
+		</a>
+		
+		<a href="{normalize-space(id)}/edit/" class="edit_settings_button" 
+			rel="lightbox">
+			Edit Settings
+		</a>
+	</xsl:template>
 </xsl:stylesheet>
