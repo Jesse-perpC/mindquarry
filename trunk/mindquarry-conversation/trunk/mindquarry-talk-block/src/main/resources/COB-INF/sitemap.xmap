@@ -70,7 +70,7 @@
 		<resource name="error-layouting">
 			<select type="REST">
 				<when test="html">
-					<transform src="block:super:/xslt/error/error2html.xsl">
+					<transform src="servlet:super:/xslt/error/error2html.xsl">
 						<parameter name="pageTitle" value="{pageTitle}"/>			
 						<parameter name="httpStatus" value="{httpStatus}"/>
 						<parameter name="showSupportContact" value="{showSupportContact}"/>
@@ -81,7 +81,7 @@
 						<parameter name="timeStamp"
 							value="{pom-property:com.mindquarry.wiki/mindquarry-wiki-block/timeStamp}"/>							
 					</transform>
-					<transform src="block:/xslt/html2html.xsl"
+					<transform src="servlet:/xslt/html2html.xsl"
 						type="xalan">
 						<parameter name="servlet"
 							value="talk" />
@@ -161,7 +161,7 @@
 			<select type="lightbox-request">
 				<when test="true">
 					<transform
-						src="block:/xslt/html2lightbox.xsl">
+						src="servlet:/xslt/html2lightbox.xsl">
 						<parameter name="serverBasePath" 
 							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
@@ -170,7 +170,7 @@
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
-					<transform src="block:/xslt/html2html.xsl"
+					<transform src="servlet:/xslt/html2html.xsl"
 						type="xalan" label="htmlhtml">
 						<parameter name="servlet"
 							value="talk" />
@@ -282,7 +282,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:resources:/css/{1}.css" />
+						<read src="servlet:resources:/css/{1}.css" />
 					</otherwise>
 				</select>
 			</match>
@@ -295,7 +295,7 @@
 					</when>
 					<!-- if not, look in the resources block -->
 					<otherwise>
-						<read src="block:resources:/xslt/{1}.xsl" />
+						<read src="servlet:resources:/xslt/{1}.xsl" />
 					</otherwise>
 				</select>
 			</match>
@@ -306,7 +306,7 @@
 						<read src="scripts/{1}.js" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/scripts/{1}.js" />
+						<read src="servlet:resources:/scripts/{1}.js" />
 					</otherwise>
 				</select>
 			</match>
@@ -317,7 +317,7 @@
 						<read src="images/{1}.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/images/{1}.{2}" />
+						<read src="servlet:resources:/images/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -328,7 +328,7 @@
 						<read src="buttons/{1}_button.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/buttons/{1}.{2}" />
+						<read src="servlet:resources:/buttons/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -340,14 +340,14 @@
 					</when>
 					<otherwise>
 						<read
-							src="block:resources:/icons/{1}x{2}/{3}/{4}.png" />
+							src="servlet:resources:/icons/{1}x{2}/{3}/{4}.png" />
 					</otherwise>
 				</select>
 			</match>
 			
 			<match pattern="tango-icons/**">
 				<read
-					src="block:resources:/tango-icons/{1}" />
+					src="servlet:resources:/tango-icons/{1}" />
 			</match>
 			
 			<!-- @override: for inheriting sitemap resources -->
@@ -359,7 +359,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/resource/{1}" />
+						<read src="servlet:super:/resource/{1}" />
 					</otherwise>
 				</select>
 			</match>
@@ -526,7 +526,7 @@
 			</match>
 			
 			<match pattern="internal/pipe/overview.xml">
-				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+				<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform src="xslt/xml/teamspaces2conversations.xsl">
 					<parameter name="base"
 						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
@@ -538,7 +538,7 @@
 
 			<!-- HTML (which is different from the xml content) -->
 			<match pattern="internal/pipe/overview.html">
-				<generate src="block:teams:/user/{request-attr:username}/info/teams.xml" />
+				<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
 				<transform
 					src="xslt/html/teamspaces-talk-overview.xsl">
 					<parameter name="fullPath"

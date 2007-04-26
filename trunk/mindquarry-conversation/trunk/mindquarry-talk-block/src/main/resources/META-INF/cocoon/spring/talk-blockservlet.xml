@@ -14,20 +14,13 @@
 -->
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+       xmlns:servlet="http://cocoon.apache.org/schema/servlet"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
+                           http://cocoon.apache.org/schema/servlet http://cocoon.apache.org/schema/servlet/cocoon-servlet-1.0.xsd">
        
-	<bean id="com.mindquarry.conversation.talk-block" 
-		  class="org.apache.cocoon.blocks.BlockServlet">
-		  
-		<property name="mountPath" value="/talk"/>
-		
-		<!-- use the sitemap in COB-INF for the implementation of this servlet -->
-		<property name="servletClass" value="org.apache.cocoon.sitemap.SitemapServlet"/>
-		
-		<property name="blockContextURL" value="blockcontext:/mindquarry-talk-block/"/>
-
-		<property name="connections">
-			<map>
+	<bean id="com.mindquarry.conversation.talk-block" class="org.apache.cocoon.sitemap.SitemapServlet">
+		<servlet:context mount-path="/talk" context-path="blockcontext:/mindquarry-talk-block/">
+      <servlet:connections>
 				<entry key="super"
 					value-ref="com.mindquarry.webapp.resources-block" />
 				<entry key="teams"
@@ -36,7 +29,7 @@
 					value-ref="com.mindquarry.webapp.help-block" />
 				<entry key="resources"
 					value-ref="com.mindquarry.webapp.resources-block" />
-			</map>
-		</property>
+      </servlet:connections>
+    </servlet:context>
 	</bean>
 </beans>
