@@ -96,12 +96,12 @@
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-forms-impl</artifactId>
-			<version>1.0.0-M2_Mindquarry_1</version>
+			<version>${cocoon-forms-impl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-template-impl</artifactId>
-			<version>1.0.0-M3_Mindquarry_1</version>
+			<version>${cocoon-template-impl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.tango-project</groupId>
@@ -111,7 +111,7 @@
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-imageop-impl</artifactId>
-			<version>1.0.0_Mindquarry_3</version>
+			<version>${cocoon-imageop-impl.version}</version>
 		</dependency>
 	</dependencies>
 </project>

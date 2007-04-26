@@ -26,6 +26,7 @@ function processCreateTeamspaceForm(form) {
 	var user = userById(userId);
 	
 	form.showForm("create-teamspace.instance");
+	
 	if (form.submitId != "cancel") {
       // the user pressed ok and the form is valid
       var teamspaceAdmin = cocoon.getComponent(TeamspaceAdmin.ROLE);
@@ -56,7 +57,6 @@ function teamspaceById(teamspaceId) {
 }
 
 function processEditTeamspaceForm(form) {
-
 	var redirectURL = cocoon.parameters["redirectURL"];
 	
 	var teamspaceId = cocoon.parameters["teamspaceId"];

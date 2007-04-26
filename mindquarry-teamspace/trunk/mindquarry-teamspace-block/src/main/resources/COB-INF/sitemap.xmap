@@ -84,7 +84,7 @@
 	<resources>
 		<resource name="form2html">
 			<transform type="i18n"/>
-			<transform src="block:super:/xslt/forms/form2html.xsl"
+			<transform src="servlet:super:/xslt/forms/form2html.xsl"
 				label="form">
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
@@ -94,7 +94,7 @@
 		</resource>
 		
 		<resource name="html2html">
-			<transform src="block:/xslt/html2html.xsl"
+			<transform src="servlet:/xslt/html2html.xsl"
 				type="xalan">
 				<parameter name="servlet"
 					value="teams" />
@@ -109,11 +109,11 @@
 				<parameter name="serverTitle"
 					value="{system-property:mindquarry.title}" />
 				<parameter name="artifactId"
-					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>							
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>
 				<parameter name="version"
-					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>							
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>
 				<parameter name="timeStamp"
-					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>							
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>
 			</transform>
 		</resource>
 		
@@ -153,7 +153,7 @@
 		<resource name="error-layouting">
 			<select type="REST">
 				<when test="html">
-					<transform src="block:super:/xslt/error/error2html.xsl">
+					<transform src="servlet:super:/xslt/error/error2html.xsl">
 						<parameter name="pageTitle" value="{pageTitle}"/>			
 						<parameter name="httpStatus" value="{httpStatus}"/>
 						<parameter name="showSupportContact" value="{showSupportContact}"/>
@@ -223,7 +223,7 @@
 			<select type="lightbox-request">
 				<when test="true">
 					<transform
-						src="block:/xslt/html2lightbox.xsl">
+						src="servlet:/xslt/html2lightbox.xsl">
 						<parameter name="serverBasePath" 
 							value="{system-property:mindquarry.server.url}{request:contextPath}" />
 						<parameter name="username"
@@ -394,7 +394,6 @@
 					</otherwise>
 				</select>
 			</match>
-			
 			
 			<!-- single teamspace details -->
 			<match pattern="team/*/">				
@@ -568,6 +567,9 @@
 			</match>
 			<match pattern="*.continue">
 				<act type="setnohttpcache" />
+				
+				<act type="log" src="continuing {1}" />
+				
 				<call continuation="{1}" />
 			</match>
 
@@ -676,7 +678,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/css/{2}.css" />
+						<read src="servlet:super:/css/{2}.css" />
 					</otherwise>
 				</select>
 			</match>
@@ -689,7 +691,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:super:/xslt/{1}.xsl" />
+						<read src="servlet:super:/xslt/{1}.xsl" />
 					</otherwise>
 				</select>
 			</match>
@@ -700,7 +702,7 @@
 						<read src="scripts/{1}.js" />
 					</when>
 					<otherwise>
-						<read src="block:super:/scripts/{1}.js" />
+						<read src="servlet:super:/scripts/{1}.js" />
 					</otherwise>
 				</select>
 			</match>
@@ -711,7 +713,7 @@
 						<read src="images/{1}.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:super:/images/{1}.{2}" />
+						<read src="servlet:super:/images/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -757,7 +759,7 @@
 						<read src="buttons/{1}_button.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:super:/buttons/{1}.{2}" />
+						<read src="servlet:super:/buttons/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -769,7 +771,7 @@
 						<read src="buttons/{1}_button.{2}" />
 					</when>
 					<otherwise>
-						<read src="block:super:/buttons/{1}.{2}" />
+						<read src="servlet:super:/buttons/{1}.{2}" />
 					</otherwise>
 				</select>
 			</match>
@@ -781,7 +783,7 @@
 					</when>
 					<otherwise>
 						<read
-							src="block:super:/icons/{1}x{2}/{3}/{4}.png" />
+							src="servlet:super:/icons/{1}x{2}/{3}/{4}.png" />
 					</otherwise>
 				</select>
 			</match>
@@ -791,7 +793,7 @@
 				| NOTE: This must be the LAST matcher of the LAST pipeline!
 				+-->
 			<match pattern="**">
-				<read src="block:super:/{1}" />
+				<read src="servlet:super:/{1}" />
 			</match>
 			
 			<handle-errors>
