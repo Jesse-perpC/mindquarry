@@ -20,35 +20,64 @@
     <title><xsl:value-of select="name"/></title>
   </xsl:template>
   
-  <xsl:template match="teamspace" mode="heading">
-    <h1>Manage Teamspace <xsl:value-of select="name"/></h1>
+  <xsl:template match="teamspace" mode="heading" />
+  
+  <xsl:template name="content-actions">
+	<link rel="action" type="changemembers" linkrel="lightbox"
+		href="../../{/teamspace/id}/editMembers/" text="Team Members"/>
+	<link rel="action" type="editteamsettings" linkrel="lightbox"
+		href="../../{/teamspace/id}/edit/" text="Edit Settings"/>
+  </xsl:template>
     
-    <xsl:if test="$username = 'admin'" >
-      <xsl:call-template name="create_user_button" />
-    </xsl:if>
+  <xsl:template match="teamspace">
+  	<div class="content">
+		<xsl:apply-templates select="name" />
+		<img class="icon" src="{$pathToBlock}{normalize-space(id)}.png"/>
+		<xsl:apply-templates select="description" />
+        <div class="details">
+          <h3>Team Members</h3>
+          <xsl:choose>
+            <xsl:when test="users/user">
+              <xsl:apply-templates select="users/user" mode="detail" />
+            </xsl:when>
+            <xsl:otherwise>
+              No team members assigned.
+			</xsl:otherwise>
+          </xsl:choose>
+        </div>
+        <div class="details">
+          <h3>Tools for your Teamwork</h3>
+          <div class="member-details">
+            <img src="{$pathToRoot}resources/tango-icons/48/apps/mindquarry-documents.png" class="teamblock"/>
+            <h4>
+              Team Documents
+            </h4>
+            Share documents with your team members. Browse <a href="{$pathToRoot}files/browser/{normalize-space(id)}/">shared files</a> 
+            or view <a href="{$pathToRoot}files/changes/{normalize-space(id)}/">recent changes</a> to stay up to date.
+          </div>
+          <div class="member-details">
+            <img src="{$pathToRoot}resources/tango-icons/48/apps/mindquarry-wiki.png" class="teamblock"/>
+            <h4>
+              Team Wiki
+            </h4>
+            Share ideas, thoughts and know-how with your team members. Visit <a href="{$pathToRoot}/wiki/{normalize-space(id)}/">the Wiki</a> 
+            or create <a href="{$pathToRoot}/wiki/{normalize-space(id)}/new">a new page</a>.
+          </div>
+          <div class="member-details">
+            <img src="{$pathToRoot}resources/tango-icons/48/apps/mindquarry-tasks.png" class="teamblock"/>
+            <h4>
+              Team Tasks
+            </h4>
+            Collaboratively manage your tasks and assignments. Take the <a href="{$pathToRoot}/tasks/{normalize-space(id)}/">task overview</a> 
+            or create <a href="{$pathToRoot}/tasks/{normalize-space(id)}/new">a new task</a>.
+          </div>
+        </div>
+    </div>
   </xsl:template>
   
   <xsl:template match="name">
-    <h2 class="name">
-		<xsl:value-of select="." />
-    </h2>
+  	<h1><xsl:apply-templates /></h1>
   </xsl:template>
   
-  <xsl:template name="create_user_button">
-    <a class="create_user_button" 
-      href="{$pathToBlock}{normalize-space(id)}/createUserFromDetailsView/" rel="lightbox">
-      New User</a>
-  </xsl:template>
   
-  <xsl:template name="create_edit_buttons">
-    <a href="{$pathToBlock}{normalize-space(id)}/editMembersFromDetailsView/" 
-      class="edit_members_button" rel="lightbox" title="Add or remove team members">
-      Team Members
-    </a>
-    
-    <a href="{$pathToBlock}{normalize-space(id)}/editFromDetailsView/" 
-      class="edit_settings_button" rel="lightbox">
-      Edit Settings
-    </a>
-  </xsl:template>
 </xsl:stylesheet>

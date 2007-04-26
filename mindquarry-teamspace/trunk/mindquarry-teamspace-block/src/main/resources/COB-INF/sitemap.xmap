@@ -443,7 +443,7 @@
 				<serialize type="xml" />
 			</match>
 			
-			<match pattern="*/editMembers/">
+			<match pattern="team/*/editMembers/">
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
@@ -456,7 +456,7 @@
 			</match>
 			
 			<!-- used in teamspace detail view -->
-			<match pattern="*/editMembersFromDetailsView/">
+			<match pattern="team/*/editMembersFromDetailsView/">
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
@@ -478,11 +478,11 @@
 					<parameter name="username"
 						value="{request-attr:username}" />
 					<parameter name="redirectURL" 
-						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
+						value=".." />
 				</call>
 			</match>
 			
-			<match pattern="*/createUserFromDetailsView/">
+			<!--<match pattern="*/createUserFromDetailsView/">
 				<call function="handleForm">
 					<parameter name="function"
 						value="processCreateUser" />
@@ -493,7 +493,7 @@
 					<parameter name="redirectURL" 
 						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 				</call>
-			</match>
+			</match>-->
 			
 			<match pattern="editUser/">
 				<call function="handleForm">
@@ -529,12 +529,12 @@
 						value="{request-attr:username}" />
 					<parameter name="teamspaceId" value="{1}" />
 					<parameter name="redirectURL" 
-						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />				
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />				
 				</call>
 			</match>
 			
 			<!-- used in teamspace detail view -->
-			<match pattern="*/editFromDetailsView/">
+			<!--<match pattern="*/editFromDetailsView/">
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditTeamspaceForm" />
@@ -546,7 +546,7 @@
 					<parameter name="redirectURL" 
 						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 				</call>
-			</match>
+			</match>-->
 			
 			
 			<match pattern="portlets/*/*/meta">

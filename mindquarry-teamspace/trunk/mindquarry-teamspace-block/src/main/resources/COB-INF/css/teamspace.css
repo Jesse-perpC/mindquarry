@@ -1,5 +1,7 @@
 @import url("teamspace-details.css");
 
+
+
 div.teams a.create_teamspace_button:link,
 div.teams a.create_teamspace_button:visited {
 	background-image: url(../buttons/create_teamspace.gif);
@@ -14,11 +16,12 @@ div.teams a.create_teamspace_button:visited {
 	padding-top: 9px;
 	padding-left: 13px;
 	float:right;
-	/*
-	margin-left:auto;
-	*/
+
+	/*margin-left:auto;*/
+
 	margin-right:11px;
 }
+
 
 div.teams a.create_user_button:link,
 div.teams a.create_user_button:visited {
@@ -34,9 +37,9 @@ div.teams a.create_user_button:visited {
 	padding-top: 9px;
 	padding-left: 13px;
 	float:right;
-	/*
-	margin-left:auto;
-	*/
+	
+	//margin-left:auto;
+	
 	margin-right:11px;
 }
 
