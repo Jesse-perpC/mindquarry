@@ -106,7 +106,7 @@
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-repository-impl</artifactId>
-			<version>1.0.0_Mindquarry_1</version>
+			<version>${cocoon-repository-impl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.document-management.server.xenodot</groupId>
