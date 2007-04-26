@@ -36,7 +36,7 @@ import org.springframework.core.io.Resource;
  */
 public abstract class AvalonSpringContainerTestBase extends ContainerTestCase {
     // add spring bean definitions to component configuration settings
-    protected void addSettings(BeanDefinitionRegistry registry) {
+    protected void addSettings() {
         
         GenericApplicationContext ctx = new GenericApplicationContext();
         XmlBeanDefinitionReader xmlReader = new XmlBeanDefinitionReader(ctx);
@@ -46,6 +46,8 @@ public abstract class AvalonSpringContainerTestBase extends ContainerTestCase {
         for (Resource resource : springConfigResources)
             xmlReader.loadBeanDefinitions(resource);
         
+        BeanDefinitionRegistry registry = getRegistry();
+        
         for (String beanName : ctx.getBeanDefinitionNames()) {
             BeanDefinition beanDefinition = ctx.getBeanDefinition(beanName);
             registry.registerBeanDefinition(beanName, beanDefinition);
@@ -54,7 +56,11 @@ public abstract class AvalonSpringContainerTestBase extends ContainerTestCase {
                 registry.registerAlias(beanName, alias);
         }
 
-        super.addSettings(registry);
+        super.addSettings();
+    }
+    
+    private BeanDefinitionRegistry getRegistry() {
+        return (BeanDefinitionRegistry) getBeanFactory();
     }
 
     private Resource[] findSpringConfigResources() {
