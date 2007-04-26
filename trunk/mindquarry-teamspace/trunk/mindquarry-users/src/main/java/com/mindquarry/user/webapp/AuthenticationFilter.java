@@ -196,17 +196,17 @@ public class AuthenticationFilter implements Filter {
         				    : "."));
         
         		    if (isAJAXRequest(request)) {
-        			Writer writer = response.getWriter();
-        			writer.write("<?xml version=\"1.0\"?>");
-        			writer
-        				.write("<bu:document "
-        					+ "xmlns:bu='http://apache.org/cocoon/browser-update/1.0'>"
-        					+ "<bu:continue/></bu:document>");
-        			writer.close();
-        			response.setStatus(HttpServletResponse.SC_OK);
+            			Writer writer = response.getWriter();
+            			writer.write("<?xml version=\"1.0\"?>");
+            			writer
+            				.write("<bu:document "
+            					+ "xmlns:bu='http://apache.org/cocoon/browser-update/1.0'>"
+            					+ "<bu:continue/></bu:document>");
+            			writer.close();
+            			response.setStatus(HttpServletResponse.SC_OK);
         
         		    } else {
-        			response.sendRedirect(redirectUrl);
+        		        response.sendRedirect(redirectUrl);
         		    }
         		}
         
@@ -227,13 +227,13 @@ public class AuthenticationFilter implements Filter {
         		    // standard browser with preemptive sending auth data, thus
         		    // it must be the first request -> go to login page
         		    if (isGuiBrowserRequest(request)) {
-        			String loginUrl = buildLoginUrlForRequest(request);
-        			String redirectUrl = response
-        				.encodeRedirectURL(loginUrl);
-        			response.sendRedirect(redirectUrl);
+            			String loginUrl = buildLoginUrlForRequest(request);
+            			String redirectUrl = response
+            				.encodeRedirectURL(loginUrl);
+            			response.sendRedirect(redirectUrl);
         		    } else {
-        			// trigger simple client auth. or re-authentication
-        			response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+        		        // trigger simple client auth. or re-authentication
+        		        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
         		    }
         
         		    // no further servlet processing.
