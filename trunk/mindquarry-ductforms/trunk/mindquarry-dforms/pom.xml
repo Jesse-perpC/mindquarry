@@ -33,20 +33,15 @@
 			<artifactId>cocoon-core</artifactId>
 			<version>${cocoon-core.version}</version>
 		</dependency>
-		<!--<dependency>
-			<groupId>org.apache.cocoon</groupId>
-			<artifactId>cocoon-blocks-fw-impl</artifactId>
-			<version>1.0.0-M2_Mindquarry_2</version>
-		</dependency>-->
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-forms-impl</artifactId>
-			<version>1.0.0-M2_Mindquarry_1</version>
+			<version>${cocoon-forms-impl.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
 			<artifactId>cocoon-html-impl</artifactId>
-			<version>1.0.0_Mindquarry_2</version>
+			<version>${cocoon-html-impl.version}</version>
 			<exclusions>
 				<exclusion>
 					<artifactId>servlet-api</artifactId>

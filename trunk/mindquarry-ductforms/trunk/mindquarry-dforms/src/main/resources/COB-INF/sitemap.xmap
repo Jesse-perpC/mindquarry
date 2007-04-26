@@ -52,11 +52,12 @@
 	</views>
 
 	<pipelines>
-		<pipeline type="expires-caching">
+		<pipeline type="caching">
 			<!-- @virtual: implementations can choose the form2html stylesheet -->
 			<match pattern="xslt/forms/dforms_form2html.xsl">
-				<generate src="block:resources:/xslt/forms/form2html_labelreplacement.xsl"/>
-				<serialize type="xml" />		
+				<!--<read src="servlet:resources:/xslt/forms/form2html_labelreplacement.xsl"/>-->
+				<generate src="servlet:resources:/xslt/forms/form2html_labelreplacement.xsl"/>
+				<serialize type="xml" />
 			</match>
 			
 			<match pattern="scripts/*.js">
@@ -67,7 +68,7 @@
 					</when>
 					<!-- if not, look in the super block -->
 					<otherwise>
-						<read src="block:resources:/scripts/{1}.js" />
+						<read src="servlet:resources:/scripts/{1}.js" />
 					</otherwise>
 				</select>
 			</match>
@@ -78,7 +79,7 @@
 						<read src="xsl/{1}.xsl" />
 					</when>
 					<otherwise>
-						<read src="block:resources:/xslt/{1}.xsl" />
+						<read src="servlet:resources:/xslt/{1}.xsl" />
 					</otherwise>
 				</select>
 			</match>
@@ -90,7 +91,7 @@
 			<!-- Note: this is also referenced via a document()
 				call in addfield.xsl -->
 			<match pattern="complete-model.xml">
-				<generate src="block:/dforms-model-directory.xml" />
+				<generate src="servlet:/dforms-model-directory.xml" />
 				<call resource="directories2model" />
 			</match>
 
@@ -104,7 +105,7 @@
 			
 			<!-- internal -->
 			<!-- for child blocks to create includes of files in directories
-				with the correct block:/resource/* source format -->
+				with the correct servlet:/resource/* source format -->
 			<match pattern="collection2resourceincludes.xsl">
 				<read src="xsl/model/collection2resourceincludes.xsl" />
 			</match>
@@ -166,7 +167,7 @@
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
 				
-				<transform src="block:resources:/xslt/removeXHTMLprefix.xsl" />
+				<transform src="servlet:resources:/xslt/removeXHTMLprefix.xsl" />
 				
 				<transform type="browser-update" />
 				
@@ -174,7 +175,7 @@
 				
 				<!-- overwritten standard cocoon form2html stylesheet
 					 + dojo-editor (can be changed by implementations, see above) -->
-				<transform src="block:/xslt/forms/dforms_form2html.xsl" label="html">
+				<transform src="servlet:/xslt/forms/dforms_form2html.xsl" label="html">
 					<parameter name="fullPath"
 						value="{request-param:callerFullPath}" />
 					<parameter name="sitemapPath"
@@ -213,7 +214,7 @@
 					<parameter name="rootElement"
 						value="{request-param:rootElement}" />
 					<parameter name="definitionURI"
-						value="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+						value="cocoon:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
 				</call>
 			</match>
 
@@ -233,11 +234,11 @@
 					<parameter name="rootElement"
 						value="{request-param:rootElement}" />
 					<parameter name="definitionURI"
-						value="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+						value="cocoon:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
 				</call>
-				<!--<read src="block:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />-->
-				<!--<read src="block:/form-template" />-->
-				<read src="block:/xslt/forms/dforms_form2html.xsl"/>
+				<!--<read src="servlet:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />-->
+				<!--<read src="servlet:/form-template" />-->
+				<!--<read src="servlet:/xslt/forms/dforms_form2html.xsl"/>-->
 			</match>
 
 			<!-- internal, for child to retrieve xml -->
