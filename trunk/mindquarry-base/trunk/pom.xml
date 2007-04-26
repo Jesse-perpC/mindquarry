@@ -191,12 +191,24 @@
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
       <version>4.1</version>
-      <scope>test</scope>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   
   <properties>
-    <cocoon-core.version>2.2.0-M3_Mindquarry_2</cocoon-core.version>
+    <cocoon-core.version>2.2.0-RC1_Mindquarry_1</cocoon-core.version>
+    <cocoon-ajax-impl.version>1.0.0-RC1_Mindquarry_1</cocoon-ajax-impl.version>
+    <cocoon-servlet-service-components.version>1.0.0-RC1_Mindquarry_1</cocoon-servlet-service-components.version>
+    <cocoon-fop-ng-impl.version>1.0.0_Mindquarry_2</cocoon-fop-ng-impl.version>
+    <cocoon-forms-impl.version>1.0.0-RC1_Mindquarry_1</cocoon-forms-impl.version>
+    <cocoon-html-impl.version>1.0.0-RC1_Mindquarry_1</cocoon-html-impl.version>
+    <cocoon-imageop-impl.version>1.0.0_Mindquarry_4</cocoon-imageop-impl.version>
+    <cocoon-jcr-impl.version>1.0.0_Mindquarry_2</cocoon-jcr-impl.version>
+    <cocoon-jsp-impl.version>1.0.0_Mindquarry_2</cocoon-jsp-impl.version>
+    <cocoon-profiler-impl.version>1.0.0_Mindquarry_2</cocoon-profiler-impl.version>
+    <cocoon-repository-impl.version>1.0.0_Mindquarry_2</cocoon-repository-impl.version>
+    <cocoon-template-impl.version>1.0.0-RC1_Mindquarry_1</cocoon-template-impl.version>
+    <cocoon-proxy-impl.version>1.0.0_Mindquarry_2</cocoon-proxy-impl.version>
   </properties>
 	
   <build>
