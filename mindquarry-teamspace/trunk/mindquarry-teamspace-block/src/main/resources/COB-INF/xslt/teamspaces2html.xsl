@@ -16,7 +16,9 @@
 	 
 	<xsl:import href="teamspace2htmlutils.xsl"/>
 	
-	<xsl:template name="content-actions" />
+	<xsl:template name="head-links">
+		<link rel="breadcrumb" text="Teams"/>
+	</xsl:template>
   
 	<xsl:template match="/" mode="title">
 		<title>Teams</title>
