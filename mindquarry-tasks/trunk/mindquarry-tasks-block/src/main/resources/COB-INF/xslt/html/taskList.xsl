@@ -15,6 +15,7 @@
 <xsl:stylesheet version="1.0"
         xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
         xmlns:xlink="http://www.w3.org/1999/xlink"
+        xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 		xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
 
 	<xsl:import href="servlet:/xslt/contextpath.xsl" />
@@ -28,7 +29,7 @@
 	<xsl:template match="/tasks">
 		<html>
 			<head>
-				<title>Tasks for <xsl:value-of select="$teamspaceID" /></title>
+				<title>Tasks for <team:team><xsl:value-of select="$teamspaceID" /></team:team></title>
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/tasks.css" type="text/css" />
 				<!--<script type="text/javascript">
@@ -37,11 +38,13 @@
 				<link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
 				<link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
 				<link rel="alternate" href="" type="application/pdf" title="PDF for print" />
+				
+				<link rel="breadcrumb" text="Tasks"/>
 			</head>
 			<body>
-				<h1>Manage Tasks for 
-					<xsl:value-of 
-						select="document(concat('jcr:///teamspaces/', $teamspaceID, '/metadata.xml'))//name" />
+				<h1>
+					Manage Tasks for 
+					<team:team><xsl:value-of select="$teamspaceID" /></team:team>
 				</h1>
 				
 				<div class="nifty">

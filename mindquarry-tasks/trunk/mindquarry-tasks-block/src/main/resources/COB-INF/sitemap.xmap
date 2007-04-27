@@ -151,6 +151,7 @@
 		
 		<!-- standard final page layouting -->
 		<resource name="layouting">
+			<transform type="teamspace" />
 			<select type="lightbox-request">
 				<when test="true">
 					<transform src="servlet:/xslt/html2lightbox.xsl">
