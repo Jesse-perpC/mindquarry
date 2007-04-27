@@ -126,6 +126,7 @@ public class AuthorizationTest extends UserTestBase {
         
         String fooTeamspace = "/teamspaces/foo-team";
         String fooTeamspaceWiki = "/teamspaces/foo-team/wiki";
+        String fooTeamspaceWikiStart = "/teamspaces/foo-team/wiki/start";
         String fooTeamspaceTasks = "/teamspaces/foo-team/tasks";
         
         ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, READ);
@@ -134,6 +135,10 @@ public class AuthorizationTest extends UserTestBase {
                 
         ActionRO fooReadWikiAction = authAdmin.createAction(fooTeamspaceWiki, READ);
         authAdmin.addDenial(fooReadWikiAction, user2);
+        
+        ActionRO fooReadWikiStartAction = authAdmin.createAction(fooTeamspaceWikiStart, READ);
+        authAdmin.addAllowance(fooReadWikiStartAction, user2);
+        
         
         assertTrue(authAdmin.mayPerform(fooTeamspace, READ, user1));
         assertTrue(authAdmin.mayPerform(fooTeamspace, READ, user2));
@@ -144,8 +149,25 @@ public class AuthorizationTest extends UserTestBase {
         assertTrue(authAdmin.mayPerform(fooTeamspaceWiki, READ, user1));
         assertFalse(authAdmin.mayPerform(fooTeamspaceWiki, READ, user2));
         
+        assertTrue(authAdmin.mayPerform(fooTeamspaceWikiStart, READ, user1));
+        assertFalse(authAdmin.mayPerform(fooTeamspaceWikiStart, READ, user2));
+        
         authAdmin.deleteResource(fooTeamspace);
-    }    
+    }
+    
+    public void testDenialPrecedesAllowance() {
+        UserRO user1 = userQuery.userById(user1Id);
+        
+        String fooTeamspace = "/teamspaces/foo-team";
+        
+        ActionRO fooReadAction = authAdmin.createAction(fooTeamspace, READ);
+        authAdmin.addAllowance(fooReadAction, user1);
+        authAdmin.addDenial(fooReadAction, user1);
+        
+        assertFalse(authAdmin.mayPerform(fooTeamspace, READ, user1));
+        
+        authAdmin.deleteResource(fooTeamspace);
+    }
     
     public void testGroupAllowances() {
         final UserRO fooUser = userQuery.userById(fooUserId);

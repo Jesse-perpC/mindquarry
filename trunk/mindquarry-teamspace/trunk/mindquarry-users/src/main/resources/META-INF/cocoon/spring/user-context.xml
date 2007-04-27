@@ -40,11 +40,23 @@
 				  ref="com.mindquarry.auth.AuthorizationAdmin" />				  
 	</bean>
 		   
+	<!-- no authorization, see below -->
+	
 	<alias name="com.mindquarry.user.manager.UserManager" 
 		   alias="com.mindquarry.user.UserAdmin" />
 	
 	<alias name="com.mindquarry.user.manager.UserManager" 
 		   alias="com.mindquarry.user.UserQuery" />
+		   
+	<!-- alternative configuration using authorization wrapper
+		 enabling authorization for user and role resources -->
+	<!-- 
+		<alias name="com.mindquarry.user.auth.UserAuthorization" 
+		   alias="com.mindquarry.user.UserAdmin" />
+	
+		<alias name="com.mindquarry.user.auth.UserAuthorization" 
+		   alias="com.mindquarry.user.UserQuery" />
+	 -->
 	
 		
 	<bean id="com.mindquarry.user.util.Initializer" 

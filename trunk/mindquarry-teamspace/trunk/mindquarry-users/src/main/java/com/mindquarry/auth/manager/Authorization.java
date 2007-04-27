@@ -109,13 +109,14 @@ public class Authorization implements AuthorizationAdmin {
                 result = false;
             }
             
-            ActionEntity right = resource.actionForOperation(operation);
-            if (right != null) {
-                if (right.isAccessAllowed(user)) {
-                    result = true;
-                }
-                else if (result && right.isAccessDenied(user)) {
+            ActionEntity action = resource.actionForOperation(operation);
+            if (action != null) {
+                if (action.isAccessDenied(user)) {
                     result = false;
+                    break;
+                }
+                else if (action.isAccessAllowed(user)) {
+                    result = true;
                 }
             }
         }

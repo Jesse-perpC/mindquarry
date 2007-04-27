@@ -157,17 +157,14 @@ public class UserAuthorization implements UserAdmin, BeanFactoryAware {
     public User createUser(String id, String password, String name, 
             String surName, String email, String skills) {
         
-        long start = System.currentTimeMillis();
         authorizeUserContainerAccess(WRITE);
         for (String roleId : defaultUserRoles()) {
             authorizeRoleAccess(WRITE, roleId);
         }
         
-        long s = System.currentTimeMillis();
         User user = userManager_.createUser(id, password, 
                 name, surName, email, skills);
-        long e = System.currentTimeMillis();
-        
+                
         String resourceUri = userResourcePath(user.getId());
         for (String operation : readWrite()) {
             ActionRO action = authAdmin_.createAction(resourceUri, operation);
@@ -178,15 +175,12 @@ public class UserAuthorization implements UserAdmin, BeanFactoryAware {
             RoleRO role = userManager_.roleById(roleId);
             userManager_.addUser(user, role);
         }
-        long end = System.currentTimeMillis();
-        System.out.println("create user: " + (e - s));
-        System.out.println("complete create user: " + (end - start));
         return user;
     }
 
     public void deleteUser(User user) {
         
-        authorizeUserContainerAccess(WRITE);
+        authorizeUserContainerAccess(WRITE);        
         for (String role : defaultUserRoles()) {
             authorizeRoleAccess(WRITE, role);
         }
