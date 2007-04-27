@@ -734,54 +734,8 @@
 				</select>
 			</match>
 			
-			<match pattern="buttons/*x*/*.*">
-				<read src="buttons/{3}-button-{1}.{4}" />
-			</match>
-			
-			<match pattern="buttons/*.*">
-				<read src="buttons/{1}_button.{2}" />
-			</match>
-			
-			<match pattern="buttons/*/*/*.png">
-				<read src="buttons/{1}/{2}/{3}.png" />
-			</match>
-			
-			<match pattern="buttons/*/16/*/*/*.png">
-				<read src="buttons/{1}/16/{2}.png" type="image-op-overlay">
-					<parameter name="overlay-offset-x" value="2" />
-					<parameter name="overlay-offset-y" value="2" />
-					<parameter name="overlay-source" value="cocoon:/tango-icons/16/{3}/{4}.png" />
-				</read>
-			</match>
-			
-			<match pattern="buttons/*/22/*/*/*.png">
-				<read src="buttons/{1}/22/{2}.png" type="image-op-overlay">
-					<parameter name="overlay-offset-x" value="2" />
-					<parameter name="overlay-offset-y" value="2" />
-					<parameter name="overlay-source" value="cocoon:/tango-icons/22/{3}/{4}.png" />
-				</read>
-			</match>
-			
-			<match pattern="buttons/*/*/*/*/*/*.png">
-				<read type="image-op-resize" src="cocoon:/buttons/{1}/22/{4}/{5}/{6}.png">
-					<parameter name="size-width" value="{2}" />
-					<parameter name="size-height" value="{3}" />
-				</read>
-			</match>
-			<!--
-			<match pattern="buttons/*.*">
-				<select type="resource-exists">
-					<when test="buttons/{1}_button.{2}">
-						<read src="buttons/{1}_button.{2}" />
-					</when>
-					<otherwise>
-						<read src="servlet:super:/buttons/{1}.{2}" />
-					</otherwise>
-				</select>
-			</match>
-			-->
 			<!-- need this for details view -->
-			<match pattern="team/buttons/*.*">
+			<!--<match pattern="team/buttons/*.*">
 				<select type="resource-exists">
 					<when test="buttons/{1}_button.{2}">
 						<read src="buttons/{1}_button.{2}" />
@@ -790,7 +744,7 @@
 						<read src="servlet:super:/buttons/{1}.{2}" />
 					</otherwise>
 				</select>
-			</match>
+			</match>-->
 			
 			<match pattern="icons/*x*/*/*.png">
 				<select type="resource-exists">
