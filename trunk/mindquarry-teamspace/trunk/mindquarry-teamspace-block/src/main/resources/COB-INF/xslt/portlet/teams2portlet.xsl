@@ -3,7 +3,7 @@
     
     <xsl:template match="teamspaces">
         <body>
-            <div dojoType="teamSwitcher">
+            <div class="teamlist">
                 <ul>
                     <xsl:apply-templates />
                 </ul>
