@@ -27,3 +27,12 @@ function existsUserWithId(userIdWidget) {
 	}
 	return false;
 }
+ 
+function deleteUser() {
+	var userId = cocoon.parameters["userId"];
+	var userAdmin = cocoon.getComponent(UserAdmin.ROLE);	
+	userAdmin.deleteUser(userAdmin.userById(userId));	
+	cocoon.releaseComponent(userAdmin);
+	
+	cocoon.response.sendStatus(200);
+}

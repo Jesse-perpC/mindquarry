@@ -334,7 +334,6 @@
 				</select>
 			</match>
 			
-			<!-- TODO find users and remove it -->
 			<!-- user with name and all his teams with all their users and full user info -->
 			<match pattern="user/*/info/teams.xml">
 							
@@ -579,6 +578,23 @@
 						
 		</pipeline>
 
+		<!-- external browser pipeline -->
+		<pipeline type="caching-point">
+			<match pattern="users/*">
+				<select type="REST">
+					<when test="xml">
+						<select type="request-method">
+							<when test="DELETE">
+								<call function="deleteUser">
+									<parameter name="userId" value="{1}" />
+								</call>
+							</when>
+						</select>
+					</when>
+				</select>
+			</match>
+		</pipeline>
+		
 		<!-- user/team image pipeline -->
 		<!-- Note: images can change due to uploads, thus no expires-caching! -->
 		<pipeline type="caching"><!-- eg. users/[size]/[name].[type] -->
