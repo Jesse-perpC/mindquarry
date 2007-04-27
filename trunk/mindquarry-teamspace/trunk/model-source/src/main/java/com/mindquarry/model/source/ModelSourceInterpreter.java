@@ -16,6 +16,7 @@ package com.mindquarry.model.source;
 import static com.mindquarry.model.source.ReflectionUtil.invokeMethod;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.Collection;
 
 /**
@@ -112,7 +113,10 @@ class ModelSourceInterpreter {
     	for (Method method : clazz.getMethods()) {
     	    if (method.getName().equals(name)
     		    && method.getParameterTypes().length == nParams) {
-    
+
+                if (Modifier.isVolatile(method.getModifiers()))
+                    continue;
+                
                 if (result != null) {
                     throw new ModelSourceException("More than one method " +
                             "named '" + name + "' with " + nParams + 
