@@ -588,7 +588,7 @@
 				</transform>
 				<select type="REST">
 					<when test="html">
-						<transform type="filter" label="xml">
+						<transform type="filter">
 							<parameter name="element-name" value="conversation"/>
 							<parameter name="count" value="10"/>
 							<parameter name="blocknr" value="{request-param:page}"/>
@@ -610,9 +610,9 @@
 						</transform>
 						
 						
-						<transform type="include" />
-						<transform src="xslt/html/prepareconversationlist.xsl" />
-						<transform src="xslt/html/conversationlist2html.xsl">
+						<transform type="include"  />
+						<transform src="xslt/html/prepareconversationlist.xsl"/>
+						<transform src="xslt/html/conversationlist2html.xsl"  label="xml">
 							<parameter name="now" value="{timestamp:}"/>
 							<parameter name="user" value="{request-attr:username}" />
 						</transform>
