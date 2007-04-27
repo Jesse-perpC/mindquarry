@@ -27,17 +27,19 @@
     <html>
       <head>
         <title>Start new conversation</title>
+        <link rel="breadcrumb" text="Talks" href="."/>
+        <link rel="breadcrumb" text="New" />
       </head>
       <body>
         <form id="startNewConversationForm" action="" method="POST">
           <h1>Start new conversation</h1>
-          <div dojotype="AddResource">AddResource</div>
+          <div dojotype="mindquarry:AddResource">AddResource</div>
           <dl>
             <dt><label for="title">Subject</label></dt>
             <dd><input type="text" name="title" /></dd>
             
             <dt><label for="subscribers">Subscribers</label></dt>
-            <dd dojoType="selectSubscribers">
+            <dd dojoType="mindquarry:selectSubscribers">
               <select multiple="multiple" id="oldsubscribers" name="oldsubscribers">
 					<xsl:apply-templates select="subscriber[@type='email']" />
               </select>
