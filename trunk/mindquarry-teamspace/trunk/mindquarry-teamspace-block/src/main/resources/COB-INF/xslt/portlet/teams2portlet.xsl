@@ -3,7 +3,7 @@
     
     <xsl:template match="teamspaces">
         <body>
-            <div class="teamlist">
+            <div class="teamlist" dojoType="mindquarry:TeamList">
                 <ul>
                     <xsl:apply-templates />
                 </ul>
@@ -12,7 +12,7 @@
     </xsl:template>
     
     <xsl:template match="teamspace">
-        <li><a href="{normalize-space(id)}"><xsl:apply-templates select="name"></xsl:apply-templates></a></li>
+        <li><a href="/teams/team/{normalize-space(id)}/" title="{normalize-space(id)}"><xsl:apply-templates select="name"></xsl:apply-templates></a></li>
     </xsl:template>
     
     <xsl:template match="name">
