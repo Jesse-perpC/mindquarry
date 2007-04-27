@@ -21,16 +21,16 @@ import com.mindquarry.user.UserRO;
  * 
  * The transformer will replace following elements:
  * <pre>
- * <team xmlns="http://mindquarry.com/ns/schema/teamtransform">$teamid</team>
- * <user xmlns="http://mindquarry.com/ns/schema/teamtransform">$userid</user>
+ * &lt;team xmlns="http://mindquarry.com/ns/schema/teamtransform"&gt;$teamid&lt;/team&gt;
+ * &lt;user xmlns="http://mindquarry.com/ns/schema/teamtransform"&gt;$userid&lt;/user&gt;
  * </pre>
  * The user id takes the attribute <tt>only</tt> to show only the <tt>firstname</tt>
  * or <tt>surname</tt>.
  * <pre>
- * <user xmlns="http://mindquarry.com/ns/schema/teamtransform" only="firstname">$userid</user>
- * <!-- returns 'Lars' -->
- * <user xmlns="http://mindquarry.com/ns/schema/teamtransform" only="surname">$userid</user>
- * <!-- returns 'Trieloff' -->
+ * &lt;user xmlns="http://mindquarry.com/ns/schema/teamtransform" only="firstname"&gt;$userid</user>
+ * &lt;!-- returns 'Lars' --&gt;
+ * &lt;user xmlns="http://mindquarry.com/ns/schema/teamtransform" only="surname"&gt;$userid</user>
+ * &lt;!-- returns 'Trieloff' --&gt;
  * </pre>
  * @author Lars Trieloff
  *
