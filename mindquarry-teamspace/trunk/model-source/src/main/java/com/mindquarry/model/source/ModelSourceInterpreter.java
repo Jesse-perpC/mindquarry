@@ -101,8 +101,8 @@ class ModelSourceInterpreter {
     private Method findMethod(Class clazz, String name, int nParams) {
     	Method result = lookForMethod(name, nParams, clazz);
     	if (result == null) {
-    	    throw new ModelSourceException("no method " + "with name: " + name
-    		    + " and " + nParams + " parameters " + "in class " + clazz);
+    	    throw new ModelSourceException("no method with name: " + name
+    		    + " and " + nParams + " parameters in class " + clazz);
     	}
     	return result;
     }
@@ -113,8 +113,13 @@ class ModelSourceInterpreter {
     	    if (method.getName().equals(name)
     		    && method.getParameterTypes().length == nParams) {
     
-    		result = method;
-    		break;
+                if (result != null) {
+                    throw new ModelSourceException("More than one method " +
+                            "named '" + name + "' with " + nParams + 
+                            " parameters found.");
+                }
+                
+        		result = method;
     	    }
     	}
     	return result;

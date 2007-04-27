@@ -30,7 +30,6 @@ import com.mindquarry.teamspace.Teamspace;
 import com.mindquarry.teamspace.TeamspaceAdmin;
 import com.mindquarry.teamspace.TeamspaceException;
 import com.mindquarry.teamspace.TeamspaceRO;
-import com.mindquarry.user.User;
 import com.mindquarry.user.UserAdmin;
 import com.mindquarry.user.UserRO;
 
@@ -124,10 +123,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                     "listener " + e.getMessage(), e);
         }
         
-        for (UserRO user : teamspace.getUsers()) {
-            removeMember((User) user, teamspace);            
-        }
-        
         Session session = currentSession();
         session.delete(teamspace);
     }
@@ -205,55 +200,6 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
         Session session = currentSession();
         session.update(team);
     }
-
-    /*
-    
-    public Membership membership(TeamspaceRO teamspace) {
-        Collection<? extends UserRO> users = userAdmin_.allUsers();
-        Set<UserRO> members = new HashSet<UserRO>();
-        Set<UserRO> nonMembers = new HashSet<UserRO>();
-
-        for (UserRO user : users) {
-            if (teamspace.getUsers().contains(user))
-                members.add(user);
-            else
-                nonMembers.add(user);
-        }
-
-        return new Membership(teamspace, members, nonMembers);
-    }
-
-    public Membership refreshMembership(Membership oldMembership) {
-        
-        Membership result = membership(oldMembership.teamspace);
-        for (UserRO user : oldMembership.getAddedMembers()) {
-            result.addMember(user);
-        }
-        for (UserRO user : oldMembership.getRemovedMembers()) {
-            result.removeMember(user);
-        }
-        return result;
-    }
-
-    // TODO think about requerying or reattaching of users and teamspaces
-    // to new session, because most of the times the object was queried
-    // in transactions and sessions before the current one
-    public Membership updateMembership(Membership membership) {
-        
-        // check old members for removal from teamspace
-        for (UserRO user : membership.getRemovedMembers()) {
-            removeMember((User) user, (Teamspace) membership.teamspace);
-        }
-
-        // check new members for adding to teamspace
-        for (UserRO user : membership.getAddedMembers()) {
-            addMember((User) user, (Teamspace) membership.teamspace);
-        }
-
-        // return a new calculated membership
-        return membership(membership.teamspace);
-    }
-    */
 
     /**
      * Simple authorisation implementation. Considers 'userId' and 'uri',
