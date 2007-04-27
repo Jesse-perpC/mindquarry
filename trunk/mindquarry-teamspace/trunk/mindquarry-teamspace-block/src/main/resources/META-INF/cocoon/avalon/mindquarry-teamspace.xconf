@@ -33,7 +33,7 @@
 			<index>
 				<excludes>
 					<exclude>jcr:///users/*</exclude>
-					<exclude>jcr:///teamspaces/*/metadata.xml</exclude>
+					<exclude>jcr:///teamspaces/*/*.xml</exclude>
 					<exclude>jcr:///teamspaces/*/tasks/filters/*</exclude>
 					<exclude>jcr:///groups/*</exclude>
 					<exclude>jcr:///system-info/*</exclude>

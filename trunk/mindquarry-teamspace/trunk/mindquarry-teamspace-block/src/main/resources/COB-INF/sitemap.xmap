@@ -685,7 +685,7 @@
 		<!-- resources pipeline -->
 		<!-- changed to **css/ because of absolute links in lightboxes -->
 		<!-- http://server/teams/team/teamspacename/css/teamspace.css -->
-		<pipeline type="expires-caching">
+		<pipeline type="caching">
 			<match pattern="**css/*.css">
 				<select type="resource-exists">
 					<when test="css/{2}.css">
