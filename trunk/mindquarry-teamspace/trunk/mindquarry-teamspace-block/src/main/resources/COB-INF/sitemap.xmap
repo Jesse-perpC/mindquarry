@@ -566,9 +566,6 @@
 			</match>
 			<match pattern="*.continue">
 				<act type="setnohttpcache" />
-				
-				<act type="log" src="continuing {1}" />
-				
 				<call continuation="{1}" />
 			</match>
 

@@ -20,22 +20,25 @@
     <title><xsl:value-of select="name"/></title>
   </xsl:template>
   
-  <xsl:template match="teamspace" mode="heading" />
-  
   <xsl:template name="head-links">
 	<link rel="breadcrumb" text="Details"/>
 		
-	<link rel="action" type="changemembers" linkrel="lightbox"
-		href="../../{/teamspace/id}/editMembers/" text="Team Members"/>
-	<link rel="action" type="editteamsettings" linkrel="lightbox"
-		href="../../{/teamspace/id}/edit/" text="Edit Settings"/>
+	<link rel="action" linkrel="lightbox" type="changemembers" href="../../{/teamspace/id}/editMembers/" text="Team Members"/>
+	<link rel="action" linkrel="lightbox" type="editteamsettings" href="../../{/teamspace/id}/editUser/" text="Edit Settings"/>
   </xsl:template>
     
   <xsl:template match="teamspace">
   	<div class="content">
-		<xsl:apply-templates select="name" />
+		<h2 class="name">
+			<xsl:apply-templates select="name" />
+		</h2>
+		
 		<img class="icon" src="{$pathToBlock}{normalize-space(id)}.png"/>
-		<xsl:apply-templates select="description" />
+		
+		<span class="description">
+		  <xsl:apply-templates select="description"/>
+		</span>
+		
         <div class="details">
           <h3>Team Members</h3>
           <xsl:choose>
@@ -76,10 +79,5 @@
         </div>
     </div>
   </xsl:template>
-  
-  <xsl:template match="name">
-  	<h1><xsl:apply-templates /></h1>
-  </xsl:template>
-  
   
 </xsl:stylesheet>
