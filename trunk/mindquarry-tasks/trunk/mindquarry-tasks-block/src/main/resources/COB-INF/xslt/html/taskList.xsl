@@ -82,10 +82,10 @@
 						</div>
 					</xsl:if>
 				</div>
-				
-				<div class="nifty">
+				<!-- replaced by breadcrumbs-->
+				<!--div class="nifty">
 					<a href=".." id="back">Back to overview</a>				
-				</div>
+				</div-->
 			</body>
 		</html>
     </xsl:template>
