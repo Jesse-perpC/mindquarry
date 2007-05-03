@@ -1,47 +1,4 @@
-@import url("teamspace-details.css");
-
-
-
-div.teams a.create_teamspace_button:link,
-div.teams a.create_teamspace_button:visited {
-	background-image: url(../buttons/create_teamspace.gif);
-	display:block;
-	width: 140px;
-	height: 32px;
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 10pt;
-	padding-top: 9px;
-	padding-left: 13px;
-	float:right;
-
-	/*margin-left:auto;*/
-
-	margin-right:11px;
-}
-
-
-div.teams a.create_user_button:link,
-div.teams a.create_user_button:visited {
-	background-image: url(../buttons/create_user.gif);
-	display:block;
-	width: 142px;
-	height: 32px;
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 10pt;
-	padding-top: 9px;
-	padding-left: 13px;
-	float:right;
-	
-	//margin-left:auto;
-	
-	margin-right:11px;
-}
+@import "teamspace-details.css";
 
 div.teams ul.teamspace-list {
 	list-style: none;

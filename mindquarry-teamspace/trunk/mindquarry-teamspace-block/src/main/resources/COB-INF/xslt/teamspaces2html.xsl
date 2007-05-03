@@ -16,6 +16,11 @@
 	 
 	<xsl:import href="teamspace2htmlutils.xsl"/>
 	
+	<!-- all the templates below are called by teamspace2htmlutils.xsl which
+		 already provides the general structure for the raw html -->
+
+	<xsl:template name="content-actions" />
+
 	<xsl:template name="head-links">
 		<link rel="breadcrumb" text="Teams"/>
 	</xsl:template>
@@ -24,51 +29,39 @@
 		<title>Teams</title>
 	</xsl:template>
   
-	<xsl:template match="/" mode="heading">
-		<h1>Manage Your Teams</h1>
-    
-		<xsl:if test="$username = 'admin'" >
-		     <a class="button22 button create_teamspace_button" href="createTeamspace/" rel="lightbox">New Team</a>
-		     <xsl:call-template name="create_user_button" />
-		</xsl:if>
-		
-  	</xsl:template>
-  
 	<xsl:template match="teamspaces">
-		<ul class="teamspace-list">
-			<xsl:apply-templates select="teamspace">
-				<xsl:sort select="name" />
-			</xsl:apply-templates>
-		</ul>
+		<div class="list">
+			<h1>Manage Your Teams</h1>
+			<ul class="teamspace-list">
+				<xsl:apply-templates select="teamspace">
+					<xsl:sort select="name" />
+				</xsl:apply-templates>
+			</ul>
+		</div>
 	</xsl:template>
     
 	<xsl:template match="teamspace">
-	<li>
-		<xsl:apply-imports />
-	</li>
+		<li>
+			<img class="icon" src="{$pathToBlock}{normalize-space(id)}.png"/>
+
+			<h2 class="name">
+				<a href="team/{normalize-space(id)}/">
+					<xsl:value-of select="name" />
+				</a>
+			</h2>
+			
+			<p>
+				<xsl:value-of select="description" />
+			</p>
+	
+			<div>
+				<ul class="members">
+					<xsl:if test="users/user">
+					  <xsl:apply-templates select="users" />
+					</xsl:if>
+				</ul>
+			</div>
+		</li>
 	</xsl:template>
   
-	<xsl:template match="teamspace/name">
-		<h2 class="name">
-			<a href="team/{normalize-space(../id)}/">
-				<xsl:value-of select="." />
-			</a>
-		</h2>
-	</xsl:template>
-  
-	<xsl:template name="create_user_button">
-	  <a class="create_user_button" href="createUser/" rel="lightbox">New User</a>
-	</xsl:template>
-  
-	<xsl:template name="create_edit_buttons">
-		<a href="{normalize-space(id)}/editMembers/" class="edit_members_button" 
-			rel="lightbox" title="Add or remove team members">
-			Team Members
-		</a>
-		
-		<a href="{normalize-space(id)}/edit/" class="edit_settings_button" 
-			rel="lightbox">
-			Edit Settings
-		</a>
-	</xsl:template>
 </xsl:stylesheet>
