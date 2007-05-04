@@ -59,7 +59,7 @@ public abstract class AvalonSpringContainerTestBase extends ContainerTestCase {
         super.addSettings();
     }
     
-    private BeanDefinitionRegistry getRegistry() {
+    protected BeanDefinitionRegistry getRegistry() {
         return (BeanDefinitionRegistry) getBeanFactory();
     }
 
