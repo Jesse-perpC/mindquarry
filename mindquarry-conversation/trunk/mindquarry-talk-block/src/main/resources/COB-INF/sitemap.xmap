@@ -333,6 +333,10 @@
 				</select>
 			</match>
 
+			<match pattern="buttons/**.*">
+				<read src="servlet:resources:/buttons/{1}.{2}" />
+			</match>
+			
 			<match pattern="icons/*x*/*/*.png">
 				<select type="resource-exists">
 					<when test="icons/{1}x{2}/{3}/{4}.png">
