@@ -167,7 +167,7 @@
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
 				
-				<transform src="servlet:resources:/xslt/removeXHTMLprefix.xsl" />
+				<transform src="servlet:resources:/xslt/html/removeXHTMLprefix.xsl" />
 				
 				<transform type="browser-update" />
 				

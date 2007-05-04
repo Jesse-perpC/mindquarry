@@ -55,16 +55,16 @@
 					
 					<!-- the buttons -->
 					<ft:widget id="ductforms_editall">
-						<fi:styling class="ductform_button editall_button"/>
+						<fi:styling class="ductform_button editall_button edit-action"/>
 					</ft:widget>
 					<ft:widget id="ductforms_save">
-						<fi:styling class="ductform_button save_button"/>
+						<fi:styling class="ductform_button save_button save-action"/>
 					</ft:widget>
 					<ft:widget id="ductforms_cancel">
-						<fi:styling class="ductform_button cancel_button"/>
+						<fi:styling class="ductform_button cancel_button cancel-action"/>
 					</ft:widget>
 					<ft:widget id="ductforms_delete">
-						<fi:styling class="ductform_button delete_button" onclick="return confirm('Are you sure you want to delete it?');"/>
+						<fi:styling class="ductform_button delete_button delete-action" onclick="return confirm('Are you sure you want to delete it?');"/>
 					</ft:widget>
 					
 					<!-- all fields/widgets grouped for nice layouting -->
