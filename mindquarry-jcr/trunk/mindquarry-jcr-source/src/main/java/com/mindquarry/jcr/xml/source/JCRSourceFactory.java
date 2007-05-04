@@ -46,7 +46,9 @@ import com.mindquarry.events.exception.EventAlreadyRegisteredException;
 import com.mindquarry.events.exception.UnknownEventException;
 import com.mindquarry.jcr.client.JCRClient;
 import com.mindquarry.jcr.jackrabbit.xpath.JaxenQueryHandler;
+import com.mindquarry.jcr.xenodot.XenodotClient;
 import com.mindquarry.jcr.xml.source.events.UrlResolvedEvent;
+import com.mindquarry.jcr.xml.source.xenodot.XenodotSource;
 
 /**
  * This SourceFactory provides access to a Java Content Repository (JCR)
@@ -260,7 +262,14 @@ public class JCRSourceFactory extends JCRClient implements ThreadSafe,
     public JCRNodeSource createSource(Session session, String path, String revision)
             throws SourceException {
     	String myrevision = (revision==null) ? null : revision.substring("revision=".length());
-        return new JCRNodeSource(this, session, path, iClient, myrevision);
+        
+        try {
+            XenodotClient xenodot = (XenodotClient) manager.lookup(XenodotClient.ROLE);
+            return new XenodotSource(this, session, path, iClient, myrevision, xenodot);
+        } catch (ServiceException e) {
+            return new JCRNodeSource(this, session, path, iClient, myrevision);
+        }
+        
     }
 
     /**

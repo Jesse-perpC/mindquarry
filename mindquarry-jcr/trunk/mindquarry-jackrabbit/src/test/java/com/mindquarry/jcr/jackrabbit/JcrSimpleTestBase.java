@@ -25,11 +25,16 @@ import javax.jcr.Session;
 import org.apache.avalon.framework.service.ServiceException;
 import org.apache.excalibur.source.Source;
 import org.apache.excalibur.source.SourceResolver;
+import org.springframework.beans.MutablePropertyValues;
+import org.springframework.beans.factory.support.BeanDefinitionRegistry;
+import org.springframework.beans.factory.support.RootBeanDefinition;
 import org.springmodules.jcr.JcrSessionFactory;
 
 import com.mindquarry.common.init.InitializationException;
 import com.mindquarry.common.test.AvalonSpringContainerTestBase;
 import com.mindquarry.dms.xenodot.jackrabbit.XenodotPersistenceManager;
+import com.mindquarry.jcr.xenodot.XenodotClient;
+import com.mindquarry.jcr.xenodot.XenodotClientImpl;
 
 /**
  * Abstract base classes for all JCR XML source test cases.
@@ -58,6 +63,16 @@ public abstract class JcrSimpleTestBase extends AvalonSpringContainerTestBase {
         }
     }
     
+    protected void addSettings() {
+        if (useXenodot()) {
+            MutablePropertyValues props = new MutablePropertyValues();
+            props.addPropertyValue("uri", "jdbc:postgresql:xenodot");
+            getRegistry().registerBeanDefinition(XenodotClient.ROLE,
+                    new RootBeanDefinition(XenodotClientImpl.class, props));
+        }
+        super.addSettings();
+    }
+
     protected  void cleanXenodotDatabase(
             XenodotPersistenceManager persistenceManager) throws Exception {
     }
