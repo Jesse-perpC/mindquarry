@@ -134,8 +134,10 @@ public class XenodotPersistenceManager implements PersistenceManager {
     }
 
     public void close() throws Exception {
-        database.commit();
-        database.close();
+        if (database != null) {
+            database.commit();
+            database.close();
+        }
     }
 
     public boolean exists(final NodeId id) throws ItemStateException {
