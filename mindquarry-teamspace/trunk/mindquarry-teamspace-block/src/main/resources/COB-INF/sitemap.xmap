@@ -297,7 +297,7 @@
 								
 					<!-- handle HTML request -->
 					<when test="html">				
-						<transform src="xslt/teamspaces2html.xsl"
+						<transform src="xslt/html/teamspaces2html.xsl"
 							label="html">
 							<parameter name="username"
 								value="{request-attr:username}" />
@@ -318,7 +318,7 @@
 					<!-- handle REST request -->
 					<!-- used by desktop client to get informed about the teamspaces for the user --> 
 					<when test="xml">
-						<transform src="xslt/teamspaces2xml.xsl">
+						<transform src="xslt/xml/teamspaces2xml.xsl">
 							<parameter name="basePath"
 								value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
 						</transform>
@@ -403,7 +403,7 @@
 						
 				<select type="REST">
 					<when test="html">
-						<transform src="xslt/teamspace2html.xsl" label="html">
+						<transform src="xslt/html/teamspace2html.xsl" label="html">
 							<parameter name="username" value="{request-attr:username}" />								
 							<parameter name="blockPath" value="{block-path:}" />
 							<parameter name="serverBaseUrl" 
@@ -418,7 +418,7 @@
 					
 					<!--  handle REST request -->
 					<when test="xml">
-						<transform src="xslt/teamspace2xml.xsl">
+						<transform src="xslt/xml/teamspace2xml.xsl">
 							<parameter name="reposURI"
 								value="{system-property:mindquarry.repos.uri}" />
 						</transform>
@@ -730,18 +730,6 @@
 					</otherwise>
 				</select>
 			</match>
-			
-			<!-- need this for details view -->
-			<!--<match pattern="team/buttons/*.*">
-				<select type="resource-exists">
-					<when test="buttons/{1}_button.{2}">
-						<read src="buttons/{1}_button.{2}" />
-					</when>
-					<otherwise>
-						<read src="servlet:super:/buttons/{1}.{2}" />
-					</otherwise>
-				</select>
-			</match>-->
 			
 			<match pattern="icons/*x*/*/*.png">
 				<select type="resource-exists">

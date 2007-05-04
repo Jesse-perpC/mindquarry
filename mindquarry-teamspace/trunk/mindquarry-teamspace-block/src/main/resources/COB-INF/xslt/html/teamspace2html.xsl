@@ -23,8 +23,8 @@
   <xsl:template name="head-links">
 	<link rel="breadcrumb" text="Details"/>
 		
-	<link rel="action" linkrel="lightbox" type="changemembers" href="../../{/teamspace/id}/editMembers/" text="Team Members"/>
-	<link rel="action" linkrel="lightbox" type="editteamsettings" href="../../{/teamspace/id}/editUser/" text="Edit Settings"/>
+    <link rel="action" linkrel="lightbox" type="edit-action" href="../../{/teamspace/id}/edit/" text="Edit"/>
+    <link rel="action" linkrel="lightbox" type="new-team-action" href="editMembers/" text="Team Members"/>
   </xsl:template>
     
   <xsl:template match="teamspace">
