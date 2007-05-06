@@ -34,6 +34,8 @@
     <!-- persistence layer -->
     <module>../mindquarry-persistence</module>
     <module>../mindquarry-jcr</module>
+	<module>../mindquarry-document-management</module>
+
     <!-- central module for deploying the cocoon based webapp -->
     <module>../mindquarry-webapp</module>
     <!-- our cocoon blocks -->
