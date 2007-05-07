@@ -22,7 +22,7 @@
 	<xsl:template name="content-actions" />
 
 	<xsl:template name="head-links">
-		<link rel="breadcrumb" text="Teams"/>
+		<link rel="breadcrumb" title="Teams"/>
 	</xsl:template>
   
 	<xsl:template match="/" mode="title">
