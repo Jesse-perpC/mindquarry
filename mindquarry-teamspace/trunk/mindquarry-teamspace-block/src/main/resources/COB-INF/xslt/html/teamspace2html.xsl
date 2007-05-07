@@ -21,10 +21,10 @@
   </xsl:template>
   
   <xsl:template name="head-links">
-	<link rel="breadcrumb" text="Details"/>
+	<link rel="breadcrumb" title="Details"/>
 		
-    <link rel="action" linkrel="lightbox" type="edit-action" href="../../{/teamspace/id}/edit/" text="Edit"/>
-    <link rel="action" linkrel="lightbox" type="new-team-action" href="editMembers/" text="Team Members"/>
+    <link rel="action" linkrel="lightbox" type="edit-action" href="../../{/teamspace/id}/edit/" title="Edit"/>
+    <link rel="action" linkrel="lightbox" type="new-team-action" href="editMembers/" title="Team Members"/>
   </xsl:template>
     
   <xsl:template match="teamspace">

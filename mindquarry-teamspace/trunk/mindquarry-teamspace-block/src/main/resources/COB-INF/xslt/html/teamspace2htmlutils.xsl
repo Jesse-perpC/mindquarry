@@ -33,8 +33,8 @@
 				<xsl:call-template name="head-links" />
 		         
 				<xsl:if test="$username = 'admin'" >
-					<link rel="section-global-action" type="new-user-action" linkrel="lightbox" href="{$pathToBlock}createUser/" text="New User"/>
-					<link rel="section-global-action" type="new-team-action" linkrel="lightbox" href="{$pathToBlock}createTeamspace/" text="New Team"/>
+					<link rel="section-global-action" type="new-user-action" linkrel="lightbox" href="{$pathToBlock}createUser/" title="New User"/>
+					<link rel="section-global-action" type="new-team-action" linkrel="lightbox" href="{$pathToBlock}createTeamspace/" title="New Team"/>
 				</xsl:if> 
 
 				<script type="text/javascript"
