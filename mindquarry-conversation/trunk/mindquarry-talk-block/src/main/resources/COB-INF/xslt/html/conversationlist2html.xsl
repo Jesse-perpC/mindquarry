@@ -34,9 +34,6 @@
       <body>
         <xsl:apply-templates select="team" />
         <a href="new">new conversation</a>
-        <ul class="pagination">
-          <xsl:apply-templates select="block" mode="pagination"/>
-        </ul>
         <xsl:apply-templates select="block[node()]"/>
       </body>
     </html>
@@ -57,9 +54,11 @@
   </xsl:template>
   
   <xsl:template match="block">
-    <ul class="conversations">
-       <xsl:apply-templates />
-    </ul>
+  	<div class="list">
+		<ul class="conversations">
+		   <xsl:apply-templates />
+		</ul>
+	</div>
   </xsl:template>
   
   <xsl:template match="conversation">
@@ -71,19 +70,19 @@
   </xsl:template>
   
   <xsl:template match="message[position()=1]" mode="first">
-    <div class="firstmessage message">
+    <p class="firstmessage message">
       Started by <xsl:apply-templates select="from"/>
       <xsl:apply-templates select="date" />
-    </div>
+    </p>
   </xsl:template>
   
   <xsl:template match="message[position()=last()]" mode="last">
     <div class="firstmessage message">
       Last comment by <xsl:apply-templates select="from"/>
       <xsl:apply-templates select="date" />
-      <div class="content">
+      <blockquote>
         <xsl:value-of select="substring(body,1,60)" />
-      </div>
+      </blockquote>
     </div>
   </xsl:template>
   
@@ -127,24 +126,8 @@
     <li><xsl:value-of select="@id" /></li>
   </xsl:template>
   
-  <xsl:template match="block[position()=last()]" mode="headlinks">
-    <link rel="last" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block" mode="headlinks">
-    <link rel="following" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block[position()=1]" mode="headlinks">
-    <link rel="start" href="?page={@id}">
+  <xsl:template match="block[preceding-sibling::block[node()]]" mode="headlinks">
+    <link rel="nextnext" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>
@@ -159,8 +142,44 @@
     </link>
   </xsl:template>
   
+  
+  <xsl:template match="block[following-sibling::block[node()]]" mode="headlinks">
+    <link rel="prevprev" href="?page={@id}">
+      <xsl:attribute name="title">
+        <xsl:value-of select="position()"/>
+      </xsl:attribute>
+    </link>
+  </xsl:template>
+  
   <xsl:template match="block[following-sibling::block[1][node()]]" mode="headlinks">
     <link rel="prev" href="?page={@id}">
+      <xsl:attribute name="title">
+        <xsl:value-of select="position()"/>
+      </xsl:attribute>
+    </link>
+  </xsl:template>
+  
+  
+  <xsl:template match="block[position()=last()]" mode="headlinks">
+    <link rel="last" href="?page={@id}">
+      <xsl:attribute name="title">
+        <xsl:value-of select="position()"/>
+      </xsl:attribute>
+    </link>
+  </xsl:template>
+  
+  
+  <xsl:template match="block[position()=1]" mode="headlinks">
+    <link rel="start" href="?page={@id}">
+      <xsl:attribute name="title">
+        <xsl:value-of select="position()"/>
+      </xsl:attribute>
+    </link>
+  </xsl:template>
+  
+  
+  <xsl:template match="block[node()]" mode="headlinks">
+    <link rel="current" href="?page={@id}">
       <xsl:attribute name="title">
         <xsl:value-of select="position()"/>
       </xsl:attribute>
