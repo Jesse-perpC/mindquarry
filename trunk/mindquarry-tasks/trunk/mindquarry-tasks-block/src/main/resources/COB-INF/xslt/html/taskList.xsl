@@ -39,7 +39,7 @@
 				<link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
 				<link rel="alternate" href="" type="application/pdf" title="PDF for print" />
 				
-				<link rel="breadcrumb" text="Tasks"/>
+				<link rel="breadcrumb" title="Tasks"/>
 			</head>
 			<body>
 				<h1>

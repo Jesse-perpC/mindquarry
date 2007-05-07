@@ -50,8 +50,8 @@
 				type="text/css" />
 			<link rel="alternate" type="application/pdf" title="PDF for print" />
 			
-			<link rel="breadcrumb" text="Tasks" href="."/>
-			<link rel="breadcrumb" text="{/html/head/title}"/>
+			<link rel="breadcrumb" title="Tasks" href="."/>
+			<link rel="breadcrumb" title="{/html/head/title}"/>
 		</head>
 	</xsl:template>
 
