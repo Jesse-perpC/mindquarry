@@ -27,8 +27,8 @@
     <html>
       <head>
         <title>Start new conversation</title>
-        <link rel="breadcrumb" text="Talks" href="."/>
-        <link rel="breadcrumb" text="New" />
+        <link rel="breadcrumb" title="Talks" href="."/>
+        <link rel="breadcrumb" title="New" />
       </head>
       <body>
         <form id="startNewConversationForm" action="" method="POST">
