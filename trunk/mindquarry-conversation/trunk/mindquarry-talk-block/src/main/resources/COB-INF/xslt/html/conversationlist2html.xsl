@@ -29,11 +29,11 @@
         <title>Talk for <xsl:value-of select="teamspace[1]/name[1]"/></title>
         <xsl:apply-templates select="block" mode="headlinks"/>
         <link rel="up" href=".." title="All Teams"/>
-        <link rel="breadcrumb" text="Talks" href=".."/>
+        <link rel="breadcrumb" title="Talks" href=".."/>
+		<link rel="section-global-action" href="new" title="New Conversation"/>
       </head>
       <body>
         <xsl:apply-templates select="team" />
-        <a href="new">new conversation</a>
         <xsl:apply-templates select="block[node()]"/>
       </body>
     </html>
