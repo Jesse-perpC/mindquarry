@@ -30,35 +30,35 @@
         <xsl:apply-templates select="block" mode="headlinks"/>
         <link rel="up" href=".." title="All Teams"/>
         <link rel="breadcrumb" title="Talks" href=".."/>
-		<link rel="section-global-action" href="new" title="New Conversation"/>
+		<link rel="section-global-action" href="new" title="New Conversation" class="new-conversation-action"/>
       </head>
       <body>
         <xsl:apply-templates select="team" />
-        <xsl:apply-templates select="block[node()]"/>
+		<div class="list">
+			<ul class="conversations">
+				<xsl:apply-templates select="block[node()]"/>
+			</ul>
+		</div>
       </body>
     </html>
   </xsl:template>
   
   <xsl:template match="team[subscriber[@type='email'][normalize-space(.)=$user]]">
-    <form action="meta" method="POST">
+    <form action="meta" method="POST" class="button">
       <input type="hidden" name="unsubscribe-email" value="{$user}"/>
       <input type="submit" value="Unsubscribe from new"/>
     </form>
   </xsl:template>
   
   <xsl:template match="team">
-    <form action="meta" method="POST">
+    <form action="meta" method="POST" class="button">
       <input type="hidden" name="subscribe-email" value="{$user}"/>
       <input type="submit" value="Subscribe to new"/>
     </form>
   </xsl:template>
   
   <xsl:template match="block">
-  	<div class="list">
-		<ul class="conversations">
 		   <xsl:apply-templates />
-		</ul>
-	</div>
   </xsl:template>
   
   <xsl:template match="conversation">

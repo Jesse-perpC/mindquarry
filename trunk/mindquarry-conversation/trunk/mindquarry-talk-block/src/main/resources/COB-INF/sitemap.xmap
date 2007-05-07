@@ -579,7 +579,7 @@
 					<when test="jcr:///teamspaces/{1}/talk/conversations/">
 						<generate type="collection" src="jcr:///teamspaces/{1}/talk/conversations/">
 						</generate>
-						<transform src="xslt/xml/reverse.xsl" />
+						<transform src="xslt/xml/reverse.xsl" label="xml"/>
 					</when>
 					<otherwise>
 						<generate src="xml/empty.xml" />
@@ -594,7 +594,7 @@
 					<when test="html">
 						<transform type="filter">
 							<parameter name="element-name" value="conversation"/>
-							<parameter name="count" value="3"/>
+							<parameter name="count" value="10"/>
 							<parameter name="blocknr" value="{request-param:page}"/>
 						</transform>
 						
