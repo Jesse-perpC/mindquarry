@@ -196,7 +196,7 @@
   </dependencies>
   
   <properties>
-    <cocoon-core.version>2.2.0-RC1_Mindquarry_1</cocoon-core.version>
+    <cocoon-core.version>2.2.0-RC1_Mindquarry_2</cocoon-core.version>
     <cocoon-ajax-impl.version>1.0.0-RC1_Mindquarry_1</cocoon-ajax-impl.version>
     <cocoon-servlet-service-components.version>1.0.0-RC1_Mindquarry_3</cocoon-servlet-service-components.version>
     <cocoon-servlet-service-impl.version>1.0.0-RC1_Mindquarry_3</cocoon-servlet-service-impl.version>
