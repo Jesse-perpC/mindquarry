@@ -286,7 +286,7 @@ public class ChangeClient {
      */
     private static void printUsage() {
         HelpFormatter formatter = new HelpFormatter();
-        formatter.printHelp("java -jar mindquarry-jcr-changes-<version>.jar", //$NON-NLS-1$
+        formatter.printHelp("java -jar mindquarry-migration.jar", //$NON-NLS-1$
                 options, true);
     }
 }
