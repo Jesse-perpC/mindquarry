@@ -53,7 +53,7 @@
 			<p>
 				<xsl:value-of select="description" />
 			</p>
-	
+	<!--
 			<div>
 				<ul class="members">
 					<xsl:if test="users/user">
@@ -61,6 +61,7 @@
 					</xsl:if>
 				</ul>
 			</div>
+	-->
 		</li>
 	</xsl:template>
   
