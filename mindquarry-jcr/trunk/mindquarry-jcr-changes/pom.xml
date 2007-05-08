@@ -80,6 +80,7 @@
 					<descriptors>
 						<descriptor>src/assembly/distributions/with-dependencies.xml</descriptor>
 						<descriptor>src/assembly/distributions/task-structure.xml</descriptor>
+						<descriptor>src/assembly/distributions/1.0M2-to-1.1.xml</descriptor>
 					</descriptors>
 				</configuration>
 			</plugin>
