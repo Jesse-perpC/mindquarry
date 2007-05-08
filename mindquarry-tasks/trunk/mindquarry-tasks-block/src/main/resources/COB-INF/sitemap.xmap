@@ -313,14 +313,7 @@
 			</match>
 
 			<match pattern="images/status/*.png">
-				<select type="resource-exists">
-					<when test="images/status/{1}.png">
-						<read src="images/status/{1}.png" />
-					</when>
-					<otherwise>
-						<read src="images/status/done.png" />
-					</otherwise>
-				</select>
+				<read src="servlet:/tango-icons/48/status/task-{1}.png" />
 			</match>
 
 			<match pattern="images/*.*">

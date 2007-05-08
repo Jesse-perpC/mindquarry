@@ -273,15 +273,6 @@ div.tasks div.links ul a, div.firstlinks ul a  {
 	color:#666666;
 }
 
-div.tasks img.icon {
-	height:48px;
-	width:48px;
-	border:1px solid black;
-	padding:2px;
-	background-color:white;
-	margin-right:5px;
-}
-
 /* filter list on overview page */
 
 div.tasks div.filters h3 {
