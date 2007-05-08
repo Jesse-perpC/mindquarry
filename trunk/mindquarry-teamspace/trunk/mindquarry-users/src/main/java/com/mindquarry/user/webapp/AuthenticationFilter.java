@@ -77,6 +77,9 @@ public class AuthenticationFilter implements Filter {
      */
     public static final String USERNAME_ATTR = "username";
 
+    // FIXME: remove this again (was added to make solr requests work via http)
+    public static final String PASSWORD_ATTR = "password";
+    
     /**
      * URI against which the actual first (hopefully successful) authentication
      * is done, with ?LOGIN_REQUEST_PARAM=LOGIN_REQUEST_VALUE. Must be used in
@@ -176,14 +179,14 @@ public class AuthenticationFilter implements Filter {
     
     	// only do authentication for protected URIs, eg. excluded login page
     	if (isProtected(request)) {
-    	    String authenticatedUser = authenticateUser(request);
+    		Credentials authenticated = authenticateUser(request);
     
     	    // the special login request is done to actually perform the
     	    // authentication, this is typically the second step initiated by
     	    // the login page
     	    if (isLoginRequest(request)) {
                 
-        		if (authenticatedUser == null) {
+        		if (authenticated == null) {
         		    // not authenticated. trigger auth. with username / password
         		    // either by the HTTP auth dialog in the browser or
         		    // automatically by Javascript XMLHttpRequest
@@ -221,7 +224,7 @@ public class AuthenticationFilter implements Filter {
         		// not yet authenticated, or some client that does not send the
         		// authorization data preemptively (although he already did
         		// authenticate) -> see isGuiBrowserRequest()
-        		if (authenticatedUser == null) {
+        		if (authenticated == null) {
         		    // not authenticated.
         
         		    // standard browser with preemptive sending auth data, thus
@@ -243,9 +246,10 @@ public class AuthenticationFilter implements Filter {
                 else {
         		    // authenticated. make username available as request
         		    // attribute
-        		    request.setAttribute(USERNAME_ATTR, authenticatedUser);
+        		    request.setAttribute(USERNAME_ATTR, authenticated.username);
+        		    request.setAttribute(PASSWORD_ATTR, authenticated.password);
                     CurrentUser currentUser = lookupCurrentUserRequestBean();
-                    currentUser.setId(authenticatedUser);
+                    currentUser.setId(authenticated.username);
         		}
     	    }
     	}
@@ -387,16 +391,30 @@ public class AuthenticationFilter implements Filter {
     	byte[] authRequest = Base64.decodeBase64(encodedAuthRequest.getBytes());
     	return new String(authRequest).split(":");
     }
+    
+    /**
+     * Helper class to return both username and password in a single method.
+     */
+    private class Credentials {
+    	String username;
+    	String password;
+    	
+		public Credentials(String username, String password) {
+			this.username = username;
+			this.password = password;
+		}
+    	
+    }
 
     /**
      * This does the actual authentication using the teamspace authentication
      * component.
      */
-    private String authenticateUser(HttpServletRequest request) {
+    private Credentials authenticateUser(HttpServletRequest request) {
         
     	String authHeader = request.getHeader("Authorization");
     
-    	String authenticatedUser = null;
+    	Credentials authenticatedUser = null;
     	if ((authHeader != null)
     		&& authHeader.toUpperCase().startsWith("BASIC")) {
     
@@ -406,7 +424,7 @@ public class AuthenticationFilter implements Filter {
     		String password = authTuple[1];
     
     		if (authenticate(username, password) && isUserAllowed(username)) {
-    		    authenticatedUser = username;
+    		    authenticatedUser = new Credentials(username, password);
     		} else {
     		    log_.info("failed authentication" + " from host: "
     			    + request.getRemoteAddr() + " with username: "
