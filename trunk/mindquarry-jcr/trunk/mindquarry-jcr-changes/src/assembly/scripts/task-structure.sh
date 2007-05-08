@@ -1,2 +1,2 @@
 #!/bin/sh
-java -jar mindquarry-jcr-changes-1.0-M1-SNAPSHOT.jar -r rmi://localhost:1099/jackrabbit -u admin -p admin -x change.xsl -f teamspaces $1
+java -cp mindquarry-migration.jar com.mindquarry.jcr.change.ChangeClient -r rmi://localhost:1099/jackrabbit -u admin -p admin -x migrate-task-structure.xsl -f teamspaces $1

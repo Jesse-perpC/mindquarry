@@ -22,11 +22,11 @@
         </xsl:copy>
     </xsl:template>
     
-    <!-- fix people repeater naming -->
-    <xsl:template match="//peopleperson">
-        <person>
+    <!-- rename team description file nodes -->
+    <xsl:template match="/teamspaces/*/metadata.xml">
+        <xsl:element name="{local-name(..)}.xml">
             <xsl:copy-of select="./@*"/>
             <xsl:apply-templates/>
-        </person>
+        </xsl:element>
     </xsl:template>
 </xsl:stylesheet>

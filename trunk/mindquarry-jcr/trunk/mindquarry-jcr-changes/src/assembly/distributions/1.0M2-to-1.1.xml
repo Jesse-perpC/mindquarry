@@ -13,7 +13,7 @@
     under the License.
 -->
 <assembly>
-    <id>task-structure</id>
+    <id>1.0M2-to-1.1</id>
     <includeBaseDirectory>false</includeBaseDirectory>
 
     <formats>
@@ -22,17 +22,17 @@
 
     <files>
         <file>
-            <source>src/main/xslt/task-structure.xsl</source>
+            <source>src/main/xslt/1.0M2-to-1.1.xsl</source>
             <outputDirectory></outputDirectory>
-            <destName>migrate-task-structure.xsl</destName>
+            <destName>migrate-1.0M2-to-1.1.xsl</destName>
         </file>
         <file>
-            <source>src/assembly/scripts/task-structure.bat</source>
+            <source>src/assembly/scripts/1.0M2-to-1.1.bat</source>
             <outputDirectory></outputDirectory>
             <destName>migrate.bat</destName>
         </file>
         <file>
-            <source>src/assembly/scripts/task-structure.sh</source>
+            <source>src/assembly/scripts/1.0M2-to-1.1.sh</source>
             <outputDirectory></outputDirectory>
             <destName>migrate.sh</destName>
         </file>
