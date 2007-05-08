@@ -21,33 +21,28 @@
 	<xsl:template match="/tasks">
 		<html>
 			<head>
-				<title>Tasks</title>
-				<link rel="stylesheet" 
-					href="{$pathToBlock}css/tasks.css" type="text/css" />
+				<title>Manage Your Tasks</title>
+				<link rel="stylesheet" href="{$pathToBlock}css/tasks.css" type="text/css" />
 				<link rel="alternate" type="text/x-opml" title="reading list of tasks" />
 			</head>
 			<body>
-				<h1>Manage Your Tasks</h1>
-				
-				<ul class="list">
+				<div class="list">
 					<xsl:apply-templates>
 						<xsl:sort select="name" />
 					</xsl:apply-templates>
-				</ul>
+				</div>
 			</body>
 		</html>
 	</xsl:template>
 				 
 	<xsl:template match="teamspace" >
-		<li>
-			<div class="nifty">
-				<div  style="margin-left:5px">
 					<div class="links">
+<!--
 						<ul>
 		        			<li><a class="create_task_button" href="{@xlink:href}/new">Create task</a></li>
 		        			<li><a class="create_filter_button" href="{@xlink:href}/filters/new">Create filter</a></li>
 						</ul>
-					</div>
+-->					</div>
 					<div class="name">
 						<img class="icon">
 							<xsl:attribute name="src">
@@ -69,18 +64,16 @@
 							<xsl:value-of select="count(task[status='done'])" /> Done)
 						</div>
 					</div>			
-				</div>
+
 				
 				<xsl:if test="count(filter) > 0">
-					<div class="filters">
+					<div class="nifty">
 						<h3>Saved Filters</h3>
 						<ul>
 							<xsl:call-template name="filters" />
 						</ul>
 					</div>
 				</xsl:if>
-			</div>
-		</li>
 	</xsl:template>
 	
 	<xsl:template name="filters">

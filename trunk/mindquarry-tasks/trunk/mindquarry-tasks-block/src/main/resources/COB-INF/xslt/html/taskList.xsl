@@ -38,25 +38,14 @@
 				<link rel="alternate" href="" type="application/atom+xml" title="Feed of tasks" />
 				<link rel="alternate" href="" type="text/calendar" title="Web Calendar (iCal)" />
 				<link rel="alternate" href="" type="application/pdf" title="PDF for print" />
-				
+				<link rel="section-global-action" class="add-action" href="new" title="Create Task"/>
+				<link rel="section-global-action" class="new-filter-action" href="filters/new" title="Create filter" />
 				<link rel="breadcrumb" title="Tasks"/>
 			</head>
 			<body>
-				<h1>
-					Manage Tasks for 
-					<team:team><xsl:value-of select="$teamspaceID" /></team:team>
-				</h1>
-				
-				<div class="nifty">
-					<div class="firstlinks">
-						<ul>
-							<li><a class="create_task_button" href="new">Create task</a></li>
-							<li><a class="create_filter_button" href="filters/new">Create filter</a></li>
-						</ul>
-					</div>
-					<div class="task-area">
+					<div class="list">
 						<!--<table class="task-list" dojoType="SortableHTMLTable" id="taskList">-->
-						<table class="task-list" id="taskList">
+						<table >
 							<thead>
 								<tr>
 									<th contentType="html" dataType="Number"                       valign="top"></th>
@@ -72,16 +61,15 @@
 							</tbody>
 						</table>
 					</div>
-
 					<xsl:if test="count(filter) > 0">
-						<div class="filters">
+						<div class="nifty">
 							<h3>Saved Filters</h3>
 							<ul>
 								<xsl:call-template name="filters" />
 							</ul>
 						</div>
 					</xsl:if>
-				</div>
+
 				<!-- replaced by breadcrumbs-->
 				<!--div class="nifty">
 					<a href=".." id="back">Back to overview</a>				
@@ -93,7 +81,7 @@
     <xsl:template match="task">
     	<tr class="highlight" value="{@xlink:href}">
     		<!-- Note: attributes here (e.g. class) will get lost due to SortableHTMLTable -->
-    		<td>
+    		<td class="icon">
     			<!-- convert status value into number for sortin -->
     			<xsl:attribute name="sortValue">
     				<xsl:choose>
@@ -104,11 +92,11 @@
     				</xsl:choose>
     			</xsl:attribute>
     			<div class="task_status">
-    				<img src="{$pathToBlock}images/status/{normalize-space(status)}.png" alt="{status}" class="task_status"/>
+    				<img src="{$pathToBlock}images/status/{normalize-space(status)}.png" alt="{status}" class="icon"/>
     			</div>
     		</td>
     		<td sortValue="{title}">
-				<a href="{@xlink:href}">
+				<h2><a href="{@xlink:href}">
 				<xsl:choose>
 					<xsl:when test="string-length(title) > 0">
 						<xsl:value-of select="title" />
@@ -117,11 +105,10 @@
 						&lt;no title&gt;
 					</xsl:otherwise>
 				</xsl:choose>
-				</a>
-				<br/>
-				<div class="summary">
+				</a></h2>
+				<p class="summary">
 					<xsl:value-of select="summary" />
-				</div>
+				</p>
 			</td>
     		<td>
     			<xsl:value-of select="date" />
