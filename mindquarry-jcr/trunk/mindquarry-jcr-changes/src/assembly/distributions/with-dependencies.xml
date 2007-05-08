@@ -12,12 +12,28 @@
     License for the specific language governing rights and limitations
     under the License.
 -->
-<component>
-    <files>
-        <file>
-            <source>target/mindquarry-migration-with-dependencies.jar</source>
+<assembly>
+    <id>with-dependencies</id>
+    
+    <formats>
+        <format>jar</format>
+    </formats>
+    
+    <includeBaseDirectory>false</includeBaseDirectory>
+    
+    <dependencySets>
+        <dependencySet>
             <outputDirectory></outputDirectory>
-            <destName>mindquarry-migration.jar</destName>
-        </file>
-    </files>
-</component>
+            <outputFileNameMapping></outputFileNameMapping>
+            <unpack>true</unpack>
+            <scope>runtime</scope>
+        </dependencySet>
+    </dependencySets>
+    
+    <fileSets>
+        <fileSet>
+            <directory>target/classes</directory>
+            <outputDirectory></outputDirectory>
+        </fileSet>
+    </fileSets>
+</assembly>

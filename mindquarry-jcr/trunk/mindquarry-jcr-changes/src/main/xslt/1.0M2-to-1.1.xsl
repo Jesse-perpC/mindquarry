@@ -11,13 +11,22 @@
     basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
     License for the specific language governing rights and limitations
     under the License.
--->
-<component>
-    <files>
-        <file>
-            <source>target/mindquarry-migration-with-dependencies.jar</source>
-            <outputDirectory></outputDirectory>
-            <destName>mindquarry-migration.jar</destName>
-        </file>
-    </files>
-</component>
+--> 
+<xsl:stylesheet version="1.0"
+	xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
+    
+    <!-- copy complete file content -->
+    <xsl:template match="@*|node()">
+        <xsl:copy>
+            <xsl:apply-templates select="@*|node()" />
+        </xsl:copy>
+    </xsl:template>
+    
+    <!-- fix people repeater naming -->
+    <xsl:template match="//peopleperson">
+        <person>
+            <xsl:copy-of select="./@*"/>
+            <xsl:apply-templates/>
+        </person>
+    </xsl:template>
+</xsl:stylesheet>
