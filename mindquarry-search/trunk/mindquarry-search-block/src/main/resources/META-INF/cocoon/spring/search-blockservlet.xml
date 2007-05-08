@@ -20,12 +20,16 @@
 
 	<bean id="com.mindquarry.search.search-block" class="org.apache.cocoon.sitemap.SitemapServlet">
 		<servlet:context mount-path="/search" context-path="blockcontext:/mindquarry-search-block/">
-      <servlet:connections>
-        <entry key="super"
+		  	<servlet:connections>
+		    	<entry key="super"
+					value-ref="com.mindquarry.webapp.resources-block" />
+		    	<entry key="resources"
 					value-ref="com.mindquarry.webapp.resources-block" />
 				<entry key="welcome"
 					value-ref="com.mindquarry.webapp.welcome-block" />
-      </servlet:connections>
-    </servlet:context>
+		    	<entry key="solr-select"
+					value-ref="com.mindquarry.search.solr.solr-select-servlet" />
+			</servlet:connections>
+		</servlet:context>
 	</bean>
 </beans>
