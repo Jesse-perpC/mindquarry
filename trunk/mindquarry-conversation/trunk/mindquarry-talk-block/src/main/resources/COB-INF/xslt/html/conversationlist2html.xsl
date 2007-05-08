@@ -19,7 +19,8 @@
   xmlns:collection="http://apache.org/cocoon/collection/1.0"
   xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
-  
+  <xsl:import href="servlet:/xslt/html/paging.xsl" />
+	
   <xsl:param name="now" />
   <xsl:param name="user" />
   
@@ -44,7 +45,7 @@
   </xsl:template>
   
   <xsl:template match="team[subscriber[@type='email'][normalize-space(.)=$user]]">
-    <form action="meta" method="POST" class="button">
+    <form action="meta" method="POST" class="button new-unsubscribe-action">
       <input type="hidden" name="unsubscribe-email" value="{$user}"/>
       <input type="submit" value="Unsubscribe from new"/>
     </form>
@@ -124,66 +125,6 @@
   
   <xsl:template match="block[node()]" mode="pagination">
     <li><xsl:value-of select="@id" /></li>
-  </xsl:template>
-  
-  <xsl:template match="block[preceding-sibling::block[node()]]" mode="headlinks">
-    <link rel="nextnext" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block[preceding-sibling::block[1][node()]]" mode="headlinks">
-    <link rel="next" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  
-  <xsl:template match="block[following-sibling::block[node()]]" mode="headlinks">
-    <link rel="prevprev" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block[following-sibling::block[1][node()]]" mode="headlinks">
-    <link rel="prev" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  
-  <xsl:template match="block[position()=last()]" mode="headlinks">
-    <link rel="last" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  
-  <xsl:template match="block[position()=1]" mode="headlinks">
-    <link rel="start" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  
-  <xsl:template match="block[node()]" mode="headlinks">
-    <link rel="current" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
   </xsl:template>
   
   </xsl:stylesheet>

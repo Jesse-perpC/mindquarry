@@ -210,8 +210,8 @@
 					</select>
 				</when> 
 				<otherwise>
-					<!--<transform type="htmlcleanup" />
-					<transform type="tee" src="file:///tmp/htmlcleanup.xml" />-->
+<!--					<transform type="htmlcleanup" />-->
+<!--					<transform type="tee" src="file:///tmp/htmlcleanup.xml" />-->
 					<serialize type="html"/>
 				</otherwise>
 			</select>
