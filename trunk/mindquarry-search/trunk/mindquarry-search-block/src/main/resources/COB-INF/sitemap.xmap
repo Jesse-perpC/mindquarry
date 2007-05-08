@@ -52,7 +52,7 @@
 			<transform src="servlet:/xslt/html2html.xsl"
 				type="xalan">
 				<parameter name="servlet"
-					value="teams" />
+					value="welcome" />
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"

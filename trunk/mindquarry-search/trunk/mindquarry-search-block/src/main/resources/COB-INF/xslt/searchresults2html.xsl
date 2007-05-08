@@ -24,7 +24,12 @@
 	<xsl:template match="/">
 		<html>
 			<head>
-				<title>Search results for: <xsl:value-of select="$query" /></title>
+				<title>Search results for: <xsl:value-of select="$query" />
+					<xsl:if test="$fq">
+						(<xsl:value-of select="$fq"/>)
+					</xsl:if>
+				</title>
+				<link rel="breadcrumb" title="Search for: {$query}"/>
 				<!--				
 				<xsl:if test="number($start)-$hitsPerPage &gt;= 0">
 					<link rel="start" title="start" href="/search/query?q={$query}&amp;start=0&amp;fq={$fq}"/>
@@ -36,12 +41,17 @@
 				<xsl:if test="number($start)+$hitsPerPage &lt; number(/response/result/@numFound)">
 					<link rel="next" title="next" href="/search/query?q={$query}&amp;start={number($start)+$hitsPerPage}&amp;fq={$fq}"/>
 				</xsl:if>
-				<xsl:apply-templates select="/response/lst/lst[@name='facet_fields']/lst[@name='type']"/>
+				<xsl:choose>
+					<xsl:when test="$fq">
+						<link rel="facet" title="show all" href="/search/query?q={$query}&amp;start=0"/>
+					</xsl:when>
+					<xsl:otherwise>
+						<xsl:apply-templates select="/response/lst/lst[@name='facet_fields']/lst[@name='type']"/>
+					</xsl:otherwise>
+				</xsl:choose>
 			</head>
 			<body>
-				<h1>Search results for: <xsl:value-of select="$query" /></h1>
-				
-				<form action="/search/query" method="GET" class="button">
+				<form action="/search/query" method="GET" class="button search-action">
 					<input type="hidden" name="start" value="0" />
 				
 					<input type="text" name="q">
@@ -86,16 +96,16 @@
     			<xsl:attribute name="src">
     				<xsl:choose>
     					<xsl:when test="contains(str[@name='location'],'/wiki/')">
-    						/resources/tango-icons/48/apps/mindquarry-wiki.png
+    						<xsl:text>/resources/tango-icons/48/apps/mindquarry-wiki.png</xsl:text>
     					</xsl:when>
     					<xsl:when test="contains(str[@name='location'],'/talk/')">
-    						/resources/tango-icons/48/apps/mindquarry-talk.png
+    						<xsl:text>/resources/tango-icons/48/apps/mindquarry-talk.png</xsl:text>
     					</xsl:when>
     					<xsl:when test="contains(str[@name='location'],'/tasks/')">
-    						/resources/tango-icons/48/apps/mindquarry-tasks.png
+    						<xsl:text>/resources/tango-icons/48/apps/mindquarry-tasks.png</xsl:text>
     					</xsl:when>
     					<xsl:otherwise>
-    						/resources/tango-icons/22/places/folder.png
+    						<xsl:text>/resources/tango-icons/22/places/folder.png</xsl:text>
     					</xsl:otherwise>
     				</xsl:choose>
     			</xsl:attribute>
@@ -140,10 +150,10 @@
     	<xsl:param name="hits"><xsl:value-of select="." /></xsl:param>
     	<xsl:choose>
     		<xsl:when test="$hits > 0">
-    			<link rel="facet" title="{@name}: {.}" href="/search/query?q={$query}&amp;fq=type:{@name}&amp;start=0"/>
+    			<link rel="facet" title="{@name} ({.})" href="/search/query?q={$query}&amp;fq=type:{@name}&amp;start=0"/>
     		</xsl:when>
     		<xsl:otherwise>
-    			<link rel="facet" title="{@name}: {.}" href=""/>
+    			<link rel="facet" title="{@name} ({.})"/>
     		</xsl:otherwise>
     	</xsl:choose>
     	<br />
