@@ -63,7 +63,14 @@
 				
 				<div class="list">
 					<ul>
-						<xsl:apply-templates select="/response/result/doc"/>
+						<xsl:choose>
+							<xsl:when test="number(/response/result/@numFound) = 0">
+								<li><h2>No matches</h2></li>
+							</xsl:when>
+							<xsl:otherwise>
+								<xsl:apply-templates select="/response/result/doc"/>
+							</xsl:otherwise>							
+						</xsl:choose>
 					</ul>
 				</div>
 			</body>
