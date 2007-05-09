@@ -21,18 +21,18 @@
 	<xsl:template match="/">
 		<html>
 			<head>
-				<title>Talk</title>
+				<title>Talk To Your Teams</title>
 				<link rel="stylesheet" 
-					href="{$pathToBlock}css/wiki.css" type="text/css" />
+					href="{$pathToBlock}css/talk.css" type="text/css" />
 			</head>
 			<body>
-				<h1>Talk to your teams</h1>
-				
-				<ul class="wiki-list">
-					<xsl:apply-templates select="*/teamspace">
-						<xsl:sort select="name" />
-					</xsl:apply-templates>
-				</ul>
+				<div class="list">
+					<ul class="teamspace-list">
+						<xsl:apply-templates select="*/teamspace">
+							<xsl:sort select="name" />
+						</xsl:apply-templates>
+					</ul>
+				</div>
 			</body>
 		</html>
 	</xsl:template>
@@ -41,30 +41,20 @@
 		
 	<xsl:template match="teamspace">
 		<li>
-			<div class="nifty">
-				<div class="name">
-					<img class="icon">
-						<xsl:attribute name="src">
-							<xsl:value-of select="$pathToRoot"/>							
-							<xsl:text>teams/</xsl:text>
-							<xsl:value-of select="id"/>
-							<xsl:text>.png</xsl:text>
-						</xsl:attribute>
-					</img>
-					<h2 class="name"><a href="{$pathToBlock}{normalize-space(id)}/"><xsl:value-of select="name" /> Talks</a></h2>
-					<span class="description"><xsl:value-of select="description" /></span>
-				</div>
-				
-				<div class="links">
-					<ul>
-						<li><a class="create_talk_button" href="{normalize-space(id)}/new">Start conversation</a></li>
-					</ul>
-				</div>
+		<img class="icon">
+				<xsl:attribute name="src">
+					<xsl:value-of select="$pathToRoot"/>							
+					<xsl:text>teams/</xsl:text>
+					<xsl:value-of select="id"/>
+					<xsl:text>.png</xsl:text>
+				</xsl:attribute>
+		</img>
+		<h2 class="name"><a href="{$pathToBlock}{normalize-space(id)}/"><xsl:value-of select="name" /> Talks</a></h2>
+		<p class="description"><xsl:value-of select="description" /></p>
+		<div class="summary">
+				<a href="{$pathToBlock}{normalize-space(id)}/">List</a> of all <xsl:value-of select="name" /> conversations
+		</div>
 
-				<div class="summary">
-					<a href="{$pathToBlock}{normalize-space(id)}/">List</a> of all <xsl:value-of select="name" /> conversations
-				</div>
-			</div>
 		</li>
 	</xsl:template>
 </xsl:stylesheet>
