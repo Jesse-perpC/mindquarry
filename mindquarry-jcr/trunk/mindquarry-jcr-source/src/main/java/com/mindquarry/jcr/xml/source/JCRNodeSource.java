@@ -234,10 +234,19 @@ public class JCRNodeSource implements Source, ModifiableTraversableSource,
             return 0;
         }
         try {
+            if (isCollection()) {
+                long lastmod = 0;
+                for (Object child : getChildren()) {
+                    lastmod = Math.max(lastmod, ((Source) child).getLastModified());
+                }
+                return lastmod;
+            }
             Property prop = node.getNode(JCRConstants.JCR_CONTENT).getProperty(
                     JCRConstants.JCR_LASTMODIFIED);
             return prop == null ? 0 : prop.getDate().getTime().getTime();
         } catch (RepositoryException e) {
+            return 0;
+        } catch (SourceException se) {
             return 0;
         }
     }
@@ -740,7 +749,7 @@ public class JCRNodeSource implements Source, ModifiableTraversableSource,
                 throw new SourceException("Unable to access repository", re);
             }
         }
-        return new Vector<Change>();
+        return changes;
     }
 
     // =========================================================================
