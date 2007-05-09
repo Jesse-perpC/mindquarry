@@ -197,7 +197,7 @@
 			<!-- internal, will provide a browser-update xml snippet with
 				 a redirect action -->
 			<match pattern="redirectTo/**">
-				<generate type="jx" src="jx/redirect-browserupdate.jx">
+				<generate type="jx" src="servlet:resources:/jx/redirect-browserupdate.jx">
 					<parameter name="uri" value="{1}" />
 				</generate>
 				<serialize type="xml" />
