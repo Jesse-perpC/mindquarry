@@ -26,12 +26,12 @@
 	</xsl:template>
   
 	<xsl:template match="/" mode="title">
-		<title>Teams</title>
+		<title>Manage Your Teams</title>
 	</xsl:template>
   
-	<xsl:template match="teamspaces">
+	<xsl:template match="teamspaces|no-data-available">
 		<div class="list">
-			<h1>Manage Your Teams</h1>
+			
 			<ul class="teamspace-list">
 				<xsl:apply-templates select="teamspace">
 					<xsl:sort select="name" />
