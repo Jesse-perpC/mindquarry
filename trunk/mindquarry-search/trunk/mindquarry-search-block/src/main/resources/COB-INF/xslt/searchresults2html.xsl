@@ -77,63 +77,51 @@
 		</html>
 	</xsl:template>
 
-    <xsl:template match="doc">
-    		<xsl:variable name="link"><xsl:value-of select="substring(str[@name='location'], 19)" /></xsl:variable>
-    		<xsl:variable name="link2"><xsl:value-of select="substring($link, 0, string-length($link)-3)" /></xsl:variable>
-    		<xsl:variable name="teamname"><xsl:value-of select="substring-before($link, '/')" /></xsl:variable>
-    		<xsl:variable name="typename"><xsl:value-of select="substring-before(substring-after($link, '/'), '/')" /></xsl:variable>
-    		<xsl:variable name="lastpart"></xsl:variable>
-    		<xsl:choose>
-	    		<xsl:when test="contains(str[@name='location'],'/wiki/')">
-		    		<xsl:variable name="lastpart2"><xsl:value-of select="substring-before(substring-after(substring-after(substring-after($link, '/'), '/'), '/'), '/')" /></xsl:variable>
-					<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart2" /></xsl:attribute>
-		    	</xsl:when>
-	    		<xsl:when test="contains(str[@name='location'],'/talk/')">
-		    		<xsl:variable name="lastpart3"><xsl:value-of select="substring-before(substring-after(substring-after(substring-after($link, '/'), '/'), '/'), '/')" /></xsl:variable>
-					<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart3" />/</xsl:attribute>
-		    	</xsl:when>
-	    		<xsl:when test="contains(str[@name='location'],'/tasks/')">
-		    		<xsl:variable name="lastpart4"><xsl:value-of select="substring-after(substring-after($link, '/'), '/')" /></xsl:variable>
-					<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart4" /></xsl:attribute>
-		    	</xsl:when>
-    		</xsl:choose>
-    			
-    	<li>
-    		<img class="icon">
-    			<xsl:attribute name="src">
-    				<xsl:choose>
-    					<xsl:when test="contains(str[@name='location'],'/wiki/')">
-    						<xsl:text>/resources/tango-icons/48/apps/mindquarry-wiki.png</xsl:text>
-    					</xsl:when>
-    					<xsl:when test="contains(str[@name='location'],'/talk/')">
-    						<xsl:text>/resources/tango-icons/48/apps/mindquarry-talk.png</xsl:text>
-    					</xsl:when>
-    					<xsl:when test="contains(str[@name='location'],'/tasks/')">
-    						<xsl:text>/resources/tango-icons/48/apps/mindquarry-tasks.png</xsl:text>
-    					</xsl:when>
-    					<xsl:otherwise>
-    						<xsl:text>/resources/tango-icons/22/places/folder.png</xsl:text>
-    					</xsl:otherwise>
-    				</xsl:choose>
-    			</xsl:attribute>
-    			
-    		</img>
-   			<h2><a>
-   			<xsl:choose>
-    			<xsl:when test="contains(str[@name='location'],'/wiki/')">
-	    			<xsl:variable name="lastpart2"><xsl:value-of select="substring-before(substring-after(substring-after(substring-after($link, '/'), '/'), '/'), '/')" /></xsl:variable>
-					<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart2" /></xsl:attribute>
-	    		</xsl:when>
-    			<xsl:when test="contains(str[@name='location'],'/talk/')">
-	    			<xsl:variable name="lastpart3"><xsl:value-of select="substring-before(substring-after(substring-after(substring-after($link, '/'), '/'), '/'), '/')" /></xsl:variable>
-					<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart3" />/</xsl:attribute>
-	    		</xsl:when>
-    			<xsl:when test="contains(str[@name='location'],'/tasks/')">
-	    			<xsl:variable name="lastpart4"><xsl:value-of select="substring-after(substring-after($link, '/'), '/')" /></xsl:variable>
-					<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart4" /></xsl:attribute>
-	    		</xsl:when>
-    		</xsl:choose>
-			
+	<xsl:template match="doc">
+		<xsl:variable name="link"><xsl:value-of select="substring(str[@name='location'], 19)" /></xsl:variable>
+		<xsl:variable name="teamname"><xsl:value-of select="substring-before($link, '/')" /></xsl:variable>
+		<xsl:variable name="typename"><xsl:value-of select="substring-before(substring-after($link, '/'), '/')" /></xsl:variable>
+		
+		<li>
+			<img class="icon">
+				<xsl:attribute name="src">
+					<xsl:choose>
+						<xsl:when test="contains(str[@name='location'],'/wiki/')">
+							<xsl:text>/resources/tango-icons/48/apps/mindquarry-wiki.png</xsl:text>
+						</xsl:when>
+						<xsl:when test="contains(str[@name='location'],'/talk/')">
+							<xsl:text>/resources/tango-icons/48/apps/mindquarry-talk.png</xsl:text>
+						</xsl:when>
+						<xsl:when test="contains(str[@name='location'],'/tasks/')">
+							<xsl:text>/resources/tango-icons/48/apps/mindquarry-tasks.png</xsl:text>
+						</xsl:when>
+						<xsl:otherwise>
+							<xsl:text>/resources/tango-icons/22/places/folder.png</xsl:text>
+						</xsl:otherwise>
+					</xsl:choose>
+				</xsl:attribute>
+				
+			</img>
+			<h2><a>
+				<xsl:choose>
+					<xsl:when test="contains(str[@name='location'],'/wiki/')">
+						<xsl:variable name="lastpart2"><xsl:value-of select="substring-after(substring-after($link, '/'), '/')" /></xsl:variable>
+						<!-- cut off ".xml": -->
+						<xsl:variable name="lastpart2NoXml"><xsl:value-of select="substring($lastpart2, 0, string-length($lastpart2)-3)" /></xsl:variable>
+						<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart2NoXml" /></xsl:attribute>
+					</xsl:when>
+					<xsl:when test="contains(str[@name='location'],'/talk/')">
+						<xsl:variable name="lastpart3"><xsl:value-of select="substring-before(substring-after(substring-after(substring-after($link, '/'), '/'), '/'), '/')" /></xsl:variable>
+						<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart3" />/</xsl:attribute>
+					</xsl:when>
+					<xsl:when test="contains(str[@name='location'],'/tasks/')">
+						<xsl:variable name="lastpart4"><xsl:value-of select="substring-after(substring-after($link, '/'), '/')" /></xsl:variable>
+						<!-- cut off ".xml": -->
+						<xsl:variable name="lastpart4NoXml"><xsl:value-of select="substring($lastpart4, 0, string-length($lastpart4)-3)" /></xsl:variable>
+						<xsl:attribute name="href">/<xsl:value-of select="$typename" />/<xsl:value-of select="$teamname" />/<xsl:value-of select="$lastpart4NoXml" /></xsl:attribute>
+					</xsl:when>
+				</xsl:choose>
+				
     		<xsl:choose>
     			<xsl:when test="str[@name='title'] = ''">
     				untitled
