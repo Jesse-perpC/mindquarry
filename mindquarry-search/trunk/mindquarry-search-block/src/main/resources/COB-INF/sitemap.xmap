@@ -48,30 +48,6 @@
 			</transform>
 		</resource>
 		
-		<resource name="html2html">
-			<transform src="servlet:/xslt/html2html.xsl"
-				type="xalan">
-				<parameter name="servlet"
-					value="welcome" />
-				<parameter name="fullPath"
-					value="{block-path:}{request:pathInfo}" />
-				<parameter name="sitemapPath"
-					value="{request:pathInfo}" />
-				<parameter name="serverBasePath" 
-					value="{system-property:mindquarry.server.url}{request:contextPath}" />
-				<parameter name="username"
-					value="{request-attr:username}" />
-				<parameter name="serverTitle"
-					value="{system-property:mindquarry.title}" />
-				<parameter name="artifactId"
-					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>
-				<parameter name="version"
-					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>
-				<parameter name="timeStamp"
-					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>
-			</transform>
-		</resource>
-		
 		<!-- general resource called upon errors (in each external pipeline
 			 below), calls error-layouting pipeline for styling -->
 		<resource name="error-handling">
@@ -112,11 +88,11 @@
 					value="{system-property:mindquarry.server.url}{request:contextPath}" />
 				
 				<parameter name="artifactId"
-					value="{pom-property:com.mindquarry.help/mindquarry-help-block/artifactId}"/>							
+					value="{pom-property:com.mindquarry.search/mindquarry-search-block/artifactId}"/>							
 				<parameter name="version"
-					value="{pom-property:com.mindquarry.help/mindquarry-help-block/version}"/>							
+					value="{pom-property:com.mindquarry.search/mindquarry-search-block/version}"/>							
 				<parameter name="timeStamp"
-					value="{pom-property:com.mindquarry.help/mindquarry-help-block/timeStamp}"/>							
+					value="{pom-property:com.mindquarry.search/mindquarry-search-block/timeStamp}"/>							
 			</transform>			
 		</resource>
 		
@@ -149,11 +125,11 @@
 					value="{system-property:mindquarry.title}" />
 				
 				<parameter name="artifactId"
-					value="{pom-property:com.mindquarry.help/mindquarry-help-block/artifactId}"/>							
+					value="{pom-property:com.mindquarry.search/mindquarry-search-block/artifactId}"/>							
 				<parameter name="version"
-					value="{pom-property:com.mindquarry.help/mindquarry-help-block/version}"/>							
+					value="{pom-property:com.mindquarry.search/mindquarry-search-block/version}"/>							
 				<parameter name="timeStamp"
-					value="{pom-property:com.mindquarry.help/mindquarry-help-block/timeStamp}"/>							
+					value="{pom-property:com.mindquarry.search/mindquarry-search-block/timeStamp}"/>							
 			</transform>			
 		</resource>
 		
