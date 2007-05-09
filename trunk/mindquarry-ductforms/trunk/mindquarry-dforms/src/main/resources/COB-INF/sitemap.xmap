@@ -119,7 +119,7 @@
 					<when
 						test="{request-param:baseURI}{request-param:documentID}.xml">
 						<generate
-							src="{request-param:baseURI}{request-param:documentID}.xml" />
+							src="{request-param:baseURI}{request-param:documentID}.xml?revision={request-param:revision}" />
 						<!--<transform type="tee" src="file:///tmp/plain-loaded.xml" />-->
 						<transform src="xsl/model/addfield.xsl" />
 						<!--<transform type="tee" src="file:///tmp/plain-before-serialize.xml" />-->
@@ -215,6 +215,7 @@
 						value="{request-param:rootElement}" />
 					<parameter name="definitionURI"
 						value="cocoon:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+					<parameter name="revision" value="{request-param:revision}" />
 				</call>
 			</match>
 
