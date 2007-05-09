@@ -25,6 +25,7 @@ var baseURI_;
 var documentID_;
 var suffix_;
 var rootElement_;
+var revision_;
 
 function getFilename() {
     return documentID_ + suffix_;
@@ -45,14 +46,18 @@ function showDForm(form) {
     documentID_ = cocoon.parameters["documentID"];
     suffix_ = ".xml";
     rootElement_ = cocoon.parameters["rootElement"];
-
+    //revision of the source
+    revision_ = cocoon.parameters["revision"];
+    if (revision_!="") {
+      revision_ = "?revision=" + revision_;
+    }
     var isEditStart = (documentID_ == 'new' || !resourceExists(getFullPath()));
     
 	// save form and uri for actions
 	form_ = form;
 
 	// load file from internal pipeline
-	form.loadXML("cocoon:/" + getFilename() + ".plain");
+	form.loadXML("cocoon:/" + getFilename() + ".plain" + revision_);
 
     // feature for wiki: when creating a new page via the URL == documentID
     // give the title that documentID as default value
