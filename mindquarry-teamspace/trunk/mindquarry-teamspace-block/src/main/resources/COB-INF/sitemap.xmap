@@ -267,10 +267,10 @@
 			<match pattern="">
 			
 				<generate src="model://TeamQuery#teamspacesForUser({request-attr:username})"
-					label="content" />
+					 />
 				
 				<transform src="xslt/includeMembersForTeamspace.xsl" />
-				<transform type="include"/>
+				<transform type="include" label="content"/>
 				
 				<!-- check request type: REST / HTML or other -->
 				<select type="REST">
