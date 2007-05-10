@@ -20,15 +20,40 @@ div.tasks table.forms {
 div.tasks label {
 	font-weight:bold;
 }
+
 div.tasks #ductform\.title {
     display:block;
-    text-align:left;
-    font-size:20pt;
-    color:#6b6b6b;
-    font-weight:normal;
+    width:50%;
+    margin-bottom:5px;
     float:left;
+    text-align:left;
+    color:#6b6b6b;
+    font-size:20pt;
+    font-weight:normal;
 }
 
+div.tasks #ductform\.title\:input {
+    float:left;
+    color:#6B6B6B;
+    display:block;
+    font-size:20pt;
+    font-weight:normal;
+    text-align:left;
+    padding:2px;
+    /*width:100%;*/
+}
+
+/* dforms field hovering */
+div.tasks .output {
+    border: 1px solid transparent;
+    padding: 2px;
+}
+
+div.tasks .output:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
 
 /* green labels for fields */
 div.tasks dt label {
