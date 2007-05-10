@@ -742,7 +742,7 @@
 			<match pattern="*/*.debug">
 				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
 				<generate
-					src="servlet:super:/dform-debug?cocoon-view=raw&amp;rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
+					src="servlet:super:/dform-debug?cocoon-view=formxml&amp;rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
 				<serialize tpye="xml" />
 			</match>
 
