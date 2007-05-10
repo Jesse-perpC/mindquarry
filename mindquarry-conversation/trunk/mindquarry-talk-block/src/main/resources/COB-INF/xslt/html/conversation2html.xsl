@@ -25,77 +25,104 @@
   <xsl:param name="user" />
   <xsl:param name="email" />
   
-  <xsl:template match="/messages">
+  
+    <xsl:template name="head-links">
+		<link rel="section-global-action" href="new" title="New Conversation" class="new-conversation-action"/>
+  </xsl:template>
+  
+  <xsl:template match="messages">
     <html>
       <head>
         <title><xsl:value-of select="conversation[1]/title"/></title>
+		<link rel="up" href=".." title="All Talks"/>
+	
+		<link rel="breadcrumb" title="Talks" href=".."/>
+		<link rel="breadcrumb" title="{conversation[1]/title}"/>
+		<link rel="section-global-action" title="New Conversation" href="../new" />
         <xsl:apply-templates select="block" mode="headlinks"/>
-        <link rel="up" href=".." title="All Talks"/>
-        
-        <link rel="breadcrumb" title="Talks" href=".."/>
-        <link rel="breadcrumb" title="{conversation[1]/title}"/>
+
       </head>
-      <xsl:apply-templates select="conversation/subscribers" />
       <body>
-        
-        <ul class="pagination">
-          <xsl:apply-templates select="block" mode="pagination"/>
-        </ul>
-        <xsl:apply-templates select="block[node()]"/>
-        
-        <form action="new" method="POST">
-          <textarea id="body" name="body"/>
-          For longer messages you can use your e-mail program: <a href="mailto:{$email}"><xsl:value-of select="$email" /></a>
-          <input type="submit" value="Send Message" />
-          <!-- if you would like to add more link fields, add more
-          <input type="text" name="link" value="/foo"/>
-          <input type="text" name="link" value="/bar"/>
-          -->
-        </form>
-      </body>
+	  
+	      <xsl:apply-templates select="conversation/subscribers" />
+        <div class="list">
+			<ul class="conversations">
+				<xsl:apply-templates select="block[node()]"/>
+				<li>
+					<img src="../../images/{normalize-space($user)}/web.png" title="You say:" class="icon"/>
+					<p><a name="post"> </a> </p>
+					<div>
+						<form action="new" method="POST">
+						  <textarea id="body" name="body" class="talk-textarea"/><br />
+						  <input type="submit" value="Send Message" class="button button22"/>
+						  For longer messages you can use your e-mail program: <a href="mailto:{$email}">
+						  <xsl:value-of select="$email" /></a>
+						  <!-- if you would like to add more link fields, add more
+						  <input type="text" name="link" value="/foo"/>
+						  <input type="text" name="link" value="/bar"/>
+						  -->
+						</form>
+					</div>
+				</li>
+			</ul>
+
+		
+		</div>
+
+
+	</body>
     </html>
   </xsl:template>
   
   <xsl:template match="subscribers[subscriber[@type='email'][normalize-space(.)=$user]]">
-    <form action="meta" method="POST">
+    <form action="meta" method="POST" class="button">
       <input type="hidden" name="unsubscribe-email" value="{$user}"/>
       <input type="submit" value="Unsubscribe"/>
     </form>
   </xsl:template>
   
   <xsl:template match="subscribers">
-    <form action="meta" method="POST">
+    <form action="meta" method="POST" class="button">
       <input type="hidden" name="subscribe-email" value="{$user}"/>
       <input type="submit" value="Subscribe"/>
     </form>
   </xsl:template>
   
   <xsl:template match="block">
-    <ul class="messages">
-       <xsl:apply-templates />
-    </ul>
-  </xsl:template>
+           <xsl:apply-templates select="message/message"/>
+      </xsl:template>
   
+  <xsl:template match="message/message">
+  	<xsl:call-template name="timestamp" />
+    <li class="senderinfo {@via}">
+      <img class="icon" src="../../images/{normalize-space(from)}/{@via}.png" title="{from}" height="48" width="48"/>	
+		<div>
+			<blockquote>
+				<xsl:apply-templates select="body"/>
+			</blockquote>
+		</div>
+	</li>
+	</xsl:template>
+  
+  <xsl:template match="link">
+    <a href="{normalize-space(.)}"><xsl:apply-templates /></a><br />
+  </xsl:template>
   <xsl:template match="message">
     <xsl:call-template name="timestamp" />
-    <li>
       <xsl:apply-templates />
-    </li>
   </xsl:template>
   
   <xsl:template name="timestamp">
     <xsl:variable name="showtimestamp">
       <xsl:call-template name="showtimestamp">
-        <xsl:with-param name="current" select="message/date"/>
+        <xsl:with-param name="current" select="date"/>
       </xsl:call-template>
     </xsl:variable>
     <xsl:if test="normalize-space($showtimestamp)='true'">
-      <li class="timestamp">
-        <xsl:value-of select="message/date" />
-      </li>
+        <xsl:apply-templates select="date"/>
     </xsl:if>
   </xsl:template>
-  
+ 
   <xsl:template name="showtimestamp">
     <xsl:param name="current" />
     <xsl:param name="preceding" select="$current/../../preceding-sibling::message/message/date"/>
@@ -113,35 +140,11 @@
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
-  
-  <xsl:template match="message/message">
-    <div class="senderinfo {@via}">
-      <img src="/teams/users/{normalize-space(from)}.png" alt="{from}" height="48" width="48"/>
-      <span class="sender">
-        <xsl:choose>
-          <xsl:when test="from[text()]"><team:user><xsl:value-of select="from" /></team:user></xsl:when>
-          <xsl:otherwise>unknown user</xsl:otherwise>
-        </xsl:choose>
-      </span>
-    </div>
-    <div class="body">
-      <xsl:apply-templates select="body"/>
-    </div>
-    <xsl:if test="link">
-      <ul class="links">
-        <xsl:apply-templates select="link" />
-      </ul>
-    </xsl:if>
-  </xsl:template>
-  
-  <xsl:template match="link">
-    <li><a href="{normalize-space(.)}"><xsl:apply-templates /></a></li>
-  </xsl:template>
-  
+
   <xsl:template match="message/message/date">
     <xsl:text> </xsl:text>
     <xsl:variable name="diff" select="floor(($now - normalize-space(.)) div 1000)" />
-    <span class="date" title="{.}">
+    <li class="date"><p><xsl:text> </xsl:text></p><div><xsl:text> </xsl:text></div><div><span class="date" title="{.}">
     <xsl:choose>
       <xsl:when test="$diff &gt; 86400*2">
         <xsl:value-of select="floor($diff div 86400)" /> days
@@ -156,17 +159,7 @@
         <xsl:value-of select="$diff" /> seconds
       </xsl:otherwise>
     </xsl:choose>
-    ago </span>
-  </xsl:template>
-  
-  
-  
-  <xsl:template match="block" mode="pagination">
-    <li><a href="?page={@id}"><xsl:value-of select="@id" /></a></li>
-  </xsl:template>
-  
-  <xsl:template match="block[node()]" mode="pagination">
-    <li><xsl:value-of select="@id" /></li>
+    ago </span></div></li>
   </xsl:template>
   
   <xsl:template match="block[position()=last()]" mode="headlinks">
@@ -208,5 +201,5 @@
       </xsl:attribute>
     </link>
   </xsl:template>
-  
+
   </xsl:stylesheet>

@@ -20,7 +20,7 @@
   xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
   <xsl:import href="servlet:/xslt/html/paging.xsl" />
-	
+  	
   <xsl:param name="now" />
   <xsl:param name="user" />
   

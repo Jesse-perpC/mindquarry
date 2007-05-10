@@ -17,6 +17,7 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
 	<xsl:import href="servlet:/xslt/contextpath.xsl" />
+	<xsl:import href="servlet:/xslt/html/paging.xsl" />
 		
 	<xsl:template match="/">
 		<html>
@@ -24,18 +25,35 @@
 				<title>Talk To Your Teams</title>
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/talk.css" type="text/css" />
+					<xsl:apply-templates select="block" mode="headlinks"/>
 			</head>
 			<body>
 				<div class="list">
 					<ul class="teamspace-list">
 						<xsl:apply-templates select="*/teamspace">
 							<xsl:sort select="name" />
+							
 						</xsl:apply-templates>
 					</ul>
 				</div>
 			</body>
 		</html>
 	</xsl:template>
+
+
+
+	<xsl:template match="block">
+		   <xsl:apply-templates />
+	</xsl:template>
+
+	  <xsl:template match="block" mode="pagination">
+    <li><a href="?page={@id}"><xsl:value-of select="@id" /></a></li>
+  </xsl:template>
+  
+  <xsl:template match="block[node()]" mode="pagination">
+    <li><xsl:value-of select="@id" /></li>
+  </xsl:template>
+  
 
 	<xsl:template match="user"/>
 		

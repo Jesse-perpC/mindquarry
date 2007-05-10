@@ -160,7 +160,6 @@
 					<transform type="cinclude"/>
 				</otherwise>
 			</select>
-			
 			<!-- check AJAX request attribute -->
 			<select type="ajax-request">
 				<when test="true">
@@ -461,7 +460,7 @@
 						</transform>
 						<transform type="include" />
 						<transform src="xslt/html/prepareconversation.xsl" />
-						<transform src="xslt/html/conversation2html.xsl">
+						<transform src="xslt/html/conversation2html.xsl" label="html">
 							<parameter name="now" value="{timestamp:}"/>
 							<parameter name="user" value="{request-attr:username}" />
 							<parameter name="email" value="{2}.{1}@{system-property:mindquarry.mail.server}" />
@@ -540,7 +539,7 @@
 		</pipeline>
 		
 		<!-- =========================================================== -->
-
+				
 		<!-- External browser pipeline with REST -->
 		<pipeline type="caching-point">
 
@@ -554,6 +553,35 @@
 						<read src="cocoon:/internal/pipe/overview.xml" />
 					</when>
 				</select>
+			</match>
+			
+			<match pattern="images/*/web.png">
+				<read src="servlet:teams:/users/{1}.png" type="image-op-overlay">
+					<parameter name="overlay-offset-x" value="24" />
+					<parameter name="overlay-offset-y" value="24" />
+					<parameter name="overlay-source" value="servlet:/tango-icons/22/categories/applications-internet.png" />
+				</read>
+			</match>
+			<match pattern="images/*/mail.png">
+				<read src="servlet:teams:/users/{1}.png" type="image-op-overlay">
+					<parameter name="overlay-offset-x" value="24" />
+					<parameter name="overlay-offset-y" value="24" />
+					<parameter name="overlay-source" value="servlet:/tango-icons/22/actions/mail-message-new.png" />
+				</read>
+			</match>
+			<match pattern="images/*/chat.png">
+				<read src="servlet:teams:/users/{1}.png" type="image-op-overlay">
+					<parameter name="overlay-offset-x" value="24" />
+					<parameter name="overlay-offset-y" value="24" />
+					<parameter name="overlay-source" value="servlet:/tango-icons/22/apps/internet-group-chat.png" />
+				</read>
+			</match>
+			<match pattern="images/*/meeting.png">
+				<read src="servlet:teams:/users/{1}.png" type="image-op-overlay">
+					<parameter name="overlay-offset-x" value="24" />
+					<parameter name="overlay-offset-y" value="24" />
+					<parameter name="overlay-source" value="servlet:/tango-icons/22/actions/document-new.png" />
+				</read>
 			</match>
 			
 			<!-- Get all conversations -->
