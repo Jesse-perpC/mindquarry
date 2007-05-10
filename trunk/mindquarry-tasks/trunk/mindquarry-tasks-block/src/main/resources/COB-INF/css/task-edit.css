@@ -20,75 +20,15 @@ div.tasks table.forms {
 div.tasks label {
 	font-weight:bold;
 }
-
-/* the buttons */
-div.tasks input.ductform_button {
-	display: block;
-	text-decoration: none;
-	text-align: center;
-	color: white;
-	background-repeat: no-repeat;
-	font-size: 10pt;
-	padding-top: 0px;
-	padding-left: 13px;
-	border:0px;
-	float:right;
-	clear:both;
-	margin-bottom:4px;
+div.tasks #ductform\.title {
+    display:block;
+    text-align:left;
+    font-size:20pt;
+    color:#6b6b6b;
+    font-weight:normal;
+    float:left;
 }
 
-div.tasks input.editall_button {
-	background-image: url(../buttons/editall_task.png);
-	width: 154px;
-	height: 32px;
-}
-
-div.tasks input.save_button {
-	background-image: url(../buttons/save_task.png);
-	width: 154px;
-	height: 32px;
-}
-
-div.tasks input.cancel_button {
-	background-image: url(../buttons/cancel_edit_task.png);
-	width: 154px;
-	height: 32px;
-}
-
-div.tasks input.delete_button {
-	background-image: url(../buttons/cancel_edit_task.png);
-	width: 154px;
-	height: 32px;
-}
-
-input.edit-action b.bpre  { /*editall task button */
-	display:block;
-	height:26px;
-	width:25px;
-	float:left;
-	background-image: url(../buttons/green/22/left/actions/edit.png);
- }
-input.save-action b.bpre  { /*save task button */
-	display:block;
-	height:26px;
-	width:25px;
-	float:left;
-	background-image: url(../buttons/green/22/left/actions/save.png);
- }
- input.cancel-action b.bpre  { /*cancel edit button */
-	display:block;
-	height:26px;
-	width:25px;
-	float:left;
-	background-image: url(../buttons/green/22/left/actions/cancel.png);
- }
-input.delete-action b.bpre  { /*delete task button */
-	display:block;
-	height:26px;
-	width:25px;
-	float:left;
-	background-image: url(../buttons/green/22/left/places/user-trash.png);
- }
 
 /* green labels for fields */
 div.tasks dt label {
@@ -156,6 +96,10 @@ div.tasks dd div.repeater p:hover {
     border: 1px solid #cccccc;
 }
 
+div.tasks dd div.repeater p {
+    border: 1px solid white;
+}
+
 /* hide wiki link buttons in editor2 */
 div.tasks .createWikiLinkContainer {
     display: none;
@@ -175,6 +119,18 @@ dl a.help img {
 	display:none;
 }
 */
+
+#ductform\.title\:help\:a {
+	display:none;
+	padding-top:6px;
+	width:24px;
+	height:24px;
+}
+
+#ductform\.title\:help\:a img {
+	border:0px;
+	display:none;
+}
 
 div.tasks input.field, textarea.field {
     display:block;
