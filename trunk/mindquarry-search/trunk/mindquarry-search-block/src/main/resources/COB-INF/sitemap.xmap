@@ -167,6 +167,7 @@
 			<select type="lightbox-request">
 				<when test="true">
 					<call resource="html2lightbox" />
+					<transform type="cinclude"/>
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
