@@ -50,6 +50,9 @@
 				type="text/css" />
 			<link rel="alternate" type="application/pdf" title="PDF for print" />
 			
+			<link rel="section-global-action" class="add-action" href="new" title="Create Task"/>
+			<link rel="section-global-action" class="new-filter-action" href="filters/new" title="Create filter" />
+			
 			<link rel="breadcrumb" title="Tasks" href="."/>
 			<link rel="breadcrumb" title="{/html/head/title}"/>
 		</head>
@@ -63,17 +66,8 @@
 
 	<xsl:template match="body">
 		<body>
-			<h1>
-				<xsl:value-of select="$taskTitle" />
-			</h1>
-
-			<div class="nifty">
+			<div class="content">
 				<xsl:apply-templates select="form" />
-			</div>
-			
-			<div class="nifty">
-				<div class="btm-link">
-				<a href="." id="back">Back to tasks list</a></div>				
 			</div>
 		</body>
 	</xsl:template>
