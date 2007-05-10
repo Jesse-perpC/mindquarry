@@ -40,6 +40,9 @@
 	</flow>
 
 	<views>
+		<view name="formxml" from-label="formxml">
+			<serialize type="xml" />
+		</view>
 		<view name="xml" from-label="xml">
 			<serialize type="xml" />
 		</view>
@@ -163,7 +166,7 @@
 			<match pattern="*.xml.instance">
 
 				<!-- get the form template from a dynamic pipeline -->
-				<generate type="jx" src="cocoon:/form-template" label="xml" >
+				<generate type="jx" src="cocoon:/form-template" label="formxml" >
 					<parameter name="locale" value="{flow-attribute:locale}" />
 				</generate>
 				
