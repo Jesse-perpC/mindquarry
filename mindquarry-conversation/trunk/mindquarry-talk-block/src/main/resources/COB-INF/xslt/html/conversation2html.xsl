@@ -14,20 +14,21 @@
 -->
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:ci="http://apache.org/cocoon/include/1.0"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  xmlns:collection="http://apache.org/cocoon/collection/1.0"
-  xmlns:dateFormat="java:java.text.SimpleDateFormat"
-  xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
+    xmlns:ci="http://apache.org/cocoon/include/1.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:collection="http://apache.org/cocoon/collection/1.0"
+    xmlns:dateFormat="java:java.text.SimpleDateFormat"
+    xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
+  
+  <xsl:import href="servlet:/xslt/html/paging.xsl" />
   
   <xsl:param name="now" />
   <xsl:param name="user" />
   <xsl:param name="email" />
   
-  
-    <xsl:template name="head-links">
-		<link rel="section-global-action" href="new" title="New Conversation" class="new-conversation-action"/>
+  <xsl:template name="head-links">
+	<link rel="section-global-action" href="new" title="New Conversation" class="new-conversation-action"/>
   </xsl:template>
   
   <xsl:template match="messages">
@@ -161,45 +162,5 @@
     </xsl:choose>
     ago </span></div></li>
   </xsl:template>
-  
-  <xsl:template match="block[position()=last()]" mode="headlinks">
-    <link rel="last" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block" mode="headlinks">
-    <link rel="following" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block[position()=1]" mode="headlinks">
-    <link rel="start" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block[preceding-sibling::block[1][node()]]" mode="headlinks">
-    <link rel="next" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
-  
-  <xsl:template match="block[following-sibling::block[1][node()]]" mode="headlinks">
-    <link rel="prev" href="?page={@id}">
-      <xsl:attribute name="title">
-        <xsl:value-of select="position()"/>
-      </xsl:attribute>
-    </link>
-  </xsl:template>
 
-  </xsl:stylesheet>
+</xsl:stylesheet>
