@@ -38,7 +38,6 @@
 			<xhtml:body>
 				<!-- action must be modified in sub-blocks afterwards, because only
 					 they know the correct URL -->
-				<!-- enctype="application/x-www-form-urlencoded;charset=ISO-8859-1" accept-charset="ISO-8859-1"  -->
 				<ft:form method="POST" action="" ajax="true" >
 					<ft:continuation-id>#{$cocoon/continuation/id}</ft:continuation-id>
 
@@ -54,17 +53,17 @@
 					</ft:widget>
 					
 					<!-- the buttons -->
-					<ft:widget id="ductforms_editall">
-						<fi:styling class="ductform_button editall_button edit-action"/>
+					<ft:widget id="ductforms_cancel">
+						<fi:styling class="ductform_button cancel_button cancel-action"/>
 					</ft:widget>
 					<ft:widget id="ductforms_save">
 						<fi:styling class="ductform_button save_button save-action"/>
 					</ft:widget>
-					<ft:widget id="ductforms_cancel">
-						<fi:styling class="ductform_button cancel_button cancel-action"/>
-					</ft:widget>
 					<ft:widget id="ductforms_delete">
 						<fi:styling class="ductform_button delete_button delete-action" onclick="return confirm('Are you sure you want to delete it?');"/>
+					</ft:widget>
+					<ft:widget id="ductforms_editall">
+						<fi:styling class="ductform_button editall_button edit-action"/>
 					</ft:widget>
 					
 					<!-- all fields/widgets grouped for nice layouting -->
