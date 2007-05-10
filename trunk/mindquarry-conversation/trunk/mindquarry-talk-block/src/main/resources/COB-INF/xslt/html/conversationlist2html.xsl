@@ -14,11 +14,12 @@
 -->
 <xsl:stylesheet version="1.0"
 	xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
-  xmlns:ci="http://apache.org/cocoon/include/1.0"
-  xmlns:xlink="http://www.w3.org/1999/xlink"
-  xmlns:collection="http://apache.org/cocoon/collection/1.0"
-  xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
+    xmlns:ci="http://apache.org/cocoon/include/1.0"
+    xmlns:xlink="http://www.w3.org/1999/xlink"
+    xmlns:collection="http://apache.org/cocoon/collection/1.0"
+    xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:source="http://apache.org/cocoon/source/1.0">
+  
   <xsl:import href="servlet:/xslt/html/paging.xsl" />
   	
   <xsl:param name="now" />
