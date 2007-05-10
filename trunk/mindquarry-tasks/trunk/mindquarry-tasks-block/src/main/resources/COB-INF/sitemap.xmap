@@ -177,7 +177,7 @@
 		
 		<!-- layouts the single task edit view -->
 		<resource name="task-layouting">
-			<transform src="xslt/html/task2html.xsl">
+			<transform src="xslt/html/task2html.xsl" label="html">
 				<parameter name="viewDocumentLink" value="{document}" />
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
@@ -226,17 +226,20 @@
 	</flow>
 
 	<views>
-		<view name="raw" from-label="raw">
+		<view name="xml" from-label="xml">
 			<serialize type="xml" />
 		</view>
-		<view name="xml" from-label="xml">
+		<view name="html" from-label="html">
+			<serialize type="xml" />
+		</view>
+		<view name="fo" from-label="fo">
 			<serialize type="xml" />
 		</view>
 	</views>
 
 	<pipelines>
 		<!-- resources pipeline -->
-		<pipeline type="expires-caching">
+		<pipeline type="caching">
 			<match pattern="css/*.css">
 				<select type="resource-exists">
 					<when test="css/{1}.css">
@@ -794,8 +797,8 @@
 							</when>
 							<when test="pdf">
 								<generate
-											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="raw"/>
-								<transform src="xslt/fo/task2fo.xsl" label="xml"/>
+											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="html"/>
+								<transform src="xslt/fo/task2fo.xsl" label="fo"/>
 								<serialize type="fo2pdf" mime-type="application/pdf"/>
 							</when>
 						</select>
