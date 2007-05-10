@@ -134,9 +134,10 @@ dl a.help img {
 
 div.tasks input.field, textarea.field {
     display:block;
-    width:80%;
+    width:75%;
     font-size:12pt;
     padding:2px;
+    border:1px solid #ddd;
 }
 
 div.tasks td input.field {
