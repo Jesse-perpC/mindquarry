@@ -19,13 +19,13 @@
 	<xsl:param name="basePath" />
 	
 	<xsl:template match="/">
-		<teamspaces xml:base="{$basePath}team/">
+		<teamspaces xml:base="{$basePath}">
 			<xsl:apply-templates select="*/teamspace" />
 		</teamspaces>
 	</xsl:template>
 
 	<xsl:template match="teamspace">
-		<teamspace xlink:href="{normalize-space(id)}">
+		<teamspace xlink:href="team/{normalize-space(id)}">
 			<xsl:apply-templates select="name" />
 		</teamspace>
 	</xsl:template>
