@@ -22,6 +22,8 @@
 		
 	<xsl:param name="teamspaceID" />    
 	<xsl:param name="username" />
+	<xsl:param name="serverBasePath" />
+	<xsl:param name="blockPath" />
 	
 	<xsl:variable name="teamspaceUsers"
 		select="document(concat('servlet:teams:/', $teamspaceID, '/members/asFormsSelectionlist'))"/>
@@ -92,7 +94,7 @@
     				</xsl:choose>
     			</xsl:attribute>
     			<div class="task_status">
-    				<img src="{$pathToBlock}images/status/{normalize-space(status)}.png" alt="{status}" class="icon"/>
+    				<img src="{$serverBasePath}{$blockPath}/images/status/{normalize-space(status)}.png" alt="{status}" class="icon"/>
     			</div>
     		</td>
     		<td sortValue="{title}">
