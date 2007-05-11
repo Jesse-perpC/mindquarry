@@ -532,11 +532,15 @@
 						value="jcr:///teamspaces/" />
 				</transform>
 
-				<transform src="xslt/html/taskList.xsl">
+				<transform src="xslt/html/taskList.xsl" label="html">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="username" value="{request-attr:username}" />
 					<parameter name="fullPath"
 						value="{block-path:}{request:pathInfo}" />
+					<parameter name="blockPath"
+						value="{block-path:}" />
+					<parameter name="serverBasePath" 
+						value="{system-property:mindquarry.server.url}{request:contextPath}" />
 					<parameter name="sitemapPath"
 						value="{request:pathInfo}" />
 				</transform>
