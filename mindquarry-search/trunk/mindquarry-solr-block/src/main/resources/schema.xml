@@ -307,7 +307,7 @@
      <!-- 
           SolrQueryParser configuration: defaultOperator="AND|OR"
      -->
-     <solrQueryParser defaultOperator="OR"/>
+     <solrQueryParser defaultOperator="AND"/>
 
      <!-- 
           copyField commands copy one field to another at the time a document
