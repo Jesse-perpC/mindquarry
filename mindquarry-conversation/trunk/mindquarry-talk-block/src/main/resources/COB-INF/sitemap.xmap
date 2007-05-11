@@ -257,7 +257,7 @@
 
 	<pipelines>
 		<!-- resources pipeline (external) -->
-		<pipeline type="expires-caching">
+		<pipeline type="caching">
 			<match pattern="css/*.css">
 				<select type="resource-exists">
 					<when test="css/{1}.css">
