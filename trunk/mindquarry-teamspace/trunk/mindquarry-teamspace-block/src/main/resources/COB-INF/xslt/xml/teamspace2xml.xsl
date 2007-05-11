@@ -18,8 +18,10 @@
 
 	<xsl:param name="reposURI" select="''" />
 	
+	<xsl:param name="basePath" />
+	
 	<xsl:template match="/teamspace">
-		<teamspace>
+		<teamspace xml:base="{$basePath}">
 			<xsl:apply-templates select="id|name" />
 		</teamspace>
 	</xsl:template>

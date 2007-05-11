@@ -402,6 +402,8 @@
 						<transform src="xslt/xml/teamspace2xml.xsl">
 							<parameter name="reposURI"
 								value="{system-property:mindquarry.repos.uri}" />
+							<parameter name="basePath"
+								value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/team/{1}/" />
 						</transform>
 						
 						<serialize type="xml" />
