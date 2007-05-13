@@ -737,6 +737,7 @@ public class JCRNodeSource implements Source, ModifiableTraversableSource,
                 int revision = 0;
                 while(hit.hasNext()) {
                     Version version = hit.nextVersion();
+                    
                     if ((revision>=startRevision)) {
                         changes.add(makeChange(version));
                     }
