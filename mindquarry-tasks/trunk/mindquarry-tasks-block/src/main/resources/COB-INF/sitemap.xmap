@@ -24,6 +24,8 @@
 		<generators default="file">
 			<generator name="collection"
 				src="org.apache.cocoon.generation.TraversableGenerator" />
+			<generator name="changelog"
+				src="com.mindquarry.dma.viewer.generation.ChangeLogGenerator" />
 		</generators>
 	</components>
 
@@ -454,6 +456,28 @@
 
 		<!-- teamspacesTasksOverview (internal) -->
 		<pipeline type="caching-point" internal-only="true">
+			<match pattern="internal/pipe/changes/*/*">
+				<generate type="changelog" src="jcr:///teamspaces/{1}/tasks/{2}">
+					<parameter name="revision" value="1" />
+				</generate>
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="internal/pipe/*/changes.xml">
+				<generate type="collection"
+					src="jcr:///teamspaces/{1}/wiki/">
+					<parameter name="include" value=".*\.xml" />
+				</generate>
+				<transform src="servlet:/xslt/xml/collection2loginclude.xsl">
+					<parameter name="jcrbase" value="jcr:///teamspaces/{1}/tasks/" />
+					<parameter name="team" value="{1}" />
+				</transform>
+				<transform type="cinclude">
+					<parameter name="expires" value="600" />
+				</transform>
+				<transform src="servlet:/xslt/xml/loginclude2changelog.xsl" label="xml" />
+				<serialize type="xml"/>
+			</match>
 
 			<!-- raw XML -->
 			<match pattern="internal/pipe/overview.xml">
@@ -635,7 +659,13 @@
 					</when>
 					<when test="opml">
 						<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
-						<transform src="xslt/opml/teamspaces2opml.xsl" />
+						<transform src="xslt/opml/teamspaces2opml.xsl">
+							<parameter name="base"
+								value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+							<parameter name="serverTitle"
+								value="{system-property:mindquarry.title}" />
+						</transform>
+						<transform type="teamspace" />
 						<serialize type="xml" mime-type="text/x-opml"/>
 					</when>
 				</select>
@@ -711,6 +741,21 @@
 				</select>
 			</match>
 			
+			
+			<match pattern="*/all.changes">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasklist"/>
+				<generate src="cocoon:/internal/pipe/{1}/changes.xml" />
+				<transform type="filter"  label="xml">
+					<parameter name="element-name" value="entry"/>
+					<parameter name="count" value="10"/>
+					<parameter name="blocknr" value="{request-param:page}"/>
+				</transform>
+				<transform src="xslt/xml/changelog2html.xsl" label="html">
+					<parameter name="team" value="{1}"/>
+				</transform>
+				<call resource="layouting" />
+			</match>
+			
 			<!-- provides a selection-list to CForms -->
 			<match pattern="*/lists/form.xml">
 				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
@@ -766,7 +811,7 @@
 									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
 										<!-- ...then show the dform -->
 										<generate
-											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
+											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}&amp;revision={request-param:revision}" label="xml" />
 										<call resource="task-layouting">
 											<parameter name="document" value="{2}"/>
 										</call>
@@ -868,6 +913,21 @@
 						</select>
 					</when>
 					
+				</select>
+			</match>
+			
+			<match pattern="*/*/changes">
+				<generate src="cocoon:/internal/pipe/changes/{1}/{2}.xml" />
+				<select type="REST">
+					<when test="json">
+						<transform src="xslt/json/log2json.xsl">
+							<parameter name="baselink" value="/tasks/{1}/{2}" />
+						</transform>
+						<serialize type="json" />
+					</when>
+					<otherwise>
+						<serialize type="xml" />
+					</otherwise>
 				</select>
 			</match>
 			

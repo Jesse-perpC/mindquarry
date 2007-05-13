@@ -17,11 +17,13 @@
 	xmlns:xlink="http://www.w3.org/1999/xlink">
 
 	<xsl:import href="servlet:/xslt/contextpath.xsl" />
+    <xsl:param name="serverTitle" />
+    <xsl:param name="base" />
 		
 	<xsl:template match="/teamspaces">
     <opml version="1.0">
       <head>
-        <title>Tasks</title>
+        <title>Tasks for <xsl:value-of select="$serverTitle" /></title>
       </head>
       <body>
         <xsl:apply-templates select="teamspace">
@@ -32,7 +34,9 @@
 	</xsl:template>
 				 
 	<xsl:template match="teamspace" >
-    <outline text="{normalize-space(name)}" htmlUrl="changes/{normalize-space(id)}/" xmlUrl="changes/{normalize-space(id)}/?http-accept-header=application/atom+xml"/>
+    <outline text="{normalize-space(name)}" 
+      htmlUrl="{$base}{normalize-space(id)}/all.changes/" 
+      xmlUrl="{$base}{normalize-space(id)}/all.changes/?http-accept-header=application/atom+xml"/>
 	</xsl:template>
   
 </xsl:stylesheet>

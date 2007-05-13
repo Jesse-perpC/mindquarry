@@ -69,6 +69,19 @@
 			<div class="content">
 				<xsl:apply-templates select="form" />
 			</div>
+			
+			<div class="nifty">
+				<h3 class="bottom-header">Activity Timeline</h3>
+				
+				<div
+					id="my-timeline"
+					style="height: 150px; border: 1px solid #aaa" 
+					linkText="Show task"
+					dataUrl="{$fullPath}/changes?http-accept-header=application/json"
+					dojoType="mindquarry:Timeline">placeholder for timeline</div>
+				
+				<p class="hint">Click the blue dots to go back to a certain point in time and view the wiki page at that date.</p>
+			</div>
 		</body>
 	</xsl:template>
 
