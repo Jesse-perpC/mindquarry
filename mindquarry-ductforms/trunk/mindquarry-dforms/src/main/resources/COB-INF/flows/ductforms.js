@@ -16,23 +16,19 @@ cocoon.load("resource://org/apache/cocoon/forms/flow/javascript/Form.js");
 cocoon.load("servlet:resources:/flows/util.js"); // only reloaded on restart!
 
 /////////////////////////////////////////////////////////
-// global variables (TODO: make an object OR write Java code)
+// global variables (in a object to avoid collisions)
 /////////////////////////////////////////////////////////
 
-var CLEAN_MODEL_XSL = "xsl/model/saveclean.xsl";
-var form_;
-var baseURI_;
-var documentID_;
-var suffix_;
-var rootElement_;
-var revision_;
-
-function getFilename() {
-    return documentID_ + suffix_;
-}
-
-function getFullPath() {
-    return baseURI_ + getFilename();
+var DFORM = {
+    CLEAN_MODEL_XSL	: "xsl/model/saveclean.xsl",
+    form			: null,
+    baseURI			: null,
+    documentID		: null,
+    suffix			: null,
+    rootElement		: null,
+    revision		: null,
+    getFilename		: function() { return this.documentID + this.suffix; },
+    getFullPath		: function() { return this.baseURI + this.getFilename(); }
 }
 
 /////////////////////////////////////////////////////////
@@ -42,29 +38,29 @@ function getFullPath() {
 // called from sitemap via handleForm()
 function showDForm(form) {
     // catch all parameters and store them globally
-    baseURI_ = cocoon.parameters["baseURI"];
-    documentID_ = cocoon.parameters["documentID"];
-    suffix_ = ".xml";
-    rootElement_ = cocoon.parameters["rootElement"];
+    DFORM.baseURI = cocoon.parameters["baseURI"];
+    DFORM.documentID = cocoon.parameters["documentID"];
+    DFORM.suffix = ".xml";
+    DFORM.rootElement = cocoon.parameters["rootElement"];
     //revision of the source
-    revision_ = cocoon.parameters["revision"];
-    if (revision_!="") {
-      revision_ = "?revision=" + revision_;
+    DFORM.revision = cocoon.parameters["revision"];
+    if (DFORM.revision!="") {
+      DFORM.revision = "?revision=" + DFORM.revision;
     }
-    var isEditStart = (documentID_ == 'new' || !resourceExists(getFullPath()));
+    var isEditStart = (DFORM.documentID == 'new' || !resourceExists(DFORM.getFullPath()));
     
 	// save form and uri for actions
-	form_ = form;
+	DFORM.form = form;
 
 	// load file from internal pipeline
-	form.loadXML("cocoon:/" + getFilename() + ".plain" + revision_);
+	form.loadXML("cocoon:/" + DFORM.getFilename() + ".plain" + DFORM.revision);
 
     // feature for wiki: when creating a new page via the URL == documentID
     // give the title that documentID as default value
-    if (isEditStart && documentID_ != "new") { 
-    	var titleWidget = form_.lookupWidget("/title");
+    if (isEditStart && DFORM.documentID != "new") { 
+    	var titleWidget = DFORM.form.lookupWidget("/title");
     	if (titleWidget && titleWidget.getValue() == null) {
-    	    titleWidget.setValue(documentID_);
+    	    titleWidget.setValue(DFORM.documentID);
     	}
     }
 	
@@ -72,7 +68,7 @@ function showDForm(form) {
 	setWidgetStates(form, isEditStart);
 
     // the continuations will be inside this method again and again
-	form.showForm(getFilename() + ".instance");
+	form.showForm(DFORM.getFilename() + ".instance");
 }
 
 /////////////////////////////////////////////////////////
@@ -81,15 +77,15 @@ function showDForm(form) {
 
 // called by auto-reload or AJAX or on loadXML binding for mutivalue fields
 function fieldsChanged(event) {
-	if (form_) {
-		setWidgetStates(form_, true);
+	if (DFORM.form) {
+		setWidgetStates(DFORM.form, true);
 	}
 }
 
 // enter partial edit mode or "expand" partial edit mode
 function activate(event) {
-	if (form_ && cocoon.request.activate) {
-		var selectedWidget = form_.lookupWidget("/" + cocoon.request.activate.substring(9));
+	if (DFORM.form && cocoon.request.activate) {
+		var selectedWidget = DFORM.form.lookupWidget("/" + cocoon.request.activate.substring(9));
 		if (selectedWidget) {
 		    // activate all descendant widgets
     		var descendants = getSubWidgets(selectedWidget);
@@ -100,52 +96,52 @@ function activate(event) {
 			}
 
             // activate all related widgets
-    		var related = getRelatedWidgets(form_, selectedWidget);
+    		var related = getRelatedWidgets(DFORM.form, selectedWidget);
 		
 			for (var j=0;j<related.length;j++) {
-				var relwidget = form_.lookupWidget("/" + related[j]);
+				var relwidget = DFORM.form.lookupWidget("/" + related[j]);
 				relwidget.setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 			}
 			
 			// only show the delete button in full output mode, but not in partial edit nor full edit mode
-			form_.lookupWidget("/ductforms_delete").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+			DFORM.form.lookupWidget("/ductforms_delete").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 			
 			// as soon something can be edited, you can save or cancel it
-			form_.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
-			form_.lookupWidget("/ductforms_cancel").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			DFORM.form.lookupWidget("/ductforms_save").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+			DFORM.form.lookupWidget("/ductforms_cancel").setState(Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 		}
 	}
 }
 
 // enter mode where all fields are active and the ductforms field chooser is visible
 function editAll(event) {
-	if (form_) {
+	if (DFORM.form) {
         // make everything editable
-		setWidgetStates(form_, true);
+		setWidgetStates(DFORM.form, true);
 	}
 }
 
 function save(event) {
-	if (form_) {
+	if (DFORM.form) {
 	    var newDocument = false;
-	    if (documentID_ == "new") {
+	    if (DFORM.documentID == "new") {
 	        // this does the trick: it will load the uniqueName.js from the
 	        // block that calls us via servlet:super: and provides its own version
 	        // of uniqueName.js. the implementation of uniqueName.js must return
 	        // a new document id.
-	        documentID_ = evalJavaScriptSource("servlet:/uniqueName.js");
+	        DFORM.documentID = evalJavaScriptSource("servlet:/uniqueName.js");
 	        newDocument = true;
 	    }
 	    
 		// the form includes all possible fields, but only some of them are
 		// actually used. the best solution would be to strip out forms
-		form_.saveXML(getFullPath(), CLEAN_MODEL_XSL);
+		DFORM.form.saveXML(DFORM.getFullPath(), DFORM.CLEAN_MODEL_XSL);
 		
 		if (newDocument) {
 
             // stop form processing before the redirect, otherwise the redirect
             // would not work properly as he also runs the form output pipeline
-		    form_.getWidget().endProcessing(false);
+		    DFORM.form.getWidget().endProcessing(false);
 		    // go to the real url of the newly created document (the pipeline
 		    // will create some special redirect xml that is either interpreted
 		    // by the browser-update handler client-side javascript to do the
@@ -155,23 +151,23 @@ function save(event) {
 		    
 		    
 		    //redirect with 
-		    cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);
+		    cocoon.redirectTo("cocoon:/redirectTo/" + DFORM.documentID);
 		    
 		} else {
 		
 		    // existing documents only switch to view mode after a save
-		    setWidgetStates(form_, false);
+		    setWidgetStates(DFORM.form, false);
 		}
 	}
 }
 
 function cancel(event) {
-	if (form_) {
-	    if (documentID_ == "new") {
+	if (DFORM.form) {
+	    if (DFORM.documentID == "new") {
 	        // user does not want to create a new document
 	        
     	    // stop any further form processing to be able to do the redirect
-    		form_.getWidget().endProcessing(false);
+    		DFORM.form.getWidget().endProcessing(false);
     		
     	    // go back to the task list
     	    cocoon.redirectTo("cocoon:/redirectTo/.");
@@ -179,7 +175,7 @@ function cancel(event) {
     	    // user cancels changes of an existing document
     	    
     	    // stop any further form processing to be able to do the redirect
-    		form_.getWidget().endProcessing(false);
+    		DFORM.form.getWidget().endProcessing(false);
     		
     		
     		if (cocoon.request.formbaselink) {
@@ -187,7 +183,7 @@ function cancel(event) {
 				cocoon.redirectTo("cocoon:/redirectTo/" + cocoon.request.formbaselink);
     		} else {
 				// reload the form in view mode (new continuation)
-				cocoon.redirectTo("cocoon:/redirectTo/" + documentID_);   			
+				cocoon.redirectTo("cocoon:/redirectTo/" + DFORM.documentID);   			
     		}
     	}
 	}
@@ -195,10 +191,10 @@ function cancel(event) {
 
 /* delete is a protected keyword in javascript... */
 function deleteIt(event) {
-	if (form_) {
+	if (DFORM.form) {
 		var source = 0;
 		try {
-			source = resolveSource(getFullPath());
+			source = resolveSource(DFORM.getFullPath());
 			
 			// to avoid the 'delete' keyword, we use the alternative array-style
 			// notation for object members to call the delete() method
@@ -208,7 +204,7 @@ function deleteIt(event) {
 		}
 
 	    // stop any further form processing to be able to do the redirect
-		form_.getWidget().endProcessing(false);
+		DFORM.form.getWidget().endProcessing(false);
 		
 	    // reload the form in view mode (new continuation)
 	    cocoon.redirectTo("cocoon:/redirectTo/.");
@@ -369,7 +365,7 @@ Form.prototype.saveXML = function(uri, xsluri) {
             var transformer = transformerHandler.getTransformer();
             transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.INDENT, "true");
             transformer.setOutputProperty(Packages.javax.xml.transform.OutputKeys.METHOD, "xml");
-	        transformer.setParameter("rootElement", rootElement_);
+	        transformer.setParameter("rootElement", DFORM.rootElement);
             transformerHandler.setResult(new Packages.javax.xml.transform.stream.StreamResult(outputStream));
             this.getXML().toSAX(transformerHandler);
         } else {
