@@ -84,7 +84,8 @@ function fieldsChanged(event) {
 
 // enter partial edit mode or "expand" partial edit mode
 function activate(event) {
-	if (DFORM.form && cocoon.request.activate) {
+	// do not allow editing on a revision
+	if (DFORM.form && cocoon.request.activate && !DFORM.revision) {
 		var selectedWidget = DFORM.form.lookupWidget("/" + cocoon.request.activate.substring(9));
 		if (selectedWidget) {
 		    // activate all descendant widgets
@@ -115,14 +116,16 @@ function activate(event) {
 
 // enter mode where all fields are active and the ductforms field chooser is visible
 function editAll(event) {
-	if (DFORM.form) {
+	// do not allow editing on a revision
+	if (DFORM.form && !DFORM.revision) {
         // make everything editable
 		setWidgetStates(DFORM.form, true);
 	}
 }
 
 function save(event) {
-	if (DFORM.form) {
+	// do not allow save on a revision
+	if (DFORM.form && !DFORM.revision) {
 	    var newDocument = false;
 	    if (DFORM.documentID == "new") {
 	        // this does the trick: it will load the uniqueName.js from the
@@ -327,6 +330,15 @@ function setWidgetStates(form, isEdit) {
     // the activate and keepAlive actions are always active (but not visible)
 	widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
 	widgetMap.put(form.lookupWidget("/ductforms_keepalive"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.ACTIVE);
+	
+	if (DFORM.revision) {
+		// hide edit/save etc. buttons when looking at an older revision
+		widgetMap.put(form.lookupWidget("/ductforms_save"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		widgetMap.put(form.lookupWidget("/ductforms_cancel"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		widgetMap.put(form.lookupWidget("/ductforms_editall"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		//widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+		widgetMap.put(form.lookupWidget("/ductforms_keepalive"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
+	}
 	
 	//cycle through the widget map and set the states accordingly
 	var widgetList = widgetMap.keySet().toArray();
