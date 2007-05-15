@@ -50,8 +50,8 @@
 				type="text/css" />
 			<link rel="alternate" type="application/pdf" title="PDF for print" />
 			
-			<link rel="section-global-action" class="add-action" href="new" title="Create Task"/>
-			<link rel="section-global-action" class="new-filter-action" href="filters/new" title="Create filter" />
+			<link rel="section-global-action" class="add-action" href="new" title="New Task"/>
+			<link rel="section-global-action" class="new-filter-action" href="filters/new" title="New filter" />
 			
 			<link rel="breadcrumb" title="Tasks" href="."/>
 			<link rel="breadcrumb" title="{/html/head/title}"/>
