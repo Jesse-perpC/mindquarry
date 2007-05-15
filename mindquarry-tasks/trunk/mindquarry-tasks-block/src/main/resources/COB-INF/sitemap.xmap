@@ -921,7 +921,7 @@
 				<generate src="cocoon:/internal/pipe/changes/{1}/{2}.xml" />
 				<select type="REST">
 					<when test="json">
-						<transform src="xslt/json/log2json.xsl">
+						<transform src="xslt/json/log2jsonXML.xsl">
 							<parameter name="baselink" value="/tasks/{1}/{2}" />
 						</transform>
 						<serialize type="json" />

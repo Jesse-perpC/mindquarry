@@ -23,6 +23,7 @@
 				<title>Manage Your Tasks</title>
 				<link rel="stylesheet" href="{$pathToBlock}css/tasks.css" type="text/css" />
 				<link rel="alternate" type="text/x-opml" title="reading list of tasks" />
+				<link rel="breadcrumb" title="Tasks"/>
 			</head>
 			<body>
 				<div class="list">
