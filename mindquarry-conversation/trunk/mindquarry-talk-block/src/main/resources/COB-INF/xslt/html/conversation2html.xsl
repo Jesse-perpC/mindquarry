@@ -28,7 +28,7 @@
   <xsl:param name="email" />
   
   <xsl:template name="head-links">
-	<link rel="section-global-action" href="new" title="New Conversation" class="new-conversation-action"/>
+	<link rel="section-global-action" href="new" title="New Conversation" class="button button22 new-conversation-action"/>
   </xsl:template>
   
   <xsl:template match="messages">
@@ -55,9 +55,9 @@
 					<div>
 						<form action="new" method="POST">
 						  <textarea id="body" name="body" class="talk-textarea"/><br />
-						  <input type="submit" value="Send Message" class="button button22"/>
-						  For longer messages you can use your e-mail program: <a href="mailto:{$email}">
-						  <xsl:value-of select="$email" /></a>
+						  <input type="submit" value="Send Message" class="button button22 new-subscribe-action"/>
+						   <span>For longer messages you can use your e-mail program: <a href="mailto:{$email}">
+						  <xsl:value-of select="$email" /></a></span>
 						  <!-- if you would like to add more link fields, add more
 						  <input type="text" name="link" value="/foo"/>
 						  <input type="text" name="link" value="/bar"/>
@@ -76,14 +76,14 @@
   </xsl:template>
   
   <xsl:template match="subscribers[subscriber[@type='email'][normalize-space(.)=$user]]">
-    <form action="meta" method="POST" class="button">
+    <form action="meta" method="POST" class="button button22 new-unsubscribe-action">
       <input type="hidden" name="unsubscribe-email" value="{$user}"/>
       <input type="submit" value="Unsubscribe"/>
     </form>
   </xsl:template>
   
   <xsl:template match="subscribers">
-    <form action="meta" method="POST" class="button">
+    <form action="meta" method="POST" class="button button22 new-subscribe-action">
       <input type="hidden" name="subscribe-email" value="{$user}"/>
       <input type="submit" value="Subscribe"/>
     </form>
