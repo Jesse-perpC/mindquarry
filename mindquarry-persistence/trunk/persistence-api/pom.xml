@@ -38,7 +38,7 @@
 				<artifactId>maven-release-plugin</artifactId>
 				<configuration>
 					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-persistence/tags/hibernate-persistence/
+						https://www.mindquarry.org/repos/mindquarry-persistence/tags/persistence-api/
 					</tagBase>
 				</configuration>
 			</plugin>
@@ -47,13 +47,13 @@
 
 	<scm>
 		<connection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-api/
 		</connection>
 		<url>
-			https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
+			https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-api/
 		</url>
 		<developerConnection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
+			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-api/
 		</developerConnection>
 	</scm>
 </project>
