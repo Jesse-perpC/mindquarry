@@ -20,7 +20,7 @@
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 	<head>
-		<title>Create Team</title>
+		<title>Create New Team</title>
 		<link rel="stylesheet"
 				href="css/teamspace.css" type="text/css" />
 				
