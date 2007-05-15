@@ -163,15 +163,16 @@
 		
 		<!-- standard final page layouting -->
 		<resource name="layouting">
-			<transform type="teamspace" />
 			<select type="lightbox-request">
 				<when test="true">
 					<call resource="html2lightbox" />
+					<transform type="teamspace" />
 					<transform type="cinclude"/>
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
 					<call resource="html2html" />
+					<transform type="teamspace" />
 					<transform type="cinclude"/>
 				</otherwise>
 			</select>
