@@ -24,7 +24,7 @@
 	<link rel="breadcrumb" title="Details"/>
 		
     <link rel="action" linkrel="lightbox" type="edit-action" href="../../{/teamspace/id}/edit/" title="Edit"/>
-    <link rel="action" linkrel="lightbox" type="new-team-action" href="editMembers/" title="Team Members"/>
+    <link rel="action" linkrel="lightbox" type="new-team-action" href="editMembers/" title="Members"/>
   </xsl:template>
     
   <xsl:template match="teamspace">
