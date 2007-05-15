@@ -48,8 +48,8 @@
 	</build>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/mindquarry-document-management-client/</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-document-management/trunk/mindquarry-document-management-client/</url>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/mindquarry-document-management-client/</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/client/</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-document-management/trunk/client/</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/client/</developerConnection>
 	</scm>
 </project>
