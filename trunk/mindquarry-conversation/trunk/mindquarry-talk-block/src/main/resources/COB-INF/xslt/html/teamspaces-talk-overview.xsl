@@ -26,6 +26,7 @@
 				<link rel="stylesheet" 
 					href="{$pathToBlock}css/talk.css" type="text/css" />
 					<xsl:apply-templates select="block" mode="headlinks"/>
+				<link rel="breadcrumb" title="Talk"/>
 			</head>
 			<body>
 				<div class="list">
