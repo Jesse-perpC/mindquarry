@@ -55,9 +55,9 @@
 	</build>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jackrabbit</developerConnection>
 	</scm>
 
 	<dependencies>
