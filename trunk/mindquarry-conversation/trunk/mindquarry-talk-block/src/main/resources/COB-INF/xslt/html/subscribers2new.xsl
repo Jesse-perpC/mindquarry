@@ -27,36 +27,48 @@
     <html>
       <head>
         <title>Start new conversation</title>
+        <xsl:apply-templates select="block" mode="headlinks"/>
         <link rel="breadcrumb" title="Talks" href="."/>
         <link rel="breadcrumb" title="New" />
+		<link rel="section-global-action" href="new" title="New Conversation" class="new-conversation-action"/>		
       </head>
       <body>
+	  <div class="content">
         <form id="startNewConversationForm" action="" method="POST">
-          <h1>Start new conversation</h1>
+          <h2>Start new conversation</h2>
           <div dojotype="mindquarry:AddResource">AddResource</div>
           <dl>
             <dt><label for="title">Subject</label></dt>
-            <dd><input type="text" name="title" /></dd>
+            <dd><div id="subject-box"><input type="text" name="title" /></div></dd>
             
             <dt><label for="subscribers">Subscribers</label></dt>
             <dd dojoType="mindquarry:selectSubscribers">
-              <select multiple="multiple" id="oldsubscribers" name="oldsubscribers">
-					<xsl:apply-templates select="subscriber[@type='email']" />
-              </select>
-              <select multiple="multiple" id="subscribers" name="subscribers">
-					<ci:include src="{$userlist}" />
-              </select>
-              <input type="submit" value="Add"/>
+				<div id="subscribers-box">
+				  <select multiple="multiple" id="oldsubscribers" name="oldsubscribers">
+						<xsl:apply-templates select="subscriber[@type='email']" />
+				  </select>
+				  <select multiple="multiple" id="subscribers" name="subscribers">
+						<ci:include src="{$userlist}" />
+				  </select>
+				  <input class="button" type="submit" value="Add"/>
+				</div>
             </dd>
             <dt><label>Message</label></dt>
-            <dd><input type="submit" value="Insert link"/><textarea cols="60" rows="20" name="body"></textarea></dd>
+            <dd><div id="message-box"><input type="submit" value="Insert link" class="button"/><br /><textarea cols="60" rows="10" name="body"></textarea></div></dd>
           </dl>
-          <input type="submit" value="Start Conversation" />
-          <span>Alternatively you can start a conversation through your mail client: <a href="mailto:{$email}"><xsl:value-of select="$email" /></a></span>
+		  <div class="conclusion">
+		  		<dl>
+          		<dt></dt>
+				<dd><input type="submit" value="Start Conversation" /><span>Alternatively you can start a conversation through your mail client: <a href="mailto:{$email}"><xsl:value-of select="$email" /></a></span></dd>
+				</dl>
+		  </div>
         </form>
+	</div>	
       </body>
     </html>
   </xsl:template>
+  
+
   
   <xsl:template match="subscriber">
     <option value="{normalize-space(.)}"><team:user><xsl:apply-templates /></team:user></option>
