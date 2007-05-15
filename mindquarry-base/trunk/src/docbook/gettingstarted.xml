@@ -161,23 +161,39 @@
     <para>As a first and initial step, you have to create a comfiguration file
     for running Mindquarry. The easiest way to do so is copying the file
     <filename>config.template/mindquarry-webapplication.properties</filename>
-    to your current working directory. Modify the parameters according to your
-    need, eg. the directories for the data storage and the server names
-    (typically localhost during development). The most important setting one
-    during development is <literal>org.apache.cocoon.mode</literal> which can
-    be either <literal>dev</literal> (=development) or <literal>prod</literal>
+    to your current working directory
+    (<filename>mindquarry-webapp/mindquarry-webapplication</filename>). Modify
+    the parameters according to your need, eg. the directories for the data
+    storage and the server names (typically localhost during development). The
+    most important setting one during development is
+    <literal>org.apache.cocoon.mode</literal> which can be either
+    <literal>dev</literal> (=development) or <literal>prod</literal>
     (=production). During development you want to use dev, because it turns
     off caching and will directly reload the resource files like css, js, xslt
     etc. (but not Java code) without restarting. Using prod makes the
     application much more faster but needs a rebuilt of the changed modules
     and a restart for the changes to effect.</para>
 
+    <note>
+      <para>The default configuration asumes you have created a directory for
+      data files at <filename>/var/mindquarry</filename>. If this is not the
+      case, you might experience errors like this one:</para>
+
+      <screen>Invalid workspace root directory: /var/mindquarry/jcr/workspaces</screen>
+    </note>
+
     <para>Then you can run <command>mvn jetty:run</command> to start the
     Mindquarry Web Application.</para>
 
     <programlisting># mvn jetty:run</programlisting>
 
-    <para>After a short startup time, you can open Mindquarry in your web
+    <para>Wait patently for the servlet container to start up until you see
+    following command line messages:</para>
+
+    <screen>[INFO] Started Jetty Server
+[INFO] Starting scanner at interval of 15 seconds.</screen>
+
+    <para>When you see this message, you can open Mindquarry in your web
     browser at the location <uri>http://localhost:8888/</uri>. Log in as user
     <literal>admin</literal> with password <literal>admin</literal> and create
     some test data.</para>
