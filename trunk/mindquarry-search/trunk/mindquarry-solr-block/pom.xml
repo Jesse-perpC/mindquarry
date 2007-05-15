@@ -64,9 +64,9 @@
 	</build>
 	
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</developerConnection>
+		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/mindquarry-solr-block</connection>
+		<url>https://www.mindquarry.org/repos/mindquarry-search/trunk/mindquarry-solr-block</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/mindquarry-solr-block</developerConnection>
 	</scm>
 
 	<dependencies>
