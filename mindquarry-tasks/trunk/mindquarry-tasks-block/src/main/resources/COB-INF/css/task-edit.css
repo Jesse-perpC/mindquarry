@@ -7,7 +7,7 @@ div.tasks dl {
 
 /* let the buttons float at the right side */
 div.tasks dt, div.tasks dd {
-    clear: none;
+   clear: none;
 }
 
 div.tasks table.forms {
@@ -44,17 +44,27 @@ div.tasks #ductform\.title\:input {
 }
 
 /* dforms field hovering */
-div.tasks .output {
+div.tasks dd .output {
     border: 1px solid transparent;
     padding: 2px;
 }
-
-div.tasks .output:hover {
+div.tasks dd .output:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
+div.tasks #ductform\.title.output:hover {
     background-color: #FFFFCC;
     border: 1px solid #cccccc;
     padding: 2px;
 }
 
+div.tasks dd#ductform_summary:hover 
+{
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
 /* green labels for fields */
 div.tasks dt label {
 	color:#339933;
@@ -71,7 +81,7 @@ div.tasks dd.output /*span.output, div.output*/ {
     padding: 2px;
 }
 
-div.tasks dd.output:hover /*, span.output:hover, div.output:hover*/ {
+div.tasks dd .output:hover /*, span.output:hover, div.output:hover*/ {
     background-color: #FFFFCC;
     border: 1px solid #cccccc;
     padding: 2px;
@@ -89,7 +99,7 @@ div.tasks dd div.repeater table {
 }
 
 div.tasks dd div.repeater th {
-    font-size: 10pt;
+	font-size: 10pt;
 	color:#339933;
 	background-color:#eeeeee;
 	text-align: left;
@@ -100,6 +110,8 @@ div.tasks dd div.repeater td {
 }
 
 /* for people and dependencies, we want only the table to get highlighted */
+div.tasks dd#ductform_summary.output:hover
+div.tasks dd#ductform_description.output:hover,
 div.tasks dd#ductform_people.output:hover, 
 div.tasks dd#ductform_dependencies.output:hover {
     background-color: white;
@@ -120,6 +132,8 @@ div.tasks dd div.repeater p:hover {
     background-color: #FFFFCC;
     border: 1px solid #cccccc;
 }
+
+
 
 div.tasks dd div.repeater p {
     border: 1px solid white;
@@ -169,3 +183,4 @@ div.tasks td input.field {
     display:inline;
     width:350px;
 }
+
