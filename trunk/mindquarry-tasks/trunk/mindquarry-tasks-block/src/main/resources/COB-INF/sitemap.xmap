@@ -458,9 +458,16 @@
 		<!-- teamspacesTasksOverview (internal) -->
 		<pipeline type="caching-point" internal-only="true">
 			<match pattern="internal/pipe/changes/*/*">
-				<generate type="changelog" src="jcr:///teamspaces/{1}/tasks/{2}">
-					<parameter name="revision" value="1" />
-				</generate>
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/tasks/{2}">
+						<generate type="changelog" src="jcr:///teamspaces/{1}/tasks/{2}" label="xml">
+							<parameter name="revision" value="1" />
+						</generate>						
+					</when>
+					<otherwise>
+						<generate src="xml/empty-changes.xml"></generate>
+					</otherwise>
+				</select>
 				<serialize type="xml" />
 			</match>
 			
