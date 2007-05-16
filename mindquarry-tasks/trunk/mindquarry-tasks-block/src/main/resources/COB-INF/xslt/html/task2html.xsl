@@ -18,12 +18,14 @@
 
 	<xsl:import href="servlet:/xslt/contextpath.xsl" />
 
-	<xsl:param name="viewDocumentLink" />
+	<xsl:param name="document" />
+	<xsl:variable name="dformParams" select="/html/head/dformParams"/>
+	<xsl:template match="dformParams"/>
 	
 	<xsl:variable name="taskTitle">
 		<xsl:choose>
-			<xsl:when test="string-length(normalize-space(/html/head/title)) = 0">
-				Create New Task
+			<xsl:when test="$dformParams/documentIsNew = 'true'">
+				Create New Task				
 			</xsl:when>
 			<xsl:otherwise>
 				Task: <xsl:value-of select="/html/head/title" />				
@@ -48,13 +50,23 @@
 			<link rel="stylesheet"
 				href="{$pathToBlock}css/task-edit.css" media="screen,projection"
 				type="text/css" />
-			<link rel="alternate" type="application/pdf" title="PDF for print" />
 			
-			<link rel="section-global-action" class="add-action" href="new" title="New Task"/>
-			<link rel="section-global-action" class="new-filter-action" href="filters/new" title="New filter" />
+			<xsl:if test="$dformParams/documentIsNew = 'false'">
+				<link rel="alternate" type="application/pdf" title="PDF for print" />
+			
+				<link rel="section-global-action" class="add-action" href="new" title="New Task"/>
+				<link rel="section-global-action" class="new-filter-action" href="filters/new" title="New filter" />
+			</xsl:if>
 			
 			<link rel="breadcrumb" title="Tasks" href="."/>
-			<link rel="breadcrumb" title="{/html/head/title}"/>
+			<xsl:choose>
+				<xsl:when test="$dformParams/documentIsNew = 'true'">
+					<link rel="breadcrumb" title="New"/>
+				</xsl:when>
+				<xsl:otherwise>
+					<link rel="breadcrumb" title="{/html/head/title}"/>
+				</xsl:otherwise>
+			</xsl:choose>
 		</head>
 	</xsl:template>
 
@@ -70,24 +82,27 @@
 				<xsl:apply-templates select="form" />
 			</div>
 			
-			<div class="nifty">
+			<!-- do not show the history when creating a new task -->
+			<xsl:if test="$dformParams/documentIsNew = 'false'">
+				<div class="nifty">
 				<h3 class="bottom-header">Activity Timeline</h3>
 				
-				<div
-					id="my-timeline"
-					style="height: 150px; border: 1px solid #aaa" 
-					linkText="Show task"
-					dataUrl="{$fullPath}/changes?http-accept-header=application/json"
-					dojoType="mindquarry:Timeline">placeholder for timeline</div>
-				
-				<p class="hint">Click the blue dots to go back to a certain point in time and view the wiki page at that date.</p>
-			</div>
+					<div
+						id="my-timeline"
+						style="height: 150px; border: 1px solid #aaa" 
+						linkText="Show task"
+						dataUrl="{$fullPath}/changes?http-accept-header=application/json"
+						dojoType="mindquarry:Timeline">placeholder for timeline</div>
+					
+					<p class="hint">Click the blue dots to view the task back at a certain point in time.</p>
+				</div>
+			</xsl:if>
 		</body>
 	</xsl:template>
 
 	<xsl:template match="form/@action">
 		<xsl:attribute name="action">
-			<xsl:value-of select="$viewDocumentLink" />
+			<xsl:value-of select="$document" />
 		</xsl:attribute>
 	</xsl:template>
 
