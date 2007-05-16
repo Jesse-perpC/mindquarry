@@ -493,7 +493,7 @@ LoadModule rewrite_module     modules/mod_rewrite.so</programlisting>
 
     <para>All configuration of Mindquarry is handled in
     <filename>/opt/mindquarry/etc/mindquarry-webapplication.properties</filename>.
-    This file is a simple list of name-value-pairs. A line starting with a has
+    This file is a simple list of name-value-pairs. A line starting with a hash
     (<literal>#</literal>) is ignored. Most properties are tuned for running
     Mindquarry out of the box, you only need to configure three
     settings:</para>
