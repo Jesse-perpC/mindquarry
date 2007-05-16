@@ -21,4 +21,4 @@ function createUniqueName(baseURI) {
 	}
 }
 
-createUniqueName(baseURI_);
+createUniqueName(DFORM.baseURI);
