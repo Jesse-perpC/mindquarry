@@ -151,7 +151,6 @@
     			<link rel="facet" title="{@name} ({.})"/>
     		</xsl:otherwise>
     	</xsl:choose>
-    	<br />
     </xsl:template>
 
 </xsl:stylesheet>
