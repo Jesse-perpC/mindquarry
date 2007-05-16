@@ -199,6 +199,15 @@
 		
 	</resources>
 
+	<views>
+		<view name="xml" from-label="xml">
+			<serialize type="xml" />
+		</view>
+		<view name="html" from-label="html">
+			<serialize type="xml" />
+		</view>
+	</views>
+	
 	<pipelines>
 		<!-- resources pipeline / use noncaching for debugging -->
 		<pipeline type="noncaching">
@@ -294,7 +303,7 @@
 			<match pattern="query">
 				<!-- FIXME: use the "server:" url for this, not http, this way we don't need the password -->
 				<generate src="{request:scheme}://{request-attr:username}:{request-attr:password}@{request:serverName}:{request:serverPort}{request:contextPath}/solr-select/?wt=xml&amp;indent=true&amp;fl=score&amp;q={url-encode:{request-param:q}}&amp;fq={url-encode:{request-param:fq}}&amp;start={request-param:start}&amp;facet=true&amp;facet.field=type&amp;facet.field=team" label="xml"/>
-				<transform src="xslt/searchresults2html.xsl">
+				<transform src="xslt/searchresults2html.xsl" label="html">
 					<parameter name="query" value="{request-param:q}" />
 					<parameter name="start" value="{request-param:start}" />
 					<parameter name="fq" value="{request-param:fq}" />
