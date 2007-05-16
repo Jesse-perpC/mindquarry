@@ -18,7 +18,7 @@
 	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
 	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance">
-
+	
 	<xsl:template match="/df:model">
 		<ductform>
 			<xsl:apply-templates select="df:datatype[@required='true']" />
