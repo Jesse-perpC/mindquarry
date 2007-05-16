@@ -58,7 +58,6 @@
 		<pipeline type="caching">
 			<!-- @virtual: implementations can choose the form2html stylesheet -->
 			<match pattern="xslt/forms/dforms_form2html.xsl">
-				<!--<read src="servlet:resources:/xslt/forms/form2html_labelreplacement.xsl"/>-->
 				<generate src="servlet:resources:/xslt/forms/form2html_labelreplacement.xsl"/>
 				<serialize type="xml" />
 			</match>
@@ -123,9 +122,7 @@
 						test="{request-param:baseURI}{request-param:documentID}.xml">
 						<generate
 							src="{request-param:baseURI}{request-param:documentID}.xml?revision={request-param:revision}" />
-						<!--<transform type="tee" src="file:///tmp/plain-loaded.xml" />-->
 						<transform src="xsl/model/addfield.xsl" />
-						<!--<transform type="tee" src="file:///tmp/plain-before-serialize.xml" />-->
 						<serialize type="xml" />
 					</when>
 					<!-- else (if not) show the minimal document model including the required fields from the complete model -->
