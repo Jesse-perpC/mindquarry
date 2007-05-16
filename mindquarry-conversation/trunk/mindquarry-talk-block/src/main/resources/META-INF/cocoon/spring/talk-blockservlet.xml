@@ -20,7 +20,10 @@
        
 	<bean id="com.mindquarry.conversation.talk-block" class="org.apache.cocoon.sitemap.SitemapServlet">
 		<servlet:context mount-path="/talk" context-path="blockcontext:/mindquarry-talk-block/">
-      <servlet:connections>
+			<servlet:init-params>
+				<entry key="sitemapPath" value="/talk.xmap"/>
+			</servlet:init-params>
+			<servlet:connections>
 				<entry key="super"
 					value-ref="com.mindquarry.webapp.resources-block" />
 				<entry key="teams"
@@ -29,7 +32,7 @@
 					value-ref="com.mindquarry.webapp.help-block" />
 				<entry key="resources"
 					value-ref="com.mindquarry.webapp.resources-block" />
-      </servlet:connections>
-    </servlet:context>
+			</servlet:connections>
+		</servlet:context>
 	</bean>
 </beans>
