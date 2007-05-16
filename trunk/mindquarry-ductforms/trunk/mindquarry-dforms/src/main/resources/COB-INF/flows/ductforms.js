@@ -47,7 +47,10 @@ function showDForm(form) {
     if (DFORM.revision!="") {
       DFORM.revision = "?revision=" + DFORM.revision;
     }
-    var isEditStart = (DFORM.documentID == 'new' || !resourceExists(DFORM.getFullPath()));
+    
+    var isVirtualNew = (DFORM.documentID == 'new');
+    var documentDoesNotExist = !resourceExists(DFORM.getFullPath());
+    var documentIsNew = (isVirtualNew || documentDoesNotExist);
     
 	// save form and uri for actions
 	DFORM.form = form;
@@ -57,18 +60,24 @@ function showDForm(form) {
 
     // feature for wiki: when creating a new page via the URL == documentID
     // give the title that documentID as default value
-    if (isEditStart && DFORM.documentID != "new") { 
+    if (documentDoesNotExist && !isVirtualNew) { 
     	var titleWidget = DFORM.form.lookupWidget("/title");
     	if (titleWidget && titleWidget.getValue() == null) {
     	    titleWidget.setValue(DFORM.documentID);
     	}
     }
 	
-	// set initial state to output
-	setWidgetStates(form, isEditStart);
+	// set initial state to output or edit if we have a new document
+	setWidgetStates(form, documentIsNew);
 
+	var viewData = {
+		isVirtualNew : isVirtualNew,
+		documentDoesNotExist : documentDoesNotExist,
+		documentIsNew : documentIsNew
+	}
+	
     // the continuations will be inside this method again and again
-	form.showForm(DFORM.getFilename() + ".instance");
+	form.showForm(DFORM.getFilename() + ".instance", viewData);
 }
 
 /////////////////////////////////////////////////////////
@@ -336,7 +345,6 @@ function setWidgetStates(form, isEdit) {
 		widgetMap.put(form.lookupWidget("/ductforms_save"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 		widgetMap.put(form.lookupWidget("/ductforms_cancel"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 		widgetMap.put(form.lookupWidget("/ductforms_editall"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
-		//widgetMap.put(form.lookupWidget("/ductforms_activate"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 		widgetMap.put(form.lookupWidget("/ductforms_keepalive"), Packages.org.apache.cocoon.forms.formmodel.WidgetState.INVISIBLE);
 	}
 	
