@@ -59,7 +59,7 @@ div.tasks #ductform\.title.output:hover {
     padding: 2px;
 }
 
-div.tasks dd#ductform_summary:hover 
+div.tasks dd.output#ductform_summary:hover 
 {
     background-color: #FFFFCC;
     border: 1px solid #cccccc;
