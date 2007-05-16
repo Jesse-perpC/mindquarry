@@ -28,6 +28,6 @@
 	</fd:field>
 
 	<ft:widget>
-		<fi:styling type="textarea" cols="50" rows="3" autoactive="true" />
+		<fi:styling type="textarea" cols="50" rows="3" autoactive="true" class="summary-in-div"/>
 	</ft:widget>
 </df:datatype>
