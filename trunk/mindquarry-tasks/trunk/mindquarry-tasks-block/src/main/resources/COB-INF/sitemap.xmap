@@ -182,7 +182,7 @@
 		<!-- layouts the single task edit view -->
 		<resource name="task-layouting">
 			<transform src="xslt/html/task2html.xsl" label="html">
-				<parameter name="viewDocumentLink" value="{document}" />
+				<parameter name="document" value="{document}" />
 				<parameter name="fullPath"
 					value="{block-path:}{request:pathInfo}" />
 				<parameter name="sitemapPath"
