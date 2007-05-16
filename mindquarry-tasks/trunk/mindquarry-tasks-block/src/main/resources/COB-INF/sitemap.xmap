@@ -736,8 +736,11 @@
 							src="cocoon:/internal/pipe/tasks/{1}/list.pdf" mime-type="application/pdf"/>
 					</when>
 					<when test="json">
-						<read
-							src="cocoon:/internal/pipe/tasks/{1}/list.json/{request-param:q}" mime-type="text/plain"/>
+						<!-- 'read' seems to be broken, so use this: -->
+						<generate src="cocoon:/internal/pipe/tasks/{1}/list.json/{request-param:q}" />
+						<serialize type="text" mime-type="text/plain" />
+						<!--<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.json/{request-param:q}" mime-type="text/plain"/>-->
 					</when>
 				</select>
 			</match>
