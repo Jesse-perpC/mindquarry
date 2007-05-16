@@ -20,7 +20,6 @@
         xmlns:xlink="http://www.w3.org/1999/xlink">
         
   <xsl:param name="query" select="''" />
-  <xsl:param name="basePath" select="''" />
   
   
 <xsl:template match="/conversations">
