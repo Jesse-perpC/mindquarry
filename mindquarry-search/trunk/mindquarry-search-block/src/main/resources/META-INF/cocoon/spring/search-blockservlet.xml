@@ -20,7 +20,10 @@
 
 	<bean id="com.mindquarry.search.search-block" class="org.apache.cocoon.sitemap.SitemapServlet">
 		<servlet:context mount-path="/search" context-path="blockcontext:/mindquarry-search-block/">
-		  	<servlet:connections>
+			<servlet:init-params>
+				<entry key="sitemapPath" value="/search.xmap"/>
+			</servlet:init-params>
+			<servlet:connections>
 		    	<entry key="super"
 					value-ref="com.mindquarry.webapp.resources-block" />
 		    	<entry key="resources"
