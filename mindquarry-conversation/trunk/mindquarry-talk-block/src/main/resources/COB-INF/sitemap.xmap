@@ -646,7 +646,9 @@
 							<parameter name="metaPath" value="cocoon:/internal/pipe/{1}/meta" />
 						</transform>
 						<transform type="include" />
-						<transform src="xslt/json/conversations2json.xsl" />
+						<transform src="xslt/json/conversations2json.xsl">
+							<parameter name="query" value="{request-param:q}"/>
+						</transform>
 						<serialize type="text"/>
 					</when>
 				</select>
