@@ -26,9 +26,11 @@
 	</fd:field>
 
 	<ft:widget>
-		<fi:styling type="textarea" cols="50" rows="10" dojoType="Editor2"
+		<fi:styling type="textarea" cols="50" rows="10"
+			dojoType="Editor2" 
 			toolbarTemplatePath="mindquarry/widget/editor/SimpleMindquarryEditorToolbar.html"
-			toolbarTemplateCssPath="mindquarry/widget/editor/MindquarryEditorToolbar.css"/>
-		<!-- autoactive="true"/>-->
+			toolbarAlwaysVisible="true"
+			toolbarTemplateCssPath="mindquarry/widget/editor/MindquarryEditorToolbar.css"
+			minHeight="10em"/>
 	</ft:widget>
 </df:datatype>
