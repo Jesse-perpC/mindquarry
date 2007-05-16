@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <!--
 	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
 	
@@ -13,20 +12,21 @@
 	License for the specific language governing rights and limitations
 	under the License.
 --> 
-
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:servlet="http://cocoon.apache.org/schema/servlet"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd
                            http://cocoon.apache.org/schema/servlet http://cocoon.apache.org/schema/servlet/cocoon-servlet-1.0.xsd">
-       
+
 	<bean id="com.mindquarry.dforms.dforms-block" class="org.apache.cocoon.sitemap.SitemapServlet">
-		<servlet:context mount-path="/dforms" context-path="blockcontext:/mindquarry-dforms/">
-      <servlet:connections>
-        <entry key="resources" value-ref="com.mindquarry.webapp.resources-block" />
-        <entry key="teams" value-ref="com.mindquarry.teamspace.teamspace-block" />
-        <!--<entry key="tasks" value-ref="com.mindquarry.tasks.tasks-block" />-->
-      </servlet:connections>
-    </servlet:context>
-	</bean>
+        <servlet:context mount-path="/dforms" context-path="blockcontext:/mindquarry-dforms/">
+            <servlet:init-params>
+                <entry key="sitemapPath" value="/dforms.xmap"/>
+            </servlet:init-params>
+            <servlet:connections>
+                <entry key="resources" value-ref="com.mindquarry.webapp.resources-block" />
+                <entry key="teams" value-ref="com.mindquarry.teamspace.teamspace-block" />
+            </servlet:connections>
+        </servlet:context>
+    </bean>
 </beans>
