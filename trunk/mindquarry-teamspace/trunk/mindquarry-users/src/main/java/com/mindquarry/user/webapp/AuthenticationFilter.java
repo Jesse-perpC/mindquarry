@@ -318,7 +318,10 @@ public class AuthenticationFilter implements Filter {
     private boolean isGuiBrowserRequest(HttpServletRequest request) {
     	boolean result = true;
     
-    	String accept = request.getHeader("Accept");
+    	String accept = request.getHeader("accept");
+      if (accept==null) {
+        accept =  request.getHeader("Accept");
+      }
     	String userAgent = request.getHeader("User-Agent");
     
     	if (userAgent != null
