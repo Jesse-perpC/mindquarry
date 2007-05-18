@@ -185,13 +185,12 @@ div.tasks table.task-list tr td {
 }
 
 div.tasks table.task-list tr.alt td {
-	background-color: #e6fbe3;
+	background-color: #efefef;
 }
 
 div.tasks table.task-list tr:hover td {
-	border-bottom-color:#bee5b8;
-	border-top-color:#dff7da;
-	background-color:#cff6c9;
+	border-bottom-color:#dddddd;
+	background-color:#efefef;
 	color:#666666;
 }
 

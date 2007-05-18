@@ -23,7 +23,7 @@
 	<xsl:template match="task">
 		<item>
 			<link>
-				../<xsl:value-of select="$taskID" />
+				..here/<xsl:value-of select="$taskID" />
 			</link>
 			<xsl:apply-templates />
 		</item>
