@@ -23,9 +23,7 @@ div.tasks label {
 
 div.tasks #ductform\.title {
     display:block;
-    width:50%;
     margin-bottom:4px;
-    float:left;
     text-align:left;
     color:#6b6b6b;
     font-size:20pt;
