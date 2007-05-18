@@ -67,21 +67,10 @@
           <scanIntervalSeconds>0</scanIntervalSeconds>
         </configuration>
       </plugin>
-
-      <plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-search/tags/cocoon-extractor/cocoon-extractor-sample/
-					</tagBase>
-				</configuration>
-			</plugin>
     </plugins>
   </build>
 
   <scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-sample</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-sample</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-sample</developerConnection>
 	</scm>
 </project>

@@ -113,22 +113,10 @@
   </modules>
   
   <scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor</developerConnection>
 	</scm>
 	
 	<build>
 		<finalName>mindquarry-search-block</finalName>
-		<plugins>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-search/tags/cocoon-extractor/
-					</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
 	</build>
 </project>
