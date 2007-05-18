@@ -133,8 +133,6 @@
 	</developers>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-common</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-common</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-common</developerConnection>
 	</scm>
 </project>

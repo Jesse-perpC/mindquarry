@@ -47,8 +47,6 @@
 	</developers>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl</developerConnection>
 	</scm>
 </project>

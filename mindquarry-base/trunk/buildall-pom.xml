@@ -50,8 +50,6 @@
   </modules>
   
   <scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/trunk</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk</developerConnection>
 	</scm>
 	
