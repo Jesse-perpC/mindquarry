@@ -64,21 +64,7 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-	       <plugins>
-	                <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://www.mindquarry.org/repos/mindquarry-document-management/tags/mindquarry-document-management-server-xenodot/</tagBase>
-				</configuration>
-			</plugin>
-	       </plugins>
-	</build>
-
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/xenodot</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/xenodot</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/xenodot/</developerConnection>
 	</scm>
 </project>

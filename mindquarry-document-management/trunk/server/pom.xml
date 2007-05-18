@@ -35,21 +35,7 @@
 		<module>mindquarry-subversion-server</module>
   </modules>
 
-	<build>
-	       <plugins>
-	                <plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://www.mindquarry.org/repos/mindquarry-document-management/tags/server/</tagBase>
-				</configuration>
-			</plugin>
-	       </plugins>
-	</build>
-
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/</developerConnection>
 	</scm>
 </project>
