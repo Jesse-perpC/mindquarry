@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<jx:template xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" xmlns:bu="http://apache.org/cocoon/browser-update/1.0">
-    <!-- manual browser-update xml with a simple redirect action -->
-    <bu:document>
-        <bu:redirect uri="${cocoon.parameters.uri}" />
-    </bu:document>
-</jx:template>
-    
