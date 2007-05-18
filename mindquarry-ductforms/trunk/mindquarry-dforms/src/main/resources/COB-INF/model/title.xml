@@ -27,6 +27,6 @@
 		<fd:help>A title is a description of the document content.</fd:help>
 	</fd:field>
 	<ft:widget>
-		<fi:styling autoactive="true"/>
+		<fi:styling autoactive="true" type="autosize"/>
 	</ft:widget>
 </df:datatype>
