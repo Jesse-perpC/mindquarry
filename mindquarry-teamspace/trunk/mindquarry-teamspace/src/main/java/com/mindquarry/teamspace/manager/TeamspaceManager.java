@@ -240,11 +240,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
     private static final Pattern teamContentPattern = 
                 Pattern.compile("jcr:///teamspaces/([^/]*)/(.*)");
     
-    private boolean authorizeTeamsContent(String uri, UserRO user) {
-        if (isAdminUser(user)) {
-            return true;
-        }
-        
+    private boolean authorizeTeamsContent(String uri, UserRO user) {        
         Matcher m = teamContentPattern.matcher(uri);
         if (m.matches()) {
             String requestedTeamspaceID = m.group(1); // "mindquarry";
@@ -256,7 +252,7 @@ public final class TeamspaceManager implements TeamspaceAdmin, Authorisation {
                         + requestedTeamspaceID + "' does not exist.");
             }
 
-            if (team.getUsers().contains(user)) {
+            if (isAdminUser(user) || team.getUsers().contains(user)) {
                 return true;
             }
         }
