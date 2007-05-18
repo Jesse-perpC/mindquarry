@@ -52,7 +52,7 @@ function processEditMembersForm(form) {
 	
 	activateEditMembersForm();
 	setCreateUserEmbeddedMode();
-	form.showForm("edit-members.instance");
+	form.showForm("edit-members.instance", { teamId : editedTeamId_ } );
 	
 	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }
@@ -98,7 +98,8 @@ function loadModelWithMembership(members, nonMembers) {
 function processCreateUser(form) {
     // do this before showing the form, because new cocon requests 
     // delete existing params
-	var redirectURL = cocoon.parameters["redirectURL"];
+	//var redirectURL = cocoon.parameters["redirectURL"];
+	var refererURL = cocoon.parameters["refererURL"];
 	
 	model_ = form.getModel();
 	form_ = form;
@@ -110,7 +111,7 @@ function processCreateUser(form) {
 	if (form.submitId != "cancelSubmit") {
 		createUser();
 	}
-	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
+	cocoon.redirectTo("cocoon:/redirectTo/" + refererURL);
 }
 
 function createUser() {
