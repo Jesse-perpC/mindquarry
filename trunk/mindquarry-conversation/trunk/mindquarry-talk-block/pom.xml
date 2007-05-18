@@ -101,8 +101,6 @@
 	</dependencies>
 	
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-talk-block</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-talk-block</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-talk-block</developerConnection>
 	</scm>
 </project>

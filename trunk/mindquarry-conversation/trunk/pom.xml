@@ -58,8 +58,6 @@
 	</developers>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-conversation/trunk</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk</developerConnection>
 	</scm>
 </project>
