@@ -19,9 +19,9 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>com.mindquarry</groupId>
-		<artifactId>mindquarry</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<artifactId>mindquarry-teamspace-root</artifactId>
+		<groupId>com.mindquarry.teamspace</groupId>
+		<version>1.0-M2-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.mindquarry.management.user</groupId>
@@ -33,15 +33,7 @@
 	<name>Mindquarry User Management Tool</name>
 	
 	<scm>
-		<connection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-user-management/
-		</connection>
-		<developerConnection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-user-management/
-		</developerConnection>
-		<url>
-			https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-user-management/
-		</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-user-management/</developerConnection>
 	</scm>
 
 	<dependencies>
@@ -86,14 +78,6 @@
 
 	<build>
 		<plugins>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-user-management/
-					</tagBase>
-				</configuration>
-			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>

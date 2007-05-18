@@ -15,8 +15,6 @@
 	<name>Mindquarry Teamspace Block</name>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</connection>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</developerConnection>
 		<url>https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</url>
 	</scm>
 	<build>
@@ -46,13 +44,6 @@
 						${basedir}/src/main/resources
 					</classesDirectory>
 					<scanIntervalSeconds>0</scanIntervalSeconds>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-teamspace-block/</tagBase>
 				</configuration>
 			</plugin>
 		</plugins>
