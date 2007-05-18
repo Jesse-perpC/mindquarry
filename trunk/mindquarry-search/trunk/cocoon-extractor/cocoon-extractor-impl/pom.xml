@@ -35,14 +35,6 @@
             <target>1.5</target>
           </configuration>
         </plugin>
-        <plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-search/tags/cocoon-extractor/cocoon-extractor-impl/
-					</tagBase>
-				</configuration>
-			</plugin>
     </plugins>
   </build>
 
@@ -122,8 +114,6 @@
   </properties>
   
   <scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl</developerConnection>
 	</scm>
 </project>
