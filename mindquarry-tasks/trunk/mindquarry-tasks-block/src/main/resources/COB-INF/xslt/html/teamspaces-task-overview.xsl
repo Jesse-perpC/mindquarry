@@ -57,23 +57,6 @@
 				<xsl:value-of select="count(task[status='paused'])" /> Paused and
 				<xsl:value-of select="count(task[status='done'])" /> Done)
 			</div>
-			<div class="summary">
-			<xsl:call-template name="filters" />
-				
-			</div>
-				
-
 		</li>
-	</xsl:template>
-	
-	<xsl:template name="filters">
-			<xsl:choose>
-				<xsl:when test="count(filter) > 0">
-				<a href="{@xlink:href}/filters/">View Filters</a>
-				</xsl:when>
-				<xsl:otherwise>
-					<a href="{@xlink:href}/filters/">Create Filters</a>
-				</xsl:otherwise>
-			</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>
