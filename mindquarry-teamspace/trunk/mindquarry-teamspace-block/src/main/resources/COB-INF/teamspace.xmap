@@ -268,7 +268,6 @@
 						
 			<!-- teamspace list -->
 			<match pattern="">
-			
 				<generate src="model://TeamQuery#teamspacesForUser({request-attr:username})"
 					 />
 				
@@ -319,7 +318,6 @@
 			
 			<!-- user with name and all his teams with all their users and full user info -->
 			<match pattern="user/*/info/teams.xml">
-							
 				<generate src="model://TeamQuery#teamspacesForUser({1})"
 					label="content" />
 				
@@ -378,7 +376,9 @@
 			</match>
 			
 			<!-- single teamspace details -->
-			<match pattern="team/*/">				
+			<match pattern="team/*/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+								
 				<generate src="model://TeamQuery#teamspaceById({1})" label="content" />
 								
 				<transform src="xslt/includeMembersForTeamspace.xsl" />
@@ -421,12 +421,16 @@
 			</match>
 			
 			<match pattern="*/members/asFormsSelectionlist">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				
 				<generate src="model://model://TeamQuery#teamspaceById({1}).getUsers()" />
 				<transform src="xslt/teamMembers2formsSelectionlist.xsl" />
 				<serialize type="xml" />
 			</match>
 			
 			<match pattern="team/*/editMembers/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
@@ -440,6 +444,8 @@
 			
 			<!-- used in teamspace detail view -->
 			<match pattern="team/*/editMembersFromDetailsView/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditMembersForm" />
@@ -507,6 +513,8 @@
 			</match>
 
 			<match pattern="*/edit/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
+				
 				<call function="handleForm">
 					<parameter name="function"
 						value="processEditTeamspaceForm" />
