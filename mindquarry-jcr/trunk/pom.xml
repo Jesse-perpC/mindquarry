@@ -33,7 +33,6 @@
     <module>mindquarry-jackrabbit</module>
     <module>mindquarry-jcr-source</module>
     <module>mindquarry-jcr-changes</module>
-    <!--module>mindquarry-jcr-block</module-->
   </modules>
 
   <repositories>
@@ -45,8 +44,6 @@
   </repositories>
   
   <scm>
-    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk</connection>
-    <url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk</url>
     <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk</developerConnection>
   </scm>
   
@@ -54,6 +51,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
+	<version>2.0-beta-5-mindquarry</version>
         <configuration>
           <tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags</tagBase>
         </configuration>

@@ -68,12 +68,6 @@
 		<finalName>mindquarry-migration</finalName>
 		<plugins>
 			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://www.mindquarry.org/repos/mindquarry-jcr/tags/mindquarry-jcr-changes</tagBase>
-				</configuration>
-			</plugin>
-			<plugin>
 				<artifactId>maven-assembly-plugin</artifactId>
 				<version>2.2-beta-1</version>
 				<configuration>
@@ -100,8 +94,6 @@
 	</build>
 
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-changes</developerConnection>
 	</scm>
 </project>
