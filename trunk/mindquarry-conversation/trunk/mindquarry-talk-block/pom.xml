@@ -52,13 +52,6 @@
 					<scanIntervalSeconds>10</scanIntervalSeconds>
 				</configuration>
 			</plugin>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>https://www.mindquarry.org/repos/mindquarry-conversation/tags/mindquarry-talk-block/</tagBase>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
@@ -109,7 +102,7 @@
 	
 	<scm>
 		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-talk-block</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/mindquarry-1.1</url>
+		<url>https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-talk-block</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk/mindquarry-talk-block</developerConnection>
 	</scm>
 </project>
