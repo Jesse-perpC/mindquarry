@@ -94,20 +94,10 @@
 					<scanIntervalSeconds>0</scanIntervalSeconds>
 				</configuration>
 			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-tasks/tags/mindquarry-tasks-block/
-					</tagBase>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 	
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block</developerConnection>
 	</scm>
 </project>
