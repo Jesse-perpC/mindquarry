@@ -64,6 +64,7 @@ div.tasks dd.output#ductform_summary:hover
     background-color: #FFFFCC;
     border: 1px solid #cccccc;
     padding: 2px;
+    width:72%;
 }
 /* green labels for fields */
 div.tasks dt label {
