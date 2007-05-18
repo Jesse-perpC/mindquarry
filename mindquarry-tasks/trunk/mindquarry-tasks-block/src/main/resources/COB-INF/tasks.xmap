@@ -548,11 +548,6 @@
 			<!-- HTML -->
 			<match pattern="internal/pipe/tasks/*/list.html">
 				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
-				
-				<transform src="xslt/xml/include-filters-for-tasks.xsl"/>
-				<transform type="xinclude" />
-				<transform src="xslt/xml/flatten-filters-element.xsl"/>
-				
 				<transform src="xslt/xml/include-basic-task-data.xsl">
 					<parameter name="basePath"
 						value="jcr:///teamspaces/" />
@@ -703,6 +698,19 @@
 					<parameter name="templatePipeline"
 						value="internal/pipe/forms/{1}/task-filter-form-template.xml" />
 				</call>
+			</match>
+			
+			<match pattern="*/filters/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/"/>
+				<generate src="cocoon:/internal/pipe/filters/{1}/list-with-details.xml" />
+				<transform type="filter">
+					<parameter name="element-name" value="filter" />
+				</transform>
+				<transform src="xslt/html/filters2list.xsl">
+					<parameter name="team" value="{1}" />
+				</transform>
+				<call resource="layouting" />
+				<serialize type="xml" />
 			</match>
 			
 			<!-- display saved filter -->
