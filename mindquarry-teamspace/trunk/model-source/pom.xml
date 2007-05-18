@@ -19,28 +19,8 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/model-source/
-		</connection>
-		<developerConnection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/model-source/
-		</developerConnection>
-		<url>
-			https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/model-source/
-		</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/model-source/</developerConnection>
 	</scm>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-teamspace/tags/model-source/
-					</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<dependencies>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>

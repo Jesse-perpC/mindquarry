@@ -21,15 +21,7 @@
 		</developer>
 	</developers>
 	<scm>
-		<connection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
-		</connection>
-		<developerConnection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
-		</developerConnection>
-		<url>
-			https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/
-		</url>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace/</developerConnection>
 	</scm>
 	<build>
 		<plugins>
@@ -42,14 +34,6 @@
 						</goals>
 					</execution>
 				</executions>
-			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-teamspace/tags/mindquarry-teamspace/
-					</tagBase>
-				</configuration>
 			</plugin>
 		</plugins>
 	</build>
