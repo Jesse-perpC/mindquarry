@@ -99,6 +99,24 @@ public class AuthenticationFilter implements Filter {
     public static final String LOGIN_REQUEST_VALUE = "login";
 
     /**
+     * Standard value for LOGIN_REQUEST_PARAM that indicates a login check
+     * with username/password as request parameters.
+     */
+    public static final String CHECKLOGIN_REQUEST_VALUE = "checklogin";
+    
+    /**
+     * The username request parameter for the 'checklogin' request.
+     */
+    public static final String CHECKLOGIN_USERNAME = "u";
+    
+    /**
+     * The password request parameter for the 'checklogin' request, encoded in
+     * base64 to avoid people sniffing it by simply looking at it (same as in
+     * HTTP basic auth header).
+     */
+    public static final String CHECKLOGIN_PASSWORD = "p";
+    
+    /**
      * URI of the login page to which any unauthorized GUI HTML browsers are
      * sent to. Must display a link to the LOGIN_REQUEST_URI (including the
      * param) or a form that uses Javascript XMLHttpRequest to call that URI.
@@ -179,82 +197,113 @@ public class AuthenticationFilter implements Filter {
     
     	// only do authentication for protected URIs, eg. excluded login page
     	if (isProtected(request)) {
-    		Credentials authenticated = authenticateUser(request);
-    
-    	    // the special login request is done to actually perform the
-    	    // authentication, this is typically the second step initiated by
-    	    // the login page
-    	    if (isLoginRequest(request)) {
+            // the request that checks if the credentials are ok by providing
+            // them as request parameters instead of sending the HTTP basic
+            // authorization header
+            if (isCheckLoginRequest(request)) {
+                // look for credentials in request parameter
+                if (authenticateUserFromRequestParams(request)) {
+                    writeBUContinueResponse(response);
+                    response.setStatus(HttpServletResponse.SC_OK);
+                } else {
+                    response.sendError(HttpServletResponse.SC_NOT_FOUND);                    
+                }
                 
-        		if (authenticated == null) {
-        		    // not authenticated. trigger auth. with username / password
-        		    // either by the HTTP auth dialog in the browser or
-        		    // automatically by Javascript XMLHttpRequest
-        		    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        		} else {
-        		    // authenticated. redirect to original target
-        		    String originalUrl = request.getParameter(TARGET_URI_PARAM);
-        		    String redirectUrl = response
-        			    .encodeRedirectURL((originalUrl != null ? originalUrl
-        				    : "."));
+            } else {
+                // look for credentials in HTTP auth header
+        		Credentials authenticated = authenticateUser(request);
+                
+        	    // the special login request is done to actually perform the
+        	    // authentication, this is typically the second step initiated by
+        	    // the login page
+                if (isLoginRequest(request)) {
+                    
+            		if (authenticated == null) {
+            		    // not authenticated. trigger auth. with username / password
+            		    // either by the HTTP auth dialog in the browser or
+            		    // automatically by Javascript XMLHttpRequest
+            		    response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            		} else {
+            		    // authenticated. redirect to original target
+            		    String originalUrl = request.getParameter(TARGET_URI_PARAM);
+            		    String redirectUrl = response
+            			    .encodeRedirectURL((originalUrl != null ? originalUrl
+            				    : "."));
+            
+            		    if (isAJAXRequest(request)) {
+                            // no redirect necessary, the AJAX client must do
+                            // this himself (because redirects as answers to
+                            // XHR requests, if supported by the browser, will
+                            // redirect the XHR, but not notify the calling
+                            // javascript about the new url)
+                            
+                            // in ajax requests we have to send some valid XML
+                            // as content, otherwise some browsers make problems
+                			writeBUContinueResponse(response);
+                			response.setStatus(HttpServletResponse.SC_OK);
+            
+            		    } else {
+            		        response.sendRedirect(redirectUrl);
+            		    }
+            		}
+            
+            		// no further servlet processing.
+            		return;
         
-        		    if (isAJAXRequest(request)) {
-            			Writer writer = response.getWriter();
-            			writer.write("<?xml version=\"1.0\"?>");
-            			writer
-            				.write("<bu:document "
-            					+ "xmlns:bu='http://apache.org/cocoon/browser-update/1.0'>"
-            					+ "<bu:continue/></bu:document>");
-            			writer.close();
-            			response.setStatus(HttpServletResponse.SC_OK);
-        
-        		    } else {
-        		        response.sendRedirect(redirectUrl);
-        		    }
-        		}
-        
-        		// no further servlet processing.
-        		return;
-    
-    	    } 
-            else {
-        		// 99 percent of all pages, not the special login request.
-        
-        		// here we either have the first request to the server, ie.
-        		// not yet authenticated, or some client that does not send the
-        		// authorization data preemptively (although he already did
-        		// authenticate) -> see isGuiBrowserRequest()
-        		if (authenticated == null) {
-        		    // not authenticated.
-        
-        		    // standard browser with preemptive sending auth data, thus
-        		    // it must be the first request -> go to login page
-        		    if (isGuiBrowserRequest(request)) {
-            			String loginUrl = buildLoginUrlForRequest(request);
-            			String redirectUrl = response
-            				.encodeRedirectURL(loginUrl);
-            			response.sendRedirect(redirectUrl);
-        		    } else {
-        		        // trigger simple client auth. or re-authentication
-        		        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
-        		    }
-        
-        		    // no further servlet processing.
-        		    return;
-        
-        		} 
+        	    } 
                 else {
-        		    // authenticated. make username available as request
-        		    // attribute
-        		    request.setAttribute(USERNAME_ATTR, authenticated.username);
-        		    request.setAttribute(PASSWORD_ATTR, authenticated.password);
-                    CurrentUser currentUser = lookupCurrentUserRequestBean();
-                    currentUser.setId(authenticated.username);
-        		}
-    	    }
+            		// 99 percent of all pages, not the special login request.
+            
+            		// here we either have the first request to the server, ie.
+            		// not yet authenticated, or some client that does not send the
+            		// authorization data preemptively (although he already did
+            		// authenticate) -> see isGuiBrowserRequest()
+            		if (authenticated == null) {
+            		    // not authenticated.
+            
+            		    // standard browser with preemptive sending auth data, thus
+            		    // it must be the first request -> go to login page
+            		    if (isGuiBrowserRequest(request)) {
+                			String loginUrl = buildLoginUrlForRequest(request);
+                			String redirectUrl = response
+                				.encodeRedirectURL(loginUrl);
+                			response.sendRedirect(redirectUrl);
+            		    } else {
+            		        // trigger simple client auth. or re-authentication
+            		        response.sendError(HttpServletResponse.SC_UNAUTHORIZED);
+            		    }
+            
+            		    // no further servlet processing.
+            		    return;
+            
+            		} 
+                    else {
+            		    // authenticated. make username available as request
+            		    // attribute
+            		    request.setAttribute(USERNAME_ATTR, authenticated.username);
+            		    request.setAttribute(PASSWORD_ATTR, authenticated.password);
+                        CurrentUser currentUser = lookupCurrentUserRequestBean();
+                        currentUser.setId(authenticated.username);
+            		}
+        	    }
+            }
     	}
     	// access granted, proceed with the servlet
     	chain.doFilter(servletRequest, servletResponse);
+    }
+
+    /**
+     * Writes a Cocoon ajax Browser-Update-Handler XML snippet that simply
+     * says: continue (aka do nothing)
+     */
+    private void writeBUContinueResponse(HttpServletResponse response) throws IOException {
+        Writer writer = response.getWriter();
+        writer.write("<?xml version=\"1.0\"?>");
+        writer
+        	.write("<bu:document "
+        		+ "xmlns:bu='http://apache.org/cocoon/browser-update/1.0'>"
+        		+ "<bu:continue/></bu:document>");
+        writer.close();
     }
     
     private CurrentUser lookupCurrentUserRequestBean() {
@@ -279,8 +328,19 @@ public class AuthenticationFilter implements Filter {
     	loginUrlSB.append('?');
     	loginUrlSB.append(TARGET_URI_PARAM);
     	loginUrlSB.append('=');
-    	loginUrlSB.append(requestAsRedirectUri(request));
+    	loginUrlSB.append(request.getRequestURI());
     	return loginUrlSB.toString();
+    }
+
+    /**
+     * Tests if the request is a special login request where the username
+     * password is sent as request parameters
+     */
+    private boolean isCheckLoginRequest(HttpServletRequest request) {
+    	String targetUri = servletRelativeUri(request);
+    	return targetUri.equals(LOGIN_REQUEST_URI)
+    		&& CHECKLOGIN_REQUEST_VALUE.equals(request
+    			.getParameter(LOGIN_REQUEST_PARAM));
     }
 
     /**
@@ -288,12 +348,12 @@ public class AuthenticationFilter implements Filter {
      * XMLHttpRequest of the Java-based login form.
      */
     private boolean isLoginRequest(HttpServletRequest request) {
-    	String targetUri = servletRelativeUri(request);
-    	return targetUri.equals(LOGIN_REQUEST_URI)
-    		&& LOGIN_REQUEST_VALUE.equals(request
-    			.getParameter(LOGIN_REQUEST_PARAM));
+        String targetUri = servletRelativeUri(request);
+        return targetUri.equals(LOGIN_REQUEST_URI)
+            && LOGIN_REQUEST_VALUE.equals(request
+                .getParameter(LOGIN_REQUEST_PARAM));
     }
-
+    
     /**
      * Tests if the request comes from a popular GUI browser.
      * 
@@ -387,15 +447,6 @@ public class AuthenticationFilter implements Filter {
     }
 
     /**
-     * Returns the decoded authorization data from the HTTP header.
-     */
-    private String[] authTupleFromAuthHeader(String authHeader) {
-    	String encodedAuthRequest = authHeader.substring(6);
-    	byte[] authRequest = Base64.decodeBase64(encodedAuthRequest.getBytes());
-    	return new String(authRequest).split(":");
-    }
-    
-    /**
      * Helper class to return both username and password in a single method.
      */
     private class Credentials {
@@ -423,36 +474,62 @@ public class AuthenticationFilter implements Filter {
     
     	    String[] authTuple = authTupleFromAuthHeader(authHeader);
     	    if (authTuple.length == 2) {
-    		String username = authTuple[0];
-    		String password = authTuple[1];
-    
-    		if (authenticate(username, password) && isUserAllowed(username)) {
-    		    authenticatedUser = new Credentials(username, password);
-    		} else {
-    		    log_.info("failed authentication" + " from host: "
-    			    + request.getRemoteAddr() + " with username: "
-    			    + username);
-    		}
+        		String username = authTuple[0];
+        		String password = authTuple[1];
+        
+        		if (authenticate(username, password)) {
+        		    authenticatedUser = new Credentials(username, password);
+        		} else {
+        		    log_.info("failed authentication" + " from host: "
+        			    + request.getRemoteAddr() + " with username: "
+        			    + username);
+        		}
     	    }
     	}
     	return authenticatedUser;
     }
 
-    private boolean isUserAllowed(String username) {
-    	if (isAnonymousUser(username) && isAnonymousDisabled()) {
-    	    return false;
-    	} else if (isIndexUser(username)) {
-    	    return false;
-    	} else {
-    	    return true;
-    	}
+    /**
+     * Returns the decoded authorization data from the HTTP header.
+     */
+    private String[] authTupleFromAuthHeader(String authHeader) {
+        String encodedAuthRequest = authHeader.substring(6);
+        byte[] authRequest = Base64.decodeBase64(encodedAuthRequest.getBytes());
+        return new String(authRequest).split(":");
     }
-
+    
+    private boolean authenticateUserFromRequestParams(HttpServletRequest request) {
+        String username = request.getParameter(CHECKLOGIN_USERNAME);
+        String password = request.getParameter(CHECKLOGIN_PASSWORD);
+        if (username == null || password == null) {
+            return false;
+        }
+        byte[] decodedPassword = Base64.decodeBase64(password.getBytes());
+        return authenticate(username, new String(decodedPassword));
+    }
+    
+    /**
+     * Calls the Authentication bean to do the actual authentication and checks
+     * all additional logic with specific users (admin, index).
+     */
     private boolean authenticate(String username, String password) {
+        if (username == null || username.equals("")) {
+            return false;
+        }
     	String lookupName = Authentication.class.getName();
     	Authentication authentication = (Authentication) beanFactory_
     		.getBean(lookupName);
-    	return authentication.authenticate(username, password);
+    	return authentication.authenticate(username, password) && isUserAllowed(username);
+    }
+
+    private boolean isUserAllowed(String username) {
+        if (isAnonymousUser(username) && isAnonymousDisabled()) {
+            return false;
+        } else if (isIndexUser(username)) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     private String servletRelativeUri(HttpServletRequest request) {
@@ -463,18 +540,5 @@ public class AuthenticationFilter implements Filter {
     	    return servletRequestUri.substring(1);
     	else
     	    return servletRequestUri;
-    }
-
-    private String requestAsRedirectUri(HttpServletRequest request) {
-    	// get the part after http://host:port
-    	// without query string / parameter
-    
-    	// TODO: make this relative, use one of the servlet methods, AFAIK:
-    	// /mindquarry-webapplication/servlet/dosomething?param=value
-    	// getContextPath() + getServletPath() + getPathInfo() +
-    	// getQueryString()
-    	// (path info is empty)
-    
-    	return request.getRequestURI();
     }
 }
