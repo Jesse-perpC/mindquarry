@@ -28,6 +28,7 @@
 
 	<groupId>com.mindquarry.common</groupId>
 	<artifactId>mindquarry-common</artifactId>
+	<version>1.0-M2-SNAPSHOT</version>
 
 	<build>
 		<plugins>
