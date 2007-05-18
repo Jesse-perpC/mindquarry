@@ -31,12 +31,19 @@
   
 	<xsl:template match="teamspaces|no-data-available">
 		<div class="list">
+				<xsl:apply-templates select="teamspace">
+					<xsl:sort select="name" />
+				</xsl:apply-templates>
+
 			
 			<ul class="teamspace-list">
 				<xsl:apply-templates select="teamspace">
 					<xsl:sort select="name" />
 				</xsl:apply-templates>
 			</ul>
+
+			
+			
 		</div>
 	</xsl:template>
     
