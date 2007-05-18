@@ -70,22 +70,7 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-persistence/tags/persistence-mock/
-					</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-mock</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-mock</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-mock</developerConnection>
 	</scm>
 </project>

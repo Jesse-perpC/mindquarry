@@ -66,8 +66,6 @@
 	</developers>
 	
 	<scm>
-    <connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk</connection>
-    <url>https://www.mindquarry.org/repos/mindquarry-persistence/trunk</url>
     <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk</developerConnection>
   </scm>
 
@@ -75,6 +73,7 @@
     <plugins>
       <plugin>
         <artifactId>maven-release-plugin</artifactId>
+	<version>2.0-beta-5-mindquarry</version>
         <configuration>
           <tagBase>https://www.mindquarry.org/repos/mindquarry-persistence/tags</tagBase>
         </configuration>
