@@ -67,15 +67,6 @@ a.help {
 a.help img {
 	border:0px;
 }
-
-img.task_status {
-	height:22px;
-	width:22px;
-	display:block;
-	float:left;
-	margin-right:5px;
-}
-
 td.task_status {
 	width:100px;
 }
