@@ -52,7 +52,6 @@
 						<ft:widget id="deleteFilterAction" />
 					</ft:group>
 				</div>
-				
 				<ft:group id="filterBuilderWidgets">
 				<div id="add_rule_block">
 					<table>
@@ -110,10 +109,8 @@
 						<tbody>
 							<tr>
 								<td>
-									<span class="sub-rules">Run Filter</span>
+									Run Filter
 								</td>
-							</tr>
-							<tr>
 								<td>
 									<ft:widget id="executeFilterAction" />
 								</td>

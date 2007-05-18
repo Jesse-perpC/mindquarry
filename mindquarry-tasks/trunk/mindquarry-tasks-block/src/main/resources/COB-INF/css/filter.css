@@ -25,19 +25,23 @@ span.sub-rules {
 	padding:0px 0px 2px 0px;
 }
 div#add_rule_block{
-	background-color:#dddddd;
-	float:left;
 	clear:left;
+	float:left;
+	margin-top:10px;
+	margin-left:40px;
 }
 div#rules_block{
-	background-color:#dddddd;
-	float:left;
 	clear:left;
+	float:left;
+	margin-bottom:10px;
+	margin-left:40px;
 }
 div.run_action{
-	background-color:#dddddd;
-	float:left;
+	color:#555555;
+	margin-top:15px;
+	margin-left:0px;
 	clear:left;
+	float:left;
 }
 table.task-list {
 	border:0px;
