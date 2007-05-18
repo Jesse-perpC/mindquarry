@@ -52,11 +52,12 @@ table.task-list {
 }
 
 table.task-list th {
-	background:#bee5b8;
+	background:#dddddd;
+	color:#333333;
 }
 
 table.task-list tr.highlight:hover {
-	background:#bee5b8;
+	background:#dddddd;
 }
 
 a.help {
