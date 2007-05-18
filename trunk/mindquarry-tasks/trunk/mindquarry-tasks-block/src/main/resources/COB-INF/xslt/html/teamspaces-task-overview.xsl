@@ -58,12 +58,8 @@
 				<xsl:value-of select="count(task[status='done'])" /> Done)
 			</div>
 			<div class="summary">
-				<ul>
-					<xsl:call-template name="filters" />
-					<xsl:if test="count(filter) = 0">
-						<li>no filters</li>
-					</xsl:if>
-				</ul>
+			<xsl:call-template name="filters" />
+				
 			</div>
 				
 
@@ -71,19 +67,13 @@
 	</xsl:template>
 	
 	<xsl:template name="filters">
-		<xsl:for-each select="filter[position()&lt;5]">
-			<li>
-				<a href="{../@xlink:href}/{@xlink:href}">
-					<xsl:choose>
-						<xsl:when test="string-length(title) > 0">
-							<xsl:value-of select="title" />
-						</xsl:when>
-						<xsl:otherwise>
-							&lt;no title&gt;
-						</xsl:otherwise>
-					</xsl:choose>
-				</a>
-			</li>
-		</xsl:for-each>
+			<xsl:choose>
+				<xsl:when test="count(filter) > 0">
+				<a href="{@xlink:href}/filters/">View Filters</a>
+				</xsl:when>
+				<xsl:otherwise>
+					<a href="{@xlink:href}/filters/">Create Filters</a>
+				</xsl:otherwise>
+			</xsl:choose>
 	</xsl:template>
 </xsl:stylesheet>

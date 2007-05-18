@@ -1,3 +1,44 @@
+h1 span#filterName {
+	color:black;
+	display:block;
+	font-size:24px;
+	font-weight:normal;
+	margin-right:15px;
+	padding-top:8px;
+	text-align:left;
+}
+
+div.form-filter {
+	margin:0px;
+	padding:10px;
+	float:left;
+	background-color:#EFEFEF;
+	border:1px solid #CCCCCC;
+	width:98%;
+}
+span.sub-rules {
+	color:#555555;
+	display:block;
+	font-size:10pt;
+	font-weight:normal;
+	text-align:left;
+	padding:0px 0px 2px 0px;
+}
+div#add_rule_block{
+	background-color:#dddddd;
+	float:left;
+	clear:left;
+}
+div#rules_block{
+	background-color:#dddddd;
+	float:left;
+	clear:left;
+}
+div.run_action{
+	background-color:#dddddd;
+	float:left;
+	clear:left;
+}
 table.task-list {
 	border:0px;
 	font-size:10pt;
@@ -35,17 +76,18 @@ td.task_status {
 }
 
 div.actions {
-    text-align:right;
+    text-align:left;
     width:100%;
-    float:right;
+    float:left;
 }
-
+/*
 div.run_action {
     text-align:right;
     width:100%;
     float:right;
     margin-top: -40px;
 }
+*/
 
 div.results {
     clear:both;
@@ -54,11 +96,12 @@ div.results {
 #lightboxcontent {
     position:absolute;
 }
-
+/*
 #rules_block {
     margin-top:15px;
     margin-bottom:15px;
 }
+*/
 
 /* Form styles */
 div.form-container { margin: 10px; padding: 5px; background-color: #FFF; border: #EEE 1px solid; }

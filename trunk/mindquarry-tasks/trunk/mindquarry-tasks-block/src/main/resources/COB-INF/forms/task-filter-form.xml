@@ -46,7 +46,7 @@
 				<!-- filter part repeater -->
 				<fd:repeater id="rules">
 					<fd:label>Filter Rules</fd:label>
-		
+
 					<!-- filter part widgets -->
 					<fd:widgets>
 						<!-- field name configuration -->

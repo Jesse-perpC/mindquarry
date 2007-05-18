@@ -22,19 +22,24 @@
 		<title>Task Filter Editor</title>
 		
 		<link rel="stylesheet" type="text/css" href="../../css/tasks.css" />
-		
+		<link rel="breadcrumb" href=".." title="Tasks" />
+		<link rel="breadcrumb" href="." title="All Filters" />
+		<link rel="breadcrumb" title="Filter" />
+		<link rel="section-global-action" class="add-action" href="../new" title="New Task"/>
+        <link rel="section-global-action" class="new-filter-action" href="new" title="New filter" />
 		<!--<script type="text/javascript">
 			dojo.require("mindquarry.widget.SortableHTMLTable");
 		</script>-->
 	</head>
 	<body>
+	
+	
+			<div class="content">
 		<ft:form-template
 			action="#{$cocoon/continuation/id}.continue" method="POST"
 			ajax="true">
-			
 			<h1><ft:widget id ="filterName"/></h1>
-			
-			<div class="nifty">
+			  <div class="form-filter">
 				<div class="actions">
 					<ft:group id="filterBuilderWidgets">
 						<ft:widget-label id="title" />
@@ -49,15 +54,35 @@
 				</div>
 				
 				<ft:group id="filterBuilderWidgets">
-					<div id="add_rule_block">
-						<ft:widget id="aggregator" />
-						<ft:widget id="addRule" />
+				<div id="add_rule_block">
+					<table>
+						<tbody>
+							<tr>
+								<td>					
+									<span class="sub-rules">Add Rule</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<ft:widget id="aggregator" />
+								</td>
+								<td>
+									<ft:widget id="addRule" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
 					</div>
 					<div id="rules_block">
 						<ft:repeater id="rules"
 							xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
 							<table>
 								<tbody>
+								<tr>
+									<td>
+										<span class="sub-rules">Remove Rule</span>
+									</td>
+								</tr>
 									<ft:repeater-rows>
 										<tr
 											class="forms-row-${repeaterLoop.index % 2}">
@@ -81,9 +106,23 @@
 					</div>
 				</ft:group>
 				<div class="run_action">
-					<ft:widget id="executeFilterAction" />
+					<table>
+						<tbody>
+							<tr>
+								<td>
+									<span class="sub-rules">Run Filter</span>
+								</td>
+							</tr>
+							<tr>
+								<td>
+									<ft:widget id="executeFilterAction" />
+								</td>
+							</tr>
+						</tbody>
+					</table>
+
 				</div>					
-				
+			</div>
 				<div class="results">
 					<ft:repeater id="results"
 						xmlns:ft="http://apache.org/cocoon/forms/1.0#template">
@@ -133,11 +172,9 @@
 						</table>
 					</ft:repeater>
 				</div>
-			</div>
 			
-			<div class="nifty">
-				<a id="back" href=".." title="back to teamspace overview">Back to tasks list</a>
-			</div>
 		</ft:form-template>
+		
+		</div>
 	</body>
 </html>
