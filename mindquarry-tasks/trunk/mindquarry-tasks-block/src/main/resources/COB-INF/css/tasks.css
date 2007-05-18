@@ -130,8 +130,6 @@ div.tasks div.task-area, div.filter-area {
 }
 
 div.tasks img.task_status {
-	height:22px;
-	width:22px;
 	display:block;
 	float:left;
 	margin-right:5px;
