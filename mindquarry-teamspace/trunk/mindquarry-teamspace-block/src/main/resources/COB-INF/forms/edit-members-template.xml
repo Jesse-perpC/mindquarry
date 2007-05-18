@@ -17,12 +17,13 @@
 <html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
 	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 				
 	<head>
-		<title>Edit Members of Teamspace</title>
+		<title>Change Memberships of Team <team:team>${teamId}</team:team></title>
 		<link rel="stylesheet" us:context="href" type="text/css" 
 			href="css/teamspace.css" />
 		<link rel="stylesheet" us:context="href" type="text/css" 
@@ -33,7 +34,7 @@
 		<ft:form-template action="#{$cocoon/continuation/id}.continue" ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
 			method="POST" enctype="multipart/form-data">		
  			<ft:group id="editMembersModel">
- 				<h1>Edit Team Members</h1>
+ 				<h1>Change Memberships of Team <team:team>${teamId}</team:team></h1>
  				
  				<div id="editMembersModel">
 					

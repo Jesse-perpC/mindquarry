@@ -254,7 +254,8 @@
 					<parameter name="serverContextURL"
 						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
 				</generate>
-				<transform type="browser-update" />
+				<!--<transform type="teamspace" />-->
+				<transform type="browser-update"/>
 				<call resource="form2html" />
 				<call resource="layouting" />
 			</match>
@@ -430,7 +431,7 @@
 					<parameter name="function"
 						value="processEditMembersForm" />
 					<parameter name="redirectURL"
-						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
+						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />
 					<parameter name="definitionURI"
 						value="forms/edit-members-form.xml" />
 					<parameter name="teamId" value="{1}" />
@@ -461,6 +462,8 @@
 						value="{request-attr:username}" />
 					<parameter name="redirectURL" 
 						value=".." />
+					<parameter name="refererURL" 
+						value="{request-param:referer}" />
 				</call>
 			</match>
 			
@@ -498,6 +501,8 @@
 						value="{request-attr:username}" />
 					<parameter name="redirectURL" 
 						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/" />
+					<parameter name="refererURL" 
+						value="{request-param:referer}" />
 				</call>
 			</match>
 
@@ -512,6 +517,8 @@
 					<parameter name="teamspaceId" value="{1}" />
 					<parameter name="redirectURL" 
 						value="{system-property:mindquarry.server.url}{request:contextPath}{block-path:}/team/{1}/" />				
+					<parameter name="refererURL" 
+						value="{request-param:referer}" />
 				</call>
 			</match>
 			

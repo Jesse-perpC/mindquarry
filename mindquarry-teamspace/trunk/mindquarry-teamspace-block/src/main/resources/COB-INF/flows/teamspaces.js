@@ -21,7 +21,8 @@ var model_;
 function processCreateTeamspaceForm(form) {
 	model_ = form.getModel();
 	var redirectURL = cocoon.parameters["redirectURL"];
-	
+	var refererURL = cocoon.parameters["refererURL"];
+		
 	var userId = cocoon.parameters["username"];
 	var user = userById(userId);
 	
@@ -33,10 +34,19 @@ function processCreateTeamspaceForm(form) {
       
       var model = form.getModel();
       teamspaceAdmin.createTeamspace(
-      model.teamspaceId, model.name, model.description, user);
+      	model.teamspaceId,
+      	model.name,
+      	model.description,
+      	user
+      );
+      
+      redirectURL = redirectURL + "team/" + model.teamspaceId + "/";
       
       cocoon.releaseComponent(teamspaceAdmin);
-    }	
+    } else {
+    	redirectURL = refererURL;
+    }
+    
 	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);
 }
 
@@ -58,6 +68,7 @@ function teamspaceById(teamspaceId) {
 
 function processEditTeamspaceForm(form) {
 	var redirectURL = cocoon.parameters["redirectURL"];
+	var refererURL = cocoon.parameters["refererURL"];
 	
 	var teamspaceId = cocoon.parameters["teamspaceId"];
 	var teamspace = teamspaceById(teamspaceId);
@@ -80,7 +91,11 @@ function processEditTeamspaceForm(form) {
 		teamspace.description = form.getModel().description;
 		teamspaceAdmin.updateTeamspace(teamspace);
       
+	    redirectURL = redirectURL + "team/" + model.teamspaceId + "/";
+	    
     	cocoon.releaseComponent(teamspaceAdmin);
+    } else {
+    	redirectURL = refererURL;
     }
 	
 	cocoon.redirectTo("cocoon:/redirectTo/" + redirectURL);

@@ -76,7 +76,7 @@
 				</fd:repeater>
 
 				<fd:submit id="ok">
-					<fd:label>OK</fd:label>
+					<fd:label>Save</fd:label>
 					<fd:on-action>
 						<fd:javascript>
 							saveMembershipChanges(event);
