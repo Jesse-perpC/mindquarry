@@ -138,11 +138,6 @@ div.tasks dd div.repeater p {
     border: 1px solid white;
 }
 
-/* hide wiki link buttons in editor2 */
-div.tasks .createWikiLinkContainer {
-    display: none;
-}
-
 /* help on/off */
 
 /*dl a.help {
