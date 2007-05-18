@@ -45,22 +45,7 @@
 		</dependency>
 	</dependencies>
 
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-persistence/tags/persistence-client/
-					</tagBase>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
-
 	<scm>
-		<connection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-client</connection>
-		<url>https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-client</url>
 		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/persistence-client</developerConnection>
 	</scm>
 </project>

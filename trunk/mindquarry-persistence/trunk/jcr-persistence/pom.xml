@@ -82,26 +82,10 @@
 					</execution>
 				</executions>
 			</plugin>
-			<plugin>
-				<artifactId>maven-release-plugin</artifactId>
-				<configuration>
-					<tagBase>
-						https://www.mindquarry.org/repos/mindquarry-persistence/tags/hibernate-persistence/
-					</tagBase>
-				</configuration>
-			</plugin>
 		</plugins>
 	</build>
 
 	<scm>
-		<connection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
-		</connection>
-		<url>
-			https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
-		</url>
-		<developerConnection>
-			scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/hibernate-persistence/
-		</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk/jcr-persistence/</developerConnection>
 	</scm>
 </project>
