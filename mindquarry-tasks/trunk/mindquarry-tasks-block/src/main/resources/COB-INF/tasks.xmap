@@ -559,7 +559,7 @@
 						value="jcr:///teamspaces/" />
 				</transform>
 
-				<transform src="xslt/html/taskList.xsl" label="html">
+				<transform src="xslt/html/tasklist2html.xsl" label="html">
 					<parameter name="teamspaceID" value="{1}" />
 					<parameter name="username" value="{request-attr:username}" />
 					<parameter name="fullPath"
@@ -706,7 +706,7 @@
 				<transform type="filter">
 					<parameter name="element-name" value="filter" />
 				</transform>
-				<transform src="xslt/html/filters2list.xsl">
+				<transform src="xslt/html/filterlist2html.xsl">
 					<parameter name="team" value="{1}" />
 				</transform>
 				<call resource="layouting" />
