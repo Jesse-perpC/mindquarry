@@ -66,9 +66,9 @@
   <section>
     <title>Feature Description</title>
 
-    <para>The following sections describes the features provided by the
+    <para>The following sections describe the features provided by the
     Mindquarry Open Source Collaboration Server in Version 1.0. The web
-    application and web interface is seperated into several components
+    application and web interface is separated into several components
     (teamspace, workspace, wiki and tasks); a desktop client connects the
     desktop computer with the server for things best done on the computer
     (like files of the workspaces); the client uses a public HTTP Rest
@@ -84,7 +84,7 @@
           <term>Users</term>
 
           <listitem>
-            <para>Users have different views on the system, ie. depending in
+            <para>Users have different views on the system, ie. depending on
             which teams they are. Each user account represents a single human
             being, identified by a unique user id, name and by a photo
             wherever possible in the user interface. The user profile also
@@ -284,7 +284,7 @@
                   <para>(optional) A list of people/users connected to this
                   task. Each person has a role, which can be freely defined.
                   E.g. "someuser" with role "responsible". People can be
-                  choosen from the list of users of the current team.</para>
+                  chosen from the list of users of the current team.</para>
                 </listitem>
               </varlistentry>
 
@@ -417,10 +417,10 @@
 
           <listitem>
             <para>It is possible to add hyperlinks to other wiki pages in the
-            same wiki in the content field. There are two buttons, that can be
-            used after marking a piece of text that should become the link.
+            same wiki in the content field. There are two buttons that can be
+            used after selecting a piece of text that should become the link.
             One creates a link to the page name based on the selected text,
-            the other presents a dialog where a list of the wiki pages is
+            the other one presents a dialog where a list of the wiki pages is
             shown or an external URL (starting with http:// or https://) can
             be entered.</para>
           </listitem>
@@ -441,8 +441,7 @@
     <section>
       <title>Workspace Management</title>
 
-      <para>The Workspace Component allows to view the files and the structure
-      of the working files shared by each each time online:</para>
+      <para>The Workspace Component allows to view the shared files:</para>
 
       <variablelist>
         <varlistentry id="F1000">
