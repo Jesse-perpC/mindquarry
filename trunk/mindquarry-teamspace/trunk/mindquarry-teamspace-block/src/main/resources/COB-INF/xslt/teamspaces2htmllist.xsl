@@ -36,6 +36,6 @@
 	</xsl:template>
 
 	<xsl:template match="teamspace">
-		<li class="team"><a href="/{normalize-space(id)}" title="{normalize-space(id)}"><xsl:apply-templates select="name" /></a></li>
+		<li class="team"><a href="team/{normalize-space(id)}" title="{normalize-space(id)}"><xsl:apply-templates select="name" /></a></li>
 	</xsl:template>
 </xsl:stylesheet>
