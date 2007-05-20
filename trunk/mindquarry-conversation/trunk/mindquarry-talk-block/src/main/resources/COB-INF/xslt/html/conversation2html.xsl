@@ -28,7 +28,7 @@
   <xsl:param name="email" />
   
   <xsl:template name="head-links">
-	<link rel="section-global-action" href="new" title="New Conversation" class="button button22 new-conversation-action"/>
+	<link rel="section-global-action" href="new" title="New Conversation" class="button new-conversation-action"/>
   </xsl:template>
   
   <xsl:template match="messages">
