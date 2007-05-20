@@ -423,7 +423,7 @@
 			<match pattern="*/members/asFormsSelectionlist">
 				<act type="authorise" src="jcr:///teamspaces/{1}/"/>
 				
-				<generate src="model://model://TeamQuery#teamspaceById({1}).getUsers()" />
+				<generate src="model://TeamQuery#teamspaceById({1}).getUsers()" />
 				<transform src="xslt/teamMembers2formsSelectionlist.xsl" />
 				<serialize type="xml" />
 			</match>
