@@ -16,15 +16,15 @@ package com.mindquarry.auth.cocoon;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
-import org.apache.avalon.framework.service.ServiceException;
 import org.apache.avalon.framework.thread.ThreadSafe;
-import org.apache.cocoon.acting.ServiceableAction;
+import org.apache.cocoon.acting.AbstractAction;
 import org.apache.cocoon.environment.ObjectModelHelper;
 import org.apache.cocoon.environment.Redirector;
 import org.apache.cocoon.environment.Request;
 import org.apache.cocoon.environment.SourceResolver;
 
 import com.mindquarry.teamspace.manager.TeamspaceManager;
+import com.mindquarry.user.webapp.CurrentUser;
 
 /**
  * An action that handles REST-style authorisation.
@@ -63,9 +63,20 @@ import com.mindquarry.teamspace.manager.TeamspaceManager;
  *         Alexander Klimetschek</a>
  * 
  */
-public class AuthorizationAction extends ServiceableAction implements ThreadSafe {
+public class AuthorizationAction extends AbstractAction implements ThreadSafe {
 
     private static final String PARAM_METHOD = "method";
+    
+    private CurrentUser currentUser;
+    private TeamspaceManager teamspaceManager;
+    
+    public void setCurrentUser(CurrentUser currentUser) {
+        this.currentUser = currentUser;
+    }
+    
+    public void setTeamspaceManager(TeamspaceManager teamspaceManager) {
+        this.teamspaceManager = teamspaceManager;
+    }
 
     public Map act(Redirector redirector, SourceResolver resolver,
             Map objectModel, String src, Parameters params) throws Exception {
@@ -87,13 +98,22 @@ public class AuthorizationAction extends ServiceableAction implements ThreadSafe
             method = request.getMethod();
         }
 
+        // the username is typically stored in two places:
+        // 1) as a request attribute
+        // 2) in a request-scoped bean named CurrentUser
+        // we check those places in exactly that order
+        
         String username = (String) request.getAttribute("username");
         
         if (username == null || username.equals("")) {
-            throw new AuthorizationException("Authorisation failed because no authenticated user avaiable.");
+            if (currentUser != null) {
+                username = currentUser.getId();
+            } else {
+                throw new AuthorizationException("Authorisation failed because no authenticated user available.");
+            }
         }
         
-        if (lookupTeamManager().authorise(username, uri, method)) {
+        if (teamspaceManager.authorise(username, uri, method)) {
             // authorised. just return without entering a sub-pipeline
             return null;
         }
@@ -101,10 +121,5 @@ public class AuthorizationAction extends ServiceableAction implements ThreadSafe
         // not authorised. throw exception
         throw new AuthorizationException("Authorisation failed for user '" + username
                 + "' with method '" + method + "' on '" + uri + "'");
-    }
-
-    private TeamspaceManager lookupTeamManager() throws ServiceException {
-        String name = TeamspaceManager.class.getName();
-        return (TeamspaceManager) manager.lookup(name);
     }
 }

@@ -43,7 +43,8 @@
 				  ref="com.mindquarry.teamspace.manager.TeamspaceManager" />
 	</bean>
 	
-	<bean name="org.apache.cocoon.transformation.Transformer/teamspace" class="com.mindquarry.teamspace.transformation.TeamspaceTransformer">
+	<bean name="org.apache.cocoon.transformation.Transformer/teamspace"
+		class="com.mindquarry.teamspace.transformation.TeamspaceTransformer">
 		<property name="userquery" ref="com.mindquarry.user.UserQuery" />
 		<property name="teamquery" ref="com.mindquarry.teamspace.TeamspaceQuery" />
 	</bean>
@@ -77,4 +78,5 @@
 		<property name="sessionFactory" 
 				  ref="com.mindquarry.persistence.api.SessionFactory" />
 	</bean>
+	
 </beans>
