@@ -703,10 +703,10 @@
 			<match pattern="*/filters/">
 				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/"/>
 				<generate src="cocoon:/internal/pipe/filters/{1}/list-with-details.xml" />
-				<transform type="filter">
+				<transform type="filter"  label="xml">
 					<parameter name="element-name" value="filter" />
 				</transform>
-				<transform src="xslt/html/filterlist2html.xsl">
+				<transform src="xslt/html/filterlist2html.xsl" label="html">
 					<parameter name="team" value="{1}" />
 				</transform>
 				<call resource="layouting" />

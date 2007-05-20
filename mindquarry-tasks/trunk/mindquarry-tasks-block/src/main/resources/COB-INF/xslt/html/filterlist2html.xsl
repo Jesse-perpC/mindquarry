@@ -22,25 +22,19 @@
             </head>
             <body>
                 <div class="list">
-				
-                    <xsl:apply-templates select="block" />
-					
+				    <ul>
+                        <xsl:apply-templates select="block" />
+				    </ul>
                 </div>
             </body>
         </html>
     </xsl:template>
 
-    <xsl:template match="block[node()]">
-        <ul>
-            <xsl:apply-templates />
-        </ul>
-    </xsl:template>
-
     <xsl:template match="filter">
-	<li>
+        <li>
             <img src="/resources/tango-icons/22/actions/system-search.png" class="icon"/>
             <h2><a href="{substring-after(@xlink:href,'/')}"><xsl:apply-templates /></a></h2>
-     </li>
+        </li>
     </xsl:template>
 
 </xsl:stylesheet>
