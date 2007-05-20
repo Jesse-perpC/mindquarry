@@ -95,6 +95,8 @@
 				<parameter name="serverTitle"
 					value="{system-property:mindquarry.title}" />
 			</transform>
+			<transform type="teamspace" />
+			<transform type="cinclude"/>
 		</resource>
 		
 		<resource name="html2html">
@@ -117,6 +119,8 @@
 				<parameter name="timeStamp"
 					value="{pom-property:com.mindquarry.conversation/mindquarry-talk-block/timeStamp}"/>							
 			</transform>			
+			<transform type="teamspace" />
+			<transform type="cinclude"/>
 		</resource>
 		
 		<!-- shows styled error page and sets http status code on serializers -->
@@ -152,14 +156,10 @@
 			<select type="lightbox-request">
 				<when test="true">
 					<call resource="html2lightbox" />
-					<transform type="teamspace" />
-					<transform type="cinclude"/>
 					<serialize type="xml"/>
 				</when>
 				<otherwise>
 					<call resource="html2html" />
-					<transform type="teamspace" />
-					<transform type="cinclude"/>
 				</otherwise>
 			</select>
 			<!-- check AJAX request attribute -->
