@@ -142,7 +142,7 @@
 		</resource>
 		
 		<resource name="html2lightbox">
-			<transform src="servlet:/xslt/html2lightbox.xsl">
+			<transform src="servlet:/xslt/html2lightbox.xsl" label="step1">
 				<parameter name="serverBasePath" 
 					value="{system-property:mindquarry.server.url}{request:contextPath}" />
 				<parameter name="username"
@@ -248,7 +248,7 @@
 		<pipeline type="caching-point" internal-only="true">
 			
 			<match pattern="*.instance">
-				<generate type="jx" src="forms/{1}-template.xml" label="content">
+				<generate type="jx" src="forms/{1}-template.xml">
 					<parameter name="locale"
 						value="{flow-attribute:locale}" />
 					<parameter name="serverContextURL"
