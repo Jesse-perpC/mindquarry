@@ -21,7 +21,7 @@ function processEditUser(form) {
 	model_ = form.getModel();
 	form_ = form;
 	
-	var targetUri = cocoon.request.getParameter("targetUri");
+	var refererURL = cocoon.parameters["refererURL"];
 	
 	var user = userById(cocoon.request.getAttribute("username"));	
 	model_.fullName = user.name + " " + user.surname;
@@ -36,7 +36,7 @@ function processEditUser(form) {
 
 	form.showForm("edit-user.instance");
 			
-	cocoon.redirectTo("cocoon:/redirectTo/" + targetUri);
+	cocoon.redirectTo("cocoon:/redirectTo/" + refererURL);
 }
 
 function updateProfile() {

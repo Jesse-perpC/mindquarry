@@ -494,6 +494,8 @@
 						value="forms/edit-user-form.xml" />
 					<parameter name="username"
 						value="{request-attr:username}" />
+					<parameter name="refererURL" 
+						value="{request-param:referer}" />
 				</call>
 			</match>
 
