@@ -132,7 +132,7 @@
     		</xsl:choose>
     		
     		</a></h2>
-    		<p>Result <xsl:value-of select="position()+$start" /> of <xsl:value-of select="/response/result/@numFound" /></p>
+    		<p><xsl:copy-of select="str[@name='title']" /></p>
     		<!--
     		<div>
     			hier mehr content in weiteren spalten
