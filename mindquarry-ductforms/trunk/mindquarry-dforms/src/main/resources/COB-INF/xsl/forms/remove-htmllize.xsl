@@ -28,5 +28,59 @@
 		<!--<xsl:apply-templates/>-->
 		<xsl:apply-templates select="html/body/node()" />
 	</xsl:template>	
-
+  
+  
+  <xsl:template match="htmllize//*">
+    <xsl:apply-templates />
+  </xsl:template>
+  
+  <xsl:template match="htmllize//b">
+    <strong><xsl:apply-templates /></strong>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//i">
+    <em><xsl:apply-templates /></em>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//strike">
+    <strike><xsl:apply-templates /></strike>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//img">
+    <img><xsl:apply-templates select="@src|@height|@width|@title|@alt"/></img>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//a">
+    <a>
+      <xsl:apply-templates select="@name|@id|@href|@rel|node()"/>
+    </a>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//div">
+    <div>
+      <xsl:apply-templates select="@align|@class|@id|node()" />
+    </div>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//br|htmllize//ol|htmllize//ul|htmllize//li|htmllize//caption|htmllize//thead|htmllize//tbody|htmllize//tfooter|htmllize//tr|htmllize//td|htmllize//th|htmllize//p|htmllize//em|htmllize//strong">
+    <xsl:copy>
+      <xsl:apply-templates select="@class|@id|node()"/>
+    </xsl:copy>
+  </xsl:template>
+  
+  <xsl:template match="htmllize//table">
+    <xsl:copy>
+      <xsl:apply-templates select="@class|@id|@summary|@border|@cellpadding|@cellspacing|@height|@width|caption"/>
+      <xsl:choose>
+        <xsl:when test="tbody|thead|tfooter">
+          <xsl:apply-templates select="tbody|thead|tfooter" />
+        </xsl:when>
+        <xsl:otherwise>
+          <tbody>
+            <xsl:apply-templates select="tr" />
+          </tbody>
+        </xsl:otherwise>
+      </xsl:choose>
+    </xsl:copy>
+  </xsl:template>
 </xsl:stylesheet>
