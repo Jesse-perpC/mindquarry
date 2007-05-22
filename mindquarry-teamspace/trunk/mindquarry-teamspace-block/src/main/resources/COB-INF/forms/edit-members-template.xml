@@ -17,17 +17,14 @@
 <html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
 	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
 	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
-	xmlns:team="http://mindquarry.com/ns/schema/teamtransform"
-	xmlns:us="http://www.mindquarry.com/ns/schema/webapp">
+	xmlns:team="http://mindquarry.com/ns/schema/teamtransform">
 	<jx:import
 		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
 				
 	<head>
 		<title>Change Memberships of Team <team:team>${teamId}</team:team></title>
-		<link rel="stylesheet" us:context="href" type="text/css" 
-			href="css/teamspace.css" />
-		<link rel="stylesheet" us:context="href" type="text/css" 
-			href="css/edit-members.css" />
+		<link rel="stylesheet" type="text/css" href="css/teamspace.css" />
+		<link rel="stylesheet" type="text/css" href="css/edit-members.css" />
 	</head>
 	<body>
 	<div>
