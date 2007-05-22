@@ -25,6 +25,7 @@
 		<fd:label>Title</fd:label>
 		<fd:hint>Title of the document</fd:hint>
 		<fd:help>A title is a description of the document content.</fd:help>
+		<fd:initial-value>Type your title here...</fd:initial-value>
 	</fd:field>
 	<ft:widget>
 		<fi:styling autoactive="true" type="autosize"/>
