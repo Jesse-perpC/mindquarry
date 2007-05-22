@@ -4,9 +4,11 @@ import java.io.IOException;
 import java.util.Map;
 
 import org.apache.avalon.framework.parameters.Parameters;
+import org.apache.avalon.framework.service.ServiceException;
+import org.apache.avalon.framework.service.ServiceManager;
 import org.apache.cocoon.ProcessingException;
 import org.apache.cocoon.environment.SourceResolver;
-import org.apache.cocoon.transformation.AbstractTransformer;
+import org.apache.cocoon.transformation.AbstractSAXTransformer;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 
@@ -35,119 +37,75 @@ import com.mindquarry.user.UserRO;
  * @author Lars Trieloff
  *
  */
-public class TeamspaceTransformer extends AbstractTransformer {
+public class TeamspaceTransformer extends AbstractSAXTransformer {
+	@Override
+	public void setup(SourceResolver resolver, Map objectModel, String src,
+			Parameters params) throws ProcessingException, SAXException,
+			IOException {
+		super.setup(resolver, objectModel, src, params);
+	}
+
 	private static final String SURNAME_ATTRIBUTE_VALUE = "surname";
 	private static final String FIRSTNAME_ATTRIBUTE_VALUE = "firstname";
 	private static final String ONLY_ATTRIBUTE = "only";
-	private StringBuffer teamid;
-	private StringBuffer userid;
 	private String only;
-	
 	public static String TEAM_NS ="http://mindquarry.com/ns/schema/teamtransform";
-	
 	public static String TEAM_ELEMENT = "team";
 	public static String USER_ELEMENT = "user";
 	private TeamspaceQuery teamquery;
 	private UserQuery userquery;
-	
-	public void setup(SourceResolver resolver, Map objectModel, String src,
-			Parameters par) throws ProcessingException, SAXException,
-			IOException {
-		//nothing to do here
+	public TeamspaceTransformer() {
+		super();
+		this.defaultNamespaceURI = TEAM_NS;
+		this.removeOurNamespacePrefixes = true;
 	}
-
-	/**
-	 * Characters are always piped through, ony when a <team> or <user> element has been
-	 * seen, they will be recorded.
-	 */
 	@Override
-	public void characters(char[] c, int start, int len) throws SAXException {
-		if (this.teamid!=null) {
-			this.teamid.append(c, start, len);
-		} else if (this.userid!=null) {
-			this.userid.append(c, start, len);
-		} else {
-			super.characters(c, start, len);
+	public void endTransformingElement(String uri, String name, String raw)
+			throws ProcessingException, IOException, SAXException {
+		String text = this.endTextRecording().trim();
+		if (text.equals("")) {
+			return;
 		}
-	}
-
-	/**
-	 * At end of an <team> or <user> element, team and username will be resolved, and written
-	 * to the output stream.
-	 */
-	@Override
-	public void endElement(String uri, String loc, String raw)
-			throws SAXException {
-		//if it is a teamtransformer element
-		if (uri.equals(TEAM_NS)) {
-			//if it is a team element
-			if (loc.equals(TEAM_ELEMENT)) {
-				//get the team object
-				TeamspaceRO team = teamquery.teamspaceById(this.teamid.toString().trim());
-				if (team==null) {
-					//if there is no team object, pipe the original team id throgh.
-					char[] chars = this.teamid.toString().toCharArray();
-					this.contentHandler.characters(chars, 0, chars.length);
-				} else {
-					//else write the team's name
-					this.contentHandler.characters(team.getName().toCharArray(),0 , team.getName().length());
-				}
-			//if it is a user element
-			} else if (loc.equals(USER_ELEMENT)) {
-				//get the user object
-				UserRO user = userquery.userById(this.userid.toString().trim());
-				if (user==null) {
-					//no user found, use the user id
-					char[] chars = this.userid.toString().toCharArray();
-					this.contentHandler.characters(chars, 0, chars.length);
-				} else {
-					//show the first name
-					if (only==null||only.equals(FIRSTNAME_ATTRIBUTE_VALUE)) {
-						this.contentHandler.characters(user.getName().toCharArray(),0 , user.getName().length());
-					}
-					//show delimiter only when both first and surname are selected
-					if (only==null) {
-						this.contentHandler.characters(" ".toCharArray(), 0, 1);
-					}
-					//show the surname
-					if (only==null||only.equals(SURNAME_ATTRIBUTE_VALUE)) {
-						this.contentHandler.characters(user.getSurname().toCharArray(),0 , user.getSurname().length());
-					}
-				}
+		if (name.equals(TEAM_ELEMENT)) {
+			TeamspaceRO team = teamquery.teamspaceById(text);
+			if (team==null) {
+				this.sendTextEvent(text);
 			} else {
-				super.endElement(uri, loc, raw);
+				this.sendTextEvent(team.getName());
 			}
-		} else {
-			super.endElement(uri, loc, raw);
+		} else if (name.equals(USER_ELEMENT)) {
+			UserRO user = userquery.userById(text);
+			if (user==null) {
+				this.sendTextEvent(text);
+			} else {
+				if (only==null||only.equals(FIRSTNAME_ATTRIBUTE_VALUE)) {
+					this.sendTextEvent(user.getName());
+				}
+				//show delimiter only when both first and surname are selected
+				if (only==null) {
+					this.sendTextEvent(" ");
+				}
+				//show the surname
+				if (only==null||only.equals(SURNAME_ATTRIBUTE_VALUE)) {
+					this.sendTextEvent(user.getSurname());
+				}
+			}
 		}
-		this.userid = null;
-		this.teamid = null;
 	}
-
+	@Override
+	public void startTransformingElement(String uri, String name, String raw,
+			Attributes attr) throws ProcessingException, IOException,
+			SAXException {
+		if (name.equals(USER_ELEMENT)) {
+			this.only = attr.getValue("", ONLY_ATTRIBUTE);
+		}
+		this.startTextRecording();
+	}
 
 	@Override
-	public void startElement(String uri, String loc, String raw, Attributes a)
-			throws SAXException {
-		if (uri.equals(TEAM_NS)) {
-			if (loc.equals(TEAM_ELEMENT)) {
-				this.teamid = new StringBuffer();
-			} else if (loc.equals(USER_ELEMENT)) {
-				this.only = a.getValue("", ONLY_ATTRIBUTE);
-				this.userid = new StringBuffer();
-			} else {
-				super.startElement(uri, loc, raw, a);
-			}
-		} else {
-			super.startElement(uri, loc, raw, a);
-		}
+	public void service(ServiceManager manager) throws ServiceException {
+		super.service(manager);
+		this.userquery = (UserQuery) manager.lookup("com.mindquarry.user.UserQuery");
+		this.teamquery = (TeamspaceQuery) manager.lookup("com.mindquarry.teamspace.TeamspaceQuery");
 	}
-
-	public void setTeamquery(TeamspaceQuery teamquery) {
-		this.teamquery = teamquery;
-	}
-
-	public void setUserquery(UserQuery userquery) {
-		this.userquery = userquery;
-	}
-
 }
