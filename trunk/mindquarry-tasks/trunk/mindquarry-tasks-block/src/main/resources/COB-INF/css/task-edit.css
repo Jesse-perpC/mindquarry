@@ -23,6 +23,7 @@ div.tasks label {
 
 div.tasks #ductform\.title {
     display:block;
+    margin-top:1px;
     margin-bottom:4px;
     text-align:left;
     color:#6b6b6b;
@@ -51,10 +52,14 @@ div.tasks dd .output:hover {
     border: 1px solid #cccccc;
     padding: 2px;
 }
+
+div.tasks #ductform\.title.output {
+    border: 1px solid white;
+}
+
 div.tasks #ductform\.title.output:hover {
     background-color: #FFFFCC;
-    border: 1px solid #cccccc;
-    padding: 2px;
+    border-color:#cccccc;
 }
 
 div.tasks dd.output#ductform_summary:hover 
