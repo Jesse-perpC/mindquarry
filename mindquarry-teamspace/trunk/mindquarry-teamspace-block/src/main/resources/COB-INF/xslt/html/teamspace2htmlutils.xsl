@@ -60,10 +60,10 @@
   <xsl:template match="user" mode="detail">
     <div class="member-details">
       <img src="{$pathToRoot}teams/users/{normalize-space(id)}.png"/>
-      <h4>
+      <strong>
         <xsl:value-of select="name"/>
         <xsl:value-of select="surname"/>
-      </h4>&#160;
+      </strong>&#160;
       <xsl:value-of select="skills"/>
     </div>
   </xsl:template>
