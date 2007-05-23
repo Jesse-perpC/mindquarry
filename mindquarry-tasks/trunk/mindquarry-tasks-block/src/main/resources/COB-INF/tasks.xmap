@@ -90,6 +90,12 @@
 					value="{request-param:ajaxType}"/>
 				<parameter name="serverTitle"
 					value="{system-property:mindquarry.title}" />
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
 			</transform>
 			<transform type="teamspace" />
 			<transform type="cinclude"/>
