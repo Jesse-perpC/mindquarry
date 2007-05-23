@@ -65,16 +65,16 @@
             <h4>
               Team Wiki
             </h4>
-            Share ideas, thoughts and know-how with your team members. Visit <a href="{$pathToRoot}/wiki/{normalize-space(id)}/">the Wiki</a> 
-            or create <a href="{$pathToRoot}/wiki/{normalize-space(id)}/new">a new page</a>.
+            Share ideas, thoughts and know-how with your team members. Visit <a href="{$pathToRoot}wiki/{normalize-space(id)}/">the Wiki</a> 
+            or create <a href="{$pathToRoot}wiki/{normalize-space(id)}/new">a new page</a>.
           </div>
           <div class="member-details">
             <img src="{$pathToRoot}resources/tango-icons/48/apps/mindquarry-tasks.png" class="teamblock"/>
             <h4>
               Team Tasks
             </h4>
-            Collaboratively manage your tasks and assignments. Take the <a href="{$pathToRoot}/tasks/{normalize-space(id)}/">task overview</a> 
-            or create <a href="{$pathToRoot}/tasks/{normalize-space(id)}/new">a new task</a>.
+            Collaboratively manage your tasks and assignments. Take the <a href="{$pathToRoot}tasks/{normalize-space(id)}/">task overview</a> 
+            or create <a href="{$pathToRoot}tasks/{normalize-space(id)}/new">a new task</a>.
           </div>
         </div>
     </div>
