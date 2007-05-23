@@ -153,6 +153,12 @@
 					value="{request-param:ajaxType}"/>
 				<parameter name="serverTitle"
 					value="{system-property:mindquarry.title}" />
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.teamspace/mindquarry-teamspace-block/timeStamp}"/>							
 			</transform>
 			<transform type="teamspace" />
 			<transform type="cinclude"/>
