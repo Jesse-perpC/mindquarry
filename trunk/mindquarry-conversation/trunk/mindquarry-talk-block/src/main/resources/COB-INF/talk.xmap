@@ -131,18 +131,9 @@
 						<parameter name="pageTitle" value="{pageTitle}"/>
 						<parameter name="httpStatus" value="{httpStatus}"/>
 					</call>
-					
-					<!-- only apply full html2html styling on normal page view -->
-					<select type="ajax-request">
-						<when test="false">
-							<select type="lightbox-request">
-								<when test="false">
-									<call resource="html2html" />
-								</when>
-							</select>
-						</when>
-					</select>
-					<serialize type="html" status-code="{httpStatus}"/>
+					<call resource="layouting">
+            <parameter name="httpStatus" value="{httpStatus}"/>
+          </call>
 				</when>
 				<when test="xml">
 					<!-- directly output cocoon's error xml for xml clients -->
