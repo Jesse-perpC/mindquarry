@@ -53,6 +53,7 @@
   <xsl:template match="user">
     <li style="background:url({$pathToRoot}teams/users/{normalize-space(id)}.png);background-repeat:no-repeat;background-position:1px 0px;">
       <xsl:value-of select="name" />
+      <xsl:text> </xsl:text>
       <xsl:value-of select="surname" />
     </li>
   </xsl:template>
@@ -62,6 +63,7 @@
       <img src="{$pathToRoot}teams/users/{normalize-space(id)}.png"/>
       <strong>
         <xsl:value-of select="name"/>
+      	<xsl:text> </xsl:text>
         <xsl:value-of select="surname"/>
       </strong>&#160;
       <xsl:value-of select="skills"/>
