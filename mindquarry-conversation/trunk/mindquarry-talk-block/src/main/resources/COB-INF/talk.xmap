@@ -94,6 +94,12 @@
 					value="{request-param:ajaxType}"/>
 				<parameter name="serverTitle"
 					value="{system-property:mindquarry.title}" />
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.conversation/mindquarry-talk-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.conversation/mindquarry-talk-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.conversation/mindquarry-talk-block/timeStamp}"/>							
 			</transform>
 			<transform type="teamspace" />
 			<transform type="cinclude"/>
