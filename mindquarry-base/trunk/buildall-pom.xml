@@ -46,7 +46,6 @@
     <module>../mindquarry-conversation</module>
     <module>../mindquarry-search</module>
     <module>../mindquarry-ductforms</module>
-    <module>../mindquarry-desktop-client</module>
   </modules>
   
   <scm>
