@@ -47,7 +47,7 @@
   </xsl:template>
   
   <xsl:template match="htmllize//img">
-    <img><xsl:apply-templates select="@src|@height|@width|@title|@alt"/></img>
+    <img><xsl:apply-templates select="@src|@height|@width|@title|@alt|@align"/></img>
   </xsl:template>
   
   <xsl:template match="htmllize//a">
