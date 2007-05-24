@@ -32,7 +32,7 @@
 	
 	<modules>
 		<module>xenodot</module>
-		<module>mindquarry-subversion-server</module>
+		<!--module>mindquarry-subversion-server</module-->
   </modules>
 
 	<scm>
