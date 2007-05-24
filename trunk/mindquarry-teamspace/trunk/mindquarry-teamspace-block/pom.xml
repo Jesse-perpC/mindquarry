@@ -1,12 +1,9 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	
     <parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.0-M2-SNAPSHOT</version>
+		<version>1.1-beta</version>
 	</parent>
 	
         <modelVersion>4.0.0</modelVersion>
@@ -15,8 +12,9 @@
 	<name>Mindquarry Teamspace Block</name>
 
 	<scm>
-		<url>https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</url>
-	</scm>
+		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/release-com.mindquarry.teamspace-mindquarry-teamspace-block-1.0-M2</url>
+	  <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/tags//release-com.mindquarry.teamspace-mindquarry-teamspace-block-1.0-M2</developerConnection>
+  </scm>
 	<build>
 		<finalName>mindquarry-teamspace-block</finalName>
 		<plugins>
@@ -71,7 +69,7 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>model-source</artifactId>
-			<version>1.0-M2-SNAPSHOT</version>
+			<version>1.1-beta</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
