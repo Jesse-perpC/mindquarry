@@ -6,14 +6,14 @@
 	<parent>
 		<groupId>com.mindquarry</groupId>
 		<artifactId>mindquarry</artifactId>
-		<version>1.2</version>
+		<version>1.3-SNAPSHOT</version>
 	</parent>
 
 	<name>Mindquarry Conversation</name>
 
 	<groupId>com.mindquarry.conversation</groupId>
 	<artifactId>mindquarry-conversation</artifactId>
-	<version>1.1-beta</version>
+	<version>1.1-beta2-SNAPSHOT</version>
 
         <modules>
             <module>mindquarry-talk-block</module>
@@ -42,6 +42,6 @@
 	</developers>
 
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/tags/release-com.mindquarry.conversation-mindquarry-conversation-1.0-M2</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-conversation/trunk</developerConnection>
 	</scm>
 </project>
