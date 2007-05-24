@@ -1,0 +1,80 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1.2</version>
+	</parent>
+
+	<name>Mindquarry Document Management</name>
+	<groupId>com.mindquarry.document-management</groupId>
+	<artifactId>mindquarry-document-management</artifactId>
+	<version>1.1-beta</version>
+	
+	<description>
+	             Root project for all projects of the Mindquarry Document Management system.
+	</description>
+
+	<modules>
+		<module>server</module>
+		<module>client</module>
+	</modules>
+
+	<developers>
+		<developer>
+			<id>bastian</id>
+			<name>Bastian Steinert</name>
+			<email>bastian.steinert@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>alexs</id>
+			<name>Alexander Saar</name>
+			<email>alexander.saar@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>alex</id>
+			<name>Alexander Klimetschek</name>
+			<email>alexander.klimetschek@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>lars</id>
+			<name>Lars Trieloff</name>
+			<email>lars.trieloff@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>hagen</id>
+			<name>Hagen Overdick</name>
+			<email>hagen.overdick@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+	</developers>
+	
+	<build>
+	       <plugins>
+	                <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-release-plugin</artifactId>
+				<version>2.0-beta-5-mindquarry</version>
+				<configuration>
+					<tagBase>https://www.mindquarry.org/repos/mindquarry-document-management/tags/</tagBase>
+				</configuration>
+			</plugin>
+	       </plugins>
+	</build>
+
+	<scm>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/tags//release-com.mindquarry.document-management-mindquarry-document-management-1.1-beta</developerConnection>
+	</scm>
+</project>
