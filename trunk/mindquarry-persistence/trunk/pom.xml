@@ -20,7 +20,7 @@
 	<parent>
 		<groupId>com.mindquarry</groupId>
 		<artifactId>mindquarry</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.2</version>
 	</parent>
 
 	<name>Mindquarry Persistence [Root]</name>
@@ -28,7 +28,7 @@
 
 	<artifactId>mindquarry-persistence</artifactId>
 	<groupId>com.mindquarry.persistence</groupId>
-	<version>1.0-M2-SNAPSHOT</version>
+	<version>1.1-beta</version>
 
 	<modules>
 		<module>persistence-api</module>
@@ -66,7 +66,7 @@
 	</developers>
 	
 	<scm>
-    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/trunk</developerConnection>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/tags/release-com.mindquarry.persistence-mindquarry-persistence-1.1-beta</developerConnection>
   </scm>
 
   <build>
