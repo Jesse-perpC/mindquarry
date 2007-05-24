@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.0-M2-SNAPSHOT</version>
+		<version>1.1-beta</version>
 	</parent>
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.mindquarry.teamspace</groupId>
@@ -19,7 +19,7 @@
 		</developer>
 	</developers>
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/model-source/</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/tags//release-com.mindquarry.teamspace-model-source-1.0-M2</developerConnection>
 	</scm>
 	<dependencies>
 		<dependency>
