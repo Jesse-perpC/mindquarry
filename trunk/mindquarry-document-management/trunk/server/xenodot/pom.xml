@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.mindquarry.document-management.server</groupId>
 		<artifactId>mindquarry-document-management-server</artifactId>
-		<version>1.1-beta</version>
+		<version>1.1-beta2-SNAPSHOT</version>
 	</parent>
 
 	<name>Mindquarry Document Management Server Xenodot</name>
