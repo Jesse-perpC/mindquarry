@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+--> 
+
+<df:datatype id="date" position="4"
+	xmlns:fd="http://apache.org/cocoon/forms/1.0#definition"
+	xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:df="http://mindquarry.com/ns/xml/ductforms">
+	<fd:field>
+		<fd:datatype base="date">
+			<fd:convertor type="formatting">
+		    <fd:patterns>
+		    	<!-- ISO 8601 format, only date -->
+		    	<fd:pattern>yyyy-MM-dd</fd:pattern>
+		    	<!-- locales for dates are not working properly yet; the
+		    		 dojo 0.3.1 DropdownDatePicker can only handle the american
+		    		 format (MM/dd/yyyy), so we force Cocoon in all standard
+		    		 locales to print out the date in exactly that format -->
+		    	<!--<fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="en-UK">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="en-ZA">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="de">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="fr">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="it">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="es">MM/dd/yyyy</fd:pattern>
+		    	<fd:pattern locale="fr">MM/dd/yyyy</fd:pattern>-->		    		
+				<!-- NB. You must use 'yyyy' for the year (not 'yy'), or dojo gets confused -->
+				<!--<fd:pattern locale="en-US">MM/dd/yyyy</fd:pattern>
+				<fd:pattern locale="en-UK">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="en-ZA">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="de">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="fr">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="it">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="es">dd/MM/yyyy</fd:pattern>
+				<fd:pattern locale="fr">dd-MM-yyyy</fd:pattern>-->
+		    </fd:patterns>
+		  </fd:convertor>
+		</fd:datatype>
+		<fd:label>Due Date</fd:label>
+		<fd:hint>The date on which the task is to be complete or done.</fd:hint>
+		<fd:help>Use this date to order your events according to their due date.</fd:help>
+	</fd:field>
+	<ft:widget>
+		<fi:styling type="date" autoactive="true" />
+	</ft:widget>
+</df:datatype>
