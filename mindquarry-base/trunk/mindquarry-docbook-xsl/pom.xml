@@ -20,7 +20,7 @@
 	<parent>
 		<groupId>com.mindquarry</groupId>
 		<artifactId>mindquarry</artifactId>
-		<version>1.2</version>
+		<version>1.3-SNAPSHOT</version>
 	</parent>
 
 	<name>Mindquarry DocBook XSL</name>
@@ -29,7 +29,7 @@
 
 	<groupId>com.mindquarry.docbook</groupId>
 	<artifactId>mindquarry-docbook-xsl</artifactId>
-	<version>0.7</version>
+	<version>0.8-SNAPSHOT</version>
   
   <modules>
     <module>mindquarry-docbook-xsl-stylesheets</module>
