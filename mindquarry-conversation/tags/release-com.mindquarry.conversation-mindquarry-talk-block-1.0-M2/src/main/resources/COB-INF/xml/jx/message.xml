@@ -1,0 +1,11 @@
+<message xmlns:jx="http://apache.org/cocoon/templates/jx/1.0" via="web">
+	<from><jx:out value="${cocoon.parameters['user']}"/></from>
+	<body><jx:out value="${cocoon.parameters['body']}"/></body>
+	<jx:forEach var="link" items="${cocoon.request.getParameterValues('link')}">
+		<link><jx:out value="${link}" /></link>
+	</jx:forEach>
+	<jx:if test="${cocoon.parameters['timestamp']}">
+		<date><jx:out value="${cocoon.parameters['timestamp']}" /></date>
+	</jx:if>
+	
+</message>
