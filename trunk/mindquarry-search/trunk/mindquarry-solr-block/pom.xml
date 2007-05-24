@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.mindquarry.search</groupId>
 		<artifactId>mindquarry-search</artifactId>
-		<version>1.0-M2-SNAPSHOT</version>
+		<version>1.1-beta</version>
 	</parent>
 
 	<artifactId>mindquarry-solr-block</artifactId>
@@ -56,14 +56,14 @@
 	</build>
 	
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/mindquarry-solr-block</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/tags/release-com.mindquarry.search-mindquarry-solr-block-1.0-M2</developerConnection>
 	</scm>
 
 	<dependencies>
 		<dependency>
 			<groupId>com.mindquarry.search</groupId>
 			<artifactId>mindquarry-solr</artifactId>
-			<version>1.0-M2-SNAPSHOT</version>
+			<version>1.1-beta</version>
 			<scope>provided</scope>
 		</dependency>
 		<dependency>
@@ -75,7 +75,7 @@
 		<dependency>
 			<groupId>com.mindquarry.search.cocoon</groupId>
 			<artifactId>cocoon-extractor-impl</artifactId>
-			<version>1.0.0-M4-SNAPSHOT</version>
+			<version>1.1-beta</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.cocoon</groupId>
