@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+
+  The contents of this file are subject to the Mozilla Public License
+  Version 1.1 (the "License"); you may not use this file except in
+  compliance with the License. You may obtain a copy of the License at
+  http://www.mozilla.org/MPL/
+
+  Software distributed under the License is distributed on an "AS IS"
+  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+  License for the specific language governing rights and limitations
+  under the License.
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.mindquarry</groupId>
+		<artifactId>mindquarry</artifactId>
+		<version>1.2</version>
+	</parent>
+
+	<name>Mindquarry Persistence [Root]</name>
+	<description>Mindquarry persistence projects.</description>
+
+	<artifactId>mindquarry-persistence</artifactId>
+	<groupId>com.mindquarry.persistence</groupId>
+	<version>1.1-beta</version>
+
+	<modules>
+		<module>persistence-api</module>
+		<module>jcr-persistence</module>
+	</modules>
+	
+	<dependencies>
+		<dependency>
+			<groupId>xmlbeans</groupId>
+			<artifactId>xbean</artifactId>
+			<version>2.2.0</version>
+		</dependency>
+		<dependency>
+			<groupId>xmlbeans</groupId>
+			<artifactId>xmlbeans-jsr173-api</artifactId>
+			<version>2.0-dev</version>
+		</dependency>
+	</dependencies>
+
+	<developers>
+		<developer>
+			<id>alexs</id>
+			<name>Alexander Saar</name>
+			<email>alexander.saar@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+		<developer>
+			<id>bastian</id>
+			<name>Bastian Steinert</name>
+			<email>bastian.steinert@mindquarry.com</email>
+			<organization>Mindquarry GmbH</organization>
+			<organizationUrl>http://www.mindquarry.com</organizationUrl>
+		</developer>
+	</developers>
+	
+	<scm>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-persistence/tags/release-com.mindquarry.persistence-mindquarry-persistence-1.1-beta</developerConnection>
+  </scm>
+
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-release-plugin</artifactId>
+	<version>2.0-beta-5-mindquarry</version>
+        <configuration>
+          <tagBase>https://www.mindquarry.org/repos/mindquarry-persistence/tags</tagBase>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>
