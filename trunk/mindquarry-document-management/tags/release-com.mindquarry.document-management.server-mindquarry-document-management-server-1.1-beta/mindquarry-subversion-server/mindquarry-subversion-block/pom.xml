@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?><project>
+  <parent>
+    <artifactId>mindquarry-subversion-server</artifactId>
+    <groupId>com.mindquarry.document-management.server</groupId>
+    <version>1.0-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>com.mindquarry.document-management.server</groupId>
+  <artifactId>mindquarry-subversion-block</artifactId>
+  <name>mindquarry-subversion-block</name>
+  <build>
+    <plugins>
+      <plugin>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>2.1</version>
+        <configuration>
+          <archive>
+            <manifestEntries>
+              <Cocoon-Block-Name>${pom.artifactId}</Cocoon-Block-Name>
+            </manifestEntries>
+          </archive>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+  <repositories>
+    <repository>
+      <releases />
+      <snapshots>
+        <enabled>false</enabled>
+      </snapshots>
+      <id>apache.snapshot</id>
+      <name>Apache Snapshot Repository</name>
+      <url>http://people.apache.org/repo/m2-snapshot-repository</url>
+    </repository>
+    <repository>
+      <id>cocoon.staging</id>
+      <name>Cocoon staging repository</name>
+      <url>http://people.apache.org/builds/cocoon</url>
+    </repository>
+  </repositories>
+  <dependencies>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-core</artifactId>
+      <version>2.2.0-M3</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-servlet-service-components</artifactId>
+      <version>1.0.0-M1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cocoon</groupId>
+      <artifactId>cocoon-template-impl</artifactId>
+      <version>1.0.0-M3</version>
+    </dependency>
+		<dependency>
+			<groupId>com.svnkit</groupId>
+			<artifactId>svnkit</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+  </dependencies>
+  
+  <scm>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/mindquarry-subversion-server/mindquarry-subversion-block/</developerConnection>
+	</scm>
+</project>
