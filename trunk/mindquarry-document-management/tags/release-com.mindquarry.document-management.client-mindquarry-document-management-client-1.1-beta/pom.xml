@@ -1,0 +1,23 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<packaging>pom</packaging>
+
+	<parent>
+		<groupId>com.mindquarry.document-management</groupId>
+		<artifactId>mindquarry-document-management</artifactId>
+		<version>1.1-beta</version>
+	</parent>
+
+	<name>Mindquarry Document Management Client</name>
+	<groupId>com.mindquarry.document-management.client</groupId>
+	<artifactId>mindquarry-document-management-client</artifactId>
+
+	<description>
+	             Root project for all client components of the Mindquarry Document Management system.
+	</description>
+
+	<scm>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/tags//release-com.mindquarry.document-management.client-mindquarry-document-management-client-1.1-beta</developerConnection>
+	</scm>
+</project>
