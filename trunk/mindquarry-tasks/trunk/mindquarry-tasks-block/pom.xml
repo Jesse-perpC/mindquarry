@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.mindquarry.tasks</groupId>
 		<artifactId>mindquarry-tasks</artifactId>
-		<version>1.1-beta</version>
+		<version>1.1-beta2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>mindquarry-tasks-block</artifactId>
@@ -31,12 +31,12 @@
 		<dependency>
 			<groupId>com.mindquarry.dforms</groupId>
 			<artifactId>mindquarry-dforms</artifactId>
-			<version>1.1-beta</version>
+			<version>1.1-beta2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>mindquarry-teamspace-block</artifactId>
-			<version>1.1-beta</version>
+			<version>1.1-beta2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
@@ -98,6 +98,6 @@
 	</build>
 	
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/tags//release-com.mindquarry.tasks-mindquarry-tasks-block-1.0-M2</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk/mindquarry-tasks-block</developerConnection>
 	</scm>
 </project>
