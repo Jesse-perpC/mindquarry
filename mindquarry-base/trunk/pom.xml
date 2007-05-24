@@ -24,7 +24,7 @@
 
   <groupId>com.mindquarry</groupId>
   <artifactId>mindquarry</artifactId>
-  <version>1.3-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
 
   <modules>
     <module>mindquarry-common</module>
@@ -404,6 +404,6 @@
   </reporting>
 	
   <scm>
-    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags//release-com.mindquarry-mindquarry-1.2</developerConnection>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk</developerConnection>
   </scm>
 </project>
