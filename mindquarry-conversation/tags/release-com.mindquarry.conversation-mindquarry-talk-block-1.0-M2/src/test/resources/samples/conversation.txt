@@ -1,7 +1,0 @@
-<conversation>
-  <title>Foobar 2000</title>
-  <subscribers>
-    <subscriber type="email">lars</subscriber>
-    <unsubscriber type="email">jonas</unsubscriber>
-  </subscribers>
-</conversation>
