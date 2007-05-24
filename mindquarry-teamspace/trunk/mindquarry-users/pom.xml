@@ -6,7 +6,7 @@
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.1-beta</version>
+		<version>1.1-beta2-SNAPSHOT</version>
 	</parent>
 
 	<groupId>com.mindquarry.teamspace</groupId>
