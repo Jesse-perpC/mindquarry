@@ -17,13 +17,13 @@
   <parent>
     <artifactId>cocoon-extractor</artifactId>
     <groupId>com.mindquarry.search.cocoon</groupId>
-    <version>2.1-SNAPSHOT</version>
+    <version>2.1</version>
   </parent>
   
   <modelVersion>4.0.0</modelVersion>
   <artifactId>cocoon-extractor-impl</artifactId>
   <name>Cocoon Extractor Block Implementation</name>
-  <version>1.0.0-M4-SNAPSHOT</version>
+  <version>1.1-beta</version>
   
   <build>
     <plugins>
@@ -114,6 +114,6 @@
   </properties>
   
   <scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/trunk/cocoon-extractor/cocoon-extractor-impl</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-search/tags/release-com.mindquarry.search.cocoon-cocoon-extractor-impl-1.0.0-M4</developerConnection>
 	</scm>
 </project>
