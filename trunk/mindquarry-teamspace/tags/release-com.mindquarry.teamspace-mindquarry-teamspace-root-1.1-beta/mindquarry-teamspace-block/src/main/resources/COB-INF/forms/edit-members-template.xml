@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+
+<html xmlns:ft="http://apache.org/cocoon/forms/1.0#template"
+	xmlns:jx="http://apache.org/cocoon/templates/jx/1.0"
+	xmlns:fi="http://apache.org/cocoon/forms/1.0#instance"
+	xmlns:team="http://mindquarry.com/ns/schema/teamtransform">
+	<jx:import
+		uri="resource://org/apache/cocoon/forms/generation/jx-macros.xml" />
+				
+	<head>
+		<title>Change Memberships of Team <team:team>${teamId}</team:team></title>
+		<link rel="stylesheet" type="text/css" href="css/teamspace.css" />
+		<link rel="stylesheet" type="text/css" href="css/edit-members.css" />
+	</head>
+	<body>
+	<div>
+		<ft:form-template action="#{$cocoon/continuation/id}.continue" ajax-action="#{$cocoon/continuation/id}.continue" ajax="true"
+			method="POST" enctype="multipart/form-data">		
+ 			<ft:group id="editMembersModel">
+ 				<h1>Change Memberships of Team <team:team>${teamId}</team:team></h1>
+ 				
+ 				<div id="editMembersModel">
+					
+					<div class="member-list">
+						<h2><ft:widget-label id="members" /></h2>
+						<ft:repeater id="members">
+							<ul>
+								<ft:repeater-rows>
+									<li>
+										<fi:styling type="member-entry" />
+										<ft:widget id="userId">
+											<fi:styling type="user-image" />
+										</ft:widget>
+										<ft:widget id="name">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="surname">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="skills"/>
+										<ft:widget id="removeMember">
+											<fi:styling type="blindlink"/>
+										</ft:widget>
+									</li>
+								</ft:repeater-rows>
+							</ul>
+						</ft:repeater>
+					</div>
+				
+					<div class="member-list">
+						<h2><ft:widget-label id="nonMembers" /></h2>
+						<ft:repeater id="nonMembers">
+							<ul>
+								<ft:repeater-rows>
+									<li>
+										<fi:styling type="member-entry" />
+										<ft:widget id="userId">
+											<fi:styling type="user-image" />
+										</ft:widget>
+										<ft:widget id="name">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="surname">
+											<fi:styling type="full-name"/>
+										</ft:widget>
+										<ft:widget id="skills"/>
+										<ft:widget id="addMember">
+											<fi:styling type="blindlink"/>
+										</ft:widget>
+									</li>
+								</ft:repeater-rows>
+							</ul>
+						</ft:repeater>
+					</div>
+				
+					<div class="buttons">
+						<ft:widget id="ok" />
+						<ft:widget id="cancel" />
+						
+						<!-- must be checked if admin user is present -->
+						<!--ft:widget id="createUser" /-->
+					</div>
+				</div>
+ 			</ft:group>
+			
+			
+			<ft:group id="userModel">
+				<div id="createUserModel">
+					<h1>Create New User</h1>
+					<table id="create-user-form">
+						<tr>
+							<td class="label"><ft:widget-label id="userId" /></td>
+							<td><ft:widget id="userId" /></td>
+						</tr>
+						<tr>
+							<td class="label">
+								<ft:widget-label id="newPassword" />
+							</td>
+							<td>
+								<ft:widget id="newPassword">
+									<fi:styling type="password"></fi:styling>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
+							<td class="label">
+								<ft:widget-label id="newPasswordRepeat" />
+							</td>
+							<td>
+								<ft:widget id="newPasswordRepeat">
+									<fi:styling type="password"/>
+								</ft:widget>
+							</td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="photo" /></td>
+							<td><ft:widget id="photo" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="name" /></td>
+							<td><ft:widget id="name" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="surname" /></td>
+							<td><ft:widget id="surname" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="email" /></td>
+							<td><ft:widget id="email" /></td>
+						</tr>
+						<tr>
+							<td class="label"><ft:widget-label id="skills" /></td>
+							<td>
+								<ft:widget id="skills">
+									<fi:styling type="textarea"/>
+								</ft:widget>
+							</td>
+						</tr>
+					</table>
+				
+					<!-- standalone -->
+					<ft:widget id="createUserSubmit" />
+					<ft:widget id="cancelSubmit" />
+					
+					<!-- embedded -->
+					<ft:widget id="createUserAction" />
+					<ft:widget id="cancelAction" />
+				</div>
+			</ft:group>
+		</ft:form-template>
+	</div>
+	</body>
+</html>
