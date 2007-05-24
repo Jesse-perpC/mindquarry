@@ -1,0 +1,973 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+	<components>
+		<selectors>
+			<selector name="regexp-request-param"
+				src="org.apache.cocoon.selection.RegexpRequestParameterSelector">
+				<pattern name="hexadecimal">^[0-9a-f]+$</pattern>
+			</selector>
+		</selectors>
+
+		<generators default="file">
+			<generator name="collection"
+				src="org.apache.cocoon.generation.TraversableGenerator" />
+			<generator name="changelog"
+				src="com.mindquarry.dma.viewer.generation.ChangeLogGenerator" />
+		</generators>
+	</components>
+
+	<resources>
+		<!-- general resource called upon errors (in each external pipeline
+			 below), calls error-layouting pipeline for styling -->
+		<resource name="error-handling">
+			<select type="exception">
+				<when test="authorisation">
+					<!-- non-authorised should be 404 resource not found -->
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, not authorized"/>
+						<parameter name="httpStatus" value="404"/>
+					</call>
+				</when>
+				<when test="resource-does-not-exist">
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, resource was not found"/>
+						<parameter name="httpStatus" value="404"/>
+					</call>
+				</when>
+				<otherwise>
+					<generate type="notifying"/>
+					<call resource="error-layouting">
+						<parameter name="pageTitle" value="Sorry, internal system error"/>
+						<parameter name="httpStatus" value="500"/>
+					</call>
+				</otherwise>
+			</select>			
+		</resource>
+		
+		<resource name="error2html">
+			<transform src="servlet:super:/xslt/error/error2html.xsl">
+				<parameter name="pageTitle" value="{pageTitle}"/>			
+				<parameter name="httpStatus" value="{httpStatus}"/>
+				
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="serverBasePath" 
+					value="{system-property:mindquarry.server.url}{request:contextPath}" />
+				
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
+			</transform>			
+		</resource>
+		
+		<resource name="html2lightbox">
+			<transform src="servlet:/xslt/html2lightbox.xsl">
+				<parameter name="serverBasePath" 
+					value="{system-property:mindquarry.server.url}{request:contextPath}" />
+				<parameter name="username"
+					value="{request-attr:username}" />
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="ajaxType"
+					value="{request-param:ajaxType}"/>
+				<parameter name="serverTitle"
+					value="{system-property:mindquarry.title}" />
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
+			</transform>
+			<transform type="teamspace" />
+			<transform type="cinclude"/>
+		</resource>
+		
+		<resource name="html2html">
+			<transform src="servlet:/xslt/html2html.xsl">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+				<parameter name="serverBasePath" 
+					value="{system-property:mindquarry.server.url}{request:contextPath}" />
+				<parameter name="username"
+					value="{request-attr:username}" />
+				<parameter name="serverTitle"
+					value="{system-property:mindquarry.title}" />
+				
+				<parameter name="artifactId"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/artifactId}"/>							
+				<parameter name="version"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/version}"/>							
+				<parameter name="timeStamp"
+					value="{pom-property:com.mindquarry.tasks/mindquarry-tasks-block/timeStamp}"/>							
+			</transform>			
+			<transform type="teamspace" />
+			<transform type="cinclude"/>
+		</resource>
+		
+		<!-- shows styled error page and sets http status code on serializers -->
+		<resource name="error-layouting">
+			<select type="REST">
+				<when test="html">
+					<call resource="error2html">
+						<parameter name="pageTitle" value="{pageTitle}"/>
+						<parameter name="httpStatus" value="{httpStatus}"/>
+					</call>
+					<call resource="layouting">
+            <parameter name="httpStatus" value="{httpStatus}"/>
+          </call>
+				</when>
+				<when test="xml">
+					<!-- directly output cocoon's error xml for xml clients -->
+					<serialize type="xml" status-code="{httpStatus}"/>
+				</when>
+			</select>
+		</resource>
+		
+		<!-- standard final page layouting -->
+		<resource name="layouting">
+			<select type="lightbox-request">
+				<when test="true">
+					<call resource="html2lightbox" />
+					<serialize type="xml" status-code="{httpStatus}"/>
+				</when>
+				<otherwise>
+					<call resource="html2html" />
+				</otherwise>
+			</select>
+			
+			<!-- check AJAX request attribute -->
+			<select type="ajax-request">
+				<when test="true">
+					<select type="request-parameter">
+						<parameter name="parameter-name" value="dojo.transport"/>
+						<when test="iframe">
+							<transform src="resource://org/apache/cocoon/forms/resources/IframeTransport-bu-styling.xsl"/>
+							<serialize type="xhtml" status-code="{httpStatus}"/><!-- this is REALLY important -->
+						</when>
+						<otherwise>
+							<serialize type="xml" status-code="{httpStatus}"/>
+						</otherwise>
+					</select>
+				</when> 
+				<otherwise>
+					<serialize type="html" status-code="{httpStatus}"/>
+				</otherwise>
+			</select>
+		</resource>
+		
+		<!-- layouts the single task edit view -->
+		<resource name="task-layouting">
+			<transform src="xslt/html/task2html.xsl" label="html">
+				<parameter name="document" value="{document}" />
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+			<call resource="layouting" />
+		</resource>
+
+		<!-- load form2html stylesheet from DForms block -->
+		<resource name="form2html">
+			<transform src="servlet:super:/xslt/forms/form2html.xsl">
+				<parameter name="fullPath"
+					value="{block-path:}{request:pathInfo}" />
+					
+				<parameter name="blockPath"
+					value="{block-path:}" />
+				<parameter name="serverBasePath" 
+					value="{system-property:mindquarry.server.url}{request:contextPath}" />
+					
+					
+				<parameter name="sitemapPath"
+					value="{request:pathInfo}" />
+			</transform>
+		</resource>
+		
+		<!-- writes a task xml stream content named by the parameter {document} into jcr -->
+		<resource name="writetask">
+			<generate type="stream">
+				<parameter name="defaultContentType" value="text/xml" />
+			</generate>
+			<transform
+				src="xslt/xml/wrap-for-sourcewriting.xsl">
+				<parameter name="path"
+					value="jcr:///teamspaces/{teamspace}/tasks/{document}.xml"/>
+			</transform>
+			<transform type="write-source" />
+			<transform type="redirect" src="{document}" />
+			<!-- this serializer is not used but needed to have a syntactically correct pipeline -->
+			<serialize type="xml" />
+		</resource>
+	</resources>
+
+	<flow language="javascript">
+		<script src="flows/task-filter.js" />
+	</flow>
+
+	<views>
+		<view name="xml" from-label="xml">
+			<serialize type="xml" />
+		</view>
+		<view name="html" from-label="html">
+			<serialize type="xml" />
+		</view>
+		<view name="fo" from-label="fo">
+			<serialize type="xml" />
+		</view>
+	</views>
+
+	<pipelines>
+		<!-- resources pipeline -->
+		<pipeline type="caching">
+			<match pattern="css/*.css">
+				<select type="resource-exists">
+					<when test="css/{1}.css">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="css/{1}.css" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="servlet:resources:/css/{1}.css" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="xslt/*.xsl">
+				<select type="resource-exists">
+					<when test="xslt/{1}.xsl">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="xslt/{1}.xsl" />
+					</when>
+					<!-- if not, look in the resources block -->
+					<otherwise>
+						<read src="servlet:resources:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<read src="scripts/{1}.js" />
+					</when>
+					<otherwise>
+						<read src="servlet:super:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="images/status/*.png">
+				<read src="servlet:/tango-icons/48/status/task-{1}.png" />
+			</match>
+
+			<match pattern="images/*.*">
+				<select type="resource-exists">
+					<when test="images/{1}.{2}">
+						<read src="images/{1}.{2}" />
+					</when>
+					<otherwise>
+						<read src="servlet:resources:/images/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="buttons/*.*">
+				<select type="resource-exists">
+					<when test="buttons/{1}_button.{2}">
+						<read src="buttons/{1}_button.{2}" />
+					</when>
+					<otherwise>
+						<read src="servlet:resources:/buttons/{1}.{2}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="buttons/**.*">
+				<read src="servlet:resources:/buttons/{1}.{2}" />
+			</match>
+			
+			<match pattern="icons/*x*/*/*.png">
+				<select type="resource-exists">
+					<when test="icons/{1}x{2}/{3}/{4}.png">
+						<read src="icons/{1}x{2}/{3}/{4}.png" />
+					</when>
+					<otherwise>
+						<read
+							src="servlet:resources:/icons/{1}x{2}/{3}/{4}.png" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<match pattern="tango-icons/**">
+				<read
+					src="servlet:resources:/tango-icons/{1}" />
+			</match>
+
+			<!-- icons for people -->
+			<match pattern="resource/icons/*/ductform.people.*.person/*.*">
+				<!--<act type="authorise" src="jcr:///teamspaces/{1}/user"/>-->
+				<read src="servlet:teams:/users/{1}/{3}.{4}" />
+			</match>
+			
+			<!-- icons for status -->
+			<match pattern="resource/icons/ductform.status/*.png">
+				<read src="cocoon:/tango-icons/22/status/task-{1}.png" />
+			</match>
+			
+			<!-- icons for priority -->
+			<match pattern="resource/icons/ductform.priority/*.png">
+				<read src="cocoon:/tango-icons/22/emblems/task-{1}.png" />
+			</match>
+			
+			<!-- @override: for inheriting sitemap resources -->
+			<match pattern="resource/icons/ductform.ductforms/*.png">
+				<select type="resource-exists">
+					<!-- if it exists, load it from this sitemap's resources -->
+					<when test="dforms-model/{1}.png">
+						<read src="dforms-model/{1}.png" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="servlet:super:/resource/icons/ductform.ductforms/{1}.png" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<!-- @override: for inheriting sitemap resources -->
+			<match pattern="resource/**">
+				<select type="resource-exists">
+					<!-- if it exists, load it from this sitemap's resources -->
+					<when test="{1}">
+						<read src="{1}" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="servlet:super:/resource/{1}" />
+					</otherwise>
+				</select>
+			</match>
+
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+			
+		</pipeline>
+
+		<!-- overriding dforms block matcher -->
+		<pipeline type="caching-point">
+
+			<!-- @virtual: for even more specific sub-blocks ;-) -->
+			<match pattern="tasks-dforms-model-directory.xml">
+				<generate src="dforms-model-index.xml" />
+				<transform
+					src="servlet:super:/collection2resourceincludes.xsl" />
+				<serialize type="xml" />
+			</match>
+
+			<!-- @override: provide the model as directory listing for the dforms block -->
+			<match pattern="dforms-model-directory.xml">
+				<!-- we want our models and the inherited models -->
+				<aggregate element="resources">
+					<part src="servlet:super:/dforms-model-directory.xml" />
+					<part src="servlet:/tasks-dforms-model-directory.xml" />
+				</aggregate>
+				<serialize type="xml" />
+			</match>
+
+			<!-- @virtual: override new document naming script -->
+			<match pattern="uniqueName.js">
+				<read src="flows/uniqueName.js" />
+			</match>
+			
+		</pipeline>
+
+		<!-- provides the files for forms (internal) -->
+		<pipeline type="caching-point" internal-only="true">
+			
+			<!-- internal pipeline for the filter editor (teamspace/form-file.xml) -->
+			<match pattern="internal/pipe/forms/*/*.xml">
+				<generate type="jx" src="forms/{2}.xml" />
+				
+				<transform type="browser-update" />
+				<call resource="form2html" />
+				
+				<transform src="xslt/forms/includeFilterStyling.xsl">
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+					<parameter name="teamspaceID"
+						value="{1}" />
+				</transform>
+				<call resource="layouting" />
+			</match>
+		</pipeline>
+
+		<!-- filters (internal) -->
+		<pipeline type="caching-point" internal-only="true">
+			<!-- raw XML, only list of filters -->
+			<match pattern="internal/pipe/filters/*/list.xml">
+				<generate type="collection"
+					src="jcr:///teamspaces/{1}/tasks/filters">
+					<parameter name="exclude" value="id:unique" />
+				</generate>
+				<transform src="xslt/xml/collection2filterlist.xsl">
+					<parameter name="basePath"
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+					<parameter name="teamspace" value="{1}" />
+				</transform>
+				<serialize type="xml" />
+			</match>
+			
+			<!-- XML with more details -->
+			<match pattern="internal/pipe/filters/*/list-with-details.xml">
+				<generate src="cocoon:/internal/pipe/filters/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-filter-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				<serialize type="xml" />
+			</match>
+		</pipeline>
+
+		<!-- teamspacesTasksOverview (internal) -->
+		<pipeline type="caching-point" internal-only="true">
+			<match pattern="internal/pipe/changes/*/*">
+				<select type="resource-exists">
+					<when test="jcr:///teamspaces/{1}/tasks/{2}">
+						<generate type="changelog" src="jcr:///teamspaces/{1}/tasks/{2}" label="xml">
+							<parameter name="revision" value="1" />
+						</generate>						
+					</when>
+					<otherwise>
+						<generate src="xml/empty-changes.xml"></generate>
+					</otherwise>
+				</select>
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="internal/pipe/*/changes.xml">
+				<generate type="collection"
+					src="jcr:///teamspaces/{1}/wiki/">
+					<parameter name="include" value=".*\.xml" />
+				</generate>
+				<transform src="servlet:/xslt/xml/collection2loginclude.xsl">
+					<parameter name="jcrbase" value="jcr:///teamspaces/{1}/tasks/" />
+					<parameter name="team" value="{1}" />
+				</transform>
+				<transform type="cinclude">
+					<parameter name="expires" value="600" />
+				</transform>
+				<transform src="servlet:/xslt/xml/loginclude2changelog.xsl" label="xml" />
+				<serialize type="xml"/>
+			</match>
+
+			<!-- raw XML -->
+			<match pattern="internal/pipe/overview.xml">
+				<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
+				<transform src="xslt/xml/teamspaces2tasks-and-filters.xsl">
+					<parameter name="base"
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+				</transform>
+				<transform type="xinclude" />
+				<transform src="xslt/xml/flatten-tasks-element.xsl" />
+				<transform src="xslt/xml/flatten-filters-element.xsl" />
+				<serialize type="xml" />
+			</match>
+
+			<!-- HTML (which is different from the xml content) -->
+			<match pattern="internal/pipe/overview.html">
+				<generate
+					src="cocoon:/internal/pipe/overview.xml"/>
+
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+				<transform src="xslt/xml/include-basic-filter-data.xsl"
+					label="xml">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+
+				<transform
+					src="xslt/html/teamspaces-task-overview.xsl">
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+				</transform>
+				<call resource="layouting" />
+			</match>
+
+		</pipeline>
+
+		<!-- tasksForTeamspace (internal) -->
+		<pipeline type="caching-point" internal-only="true">
+
+			<!-- raw XML-->
+			<match pattern="internal/pipe/tasks/*/list.xml">
+				<generate type="collection"
+					src="jcr:///teamspaces/{1}/tasks/">
+					<parameter name="include" value=".*\.xml" />
+				</generate>
+				<transform src="xslt/xml/collection2tasklist.xsl">
+					<parameter name="basePath"
+						value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+					<parameter name="teamspace" value="{1}" />
+				</transform>
+				<serialize type="xml" />
+			</match>
+
+			<!-- HTML -->
+			<match pattern="internal/pipe/tasks/*/list.html">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+				<transform src="xslt/xml/include-basic-filter-data.xsl"
+					label="xml">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+
+				<transform src="xslt/html/tasklist2html.xsl" label="html">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="username" value="{request-attr:username}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="blockPath"
+						value="{block-path:}" />
+					<parameter name="serverBasePath" 
+						value="{system-property:mindquarry.server.url}{request:contextPath}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+				</transform>
+				<call resource="layouting" />
+			</match>
+
+			<!-- PDF -->
+			<match pattern="internal/pipe/tasks/*/list.pdf">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				
+				<transform type="xinclude" />
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+
+				<transform src="xslt/fo/taskList.xsl">
+					<parameter name="teamspaceID" value="{1}" />
+				</transform>
+
+				<serialize type="fo2pdf"/>
+			</match>
+			
+			<!-- ATOM -->
+			<match pattern="internal/pipe/tasks/*/list.atom">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+				<transform src="xslt/atom/taskList.xsl">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+					<parameter name="baselink" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/" />
+				</transform>
+				<serialize type="xml"/>
+			</match>
+			
+			<!-- ICAL -->
+			<match pattern="internal/pipe/tasks/*/list.ical">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				
+				<transform src="xslt/ical/taskList.xsl">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="fullPath"
+						value="{block-path:}{request:pathInfo}" />
+					<parameter name="sitemapPath"
+						value="{request:pathInfo}" />
+					<parameter name="baselink" value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/" />
+					<parameter name="hostname" value="{system-property:mindquarry.server.url}" />
+				</transform>
+				<serialize type="text"/>
+			</match>
+			
+			<!-- JSON -->
+			<match pattern="internal/pipe/tasks/*/list.json/*">
+				<!-- todo: generate this using Solr -->
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				<transform src="xslt/json/tasks2json.xsl">
+					<parameter name="query" value="{2}" />
+				</transform>
+				<serialize type="text" />
+			</match>
+			
+		</pipeline>
+
+		<!-- External browser pipeline with REST -->
+		<pipeline type="caching-point">
+
+			<!-- list of teamspaces with the tasks overview (teamspacesTaskOverview) -->
+			<match pattern="">
+				<select type="REST">
+					<when test="html">
+						<read src="cocoon:/internal/pipe/overview.html" />
+					</when>
+					<when test="xml">
+						<read src="cocoon:/internal/pipe/overview.xml" />
+					</when>
+					<when test="opml">
+						<generate src="servlet:teams:/user/{request-attr:username}/info/teams.xml" />
+						<transform src="xslt/opml/teamspaces2opml.xsl">
+							<parameter name="base"
+								value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/" />
+							<parameter name="serverTitle"
+								value="{system-property:mindquarry.title}" />
+						</transform>
+						<transform type="teamspace" />
+						<serialize type="xml" mime-type="text/x-opml"/>
+					</when>
+				</select>
+			</match>
+
+			<!-- internal, will provide a browser-update xml snippet with
+				 a redirect action -->
+			<match pattern="redirectTo/**">
+				<generate type="jx" src="servlet:resources:/jx/redirect-browserupdate.jx">
+					<parameter name="uri" value="{1}" />
+				</generate>
+				<serialize type="xml" />
+			</match>
+
+			<!-- filter continuation -->
+			<match pattern="*/filters/*.continue">
+				<call continuation="{2}" />
+			</match>
+			
+			<!-- create new filter -->
+			<match pattern="*/filters/new">
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/new"/>
+				<call function="displayNewFilterForm">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="definitionURI"
+						value="forms/task-filter-form.xml" />
+					<parameter name="templatePipeline"
+						value="internal/pipe/forms/{1}/task-filter-form-template.xml" />
+				</call>
+			</match>
+			
+			<match pattern="*/filters/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/"/>
+				<generate src="cocoon:/internal/pipe/filters/{1}/list-with-details.xml" />
+				<transform type="filter"  label="xml">
+					<parameter name="element-name" value="filter" />
+				</transform>
+				<transform src="xslt/html/filterlist2html.xsl" label="html">
+					<parameter name="team" value="{1}" />
+				</transform>
+				<call resource="layouting" />
+				<serialize type="xml" />
+			</match>
+			
+			<!-- display saved filter -->
+			<match pattern="*/filters/*">
+				<act type="authorise" src="jcr:///teamspaces/{1}/taskfilter/{2}"/>
+				<call function="displaySavedFilterForm">
+					<parameter name="teamspaceID" value="{1}" />
+					<parameter name="filterID" value="{2}" />
+					<parameter name="definitionURI"
+						value="forms/task-filter-form.xml" />
+					<parameter name="templatePipeline"
+						value="internal/pipe/forms/{1}/task-filter-form-template.xml" />
+				</call>
+			</match>
+
+			<!-- list of tasks per teamspace (tasksForTeamspace) -->
+			<match pattern="*/">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasklist"/>
+				<select type="REST">
+					<when test="html">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.html" />
+					</when>
+					<when test="xml">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.xml" mime-type="text/xml"/>
+					</when>
+					<when test="atom">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.atom" mime-type="application/atom+xml"/>
+					</when>
+					<when test="ical">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.ical" mime-type="text/calendar"/>
+					</when>
+					<when test="pdf">
+						<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.pdf" mime-type="application/pdf"/>
+					</when>
+					<when test="json">
+						<!-- 'read' seems to be broken, so use this: -->
+						<generate src="cocoon:/internal/pipe/tasks/{1}/list.json/{request-param:q}" />
+						<serialize type="text" mime-type="text/plain" />
+						<!--<read
+							src="cocoon:/internal/pipe/tasks/{1}/list.json/{request-param:q}" mime-type="text/plain"/>-->
+					</when>
+				</select>
+			</match>
+			
+			
+			<match pattern="*/all.changes">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasklist"/>
+				<generate src="cocoon:/internal/pipe/{1}/changes.xml" />
+				<transform type="filter"  label="xml">
+					<parameter name="element-name" value="entry"/>
+					<parameter name="count" value="10"/>
+					<parameter name="blocknr" value="{request-param:page}"/>
+				</transform>
+				<transform src="xslt/xml/changelog2html.xsl" label="html">
+					<parameter name="team" value="{1}"/>
+				</transform>
+				<call resource="layouting" />
+			</match>
+			
+			<!-- provides a selection-list to CForms -->
+			<match pattern="*/lists/form.xml">
+				<generate src="cocoon:/internal/pipe/tasks/{1}/list.xml" />
+				<transform src="xslt/xml/include-basic-task-data.xsl">
+					<parameter name="basePath"
+						value="jcr:///teamspaces/" />
+				</transform>
+				<transform src="xslt/xml/tasks2selectionlist.xsl"/>
+				<serialize type="xml"/>
+			</match>
+			
+			<!-- provides a json list for the filter widget: tasks -->
+			<match pattern="*/lists/tasks.json">
+				<read src="json-dummy/tasks.json" mime-type="text/javascript" />
+			</match>
+			
+			<!-- provides a json list for the filter widget: task filters -->
+			<match pattern="*/lists/task-filters.json">
+				<read src="json-dummy/filters.json" mime-type="text/javascript" />
+			</match>
+			
+			
+			
+			
+			<!--+
+				| URL for a task in a certain teamspace:
+				| .../tasks/<teamspace-id>/<task-id>
+				|
+				| JCR path for the task:
+				| /teamspaces/<teamspace-id>/tasks/<task-id>
+				+-->
+				
+			<!-- for debugging dforms -->
+			<match pattern="*/*.debug">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
+				<generate
+					src="servlet:super:/dform-debug?cocoon-view=formxml&amp;rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" />
+				<serialize tpye="xml" />
+			</match>
+
+			<!-- editing, viewing, continuing or creating a task -->
+			<match pattern="*/*">
+				<act type="authorise" src="jcr:///teamspaces/{1}/tasks/{2}.xml"/>
+				
+				<select type="request-method">
+				
+					<when test="GET">
+						<select type="REST">
+							<when test="html">
+								<!-- normal viewing (entry point for form) -->
+								<select type="resource-exists">
+									<!-- check whether the task exist... -->
+									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
+										<!-- ...then show the dform -->
+										<generate
+											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}&amp;revision={request-param:revision}" label="xml" />
+										<call resource="task-layouting">
+											<parameter name="document" value="{2}"/>
+										</call>
+									</when>
+									<otherwise>
+										<select type="parameter">
+											<parameter name="parameter-selector-test" value="{2}"/>
+											
+											<when test="new">
+												<!-- ...then show the dform -->
+												<generate
+													src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml" />
+												<call resource="task-layouting">
+													<parameter name="document" value="{2}"/>
+												</call>
+											</when>									
+											<!-- ...otherwise throw an ResourceNotFoundException
+												("no pipeline matched request") -->
+										</select>
+									</otherwise>
+								</select>
+							</when>
+							<when test="xml">
+								<!-- direct xml output -->
+								<generate
+									src="jcr:///teamspaces/{1}/tasks/{2}.xml" />
+								<transform
+									src="xslt/xml/task4client.xsl">
+									<parameter name="base"
+										value="{system-property:mindquarry.server.url}{request:contextPath}{request:servletPath}/{1}/{2}" />
+								</transform>
+								<serialize type="xml" />
+							</when>
+							<when test="pdf">
+								<generate
+											src="servlet:super:/dform?rootElement=task&amp;callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="html"/>
+								<transform src="xslt/fo/task2fo.xsl" label="fo"/>
+								<serialize type="fo2pdf" mime-type="application/pdf"/>
+							</when>
+						</select>
+					</when>
+
+					<when test="POST">
+						<!-- when posting we expect a continuation, so check for the correct id format -->
+						<select type="regexp-request-param">
+							<parameter name="parameter-name" value="continuation-id" />
+							<when test="hexadecimal">
+								<!-- it's a continuation (editing) -->
+								<generate src="servlet:super:/continue/{request-param:continuation-id}?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;{params-as-uri:request-param}&amp;callerTeamspace={url-encode:{1}}&amp;callerUsername={url-encode:{request-attr:username}}" label="xml"/>
+								<select type="ajax-request">
+									<when test="false">
+										<transform type="bu-redirect" />
+									</when>
+								</select>
+							</when>
+							<otherwise>
+								<!-- seldom fallback: normal viewing -->
+								<generate
+									src="servlet:super:/dform?callerFullPath={url-encode:{block-path:}{request:pathInfo}}&amp;callerSitemapPath={url-encode:{request:pathInfo}}&amp;baseURI={url-encode:jcr:///teamspaces/{1}/tasks/}&amp;documentID={url-encode:{2}}&amp;callerTeamspace={url-encode:{../1}}&amp;callerUsername={url-encode:{username}}" label="xml" />
+							</otherwise>
+						</select>
+						<call resource="task-layouting">
+							<parameter name="document" value="{2}"/>
+						</call>
+					</when>
+					
+					<when test="PUT">
+						<!-- write http body as task xml into jcr -->
+						<select type="parameter">
+							<parameter name="parameter-selector-test" value="{2}"/>
+							
+							<when test="new">
+								<!-- create a new task -->
+								<call resource="writetask">
+									<parameter name="teamspace" value="{1}"/>
+									<parameter name="document" value="{unique-task-id:jcr:///teamspaces/{1}/tasks/}"/>
+								</call>
+							</when>
+							<otherwise>
+								<!-- overwrite existing task -->
+								<select type="resource-exists">
+									<!-- check whether the task exist... -->
+									<when test="jcr:///teamspaces/{1}/tasks/{2}.xml">
+										<!-- ...then overwrite it -->
+										<call resource="writetask">
+											<parameter name="teamspace" value="{1}"/>
+											<parameter name="document" value="{2}"/>
+										</call>										
+									</when>
+									<otherwise>
+										<!-- ...otherwise create a correct new document id -->
+										<call resource="writetask">
+											<parameter name="teamspace" value="{1}"/>
+											<parameter name="document" value="{unique-task-id:jcr:///teamspaces/{1}/tasks/}"/>
+										</call>										
+									</otherwise>
+								</select>
+							</otherwise>
+						</select>
+					</when>
+					
+				</select>
+			</match>
+			
+			<match pattern="*/*/changes">
+				<generate src="cocoon:/internal/pipe/changes/{1}/{2}.xml" />
+				<select type="REST">
+					<when test="json">
+						<transform src="xslt/json/log2jsonXML.xsl">
+							<parameter name="baselink" value="/tasks/{1}/{2}" />
+						</transform>
+						<serialize type="json" />
+					</when>
+					<otherwise>
+						<serialize type="xml" />
+					</otherwise>
+				</select>
+			</match>
+			
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+			
+		</pipeline>
+
+		<!-- resources pipeline -->
+		<pipeline type="caching">
+			<!--+
+				| forward any unknown stuff to the super block 
+				| NOTE: This must be the last matcher in the last pipeline!
+				+-->
+			<match pattern="**">
+				<read src="servlet:super:/{1}" />
+			</match>
+			
+			<handle-errors>
+				<call resource="error-handling" />
+			</handle-errors>
+		</pipeline>
+		
+	</pipelines>
+</sitemap>
+
