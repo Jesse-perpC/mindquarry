@@ -3,7 +3,7 @@
     <parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.1-beta</version>
+		<version>1.1-beta2-SNAPSHOT</version>
 	</parent>
 	
         <modelVersion>4.0.0</modelVersion>
@@ -12,8 +12,8 @@
 	<name>Mindquarry Teamspace Block</name>
 
 	<scm>
-		<url>https://www.mindquarry.org/repos/mindquarry-base/tags/release-com.mindquarry.teamspace-mindquarry-teamspace-block-1.0-M2</url>
-	  <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/tags//release-com.mindquarry.teamspace-mindquarry-teamspace-block-1.0-M2</developerConnection>
+		<url>https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block/</url>
+	  <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-teamspace-block</developerConnection>
   </scm>
 	<build>
 		<finalName>mindquarry-teamspace-block</finalName>
@@ -69,7 +69,7 @@
 		<dependency>
 			<groupId>com.mindquarry.teamspace</groupId>
 			<artifactId>model-source</artifactId>
-			<version>1.1-beta</version>
+			<version>1.1-beta2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>com.mindquarry.webapp</groupId>
