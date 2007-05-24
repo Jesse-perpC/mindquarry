@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.mindquarry.document-management</groupId>
 		<artifactId>mindquarry-document-management</artifactId>
-		<version>1.0-SNAPSHOT</version>
+		<version>1.1-beta</version>
 	</parent>
 
 	<name>Mindquarry Document Management Server</name>
@@ -36,6 +36,6 @@
   </modules>
 
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/trunk/server/</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-document-management/tags//release-com.mindquarry.document-management.server-mindquarry-document-management-server-1.1-beta</developerConnection>
 	</scm>
 </project>
