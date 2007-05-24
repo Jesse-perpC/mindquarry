@@ -19,12 +19,12 @@
 	<parent>
 		<groupId>com.mindquarry</groupId>
 		<artifactId>mindquarry</artifactId>
-		<version>1.2-SNAPSHOT</version>
+		<version>1.2</version>
 	</parent>
 
 	<groupId>com.mindquarry.tasks</groupId>
 	<artifactId>mindquarry-tasks</artifactId>
-	<version>1.0-M2-SNAPSHOT</version>
+	<version>1.1-beta</version>
 	<packaging>pom</packaging>
 
 	<name>Mindquarry Tasks [Root]</name>
@@ -34,7 +34,7 @@
   </modules>
 
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/trunk</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-tasks/tags//release-com.mindquarry.tasks-mindquarry-tasks-1.0-M2</developerConnection>
 	</scm>
 
 	<build>
