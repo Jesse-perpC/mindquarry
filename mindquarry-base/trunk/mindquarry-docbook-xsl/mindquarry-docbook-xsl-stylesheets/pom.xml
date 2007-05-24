@@ -39,6 +39,6 @@
     </dependency>
   </dependencies>
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags//release-com.mindquarry.docbook-mindquarry-docbook-xsl-stylesheets-0.7.1</developerConnection>
 	</scm>
 </project>
