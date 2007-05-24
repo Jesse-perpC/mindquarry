@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	Copyright (C) 2006 MindQuarry GmbH, All Rights Reserved
+-->
+
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd">
+	
+	<!-- 
+	<bean id="com.mindquarry.persistence.jcr.Persistence" parent="jcrTxTemplate">
+		<property name="target">
+			<bean class="com.mindquarry.persistence.jcr.Persistence">
+				<property name="targetSessionFactory" ref="attributableSessionFactory" />
+			</bean>
+		</property>
+	</bean>
+	-->
+	
+	<bean id="com.mindquarry.persistence.jcr.Persistence" 
+		class="com.mindquarry.persistence.jcr.Persistence"
+		scope="singleton">				  
+		<property name="targetSessionFactory" ref="jcrSessionFactory" />
+	</bean>
+	       
+	<alias name="com.mindquarry.persistence.jcr.Persistence" 
+	       alias="com.mindquarry.persistence.api.SessionFactory"/>
+</beans>
