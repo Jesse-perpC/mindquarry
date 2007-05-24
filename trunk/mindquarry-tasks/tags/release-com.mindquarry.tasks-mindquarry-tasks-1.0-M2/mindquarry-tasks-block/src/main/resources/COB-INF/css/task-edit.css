@@ -1,0 +1,185 @@
+/* dl has by default a 1em (16px) margin top and bottom, but they overlap when
+ * two dl follow each other, thus removing the top margin will still result in
+ * a 16px gap between them due to the bottom margin */ 
+div.tasks dl {
+    margin-top: 0px;
+}
+
+/* let the buttons float at the right side */
+div.tasks dt, div.tasks dd {
+   clear: none;
+}
+
+div.tasks table.forms {
+	border:0px;
+	text-align:left;
+	margin-bottom:15px;
+	width:100%;
+}
+
+div.tasks label {
+	font-weight:bold;
+}
+
+div.tasks #ductform\.title {
+    display:block;
+    margin-top:1px;
+    margin-bottom:4px;
+    text-align:left;
+    color:#6b6b6b;
+    font-size:20pt;
+    font-weight:normal;
+}
+
+div.tasks #ductform\.title\:input {
+    float:left;
+    color:#6B6B6B;
+    display:block;
+    font-size:20pt;
+    font-weight:normal;
+    text-align:left;
+    padding:2px;
+    /*width:100%;*/
+}
+
+/* dforms field hovering */
+div.tasks dd .output {
+    border: 1px solid transparent;
+    padding: 2px;
+}
+div.tasks dd .output:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
+
+div.tasks #ductform\.title.output {
+    border: 1px solid white;
+}
+
+div.tasks #ductform\.title.output:hover {
+    background-color: #FFFFCC;
+    border-color:#cccccc;
+}
+
+div.tasks dd.output#ductform_summary:hover 
+{
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+    width:72%;
+}
+/* green labels for fields */
+div.tasks dt label {
+	color:#339933;
+}
+
+/* turn action labels off */
+div.tasks dt label.action {
+    display:none;
+}
+
+/* dforms field hovering */
+div.tasks dd.output /*span.output, div.output*/ {
+    border: 1px solid white;
+    padding: 2px;
+}
+
+div.tasks dd .output:hover /*, span.output:hover, div.output:hover*/ {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+    padding: 2px;
+}
+
+/* hovering highlight should not overlay with the edit/save/cancel buttons */
+div.tasks dd.output {
+    margin-right: 160px;
+}
+
+/* styling for repeater tables (dependencies and people) */
+div.tasks dd div.repeater table {
+    border-spacing: 0px;
+    border: 1px solid #aaaaaa;
+}
+
+div.tasks dd div.repeater th {
+	font-size: 10pt;
+	color:#339933;
+	background-color:#eeeeee;
+	text-align: left;
+}
+
+div.tasks dd div.repeater td {
+    padding: 6px;
+}
+
+/* for people and dependencies, we want only the table to get highlighted */
+div.tasks dd#ductform_summary.output:hover
+div.tasks dd#ductform_description.output:hover,
+div.tasks dd#ductform_people.output:hover, 
+div.tasks dd#ductform_dependencies.output:hover {
+    background-color: white;
+    border: 1px solid white;
+}
+
+div.tasks dd.output div.repeater table:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+}
+
+div.tasks dd.output div.repeater table td img {
+    margin-right: 5px;
+}
+
+/* nothing in repeater list (no table) */
+div.tasks dd div.repeater p:hover {
+    background-color: #FFFFCC;
+    border: 1px solid #cccccc;
+}
+
+
+
+div.tasks dd div.repeater p {
+    border: 1px solid white;
+}
+
+/* help on/off */
+
+/*dl a.help {
+	display:none;
+	padding-top:6px;
+	width:24px;
+	height:24px;
+}
+
+dl a.help img {
+	border:0px;
+	display:none;
+}
+*/
+
+#ductform\.title\:help\:a {
+	display:none;
+	padding-top:6px;
+	width:24px;
+	height:24px;
+}
+
+#ductform\.title\:help\:a img {
+	border:0px;
+	display:none;
+}
+
+div.tasks input.field, textarea.field {
+    display:block;
+    width:75%;
+    font-size:12pt;
+    padding:2px;
+    border:1px solid #ddd;
+}
+
+div.tasks td input.field {
+    display:inline;
+    width:350px;
+}
+

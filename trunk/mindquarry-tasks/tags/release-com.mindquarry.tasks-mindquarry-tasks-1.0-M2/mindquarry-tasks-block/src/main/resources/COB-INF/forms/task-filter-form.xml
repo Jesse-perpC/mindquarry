@@ -1,0 +1,199 @@
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<!-- output field for displaying the name of a filter -->
+		<fd:output id="filterName">
+			<fd:datatype base="string"/>
+			<fd:initial-value>Create Filter</fd:initial-value>
+		</fd:output>
+		
+		<fd:group id="filterBuilderWidgets">
+			<fd:widgets>
+				<!-- filter aggregator field -->
+				<fd:field id="aggregator">
+					<!-- basic configuration -->
+					<fd:label>Aggregator</fd:label>
+					<fd:datatype base="string" />
+		
+					<!-- selectable values -->
+					<fd:selection-list>
+						<fd:item value="and">
+							<fd:label>All conditions must be met</fd:label>
+						</fd:item>
+						<fd:item value="or">
+							<fd:label>At least one condition must be met</fd:label>
+						</fd:item>
+					</fd:selection-list>
+		
+					<!-- helper information -->
+					<fd:hint>
+						Choose how multiple rules are applied.
+					</fd:hint>
+				</fd:field>
+						
+				<!-- filter part repeater -->
+				<fd:repeater id="rules">
+					<fd:label>Filter Rules</fd:label>
+
+					<!-- filter part widgets -->
+					<fd:widgets>
+						<!-- field name configuration -->
+						<fd:field id="field">
+							<!-- basic configuration -->
+							<fd:label>Field Name</fd:label>
+							<fd:datatype base="string" />
+
+							<!-- selectable values -->
+							<fd:selection-list>
+								<fd:item value="Title" />
+								<fd:item value="Summary" />
+								<fd:item value="Status" />
+								<fd:item value="Date" />
+								<fd:item value="Description" />
+								<!--fd:item value="People" /-->
+							</fd:selection-list>
+
+							<!-- helper information -->
+							<fd:hint>
+								Name of the field that should be evaluated.
+							</fd:hint>
+						</fd:field>
+		
+						<!-- selector configuration -->
+						<fd:field id="selector">
+							<!-- basic configuration -->
+							<fd:label>Selector</fd:label>
+							<fd:datatype base="string" />
+		
+							<!-- selectable values -->
+							<fd:selection-list>
+								<fd:item value="equals" />
+								<fd:item value="contains" />
+							</fd:selection-list>
+		
+							<!-- helper information -->
+							<fd:hint>
+								How should it be evaluated?.
+							</fd:hint>
+						</fd:field>
+		
+						<!-- value configuration -->
+						<fd:field id="value">
+							<!-- basic configuration -->
+							<fd:label>Value</fd:label>
+							<fd:datatype base="string" />
+							<fd:validation>
+								<fd:length min="1">
+									<fd:failmessage>
+										Value field must contain at least one ore more characters.
+									</fd:failmessage>
+								</fd:length>
+							</fd:validation>
+		
+							<!-- helper information -->
+							<fd:hint>
+								What value should be checked against?
+							</fd:hint>
+						</fd:field>
+						
+						<fd:row-action id="delete" command="delete">
+							<fd:label>Remove Rule</fd:label>
+						</fd:row-action>
+					</fd:widgets>
+		
+					<!-- helper information -->
+					<fd:hint>Rules of a filter.</fd:hint>
+				</fd:repeater>
+				
+				<!-- add field to filter action -->
+				<fd:repeater-action repeater="rules" id="addRule"
+					command="add-row">
+					<fd:label>Add Rule</fd:label>
+				</fd:repeater-action>
+				
+				<!-- filter title field -->
+				<fd:field id="title" required="true">
+					<fd:label>Filter Name</fd:label>
+					<fd:datatype base="string" />
+					<fd:validation>
+						<fd:length min="1">
+							<fd:failmessage>
+								Title field must contain one ore more characters.
+							</fd:failmessage>
+						</fd:length>
+					</fd:validation>
+					
+					<fd:hint>
+						This name will be displayed as link in the filter list.
+					</fd:hint>
+				</fd:field>
+			</fd:widgets>
+		</fd:group>
+
+		<!-- execute filter action -->
+		<fd:action id="executeFilterAction">
+			<fd:label>Run Filter</fd:label>
+			<fd:on-action>
+				<fd:javascript>executeFilter();</fd:javascript>
+			</fd:on-action>
+		</fd:action>
+		
+		<!-- save filter widgets -->
+		<fd:group id="saveFilterWidgets">
+			<fd:widgets>
+				<fd:submit id="saveFilterAction">
+					<fd:label>Save Filter</fd:label>
+				</fd:submit>
+			</fd:widgets>
+		</fd:group>
+		
+		<!-- delete filter widgets -->
+		<fd:group id="deleteFilterWidgets">
+			<fd:widgets>
+				<fd:submit id="deleteFilterAction" >
+					<fd:label>Delete Filter</fd:label>
+				</fd:submit>
+			</fd:widgets>
+		</fd:group>
+		
+		<!-- repeater for displaying filter results -->
+		<fd:repeater id="results" state="output">
+			<!-- filter part widgets -->
+			<fd:widgets>
+				<fd:field id="link" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="title" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="status" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="date" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="summary" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+				<fd:field id="people" required="true" state="output">
+					<fd:datatype base="string" />
+				</fd:field>
+			</fd:widgets>
+			
+			<!-- helper information -->
+			<fd:hint>Results of the filter execution.</fd:hint>
+		</fd:repeater>
+	</fd:widgets>
+</fd:form>
