@@ -1,0 +1,31 @@
+Everybody talks about XML. XML here, XML there. All application servers support
+XML, everybody wants to do B2B using XML, web services using XML, even databases
+using XML.
+
+Should you care about it? Given the amount of hype, you can't afford to go
+around ignoring XML, for that would be like ignoring the World Wide Web 10 years
+ago: a clear mistake. But why is this so for XML? What is this "magic" that XML
+seems to have in solving your problems? Isn't this another hype to change once
+again the IT infrastructure that you spent so much time implementing and fixing
+in the last few years? Isn't another way to spill money out of your pockets?
+
+If you ever asked yourself one of the above questions, this paper is for you.
+You won't find singing-and-dancing marketing hype, you won't find boring and
+useless feature lists, you won't find the usual acronym bombing or those good
+looking vaporware schemas that connect your databases to your coffee machines
+via CORBA or stuff like that.
+
+This document will explain you what the Cocoon project is about and what we are
+doing to solve the problems that we encountered in our web engineering
+experiences, but from an executive perspective, yes, because we all had the
+problems of managing a web site, dealing with our colleagues, rushing to the
+graphical guru to have the little GIF with the new title, or calling the web
+administrator at night because the database is returning errors without reasons.
+
+It was frustrating to see the best and most clever information technology ever
+invented--the Web--ruined by the lack of engineering practices, tortured by
+those "let's-reinvent-the-wheel-once-again" craftsmen who were great at doing
+their jobs as individuals but could not scale within teams, imposing a growth
+saturation to their projects.
+
+There had to be a better way of doing things.
