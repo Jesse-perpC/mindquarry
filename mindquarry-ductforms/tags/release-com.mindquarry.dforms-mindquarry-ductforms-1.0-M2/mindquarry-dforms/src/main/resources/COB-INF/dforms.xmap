@@ -1,0 +1,280 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+--> 
+
+<sitemap xmlns="http://apache.org/cocoon/sitemap/1.0">
+
+	<!-- DFORMS -->
+
+	<components>
+		<generators default="file">
+			<generator name="collection"
+				src="org.apache.cocoon.generation.TraversableGenerator" />
+		</generators>
+	</components>
+
+	<resources>
+		<resource name="directories2model">
+			<transform src="xsl/model/wrap-as-model.xsl" />
+			<transform type="include" />
+
+			<transform src="xsl/model/sort-model.xsl" />
+			<serialize type="xml" />
+		</resource>
+	</resources>
+
+	<flow language="javascript">
+		<script src="flows/ductforms.js" />
+	</flow>
+
+	<views>
+		<view name="formxml" from-label="formxml">
+			<serialize type="xml" />
+		</view>
+		<view name="xml" from-label="xml">
+			<serialize type="xml" />
+		</view>
+		<view name="i18n" from-label="i18n">
+			<serialize type="xml" />
+		</view>
+		<view name="html" from-label="html">
+			<serialize type="xml" />
+		</view>
+	</views>
+
+	<pipelines>
+		<pipeline type="caching">
+			<!-- @virtual: implementations can choose the form2html stylesheet -->
+			<match pattern="xslt/forms/dforms_form2html.xsl">
+				<generate src="servlet:resources:/xslt/forms/form2html_labelreplacement.xsl"/>
+				<serialize type="xml" />
+			</match>
+			
+			<match pattern="scripts/*.js">
+				<select type="resource-exists">
+					<when test="scripts/{1}.js">
+						<!-- if it exists, load it from this sitemap's resources -->
+						<read src="scripts/{1}.js" />
+					</when>
+					<!-- if not, look in the super block -->
+					<otherwise>
+						<read src="servlet:resources:/scripts/{1}.js" />
+					</otherwise>
+				</select>
+			</match>
+
+			<match pattern="xslt/**.xsl">
+				<select type="resource-exists">
+					<when test="xsl/{1}.xsl">
+						<read src="xsl/{1}.xsl" />
+					</when>
+					<otherwise>
+						<read src="servlet:resources:/xslt/{1}.xsl" />
+					</otherwise>
+				</select>
+			</match>
+		</pipeline>
+		
+		<pipeline type="caching-point">
+
+			<!-- internal -->
+			<!-- Note: this is also referenced via a document()
+				call in addfield.xsl -->
+			<match pattern="complete-model.xml">
+				<generate src="servlet:/dforms-model-directory.xml" />
+				<call resource="directories2model" />
+			</match>
+
+			<!-- internal -->
+			<!-- @virtual: getting basic model stuff -->
+			<match pattern="dforms-model-directory.xml">
+				<generate src="model-index.xml" label="xml" />
+				<transform src="xsl/model/collection2resourceincludes.xsl" />
+				<serialize type="xml" />
+			</match>
+			
+			<!-- internal -->
+			<!-- for child blocks to create includes of files in directories
+				with the correct servlet:/resource/* source format -->
+			<match pattern="collection2resourceincludes.xsl">
+				<read src="xsl/model/collection2resourceincludes.xsl" />
+			</match>
+
+			<!--+ the true content of the model, here required fields have been added and
+				| redundant declaration of the fields included is added
+				+-->
+			<match pattern="*.xml.plain">
+				<select type="resource-exists">
+					<!-- if it exists, show the document -->
+					<when
+						test="{request-param:baseURI}{request-param:documentID}.xml">
+						<generate
+							src="{request-param:baseURI}{request-param:documentID}.xml?revision={request-param:revision}" />
+						<transform src="xsl/model/addfield.xsl" />
+						<serialize type="xml" />
+					</when>
+					<!-- else (if not) show the minimal document model including the required fields from the complete model -->
+					<otherwise>
+						<generate src="cocoon:/complete-model.xml" />
+						<transform src="xsl/model/plainmodel.xsl" />
+						<serialize type="xml" />
+					</otherwise>
+				</select>
+			</match>
+
+			<!-- internal -->
+			<!-- the generated form model including all possible fields  -->
+			<match pattern="form-definition/*/*">
+				<generate src="cocoon:/complete-model.xml" />
+				<transform src="xsl/forms/modelincluded2form.xsl">
+					<parameter name="teamspace" value="{1}"/>
+					<parameter name="username" value="{2}"/>
+				</transform>
+				<serialize type="xml" />
+			</match>
+
+			<!-- internal -->
+			<!--+ the aggregation of the plain instance (data of the document)
+				| and the aggregated models. This includes everything that is
+				| and could be.
+				+ generated form template including only the selected fields -->
+			<match pattern="form-template">
+				<generate src="cocoon:/complete-model.xml" />
+				<transform src="xsl/forms/modelincluded2template.xsl">
+					<parameter name="keepAliveDelay" value="{global:org.apache.cocoon.forms.keep-alive-delay}" />
+				</transform>
+				<serialize type="xml" />
+			</match>
+
+			<!-- internal -->
+			<!-- the form rendering pipeline called by the form controller -->
+			<match pattern="*.xml.instance">
+
+				<!-- get the form template from a dynamic pipeline -->
+				<generate type="jx" src="cocoon:/form-template" label="formxml" >
+					<parameter name="locale" value="{flow-attribute:locale}" />
+				</generate>
+				
+				<transform src="servlet:resources:/xslt/html/removeXHTMLprefix.xsl" />
+				
+				<transform type="browser-update" />
+				
+				<transform type="i18n" label="i18n"/>
+				
+				<!-- overwritten standard cocoon form2html stylesheet
+					 + dojo-editor (can be changed by implementations, see above) -->
+				<transform src="servlet:/xslt/forms/dforms_form2html.xsl" label="html">
+					<parameter name="fullPath"
+						value="{request-param:callerFullPath}" />
+					<parameter name="sitemapPath"
+						value="{request-param:callerSitemapPath}" />
+				</transform>
+				
+				<!-- convert escaped html in dojo-editor content (marked with
+					 htmllize tags) into real html (nekohtml from cocoon-html) -->
+				<transform type="nekohtml">
+					<parameter name="tags" value="htmllize" />
+				</transform>
+				<!-- remove the html-document-envelope created by nekohtml -->
+				<transform src="xsl/forms/remove-htmllize.xsl"/>
+
+				<!-- final html layouting is done by sub-blocks -->
+				<serialize type="xml" />
+			</match>
+			
+			<!-- internal, will provide a browser-update xml snippet with
+				 a redirect action -->
+			<match pattern="redirectTo/**">
+				<generate type="jx" src="servlet:resources:/jx/redirect-browserupdate.jx">
+					<parameter name="uri" value="{1}" />
+				</generate>
+				<serialize type="xml" />
+			</match>
+
+			<!-- for child to call the form -->
+			<match pattern="dform">
+				<call function="handleForm">
+					<parameter name="function" value="showDForm" />
+					<parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<parameter name="documentID"
+						value="{request-param:documentID}" />
+					<parameter name="rootElement"
+						value="{request-param:rootElement}" />
+					<parameter name="definitionURI"
+						value="cocoon:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+					<parameter name="revision" value="{request-param:revision}" />
+				</call>
+			</match>
+
+			<!-- @virtual: override new document naming script -->
+			<match pattern="uniqueName.js">
+				<read src="flows/uniqueName.js" />
+			</match>
+
+			<!-- internal, for child to debug -->
+			<match pattern="dform-debug">
+				<call function="handleForm">
+					<parameter name="function" value="showDForm" />
+					<parameter name="baseURI"
+						value="{request-param:baseURI}" />
+					<parameter name="documentID"
+						value="{request-param:documentID}" />
+					<parameter name="rootElement"
+						value="{request-param:rootElement}" />
+					<parameter name="definitionURI"
+						value="cocoon:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />
+				</call>
+				<!--<read src="servlet:/form-definition/{request-param:callerTeamspace}/{request-param:callerUsername}" />-->
+				<!--<read src="servlet:/form-template" />-->
+				<!--<read src="servlet:/xslt/forms/dforms_form2html.xsl"/>-->
+			</match>
+
+			<!-- internal, for child to retrieve xml -->
+			<match pattern="document">
+				<read src="cocoon:/{request-param:documentID}.xml.plain" />
+			</match>
+
+			<!-- =========================================================== -->
+
+			<!-- Continue a scenario. The continuation id is passed in the URL -->
+			<match pattern="continue/*">
+				<call continuation="{1}" />
+			</match>
+
+			<!-- =========================================================== -->
+
+			<match pattern="resource/icons/ductform.ductforms/*.png">
+				<select type="resource-exists">
+					<when test="model/{1}.png">
+						<read src="model/{1}.png" />
+					</when>
+					<otherwise>
+						<read src="model/title.png" />
+					</otherwise>
+				</select>
+			</match>
+
+			<!-- @virtual: for inheriting sitemap resources -->
+			<match pattern="resource/**">
+				<read src="{1}" />
+			</match>
+
+		</pipeline>
+
+	</pipelines>
+
+</sitemap>
+
