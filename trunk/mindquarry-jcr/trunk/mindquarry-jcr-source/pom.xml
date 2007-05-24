@@ -19,7 +19,7 @@
 	<parent>
 		<groupId>com.mindquarry.jcr</groupId>
 		<artifactId>mindquarry-jcr</artifactId>
-		<version>1.1-beta2-SNAPSHOT</version>
+		<version>1.0-M2-SNAPSHOT</version>
 	</parent>
 
 	<artifactId>mindquarry-jcr-source</artifactId>
@@ -111,6 +111,6 @@
 	</dependencies>
 
         <scm>
-    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/tags/release-com.mindquarry.jcr-mindquarry-jcr-source-1.1-beta</developerConnection>
+    <developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-jcr/trunk/mindquarry-jcr-source</developerConnection>
   </scm>
 </project>
