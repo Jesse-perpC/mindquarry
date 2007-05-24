@@ -1,0 +1,10 @@
+<conversation xmlns:jx="http://apache.org/cocoon/templates/jx/1.0">
+  <title><jx:out value="${cocoon.parameters['title']}"/></title>
+	<jx:if test="${cocoon.request.getParameterValues('subscribers')}">
+		<subscribers>
+			<jx:forEach var="subscriber" items="${cocoon.request.getParameterValues('subscribers')}">
+				<subscriber type="email"><jx:out value="${subscriber}" /></subscriber>
+			</jx:forEach>
+		</subscribers>
+	</jx:if>
+</conversation>
