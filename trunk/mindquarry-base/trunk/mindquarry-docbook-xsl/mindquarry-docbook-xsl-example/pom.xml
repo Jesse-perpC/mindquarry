@@ -62,6 +62,6 @@
   </build>
   
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-example</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags//release-com.mindquarry.docbook-mindquarry-docbook-xsl-example-0.7</developerConnection>
 	</scm>
 </project>
