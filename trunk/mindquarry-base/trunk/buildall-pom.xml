@@ -26,7 +26,7 @@
   <parent>
   	<groupId>com.mindquarry</groupId>
   	<artifactId>mindquarry</artifactId>
-  	<version>1.2-SNAPSHOT</version>
+  	<version>1.2</version>
   </parent>
 
   <modules>
@@ -49,7 +49,7 @@
   </modules>
   
   <scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags//release-com.mindquarry-mindquarry-buildall-1.2</developerConnection>
 	</scm>
 	
 	<build>
