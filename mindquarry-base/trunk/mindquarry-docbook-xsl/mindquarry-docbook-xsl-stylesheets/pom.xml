@@ -20,13 +20,13 @@
 	<parent>
 		<groupId>com.mindquarry.docbook</groupId>
 		<artifactId>mindquarry-docbook-xsl</artifactId>
-		<version>0.7</version>
+		<version>0.8-SNAPSHOT</version>
 	</parent>
 
 	<name>Mindquarry DocBook XSL Stylesheet Customization Layer</name>
 	<description>DocBook XSL customization layer that matches the Mindquarry
   corporate identity.</description>
-	<version>0.7.1</version>
+	<version>0.7.2-SNAPSHOT</version>
 
 	<artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
 
