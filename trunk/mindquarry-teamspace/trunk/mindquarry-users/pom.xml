@@ -1,7 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" 
-         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<packaging>jar</packaging>
@@ -9,7 +6,7 @@
 	<parent>
 		<artifactId>mindquarry-teamspace-root</artifactId>
 		<groupId>com.mindquarry.teamspace</groupId>
-		<version>1.0-M2-SNAPSHOT</version>
+		<version>1.1-beta</version>
 	</parent>
 
 	<groupId>com.mindquarry.teamspace</groupId>
@@ -42,7 +39,7 @@
 	</build>
 
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/trunk/mindquarry-users/</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-teamspace/tags//release-com.mindquarry.teamspace-mindquarry-users-1.1-beta</developerConnection>
 	</scm>
 
 	<dependencies>
