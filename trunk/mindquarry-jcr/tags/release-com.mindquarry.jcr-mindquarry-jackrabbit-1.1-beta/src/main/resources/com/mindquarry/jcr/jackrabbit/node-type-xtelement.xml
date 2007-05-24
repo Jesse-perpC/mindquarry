@@ -1,0 +1,8 @@
+<nodeType name="xt:element" isMixin="false" hasOrderableChildNodes="true">
+ <supertypes>
+  <supertype>nt:unstructured</supertype>
+ </supertypes>
+ <propertyDefinition name="*" requiredType="String"/>
+ <childDefinition name="*" requiredType="xt:element" multiple="true"/>
+ <childDefinition name="*" requiredType="xt:text" multiple="true"/>
+</nodeType>
