@@ -1,0 +1,7 @@
+<nodeType name="xt:text" isMixin="false" hasOrderableChildNodes="false">
+ <supertypes>
+  <supertype>nt:unstructured</supertype>
+ </supertypes>
+ <propertyDefinition name="xt:characters" requiredType="String"
+  autoCreated="true" mandatory="true" primary="true"/>
+</nodeType>
