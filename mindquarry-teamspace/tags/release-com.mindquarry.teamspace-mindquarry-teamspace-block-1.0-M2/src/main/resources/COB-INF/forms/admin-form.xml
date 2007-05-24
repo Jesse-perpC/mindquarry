@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!--
+	Copyright (C) 2006-2007 Mindquarry GmbH, All Rights Reserved
+	
+	The contents of this file are subject to the Mozilla Public License
+	Version 1.1 (the "License"); you may not use this file except in
+	compliance with the License. You may obtain a copy of the License at
+	http://www.mozilla.org/MPL/
+	
+	Software distributed under the License is distributed on an "AS IS"
+	basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See the
+	License for the specific language governing rights and limitations
+	under the License.
+-->
+
+<fd:form xmlns:fd="http://apache.org/cocoon/forms/1.0#definition">
+	<fd:widgets>
+		<fd:repeater id="projects">
+			<fd:label>Projects</fd:label>
+			<fd:widgets>
+				<fd:booleanfield id="selected">
+					<fd:label>Select</fd:label>
+				</fd:booleanfield>
+				<fd:field id="name" state="output">
+					<fd:label>Project Name</fd:label>
+					<fd:datatype base="string"></fd:datatype>
+				</fd:field>
+				<fd:row-action id="delete" command="delete">
+					<fd:label>Delete</fd:label>
+					<fd:on-action>
+						<fd:javascript>deleteProjects(event);</fd:javascript>
+					</fd:on-action>
+				</fd:row-action>
+			</fd:widgets>
+		</fd:repeater>
+		<fd:repeater-action id="deleteprojects" command="delete-rows"
+			repeater="projects" select="selected">
+			<fd:label>Delete Selected</fd:label>
+			<fd:hint>Delete Selected Projects</fd:hint>
+			<fd:help>Removes the selected projects.</fd:help>
+			<fd:on-action>
+				<fd:javascript>deleteProjects(event);</fd:javascript>
+			</fd:on-action>
+		</fd:repeater-action>
+		
+		
+		<fd:submit id="createproject" validate="true">
+			<fd:label>Create Project</fd:label>
+		</fd:submit>
+		
+		<fd:field id="newprojectname">
+			<fd:label>Project Name</fd:label>
+			<fd:datatype base="string"></fd:datatype>
+			<fd:validation>
+				<fd:regexp pattern="[a-z]+">
+					<fd:failmessage>Project name, can only contain lowercase characters.</fd:failmessage>
+				</fd:regexp>
+				<fd:javascript>
+					return isNoDuplicate(widget);
+				</fd:javascript>
+			</fd:validation>
+		</fd:field>
+	</fd:widgets>
+</fd:form>
