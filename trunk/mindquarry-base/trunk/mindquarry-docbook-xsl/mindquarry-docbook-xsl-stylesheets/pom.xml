@@ -20,13 +20,13 @@
 	<parent>
 		<groupId>com.mindquarry.docbook</groupId>
 		<artifactId>mindquarry-docbook-xsl</artifactId>
-		<version>0.8-SNAPSHOT</version>
+		<version>0.7</version>
 	</parent>
 
 	<name>Mindquarry DocBook XSL Stylesheet Customization Layer</name>
 	<description>DocBook XSL customization layer that matches the Mindquarry
   corporate identity.</description>
-	<version>0.7.2-SNAPSHOT</version>
+	<version>0.7.1</version>
 
 	<artifactId>mindquarry-docbook-xsl-stylesheets</artifactId>
 
@@ -39,6 +39,6 @@
     </dependency>
   </dependencies>
 	<scm>
-		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/tags//release-com.mindquarry.docbook-mindquarry-docbook-xsl-stylesheets-0.7.1</developerConnection>
+		<developerConnection>scm:svn:https://www.mindquarry.org/repos/mindquarry-base/trunk/mindquarry-docbook-xsl/mindquarry-docbook-xsl-stylesheets</developerConnection>
 	</scm>
 </project>
