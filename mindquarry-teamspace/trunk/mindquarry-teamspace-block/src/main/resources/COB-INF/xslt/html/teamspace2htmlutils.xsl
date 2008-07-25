@@ -63,7 +63,7 @@
       <h4>
         <xsl:value-of select="name"/>
         <xsl:value-of select="surname"/>
-      </h4>
+      </h4>&#160;
       <xsl:value-of select="skills"/>
     </div>
   </xsl:template>

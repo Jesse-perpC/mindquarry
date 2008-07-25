@@ -44,8 +44,8 @@ div.teams div.details h3 {
 	color: #666666;
 	font-size: 12px;
 	border-bottom: 1px solid #cccccc;
-	margin-top:5px;
-	margin-bottom:5px;	
+	margin-top:0px; 
+	margin-bottom:2px;	
 }
 
 div.teams div.details {
